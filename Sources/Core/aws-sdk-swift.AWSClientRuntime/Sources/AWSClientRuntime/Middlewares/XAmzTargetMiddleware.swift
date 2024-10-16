@@ -19,9 +19,11 @@ public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput> {
     }
 }
 
-extension XAmzTargetMiddleware: HttpInterceptor {
+extension XAmzTargetMiddleware: Interceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
+    public typealias RequestType = HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeRetryLoop(context: some MutableRequest<Self.InputType, Self.RequestType>) async throws {
         let builder = context.getRequest().toBuilder()

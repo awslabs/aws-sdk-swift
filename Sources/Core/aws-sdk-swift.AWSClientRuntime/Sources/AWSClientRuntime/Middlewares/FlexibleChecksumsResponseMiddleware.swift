@@ -92,9 +92,11 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
     }
 }
 
-extension FlexibleChecksumsResponseMiddleware: HttpInterceptor {
+extension FlexibleChecksumsResponseMiddleware: Interceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
+    public typealias RequestType = HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeRetryLoop(context: some MutableRequest<InputType, RequestType>) async throws {
         context.getAttributes().set(key: AttributeKey<String>(name: "ChecksumHeaderValidated"), value: nil)

@@ -23,7 +23,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        apiMetadata: apiMetadata,
                                        osMetadata: osMetadata,
                                        languageMetadata: languageMetadata)
-        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 md/simulator lang/swift#5.0", sut.userAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.1 api/meow#1.1 os/ios#13.1 md/simulator lang/swift#5.0", sut.userAgent)
     }
     #else
     func testHappyPathMinimum() {
@@ -32,7 +32,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        osMetadata: osMetadata,
                                        languageMetadata: languageMetadata)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0", sut.userAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.1 api/meow#1.1 os/ios#13.1 lang/swift#5.0", sut.userAgent)
     }
 
     func testWithLanguageMetadataExtras() {
@@ -43,7 +43,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        osMetadata: osMetadata,
                                        languageMetadata: languageMetadataWithExtras)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3", sut.userAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.1 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3", sut.userAgent)
     }
 
     func testWithExecutionEnv() {
@@ -53,7 +53,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        languageMetadata: languageMetadata,
                                        executionEnvMetadata: executionEnvMetadata)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0 exec-env/e123", sut.userAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.1 api/meow#1.1 os/ios#13.1 lang/swift#5.0 exec-env/e123", sut.userAgent)
     }
 
     func testWithLanguageMetadataExtrasAndExecutionEnv() {
@@ -65,7 +65,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        languageMetadata: languageMetadataWithExtras,
                                        executionEnvMetadata: executionEnvMetadata)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3 exec-env/e123", sut.userAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.1 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3 exec-env/e123", sut.userAgent)
     }
 
     func testWithLanguageMetadataExtrasAndExecutionEnvWithFramework() {
@@ -78,7 +78,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        executionEnvMetadata: executionEnvMetadata,
                                        frameworkMetadata: frameworkMetadata)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3 exec-env/e123 lib/aws-amplify#2.0.1", sut.userAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.1 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3 exec-env/e123 lib/aws-amplify#2.0.1", sut.userAgent)
     }
 
     func testWithLanguageMetadataExtrasAndExecutionEnvWithFrameworkExtras() {
@@ -93,7 +93,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        executionEnvMetadata: executionEnvMetadata,
                                        frameworkMetadata: frameworkMetadataWithExtras)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3 exec-env/e123 lib/aws-amplify#2.0.1 md/f1#c1", sut.userAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.1 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3 exec-env/e123 lib/aws-amplify#2.0.1 md/f1#c1", sut.userAgent)
     }
 
     func testUserAgent() {
@@ -109,19 +109,19 @@ class AWSUseragentMetadataTests: XCTestCase {
         var expected: String = ""
         switch currentOS {
         case .linux:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/linux#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.1 api/test_service#1.2.3 os/linux#11.4 lang/swift#9.9"
         case .macOS:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/macos#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.1 api/test_service#1.2.3 os/macos#11.4 lang/swift#9.9"
         case .iOS:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/ios#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.1 api/test_service#1.2.3 os/ios#11.4 lang/swift#9.9"
         case .tvOS:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/tvos#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.1 api/test_service#1.2.3 os/tvos#11.4 lang/swift#9.9"
         case .visionOS:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/visionos#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.1 api/test_service#1.2.3 os/visionos#11.4 lang/swift#9.9"
         case .watchOS:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/watchos#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.1 api/test_service#1.2.3 os/watchos#11.4 lang/swift#9.9"
         case .unknown:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/unknown#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.1 api/test_service#1.2.3 os/unknown#11.4 lang/swift#9.9"
         default:
             XCTFail("Unexpected OS")
         }

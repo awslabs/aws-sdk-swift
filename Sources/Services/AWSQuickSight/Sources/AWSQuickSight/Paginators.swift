@@ -358,6 +358,38 @@ extension PaginatorSequence where OperationStackInput == ListFoldersInput, Opera
     }
 }
 extension QuickSightClient {
+    /// Paginate over `[ListFoldersForResourceOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFoldersForResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFoldersForResourceOutput`
+    public func listFoldersForResourcePaginated(input: ListFoldersForResourceInput) -> ClientRuntime.PaginatorSequence<ListFoldersForResourceInput, ListFoldersForResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListFoldersForResourceInput, ListFoldersForResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFoldersForResource(input:))
+    }
+}
+
+extension ListFoldersForResourceInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFoldersForResourceInput {
+        return ListFoldersForResourceInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFoldersForResourceInput, OperationStackOutput == ListFoldersForResourceOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listFoldersForResourcePaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func folders() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.folders }
+    }
+}
+extension QuickSightClient {
     /// Paginate over `[ListGroupMembershipsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

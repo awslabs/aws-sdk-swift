@@ -12,6 +12,6 @@ class UserAgentMetadataTests: XCTestCase {
 
     func test_description_isAsExpected() {
         let subject = UserAgentMetadata()
-        XCTAssertEqual(subject.description, "ua/2.0")
+        XCTAssertEqual(subject.description, "ua/2.1")
     }
 }

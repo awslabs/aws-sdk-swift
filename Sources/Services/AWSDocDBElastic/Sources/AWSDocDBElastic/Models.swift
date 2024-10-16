@@ -53,7 +53,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension DocDBElasticClientTypes {
 
-    public enum Auth: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Auth: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case plainText
         case secretArn
         case sdkUnknown(Swift.String)
@@ -231,8 +231,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension DocDBElasticClientTypes {
+
     /// A specific field in which a given validation exception occurred.
-    public struct ValidationExceptionField {
+    public struct ValidationExceptionField: Swift.Sendable {
         /// An error message describing the validation exception in this field.
         /// This member is required.
         public var message: Swift.String?
@@ -249,12 +250,11 @@ extension DocDBElasticClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension DocDBElasticClientTypes {
 
-    public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cannotParse
         case fieldValidationFailed
         case other
@@ -322,7 +322,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct CopyClusterSnapshotInput {
+public struct CopyClusterSnapshotInput: Swift.Sendable {
     /// Set to true to copy all tags from the source cluster snapshot to the target elastic cluster snapshot. The default is false.
     public var copyTags: Swift.Bool?
     /// The Amazon Web Services KMS key ID for an encrypted elastic cluster snapshot. The Amazon Web Services KMS key ID is the Amazon Resource Name (ARN), Amazon Web Services KMS key identifier, or the Amazon Web Services KMS key alias for the Amazon Web Services KMS encryption key. If you copy an encrypted elastic cluster snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to encrypt the copy with a new Amazon Web ServicesS KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the elastic cluster snapshot is encrypted with the same AWS KMS key as the source elastic cluster snapshot. To copy an encrypted elastic cluster snapshot to another Amazon Web Services region, set KmsKeyId to the Amazon Web Services KMS key ID that you want to use to encrypt the copy of the elastic cluster snapshot in the destination region. Amazon Web Services KMS encryption keys are specific to the Amazon Web Services region that they are created in, and you can't use encryption keys from one Amazon Web Services region in another Amazon Web Services region. If you copy an unencrypted elastic cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
@@ -363,7 +363,7 @@ public struct CopyClusterSnapshotInput {
 
 extension DocDBElasticClientTypes {
 
-    public enum SnapshotType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SnapshotType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automated
         case manual
         case sdkUnknown(Swift.String)
@@ -392,7 +392,7 @@ extension DocDBElasticClientTypes {
 
 extension DocDBElasticClientTypes {
 
-    public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case copying
         case creating
@@ -471,8 +471,9 @@ extension DocDBElasticClientTypes {
 }
 
 extension DocDBElasticClientTypes {
+
     /// Returns information about a specific elastic cluster snapshot.
-    public struct ClusterSnapshot {
+    public struct ClusterSnapshot: Swift.Sendable {
         /// The name of the elastic cluster administrator.
         /// This member is required.
         public var adminUserName: Swift.String?
@@ -537,10 +538,9 @@ extension DocDBElasticClientTypes {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
     }
-
 }
 
-public struct CopyClusterSnapshotOutput {
+public struct CopyClusterSnapshotOutput: Swift.Sendable {
     /// Returns information about a specific elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
@@ -553,7 +553,7 @@ public struct CopyClusterSnapshotOutput {
     }
 }
 
-public struct CreateClusterInput {
+public struct CreateClusterInput: Swift.Sendable {
     /// The name of the Amazon DocumentDB elastic clusters administrator. Constraints:
     ///
     /// * Must be from 1 to 63 letters or numbers.
@@ -652,8 +652,9 @@ extension CreateClusterInput: Swift.CustomDebugStringConvertible {
 }
 
 extension DocDBElasticClientTypes {
+
     /// The name of the shard.
-    public struct Shard {
+    public struct Shard: Swift.Sendable {
         /// The time when the shard was created in Universal Coordinated Time (UTC).
         /// This member is required.
         public var createTime: Swift.String?
@@ -675,12 +676,12 @@ extension DocDBElasticClientTypes {
             self.status = status
         }
     }
-
 }
 
 extension DocDBElasticClientTypes {
+
     /// Returns information about a specific elastic cluster.
-    public struct Cluster {
+    public struct Cluster: Swift.Sendable {
         /// The name of the elastic cluster administrator.
         /// This member is required.
         public var adminUserName: Swift.String?
@@ -768,10 +769,9 @@ extension DocDBElasticClientTypes {
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
     }
-
 }
 
-public struct CreateClusterOutput {
+public struct CreateClusterOutput: Swift.Sendable {
     /// The new elastic cluster that has been created.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -784,7 +784,7 @@ public struct CreateClusterOutput {
     }
 }
 
-public struct CreateClusterSnapshotInput {
+public struct CreateClusterSnapshotInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster of which you want to create a snapshot.
     /// This member is required.
     public var clusterArn: Swift.String?
@@ -806,7 +806,7 @@ public struct CreateClusterSnapshotInput {
     }
 }
 
-public struct CreateClusterSnapshotOutput {
+public struct CreateClusterSnapshotOutput: Swift.Sendable {
     /// Returns information about the new elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
@@ -819,7 +819,7 @@ public struct CreateClusterSnapshotOutput {
     }
 }
 
-public struct DeleteClusterInput {
+public struct DeleteClusterInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster that is to be deleted.
     /// This member is required.
     public var clusterArn: Swift.String?
@@ -832,7 +832,7 @@ public struct DeleteClusterInput {
     }
 }
 
-public struct DeleteClusterOutput {
+public struct DeleteClusterOutput: Swift.Sendable {
     /// Returns information about the newly deleted elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -845,7 +845,7 @@ public struct DeleteClusterOutput {
     }
 }
 
-public struct DeleteClusterSnapshotInput {
+public struct DeleteClusterSnapshotInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster snapshot that is to be deleted.
     /// This member is required.
     public var snapshotArn: Swift.String?
@@ -858,7 +858,7 @@ public struct DeleteClusterSnapshotInput {
     }
 }
 
-public struct DeleteClusterSnapshotOutput {
+public struct DeleteClusterSnapshotOutput: Swift.Sendable {
     /// Returns information about the newly deleted elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
@@ -871,7 +871,7 @@ public struct DeleteClusterSnapshotOutput {
     }
 }
 
-public struct GetClusterInput {
+public struct GetClusterInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster.
     /// This member is required.
     public var clusterArn: Swift.String?
@@ -884,7 +884,7 @@ public struct GetClusterInput {
     }
 }
 
-public struct GetClusterOutput {
+public struct GetClusterOutput: Swift.Sendable {
     /// Returns information about a specific elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -897,7 +897,7 @@ public struct GetClusterOutput {
     }
 }
 
-public struct GetClusterSnapshotInput {
+public struct GetClusterSnapshotInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster snapshot.
     /// This member is required.
     public var snapshotArn: Swift.String?
@@ -910,7 +910,7 @@ public struct GetClusterSnapshotInput {
     }
 }
 
-public struct GetClusterSnapshotOutput {
+public struct GetClusterSnapshotOutput: Swift.Sendable {
     /// Returns information about a specific elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
@@ -923,7 +923,7 @@ public struct GetClusterSnapshotOutput {
     }
 }
 
-public struct ListClustersInput {
+public struct ListClustersInput: Swift.Sendable {
     /// The maximum number of elastic cluster snapshot results to receive in the response.
     public var maxResults: Swift.Int?
     /// A pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
@@ -940,8 +940,9 @@ public struct ListClustersInput {
 }
 
 extension DocDBElasticClientTypes {
+
     /// A list of Amazon DocumentDB elastic clusters.
-    public struct ClusterInList {
+    public struct ClusterInList: Swift.Sendable {
         /// The ARN identifier of the elastic cluster.
         /// This member is required.
         public var clusterArn: Swift.String?
@@ -963,10 +964,9 @@ extension DocDBElasticClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct ListClustersOutput {
+public struct ListClustersOutput: Swift.Sendable {
     /// A list of Amazon DocumentDB elastic clusters.
     public var clusters: [DocDBElasticClientTypes.ClusterInList]?
     /// A pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
@@ -982,7 +982,7 @@ public struct ListClustersOutput {
     }
 }
 
-public struct ListClusterSnapshotsInput {
+public struct ListClusterSnapshotsInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster.
     public var clusterArn: Swift.String?
     /// The maximum number of elastic cluster snapshot results to receive in the response.
@@ -1011,8 +1011,9 @@ public struct ListClusterSnapshotsInput {
 }
 
 extension DocDBElasticClientTypes {
+
     /// A list of elastic cluster snapshots.
-    public struct ClusterSnapshotInList {
+    public struct ClusterSnapshotInList: Swift.Sendable {
         /// The ARN identifier of the elastic cluster.
         /// This member is required.
         public var clusterArn: Swift.String?
@@ -1044,10 +1045,9 @@ extension DocDBElasticClientTypes {
             self.status = status
         }
     }
-
 }
 
-public struct ListClusterSnapshotsOutput {
+public struct ListClusterSnapshotsOutput: Swift.Sendable {
     /// A pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
     public var nextToken: Swift.String?
     /// A list of snapshots for a specified elastic cluster.
@@ -1063,7 +1063,7 @@ public struct ListClusterSnapshotsOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1076,7 +1076,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// The list of tags for the specified elastic cluster resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1088,7 +1088,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct RestoreClusterFromSnapshotInput {
+public struct RestoreClusterFromSnapshotInput: Swift.Sendable {
     /// The name of the elastic cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -1130,7 +1130,7 @@ public struct RestoreClusterFromSnapshotInput {
     }
 }
 
-public struct RestoreClusterFromSnapshotOutput {
+public struct RestoreClusterFromSnapshotOutput: Swift.Sendable {
     /// Returns information about a the restored elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -1143,7 +1143,7 @@ public struct RestoreClusterFromSnapshotOutput {
     }
 }
 
-public struct StartClusterInput {
+public struct StartClusterInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster.
     /// This member is required.
     public var clusterArn: Swift.String?
@@ -1156,7 +1156,7 @@ public struct StartClusterInput {
     }
 }
 
-public struct StartClusterOutput {
+public struct StartClusterOutput: Swift.Sendable {
     /// Returns information about a specific elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -1169,7 +1169,7 @@ public struct StartClusterOutput {
     }
 }
 
-public struct StopClusterInput {
+public struct StopClusterInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster.
     /// This member is required.
     public var clusterArn: Swift.String?
@@ -1182,7 +1182,7 @@ public struct StopClusterInput {
     }
 }
 
-public struct StopClusterOutput {
+public struct StopClusterOutput: Swift.Sendable {
     /// Returns information about a specific elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
@@ -1195,7 +1195,7 @@ public struct StopClusterOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1213,12 +1213,12 @@ public struct TagResourceInput {
     }
 }
 
-public struct TagResourceOutput {
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The ARN identifier of the elastic cluster resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1236,12 +1236,12 @@ public struct UntagResourceInput {
     }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateClusterInput {
+public struct UpdateClusterInput: Swift.Sendable {
     /// The password associated with the elastic cluster administrator. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
     public var adminUserPassword: Swift.String?
     /// The authentication type used to determine where to fetch the password used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN.
@@ -1303,7 +1303,7 @@ extension UpdateClusterInput: Swift.CustomDebugStringConvertible {
         "UpdateClusterInput(authType: \(Swift.String(describing: authType)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), clientToken: \(Swift.String(describing: clientToken)), clusterArn: \(Swift.String(describing: clusterArn)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), shardCapacity: \(Swift.String(describing: shardCapacity)), shardCount: \(Swift.String(describing: shardCount)), shardInstanceCount: \(Swift.String(describing: shardInstanceCount)), subnetIds: \(Swift.String(describing: subnetIds)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), adminUserPassword: \"CONTENT_REDACTED\")"}
 }
 
-public struct UpdateClusterOutput {
+public struct UpdateClusterOutput: Swift.Sendable {
     /// Returns information about the updated elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?

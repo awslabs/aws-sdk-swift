@@ -67,7 +67,7 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty(
                         "retryStrategyOptions",
                         SmithyRetriesAPITypes.RetryStrategyOptions,
-                        { it.format("AWSClientConfigDefaultsProvider.retryStrategyOptions()") },
+                        { it.format("AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)") },
                         true
                     )
                 }
@@ -122,6 +122,9 @@ class AWSHttpProtocolServiceClient(
                         }
                         "awsCredentialIdentityResolver" -> {
                             "try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()"
+                        }
+                        "retryStrategyOptions" -> {
+                            "try AWSClientConfigDefaultsProvider.retryStrategyOptions()"
                         }
                         else -> {
                             it.default?.render(writer) ?: "nil"

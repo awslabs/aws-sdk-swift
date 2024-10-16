@@ -10,8 +10,9 @@ import struct AWSSDKIdentity.ProfileAWSCredentialIdentityResolver
 @_spi(FileBasedConfig) @testable import AWSClientRuntime
 
 class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
-        let configPath = Bundle.module.path(forResource: "config", ofType: nil)!
-        let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
+    let configPath = Bundle.module.path(forResource: "config", ofType: nil)!
+    let configWithProcessPath = Bundle.module.path(forResource: "config_with_process", ofType: nil)!
+    let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
     
     func testGetCredentialsWithDefaultProfile() async throws {
         let subject = try ProfileAWSCredentialIdentityResolver(
@@ -19,11 +20,22 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
             credentialsFilePath: credentialsPath
         )
         let credentials = try await subject.getIdentity()
-        
+
         XCTAssertEqual(credentials.accessKey, "access_key_default_cred")
         XCTAssertEqual(credentials.secret, "secret_default_cred")
     }
-    
+
+    func testGetCredentialsWithDefaultProfileContainingProcess() async throws {
+        let subject = try ProfileAWSCredentialIdentityResolver(
+            configFilePath: configWithProcessPath,
+            credentialsFilePath: credentialsPath
+        )
+        let credentials = try await subject.getIdentity()
+
+        XCTAssertEqual(credentials.accessKey, "AccessKey123")
+        XCTAssertEqual(credentials.secret, "SecretAccessKey123")
+    }
+
     func testGetCredentialsWithNamedProfileFromConfigFile() async throws {
         let subject = try ProfileAWSCredentialIdentityResolver(
             profileName: "credentials-provider-config-tests-profile",

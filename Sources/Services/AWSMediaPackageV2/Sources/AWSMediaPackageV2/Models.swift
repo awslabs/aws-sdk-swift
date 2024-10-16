@@ -32,12 +32,13 @@ import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-public struct TagResourceOutput {
+
+public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UntagResourceOutput {
+public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -68,7 +69,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension MediaPackageV2ClientTypes {
 
-    public enum AdMarkerDash: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AdMarkerDash: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case binary
         case xml
         case sdkUnknown(Swift.String)
@@ -97,7 +98,7 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
-    public enum AdMarkerHls: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AdMarkerHls: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case daterange
         case sdkUnknown(Swift.String)
 
@@ -122,8 +123,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The configuration of the channel group.
-    public struct ChannelGroupListConfiguration {
+    public struct ChannelGroupListConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) associated with the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -154,12 +156,11 @@ extension MediaPackageV2ClientTypes {
             self.modifiedAt = modifiedAt
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
 
-    public enum ConflictExceptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ConflictExceptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case conflictingOperation
         case idempotentParameterMismatch
         case resourceAlreadyExists
@@ -270,8 +271,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension MediaPackageV2ClientTypes {
 
-    public enum ValidationExceptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ValidationExceptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cencIvIncompatible
+        case clipStartTimeWithStartOrEnd
         case containerTypeImmutable
         case directModeWithTimingSource
         case drmSignalingMismatchSegmentEncryptionStatus
@@ -306,6 +308,7 @@ extension MediaPackageV2ClientTypes {
         case roleArnLengthOutOfRange
         case roleArnNotAssumable
         case sourceDisruptionsEnabledIncorrectly
+        case startTagTimeOffsetInvalid
         case timingSourceMissing
         case tsContainerTypeWithDashManifest
         case updatePeriodSmallerThanSegmentDuration
@@ -323,6 +326,7 @@ extension MediaPackageV2ClientTypes {
         public static var allCases: [ValidationExceptionType] {
             return [
                 .cencIvIncompatible,
+                .clipStartTimeWithStartOrEnd,
                 .containerTypeImmutable,
                 .directModeWithTimingSource,
                 .drmSignalingMismatchSegmentEncryptionStatus,
@@ -357,6 +361,7 @@ extension MediaPackageV2ClientTypes {
                 .roleArnLengthOutOfRange,
                 .roleArnNotAssumable,
                 .sourceDisruptionsEnabledIncorrectly,
+                .startTagTimeOffsetInvalid,
                 .timingSourceMissing,
                 .tsContainerTypeWithDashManifest,
                 .updatePeriodSmallerThanSegmentDuration,
@@ -380,6 +385,7 @@ extension MediaPackageV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cencIvIncompatible: return "CENC_IV_INCOMPATIBLE"
+            case .clipStartTimeWithStartOrEnd: return "CLIP_START_TIME_WITH_START_OR_END"
             case .containerTypeImmutable: return "CONTAINER_TYPE_IMMUTABLE"
             case .directModeWithTimingSource: return "DIRECT_MODE_WITH_TIMING_SOURCE"
             case .drmSignalingMismatchSegmentEncryptionStatus: return "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
@@ -414,6 +420,7 @@ extension MediaPackageV2ClientTypes {
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
             case .roleArnNotAssumable: return "ROLE_ARN_NOT_ASSUMABLE"
             case .sourceDisruptionsEnabledIncorrectly: return "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
+            case .startTagTimeOffsetInvalid: return "START_TAG_TIME_OFFSET_INVALID"
             case .timingSourceMissing: return "TIMING_SOURCE_MISSING"
             case .tsContainerTypeWithDashManifest: return "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
             case .updatePeriodSmallerThanSegmentDuration: return "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
@@ -460,7 +467,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct DeleteChannelPolicyInput {
+public struct DeleteChannelPolicyInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -478,14 +485,14 @@ public struct DeleteChannelPolicyInput {
     }
 }
 
-public struct DeleteChannelPolicyOutput {
+public struct DeleteChannelPolicyOutput: Swift.Sendable {
 
     public init() { }
 }
 
 extension MediaPackageV2ClientTypes {
 
-    public enum ResourceTypeNotFound: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ResourceTypeNotFound: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case channel
         case channelGroup
         case originEndpoint
@@ -543,7 +550,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-public struct GetChannelPolicyInput {
+public struct GetChannelPolicyInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -561,7 +568,7 @@ public struct GetChannelPolicyInput {
     }
 }
 
-public struct GetChannelPolicyOutput {
+public struct GetChannelPolicyOutput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -584,7 +591,7 @@ public struct GetChannelPolicyOutput {
     }
 }
 
-public struct PutChannelPolicyInput {
+public struct PutChannelPolicyInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -607,7 +614,7 @@ public struct PutChannelPolicyInput {
     }
 }
 
-public struct PutChannelPolicyOutput {
+public struct PutChannelPolicyOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -638,7 +645,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension MediaPackageV2ClientTypes {
 
-    public enum InputType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum InputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cmaf
         case hls
         case sdkUnknown(Swift.String)
@@ -665,7 +672,7 @@ extension MediaPackageV2ClientTypes {
     }
 }
 
-public struct CreateChannelInput {
+public struct CreateChannelInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -705,8 +712,9 @@ public struct CreateChannelInput {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The ingest domain URL where the source stream should be sent.
-    public struct IngestEndpoint {
+    public struct IngestEndpoint: Swift.Sendable {
         /// The system-generated unique identifier for the IngestEndpoint.
         public var id: Swift.String?
         /// The ingest domain URL where the source stream should be sent.
@@ -721,10 +729,9 @@ extension MediaPackageV2ClientTypes {
             self.url = url
         }
     }
-
 }
 
-public struct CreateChannelOutput {
+public struct CreateChannelOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -781,7 +788,7 @@ public struct CreateChannelOutput {
     }
 }
 
-public struct DeleteChannelInput {
+public struct DeleteChannelInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -799,12 +806,12 @@ public struct DeleteChannelInput {
     }
 }
 
-public struct DeleteChannelOutput {
+public struct DeleteChannelOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetChannelInput {
+public struct GetChannelInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -822,7 +829,7 @@ public struct GetChannelInput {
     }
 }
 
-public struct GetChannelOutput {
+public struct GetChannelOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -879,7 +886,7 @@ public struct GetChannelOutput {
     }
 }
 
-public struct ListChannelsInput {
+public struct ListChannelsInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -901,8 +908,9 @@ public struct ListChannelsInput {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The configuration of the channel.
-    public struct ChannelListConfiguration {
+    public struct ChannelListConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) associated with the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -946,10 +954,9 @@ extension MediaPackageV2ClientTypes {
             self.modifiedAt = modifiedAt
         }
     }
-
 }
 
-public struct ListChannelsOutput {
+public struct ListChannelsOutput: Swift.Sendable {
     /// The objects being returned.
     public var items: [MediaPackageV2ClientTypes.ChannelListConfiguration]?
     /// The pagination token from the GET list request.
@@ -967,7 +974,7 @@ public struct ListChannelsOutput {
 
 extension MediaPackageV2ClientTypes {
 
-    public enum ContainerType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ContainerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cmaf
         case ts
         case sdkUnknown(Swift.String)
@@ -996,7 +1003,7 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
-    public enum DashDrmSignaling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DashDrmSignaling: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case individual
         case referenced
         case sdkUnknown(Swift.String)
@@ -1024,8 +1031,11 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
-    public struct FilterConfiguration {
+    public struct FilterConfiguration: Swift.Sendable {
+        /// Optionally specify the clip start time for all of your manifest egress requests. When you include clip start time, note that you cannot use clip start time query parameters for this manifest's endpoint URL.
+        public var clipStartTime: Foundation.Date?
         /// Optionally specify the end time for all of your manifest egress requests. When you include end time, note that you cannot use end time query parameters for this manifest's endpoint URL.
         public var end: Foundation.Date?
         /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
@@ -1036,24 +1046,25 @@ extension MediaPackageV2ClientTypes {
         public var timeDelaySeconds: Swift.Int?
 
         public init(
+            clipStartTime: Foundation.Date? = nil,
             end: Foundation.Date? = nil,
             manifestFilter: Swift.String? = nil,
             start: Foundation.Date? = nil,
             timeDelaySeconds: Swift.Int? = nil
         )
         {
+            self.clipStartTime = clipStartTime
             self.end = end
             self.manifestFilter = manifestFilter
             self.start = start
             self.timeDelaySeconds = timeDelaySeconds
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
 
-    public enum DashPeriodTrigger: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DashPeriodTrigger: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case avails
         case drmKeyRotation
         case `none`
@@ -1090,8 +1101,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The SCTE configuration.
-    public struct ScteDash {
+    public struct ScteDash: Swift.Sendable {
         /// Choose how ad markers are included in the packaged content. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Value description:
         ///
         /// * Binary - The SCTE-35 marker is expressed as a hex-string (Base64 string) rather than full XML.
@@ -1106,12 +1118,11 @@ extension MediaPackageV2ClientTypes {
             self.adMarkerDash = adMarkerDash
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
 
-    public enum DashSegmentTemplateFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DashSegmentTemplateFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case numberWithTimeline
         case sdkUnknown(Swift.String)
 
@@ -1137,7 +1148,7 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
-    public enum DashUtcTimingMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DashUtcTimingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case httpHead
         case httpIso
         case httpXsdate
@@ -1171,8 +1182,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
-    public struct DashUtcTiming {
+    public struct DashUtcTiming: Swift.Sendable {
         /// The UTC timing mode.
         public var timingMode: MediaPackageV2ClientTypes.DashUtcTimingMode?
         /// The the method that the player uses to synchronize to coordinated universal time (UTC) wall clock time.
@@ -1187,12 +1199,12 @@ extension MediaPackageV2ClientTypes {
             self.timingSource = timingSource
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// Create a DASH manifest configuration.
-    public struct CreateDashManifestConfiguration {
+    public struct CreateDashManifestConfiguration: Swift.Sendable {
         /// Determines how the DASH manifest signals the DRM content.
         public var drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -1246,12 +1258,11 @@ extension MediaPackageV2ClientTypes {
             self.utcTiming = utcTiming
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
 
-    public enum EndpointErrorCondition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EndpointErrorCondition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case incompleteManifest
         case missingDrmKey
         case slateInput
@@ -1285,8 +1296,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The failover settings for the endpoint.
-    public struct ForceEndpointErrorConfiguration {
+    public struct ForceEndpointErrorConfiguration: Swift.Sendable {
         /// The failover conditions for the endpoint. The options are:
         ///
         /// * STALE_MANIFEST - The manifest stalled and there are no new segments or parts.
@@ -1305,12 +1317,12 @@ extension MediaPackageV2ClientTypes {
             self.endpointErrorConditions = endpointErrorConditions
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The SCTE configuration.
-    public struct ScteHls {
+    public struct ScteHls: Swift.Sendable {
         /// Ad markers indicate when ads should be inserted during playback. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Choose what you want MediaPackage to do with the ad markers. Value description:
         ///
         /// * DATERANGE - Insert EXT-X-DATERANGE tags to signal ad and program transition events in TS and CMAF manifests. If you use DATERANGE, you must set a programDateTimeIntervalSeconds value of 1 or higher. To learn more about DATERANGE, see [SCTE-35 Ad Marker EXT-X-DATERANGE](http://docs.aws.amazon.com/mediapackage/latest/ug/scte-35-ad-marker-ext-x-daterange.html).
@@ -1323,12 +1335,33 @@ extension MediaPackageV2ClientTypes {
             self.adMarkerHls = adMarkerHls
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
+    /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
+    public struct StartTag: Swift.Sendable {
+        /// Specify the value for PRECISE within your EXT-X-START tag. Leave blank, or choose false, to use the default value NO. Choose yes to use the value YES.
+        public var precise: Swift.Bool?
+        /// Specify the value for TIME-OFFSET within your EXT-X-START tag. Enter a signed floating point value which, if positive, must be less than the configured manifest duration minus three times the configured segment target duration. If negative, the absolute value must be larger than three times the configured segment target duration, and the absolute value must be smaller than the configured manifest duration.
+        /// This member is required.
+        public var timeOffset: Swift.Float?
+
+        public init(
+            precise: Swift.Bool? = nil,
+            timeOffset: Swift.Float? = nil
+        )
+        {
+            self.precise = precise
+            self.timeOffset = timeOffset
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// Create an HTTP live streaming (HLS) manifest configuration.
-    public struct CreateHlsManifestConfiguration {
+    public struct CreateHlsManifestConfiguration: Swift.Sendable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index, with an added suffix to distinguish it from the manifest name. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -1342,6 +1375,8 @@ extension MediaPackageV2ClientTypes {
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
+        /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
+        public var startTag: MediaPackageV2ClientTypes.StartTag?
 
         public init(
             childManifestName: Swift.String? = nil,
@@ -1349,7 +1384,8 @@ extension MediaPackageV2ClientTypes {
             manifestName: Swift.String? = nil,
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
-            scteHls: MediaPackageV2ClientTypes.ScteHls? = nil
+            scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
+            startTag: MediaPackageV2ClientTypes.StartTag? = nil
         )
         {
             self.childManifestName = childManifestName
@@ -1358,14 +1394,15 @@ extension MediaPackageV2ClientTypes {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// Create a low-latency HTTP live streaming (HLS) manifest configuration.
-    public struct CreateLowLatencyHlsManifestConfiguration {
+    public struct CreateLowLatencyHlsManifestConfiguration: Swift.Sendable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index, with an added suffix to distinguish it from the manifest name. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -1379,6 +1416,8 @@ extension MediaPackageV2ClientTypes {
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
+        /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
+        public var startTag: MediaPackageV2ClientTypes.StartTag?
 
         public init(
             childManifestName: Swift.String? = nil,
@@ -1386,7 +1425,8 @@ extension MediaPackageV2ClientTypes {
             manifestName: Swift.String? = nil,
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
-            scteHls: MediaPackageV2ClientTypes.ScteHls? = nil
+            scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
+            startTag: MediaPackageV2ClientTypes.StartTag? = nil
         )
         {
             self.childManifestName = childManifestName
@@ -1395,14 +1435,14 @@ extension MediaPackageV2ClientTypes {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
 
-    public enum CmafEncryptionMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum CmafEncryptionMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cbcs
         case cenc
         case sdkUnknown(Swift.String)
@@ -1431,7 +1471,7 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
-    public enum TsEncryptionMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TsEncryptionMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aes128
         case sampleAes
         case sdkUnknown(Swift.String)
@@ -1459,8 +1499,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The encryption type.
-    public struct EncryptionMethod {
+    public struct EncryptionMethod: Swift.Sendable {
         /// The encryption method to use.
         public var cmafEncryptionMethod: MediaPackageV2ClientTypes.CmafEncryptionMethod?
         /// The encryption method to use.
@@ -1475,14 +1516,14 @@ extension MediaPackageV2ClientTypes {
             self.tsEncryptionMethod = tsEncryptionMethod
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
 
-    public enum DrmSystem: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DrmSystem: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case clearKeyAes128
         case fairplay
+        case irdeto
         case playready
         case widevine
         case sdkUnknown(Swift.String)
@@ -1491,6 +1532,7 @@ extension MediaPackageV2ClientTypes {
             return [
                 .clearKeyAes128,
                 .fairplay,
+                .irdeto,
                 .playready,
                 .widevine
             ]
@@ -1505,6 +1547,7 @@ extension MediaPackageV2ClientTypes {
             switch self {
             case .clearKeyAes128: return "CLEAR_KEY_AES_128"
             case .fairplay: return "FAIRPLAY"
+            case .irdeto: return "IRDETO"
             case .playready: return "PLAYREADY"
             case .widevine: return "WIDEVINE"
             case let .sdkUnknown(s): return s
@@ -1515,7 +1558,7 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
-    public enum PresetSpeke20Audio: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PresetSpeke20Audio: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case presetAudio1
         case presetAudio2
         case presetAudio3
@@ -1553,7 +1596,7 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
-    public enum PresetSpeke20Video: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum PresetSpeke20Video: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case presetVideo1
         case presetVideo2
         case presetVideo3
@@ -1605,8 +1648,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// Configure one or more content encryption keys for your endpoints that use SPEKE Version 2.0. The encryption contract defines which content keys are used to encrypt the audio and video tracks in your stream. To configure the encryption contract, specify which audio and video encryption presets to use.
-    public struct EncryptionContractConfiguration {
+    public struct EncryptionContractConfiguration: Swift.Sendable {
         /// A collection of audio encryption presets. Value description:
         ///
         /// * PRESET-AUDIO-1 - Use one content key to encrypt all of the audio tracks in your stream.
@@ -1653,12 +1697,12 @@ extension MediaPackageV2ClientTypes {
             self.presetSpeke20Video = presetSpeke20Video
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The parameters for the SPEKE key provider.
-    public struct SpekeKeyProvider {
+    public struct SpekeKeyProvider: Swift.Sendable {
         /// The DRM solution provider you're using to protect your content during distribution.
         /// This member is required.
         public var drmSystems: [MediaPackageV2ClientTypes.DrmSystem]?
@@ -1690,12 +1734,12 @@ extension MediaPackageV2ClientTypes {
             self.url = url
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The parameters for encrypting content.
-    public struct Encryption {
+    public struct Encryption: Swift.Sendable {
         /// A 128-bit, 16-byte hex value represented by a 32-character string, used in conjunction with the key for encrypting content. If you don't specify a value, then MediaPackage creates the constant initialization vector (IV).
         public var constantInitializationVector: Swift.String?
         /// The encryption method to use.
@@ -1720,12 +1764,11 @@ extension MediaPackageV2ClientTypes {
             self.spekeKeyProvider = spekeKeyProvider
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
 
-    public enum ScteFilter: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ScteFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `break`
         case distributorAdvertisement
         case distributorOverlayPlacementOpportunity
@@ -1774,8 +1817,9 @@ extension MediaPackageV2ClientTypes {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The SCTE configuration.
-    public struct Scte {
+    public struct Scte: Swift.Sendable {
         /// The SCTE-35 message types that you want to be treated as ad markers in the output.
         public var scteFilter: [MediaPackageV2ClientTypes.ScteFilter]?
 
@@ -1786,12 +1830,12 @@ extension MediaPackageV2ClientTypes {
             self.scteFilter = scteFilter
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The segment configuration, including the segment name, duration, and other configuration values.
-    public struct Segment {
+    public struct Segment: Swift.Sendable {
         /// The parameters for encrypting content.
         public var encryption: MediaPackageV2ClientTypes.Encryption?
         /// When selected, the stream set includes an additional I-frame only stream, along with the other tracks. If false, this extra stream is not included. MediaPackage generates an I-frame only stream from the first rendition in the manifest. The service inserts EXT-I-FRAMES-ONLY tags in the output manifest, and then generates and includes an I-frames only playlist in the stream. This playlist permits player functionality like fast forward and rewind.
@@ -1826,10 +1870,9 @@ extension MediaPackageV2ClientTypes {
             self.tsUseAudioRenditionGroup = tsUseAudioRenditionGroup
         }
     }
-
 }
 
-public struct CreateOriginEndpointInput {
+public struct CreateOriginEndpointInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -1895,8 +1938,9 @@ public struct CreateOriginEndpointInput {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// Retrieve the DASH manifest configuration.
-    public struct GetDashManifestConfiguration {
+    public struct GetDashManifestConfiguration: Swift.Sendable {
         /// Determines how the DASH manifest signals the DRM content.
         public var drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -1955,12 +1999,12 @@ extension MediaPackageV2ClientTypes {
             self.utcTiming = utcTiming
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// Retrieve the HTTP live streaming (HLS) manifest configuration.
-    public struct GetHlsManifestConfiguration {
+    public struct GetHlsManifestConfiguration: Swift.Sendable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -1974,6 +2018,8 @@ extension MediaPackageV2ClientTypes {
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
+        /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
+        public var startTag: MediaPackageV2ClientTypes.StartTag?
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
@@ -1985,6 +2031,7 @@ extension MediaPackageV2ClientTypes {
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
+            startTag: MediaPackageV2ClientTypes.StartTag? = nil,
             url: Swift.String? = nil
         )
         {
@@ -1994,15 +2041,16 @@ extension MediaPackageV2ClientTypes {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
             self.url = url
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// Retrieve the low-latency HTTP live streaming (HLS) manifest configuration.
-    public struct GetLowLatencyHlsManifestConfiguration {
+    public struct GetLowLatencyHlsManifestConfiguration: Swift.Sendable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
@@ -2016,6 +2064,8 @@ extension MediaPackageV2ClientTypes {
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
+        /// To insert an EXT-X-START tag in your HLS playlist, specify a StartTag configuration object with a valid TimeOffset. When you do, you can also optionally specify whether to include a PRECISE value in the EXT-X-START tag.
+        public var startTag: MediaPackageV2ClientTypes.StartTag?
         /// The egress domain URL for stream delivery from MediaPackage.
         /// This member is required.
         public var url: Swift.String?
@@ -2027,6 +2077,7 @@ extension MediaPackageV2ClientTypes {
             manifestWindowSeconds: Swift.Int? = nil,
             programDateTimeIntervalSeconds: Swift.Int? = nil,
             scteHls: MediaPackageV2ClientTypes.ScteHls? = nil,
+            startTag: MediaPackageV2ClientTypes.StartTag? = nil,
             url: Swift.String? = nil
         )
         {
@@ -2036,13 +2087,13 @@ extension MediaPackageV2ClientTypes {
             self.manifestWindowSeconds = manifestWindowSeconds
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
+            self.startTag = startTag
             self.url = url
         }
     }
-
 }
 
-public struct CreateOriginEndpointOutput {
+public struct CreateOriginEndpointOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -2122,7 +2173,7 @@ public struct CreateOriginEndpointOutput {
     }
 }
 
-public struct DeleteOriginEndpointInput {
+public struct DeleteOriginEndpointInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2145,12 +2196,12 @@ public struct DeleteOriginEndpointInput {
     }
 }
 
-public struct DeleteOriginEndpointOutput {
+public struct DeleteOriginEndpointOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetOriginEndpointInput {
+public struct GetOriginEndpointInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2173,7 +2224,7 @@ public struct GetOriginEndpointInput {
     }
 }
 
-public struct GetOriginEndpointOutput {
+public struct GetOriginEndpointOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -2253,7 +2304,7 @@ public struct GetOriginEndpointOutput {
     }
 }
 
-public struct ListOriginEndpointsInput {
+public struct ListOriginEndpointsInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2280,8 +2331,9 @@ public struct ListOriginEndpointsInput {
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// List the DASH manifest configuration.
-    public struct ListDashManifestConfiguration {
+    public struct ListDashManifestConfiguration: Swift.Sendable {
         /// A short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index.
         /// This member is required.
         public var manifestName: Swift.String?
@@ -2297,12 +2349,12 @@ extension MediaPackageV2ClientTypes {
             self.url = url
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// List the HTTP live streaming (HLS) manifest configuration.
-    public struct ListHlsManifestConfiguration {
+    public struct ListHlsManifestConfiguration: Swift.Sendable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
@@ -2322,12 +2374,12 @@ extension MediaPackageV2ClientTypes {
             self.url = url
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// List the low-latency HTTP live streaming (HLS) manifest configuration.
-    public struct ListLowLatencyHlsManifestConfiguration {
+    public struct ListLowLatencyHlsManifestConfiguration: Swift.Sendable {
         /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default child manifest name, index_1. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
         public var childManifestName: Swift.String?
         /// A short short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index. MediaPackage automatically inserts the format extension, such as .m3u8. You can't use the same manifest name if you use HLS manifest and low-latency HLS manifest. The manifestName on the HLSManifest object overrides the manifestName you provided on the originEndpoint object.
@@ -2347,12 +2399,12 @@ extension MediaPackageV2ClientTypes {
             self.url = url
         }
     }
-
 }
 
 extension MediaPackageV2ClientTypes {
+
     /// The configuration of the origin endpoint.
-    public struct OriginEndpointListConfiguration {
+    public struct OriginEndpointListConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) associated with the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -2412,10 +2464,9 @@ extension MediaPackageV2ClientTypes {
             self.originEndpointName = originEndpointName
         }
     }
-
 }
 
-public struct ListOriginEndpointsOutput {
+public struct ListOriginEndpointsOutput: Swift.Sendable {
     /// The objects being returned.
     public var items: [MediaPackageV2ClientTypes.OriginEndpointListConfiguration]?
     /// The pagination token from the GET list request. Use the token to fetch the next page of results.
@@ -2431,7 +2482,7 @@ public struct ListOriginEndpointsOutput {
     }
 }
 
-public struct DeleteOriginEndpointPolicyInput {
+public struct DeleteOriginEndpointPolicyInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2454,12 +2505,12 @@ public struct DeleteOriginEndpointPolicyInput {
     }
 }
 
-public struct DeleteOriginEndpointPolicyOutput {
+public struct DeleteOriginEndpointPolicyOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetOriginEndpointPolicyInput {
+public struct GetOriginEndpointPolicyInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2482,7 +2533,7 @@ public struct GetOriginEndpointPolicyInput {
     }
 }
 
-public struct GetOriginEndpointPolicyOutput {
+public struct GetOriginEndpointPolicyOutput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2510,7 +2561,7 @@ public struct GetOriginEndpointPolicyOutput {
     }
 }
 
-public struct PutOriginEndpointPolicyInput {
+public struct PutOriginEndpointPolicyInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2538,12 +2589,12 @@ public struct PutOriginEndpointPolicyInput {
     }
 }
 
-public struct PutOriginEndpointPolicyOutput {
+public struct PutOriginEndpointPolicyOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct UpdateOriginEndpointInput {
+public struct UpdateOriginEndpointInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2603,7 +2654,7 @@ public struct UpdateOriginEndpointInput {
     }
 }
 
-public struct UpdateOriginEndpointOutput {
+public struct UpdateOriginEndpointOutput: Swift.Sendable {
     /// The ARN associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -2683,7 +2734,7 @@ public struct UpdateOriginEndpointOutput {
     }
 }
 
-public struct UpdateChannelInput {
+public struct UpdateChannelInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2709,7 +2760,7 @@ public struct UpdateChannelInput {
     }
 }
 
-public struct UpdateChannelOutput {
+public struct UpdateChannelOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -2766,7 +2817,7 @@ public struct UpdateChannelOutput {
     }
 }
 
-public struct CreateChannelGroupInput {
+public struct CreateChannelGroupInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. You can't use spaces in the name. You can't change the name after you create the channel group.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2792,7 +2843,7 @@ public struct CreateChannelGroupInput {
     }
 }
 
-public struct CreateChannelGroupOutput {
+public struct CreateChannelGroupOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -2837,7 +2888,7 @@ public struct CreateChannelGroupOutput {
     }
 }
 
-public struct DeleteChannelGroupInput {
+public struct DeleteChannelGroupInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2850,12 +2901,12 @@ public struct DeleteChannelGroupInput {
     }
 }
 
-public struct DeleteChannelGroupOutput {
+public struct DeleteChannelGroupOutput: Swift.Sendable {
 
     public init() { }
 }
 
-public struct GetChannelGroupInput {
+public struct GetChannelGroupInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2868,7 +2919,7 @@ public struct GetChannelGroupInput {
     }
 }
 
-public struct GetChannelGroupOutput {
+public struct GetChannelGroupOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -2913,7 +2964,7 @@ public struct GetChannelGroupOutput {
     }
 }
 
-public struct ListChannelGroupsInput {
+public struct ListChannelGroupsInput: Swift.Sendable {
     /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
     /// The pagination token from the GET list request. Use the token to fetch the next page of results.
@@ -2929,7 +2980,7 @@ public struct ListChannelGroupsInput {
     }
 }
 
-public struct ListChannelGroupsOutput {
+public struct ListChannelGroupsOutput: Swift.Sendable {
     /// The objects being returned.
     public var items: [MediaPackageV2ClientTypes.ChannelGroupListConfiguration]?
     /// The pagination token from the GET list request. Use the token to fetch the next page of results.
@@ -2945,7 +2996,7 @@ public struct ListChannelGroupsOutput {
     }
 }
 
-public struct UpdateChannelGroupInput {
+public struct UpdateChannelGroupInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -2966,7 +3017,7 @@ public struct UpdateChannelGroupInput {
     }
 }
 
-public struct UpdateChannelGroupOutput {
+public struct UpdateChannelGroupOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
     public var arn: Swift.String?
@@ -3011,7 +3062,7 @@ public struct UpdateChannelGroupOutput {
     }
 }
 
-public struct ListTagsForResourceInput {
+public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN of the CloudWatch resource that you want to view tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3024,7 +3075,7 @@ public struct ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceOutput {
+public struct ListTagsForResourceOutput: Swift.Sendable {
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
     public var tags: [Swift.String: Swift.String]?
 
@@ -3036,7 +3087,7 @@ public struct ListTagsForResourceOutput {
     }
 }
 
-public struct TagResourceInput {
+public struct TagResourceInput: Swift.Sendable {
     /// The ARN of the MediaPackage resource that you're adding tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3054,7 +3105,7 @@ public struct TagResourceInput {
     }
 }
 
-public struct UntagResourceInput {
+public struct UntagResourceInput: Swift.Sendable {
     /// The ARN of the MediaPackage resource that you're removing tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4600,6 +4651,24 @@ extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration {
         value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
         value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
         value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
+        value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.StartTag {
+
+    static func write(value: MediaPackageV2ClientTypes.StartTag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Precise"].write(value.precise)
+        try writer["TimeOffset"].write(value.timeOffset)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.StartTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.StartTag()
+        value.timeOffset = try reader["TimeOffset"].readIfPresent() ?? 0.0
+        value.precise = try reader["Precise"].readIfPresent()
         return value
     }
 }
@@ -4608,6 +4677,7 @@ extension MediaPackageV2ClientTypes.FilterConfiguration {
 
     static func write(value: MediaPackageV2ClientTypes.FilterConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClipStartTime"].writeTimestamp(value.clipStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["End"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["ManifestFilter"].write(value.manifestFilter)
         try writer["Start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -4621,6 +4691,7 @@ extension MediaPackageV2ClientTypes.FilterConfiguration {
         value.start = try reader["Start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.end = try reader["End"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.timeDelaySeconds = try reader["TimeDelaySeconds"].readIfPresent()
+        value.clipStartTime = try reader["ClipStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -4652,6 +4723,7 @@ extension MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration {
         value.programDateTimeIntervalSeconds = try reader["ProgramDateTimeIntervalSeconds"].readIfPresent()
         value.scteHls = try reader["ScteHls"].readIfPresent(with: MediaPackageV2ClientTypes.ScteHls.read(from:))
         value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
+        value.startTag = try reader["StartTag"].readIfPresent(with: MediaPackageV2ClientTypes.StartTag.read(from:))
         return value
     }
 }
@@ -4820,6 +4892,7 @@ extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration {
         try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
         try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
         try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
+        try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
     }
 }
 
@@ -4833,6 +4906,7 @@ extension MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration {
         try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
         try writer["ProgramDateTimeIntervalSeconds"].write(value.programDateTimeIntervalSeconds)
         try writer["ScteHls"].write(value.scteHls, with: MediaPackageV2ClientTypes.ScteHls.write(value:to:))
+        try writer["StartTag"].write(value.startTag, with: MediaPackageV2ClientTypes.StartTag.write(value:to:))
     }
 }
 

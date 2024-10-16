@@ -53,9 +53,11 @@ public class AmzSdkRequestMiddleware<InputType, OperationStackOutput> {
 
 }
 
-extension AmzSdkRequestMiddleware: HttpInterceptor {
+extension AmzSdkRequestMiddleware: Interceptor {
     public typealias InputType = InputType
     public typealias OutputType = OperationStackOutput
+    public typealias RequestType = HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeSigning(context: some MutableRequest<InputType, HTTPRequest>) async throws {
         let builder = context.getRequest().toBuilder()

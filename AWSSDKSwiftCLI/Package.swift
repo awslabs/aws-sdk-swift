@@ -24,7 +24,8 @@ let package = Package(
                 .product(name: "Algorithms", package: "swift-algorithms"),
             ],
             resources: [
-                .process("Resources/Package.Base.swift"),
+                .process("Resources/Package.Prefix.txt"),
+                .process("Resources/Package.Base.txt"),
                 .process("Resources/DocIndex.Base.md")
             ]
         ),

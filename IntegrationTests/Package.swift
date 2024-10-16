@@ -13,6 +13,9 @@ import PackageDescription
 // MARK: - Target dependencies
 
 extension Target.Dependency {
+    // Test utility module
+    static var awsIntegrationTestUtils: Self { "AWSIntegrationTestUtils" }
+
     // AWS modules
     static var awsClientRuntime: Self { .product(name: "AWSClientRuntime", package: "aws-sdk-swift") }
     static var awsSDKCommon: Self { .product(name: "AWSSDKCommon", package: "aws-sdk-swift") }
@@ -36,6 +39,12 @@ let package = Package(
         .iOS(.v13),
         .tvOS(.v13),
         .watchOS(.v6)
+    ],
+    targets: [
+        .target(
+            name: "AWSIntegrationTestUtils",
+            path: "./AWSIntegrationTestUtils"
+        )
     ]
 )
 
@@ -123,6 +132,7 @@ func addIntegrationTestTarget(_ name: String) {
                 .awsSDKIdentity,
                 .smithyIdentity,
                 .awsSDKCommon,
+                .awsIntegrationTestUtils,
                 .product(name: name, package: "aws-sdk-swift")
             ] + additionalDependencies.map {
                 Target.Dependency.product(name: $0, package: "aws-sdk-swift", condition: nil)

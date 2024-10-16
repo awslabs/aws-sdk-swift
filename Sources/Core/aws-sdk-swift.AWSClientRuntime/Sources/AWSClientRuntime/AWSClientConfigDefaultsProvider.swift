@@ -99,17 +99,30 @@ public class AWSClientConfigDefaultsProvider {
         return resolvedRetryMode!
     }
 
-    public static func retryStrategyOptions() throws -> RetryStrategyOptions {
+    private static func maxAttempts(_ maxAttempts: Int? = nil) throws -> Int {
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
-        let resolvedMaxAttempts = AWSRetryConfig.maxAttempts(
-            configValue: nil,
-            profileName: nil,
-            fileBasedConfig: fileBasedConfig
-        )
+        let resolvedMaxAttempts: Int?
+        if let maxAttempts {
+            resolvedMaxAttempts = maxAttempts
+        } else {
+            resolvedMaxAttempts = AWSRetryConfig.maxAttempts(
+                configValue: nil,
+                profileName: nil,
+                fileBasedConfig: fileBasedConfig
+            )
+        }
+        return resolvedMaxAttempts!
+    }
+
+    public static func retryStrategyOptions(
+        _ retryMode: AWSRetryMode? = nil,
+        _ maxAttempts: Int? = nil
+    ) throws -> RetryStrategyOptions {
+        let resolvedMaxAttempts = try self.maxAttempts(maxAttempts)
 
         let resolvedRateLimitingMode: RetryStrategyOptions.RateLimitingMode
 
-        switch try self.retryMode(nil) {
+        switch try self.retryMode(retryMode) {
         case .legacy, .standard:
             resolvedRateLimitingMode = .standard
         case .adaptive:

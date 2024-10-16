@@ -229,7 +229,11 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSCodePipeline](../../../../../swift/api/awscodepipeline/latest)
 
+[AWSCodeStarconnections](../../../../../swift/api/awscodestarconnections/latest)
+
 [AWSCodeartifact](../../../../../swift/api/awscodeartifact/latest)
+
+[AWSCodestarnotifications](../../../../../swift/api/awscodestarnotifications/latest)
 
 [AWSCognitoIdentity](../../../../../swift/api/awscognitoidentity/latest)
 
@@ -294,6 +298,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSDirectConnect](../../../../../swift/api/awsdirectconnect/latest)
 
 [AWSDirectoryService](../../../../../swift/api/awsdirectoryservice/latest)
+
+[AWSDirectoryServiceData](../../../../../swift/api/awsdirectoryservicedata/latest)
 
 [AWSDocDB](../../../../../swift/api/awsdocdb/latest)
 
@@ -528,6 +534,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSMarketplaceEntitlementService](../../../../../swift/api/awsmarketplaceentitlementservice/latest)
 
 [AWSMarketplaceMetering](../../../../../swift/api/awsmarketplacemetering/latest)
+
+[AWSMarketplaceReporting](../../../../../swift/api/awsmarketplacereporting/latest)
 
 [AWSMediaConnect](../../../../../swift/api/awsmediaconnect/latest)
 
@@ -775,6 +783,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSnowball](../../../../../swift/api/awssnowball/latest)
 
+[AWSSocialMessaging](../../../../../swift/api/awssocialmessaging/latest)
+
 [AWSSsmSap](../../../../../swift/api/awsssmsap/latest)
 
 [AWSStorageGateway](../../../../../swift/api/awsstoragegateway/latest)
@@ -826,8 +836,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSWisdom](../../../../../swift/api/awswisdom/latest)
 
 [AWSWorkDocs](../../../../../swift/api/awsworkdocs/latest)
-
-[AWSWorkLink](../../../../../swift/api/awsworklink/latest)
 
 [AWSWorkMail](../../../../../swift/api/awsworkmail/latest)
 

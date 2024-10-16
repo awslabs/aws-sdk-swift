@@ -65,7 +65,9 @@ class UnauthenticatedAPITests: XCTestCase {
 }
 
 // Interceptor & interceptor provider for sanity-checking that request is indeed unauthenticated.
-class GetHeadersBeforeTransmit<InputType, OutputType>: HttpInterceptor {
+class GetHeadersBeforeTransmit<InputType, OutputType>: Interceptor {
+    typealias RequestType = HTTPRequest
+    typealias ResponseType = HTTPResponse
     func readBeforeTransmit(context: some AfterSerialization<InputType, RequestType>) async throws {
         // Assert that the request is unauthenticated.
         XCTAssertTrue(!context.getRequest().headers.exists(name: "Authorization"))

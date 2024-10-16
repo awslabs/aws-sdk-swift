@@ -7,6 +7,7 @@
 
 import class Smithy.Context
 import ClientRuntime
+import SmithyHTTPAPI
 
 public struct Route53TrimHostedZoneMiddleware<Input, Output> {
     public let id: Swift.String = "Route53TrimHostedZoneMiddleware"
@@ -29,9 +30,11 @@ public struct Route53TrimHostedZoneMiddleware<Input, Output> {
     }
 }
 
-extension Route53TrimHostedZoneMiddleware: HttpInterceptor {
+extension Route53TrimHostedZoneMiddleware: Interceptor {
     public typealias InputType = Input
     public typealias OutputType = Output
+    public typealias RequestType = HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeSerialization(context: some MutableInput<Self.InputType>) async throws {
         context.updateInput(updated: getUpdatedInput(input: context.getInput()))

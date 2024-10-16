@@ -92,9 +92,11 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
     }
 }
 
-extension FlexibleChecksumsRequestMiddleware: HttpInterceptor {
+extension FlexibleChecksumsRequestMiddleware: Interceptor {
     public typealias InputType = OperationStackInput
     public typealias OutputType = OperationStackOutput
+    public typealias RequestType = SmithyHTTPAPI.HTTPRequest
+    public typealias ResponseType = HTTPResponse
 
     public func modifyBeforeRetryLoop(context: some MutableRequest<InputType, RequestType>) async throws {
         let builder = context.getRequest().toBuilder()

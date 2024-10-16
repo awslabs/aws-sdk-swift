@@ -12,7 +12,6 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
-import enum SmithyReadWrite.Document
 import enum SmithyReadWrite.ReaderError
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
@@ -21,6 +20,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
@@ -49,7 +49,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension InspectorScanClientTypes {
 
-    public enum InternalServerExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum InternalServerExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failedToGenerateSbom
         case other
         case sdkUnknown(Swift.String)
@@ -140,8 +140,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 extension InspectorScanClientTypes {
+
     /// The request has failed validation due to missing required fields or having invalid inputs.
-    public struct ValidationExceptionField {
+    public struct ValidationExceptionField: Swift.Sendable {
         /// The validation exception message.
         /// This member is required.
         public var message: Swift.String?
@@ -158,12 +159,11 @@ extension InspectorScanClientTypes {
             self.name = name
         }
     }
-
 }
 
 extension InspectorScanClientTypes {
 
-    public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cannotParse
         case fieldValidationFailed
         case other
@@ -235,7 +235,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension InspectorScanClientTypes {
 
-    public enum OutputFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum OutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cycloneDx15
         case inspector
         case sdkUnknown(Swift.String)
@@ -262,16 +262,16 @@ extension InspectorScanClientTypes {
     }
 }
 
-public struct ScanSbomInput {
+public struct ScanSbomInput: Swift.Sendable {
     /// The output format for the vulnerability report.
     public var outputFormat: InspectorScanClientTypes.OutputFormat?
     /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format.
     /// This member is required.
-    public var sbom: SmithyReadWrite.Document?
+    public var sbom: Smithy.Document?
 
     public init(
         outputFormat: InspectorScanClientTypes.OutputFormat? = nil,
-        sbom: SmithyReadWrite.Document? = nil
+        sbom: Smithy.Document? = nil
     )
     {
         self.outputFormat = outputFormat
@@ -279,12 +279,12 @@ public struct ScanSbomInput {
     }
 }
 
-public struct ScanSbomOutput {
+public struct ScanSbomOutput: Swift.Sendable {
     /// The vulnerability report for the scanned SBOM.
-    public var sbom: SmithyReadWrite.Document?
+    public var sbom: Smithy.Document?
 
     public init(
-        sbom: SmithyReadWrite.Document? = nil
+        sbom: Smithy.Document? = nil
     )
     {
         self.sbom = sbom

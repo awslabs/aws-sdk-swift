@@ -16,7 +16,7 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 /// A credential identity resolver that uses the default AWS credential identity resolver chain used by most AWS SDKs.
 /// This is the default resolver when no credential identity resolver is provided by the user.
 ///
-/// The chain resolves the credneital identity in the following order:
+/// The chain resolves the credential identity in the following order:
 /// 1. Environment
 /// 2. Profile
 /// 3. Web Identity Tokens (STS Web Identity)

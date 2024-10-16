@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
@@ -19,7 +20,7 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
-import protocol ClientRuntime.HttpInterceptor
+import protocol ClientRuntime.Interceptor
 import protocol ClientRuntime.ModeledError
 import protocol ClientRuntime.MutableInput
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyReader
@@ -156,7 +157,7 @@ public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 
 extension MachineLearningClientTypes {
 
-    public enum TaggableResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum TaggableResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case batchPrediction
         case datasource
         case evaluation
@@ -190,8 +191,9 @@ extension MachineLearningClientTypes {
 }
 
 extension MachineLearningClientTypes {
+
     /// A custom key-value pair associated with an ML object, such as an ML model.
-    public struct Tag {
+    public struct Tag: Swift.Sendable {
         /// A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
         public var key: Swift.String?
         /// An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
@@ -206,10 +208,9 @@ extension MachineLearningClientTypes {
             self.value = value
         }
     }
-
 }
 
-public struct AddTagsInput {
+public struct AddTagsInput: Swift.Sendable {
     /// The ID of the ML object to tag. For example, exampleModelId.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -233,7 +234,7 @@ public struct AddTagsInput {
 }
 
 /// Amazon ML returns the following elements.
-public struct AddTagsOutput {
+public struct AddTagsOutput: Swift.Sendable {
     /// The ID of the ML object that was tagged.
     public var resourceId: Swift.String?
     /// The type of the ML object that was tagged.
@@ -256,7 +257,7 @@ extension MachineLearningClientTypes {
     /// * SGD - Stochastic Gradient Descent.
     ///
     /// * RandomForest - Random forest of decision trees.
-    public enum Algorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum Algorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sgd
         case sdkUnknown(Swift.String)
 
@@ -307,7 +308,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
     }
 }
 
-public struct CreateBatchPredictionInput {
+public struct CreateBatchPredictionInput: Swift.Sendable {
     /// The ID of the DataSource that points to the group of observations to predict.
     /// This member is required.
     public var batchPredictionDataSourceId: Swift.String?
@@ -340,7 +341,7 @@ public struct CreateBatchPredictionInput {
 }
 
 /// Represents the output of a CreateBatchPrediction operation, and is an acknowledgement that Amazon ML received the request. The CreateBatchPrediction operation is asynchronous. You can poll for status updates by using the >GetBatchPrediction operation and checking the Status parameter of the result.
-public struct CreateBatchPredictionOutput {
+public struct CreateBatchPredictionOutput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the BatchPrediction. This value is identical to the value of the BatchPredictionId in the request.
     public var batchPredictionId: Swift.String?
 
@@ -353,8 +354,9 @@ public struct CreateBatchPredictionOutput {
 }
 
 extension MachineLearningClientTypes {
+
     /// The database credentials to connect to a database on an RDS DB instance.
-    public struct RDSDatabaseCredentials {
+    public struct RDSDatabaseCredentials: Swift.Sendable {
         /// The password to be used by Amazon ML to connect to a database on an RDS DB instance. The password should have sufficient permissions to execute the RDSSelectQuery query.
         /// This member is required.
         public var password: Swift.String?
@@ -371,7 +373,6 @@ extension MachineLearningClientTypes {
             self.username = username
         }
     }
-
 }
 
 extension MachineLearningClientTypes.RDSDatabaseCredentials: Swift.CustomDebugStringConvertible {
@@ -380,8 +381,9 @@ extension MachineLearningClientTypes.RDSDatabaseCredentials: Swift.CustomDebugSt
 }
 
 extension MachineLearningClientTypes {
+
     /// The database details of an Amazon RDS database.
-    public struct RDSDatabase {
+    public struct RDSDatabase: Swift.Sendable {
         /// The name of a database hosted on an RDS DB instance.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -398,12 +400,12 @@ extension MachineLearningClientTypes {
             self.instanceIdentifier = instanceIdentifier
         }
     }
-
 }
 
 extension MachineLearningClientTypes {
+
     /// The data specification of an Amazon Relational Database Service (Amazon RDS) DataSource.
-    public struct RDSDataSpec {
+    public struct RDSDataSpec: Swift.Sendable {
         /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:
         ///
         /// * percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource.
@@ -470,10 +472,9 @@ extension MachineLearningClientTypes {
             self.subnetId = subnetId
         }
     }
-
 }
 
-public struct CreateDataSourceFromRDSInput {
+public struct CreateDataSourceFromRDSInput: Swift.Sendable {
     /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
     public var computeStatistics: Swift.Bool?
     /// A user-supplied ID that uniquely identifies the DataSource. Typically, an Amazon Resource Number (ARN) becomes the ID for a DataSource.
@@ -532,7 +533,7 @@ public struct CreateDataSourceFromRDSInput {
 }
 
 /// Represents the output of a CreateDataSourceFromRDS operation, and is an acknowledgement that Amazon ML received the request. The CreateDataSourceFromRDS> operation is asynchronous. You can poll for updates by using the GetBatchPrediction operation and checking the Status parameter. You can inspect the Message when Status shows up as FAILED. You can also check the progress of the copy operation by going to the DataPipeline console and looking up the pipeline using the pipelineId  from the describe call.
-public struct CreateDataSourceFromRDSOutput {
+public struct CreateDataSourceFromRDSOutput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request.
     public var dataSourceId: Swift.String?
 
@@ -545,8 +546,9 @@ public struct CreateDataSourceFromRDSOutput {
 }
 
 extension MachineLearningClientTypes {
+
     /// Describes the database credentials for connecting to a database on an Amazon Redshift cluster.
-    public struct RedshiftDatabaseCredentials {
+    public struct RedshiftDatabaseCredentials: Swift.Sendable {
         /// A password to be used by Amazon ML to connect to a database on an Amazon Redshift cluster. The password should have sufficient permissions to execute a RedshiftSelectSqlQuery query. The password should be valid for an Amazon Redshift [USER](https://docs.aws.amazon.com/redshift/latest/dg/r_CREATE_USER.html).
         /// This member is required.
         public var password: Swift.String?
@@ -563,7 +565,6 @@ extension MachineLearningClientTypes {
             self.username = username
         }
     }
-
 }
 
 extension MachineLearningClientTypes.RedshiftDatabaseCredentials: Swift.CustomDebugStringConvertible {
@@ -572,8 +573,9 @@ extension MachineLearningClientTypes.RedshiftDatabaseCredentials: Swift.CustomDe
 }
 
 extension MachineLearningClientTypes {
+
     /// Describes the database details required to connect to an Amazon Redshift database.
-    public struct RedshiftDatabase {
+    public struct RedshiftDatabase: Swift.Sendable {
         /// The ID of an Amazon Redshift cluster.
         /// This member is required.
         public var clusterIdentifier: Swift.String?
@@ -590,12 +592,12 @@ extension MachineLearningClientTypes {
             self.databaseName = databaseName
         }
     }
-
 }
 
 extension MachineLearningClientTypes {
+
     /// Describes the data specification of an Amazon Redshift DataSource.
-    public struct RedshiftDataSpec {
+    public struct RedshiftDataSpec: Swift.Sendable {
         /// A JSON string that represents the splitting and rearrangement processing to be applied to a DataSource. If the DataRearrangement parameter is not provided, all of the input data is used to create the Datasource. There are multiple parameters that control what data is used to create a datasource:
         ///
         /// * percentBegin Use percentBegin to indicate the beginning of the range of the data used to create the Datasource. If you do not include percentBegin and percentEnd, Amazon ML includes all of the data when creating the datasource.
@@ -642,10 +644,9 @@ extension MachineLearningClientTypes {
             self.selectSqlQuery = selectSqlQuery
         }
     }
-
 }
 
-public struct CreateDataSourceFromRedshiftInput {
+public struct CreateDataSourceFromRedshiftInput: Swift.Sendable {
     /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
     public var computeStatistics: Swift.Bool?
     /// A user-supplied ID that uniquely identifies the DataSource.
@@ -702,7 +703,7 @@ public struct CreateDataSourceFromRedshiftInput {
 }
 
 /// Represents the output of a CreateDataSourceFromRedshift operation, and is an acknowledgement that Amazon ML received the request. The CreateDataSourceFromRedshift operation is asynchronous. You can poll for updates by using the GetBatchPrediction operation and checking the Status parameter.
-public struct CreateDataSourceFromRedshiftOutput {
+public struct CreateDataSourceFromRedshiftOutput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the datasource. This value should be identical to the value of the DataSourceID in the request.
     public var dataSourceId: Swift.String?
 
@@ -715,8 +716,9 @@ public struct CreateDataSourceFromRedshiftOutput {
 }
 
 extension MachineLearningClientTypes {
+
     /// Describes the data specification of a DataSource.
-    public struct S3DataSpec {
+    public struct S3DataSpec: Swift.Sendable {
         /// The location of the data file(s) used by a DataSource. The URI specifies a data file or an Amazon Simple Storage Service (Amazon S3) directory or bucket containing data files.
         /// This member is required.
         public var dataLocationS3: Swift.String?
@@ -748,10 +750,9 @@ extension MachineLearningClientTypes {
             self.dataSchemaLocationS3 = dataSchemaLocationS3
         }
     }
-
 }
 
-public struct CreateDataSourceFromS3Input {
+public struct CreateDataSourceFromS3Input: Swift.Sendable {
     /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
     public var computeStatistics: Swift.Bool?
     /// A user-supplied identifier that uniquely identifies the DataSource.
@@ -786,7 +787,7 @@ public struct CreateDataSourceFromS3Input {
 }
 
 /// Represents the output of a CreateDataSourceFromS3 operation, and is an acknowledgement that Amazon ML received the request. The CreateDataSourceFromS3 operation is asynchronous. You can poll for updates by using the GetBatchPrediction operation and checking the Status parameter.
-public struct CreateDataSourceFromS3Output {
+public struct CreateDataSourceFromS3Output: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
     public var dataSourceId: Swift.String?
 
@@ -798,7 +799,7 @@ public struct CreateDataSourceFromS3Output {
     }
 }
 
-public struct CreateEvaluationInput {
+public struct CreateEvaluationInput: Swift.Sendable {
     /// The ID of the DataSource for the evaluation. The schema of the DataSource must match the schema used to create the MLModel.
     /// This member is required.
     public var evaluationDataSourceId: Swift.String?
@@ -826,7 +827,7 @@ public struct CreateEvaluationInput {
 }
 
 /// Represents the output of a CreateEvaluation operation, and is an acknowledgement that Amazon ML received the request. CreateEvaluation operation is asynchronous. You can poll for status updates by using the GetEvcaluation operation and checking the Status parameter.
-public struct CreateEvaluationOutput {
+public struct CreateEvaluationOutput: Swift.Sendable {
     /// The user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
     public var evaluationId: Swift.String?
 
@@ -840,7 +841,7 @@ public struct CreateEvaluationOutput {
 
 extension MachineLearningClientTypes {
 
-    public enum MLModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MLModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case binary
         case multiclass
         case regression
@@ -870,7 +871,7 @@ extension MachineLearningClientTypes {
     }
 }
 
-public struct CreateMLModelInput {
+public struct CreateMLModelInput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the MLModel.
     /// This member is required.
     public var mlModelId: Swift.String?
@@ -929,7 +930,7 @@ public struct CreateMLModelInput {
 }
 
 /// Represents the output of a CreateMLModel operation, and is an acknowledgement that Amazon ML received the request. The CreateMLModel operation is asynchronous. You can poll for status updates by using the GetMLModel operation and checking the Status parameter.
-public struct CreateMLModelOutput {
+public struct CreateMLModelOutput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
     public var mlModelId: Swift.String?
 
@@ -941,7 +942,7 @@ public struct CreateMLModelOutput {
     }
 }
 
-public struct CreateRealtimeEndpointInput {
+public struct CreateRealtimeEndpointInput: Swift.Sendable {
     /// The ID assigned to the MLModel during creation.
     /// This member is required.
     public var mlModelId: Swift.String?
@@ -956,7 +957,7 @@ public struct CreateRealtimeEndpointInput {
 
 extension MachineLearningClientTypes {
 
-    public enum RealtimeEndpointStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum RealtimeEndpointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case `none`
         case ready
@@ -990,8 +991,9 @@ extension MachineLearningClientTypes {
 }
 
 extension MachineLearningClientTypes {
+
     /// Describes the real-time endpoint information for an MLModel.
-    public struct RealtimeEndpointInfo {
+    public struct RealtimeEndpointInfo: Swift.Sendable {
         /// The time that the request to create the real-time endpoint for the MLModel was received. The time is expressed in epoch time.
         public var createdAt: Foundation.Date?
         /// The current status of the real-time endpoint for the MLModel. This element can have one of the following values:
@@ -1020,11 +1022,10 @@ extension MachineLearningClientTypes {
             self.peakRequestsPerSecond = peakRequestsPerSecond
         }
     }
-
 }
 
 /// Represents the output of an CreateRealtimeEndpoint operation. The result contains the MLModelId and the endpoint information for the MLModel. Note: The endpoint information includes the URI of the MLModel; that is, the location to send online prediction requests for the specified MLModel.
-public struct CreateRealtimeEndpointOutput {
+public struct CreateRealtimeEndpointOutput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
     public var mlModelId: Swift.String?
     /// The endpoint information of the MLModel
@@ -1040,7 +1041,7 @@ public struct CreateRealtimeEndpointOutput {
     }
 }
 
-public struct DeleteBatchPredictionInput {
+public struct DeleteBatchPredictionInput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the BatchPrediction.
     /// This member is required.
     public var batchPredictionId: Swift.String?
@@ -1054,7 +1055,7 @@ public struct DeleteBatchPredictionInput {
 }
 
 /// Represents the output of a DeleteBatchPrediction operation. You can use the GetBatchPrediction operation and check the value of the Status parameter to see whether a BatchPrediction is marked as DELETED.
-public struct DeleteBatchPredictionOutput {
+public struct DeleteBatchPredictionOutput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the BatchPrediction. This value should be identical to the value of the BatchPredictionID in the request.
     public var batchPredictionId: Swift.String?
 
@@ -1066,7 +1067,7 @@ public struct DeleteBatchPredictionOutput {
     }
 }
 
-public struct DeleteDataSourceInput {
+public struct DeleteDataSourceInput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the DataSource.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -1080,7 +1081,7 @@ public struct DeleteDataSourceInput {
 }
 
 /// Represents the output of a DeleteDataSource operation.
-public struct DeleteDataSourceOutput {
+public struct DeleteDataSourceOutput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the DataSource. This value should be identical to the value of the DataSourceID in the request.
     public var dataSourceId: Swift.String?
 
@@ -1092,7 +1093,7 @@ public struct DeleteDataSourceOutput {
     }
 }
 
-public struct DeleteEvaluationInput {
+public struct DeleteEvaluationInput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the Evaluation to delete.
     /// This member is required.
     public var evaluationId: Swift.String?
@@ -1106,7 +1107,7 @@ public struct DeleteEvaluationInput {
 }
 
 /// Represents the output of a DeleteEvaluation operation. The output indicates that Amazon Machine Learning (Amazon ML) received the request. You can use the GetEvaluation operation and check the value of the Status parameter to see whether an Evaluation is marked as DELETED.
-public struct DeleteEvaluationOutput {
+public struct DeleteEvaluationOutput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the Evaluation. This value should be identical to the value of the EvaluationId in the request.
     public var evaluationId: Swift.String?
 
@@ -1118,7 +1119,7 @@ public struct DeleteEvaluationOutput {
     }
 }
 
-public struct DeleteMLModelInput {
+public struct DeleteMLModelInput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the MLModel.
     /// This member is required.
     public var mlModelId: Swift.String?
@@ -1132,7 +1133,7 @@ public struct DeleteMLModelInput {
 }
 
 /// Represents the output of a DeleteMLModel operation. You can use the GetMLModel operation and check the value of the Status parameter to see whether an MLModel is marked as DELETED.
-public struct DeleteMLModelOutput {
+public struct DeleteMLModelOutput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelID in the request.
     public var mlModelId: Swift.String?
 
@@ -1144,7 +1145,7 @@ public struct DeleteMLModelOutput {
     }
 }
 
-public struct DeleteRealtimeEndpointInput {
+public struct DeleteRealtimeEndpointInput: Swift.Sendable {
     /// The ID assigned to the MLModel during creation.
     /// This member is required.
     public var mlModelId: Swift.String?
@@ -1158,7 +1159,7 @@ public struct DeleteRealtimeEndpointInput {
 }
 
 /// Represents the output of an DeleteRealtimeEndpoint operation. The result contains the MLModelId and the endpoint information for the MLModel.
-public struct DeleteRealtimeEndpointOutput {
+public struct DeleteRealtimeEndpointOutput: Swift.Sendable {
     /// A user-supplied ID that uniquely identifies the MLModel. This value should be identical to the value of the MLModelId in the request.
     public var mlModelId: Swift.String?
     /// The endpoint information of the MLModel
@@ -1174,7 +1175,7 @@ public struct DeleteRealtimeEndpointOutput {
     }
 }
 
-public struct DeleteTagsInput {
+public struct DeleteTagsInput: Swift.Sendable {
     /// The ID of the tagged ML object. For example, exampleModelId.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -1198,7 +1199,7 @@ public struct DeleteTagsInput {
 }
 
 /// Amazon ML returns the following elements.
-public struct DeleteTagsOutput {
+public struct DeleteTagsOutput: Swift.Sendable {
     /// The ID of the ML object from which tags were deleted.
     public var resourceId: Swift.String?
     /// The type of the ML object from which tags were deleted.
@@ -1231,7 +1232,7 @@ extension MachineLearningClientTypes {
     /// * DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction.
     ///
     /// * DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction. The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.
-    public enum BatchPredictionFilterVariable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum BatchPredictionFilterVariable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createdAt
         case datasourceId
         case dataUri
@@ -1283,7 +1284,7 @@ extension MachineLearningClientTypes {
     /// * asc - Present the information in ascending order (from A-Z).
     ///
     /// * dsc - Present the information in descending order (from Z-A).
-    public enum SortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case asc
         case dsc
         case sdkUnknown(Swift.String)
@@ -1310,7 +1311,7 @@ extension MachineLearningClientTypes {
     }
 }
 
-public struct DescribeBatchPredictionsInput {
+public struct DescribeBatchPredictionsInput: Swift.Sendable {
     /// The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ.
     public var eq: Swift.String?
     /// Use one of the following variables to filter a list of BatchPrediction:
@@ -1402,7 +1403,7 @@ extension MachineLearningClientTypes {
     /// * COMPLETED
     ///
     /// * DELETED
-    public enum EntityStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EntityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case deleted
         case failed
@@ -1439,8 +1440,9 @@ extension MachineLearningClientTypes {
 }
 
 extension MachineLearningClientTypes {
+
     /// Represents the output of a GetBatchPrediction operation. The content consists of the detailed metadata, the status, and the data file information of a Batch Prediction.
-    public struct BatchPrediction {
+    public struct BatchPrediction: Swift.Sendable {
         /// The ID of the DataSource that points to the group of observations to predict.
         public var batchPredictionDataSourceId: Swift.String?
         /// The ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request.
@@ -1521,11 +1523,10 @@ extension MachineLearningClientTypes {
             self.totalRecordCount = totalRecordCount
         }
     }
-
 }
 
 /// Represents the output of a DescribeBatchPredictions operation. The content is essentially a list of BatchPredictions.
-public struct DescribeBatchPredictionsOutput {
+public struct DescribeBatchPredictionsOutput: Swift.Sendable {
     /// The ID of the next page in the paginated results that indicates at least one more page follows.
     public var nextToken: Swift.String?
     /// A list of BatchPrediction objects that meet the search criteria.
@@ -1557,7 +1558,7 @@ extension MachineLearningClientTypes {
     ///
     ///
     /// Note: The variable names should match the variable names in the DataSource.
-    public enum DataSourceFilterVariable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DataSourceFilterVariable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createdAt
         case dataUri
         case iamUser
@@ -1596,7 +1597,7 @@ extension MachineLearningClientTypes {
     }
 }
 
-public struct DescribeDataSourcesInput {
+public struct DescribeDataSourcesInput: Swift.Sendable {
     /// The equal to operator. The DataSource results will have FilterVariable values that exactly match the value specified with EQ.
     public var eq: Swift.String?
     /// Use one of the following variables to filter a list of DataSource:
@@ -1672,8 +1673,9 @@ public struct DescribeDataSourcesInput {
 }
 
 extension MachineLearningClientTypes {
+
     /// The datasource details that are specific to Amazon RDS.
-    public struct RDSMetadata {
+    public struct RDSMetadata: Swift.Sendable {
         /// The ID of the Data Pipeline instance that is used to carry to copy data from Amazon RDS to Amazon S3. You can use the ID to find details about the instance in the Data Pipeline console.
         public var dataPipelineId: Swift.String?
         /// The database details required to connect to an Amazon RDS.
@@ -1704,12 +1706,12 @@ extension MachineLearningClientTypes {
             self.serviceRole = serviceRole
         }
     }
-
 }
 
 extension MachineLearningClientTypes {
+
     /// Describes the DataSource details specific to Amazon Redshift.
-    public struct RedshiftMetadata {
+    public struct RedshiftMetadata: Swift.Sendable {
         /// A username to be used by Amazon Machine Learning (Amazon ML)to connect to a database on an Amazon Redshift cluster. The username should have sufficient permissions to execute the RedshiftSelectSqlQuery query. The username should be valid for an Amazon Redshift [USER](https://docs.aws.amazon.com/redshift/latest/dg/r_CREATE_USER.html).
         public var databaseUserName: Swift.String?
         /// Describes the database details required to connect to an Amazon Redshift database.
@@ -1728,12 +1730,12 @@ extension MachineLearningClientTypes {
             self.selectSqlQuery = selectSqlQuery
         }
     }
-
 }
 
 extension MachineLearningClientTypes {
+
     /// Represents the output of the GetDataSource operation. The content consists of the detailed metadata and data file information and the current status of the DataSource.
-    public struct DataSource {
+    public struct DataSource: Swift.Sendable {
         /// The parameter is true if statistics need to be generated from the observation data.
         public var computeStatistics: Swift.Bool
         /// Long integer type that is a 64-bit signed number.
@@ -1822,11 +1824,10 @@ extension MachineLearningClientTypes {
             self.status = status
         }
     }
-
 }
 
 /// Represents the query results from a [DescribeDataSources] operation. The content is essentially a list of DataSource.
-public struct DescribeDataSourcesOutput {
+public struct DescribeDataSourcesOutput: Swift.Sendable {
     /// An ID of the next page in the paginated results that indicates at least one more page follows.
     public var nextToken: Swift.String?
     /// A list of DataSource that meet the search criteria.
@@ -1859,7 +1860,7 @@ extension MachineLearningClientTypes {
     /// * DataSourceId - Sets the search criteria to the DataSource used in evaluation.
     ///
     /// * DataUri - Sets the search criteria to the data file(s) used in evaluation. The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.
-    public enum EvaluationFilterVariable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum EvaluationFilterVariable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case createdAt
         case datasourceId
         case dataUri
@@ -1904,7 +1905,7 @@ extension MachineLearningClientTypes {
     }
 }
 
-public struct DescribeEvaluationsInput {
+public struct DescribeEvaluationsInput: Swift.Sendable {
     /// The equal to operator. The Evaluation results will have FilterVariable values that exactly match the value specified with EQ.
     public var eq: Swift.String?
     /// Use one of the following variable to filter a list of Evaluation objects:
@@ -1984,6 +1985,7 @@ public struct DescribeEvaluationsInput {
 }
 
 extension MachineLearningClientTypes {
+
     /// Measurements of how well the MLModel performed on known observations. One of the following metrics is returned, based on the type of the MLModel:
     ///
     /// * BinaryAUC: The binary MLModel uses the Area Under the Curve (AUC) technique to measure performance.
@@ -1994,7 +1996,7 @@ extension MachineLearningClientTypes {
     ///
     ///
     /// For more information about performance metrics, please see the [Amazon Machine Learning Developer Guide](https://docs.aws.amazon.com/machine-learning/latest/dg).
-    public struct PerformanceMetrics {
+    public struct PerformanceMetrics: Swift.Sendable {
         public var properties: [Swift.String: Swift.String]?
 
         public init(
@@ -2004,12 +2006,12 @@ extension MachineLearningClientTypes {
             self.properties = properties
         }
     }
-
 }
 
 extension MachineLearningClientTypes {
+
     /// Represents the output of GetEvaluation operation. The content consists of the detailed metadata and data file information and the current status of the Evaluation.
-    public struct Evaluation {
+    public struct Evaluation: Swift.Sendable {
         /// Long integer type that is a 64-bit signed number.
         public var computeTime: Swift.Int?
         /// The time that the Evaluation was created. The time is expressed in epoch time.
@@ -2091,11 +2093,10 @@ extension MachineLearningClientTypes {
             self.status = status
         }
     }
-
 }
 
 /// Represents the query results from a DescribeEvaluations operation. The content is essentially a list of Evaluation.
-public struct DescribeEvaluationsOutput {
+public struct DescribeEvaluationsOutput: Swift.Sendable {
     /// The ID of the next page in the paginated results that indicates at least one more page follows.
     public var nextToken: Swift.String?
     /// A list of Evaluation that meet the search criteria.
@@ -2113,7 +2114,7 @@ public struct DescribeEvaluationsOutput {
 
 extension MachineLearningClientTypes {
 
-    public enum MLModelFilterVariable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum MLModelFilterVariable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case algorithm
         case createdAt
         case iamUser
@@ -2164,7 +2165,7 @@ extension MachineLearningClientTypes {
     }
 }
 
-public struct DescribeMLModelsInput {
+public struct DescribeMLModelsInput: Swift.Sendable {
     /// The equal to operator. The MLModel results will have FilterVariable values that exactly match the value specified with EQ.
     public var eq: Swift.String?
     /// Use one of the following variables to filter a list of MLModel:
@@ -2248,8 +2249,9 @@ public struct DescribeMLModelsInput {
 }
 
 extension MachineLearningClientTypes {
+
     /// Represents the output of a GetMLModel operation. The content consists of the detailed metadata and the current status of the MLModel.
-    public struct MLModel {
+    public struct MLModel: Swift.Sendable {
         /// The algorithm used to train the MLModel. The following algorithm is supported:
         ///
         /// * SGD -- Stochastic gradient descent. The goal of SGD is to minimize the gradient of the loss function.
@@ -2359,11 +2361,10 @@ extension MachineLearningClientTypes {
             self.trainingParameters = trainingParameters
         }
     }
-
 }
 
 /// Represents the output of a DescribeMLModels operation. The content is essentially a list of MLModel.
-public struct DescribeMLModelsOutput {
+public struct DescribeMLModelsOutput: Swift.Sendable {
     /// The ID of the next page in the paginated results that indicates at least one more page follows.
     public var nextToken: Swift.String?
     /// A list of MLModel that meet the search criteria.
@@ -2379,7 +2380,7 @@ public struct DescribeMLModelsOutput {
     }
 }
 
-public struct DescribeTagsInput {
+public struct DescribeTagsInput: Swift.Sendable {
     /// The ID of the ML object. For example, exampleModelId.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -2398,7 +2399,7 @@ public struct DescribeTagsInput {
 }
 
 /// Amazon ML returns the following elements.
-public struct DescribeTagsOutput {
+public struct DescribeTagsOutput: Swift.Sendable {
     /// The ID of the tagged ML object.
     public var resourceId: Swift.String?
     /// The type of the tagged ML object.
@@ -2418,7 +2419,7 @@ public struct DescribeTagsOutput {
     }
 }
 
-public struct GetBatchPredictionInput {
+public struct GetBatchPredictionInput: Swift.Sendable {
     /// An ID assigned to the BatchPrediction at creation.
     /// This member is required.
     public var batchPredictionId: Swift.String?
@@ -2432,7 +2433,7 @@ public struct GetBatchPredictionInput {
 }
 
 /// Represents the output of a GetBatchPrediction operation and describes a BatchPrediction.
-public struct GetBatchPredictionOutput {
+public struct GetBatchPredictionOutput: Swift.Sendable {
     /// The ID of the DataSource that was used to create the BatchPrediction.
     public var batchPredictionDataSourceId: Swift.String?
     /// An ID assigned to the BatchPrediction at creation. This value should be identical to the value of the BatchPredictionID in the request.
@@ -2518,7 +2519,7 @@ public struct GetBatchPredictionOutput {
     }
 }
 
-public struct GetDataSourceInput {
+public struct GetDataSourceInput: Swift.Sendable {
     /// The ID assigned to the DataSource at creation.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -2536,7 +2537,7 @@ public struct GetDataSourceInput {
 }
 
 /// Represents the output of a GetDataSource operation and describes a DataSource.
-public struct GetDataSourceOutput {
+public struct GetDataSourceOutput: Swift.Sendable {
     /// The parameter is true if statistics need to be generated from the observation data.
     public var computeStatistics: Swift.Bool
     /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the DataSource, normalized and scaled on computation resources. ComputeTime is only available if the DataSource is in the COMPLETED state and the ComputeStatistics is set to true.
@@ -2634,7 +2635,7 @@ public struct GetDataSourceOutput {
     }
 }
 
-public struct GetEvaluationInput {
+public struct GetEvaluationInput: Swift.Sendable {
     /// The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information.
     /// This member is required.
     public var evaluationId: Swift.String?
@@ -2648,7 +2649,7 @@ public struct GetEvaluationInput {
 }
 
 /// Represents the output of a GetEvaluation operation and describes an Evaluation.
-public struct GetEvaluationOutput {
+public struct GetEvaluationOutput: Swift.Sendable {
     /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the Evaluation, normalized and scaled on computation resources. ComputeTime is only available if the Evaluation is in the COMPLETED state.
     public var computeTime: Swift.Int?
     /// The time that the Evaluation was created. The time is expressed in epoch time.
@@ -2735,7 +2736,7 @@ public struct GetEvaluationOutput {
     }
 }
 
-public struct GetMLModelInput {
+public struct GetMLModelInput: Swift.Sendable {
     /// The ID assigned to the MLModel at creation.
     /// This member is required.
     public var mlModelId: Swift.String?
@@ -2753,7 +2754,7 @@ public struct GetMLModelInput {
 }
 
 /// Represents the output of a GetMLModel operation, and provides detailed information about a MLModel.
-public struct GetMLModelOutput {
+public struct GetMLModelOutput: Swift.Sendable {
     /// The approximate CPU time in milliseconds that Amazon Machine Learning spent processing the MLModel, normalized and scaled on computation resources. ComputeTime is only available if the MLModel is in the COMPLETED state.
     public var computeTime: Swift.Int?
     /// The time that the MLModel was created. The time is expressed in epoch time.
@@ -2922,7 +2923,7 @@ public struct PredictorNotMountedException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-public struct PredictInput {
+public struct PredictInput: Swift.Sendable {
     /// A unique identifier of the MLModel.
     /// This member is required.
     public var mlModelId: Swift.String?
@@ -2951,7 +2952,7 @@ extension MachineLearningClientTypes {
     /// * PredictiveModelType - Indicates the type of the MLModel.
     ///
     /// * Algorithm - Indicates the algorithm that was used for the MLModel.
-    public enum DetailsAttributes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum DetailsAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case algorithm
         case predictiveModelType
         case sdkUnknown(Swift.String)
@@ -2979,6 +2980,7 @@ extension MachineLearningClientTypes {
 }
 
 extension MachineLearningClientTypes {
+
     /// The output from a Predict operation:
     ///
     /// * Details - Contains the following attributes: DetailsAttributes.PREDICTIVE_MODEL_TYPE - REGRESSION | BINARY | MULTICLASSDetailsAttributes.ALGORITHM - SGD
@@ -2988,7 +2990,7 @@ extension MachineLearningClientTypes {
     /// * PredictedScores - Contains the raw classification score corresponding to each label.
     ///
     /// * PredictedValue - Present for a REGRESSIONMLModel request.
-    public struct Prediction {
+    public struct Prediction: Swift.Sendable {
         /// Provides any additional details regarding the prediction.
         public var details: [Swift.String: Swift.String]?
         /// The prediction label for either a BINARY or MULTICLASSMLModel.
@@ -3011,10 +3013,9 @@ extension MachineLearningClientTypes {
             self.predictedValue = predictedValue
         }
     }
-
 }
 
-public struct PredictOutput {
+public struct PredictOutput: Swift.Sendable {
     /// The output from a Predict operation:
     ///
     /// * Details - Contains the following attributes: DetailsAttributes.PREDICTIVE_MODEL_TYPE - REGRESSION | BINARY | MULTICLASSDetailsAttributes.ALGORITHM - SGD
@@ -3034,7 +3035,7 @@ public struct PredictOutput {
     }
 }
 
-public struct UpdateBatchPredictionInput {
+public struct UpdateBatchPredictionInput: Swift.Sendable {
     /// The ID assigned to the BatchPrediction during creation.
     /// This member is required.
     public var batchPredictionId: Swift.String?
@@ -3053,7 +3054,7 @@ public struct UpdateBatchPredictionInput {
 }
 
 /// Represents the output of an UpdateBatchPrediction operation. You can see the updated content by using the GetBatchPrediction operation.
-public struct UpdateBatchPredictionOutput {
+public struct UpdateBatchPredictionOutput: Swift.Sendable {
     /// The ID assigned to the BatchPrediction during creation. This value should be identical to the value of the BatchPredictionId in the request.
     public var batchPredictionId: Swift.String?
 
@@ -3065,7 +3066,7 @@ public struct UpdateBatchPredictionOutput {
     }
 }
 
-public struct UpdateDataSourceInput {
+public struct UpdateDataSourceInput: Swift.Sendable {
     /// The ID assigned to the DataSource during creation.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -3084,7 +3085,7 @@ public struct UpdateDataSourceInput {
 }
 
 /// Represents the output of an UpdateDataSource operation. You can see the updated content by using the GetBatchPrediction operation.
-public struct UpdateDataSourceOutput {
+public struct UpdateDataSourceOutput: Swift.Sendable {
     /// The ID assigned to the DataSource during creation. This value should be identical to the value of the DataSourceID in the request.
     public var dataSourceId: Swift.String?
 
@@ -3096,7 +3097,7 @@ public struct UpdateDataSourceOutput {
     }
 }
 
-public struct UpdateEvaluationInput {
+public struct UpdateEvaluationInput: Swift.Sendable {
     /// The ID assigned to the Evaluation during creation.
     /// This member is required.
     public var evaluationId: Swift.String?
@@ -3115,7 +3116,7 @@ public struct UpdateEvaluationInput {
 }
 
 /// Represents the output of an UpdateEvaluation operation. You can see the updated content by using the GetEvaluation operation.
-public struct UpdateEvaluationOutput {
+public struct UpdateEvaluationOutput: Swift.Sendable {
     /// The ID assigned to the Evaluation during creation. This value should be identical to the value of the Evaluation in the request.
     public var evaluationId: Swift.String?
 
@@ -3127,7 +3128,7 @@ public struct UpdateEvaluationOutput {
     }
 }
 
-public struct UpdateMLModelInput {
+public struct UpdateMLModelInput: Swift.Sendable {
     /// The ID assigned to the MLModel during creation.
     /// This member is required.
     public var mlModelId: Swift.String?
@@ -3149,7 +3150,7 @@ public struct UpdateMLModelInput {
 }
 
 /// Represents the output of an UpdateMLModel operation. You can see the updated content by using the GetMLModel operation.
-public struct UpdateMLModelOutput {
+public struct UpdateMLModelOutput: Swift.Sendable {
     /// The ID assigned to the MLModel during creation. This value should be identical to the value of the MLModelID in the request.
     public var mlModelId: Swift.String?
 
@@ -4915,9 +4916,11 @@ public struct PredictInputEndpointURLHostMiddleware {
 
     public init() { }
 }
-extension PredictInputEndpointURLHostMiddleware: ClientRuntime.HttpInterceptor {
+extension PredictInputEndpointURLHostMiddleware: ClientRuntime.Interceptor {
     public typealias InputType = PredictInput
     public typealias OutputType = PredictOutput
+    public typealias RequestType = SmithyHTTPAPI.HTTPRequest
+    public typealias ResponseType = SmithyHTTPAPI.HTTPResponse
 
     public func modifyBeforeSerialization(context: some ClientRuntime.MutableInput<InputType>) async throws {
         if let endpoint = context.getInput().predictEndpoint, let url = Foundation.URL(string: endpoint), let host = url.host {

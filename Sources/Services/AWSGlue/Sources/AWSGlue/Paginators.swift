@@ -989,6 +989,15 @@ extension ListTableOptimizerRunsInput: ClientRuntime.PaginateToken {
             type: self.type
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListTableOptimizerRunsInput, OperationStackOutput == ListTableOptimizerRunsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTableOptimizerRunsPaginated`
+    /// to access the nested member `[GlueClientTypes.TableOptimizerRun]`
+    /// - Returns: `[GlueClientTypes.TableOptimizerRun]`
+    public func tableOptimizerRuns() async throws -> [GlueClientTypes.TableOptimizerRun] {
+        return try await self.asyncCompactMap { item in item.tableOptimizerRuns }
+    }
+}
 extension GlueClient {
     /// Paginate over `[ListTriggersOutput]` results.
     ///
