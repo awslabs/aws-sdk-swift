@@ -13,11 +13,11 @@ class AWSSmokeTestGenerator(
     // Filter out tests by name or tag at codegen time.
     // Each element must have the prefix "<service-name>:" before the test name or tag name.
     // E.g., "AWSS3:GetObjectTest" or "AWSS3:BucketTests"
-    override val testIdsToIgnore = setOf<String>(
+    override val smokeTestIdsToIgnore = setOf<String>(
         // Add smoke test name to ignore here:
         // E.g., "AWSACM:GetCertificateFailure",
     )
-    override val testTagsToIgnore = setOf<String>(
+    override val smokeTestTagsToIgnore = setOf<String>(
         // Add smoke test tag to ignore here:
         // E.g., "AWSACM:TagToIgnore",
     )
@@ -27,7 +27,7 @@ class AWSSmokeTestGenerator(
     }
 
     override fun getClientName(): String {
-        return ctx.service.getTrait(ServiceTrait::class.java).get().sdkId.toUpperCamelCase() + "Client"
+        return ctx.service.getTrait(ServiceTrait::class.java).get().sdkId.toUpperCamelCase().removeSuffix("Service") + "Client"
     }
 
     override fun renderCustomFilePrivateVariables(writer: SwiftWriter) {
