@@ -1274,7 +1274,7 @@ public struct CopyObjectInput: Swift.Sendable {
     ///
     /// * For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html).
     ///
-    /// * To encrypt new object copies to a directory bucket with SSE-KMS, we recommend you specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)). [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. After you specify a customer managed key for SSE-KMS, you can't override the customer managed key for the bucket's SSE-KMS configuration. Then, when you perform a CopyObject operation and want to specify server-side encryption settings for new object copies with SSE-KMS in the encryption-related request headers, you must ensure the encryption key is the same customer managed key that you specified for the directory bucket's default encryption configuration.
+    /// * To encrypt new object copies to a directory bucket with SSE-KMS, we recommend you specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)). The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. After you specify a customer managed key for SSE-KMS, you can't override the customer managed key for the bucket's SSE-KMS configuration. Then, when you perform a CopyObject operation and want to specify server-side encryption settings for new object copies with SSE-KMS in the encryption-related request headers, you must ensure the encryption key is the same customer managed key that you specified for the directory bucket's default encryption configuration.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). When you perform a CopyObject operation, if you want to use a different type of encryption setting for the target object, you can specify appropriate encryption-related headers to encrypt the target object with an Amazon S3 managed key, a KMS key, or a customer-provided key. If the encryption setting in your request is different from the default encryption configuration of the destination bucket, the encryption setting in your request takes precedence. This functionality is not supported when the destination bucket is a directory bucket.
     public var sseCustomerAlgorithm: Swift.String?
@@ -1284,7 +1284,7 @@ public struct CopyObjectInput: Swift.Sendable {
     public var sseCustomerKeyMD5: Swift.String?
     /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for the destination object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs. General purpose buckets - This value must be explicitly added to specify encryption context for CopyObject requests if you want an additional encryption context for your destination object. The additional encryption context of the source object won't be copied to the destination object. For more information, see [Encryption context](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html#encryption-context) in the Amazon S3 User Guide. Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
     public var ssekmsEncryptionContext: Swift.String?
-    /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see [Specifying the Signature Version in Request Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version) in the Amazon S3 User Guide. Directory buckets - If you specify x-amz-server-side-encryption with aws:kms, you must specify the  x-amz-server-side-encryption-aws-kms-key-id header with the ID (Key ID or Key ARN) of the KMS symmetric encryption customer managed key to use. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported.
+    /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see [Specifying the Signature Version in Request Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version) in the Amazon S3 User Guide. Directory buckets - If you specify x-amz-server-side-encryption with aws:kms, the  x-amz-server-side-encryption-aws-kms-key-id header is implicitly assigned the ID of the KMS symmetric encryption customer managed key that's configured for your directory bucket's default encryption setting. If you want to specify the  x-amz-server-side-encryption-aws-kms-key-id header explicitly, you can only specify it with the ID (Key ID or Key ARN) of the KMS customer managed key that's configured for your directory bucket's default encryption setting. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported.
     public var ssekmsKeyId: Swift.String?
     /// If the x-amz-storage-class header is not used, the copied object will be stored in the STANDARD Storage Class by default. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class.
     ///
@@ -2124,7 +2124,7 @@ public struct CreateMultipartUploadInput: Swift.Sendable {
     public var sseCustomerKeyMD5: Swift.String?
     /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs. Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
     public var ssekmsEncryptionContext: Swift.String?
-    /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same account that's issuing the command, you must use the full Key ARN not the Key ID. General purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse, this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS key to use. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key (aws/s3) to protect the data. Directory buckets - If you specify x-amz-server-side-encryption with aws:kms, you must specify the  x-amz-server-side-encryption-aws-kms-key-id header with the ID (Key ID or Key ARN) of the KMS symmetric encryption customer managed key to use. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported.
+    /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same account that's issuing the command, you must use the full Key ARN not the Key ID. General purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse, this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS key to use. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key (aws/s3) to protect the data. Directory buckets - If you specify x-amz-server-side-encryption with aws:kms, the  x-amz-server-side-encryption-aws-kms-key-id header is implicitly assigned the ID of the KMS symmetric encryption customer managed key that's configured for your directory bucket's default encryption setting. If you want to specify the  x-amz-server-side-encryption-aws-kms-key-id header explicitly, you can only specify it with the ID (Key ID or Key ARN) of the KMS customer managed key that's configured for your directory bucket's default encryption setting. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported.
     public var ssekmsKeyId: Swift.String?
     /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html) in the Amazon S3 User Guide.
     ///
@@ -2328,7 +2328,7 @@ public struct CreateSessionInput: Swift.Sendable {
     public var sessionMode: S3ClientTypes.SessionMode?
     /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for object encryption. The value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object. General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryption context for your object. For more information, see [Encryption context](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html#encryption-context) in the Amazon S3 User Guide. Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
     public var ssekmsEncryptionContext: Swift.String?
-    /// If you specify x-amz-server-side-encryption with aws:kms, you must specify the  x-amz-server-side-encryption-aws-kms-key-id header with the ID (Key ID or Key ARN) of the KMS symmetric encryption customer managed key to use. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Also, if the KMS key doesn't exist in the same account that't issuing the command, you must use the full Key ARN not the Key ID. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported.
+    /// If you specify x-amz-server-side-encryption with aws:kms, you must specify the  x-amz-server-side-encryption-aws-kms-key-id header with the ID (Key ID or Key ARN) of the KMS symmetric encryption customer managed key to use. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Also, if the KMS key doesn't exist in the same account that't issuing the command, you must use the full Key ARN not the Key ID. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported.
     public var ssekmsKeyId: Swift.String?
 
     public init(
@@ -4408,7 +4408,7 @@ extension S3ClientTypes {
     ///
     /// * General purpose buckets - If you don't specify a customer managed key at configuration, Amazon S3 automatically creates an Amazon Web Services KMS key (aws/s3) in your Amazon Web Services account the first time that you add an object encrypted with SSE-KMS to a bucket. By default, Amazon S3 uses this KMS key for SSE-KMS.
     ///
-    /// * Directory buckets - Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported.
+    /// * Directory buckets - Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported.
     ///
     /// * Directory buckets - For directory buckets, there are only two supported options for server-side encryption: SSE-S3 and SSE-KMS.
     public struct ServerSideEncryptionByDefault: Swift.Sendable {
@@ -5144,18 +5144,32 @@ extension S3ClientTypes {
 extension S3ClientTypes {
 
     /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter can have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. If the Filter element is left empty, the Lifecycle Rule applies to all objects in the bucket.
-    public enum LifecycleRuleFilter: Swift.Sendable {
-        /// Prefix identifying one or more objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
-        case `prefix`(Swift.String)
-        /// This tag must exist in the object's tag set in order for the rule to apply.
-        case tag(S3ClientTypes.Tag)
-        /// Minimum object size to which the rule applies.
-        case objectsizegreaterthan(Swift.Int)
-        /// Maximum object size to which the rule applies.
-        case objectsizelessthan(Swift.Int)
+    public struct LifecycleRuleFilter: Swift.Sendable {
         /// This is used in a Lifecycle Rule Filter to apply a logical AND to two or more predicates. The Lifecycle Rule will apply to any object matching all of the predicates configured inside the And operator.
-        case and(S3ClientTypes.LifecycleRuleAndOperator)
-        case sdkUnknown(Swift.String)
+        public var and: S3ClientTypes.LifecycleRuleAndOperator?
+        /// Minimum object size to which the rule applies.
+        public var objectSizeGreaterThan: Swift.Int?
+        /// Maximum object size to which the rule applies.
+        public var objectSizeLessThan: Swift.Int?
+        /// Prefix identifying one or more objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        public var `prefix`: Swift.String?
+        /// This tag must exist in the object's tag set in order for the rule to apply.
+        public var tag: S3ClientTypes.Tag?
+
+        public init(
+            and: S3ClientTypes.LifecycleRuleAndOperator? = nil,
+            objectSizeGreaterThan: Swift.Int? = nil,
+            objectSizeLessThan: Swift.Int? = nil,
+            `prefix`: Swift.String? = nil,
+            tag: S3ClientTypes.Tag? = nil
+        )
+        {
+            self.and = and
+            self.objectSizeGreaterThan = objectSizeGreaterThan
+            self.objectSizeLessThan = objectSizeLessThan
+            self.`prefix` = `prefix`
+            self.tag = tag
+        }
     }
 }
 
@@ -6481,18 +6495,28 @@ extension S3ClientTypes {
 extension S3ClientTypes {
 
     /// A filter that identifies the subset of objects to which the replication rule applies. A Filter must specify exactly one Prefix, Tag, or an And child element.
-    public enum ReplicationRuleFilter: Swift.Sendable {
-        /// An object key name prefix that identifies the subset of objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
-        case `prefix`(Swift.String)
-        /// A container for specifying a tag key and value. The rule applies only to objects that have the tag in their tag set.
-        case tag(S3ClientTypes.Tag)
+    public struct ReplicationRuleFilter: Swift.Sendable {
         /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:
         ///
         /// * If you specify both a Prefix and a Tag filter, wrap these filters in an And tag.
         ///
         /// * If you specify a filter based on multiple tags, wrap the Tag elements in an And tag.
-        case and(S3ClientTypes.ReplicationRuleAndOperator)
-        case sdkUnknown(Swift.String)
+        public var and: S3ClientTypes.ReplicationRuleAndOperator?
+        /// An object key name prefix that identifies the subset of objects to which the rule applies. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        public var `prefix`: Swift.String?
+        /// A container for specifying a tag key and value. The rule applies only to objects that have the tag in their tag set.
+        public var tag: S3ClientTypes.Tag?
+
+        public init(
+            and: S3ClientTypes.ReplicationRuleAndOperator? = nil,
+            `prefix`: Swift.String? = nil,
+            tag: S3ClientTypes.Tag? = nil
+        )
+        {
+            self.and = and
+            self.`prefix` = `prefix`
+            self.tag = tag
+        }
     }
 }
 
@@ -8190,7 +8214,7 @@ extension S3ClientTypes {
         public var blockPublicPolicy: Swift.Bool?
         /// Specifies whether Amazon S3 should ignore public ACLs for this bucket and objects in this bucket. Setting this element to TRUE causes Amazon S3 to ignore all public ACLs on this bucket and objects in this bucket. Enabling this setting doesn't affect the persistence of any existing ACLs and doesn't prevent new public ACLs from being set.
         public var ignorePublicAcls: Swift.Bool?
-        /// Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting this element to TRUE restricts access to this bucket to only Amazon Web Servicesservice principals and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
+        /// Specifies whether Amazon S3 should restrict public bucket policies for this bucket. Setting this element to TRUE restricts access to this bucket to only Amazon Web Services service principals and authorized users within this account if the bucket has a public policy. Enabling this setting doesn't affect previously stored bucket policies, except that public and cross-account access within any public bucket policy, including non-public delegation to specific accounts, is blocked.
         public var restrictPublicBuckets: Swift.Bool?
 
         public init(
@@ -8766,18 +8790,26 @@ public struct ListBucketMetricsConfigurationsOutput: Swift.Sendable {
 }
 
 public struct ListBucketsInput: Swift.Sendable {
+    /// Limits the response to buckets that are located in the specified Amazon Web Services Region. The Amazon Web Services Region must be expressed according to the Amazon Web Services Region code, such as us-west-2 for the US West (Oregon) Region. For a list of the valid values for all of the Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). Requests made to a Regional endpoint that is different from the bucket-region parameter are not supported. For example, if you want to limit the response to your buckets in Region us-west-2, the request must be made to an endpoint in Region us-west-2.
+    public var bucketRegion: Swift.String?
     /// ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results. Length Constraints: Minimum length of 0. Maximum length of 1024. Required: No.
     public var continuationToken: Swift.String?
     /// Maximum number of buckets to be returned in response. When the number is more than the count of buckets that are owned by an Amazon Web Services account, return all the buckets in response.
     public var maxBuckets: Swift.Int?
+    /// Limits the response to bucket names that begin with the specified bucket name prefix.
+    public var `prefix`: Swift.String?
 
     public init(
+        bucketRegion: Swift.String? = nil,
         continuationToken: Swift.String? = nil,
-        maxBuckets: Swift.Int? = nil
+        maxBuckets: Swift.Int? = nil,
+        `prefix`: Swift.String? = nil
     )
     {
+        self.bucketRegion = bucketRegion
         self.continuationToken = continuationToken
         self.maxBuckets = maxBuckets
+        self.`prefix` = `prefix`
     }
 }
 
@@ -8785,16 +8817,20 @@ extension S3ClientTypes {
 
     /// In terms of implementation, a Bucket is a resource.
     public struct Bucket: Swift.Sendable {
+        /// BucketRegion indicates the Amazon Web Services region where the bucket is located. If the request contains at least one valid parameter, it is included in the response.
+        public var bucketRegion: Swift.String?
         /// Date the bucket was created. This date can change when making changes to your bucket, such as editing its bucket policy.
         public var creationDate: Foundation.Date?
         /// The name of the bucket.
         public var name: Swift.String?
 
         public init(
+            bucketRegion: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
             name: Swift.String? = nil
         )
         {
+            self.bucketRegion = bucketRegion
             self.creationDate = creationDate
             self.name = name
         }
@@ -8808,16 +8844,20 @@ public struct ListBucketsOutput: Swift.Sendable {
     public var continuationToken: Swift.String?
     /// The owner of the buckets listed.
     public var owner: S3ClientTypes.Owner?
+    /// If Prefix was sent with the request, it is included in the response. All bucket names in the response begin with the specified bucket name prefix.
+    public var `prefix`: Swift.String?
 
     public init(
         buckets: [S3ClientTypes.Bucket]? = nil,
         continuationToken: Swift.String? = nil,
-        owner: S3ClientTypes.Owner? = nil
+        owner: S3ClientTypes.Owner? = nil,
+        `prefix`: Swift.String? = nil
     )
     {
         self.buckets = buckets
         self.continuationToken = continuationToken
         self.owner = owner
+        self.`prefix` = `prefix`
     }
 }
 
@@ -10628,7 +10668,7 @@ public struct PutObjectInput: Swift.Sendable {
     /// * SHA256
     ///
     ///
-    /// For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 ignores any provided ChecksumAlgorithm parameter and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm . For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
+    /// For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 ignores any provided ChecksumAlgorithm parameter and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm . The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see [Uploading objects to an Object Lock enabled bucket ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-put-object) in the Amazon S3 User Guide. For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
     public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC-32 checksum of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
@@ -10646,7 +10686,7 @@ public struct PutObjectInput: Swift.Sendable {
     public var contentLanguage: Swift.String?
     /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically. For more information, see [https://www.rfc-editor.org/rfc/rfc9110.html#name-content-length](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-length).
     public var contentLength: Swift.Int?
-    /// The base64-encoded 128-bit MD5 digest of the message (without the headers) according to RFC 1864. This header can be used as a message integrity check to verify that the data is the same data that was originally sent. Although it is optional, we recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more information about REST request authentication, see [REST Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html). The Content-MD5 header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information about Amazon S3 Object Lock, see [Amazon S3 Object Lock Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock-overview.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// The base64-encoded 128-bit MD5 digest of the message (without the headers) according to RFC 1864. This header can be used as a message integrity check to verify that the data is the same data that was originally sent. Although it is optional, we recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more information about REST request authentication, see [REST Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html). The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see [Uploading objects to an Object Lock enabled bucket ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-put-object) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var contentMD5: Swift.String?
     /// A standard MIME type describing the format of the contents. For more information, see [https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type](https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type).
     public var contentType: Swift.String?
@@ -10707,7 +10747,7 @@ public struct PutObjectInput: Swift.Sendable {
     public var sseCustomerKeyMD5: Swift.String?
     /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for object encryption. The value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object. General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryption context for your object. For more information, see [Encryption context](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html#encryption-context) in the Amazon S3 User Guide. Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
     public var ssekmsEncryptionContext: Swift.String?
-    /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same account that's issuing the command, you must use the full Key ARN not the Key ID. General purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse, this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS key to use. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key (aws/s3) to protect the data. Directory buckets - If you specify x-amz-server-side-encryption with aws:kms, you must specify the  x-amz-server-side-encryption-aws-kms-key-id header with the ID (Key ID or Key ARN) of the KMS symmetric encryption customer managed key to use. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported.
+    /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same account that's issuing the command, you must use the full Key ARN not the Key ID. General purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse, this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS key to use. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key (aws/s3) to protect the data. Directory buckets - If you specify x-amz-server-side-encryption with aws:kms, the  x-amz-server-side-encryption-aws-kms-key-id header is implicitly assigned the ID of the KMS symmetric encryption customer managed key that's configured for your directory bucket's default encryption setting. If you want to specify the  x-amz-server-side-encryption-aws-kms-key-id header explicitly, you can only specify it with the ID (Key ID or Key ARN) of the KMS customer managed key that's configured for your directory bucket's default encryption setting. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported.
     public var ssekmsKeyId: Swift.String?
     /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html) in the Amazon S3 User Guide.
     ///
@@ -11696,9 +11736,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Describes the parameters for Select job types. Learn [How to optimize querying your data in Amazon S3](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) using [Amazon Athena](https://docs.aws.amazon.com/athena/latest/ug/what-is.html), [S3 Object Lambda](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html), or client-side filtering.
+    /// Describes the parameters for Select job types.
     public struct SelectParameters: Swift.Sendable {
-        /// Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) The expression that is used to query the object.
+        /// The expression that is used to query the object.
         /// This member is required.
         public var expression: Swift.String?
         /// The type of the provided expression (for example, SQL).
@@ -11764,11 +11804,11 @@ extension S3ClientTypes {
         public var glacierJobParameters: S3ClientTypes.GlacierJobParameters?
         /// Describes the location where the restore job's output is stored.
         public var outputLocation: S3ClientTypes.OutputLocation?
-        /// Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Describes the parameters for Select job types.
+        /// Describes the parameters for Select job types.
         public var selectParameters: S3ClientTypes.SelectParameters?
         /// Retrieval tier at which the restore will be processed.
         public var tier: S3ClientTypes.Tier?
-        /// Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Type of restore request.
+        /// Type of restore request.
         public var type: S3ClientTypes.RestoreRequestType?
 
         public init(
@@ -11882,7 +11922,7 @@ extension S3ClientTypes {
     }
 }
 
-/// Learn Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
+/// Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
 public struct SelectObjectContentInput: Swift.Sendable {
     /// The S3 bucket.
     /// This member is required.
@@ -14755,6 +14795,14 @@ extension ListBucketsInput {
         if let continuationToken = value.continuationToken {
             let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
             items.append(continuationTokenQueryItem)
+        }
+        if let bucketRegion = value.bucketRegion {
+            let bucketRegionQueryItem = Smithy.URIQueryItem(name: "bucket-region".urlPercentEncoding(), value: Swift.String(bucketRegion).urlPercentEncoding())
+            items.append(bucketRegionQueryItem)
+        }
+        if let `prefix` = value.`prefix` {
+            let prefixQueryItem = Smithy.URIQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            items.append(prefixQueryItem)
         }
         if let maxBuckets = value.maxBuckets {
             let maxBucketsQueryItem = Smithy.URIQueryItem(name: "max-buckets".urlPercentEncoding(), value: Swift.String(maxBuckets).urlPercentEncoding())
@@ -17737,6 +17785,7 @@ extension ListBucketsOutput {
         value.buckets = try reader["Buckets"].readListIfPresent(memberReadingClosure: S3ClientTypes.Bucket.read(from:), memberNodeInfo: "Bucket", isFlattened: false)
         value.continuationToken = try reader["ContinuationToken"].readIfPresent()
         value.owner = try reader["Owner"].readIfPresent(with: S3ClientTypes.Owner.read(from:))
+        value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
     }
 }
@@ -20408,39 +20457,22 @@ extension S3ClientTypes.LifecycleRuleFilter {
 
     static func write(value: S3ClientTypes.LifecycleRuleFilter?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .and(and):
-                try writer["And"].write(and, with: S3ClientTypes.LifecycleRuleAndOperator.write(value:to:))
-            case let .objectsizegreaterthan(objectsizegreaterthan):
-                try writer["ObjectSizeGreaterThan"].write(objectsizegreaterthan)
-            case let .objectsizelessthan(objectsizelessthan):
-                try writer["ObjectSizeLessThan"].write(objectsizelessthan)
-            case let .`prefix`(`prefix`):
-                try writer["Prefix"].write(`prefix`)
-            case let .tag(tag):
-                try writer["Tag"].write(tag, with: S3ClientTypes.Tag.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["And"].write(value.and, with: S3ClientTypes.LifecycleRuleAndOperator.write(value:to:))
+        try writer["ObjectSizeGreaterThan"].write(value.objectSizeGreaterThan)
+        try writer["ObjectSizeLessThan"].write(value.objectSizeLessThan)
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["Tag"].write(value.tag, with: S3ClientTypes.Tag.write(value:to:))
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.LifecycleRuleFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Prefix":
-                return .`prefix`(try reader["Prefix"].read())
-            case "Tag":
-                return .tag(try reader["Tag"].read(with: S3ClientTypes.Tag.read(from:)))
-            case "ObjectSizeGreaterThan":
-                return .objectsizegreaterthan(try reader["ObjectSizeGreaterThan"].read())
-            case "ObjectSizeLessThan":
-                return .objectsizelessthan(try reader["ObjectSizeLessThan"].read())
-            case "And":
-                return .and(try reader["And"].read(with: S3ClientTypes.LifecycleRuleAndOperator.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        var value = S3ClientTypes.LifecycleRuleFilter()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tag = try reader["Tag"].readIfPresent(with: S3ClientTypes.Tag.read(from:))
+        value.objectSizeGreaterThan = try reader["ObjectSizeGreaterThan"].readIfPresent()
+        value.objectSizeLessThan = try reader["ObjectSizeLessThan"].readIfPresent()
+        value.and = try reader["And"].readIfPresent(with: S3ClientTypes.LifecycleRuleAndOperator.read(from:))
+        return value
     }
 }
 
@@ -21037,31 +21069,18 @@ extension S3ClientTypes.ReplicationRuleFilter {
 
     static func write(value: S3ClientTypes.ReplicationRuleFilter?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .and(and):
-                try writer["And"].write(and, with: S3ClientTypes.ReplicationRuleAndOperator.write(value:to:))
-            case let .`prefix`(`prefix`):
-                try writer["Prefix"].write(`prefix`)
-            case let .tag(tag):
-                try writer["Tag"].write(tag, with: S3ClientTypes.Tag.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["And"].write(value.and, with: S3ClientTypes.ReplicationRuleAndOperator.write(value:to:))
+        try writer["Prefix"].write(value.`prefix`)
+        try writer["Tag"].write(value.tag, with: S3ClientTypes.Tag.write(value:to:))
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ReplicationRuleFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Prefix":
-                return .`prefix`(try reader["Prefix"].read())
-            case "Tag":
-                return .tag(try reader["Tag"].read(with: S3ClientTypes.Tag.read(from:)))
-            case "And":
-                return .and(try reader["And"].read(with: S3ClientTypes.ReplicationRuleAndOperator.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        var value = S3ClientTypes.ReplicationRuleFilter()
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.tag = try reader["Tag"].readIfPresent(with: S3ClientTypes.Tag.read(from:))
+        value.and = try reader["And"].readIfPresent(with: S3ClientTypes.ReplicationRuleAndOperator.read(from:))
+        return value
     }
 }
 
@@ -21340,6 +21359,7 @@ extension S3ClientTypes.Bucket {
         var value = S3ClientTypes.Bucket()
         value.name = try reader["Name"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.bucketRegion = try reader["BucketRegion"].readIfPresent()
         return value
     }
 }

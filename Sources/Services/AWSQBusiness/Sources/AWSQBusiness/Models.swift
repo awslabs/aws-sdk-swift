@@ -1097,7 +1097,7 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// Configuration information about Amazon Q Apps. (preview feature)
+    /// Configuration information about Amazon Q Apps.
     public struct QAppsConfiguration: Swift.Sendable {
         /// Status information about whether end users can create and use Amazon Q Apps in the web experience.
         /// This member is required.
@@ -1158,7 +1158,7 @@ public struct CreateApplicationInput: Swift.Sendable {
     public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
     /// An option to allow end users to create and use Amazon Q Apps in the web experience.
     public var qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration?
-    /// The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics.
+    /// The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics. If this property is not specified, Amazon Q Business will create a [service linked role (SLR)](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles.html#slr-permissions) and use it as the application's role.
     public var roleArn: Swift.String?
     /// A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [QBusinessClientTypes.Tag]?
@@ -3776,6 +3776,8 @@ public struct CreateWebExperienceInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
     public var identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration?
+    /// Sets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https), the domain name, and the port number (if specified). You must only submit a base URL and not a full path. For example, https://docs.aws.amazon.com.
+    public var origins: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the service role attached to your web experience. You must provide this value if you're using IAM Identity Center to manage end user access to your application. If you're using legacy identity management to manage user access, you don't need to provide this value.
     public var roleArn: Swift.String?
     /// Determines whether sample prompts are enabled in the web experience for an end user.
@@ -3793,6 +3795,7 @@ public struct CreateWebExperienceInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration? = nil,
+        origins: [Swift.String]? = nil,
         roleArn: Swift.String? = nil,
         samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode? = nil,
         subtitle: Swift.String? = nil,
@@ -3804,6 +3807,7 @@ public struct CreateWebExperienceInput: Swift.Sendable {
         self.applicationId = applicationId
         self.clientToken = clientToken
         self.identityProviderConfiguration = identityProviderConfiguration
+        self.origins = origins
         self.roleArn = roleArn
         self.samplePromptsControlMode = samplePromptsControlMode
         self.subtitle = subtitle
@@ -3963,6 +3967,8 @@ public struct GetWebExperienceOutput: Swift.Sendable {
     public var error: QBusinessClientTypes.ErrorDetail?
     /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
     public var identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration?
+    /// Gets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https), the domain name, and the port number (if specified).
+    public var origins: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the service role attached to your web experience.
     public var roleArn: Swift.String?
     /// Determines whether sample prompts are enabled in the web experience for an end user.
@@ -3989,6 +3995,7 @@ public struct GetWebExperienceOutput: Swift.Sendable {
         defaultEndpoint: Swift.String? = nil,
         error: QBusinessClientTypes.ErrorDetail? = nil,
         identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration? = nil,
+        origins: [Swift.String]? = nil,
         roleArn: Swift.String? = nil,
         samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode? = nil,
         status: QBusinessClientTypes.WebExperienceStatus? = nil,
@@ -4006,6 +4013,7 @@ public struct GetWebExperienceOutput: Swift.Sendable {
         self.defaultEndpoint = defaultEndpoint
         self.error = error
         self.identityProviderConfiguration = identityProviderConfiguration
+        self.origins = origins
         self.roleArn = roleArn
         self.samplePromptsControlMode = samplePromptsControlMode
         self.status = status
@@ -4096,6 +4104,12 @@ public struct UpdateWebExperienceInput: Swift.Sendable {
     public var authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration?
     /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
     public var identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration?
+    /// Updates the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https), the domain name, and the port number (if specified).
+    ///
+    /// * Any values except null submitted as part of this update will replace all previous values.
+    ///
+    /// * You must only submit a base URL and not a full path. For example, https://docs.aws.amazon.com.
+    public var origins: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the role with permission to access the Amazon Q Business web experience and required resources.
     public var roleArn: Swift.String?
     /// Determines whether sample prompts are enabled in the web experience for an end user.
@@ -4114,6 +4128,7 @@ public struct UpdateWebExperienceInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         authenticationConfiguration: QBusinessClientTypes.WebExperienceAuthConfiguration? = nil,
         identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration? = nil,
+        origins: [Swift.String]? = nil,
         roleArn: Swift.String? = nil,
         samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode? = nil,
         subtitle: Swift.String? = nil,
@@ -4125,6 +4140,7 @@ public struct UpdateWebExperienceInput: Swift.Sendable {
         self.applicationId = applicationId
         self.authenticationConfiguration = authenticationConfiguration
         self.identityProviderConfiguration = identityProviderConfiguration
+        self.origins = origins
         self.roleArn = roleArn
         self.samplePromptsControlMode = samplePromptsControlMode
         self.subtitle = subtitle
@@ -5485,9 +5501,9 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// Provides information about users and groups associated with a topic control rule.
+    /// Provides information about users and group names associated with a topic control rule.
     public struct UsersAndGroups: Swift.Sendable {
-        /// The user groups associated with a topic control rule.
+        /// The user group names associated with a topic control rule.
         public var userGroups: [Swift.String]?
         /// The user ids associated with a topic control rule.
         public var userIds: [Swift.String]?
@@ -6693,7 +6709,7 @@ public struct ChatSyncInput: Swift.Sendable {
     public var conversationId: Swift.String?
     /// The identifier of the previous system message in a conversation.
     public var parentMessageId: Swift.String?
-    /// The groups that a user associated with the chat input belongs to.
+    /// The group names that a user associated with the chat input belongs to.
     public var userGroups: [Swift.String]?
     /// The identifier of the user attached to the chat input.
     public var userId: Swift.String?
@@ -6764,7 +6780,7 @@ public struct ChatInput: Swift.Sendable {
     public var inputStream: AsyncThrowingStream<QBusinessClientTypes.ChatInputStream, Swift.Error>?
     /// The identifier used to associate a user message with a AI generated response.
     public var parentMessageId: Swift.String?
-    /// The groups that a user associated with the chat input belongs to.
+    /// The group names that a user associated with the chat input belongs to.
     public var userGroups: [Swift.String]?
     /// The identifier of the user attached to the chat input.
     public var userId: Swift.String?
@@ -7938,6 +7954,7 @@ extension CreateWebExperienceInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["identityProviderConfiguration"].write(value.identityProviderConfiguration, with: QBusinessClientTypes.IdentityProviderConfiguration.write(value:to:))
+        try writer["origins"].writeList(value.origins, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
         try writer["samplePromptsControlMode"].write(value.samplePromptsControlMode)
         try writer["subtitle"].write(value.subtitle)
@@ -8065,6 +8082,7 @@ extension UpdateWebExperienceInput {
         guard let value else { return }
         try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: QBusinessClientTypes.WebExperienceAuthConfiguration.write(value:to:))
         try writer["identityProviderConfiguration"].write(value.identityProviderConfiguration, with: QBusinessClientTypes.IdentityProviderConfiguration.write(value:to:))
+        try writer["origins"].writeList(value.origins, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
         try writer["samplePromptsControlMode"].write(value.samplePromptsControlMode)
         try writer["subtitle"].write(value.subtitle)
@@ -8463,6 +8481,7 @@ extension GetWebExperienceOutput {
         value.defaultEndpoint = try reader["defaultEndpoint"].readIfPresent()
         value.error = try reader["error"].readIfPresent(with: QBusinessClientTypes.ErrorDetail.read(from:))
         value.identityProviderConfiguration = try reader["identityProviderConfiguration"].readIfPresent(with: QBusinessClientTypes.IdentityProviderConfiguration.read(from:))
+        value.origins = try reader["origins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.samplePromptsControlMode = try reader["samplePromptsControlMode"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -9946,7 +9965,7 @@ extension QBusinessClientTypes.ChatInputStream {
                 try writer["payload"].write(value.payload, with: SmithyReadWrite.mapWritingClosure(valueWritingClosure: QBusinessClientTypes.ActionExecutionPayloadField.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
                 try writer["payloadFieldNameSeparator"].write(value.payloadFieldNameSeparator, with: SmithyReadWrite.WritingClosures.writeString(value:to:))
                 payload = try writer.data()
-            case .endofinputevent(let value):
+            case .endofinputevent:
                 headers.append(.init(name: ":event-type", value: .string("endOfInputEvent")))
             case .authchallengeresponseevent(let value):
                 headers.append(.init(name: ":event-type", value: .string("authChallengeResponseEvent")))

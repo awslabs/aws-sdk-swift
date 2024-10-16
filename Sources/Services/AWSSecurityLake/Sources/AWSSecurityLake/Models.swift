@@ -88,12 +88,12 @@ extension SecurityLakeClientTypes {
 
 extension SecurityLakeClientTypes {
 
-    /// The AWS identity.
+    /// The Amazon Web Services identity.
     public struct AwsIdentity: Swift.Sendable {
-        /// The external ID used to estalish trust relationship with the AWS identity.
+        /// The external ID used to establish trust relationship with the Amazon Web Services identity.
         /// This member is required.
         public var externalId: Swift.String?
-        /// The AWS identity principal.
+        /// The Amazon Web Services identity principal.
         /// This member is required.
         public var principal: Swift.String?
 
@@ -157,17 +157,17 @@ extension SecurityLakeClientTypes {
 
 extension SecurityLakeClientTypes {
 
-    /// The Security Lake logs source configuration file describes the information needed to generate Security Lake logs.
+    /// To add a natively-supported Amazon Web Services service as a log source, use these parameters to specify the configuration settings for the log source.
     public struct AwsLogSourceConfiguration: Swift.Sendable {
         /// Specify the Amazon Web Services account information where you want to enable Security Lake.
         public var accounts: [Swift.String]?
         /// Specify the Regions where you want to enable Security Lake.
         /// This member is required.
         public var regions: [Swift.String]?
-        /// The name for a Amazon Web Services source. This must be a Regionally unique value.
+        /// The name for a Amazon Web Services source.
         /// This member is required.
         public var sourceName: SecurityLakeClientTypes.AwsLogSourceName?
-        /// The version for a Amazon Web Services source. This must be a Regionally unique value.
+        /// The version for a Amazon Web Services source.
         public var sourceVersion: Swift.String?
 
         public init(
@@ -367,7 +367,7 @@ public struct CreateAwsLogSourceInput: Swift.Sendable {
 }
 
 public struct CreateAwsLogSourceOutput: Swift.Sendable {
-    /// Lists all accounts in which enabling a natively supported Amazon Web Service as a Security Lake source failed. The failure occurred as these accounts are not part of an organization.
+    /// Lists all accounts in which enabling a natively supported Amazon Web Services service as a Security Lake source failed. The failure occurred as these accounts are not part of an organization.
     public var failed: [Swift.String]?
 
     public init(
@@ -380,7 +380,7 @@ public struct CreateAwsLogSourceOutput: Swift.Sendable {
 
 extension SecurityLakeClientTypes {
 
-    /// The configuration for the Glue Crawler for the third-party custom source.
+    /// The configuration used for the Glue Crawler for a third-party custom source.
     public struct CustomLogSourceCrawlerConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be used by the Glue crawler. The recommended IAM policies are:
         ///
@@ -401,9 +401,9 @@ extension SecurityLakeClientTypes {
 
 extension SecurityLakeClientTypes {
 
-    /// The configuration for the third-party custom source.
+    /// The configuration used for the third-party custom source.
     public struct CustomLogSourceConfiguration: Swift.Sendable {
-        /// The configuration for the Glue Crawler for the third-party custom source.
+        /// The configuration used for the Glue Crawler for a third-party custom source.
         /// This member is required.
         public var crawlerConfiguration: SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration?
         /// The identity of the log provider for the third-party custom source.
@@ -422,7 +422,7 @@ extension SecurityLakeClientTypes {
 }
 
 public struct CreateCustomLogSourceInput: Swift.Sendable {
-    /// The configuration for the third-party custom source.
+    /// The configuration used for the third-party custom source.
     /// This member is required.
     public var configuration: SecurityLakeClientTypes.CustomLogSourceConfiguration?
     /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. The supported event classes are:
@@ -485,7 +485,7 @@ public struct CreateCustomLogSourceInput: Swift.Sendable {
     ///
     /// * CLOUD_API
     public var eventClasses: [Swift.String]?
-    /// Specify the name for a third-party custom source. This must be a Regionally unique value.
+    /// Specify the name for a third-party custom source. This must be a Regionally unique value. The sourceName you enter here, is used in the LogProviderRole name which follows the convention AmazonSecurityLake-Provider-{name of the custom source}-{region}. You must use a CustomLogSource name that is shorter than or equal to 20 characters. This ensures that the LogProviderRole name is below the 64 character limit.
     /// This member is required.
     public var sourceName: Swift.String?
     /// Specify the source version for the third-party custom source, to limit log collection to a specific version of custom data source.
@@ -578,7 +578,7 @@ extension SecurityLakeClientTypes {
 }
 
 public struct CreateCustomLogSourceOutput: Swift.Sendable {
-    /// The created third-party custom source.
+    /// The third-party custom source that was created.
     public var source: SecurityLakeClientTypes.CustomLogSourceResource?
 
     public init(
@@ -593,7 +593,7 @@ extension SecurityLakeClientTypes {
 
     /// Provides encryption details of Amazon Security Lake object.
     public struct DataLakeEncryptionConfiguration: Swift.Sendable {
-        /// The id of KMS encryption key used by Amazon Security Lake to encrypt the Security Lake object.
+        /// The identifier of KMS encryption key used by Amazon Security Lake to encrypt the Security Lake object.
         public var kmsKeyId: Swift.String?
 
         public init(
@@ -837,7 +837,7 @@ extension SecurityLakeClientTypes {
 
     /// Provides details of Amazon Security Lake object.
     public struct DataLakeResource: Swift.Sendable {
-        /// Retrieves the status of the configuration operation for an account in Amazon Security Lake.
+        /// Retrieves the status of the CreateDatalake API call for an account in Amazon Security Lake.
         public var createStatus: SecurityLakeClientTypes.DataLakeStatus?
         /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/subscriber-management.html).
         /// This member is required.
@@ -892,7 +892,7 @@ public struct CreateDataLakeOutput: Swift.Sendable {
 }
 
 public struct CreateDataLakeExceptionSubscriptionInput: Swift.Sendable {
-    /// The expiration period and time-to-live (TTL).
+    /// The expiration period and time-to-live (TTL). It is the duration of time until which the exception message remains.
     public var exceptionTimeToLive: Swift.Int?
     /// The Amazon Web Services account where you want to receive exception notifications.
     /// This member is required.
@@ -959,9 +959,9 @@ public struct CreateDataLakeOrganizationConfigurationOutput: Swift.Sendable {
 
 extension SecurityLakeClientTypes {
 
-    /// The supported source types from which logs and events are collected in Amazon Security Lake. For a list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
+    /// The supported source types from which logs and events are collected in Amazon Security Lake. For a list of supported Amazon Web Services services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
     public enum LogSourceResource: Swift.Sendable {
-        /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
+        /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
         case awslogsource(SecurityLakeClientTypes.AwsLogSourceResource)
         /// Amazon Security Lake supports custom source types. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/custom-sources.html).
         case customlogsource(SecurityLakeClientTypes.CustomLogSourceResource)
@@ -972,7 +972,7 @@ extension SecurityLakeClientTypes {
 public struct CreateSubscriberInput: Swift.Sendable {
     /// The Amazon S3 or Lake Formation access type.
     public var accessTypes: [SecurityLakeClientTypes.AccessType]?
-    /// The supported Amazon Web Services from which logs and events are collected. Security Lake supports log and event collection for natively supported Amazon Web Services.
+    /// The supported Amazon Web Services services from which logs and events are collected. Security Lake supports log and event collection for natively supported Amazon Web Services services.
     /// This member is required.
     public var sources: [SecurityLakeClientTypes.LogSourceResource]?
     /// The description for your subscriber account in Security Lake.
@@ -1055,7 +1055,7 @@ extension SecurityLakeClientTypes {
         public var roleArn: Swift.String?
         /// The ARN for the Amazon S3 bucket.
         public var s3BucketArn: Swift.String?
-        /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/source-management.html).
+        /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/source-management.html).
         /// This member is required.
         public var sources: [SecurityLakeClientTypes.LogSourceResource]?
         /// The subscriber ARN of the Amazon Security Lake subscriber account.
@@ -1159,7 +1159,7 @@ extension SecurityLakeClientTypes {
 
 extension SecurityLakeClientTypes {
 
-    /// The configurations for HTTPS subscriber notification.
+    /// The configurations used for HTTPS subscriber notification.
     public struct HttpsNotificationConfiguration: Swift.Sendable {
         /// The key name for the notification subscription.
         public var authorizationApiKeyName: Swift.String?
@@ -1193,7 +1193,7 @@ extension SecurityLakeClientTypes {
 
 extension SecurityLakeClientTypes {
 
-    /// The configurations for SQS subscriber notification.
+    /// The configurations used for EventBridge subscriber notification.
     public struct SqsNotificationConfiguration: Swift.Sendable {
 
         public init() { }
@@ -1206,7 +1206,7 @@ extension SecurityLakeClientTypes {
     public enum NotificationConfiguration: Swift.Sendable {
         /// The configurations for SQS subscriber notification.
         case sqsnotificationconfiguration(SecurityLakeClientTypes.SqsNotificationConfiguration)
-        /// The configurations for HTTPS subscriber notification.
+        /// The configurations used for HTTPS subscriber notification.
         case httpsnotificationconfiguration(SecurityLakeClientTypes.HttpsNotificationConfiguration)
         case sdkUnknown(Swift.String)
     }
@@ -1330,7 +1330,7 @@ public struct GetDataLakeOrganizationConfigurationInput: Swift.Sendable {
 }
 
 public struct GetDataLakeOrganizationConfigurationOutput: Swift.Sendable {
-    /// The configuration for new accounts.
+    /// The configuration used for new accounts in Security Lake.
     public var autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
 
     public init(
@@ -1415,7 +1415,7 @@ extension SecurityLakeClientTypes {
 
 extension SecurityLakeClientTypes {
 
-    /// Amazon Security Lake collects logs and events from supported Amazon Web Services and custom sources. For the list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
+    /// Amazon Security Lake collects logs and events from supported Amazon Web Services services and custom sources. For the list of supported Amazon Web Services services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
     public struct DataLakeSource: Swift.Sendable {
         /// The ID of the Security Lake account for which logs are collected.
         public var account: Swift.String?
@@ -1479,7 +1479,7 @@ extension SecurityLakeClientTypes {
         ///
         /// * CLOUD_API
         public var eventClasses: [Swift.String]?
-        /// The supported Amazon Web Services from which logs and events are collected. Amazon Security Lake supports log and event collection for natively supported Amazon Web Services.
+        /// The supported Amazon Web Services services from which logs and events are collected. Amazon Security Lake supports log and event collection for natively supported Amazon Web Services services.
         public var sourceName: Swift.String?
         /// The log status for the Security Lake account.
         public var sourceStatuses: [SecurityLakeClientTypes.DataLakeSourceStatus]?
@@ -1612,7 +1612,7 @@ public struct ListLogSourcesOutput: Swift.Sendable {
 }
 
 public struct UpdateDataLakeInput: Swift.Sendable {
-    /// Specify the Region or Regions that will contribute data to the rollup region.
+    /// Specifies the Region or Regions that will contribute data to the rollup region.
     /// This member is required.
     public var configurations: [SecurityLakeClientTypes.DataLakeConfiguration]?
     /// The Amazon Resource Name (ARN) used to create and update the Glue table. This table contains partitions generated by the ingestion and normalization of Amazon Web Services log sources and custom sources.
@@ -1730,7 +1730,7 @@ public struct GetDataLakeExceptionSubscriptionInput: Swift.Sendable {
 }
 
 public struct GetDataLakeExceptionSubscriptionOutput: Swift.Sendable {
-    /// The expiration period and time-to-live (TTL).
+    /// The expiration period and time-to-live (TTL). It is the duration of time until which the exception message remains.
     public var exceptionTimeToLive: Swift.Int?
     /// The Amazon Web Services account where you receive exception notifications.
     public var notificationEndpoint: Swift.String?
@@ -1775,9 +1775,9 @@ public struct GetSubscriberOutput: Swift.Sendable {
 }
 
 public struct ListDataLakeExceptionsInput: Swift.Sendable {
-    /// List the maximum number of failures in Security Lake.
+    /// Lists the maximum number of failures in Security Lake.
     public var maxResults: Swift.Int?
-    /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
     /// The Amazon Web Services Regions from which exceptions are retrieved.
     public var regions: [Swift.String]?
@@ -1795,9 +1795,9 @@ public struct ListDataLakeExceptionsInput: Swift.Sendable {
 }
 
 public struct ListDataLakeExceptionsOutput: Swift.Sendable {
-    /// Lists the failures that cannot be retried in the current Region.
+    /// Lists the failures that cannot be retried.
     public var exceptions: [SecurityLakeClientTypes.DataLakeException]?
-    /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
 
     public init(
@@ -1886,14 +1886,14 @@ public struct RegisterDataLakeDelegatedAdministratorOutput: Swift.Sendable {
 }
 
 public struct UpdateSubscriberInput: Swift.Sendable {
-    /// The supported Amazon Web Services from which logs and events are collected. For the list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
+    /// The supported Amazon Web Services services from which logs and events are collected. For the list of supported Amazon Web Services services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
     public var sources: [SecurityLakeClientTypes.LogSourceResource]?
     /// The description of the Security Lake account subscriber.
     public var subscriberDescription: Swift.String?
     /// A value created by Security Lake that uniquely identifies your subscription.
     /// This member is required.
     public var subscriberId: Swift.String?
-    /// The AWS identity used to access your data.
+    /// The Amazon Web Services identity used to access your data.
     public var subscriberIdentity: SecurityLakeClientTypes.AwsIdentity?
     /// The name of the Security Lake account subscriber.
     public var subscriberName: Swift.String?
@@ -2003,7 +2003,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateDataLakeExceptionSubscriptionInput: Swift.Sendable {
-    /// The time-to-live (TTL) for the exception message to remain.
+    /// The time-to-live (TTL) for the exception message to remain. It is the duration of time until which the exception message remains.
     public var exceptionTimeToLive: Swift.Int?
     /// The account that is subscribed to receive exception notifications.
     /// This member is required.

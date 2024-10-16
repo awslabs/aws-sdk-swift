@@ -229,7 +229,11 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSCodePipeline](../../../../../swift/api/awscodepipeline/latest)
 
+[AWSCodeStarconnections](../../../../../swift/api/awscodestarconnections/latest)
+
 [AWSCodeartifact](../../../../../swift/api/awscodeartifact/latest)
+
+[AWSCodestarnotifications](../../../../../swift/api/awscodestarnotifications/latest)
 
 [AWSCognitoIdentity](../../../../../swift/api/awscognitoidentity/latest)
 
@@ -832,8 +836,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSWisdom](../../../../../swift/api/awswisdom/latest)
 
 [AWSWorkDocs](../../../../../swift/api/awsworkdocs/latest)
-
-[AWSWorkLink](../../../../../swift/api/awsworklink/latest)
 
 [AWSWorkMail](../../../../../swift/api/awsworkmail/latest)
 

@@ -1909,6 +1909,8 @@ extension NetworkFirewallClientTypes {
         /// * DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the [Firewall][LoggingConfiguration].
         ///
         /// * ALERT - Sends an alert log message, if alert logging is configured in the [Firewall][LoggingConfiguration]. You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
+        ///
+        /// * REJECT - Drops traffic that matches the conditions of the stateful rule, and sends a TCP reset packet back to sender of the packet. A TCP reset packet is a packet with no payload and an RST bit contained in the TCP header flags. REJECT is available only for TCP traffic. This option doesn't support FTP or IMAP protocols.
         /// This member is required.
         public var action: NetworkFirewallClientTypes.StatefulAction?
         /// The stateful inspection criteria for this rule, used to inspect traffic flows.
@@ -2972,12 +2974,14 @@ extension NetworkFirewallClientTypes {
     public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alert
         case flow
+        case tls
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LogType] {
             return [
                 .alert,
-                .flow
+                .flow,
+                .tls
             ]
         }
 
@@ -2990,6 +2994,7 @@ extension NetworkFirewallClientTypes {
             switch self {
             case .alert: return "ALERT"
             case .flow: return "FLOW"
+            case .tls: return "TLS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2998,7 +3003,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// Defines where Network Firewall sends logs for the firewall for one log type. This is used in [LoggingConfiguration]. You can send each type of log to an Amazon S3 bucket, a CloudWatch log group, or a Firehose delivery stream. Network Firewall generates logs for stateful rule groups. You can save alert and flow log types. The stateful rules engine records flow logs for all network traffic that it receives. It records alert logs for traffic that matches stateful rules that have the rule action set to DROP or ALERT.
+    /// Defines where Network Firewall sends logs for the firewall for one log type. This is used in [LoggingConfiguration]. You can send each type of log to an Amazon S3 bucket, a CloudWatch log group, or a Firehose delivery stream. Network Firewall generates logs for stateful rule groups. You can save alert, flow, and TLS log types.
     public struct LogDestinationConfig: Swift.Sendable {
         /// The named location for the logs, provided in a key:value mapping that is specific to the chosen destination type.
         ///
@@ -3012,7 +3017,13 @@ extension NetworkFirewallClientTypes {
         /// The type of storage destination to send these logs to. You can send logs to an Amazon S3 bucket, a CloudWatch log group, or a Firehose delivery stream.
         /// This member is required.
         public var logDestinationType: NetworkFirewallClientTypes.LogDestinationType?
-        /// The type of log to send. Alert logs report traffic that matches a [StatefulRule] with an action setting that sends an alert log message. Flow logs are standard network traffic flow logs.
+        /// The type of log to record. You can record the following types of logs from your Network Firewall stateful engine.
+        ///
+        /// * ALERT - Logs for traffic that matches your stateful rules and that have an action that sends an alert. A stateful rule sends alerts for the rule actions DROP, ALERT, and REJECT. For more information, see [StatefulRule].
+        ///
+        /// * FLOW - Standard network traffic flow logs. The stateful rules engine records flow logs for all network traffic that it receives. Each flow log record captures the network flow for a specific standard stateless rule group.
+        ///
+        /// * TLS - Logs for events that are related to TLS inspection. For more information, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-configurations.html) in the Network Firewall Developer Guide.
         /// This member is required.
         public var logType: NetworkFirewallClientTypes.LogType?
 

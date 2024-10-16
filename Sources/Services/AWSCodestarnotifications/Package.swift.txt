@@ -3,12 +3,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "AWSWorkLink",
+    name: "AWSCodestarnotifications",
     platforms: [
         .macOS(.v10_15), .iOS(.v13)
     ],
     products: [
-        .library(name: "AWSWorkLink", targets: ["AWSWorkLink"])
+        .library(name: "AWSCodestarnotifications", targets: ["AWSCodestarnotifications"])
     ],
     dependencies: [
         .package(
@@ -26,7 +26,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "AWSWorkLink",
+            name: "AWSCodestarnotifications",
             dependencies: [
                 .product(
                     name: "SmithyHTTPAuthAPI",
@@ -41,28 +41,8 @@ let package = Package(
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
-                    name: "SmithyHTTPAPI",
-                    package: "aws-sdk-swift.smithy-swift"
-                ),
-                .product(
                     name: "AWSClientRuntime",
                     package: "aws-sdk-swift.AWSClientRuntime"
-                ),
-                .product(
-                    name: "SmithyJSON",
-                    package: "aws-sdk-swift.smithy-swift"
-                ),
-                .product(
-                    name: "SmithyReadWrite",
-                    package: "aws-sdk-swift.smithy-swift"
-                ),
-                .product(
-                    name: "SmithyTimestamps",
-                    package: "aws-sdk-swift.smithy-swift"
-                ),
-                .product(
-                    name: "AWSSDKHTTPAuth",
-                    package: "aws-sdk-swift.AWSSDKHTTPAuth"
                 ),
                 .product(
                     name: "SmithyIdentity",
@@ -73,7 +53,27 @@ let package = Package(
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
+                    name: "SmithyHTTPAPI",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "AWSSDKHTTPAuth",
+                    package: "aws-sdk-swift.AWSSDKHTTPAuth"
+                ),
+                .product(
+                    name: "SmithyJSON",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "SmithyReadWrite",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
                     name: "SmithyRetries",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
+                    name: "SmithyTimestamps",
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
@@ -86,9 +86,9 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "AWSWorkLinkTests",
+            name: "AWSCodestarnotificationsTests",
             dependencies: [
-                "AWSWorkLink",
+                "AWSCodestarnotifications",
                 .product(
                     name: "SmithyTestUtil",
                     package: "aws-sdk-swift.smithy-swift"

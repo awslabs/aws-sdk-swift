@@ -228,16 +228,42 @@ extension MedicalImagingClientTypes {
 
 extension MedicalImagingClientTypes {
 
+    /// Contains copiable Attributes structure and wraps information related to specific copy use cases. For example, when copying subsets.
+    public struct MetadataCopies: Swift.Sendable {
+        /// The JSON string used to specify a subset of SOP Instances to copy from source to destination image set.
+        /// This member is required.
+        public var copiableAttributes: Swift.String?
+
+        public init(
+            copiableAttributes: Swift.String? = nil
+        )
+        {
+            self.copiableAttributes = copiableAttributes
+        }
+    }
+}
+
+extension MedicalImagingClientTypes.MetadataCopies: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MetadataCopies(copiableAttributes: \"CONTENT_REDACTED\")"}
+}
+
+extension MedicalImagingClientTypes {
+
     /// Copy source image set information.
     public struct CopySourceImageSetInformation: Swift.Sendable {
+        /// Contains MetadataCopies structure and wraps information related to specific copy use cases. For example, when copying subsets.
+        public var dicomCopies: MedicalImagingClientTypes.MetadataCopies?
         /// The latest version identifier for the source image set.
         /// This member is required.
         public var latestVersionId: Swift.String?
 
         public init(
+            dicomCopies: MedicalImagingClientTypes.MetadataCopies? = nil,
             latestVersionId: Swift.String? = nil
         )
         {
+            self.dicomCopies = dicomCopies
             self.latestVersionId = latestVersionId
         }
     }
@@ -271,6 +297,8 @@ public struct CopyImageSetInput: Swift.Sendable {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
+    /// Setting this flag will force the CopyImageSet operation, even if Patient, Study, or Series level metadata are mismatched across the sourceImageSet and destinationImageSet.
+    public var force: Swift.Bool?
     /// The source image set identifier.
     /// This member is required.
     public var sourceImageSetId: Swift.String?
@@ -278,11 +306,13 @@ public struct CopyImageSetInput: Swift.Sendable {
     public init(
         copyImageSetInformation: MedicalImagingClientTypes.CopyImageSetInformation? = nil,
         datastoreId: Swift.String? = nil,
+        force: Swift.Bool? = nil,
         sourceImageSetId: Swift.String? = nil
     )
     {
         self.copyImageSetInformation = copyImageSetInformation
         self.datastoreId = datastoreId
+        self.force = force
         self.sourceImageSetId = sourceImageSetId
     }
 }
@@ -985,6 +1015,22 @@ public struct GetImageSetInput: Swift.Sendable {
     }
 }
 
+extension MedicalImagingClientTypes {
+
+    /// Specifies the overrides used in image set modification calls to CopyImageSet and UpdateImageSetMetadata.
+    public struct Overrides: Swift.Sendable {
+        /// Setting this flag will force the CopyImageSet and UpdateImageSetMetadata operations, even if Patient, Study, or Series level metadata are mismatched.
+        public var forced: Swift.Bool?
+
+        public init(
+            forced: Swift.Bool? = nil
+        )
+        {
+            self.forced = forced
+        }
+    }
+}
+
 public struct GetImageSetOutput: Swift.Sendable {
     /// The timestamp when image set properties were created.
     public var createdAt: Foundation.Date?
@@ -1005,6 +1051,8 @@ public struct GetImageSetOutput: Swift.Sendable {
     public var imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus?
     /// The error message thrown if an image set action fails.
     public var message: Swift.String?
+    /// This object contains the details of any overrides used while creating a specific image set version. If an image set was copied or updated using the force flag, this object will contain the forced flag.
+    public var overrides: MedicalImagingClientTypes.Overrides?
     /// The timestamp when image set properties were updated.
     public var updatedAt: Foundation.Date?
     /// The image set version identifier.
@@ -1020,6 +1068,7 @@ public struct GetImageSetOutput: Swift.Sendable {
         imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
         imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
         message: Swift.String? = nil,
+        overrides: MedicalImagingClientTypes.Overrides? = nil,
         updatedAt: Foundation.Date? = nil,
         versionId: Swift.String? = nil
     )
@@ -1032,6 +1081,7 @@ public struct GetImageSetOutput: Swift.Sendable {
         self.imageSetState = imageSetState
         self.imageSetWorkflowStatus = imageSetWorkflowStatus
         self.message = message
+        self.overrides = overrides
         self.updatedAt = updatedAt
         self.versionId = versionId
     }
@@ -1214,6 +1264,8 @@ extension MedicalImagingClientTypes {
         public var imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus?
         /// The error message thrown if an image set action fails.
         public var message: Swift.String?
+        /// Contains details on overrides used when creating the returned version of an image set. For example, if forced exists, the forced flag was used when creating the image set.
+        public var overrides: MedicalImagingClientTypes.Overrides?
         /// The timestamp when the image set properties were updated.
         public var updatedAt: Foundation.Date?
         /// The image set version identifier.
@@ -1227,6 +1279,7 @@ extension MedicalImagingClientTypes {
             imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
             imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
             message: Swift.String? = nil,
+            overrides: MedicalImagingClientTypes.Overrides? = nil,
             updatedAt: Foundation.Date? = nil,
             versionId: Swift.String? = nil
         )
@@ -1237,6 +1290,7 @@ extension MedicalImagingClientTypes {
             self.imageSetState = imageSetState
             self.imageSetWorkflowStatus = imageSetWorkflowStatus
             self.message = message
+            self.overrides = overrides
             self.updatedAt = updatedAt
             self.versionId = versionId
         }
@@ -1807,6 +1861,8 @@ extension MedicalImagingClientTypes {
     public enum MetadataUpdates: Swift.Sendable {
         /// The object containing removableAttributes and updatableAttributes.
         case dicomupdates(MedicalImagingClientTypes.DICOMUpdates)
+        /// Specifies the previous image set version ID to revert the current image set back to. You must provide either revertToVersionId or DICOMUpdates in your request. A ValidationException error is thrown if both parameters are provided at the same time.
+        case reverttoversionid(Swift.String)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1815,6 +1871,12 @@ public struct UpdateImageSetMetadataInput: Swift.Sendable {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
+    /// Setting this flag will force the UpdateImageSetMetadata operation for the following attributes:
+    ///
+    /// * Tag.StudyInstanceUID, Tag.SeriesInstanceUID, Tag.SOPInstanceUID, and Tag.StudyID
+    ///
+    /// * Adding, removing, or updating private tags for an individual SOP Instance
+    public var force: Swift.Bool?
     /// The image set identifier.
     /// This member is required.
     public var imageSetId: Swift.String?
@@ -1827,12 +1889,14 @@ public struct UpdateImageSetMetadataInput: Swift.Sendable {
 
     public init(
         datastoreId: Swift.String? = nil,
+        force: Swift.Bool? = nil,
         imageSetId: Swift.String? = nil,
         latestVersionId: Swift.String? = nil,
         updateImageSetMetadataUpdates: MedicalImagingClientTypes.MetadataUpdates? = nil
     )
     {
         self.datastoreId = datastoreId
+        self.force = force
         self.imageSetId = imageSetId
         self.latestVersionId = latestVersionId
         self.updateImageSetMetadataUpdates = updateImageSetMetadataUpdates
@@ -1893,6 +1957,18 @@ extension CopyImageSetInput {
             return nil
         }
         return "/datastore/\(datastoreId.urlPercentEncoding())/imageSet/\(sourceImageSetId.urlPercentEncoding())/copyImageSet"
+    }
+}
+
+extension CopyImageSetInput {
+
+    static func queryItemProvider(_ value: CopyImageSetInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let force = value.force {
+            let forceQueryItem = Smithy.URIQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
+            items.append(forceQueryItem)
+        }
+        return items
     }
 }
 
@@ -2203,6 +2279,10 @@ extension UpdateImageSetMetadataInput {
         }
         let latestVersionIdQueryItem = Smithy.URIQueryItem(name: "latestVersion".urlPercentEncoding(), value: Swift.String(latestVersionId).urlPercentEncoding())
         items.append(latestVersionIdQueryItem)
+        if let force = value.force {
+            let forceQueryItem = Smithy.URIQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
+            items.append(forceQueryItem)
+        }
         return items
     }
 }
@@ -2384,6 +2464,7 @@ extension GetImageSetOutput {
         value.imageSetState = try reader["imageSetState"].readIfPresent() ?? .sdkUnknown("")
         value.imageSetWorkflowStatus = try reader["imageSetWorkflowStatus"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
+        value.overrides = try reader["overrides"].readIfPresent(with: MedicalImagingClientTypes.Overrides.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.versionId = try reader["versionId"].readIfPresent() ?? ""
         return value
@@ -3022,6 +3103,16 @@ extension MedicalImagingClientTypes.DICOMImportJobProperties {
     }
 }
 
+extension MedicalImagingClientTypes.Overrides {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.Overrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MedicalImagingClientTypes.Overrides()
+        value.forced = try reader["forced"].readIfPresent()
+        return value
+    }
+}
+
 extension MedicalImagingClientTypes.DatastoreSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MedicalImagingClientTypes.DatastoreSummary {
@@ -3067,6 +3158,7 @@ extension MedicalImagingClientTypes.ImageSetProperties {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deletedAt = try reader["deletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.message = try reader["message"].readIfPresent()
+        value.overrides = try reader["overrides"].readIfPresent(with: MedicalImagingClientTypes.Overrides.read(from:))
         return value
     }
 }
@@ -3149,7 +3241,16 @@ extension MedicalImagingClientTypes.CopySourceImageSetInformation {
 
     static func write(value: MedicalImagingClientTypes.CopySourceImageSetInformation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DICOMCopies"].write(value.dicomCopies, with: MedicalImagingClientTypes.MetadataCopies.write(value:to:))
         try writer["latestVersionId"].write(value.latestVersionId)
+    }
+}
+
+extension MedicalImagingClientTypes.MetadataCopies {
+
+    static func write(value: MedicalImagingClientTypes.MetadataCopies?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["copiableAttributes"].write(value.copiableAttributes)
     }
 }
 
@@ -3222,6 +3323,8 @@ extension MedicalImagingClientTypes.MetadataUpdates {
         switch value {
             case let .dicomupdates(dicomupdates):
                 try writer["DICOMUpdates"].write(dicomupdates, with: MedicalImagingClientTypes.DICOMUpdates.write(value:to:))
+            case let .reverttoversionid(reverttoversionid):
+                try writer["revertToVersionId"].write(reverttoversionid)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
