@@ -9965,7 +9965,7 @@ extension QBusinessClientTypes.ChatInputStream {
                 try writer["payload"].write(value.payload, with: SmithyReadWrite.mapWritingClosure(valueWritingClosure: QBusinessClientTypes.ActionExecutionPayloadField.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
                 try writer["payloadFieldNameSeparator"].write(value.payloadFieldNameSeparator, with: SmithyReadWrite.WritingClosures.writeString(value:to:))
                 payload = try writer.data()
-            case .endofinputevent(let value):
+            case .endofinputevent:
                 headers.append(.init(name: ":event-type", value: .string("endOfInputEvent")))
             case .authchallengeresponseevent(let value):
                 headers.append(.init(name: ":event-type", value: .string("authChallengeResponseEvent")))
