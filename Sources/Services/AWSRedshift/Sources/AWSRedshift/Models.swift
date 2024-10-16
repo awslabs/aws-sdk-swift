@@ -4467,7 +4467,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public var masterUsername: Swift.String?
     /// If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
     public var multiAZ: Swift.Bool?
-    /// The node type to be provisioned for the cluster. For information about node types, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. Valid Values: dc2.large | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
+    /// The node type to be provisioned for the cluster. For information about node types, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. Valid Values: dc2.large | dc2.8xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
     /// This member is required.
     public var nodeType: Swift.String?
     /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node. For information about determining how many nodes you need, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1 Constraints: Value must be at least 1 and no more than 100.
@@ -5581,6 +5581,282 @@ public struct CreateHsmConfigurationOutput: Swift.Sendable {
     )
     {
         self.hsmConfiguration = hsmConfiguration
+    }
+}
+
+/// The integration you are trying to create already exists.
+public struct IntegrationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationAlreadyExistsFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// A conflicting conditional operation is currently in progress against this resource. This typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
+public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationConflictOperationFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// You can't create any more zero-ETL integrations because the quota has been reached.
+public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationQuotaExceededFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The specified integration source can't be found.
+public struct IntegrationSourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationSourceNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The specified integration target can't be found.
+public struct IntegrationTargetNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationTargetNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct CreateIntegrationInput: Swift.Sendable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information about the data. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide. You can only include this parameter if you specify the KMSKeyId parameter.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// The name of the integration.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// An Key Management Service (KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, the default Amazon Web Services owned key is used.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the database to use as the source for replication.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// A list of tags.
+    public var tagList: [RedshiftClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        description: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        tagList: [RedshiftClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.description = description
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.tagList = tagList
+        self.targetArn = targetArn
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// The error of an inbound integration.
+    public struct IntegrationError: Swift.Sendable {
+        /// The error code of an inbound integration error.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The error message of an inbound integration error.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
+    public enum ZeroETLIntegrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case modifying
+        case needsAttention
+        case syncing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ZeroETLIntegrationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .modifying,
+                .needsAttention,
+                .syncing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .creating: return "creating"
+            case .deleting: return "deleting"
+            case .failed: return "failed"
+            case .modifying: return "modifying"
+            case .needsAttention: return "needs_attention"
+            case .syncing: return "syncing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateIntegrationOutput: Swift.Sendable {
+    /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// The time (UTC) when the integration was created.
+    public var createTime: Foundation.Date?
+    /// The description of the integration.
+    public var description: Swift.String?
+    /// Any errors associated with the integration.
+    public var errors: [RedshiftClientTypes.IntegrationError]?
+    /// The Amazon Resource Name (ARN) of the integration.
+    public var integrationArn: Swift.String?
+    /// The name of the integration.
+    public var integrationName: Swift.String?
+    /// The Key Management Service (KMS) key identifier for the key used to encrypt the integration.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the database used as the source for replication.
+    public var sourceArn: Swift.String?
+    /// The current status of the integration.
+    public var status: RedshiftClientTypes.ZeroETLIntegrationStatus?
+    /// The list of tags associated with the integration.
+    public var tags: [RedshiftClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        createTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        errors: [RedshiftClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: RedshiftClientTypes.ZeroETLIntegrationStatus? = nil,
+        tags: [RedshiftClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.description = description
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
     }
 }
 
@@ -7382,6 +7658,119 @@ public struct DeleteHsmConfigurationInput: Swift.Sendable {
     }
 }
 
+/// The integration is in an invalid state and can't perform the requested operation.
+public struct IntegrationConflictStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationConflictStateFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The integration can't be found.
+public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteIntegrationInput: Swift.Sendable {
+    /// The unique identifier of the integration to delete.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+
+    public init(
+        integrationArn: Swift.String? = nil
+    )
+    {
+        self.integrationArn = integrationArn
+    }
+}
+
+public struct DeleteIntegrationOutput: Swift.Sendable {
+    /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// The time (UTC) when the integration was created.
+    public var createTime: Foundation.Date?
+    /// The description of the integration.
+    public var description: Swift.String?
+    /// Any errors associated with the integration.
+    public var errors: [RedshiftClientTypes.IntegrationError]?
+    /// The Amazon Resource Name (ARN) of the integration.
+    public var integrationArn: Swift.String?
+    /// The name of the integration.
+    public var integrationName: Swift.String?
+    /// The Key Management Service (KMS) key identifier for the key used to encrypt the integration.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the database used as the source for replication.
+    public var sourceArn: Swift.String?
+    /// The current status of the integration.
+    public var status: RedshiftClientTypes.ZeroETLIntegrationStatus?
+    /// The list of tags associated with the integration.
+    public var tags: [RedshiftClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        createTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        errors: [RedshiftClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: RedshiftClientTypes.ZeroETLIntegrationStatus? = nil,
+        tags: [RedshiftClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.description = description
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
 public struct DeletePartnerInput: Swift.Sendable {
     /// The Amazon Web Services account ID that owns the cluster.
     /// This member is required.
@@ -9013,30 +9402,6 @@ public struct DescribeHsmConfigurationsOutput: Swift.Sendable {
     }
 }
 
-/// The integration can't be found.
-public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "IntegrationNotFoundFault" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 public struct DescribeInboundIntegrationsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the inbound integration.
     public var integrationArn: Swift.String?
@@ -9058,71 +9423,6 @@ public struct DescribeInboundIntegrationsInput: Swift.Sendable {
         self.marker = marker
         self.maxRecords = maxRecords
         self.targetArn = targetArn
-    }
-}
-
-extension RedshiftClientTypes {
-
-    /// The error of an inbound integration.
-    public struct IntegrationError: Swift.Sendable {
-        /// The error code of an inbound integration error.
-        /// This member is required.
-        public var errorCode: Swift.String?
-        /// The error message of an inbound integration error.
-        public var errorMessage: Swift.String?
-
-        public init(
-            errorCode: Swift.String? = nil,
-            errorMessage: Swift.String? = nil
-        )
-        {
-            self.errorCode = errorCode
-            self.errorMessage = errorMessage
-        }
-    }
-}
-
-extension RedshiftClientTypes {
-
-    public enum ZeroETLIntegrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case creating
-        case deleting
-        case failed
-        case modifying
-        case needsAttention
-        case syncing
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ZeroETLIntegrationStatus] {
-            return [
-                .active,
-                .creating,
-                .deleting,
-                .failed,
-                .modifying,
-                .needsAttention,
-                .syncing
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "active"
-            case .creating: return "creating"
-            case .deleting: return "deleting"
-            case .failed: return "failed"
-            case .modifying: return "modifying"
-            case .needsAttention: return "needs_attention"
-            case .syncing: return "syncing"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -9174,6 +9474,158 @@ public struct DescribeInboundIntegrationsOutput: Swift.Sendable {
     )
     {
         self.inboundIntegrations = inboundIntegrations
+        self.marker = marker
+    }
+}
+
+extension RedshiftClientTypes {
+
+    public enum DescribeIntegrationsFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case integrationArn
+        case sourceArn
+        case sourceTypes
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DescribeIntegrationsFilterName] {
+            return [
+                .integrationArn,
+                .sourceArn,
+                .sourceTypes,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .integrationArn: return "integration-arn"
+            case .sourceArn: return "source-arn"
+            case .sourceTypes: return "source-types"
+            case .status: return "status"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// A set of elements to filter the returned integrations.
+    public struct DescribeIntegrationsFilter: Swift.Sendable {
+        /// Specifies the type of integration filter.
+        /// This member is required.
+        public var name: RedshiftClientTypes.DescribeIntegrationsFilterName?
+        /// Specifies the values to filter on.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: RedshiftClientTypes.DescribeIntegrationsFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeIntegrationsInput: Swift.Sendable {
+    /// A filter that specifies one or more resources to return.
+    public var filters: [RedshiftClientTypes.DescribeIntegrationsFilter]?
+    /// The unique identifier of the integration.
+    public var integrationArn: Swift.String?
+    /// An optional pagination token provided by a previous DescribeIntegrations request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [RedshiftClientTypes.DescribeIntegrationsFilter]? = nil,
+        integrationArn: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.filters = filters
+        self.integrationArn = integrationArn
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+extension RedshiftClientTypes {
+
+    public struct Integration: Swift.Sendable {
+        /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+        public var additionalEncryptionContext: [Swift.String: Swift.String]?
+        /// The time (UTC) when the integration was created.
+        public var createTime: Foundation.Date?
+        /// The description of the integration.
+        public var description: Swift.String?
+        /// Any errors associated with the integration.
+        public var errors: [RedshiftClientTypes.IntegrationError]?
+        /// The Amazon Resource Name (ARN) of the integration.
+        public var integrationArn: Swift.String?
+        /// The name of the integration.
+        public var integrationName: Swift.String?
+        /// The Key Management Service (KMS) key identifier for the key used to encrypt the integration.
+        public var kmsKeyId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the database used as the source for replication.
+        public var sourceArn: Swift.String?
+        /// The current status of the integration.
+        public var status: RedshiftClientTypes.ZeroETLIntegrationStatus?
+        /// The list of tags associated with the integration.
+        public var tags: [RedshiftClientTypes.Tag]?
+        /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication.
+        public var targetArn: Swift.String?
+
+        public init(
+            additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+            createTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            errors: [RedshiftClientTypes.IntegrationError]? = nil,
+            integrationArn: Swift.String? = nil,
+            integrationName: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            status: RedshiftClientTypes.ZeroETLIntegrationStatus? = nil,
+            tags: [RedshiftClientTypes.Tag]? = nil,
+            targetArn: Swift.String? = nil
+        )
+        {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.createTime = createTime
+            self.description = description
+            self.errors = errors
+            self.integrationArn = integrationArn
+            self.integrationName = integrationName
+            self.kmsKeyId = kmsKeyId
+            self.sourceArn = sourceArn
+            self.status = status
+            self.tags = tags
+            self.targetArn = targetArn
+        }
+    }
+}
+
+public struct DescribeIntegrationsOutput: Swift.Sendable {
+    /// List of integrations that are described.
+    public var integrations: [RedshiftClientTypes.Integration]?
+    /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+    public var marker: Swift.String?
+
+    public init(
+        integrations: [RedshiftClientTypes.Integration]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.integrations = integrations
         self.marker = marker
     }
 }
@@ -10507,6 +10959,8 @@ public struct DescribeTagsInput: Swift.Sendable {
     /// * Parameter group
     ///
     /// * Snapshot copy grant
+    ///
+    /// * Integration (zero-ETL integration) To describe the tags associated with an integration, don't specify ResourceType, instead specify the ResourceName of the integration.
     ///
     ///
     /// For more information about Amazon Redshift resource types and constructing ARNs, go to [Specifying Policy Elements: Actions, Effects, Resources, and Principals](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-overview.html#redshift-iam-access-control-specify-actions) in the Amazon Redshift Cluster Management Guide.
@@ -11989,7 +12443,7 @@ public struct ModifyClusterInput: Swift.Sendable {
     ///
     /// Example: examplecluster
     public var newClusterIdentifier: Swift.String?
-    /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html) in the Amazon Redshift Cluster Management Guide. Valid Values: dc2.large | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
+    /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter. For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html) in the Amazon Redshift Cluster Management Guide. Valid Values: dc2.large | dc2.8xlarge | ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
     public var nodeType: Swift.String?
     /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html) in the Amazon Redshift Cluster Management Guide. Valid Values: Integer greater than 0.
     public var numberOfNodes: Swift.Int?
@@ -12509,6 +12963,79 @@ public struct ModifyEventSubscriptionOutput: Swift.Sendable {
     )
     {
         self.eventSubscription = eventSubscription
+    }
+}
+
+public struct ModifyIntegrationInput: Swift.Sendable {
+    /// A new description for the integration.
+    public var description: Swift.String?
+    /// The unique identifier of the integration to modify.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// A new name for the integration.
+    public var integrationName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+    }
+}
+
+public struct ModifyIntegrationOutput: Swift.Sendable {
+    /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// The time (UTC) when the integration was created.
+    public var createTime: Foundation.Date?
+    /// The description of the integration.
+    public var description: Swift.String?
+    /// Any errors associated with the integration.
+    public var errors: [RedshiftClientTypes.IntegrationError]?
+    /// The Amazon Resource Name (ARN) of the integration.
+    public var integrationArn: Swift.String?
+    /// The name of the integration.
+    public var integrationName: Swift.String?
+    /// The Key Management Service (KMS) key identifier for the key used to encrypt the integration.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the database used as the source for replication.
+    public var sourceArn: Swift.String?
+    /// The current status of the integration.
+    public var status: RedshiftClientTypes.ZeroETLIntegrationStatus?
+    /// The list of tags associated with the integration.
+    public var tags: [RedshiftClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        createTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        errors: [RedshiftClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: RedshiftClientTypes.ZeroETLIntegrationStatus? = nil,
+        tags: [RedshiftClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.description = description
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
     }
 }
 
@@ -13767,6 +14294,13 @@ extension CreateHsmConfigurationInput {
     }
 }
 
+extension CreateIntegrationInput {
+
+    static func urlPathProvider(_ value: CreateIntegrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateRedshiftIdcApplicationInput {
 
     static func urlPathProvider(_ value: CreateRedshiftIdcApplicationInput) -> Swift.String? {
@@ -13889,6 +14423,13 @@ extension DeleteHsmClientCertificateInput {
 extension DeleteHsmConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteHsmConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteIntegrationInput {
+
+    static func urlPathProvider(_ value: DeleteIntegrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14113,6 +14654,13 @@ extension DescribeHsmConfigurationsInput {
 extension DescribeInboundIntegrationsInput {
 
     static func urlPathProvider(_ value: DescribeInboundIntegrationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeIntegrationsInput {
+
+    static func urlPathProvider(_ value: DescribeIntegrationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14400,6 +14948,13 @@ extension ModifyEndpointAccessInput {
 extension ModifyEventSubscriptionInput {
 
     static func urlPathProvider(_ value: ModifyEventSubscriptionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyIntegrationInput {
+
+    static func urlPathProvider(_ value: ModifyIntegrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14857,6 +15412,22 @@ extension CreateHsmConfigurationInput {
     }
 }
 
+extension CreateIntegrationInput {
+
+    static func write(value: CreateIntegrationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["IntegrationName"].write(value.integrationName)
+        try writer["KMSKeyId"].write(value.kmsKeyId)
+        try writer["SourceArn"].write(value.sourceArn)
+        try writer["TagList"].writeList(value.tagList, memberWritingClosure: RedshiftClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["TargetArn"].write(value.targetArn)
+        try writer["Action"].write("CreateIntegration")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
 extension CreateRedshiftIdcApplicationInput {
 
     static func write(value: CreateRedshiftIdcApplicationInput?, to writer: SmithyFormURL.Writer) throws {
@@ -15066,6 +15637,16 @@ extension DeleteHsmConfigurationInput {
         guard let value else { return }
         try writer["HsmConfigurationIdentifier"].write(value.hsmConfigurationIdentifier)
         try writer["Action"].write("DeleteHsmConfiguration")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
+extension DeleteIntegrationInput {
+
+    static func write(value: DeleteIntegrationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["IntegrationArn"].write(value.integrationArn)
+        try writer["Action"].write("DeleteIntegration")
         try writer["Version"].write("2012-12-01")
     }
 }
@@ -15471,6 +16052,19 @@ extension DescribeInboundIntegrationsInput {
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["TargetArn"].write(value.targetArn)
         try writer["Action"].write("DescribeInboundIntegrations")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
+extension DescribeIntegrationsInput {
+
+    static func write(value: DescribeIntegrationsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: RedshiftClientTypes.DescribeIntegrationsFilter.write(value:to:), memberNodeInfo: "DescribeIntegrationsFilter", isFlattened: false)
+        try writer["IntegrationArn"].write(value.integrationArn)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["Action"].write("DescribeIntegrations")
         try writer["Version"].write("2012-12-01")
     }
 }
@@ -16017,6 +16611,18 @@ extension ModifyEventSubscriptionInput {
         try writer["SourceType"].write(value.sourceType)
         try writer["SubscriptionName"].write(value.subscriptionName)
         try writer["Action"].write("ModifyEventSubscription")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
+extension ModifyIntegrationInput {
+
+    static func write(value: ModifyIntegrationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["IntegrationArn"].write(value.integrationArn)
+        try writer["IntegrationName"].write(value.integrationName)
+        try writer["Action"].write("ModifyIntegration")
         try writer["Version"].write("2012-12-01")
     }
 }
@@ -16617,6 +17223,28 @@ extension CreateHsmConfigurationOutput {
     }
 }
 
+extension CreateIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["CreateIntegrationResult"]
+        var value = CreateIntegrationOutput()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["Description"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.IntegrationError.read(from:), memberNodeInfo: "IntegrationError", isFlattened: false)
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent()
+        value.integrationName = try reader["IntegrationName"].readIfPresent()
+        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.targetArn = try reader["TargetArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateRedshiftIdcApplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRedshiftIdcApplicationOutput {
@@ -16824,6 +17452,28 @@ extension DeleteHsmConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteHsmConfigurationOutput {
         return DeleteHsmConfigurationOutput()
+    }
+}
+
+extension DeleteIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DeleteIntegrationResult"]
+        var value = DeleteIntegrationOutput()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["Description"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.IntegrationError.read(from:), memberNodeInfo: "IntegrationError", isFlattened: false)
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent()
+        value.integrationName = try reader["IntegrationName"].readIfPresent()
+        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.targetArn = try reader["TargetArn"].readIfPresent()
+        return value
     }
 }
 
@@ -17192,6 +17842,19 @@ extension DescribeInboundIntegrationsOutput {
         let reader = responseReader["DescribeInboundIntegrationsResult"]
         var value = DescribeInboundIntegrationsOutput()
         value.inboundIntegrations = try reader["InboundIntegrations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.InboundIntegration.read(from:), memberNodeInfo: "InboundIntegration", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeIntegrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeIntegrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeIntegrationsResult"]
+        var value = DescribeIntegrationsOutput()
+        value.integrations = try reader["Integrations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Integration.read(from:), memberNodeInfo: "Integration", isFlattened: false)
         value.marker = try reader["Marker"].readIfPresent()
         return value
     }
@@ -17755,6 +18418,28 @@ extension ModifyEventSubscriptionOutput {
         let reader = responseReader["ModifyEventSubscriptionResult"]
         var value = ModifyEventSubscriptionOutput()
         value.eventSubscription = try reader["EventSubscription"].readIfPresent(with: RedshiftClientTypes.EventSubscription.read(from:))
+        return value
+    }
+}
+
+extension ModifyIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ModifyIntegrationResult"]
+        var value = ModifyIntegrationOutput()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["Description"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.IntegrationError.read(from:), memberNodeInfo: "IntegrationError", isFlattened: false)
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent()
+        value.integrationName = try reader["IntegrationName"].readIfPresent()
+        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.targetArn = try reader["TargetArn"].readIfPresent()
         return value
     }
 }
@@ -18447,6 +19132,28 @@ enum CreateHsmConfigurationOutputError {
     }
 }
 
+enum CreateIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IntegrationAlreadyExistsFault": return try IntegrationAlreadyExistsFault.makeError(baseError: baseError)
+            case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
+            case "IntegrationQuotaExceededFault": return try IntegrationQuotaExceededFault.makeError(baseError: baseError)
+            case "IntegrationSourceNotFoundFault": return try IntegrationSourceNotFoundFault.makeError(baseError: baseError)
+            case "IntegrationTargetNotFoundFault": return try IntegrationTargetNotFoundFault.makeError(baseError: baseError)
+            case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "InvalidTagFault": return try InvalidTagFault.makeError(baseError: baseError)
+            case "TagLimitExceededFault": return try TagLimitExceededFault.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateRedshiftIdcApplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18744,6 +19451,23 @@ enum DeleteHsmConfigurationOutputError {
         switch baseError.code {
             case "HsmConfigurationNotFoundFault": return try HsmConfigurationNotFoundFault.makeError(baseError: baseError)
             case "InvalidHsmConfigurationStateFault": return try InvalidHsmConfigurationStateFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
+            case "IntegrationConflictStateFault": return try IntegrationConflictStateFault.makeError(baseError: baseError)
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -19217,6 +19941,21 @@ enum DescribeInboundIntegrationsOutputError {
         switch baseError.code {
             case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
             case "InvalidNamespaceFault": return try InvalidNamespaceFault.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeIntegrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -19910,6 +20649,24 @@ enum ModifyEventSubscriptionOutputError {
             case "SubscriptionEventIdNotFound": return try SubscriptionEventIdNotFoundFault.makeError(baseError: baseError)
             case "SubscriptionNotFound": return try SubscriptionNotFoundFault.makeError(baseError: baseError)
             case "SubscriptionSeverityNotFound": return try SubscriptionSeverityNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IntegrationAlreadyExistsFault": return try IntegrationAlreadyExistsFault.makeError(baseError: baseError)
+            case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
+            case "IntegrationConflictStateFault": return try IntegrationConflictStateFault.makeError(baseError: baseError)
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -21308,6 +22065,71 @@ extension HsmConfigurationAlreadyExistsFault {
     }
 }
 
+extension IntegrationTargetNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationTargetNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationTargetNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IntegrationAlreadyExistsFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationAlreadyExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IntegrationConflictOperationFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationConflictOperationFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationConflictOperationFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IntegrationQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IntegrationSourceNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationSourceNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationSourceNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DependentServiceAccessDeniedFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DependentServiceAccessDeniedFault {
@@ -21646,6 +22468,32 @@ extension InvalidHsmConfigurationStateFault {
     }
 }
 
+extension IntegrationNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IntegrationConflictStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationConflictStateFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationConflictStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ScheduledActionNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ScheduledActionNotFoundFault {
@@ -21703,19 +22551,6 @@ extension UsageLimitNotFoundFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UsageLimitNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = UsageLimitNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IntegrationNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = IntegrationNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -22670,6 +23505,17 @@ extension RedshiftClientTypes.HsmConfiguration {
     }
 }
 
+extension RedshiftClientTypes.IntegrationError {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.IntegrationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.IntegrationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension RedshiftClientTypes.RedshiftIdcApplication {
 
     static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RedshiftIdcApplication {
@@ -23143,13 +23989,22 @@ extension RedshiftClientTypes.InboundIntegration {
     }
 }
 
-extension RedshiftClientTypes.IntegrationError {
+extension RedshiftClientTypes.Integration {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.IntegrationError {
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Integration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftClientTypes.IntegrationError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = RedshiftClientTypes.Integration()
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent()
+        value.integrationName = try reader["IntegrationName"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        value.targetArn = try reader["TargetArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.IntegrationError.read(from:), memberNodeInfo: "IntegrationError", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["Description"].readIfPresent()
+        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
@@ -23382,6 +24237,15 @@ extension RedshiftClientTypes.SnapshotSortingEntity {
         guard let value else { return }
         try writer["Attribute"].write(value.attribute)
         try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension RedshiftClientTypes.DescribeIntegrationsFilter {
+
+    static func write(value: RedshiftClientTypes.DescribeIntegrationsFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
     }
 }
 

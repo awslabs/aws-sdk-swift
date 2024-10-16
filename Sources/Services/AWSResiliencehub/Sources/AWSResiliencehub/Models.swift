@@ -988,6 +988,8 @@ extension ResiliencehubClientTypes {
         public var appArn: Swift.String?
         /// Assessment execution schedule with 'Daily' or 'Disabled' values.
         public var assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType?
+        /// Amazon Resource Name (ARN) of Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+        public var awsApplicationArn: Swift.String?
         /// Current status of compliance for the resiliency policy.
         public var complianceStatus: ResiliencehubClientTypes.AppComplianceStatusType?
         /// Date and time when the app was created.
@@ -1026,6 +1028,7 @@ extension ResiliencehubClientTypes {
         public init(
             appArn: Swift.String? = nil,
             assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType? = nil,
+            awsApplicationArn: Swift.String? = nil,
             complianceStatus: ResiliencehubClientTypes.AppComplianceStatusType? = nil,
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -1046,6 +1049,7 @@ extension ResiliencehubClientTypes {
         {
             self.appArn = appArn
             self.assessmentSchedule = assessmentSchedule
+            self.awsApplicationArn = awsApplicationArn
             self.complianceStatus = complianceStatus
             self.creationTime = creationTime
             self.description = description
@@ -1068,7 +1072,7 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.App: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "App(appArn: \(Swift.String(describing: appArn)), assessmentSchedule: \(Swift.String(describing: assessmentSchedule)), complianceStatus: \(Swift.String(describing: complianceStatus)), creationTime: \(Swift.String(describing: creationTime)), description: \(Swift.String(describing: description)), driftStatus: \(Swift.String(describing: driftStatus)), eventSubscriptions: \(Swift.String(describing: eventSubscriptions)), lastAppComplianceEvaluationTime: \(Swift.String(describing: lastAppComplianceEvaluationTime)), lastDriftEvaluationTime: \(Swift.String(describing: lastDriftEvaluationTime)), lastResiliencyScoreEvaluationTime: \(Swift.String(describing: lastResiliencyScoreEvaluationTime)), name: \(Swift.String(describing: name)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), resiliencyScore: \(Swift.String(describing: resiliencyScore)), rpoInSecs: \(Swift.String(describing: rpoInSecs)), rtoInSecs: \(Swift.String(describing: rtoInSecs)), status: \(Swift.String(describing: status)), tags: \"CONTENT_REDACTED\")"}
+        "App(appArn: \(Swift.String(describing: appArn)), assessmentSchedule: \(Swift.String(describing: assessmentSchedule)), awsApplicationArn: \(Swift.String(describing: awsApplicationArn)), complianceStatus: \(Swift.String(describing: complianceStatus)), creationTime: \(Swift.String(describing: creationTime)), description: \(Swift.String(describing: description)), driftStatus: \(Swift.String(describing: driftStatus)), eventSubscriptions: \(Swift.String(describing: eventSubscriptions)), lastAppComplianceEvaluationTime: \(Swift.String(describing: lastAppComplianceEvaluationTime)), lastDriftEvaluationTime: \(Swift.String(describing: lastDriftEvaluationTime)), lastResiliencyScoreEvaluationTime: \(Swift.String(describing: lastResiliencyScoreEvaluationTime)), name: \(Swift.String(describing: name)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), resiliencyScore: \(Swift.String(describing: resiliencyScore)), rpoInSecs: \(Swift.String(describing: rpoInSecs)), rtoInSecs: \(Swift.String(describing: rtoInSecs)), status: \(Swift.String(describing: status)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension ResiliencehubClientTypes {
@@ -1751,7 +1755,7 @@ extension ResiliencehubClientTypes {
         public var resourceErrorsDetails: ResiliencehubClientTypes.ResourceErrorsDetails?
         /// Starting time for the action.
         public var startTime: Foundation.Date?
-        /// Indicates a concise summary that provides an overview of the Resilience Hub assessment.
+        /// Indicates the AI-generated summary for the Resilience Hub assessment, providing a concise overview that highlights the top risks and recommendations. This property is available only in the US East (N. Virginia) Region.
         public var summary: ResiliencehubClientTypes.AssessmentSummary?
         /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
         public var tags: [Swift.String: Swift.String]?
@@ -2029,6 +2033,8 @@ extension ResiliencehubClientTypes {
         public var appArn: Swift.String?
         /// Assessment execution schedule with 'Daily' or 'Disabled' values.
         public var assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType?
+        /// Amazon Resource Name (ARN) of Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+        public var awsApplicationArn: Swift.String?
         /// The current status of compliance for the resiliency policy.
         public var complianceStatus: ResiliencehubClientTypes.AppComplianceStatusType?
         /// Date and time when the app was created.
@@ -2055,6 +2061,7 @@ extension ResiliencehubClientTypes {
         public init(
             appArn: Swift.String? = nil,
             assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType? = nil,
+            awsApplicationArn: Swift.String? = nil,
             complianceStatus: ResiliencehubClientTypes.AppComplianceStatusType? = nil,
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -2069,6 +2076,7 @@ extension ResiliencehubClientTypes {
         {
             self.appArn = appArn
             self.assessmentSchedule = assessmentSchedule
+            self.awsApplicationArn = awsApplicationArn
             self.complianceStatus = complianceStatus
             self.creationTime = creationTime
             self.description = description
@@ -2149,7 +2157,6 @@ extension ResiliencehubClientTypes {
         /// This member is required.
         public var excluded: Swift.Bool?
         /// The operational recommendation item.
-        /// This member is required.
         public var item: ResiliencehubClientTypes.UpdateRecommendationStatusItem?
         /// Reference identifier of the operational recommendation item.
         /// This member is required.
@@ -2225,7 +2232,6 @@ extension ResiliencehubClientTypes {
         /// This member is required.
         public var excluded: Swift.Bool?
         /// The operational recommendation item.
-        /// This member is required.
         public var item: ResiliencehubClientTypes.UpdateRecommendationStatusItem?
         /// Reference identifier of the operational recommendation.
         /// This member is required.
@@ -2274,6 +2280,8 @@ public struct BatchUpdateRecommendationStatusOutput: Swift.Sendable {
 public struct CreateAppInput: Swift.Sendable {
     /// Assessment execution schedule with 'Daily' or 'Disabled' values.
     public var assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType?
+    /// Amazon Resource Name (ARN) of Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    public var awsApplicationArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
     /// The optional description for an app.
@@ -2292,6 +2300,7 @@ public struct CreateAppInput: Swift.Sendable {
 
     public init(
         assessmentSchedule: ResiliencehubClientTypes.AppAssessmentScheduleType? = nil,
+        awsApplicationArn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         eventSubscriptions: [ResiliencehubClientTypes.EventSubscription]? = nil,
@@ -2302,6 +2311,7 @@ public struct CreateAppInput: Swift.Sendable {
     )
     {
         self.assessmentSchedule = assessmentSchedule
+        self.awsApplicationArn = awsApplicationArn
         self.clientToken = clientToken
         self.description = description
         self.eventSubscriptions = eventSubscriptions
@@ -2314,7 +2324,7 @@ public struct CreateAppInput: Swift.Sendable {
 
 extension CreateAppInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAppInput(assessmentSchedule: \(Swift.String(describing: assessmentSchedule)), clientToken: \(Swift.String(describing: clientToken)), description: \(Swift.String(describing: description)), eventSubscriptions: \(Swift.String(describing: eventSubscriptions)), name: \(Swift.String(describing: name)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), tags: \"CONTENT_REDACTED\")"}
+        "CreateAppInput(assessmentSchedule: \(Swift.String(describing: assessmentSchedule)), awsApplicationArn: \(Swift.String(describing: awsApplicationArn)), clientToken: \(Swift.String(describing: clientToken)), description: \(Swift.String(describing: description)), eventSubscriptions: \(Swift.String(describing: eventSubscriptions)), name: \(Swift.String(describing: name)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAppOutput: Swift.Sendable {
@@ -3584,6 +3594,22 @@ public struct DescribeDraftAppVersionResourcesImportStatusInput: Swift.Sendable 
 
 extension ResiliencehubClientTypes {
 
+    /// Indicates the error that was encountered while importing a resource.
+    public struct ErrorDetail: Swift.Sendable {
+        /// Provides additional information about the error.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+
     public enum ResourceImportStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case inProgress
@@ -3624,7 +3650,9 @@ public struct DescribeDraftAppVersionResourcesImportStatusOutput: Swift.Sendable
     /// The version of the application.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// The returned error message for the request.
+    /// List of errors that were encountered while importing resources.
+    public var errorDetails: [ResiliencehubClientTypes.ErrorDetail]?
+    /// The error message returned for the resource request.
     public var errorMessage: Swift.String?
     /// Status of the action.
     /// This member is required.
@@ -3636,6 +3664,7 @@ public struct DescribeDraftAppVersionResourcesImportStatusOutput: Swift.Sendable
     public init(
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil,
+        errorDetails: [ResiliencehubClientTypes.ErrorDetail]? = nil,
         errorMessage: Swift.String? = nil,
         status: ResiliencehubClientTypes.ResourceImportStatusType? = nil,
         statusChangeTime: Foundation.Date? = nil
@@ -3643,6 +3672,7 @@ public struct DescribeDraftAppVersionResourcesImportStatusOutput: Swift.Sendable
     {
         self.appArn = appArn
         self.appVersion = appVersion
+        self.errorDetails = errorDetails
         self.errorMessage = errorMessage
         self.status = status
         self.statusChangeTime = statusChangeTime
@@ -4551,6 +4581,8 @@ public struct ListAppInputSourcesOutput: Swift.Sendable {
 public struct ListAppsInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var appArn: Swift.String?
+    /// Amazon Resource Name (ARN) of Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
+    public var awsApplicationArn: Swift.String?
     /// Indicates the lower limit of the range that is used to filter applications based on their last assessment times.
     public var fromLastAssessmentTime: Foundation.Date?
     /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -4566,6 +4598,7 @@ public struct ListAppsInput: Swift.Sendable {
 
     public init(
         appArn: Swift.String? = nil,
+        awsApplicationArn: Swift.String? = nil,
         fromLastAssessmentTime: Foundation.Date? = nil,
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -4575,6 +4608,7 @@ public struct ListAppsInput: Swift.Sendable {
     )
     {
         self.appArn = appArn
+        self.awsApplicationArn = awsApplicationArn
         self.fromLastAssessmentTime = fromLastAssessmentTime
         self.maxResults = maxResults
         self.name = name
@@ -6556,6 +6590,10 @@ extension ListAppsInput {
 
     static func queryItemProvider(_ value: ListAppsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let awsApplicationArn = value.awsApplicationArn {
+            let awsApplicationArnQueryItem = Smithy.URIQueryItem(name: "awsApplicationArn".urlPercentEncoding(), value: Swift.String(awsApplicationArn).urlPercentEncoding())
+            items.append(awsApplicationArnQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -6921,6 +6959,7 @@ extension CreateAppInput {
     static func write(value: CreateAppInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["assessmentSchedule"].write(value.assessmentSchedule)
+        try writer["awsApplicationArn"].write(value.awsApplicationArn)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["eventSubscriptions"].writeList(value.eventSubscriptions, memberWritingClosure: ResiliencehubClientTypes.EventSubscription.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7751,6 +7790,7 @@ extension DescribeDraftAppVersionResourcesImportStatusOutput {
         var value = DescribeDraftAppVersionResourcesImportStatusOutput()
         value.appArn = try reader["appArn"].readIfPresent() ?? ""
         value.appVersion = try reader["appVersion"].readIfPresent() ?? ""
+        value.errorDetails = try reader["errorDetails"].readListIfPresent(memberReadingClosure: ResiliencehubClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusChangeTime = try reader["statusChangeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -9577,6 +9617,7 @@ extension ResiliencehubClientTypes.App {
         value.lastDriftEvaluationTime = try reader["lastDriftEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.rtoInSecs = try reader["rtoInSecs"].readIfPresent()
         value.rpoInSecs = try reader["rpoInSecs"].readIfPresent()
+        value.awsApplicationArn = try reader["awsApplicationArn"].readIfPresent()
         return value
     }
 }
@@ -9919,6 +9960,16 @@ extension ResiliencehubClientTypes.Cost {
     }
 }
 
+extension ResiliencehubClientTypes.ErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.ErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.ErrorDetail()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension ResiliencehubClientTypes.EksSource {
 
     static func write(value: ResiliencehubClientTypes.EksSource?, to writer: SmithyJSON.Writer) throws {
@@ -10114,6 +10165,7 @@ extension ResiliencehubClientTypes.AppSummary {
         value.lastAppComplianceEvaluationTime = try reader["lastAppComplianceEvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.rtoInSecs = try reader["rtoInSecs"].readIfPresent()
         value.rpoInSecs = try reader["rpoInSecs"].readIfPresent()
+        value.awsApplicationArn = try reader["awsApplicationArn"].readIfPresent()
         return value
     }
 }

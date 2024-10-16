@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
@@ -1193,9 +1194,12 @@ extension TnbClientTypes {
         case impaired
         case instantiated
         case instantiateInProgress
+        case intentToUpdateInProgress
         case notInstantiated
         case stopped
         case terminateInProgress
+        case updated
+        case updateFailed
         case updateInProgress
         case sdkUnknown(Swift.String)
 
@@ -1205,9 +1209,12 @@ extension TnbClientTypes {
                 .impaired,
                 .instantiated,
                 .instantiateInProgress,
+                .intentToUpdateInProgress,
                 .notInstantiated,
                 .stopped,
                 .terminateInProgress,
+                .updated,
+                .updateFailed,
                 .updateInProgress
             ]
         }
@@ -1223,9 +1230,12 @@ extension TnbClientTypes {
             case .impaired: return "IMPAIRED"
             case .instantiated: return "INSTANTIATED"
             case .instantiateInProgress: return "INSTANTIATE_IN_PROGRESS"
+            case .intentToUpdateInProgress: return "INTENT_TO_UPDATE_IN_PROGRESS"
             case .notInstantiated: return "NOT_INSTANTIATED"
             case .stopped: return "STOPPED"
             case .terminateInProgress: return "TERMINATE_IN_PROGRESS"
+            case .updated: return "UPDATED"
+            case .updateFailed: return "UPDATE_FAILED"
             case .updateInProgress: return "UPDATE_IN_PROGRESS"
             case let .sdkUnknown(s): return s
             }
@@ -1361,22 +1371,98 @@ extension TnbClientTypes {
 
 extension TnbClientTypes {
 
+    /// Metadata related to the configuration properties used during instantiation of the network instance.
+    public struct InstantiateMetadata: Swift.Sendable {
+        /// The configurable properties used during instantiation.
+        public var additionalParamsForNs: Smithy.Document?
+        /// The network service descriptor used for instantiating the network instance.
+        /// This member is required.
+        public var nsdInfoId: Swift.String?
+
+        public init(
+            additionalParamsForNs: Smithy.Document? = nil,
+            nsdInfoId: Swift.String? = nil
+        )
+        {
+            self.additionalParamsForNs = additionalParamsForNs
+            self.nsdInfoId = nsdInfoId
+        }
+    }
+}
+
+extension TnbClientTypes {
+
+    /// Metadata related to the configuration properties used during update of a specific network function in a network instance.
+    public struct ModifyVnfInfoMetadata: Swift.Sendable {
+        /// The configurable properties used during update of the network function instance.
+        /// This member is required.
+        public var vnfConfigurableProperties: Smithy.Document?
+        /// The network function instance that was updated in the network instance.
+        /// This member is required.
+        public var vnfInstanceId: Swift.String?
+
+        public init(
+            vnfConfigurableProperties: Smithy.Document? = nil,
+            vnfInstanceId: Swift.String? = nil
+        )
+        {
+            self.vnfConfigurableProperties = vnfConfigurableProperties
+            self.vnfInstanceId = vnfInstanceId
+        }
+    }
+}
+
+extension TnbClientTypes {
+
+    /// Metadata related to the configuration properties used during update of a network instance.
+    public struct UpdateNsMetadata: Swift.Sendable {
+        /// The configurable properties used during update.
+        public var additionalParamsForNs: Smithy.Document?
+        /// The network service descriptor used for updating the network instance.
+        /// This member is required.
+        public var nsdInfoId: Swift.String?
+
+        public init(
+            additionalParamsForNs: Smithy.Document? = nil,
+            nsdInfoId: Swift.String? = nil
+        )
+        {
+            self.additionalParamsForNs = additionalParamsForNs
+            self.nsdInfoId = nsdInfoId
+        }
+    }
+}
+
+extension TnbClientTypes {
+
     /// Metadata related to a network operation occurrence. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
     public struct GetSolNetworkOperationMetadata: Swift.Sendable {
         /// The date that the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// Metadata related to the network operation occurrence for network instantiation. This is populated only if the lcmOperationType is INSTANTIATE.
+        public var instantiateMetadata: TnbClientTypes.InstantiateMetadata?
         /// The date that the resource was last modified.
         /// This member is required.
         public var lastModified: Foundation.Date?
+        /// Metadata related to the network operation occurrence for network function updates in a network instance. This is populated only if the lcmOperationType is UPDATE and the updateType is MODIFY_VNF_INFORMATION.
+        public var modifyVnfInfoMetadata: TnbClientTypes.ModifyVnfInfoMetadata?
+        /// Metadata related to the network operation occurrence for network instance updates. This is populated only if the lcmOperationType is UPDATE and the updateType is UPDATE_NS.
+        public var updateNsMetadata: TnbClientTypes.UpdateNsMetadata?
 
         public init(
             createdAt: Foundation.Date? = nil,
-            lastModified: Foundation.Date? = nil
+            instantiateMetadata: TnbClientTypes.InstantiateMetadata? = nil,
+            lastModified: Foundation.Date? = nil,
+            modifyVnfInfoMetadata: TnbClientTypes.ModifyVnfInfoMetadata? = nil,
+            updateNsMetadata: TnbClientTypes.UpdateNsMetadata? = nil
         )
         {
             self.createdAt = createdAt
+            self.instantiateMetadata = instantiateMetadata
             self.lastModified = lastModified
+            self.modifyVnfInfoMetadata = modifyVnfInfoMetadata
+            self.updateNsMetadata = updateNsMetadata
         }
     }
 }
@@ -1499,6 +1585,35 @@ extension TnbClientTypes {
     }
 }
 
+extension TnbClientTypes {
+
+    public enum UpdateSolNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case modifyVnfInformation
+        case updateNs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateSolNetworkType] {
+            return [
+                .modifyVnfInformation,
+                .updateNs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .modifyVnfInformation: return "MODIFY_VNF_INFORMATION"
+            case .updateNs: return "UPDATE_NS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetSolNetworkOperationOutput: Swift.Sendable {
     /// Network operation ARN.
     /// This member is required.
@@ -1519,6 +1634,8 @@ public struct GetSolNetworkOperationOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
     /// All tasks associated with this operation occurrence.
     public var tasks: [TnbClientTypes.GetSolNetworkOperationTaskDetails]?
+    /// Type of the update. Only present if the network operation lcmOperationType is UPDATE.
+    public var updateType: TnbClientTypes.UpdateSolNetworkType?
 
     public init(
         arn: Swift.String? = nil,
@@ -1529,7 +1646,8 @@ public struct GetSolNetworkOperationOutput: Swift.Sendable {
         nsInstanceId: Swift.String? = nil,
         operationState: TnbClientTypes.NsLcmOperationState? = nil,
         tags: [Swift.String: Swift.String]? = nil,
-        tasks: [TnbClientTypes.GetSolNetworkOperationTaskDetails]? = nil
+        tasks: [TnbClientTypes.GetSolNetworkOperationTaskDetails]? = nil,
+        updateType: TnbClientTypes.UpdateSolNetworkType? = nil
     )
     {
         self.arn = arn
@@ -1541,12 +1659,13 @@ public struct GetSolNetworkOperationOutput: Swift.Sendable {
         self.operationState = operationState
         self.tags = tags
         self.tasks = tasks
+        self.updateType = updateType
     }
 }
 
 extension GetSolNetworkOperationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSolNetworkOperationOutput(arn: \(Swift.String(describing: arn)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lcmOperationType: \(Swift.String(describing: lcmOperationType)), metadata: \(Swift.String(describing: metadata)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), operationState: \(Swift.String(describing: operationState)), tasks: \(Swift.String(describing: tasks)), tags: \"CONTENT_REDACTED\")"}
+        "GetSolNetworkOperationOutput(arn: \(Swift.String(describing: arn)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), lcmOperationType: \(Swift.String(describing: lcmOperationType)), metadata: \(Swift.String(describing: metadata)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), operationState: \(Swift.String(describing: operationState)), tasks: \(Swift.String(describing: tasks)), updateType: \(Swift.String(describing: updateType)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSolNetworkPackageInput: Swift.Sendable {
@@ -1742,7 +1861,7 @@ public struct InstantiateSolNetworkInstanceInput: Swift.Sendable {
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
-    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -1768,7 +1887,7 @@ public struct InstantiateSolNetworkInstanceOutput: Swift.Sendable {
     /// The identifier of the network operation.
     /// This member is required.
     public var nsLcmOpOccId: Swift.String?
-    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -2113,14 +2232,18 @@ public struct ListSolNetworkOperationsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
+    /// Network instance id filter, to retrieve network operations associated to a network instance.
+    public var nsInstanceId: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        nsInstanceId: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.nsInstanceId = nsInstanceId
     }
 }
 
@@ -2134,14 +2257,22 @@ extension TnbClientTypes {
         /// The date that the resource was last modified.
         /// This member is required.
         public var lastModified: Foundation.Date?
+        /// The network service descriptor id used for the operation. Only present if the updateType is UPDATE_NS.
+        public var nsdInfoId: Swift.String?
+        /// The network function id used for the operation. Only present if the updateType is MODIFY_VNF_INFO.
+        public var vnfInstanceId: Swift.String?
 
         public init(
             createdAt: Foundation.Date? = nil,
-            lastModified: Foundation.Date? = nil
+            lastModified: Foundation.Date? = nil,
+            nsdInfoId: Swift.String? = nil,
+            vnfInstanceId: Swift.String? = nil
         )
         {
             self.createdAt = createdAt
             self.lastModified = lastModified
+            self.nsdInfoId = nsdInfoId
+            self.vnfInstanceId = vnfInstanceId
         }
     }
 }
@@ -2169,6 +2300,8 @@ extension TnbClientTypes {
         /// The state of the network operation.
         /// This member is required.
         public var operationState: TnbClientTypes.NsLcmOperationState?
+        /// Type of the update. Only present if the network operation lcmOperationType is UPDATE.
+        public var updateType: TnbClientTypes.UpdateSolNetworkType?
 
         public init(
             arn: Swift.String? = nil,
@@ -2177,7 +2310,8 @@ extension TnbClientTypes {
             lcmOperationType: TnbClientTypes.LcmOperationType? = nil,
             metadata: TnbClientTypes.ListSolNetworkOperationsMetadata? = nil,
             nsInstanceId: Swift.String? = nil,
-            operationState: TnbClientTypes.NsLcmOperationState? = nil
+            operationState: TnbClientTypes.NsLcmOperationState? = nil,
+            updateType: TnbClientTypes.UpdateSolNetworkType? = nil
         )
         {
             self.arn = arn
@@ -2187,6 +2321,7 @@ extension TnbClientTypes {
             self.metadata = metadata
             self.nsInstanceId = nsInstanceId
             self.operationState = operationState
+            self.updateType = updateType
         }
     }
 }
@@ -2381,6 +2516,11 @@ public struct PutSolFunctionPackageContentInput: Swift.Sendable {
     }
 }
 
+extension PutSolFunctionPackageContentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutSolFunctionPackageContentInput(contentType: \(Swift.String(describing: contentType)), vnfPkgId: \(Swift.String(describing: vnfPkgId)), file: \"CONTENT_REDACTED\")"}
+}
+
 extension TnbClientTypes {
 
     /// Update metadata in a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
@@ -2455,6 +2595,11 @@ public struct PutSolNetworkPackageContentInput: Swift.Sendable {
         self.file = file
         self.nsdInfoId = nsdInfoId
     }
+}
+
+extension PutSolNetworkPackageContentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutSolNetworkPackageContentInput(contentType: \(Swift.String(describing: contentType)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), file: \"CONTENT_REDACTED\")"}
 }
 
 extension TnbClientTypes {
@@ -2548,7 +2693,7 @@ public struct TerminateSolNetworkInstanceInput: Swift.Sendable {
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
-    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -2569,7 +2714,7 @@ extension TerminateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
 public struct TerminateSolNetworkInstanceOutput: Swift.Sendable {
     /// The identifier of the network operation.
     public var nsLcmOpOccId: Swift.String?
-    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -2665,39 +2810,40 @@ extension TnbClientTypes {
 
 extension TnbClientTypes {
 
-    public enum UpdateSolNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case modifyVnfInformation
-        case sdkUnknown(Swift.String)
+    /// Information parameters and/or the configurable properties for a network descriptor used for update.
+    public struct UpdateSolNetworkServiceData: Swift.Sendable {
+        /// Values for the configurable properties declared in the network service descriptor.
+        public var additionalParamsForNs: Smithy.Document?
+        /// ID of the network service descriptor.
+        /// This member is required.
+        public var nsdInfoId: Swift.String?
 
-        public static var allCases: [UpdateSolNetworkType] {
-            return [
-                .modifyVnfInformation
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .modifyVnfInformation: return "MODIFY_VNF_INFORMATION"
-            case let .sdkUnknown(s): return s
-            }
+        public init(
+            additionalParamsForNs: Smithy.Document? = nil,
+            nsdInfoId: Swift.String? = nil
+        )
+        {
+            self.additionalParamsForNs = additionalParamsForNs
+            self.nsdInfoId = nsdInfoId
         }
     }
 }
 
 public struct UpdateSolNetworkInstanceInput: Swift.Sendable {
-    /// Identifies the network function information parameters and/or the configurable properties of the network function to be modified.
+    /// Identifies the network function information parameters and/or the configurable properties of the network function to be modified. Include this property only if the update type is MODIFY_VNF_INFORMATION.
     public var modifyVnfInfoData: TnbClientTypes.UpdateSolNetworkModify?
     /// ID of the network instance.
     /// This member is required.
     public var nsInstanceId: Swift.String?
-    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
     public var tags: [Swift.String: Swift.String]?
+    /// Identifies the network service descriptor and the configurable properties of the descriptor, to be used for the update. Include this property only if the update type is UPDATE_NS.
+    public var updateNs: TnbClientTypes.UpdateSolNetworkServiceData?
     /// The type of update.
+    ///
+    /// * Use the MODIFY_VNF_INFORMATION update type, to update a specific network function configuration, in the network instance.
+    ///
+    /// * Use the UPDATE_NS update type, to update the network instance to a new network service descriptor.
     /// This member is required.
     public var updateType: TnbClientTypes.UpdateSolNetworkType?
 
@@ -2705,25 +2851,27 @@ public struct UpdateSolNetworkInstanceInput: Swift.Sendable {
         modifyVnfInfoData: TnbClientTypes.UpdateSolNetworkModify? = nil,
         nsInstanceId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        updateNs: TnbClientTypes.UpdateSolNetworkServiceData? = nil,
         updateType: TnbClientTypes.UpdateSolNetworkType? = nil
     )
     {
         self.modifyVnfInfoData = modifyVnfInfoData
         self.nsInstanceId = nsInstanceId
         self.tags = tags
+        self.updateNs = updateNs
         self.updateType = updateType
     }
 }
 
 extension UpdateSolNetworkInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateSolNetworkInstanceInput(modifyVnfInfoData: \(Swift.String(describing: modifyVnfInfoData)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), updateType: \(Swift.String(describing: updateType)), tags: \"CONTENT_REDACTED\")"}
+        "UpdateSolNetworkInstanceInput(modifyVnfInfoData: \(Swift.String(describing: modifyVnfInfoData)), nsInstanceId: \(Swift.String(describing: nsInstanceId)), updateNs: \(Swift.String(describing: updateNs)), updateType: \(Swift.String(describing: updateType)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSolNetworkInstanceOutput: Swift.Sendable {
     /// The identifier of the network operation.
     public var nsLcmOpOccId: Swift.String?
-    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are transferred to the network operation that is created. Use tags to search and filter your resources or track your Amazon Web Services costs.
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. When you use this API, the tags are only applied to the network operation that is created. These tags are not applied to the network instance. Use tags to search and filter your resources or track your Amazon Web Services costs.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -2792,6 +2940,11 @@ public struct ValidateSolFunctionPackageContentInput: Swift.Sendable {
         self.file = file
         self.vnfPkgId = vnfPkgId
     }
+}
+
+extension ValidateSolFunctionPackageContentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ValidateSolFunctionPackageContentInput(contentType: \(Swift.String(describing: contentType)), vnfPkgId: \(Swift.String(describing: vnfPkgId)), file: \"CONTENT_REDACTED\")"}
 }
 
 extension TnbClientTypes {
@@ -2868,6 +3021,11 @@ public struct ValidateSolNetworkPackageContentInput: Swift.Sendable {
         self.file = file
         self.nsdInfoId = nsdInfoId
     }
+}
+
+extension ValidateSolNetworkPackageContentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ValidateSolNetworkPackageContentInput(contentType: \(Swift.String(describing: contentType)), nsdInfoId: \(Swift.String(describing: nsdInfoId)), file: \"CONTENT_REDACTED\")"}
 }
 
 extension TnbClientTypes {
@@ -3215,6 +3373,10 @@ extension ListSolNetworkOperationsInput {
 
     static func queryItemProvider(_ value: ListSolNetworkOperationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let nsInstanceId = value.nsInstanceId {
+            let nsInstanceIdQueryItem = Smithy.URIQueryItem(name: "nsInstanceId".urlPercentEncoding(), value: Swift.String(nsInstanceId).urlPercentEncoding())
+            items.append(nsInstanceIdQueryItem)
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -3502,6 +3664,7 @@ extension UpdateSolNetworkInstanceInput {
         guard let value else { return }
         try writer["modifyVnfInfoData"].write(value.modifyVnfInfoData, with: TnbClientTypes.UpdateSolNetworkModify.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["updateNs"].write(value.updateNs, with: TnbClientTypes.UpdateSolNetworkServiceData.write(value:to:))
         try writer["updateType"].write(value.updateType)
     }
 }
@@ -3728,6 +3891,7 @@ extension GetSolNetworkOperationOutput {
         value.operationState = try reader["operationState"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.tasks = try reader["tasks"].readListIfPresent(memberReadingClosure: TnbClientTypes.GetSolNetworkOperationTaskDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updateType = try reader["updateType"].readIfPresent()
         return value
     }
 }
@@ -4801,8 +4965,44 @@ extension TnbClientTypes.GetSolNetworkOperationMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.GetSolNetworkOperationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.GetSolNetworkOperationMetadata()
+        value.updateNsMetadata = try reader["updateNsMetadata"].readIfPresent(with: TnbClientTypes.UpdateNsMetadata.read(from:))
+        value.modifyVnfInfoMetadata = try reader["modifyVnfInfoMetadata"].readIfPresent(with: TnbClientTypes.ModifyVnfInfoMetadata.read(from:))
+        value.instantiateMetadata = try reader["instantiateMetadata"].readIfPresent(with: TnbClientTypes.InstantiateMetadata.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension TnbClientTypes.InstantiateMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.InstantiateMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.InstantiateMetadata()
+        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
+        value.additionalParamsForNs = try reader["additionalParamsForNs"].readIfPresent()
+        return value
+    }
+}
+
+extension TnbClientTypes.ModifyVnfInfoMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ModifyVnfInfoMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.ModifyVnfInfoMetadata()
+        value.vnfInstanceId = try reader["vnfInstanceId"].readIfPresent() ?? ""
+        value.vnfConfigurableProperties = try reader["vnfConfigurableProperties"].readIfPresent() ?? [:]
+        return value
+    }
+}
+
+extension TnbClientTypes.UpdateNsMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.UpdateNsMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TnbClientTypes.UpdateNsMetadata()
+        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent() ?? ""
+        value.additionalParamsForNs = try reader["additionalParamsForNs"].readIfPresent()
         return value
     }
 }
@@ -4961,6 +5161,7 @@ extension TnbClientTypes.ListSolNetworkOperationsInfo {
         value.operationState = try reader["operationState"].readIfPresent() ?? .sdkUnknown("")
         value.nsInstanceId = try reader["nsInstanceId"].readIfPresent() ?? ""
         value.lcmOperationType = try reader["lcmOperationType"].readIfPresent() ?? .sdkUnknown("")
+        value.updateType = try reader["updateType"].readIfPresent()
         value.error = try reader["error"].readIfPresent(with: TnbClientTypes.ProblemDetails.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: TnbClientTypes.ListSolNetworkOperationsMetadata.read(from:))
         return value
@@ -4972,6 +5173,8 @@ extension TnbClientTypes.ListSolNetworkOperationsMetadata {
     static func read(from reader: SmithyJSON.Reader) throws -> TnbClientTypes.ListSolNetworkOperationsMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TnbClientTypes.ListSolNetworkOperationsMetadata()
+        value.nsdInfoId = try reader["nsdInfoId"].readIfPresent()
+        value.vnfInstanceId = try reader["vnfInstanceId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -5056,6 +5259,15 @@ extension TnbClientTypes.UpdateSolNetworkModify {
         guard let value else { return }
         try writer["vnfConfigurableProperties"].write(value.vnfConfigurableProperties)
         try writer["vnfInstanceId"].write(value.vnfInstanceId)
+    }
+}
+
+extension TnbClientTypes.UpdateSolNetworkServiceData {
+
+    static func write(value: TnbClientTypes.UpdateSolNetworkServiceData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalParamsForNs"].write(value.additionalParamsForNs)
+        try writer["nsdInfoId"].write(value.nsdInfoId)
     }
 }
 

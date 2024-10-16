@@ -1509,16 +1509,20 @@ extension SESv2ClientTypes {
 
     /// Used to associate a configuration set with a dedicated IP pool.
     public struct DeliveryOptions: Swift.Sendable {
+        /// The maximum amount of time, in seconds, that Amazon SES API v2 will attempt delivery of email. If specified, the value must greater than or equal to 300 seconds (5 minutes) and less than or equal to 50400 seconds (840 minutes).
+        public var maxDeliverySeconds: Swift.Int?
         /// The name of the dedicated IP pool to associate with the configuration set.
         public var sendingPoolName: Swift.String?
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
         public var tlsPolicy: SESv2ClientTypes.TlsPolicy?
 
         public init(
+            maxDeliverySeconds: Swift.Int? = nil,
             sendingPoolName: Swift.String? = nil,
             tlsPolicy: SESv2ClientTypes.TlsPolicy? = nil
         )
         {
+            self.maxDeliverySeconds = maxDeliverySeconds
             self.sendingPoolName = sendingPoolName
             self.tlsPolicy = tlsPolicy
         }
@@ -6655,6 +6659,8 @@ public struct PutConfigurationSetDeliveryOptionsInput: Swift.Sendable {
     /// The name of the configuration set to associate with a dedicated IP pool.
     /// This member is required.
     public var configurationSetName: Swift.String?
+    /// The maximum amount of time, in seconds, that Amazon SES API v2 will attempt delivery of email. If specified, the value must greater than or equal to 300 seconds (5 minutes) and less than or equal to 50400 seconds (840 minutes).
+    public var maxDeliverySeconds: Swift.Int?
     /// The name of the dedicated IP pool to associate with the configuration set.
     public var sendingPoolName: Swift.String?
     /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
@@ -6662,11 +6668,13 @@ public struct PutConfigurationSetDeliveryOptionsInput: Swift.Sendable {
 
     public init(
         configurationSetName: Swift.String? = nil,
+        maxDeliverySeconds: Swift.Int? = nil,
         sendingPoolName: Swift.String? = nil,
         tlsPolicy: SESv2ClientTypes.TlsPolicy? = nil
     )
     {
         self.configurationSetName = configurationSetName
+        self.maxDeliverySeconds = maxDeliverySeconds
         self.sendingPoolName = sendingPoolName
         self.tlsPolicy = tlsPolicy
     }
@@ -8836,6 +8844,7 @@ extension PutConfigurationSetDeliveryOptionsInput {
 
     static func write(value: PutConfigurationSetDeliveryOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["MaxDeliverySeconds"].write(value.maxDeliverySeconds)
         try writer["SendingPoolName"].write(value.sendingPoolName)
         try writer["TlsPolicy"].write(value.tlsPolicy)
     }
@@ -11886,6 +11895,7 @@ extension SESv2ClientTypes.DeliveryOptions {
 
     static func write(value: SESv2ClientTypes.DeliveryOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["MaxDeliverySeconds"].write(value.maxDeliverySeconds)
         try writer["SendingPoolName"].write(value.sendingPoolName)
         try writer["TlsPolicy"].write(value.tlsPolicy)
     }
@@ -11895,6 +11905,7 @@ extension SESv2ClientTypes.DeliveryOptions {
         var value = SESv2ClientTypes.DeliveryOptions()
         value.tlsPolicy = try reader["TlsPolicy"].readIfPresent()
         value.sendingPoolName = try reader["SendingPoolName"].readIfPresent()
+        value.maxDeliverySeconds = try reader["MaxDeliverySeconds"].readIfPresent()
         return value
     }
 }

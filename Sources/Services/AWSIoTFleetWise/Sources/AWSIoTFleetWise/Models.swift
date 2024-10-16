@@ -953,6 +953,11 @@ extension IoTFleetWiseClientTypes {
     }
 }
 
+extension IoTFleetWiseClientTypes.ConditionBasedCollectionScheme: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConditionBasedCollectionScheme(conditionLanguageVersion: \(Swift.String(describing: conditionLanguageVersion)), minimumTriggerIntervalMs: \(Swift.String(describing: minimumTriggerIntervalMs)), triggerMode: \(Swift.String(describing: triggerMode)), expression: \"CONTENT_REDACTED\")"}
+}
+
 extension IoTFleetWiseClientTypes {
 
     /// Information about a collection scheme that uses a time period to decide how often to collect data.
@@ -1241,6 +1246,7 @@ public struct CreateCampaignInput: Swift.Sendable {
     /// (Optional) How long (in milliseconds) to collect raw data after a triggering event initiates the collection. If it's not specified, 0 is used. Default: 0
     public var postTriggerCollectionDuration: Swift.Int?
     /// (Optional) A number indicating the priority of one campaign over another campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed to vehicles before any other campaigns. If it's not specified, 0 is used. Default: 0
+    @available(*, deprecated, message: "priority is no longer used or needed as input")
     public var priority: Swift.Int?
     /// The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.
     /// This member is required.
@@ -1293,6 +1299,11 @@ public struct CreateCampaignInput: Swift.Sendable {
         self.tags = tags
         self.targetArn = targetArn
     }
+}
+
+extension CreateCampaignInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateCampaignInput(collectionScheme: \(Swift.String(describing: collectionScheme)), compression: \(Swift.String(describing: compression)), dataDestinationConfigs: \(Swift.String(describing: dataDestinationConfigs)), description: \(Swift.String(describing: description)), diagnosticsMode: \(Swift.String(describing: diagnosticsMode)), expiryTime: \(Swift.String(describing: expiryTime)), name: \(Swift.String(describing: name)), postTriggerCollectionDuration: \(Swift.String(describing: postTriggerCollectionDuration)), priority: \(Swift.String(describing: priority)), signalCatalogArn: \(Swift.String(describing: signalCatalogArn)), spoolingMode: \(Swift.String(describing: spoolingMode)), startTime: \(Swift.String(describing: startTime)), tags: \(Swift.String(describing: tags)), targetArn: \(Swift.String(describing: targetArn)), dataExtraDimensions: \"CONTENT_REDACTED\", signalsToCollect: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateCampaignOutput: Swift.Sendable {
@@ -1472,6 +1483,11 @@ public struct GetCampaignOutput: Swift.Sendable {
     }
 }
 
+extension GetCampaignOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetCampaignOutput(arn: \(Swift.String(describing: arn)), collectionScheme: \(Swift.String(describing: collectionScheme)), compression: \(Swift.String(describing: compression)), creationTime: \(Swift.String(describing: creationTime)), dataDestinationConfigs: \(Swift.String(describing: dataDestinationConfigs)), description: \(Swift.String(describing: description)), diagnosticsMode: \(Swift.String(describing: diagnosticsMode)), expiryTime: \(Swift.String(describing: expiryTime)), lastModificationTime: \(Swift.String(describing: lastModificationTime)), name: \(Swift.String(describing: name)), postTriggerCollectionDuration: \(Swift.String(describing: postTriggerCollectionDuration)), priority: \(Swift.String(describing: priority)), signalCatalogArn: \(Swift.String(describing: signalCatalogArn)), spoolingMode: \(Swift.String(describing: spoolingMode)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), targetArn: \(Swift.String(describing: targetArn)), dataExtraDimensions: \"CONTENT_REDACTED\", signalsToCollect: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListCampaignsInput: Swift.Sendable {
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
@@ -1629,6 +1645,11 @@ public struct UpdateCampaignInput: Swift.Sendable {
         self.description = description
         self.name = name
     }
+}
+
+extension UpdateCampaignInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateCampaignInput(action: \(Swift.String(describing: action)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), dataExtraDimensions: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateCampaignOutput: Swift.Sendable {

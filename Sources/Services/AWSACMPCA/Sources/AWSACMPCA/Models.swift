@@ -901,7 +901,7 @@ public struct CreateCertificateAuthorityInput: Swift.Sendable {
     public var idempotencyToken: Swift.String?
     /// Specifies a cryptographic key management compliance standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Some Amazon Web Services Regions do not support the default. When creating a CA in these Regions, you must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for KeyStorageSecurityStandard. Failure to do this results in an InvalidArgsException with the message, "A certificate authority cannot be created in this region with the specified security standard." For information about security standard support in various Regions, see [Storage and security compliance of Amazon Web Services Private CA private keys](https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys).
     public var keyStorageSecurityStandard: ACMPCAClientTypes.KeyStorageSecurityStandard?
-    /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or to enable neither. The default is for both certificate validation mechanisms to be disabled. The following requirements apply to revocation configurations.
+    /// Contains information to enable support for Online Certificate Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither. By default, both certificate validation mechanisms are disabled. The following requirements apply to revocation configurations.
     ///
     /// * A configuration disabling CRLs or OCSP must contain only the Enabled=False parameter, and will fail if other parameters such as CustomCname or ExpirationInDays are included.
     ///
@@ -2559,7 +2559,7 @@ public struct UpdateCertificateAuthorityInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
-    /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or to enable neither. If this parameter is not supplied, existing capibilites remain unchanged. For more information, see the [OcspConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html) and [CrlConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html) types. The following requirements apply to revocation configurations.
+    /// Contains information to enable support for Online Certificate Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither. If you don't supply this parameter, existing capibilites remain unchanged. For more information, see the [OcspConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html) and [CrlConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html) types. The following requirements apply to revocation configurations.
     ///
     /// * A configuration disabling CRLs or OCSP must contain only the Enabled=False parameter, and will fail if other parameters such as CustomCname or ExpirationInDays are included.
     ///
@@ -2568,6 +2568,9 @@ public struct UpdateCertificateAuthorityInput: Swift.Sendable {
     /// * A configuration containing a custom Canonical Name (CNAME) parameter for CRLs or OCSP must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use of special characters in a CNAME.
     ///
     /// * In a CRL or OCSP configuration, the value of a CNAME parameter must not include a protocol prefix such as "http://" or "https://".
+    ///
+    ///
+    /// If you update the S3BucketName of [CrlConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html), you can break revocation for existing certificates. In other words, if you call [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) to update the CRL configuration's S3 bucket name, Amazon Web Services Private CA only writes CRLs to the new S3 bucket. Certificates issued prior to this point will have the old S3 bucket name in your CRL Distribution Point (CDP) extension, essentially breaking revocation. If you must update the S3 bucket, you'll need to reissue old certificates to keep the revocation working. Alternatively, you can use a [CustomCname](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html#privateca-Type-CrlConfiguration-CustomCname) in your CRL configuration if you might need to change the S3 bucket name in the future.
     public var revocationConfiguration: ACMPCAClientTypes.RevocationConfiguration?
     /// Status of your private CA.
     public var status: ACMPCAClientTypes.CertificateAuthorityStatus?

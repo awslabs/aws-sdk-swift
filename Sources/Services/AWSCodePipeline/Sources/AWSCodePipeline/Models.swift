@@ -297,6 +297,7 @@ extension CodePipelineClientTypes {
     public enum ActionCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case approval
         case build
+        case compute
         case deploy
         case invoke
         case source
@@ -307,6 +308,7 @@ extension CodePipelineClientTypes {
             return [
                 .approval,
                 .build,
+                .compute,
                 .deploy,
                 .invoke,
                 .source,
@@ -323,6 +325,7 @@ extension CodePipelineClientTypes {
             switch self {
             case .approval: return "Approval"
             case .build: return "Build"
+            case .compute: return "Compute"
             case .deploy: return "Deploy"
             case .invoke: return "Invoke"
             case .source: return "Source"
@@ -1841,13 +1844,17 @@ extension CodePipelineClientTypes {
 
     public enum Result: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fail
+        case retry
         case rollback
+        case skip
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Result] {
             return [
                 .fail,
-                .rollback
+                .retry,
+                .rollback,
+                .skip
             ]
         }
 
@@ -1859,7 +1866,9 @@ extension CodePipelineClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .fail: return "FAIL"
+            case .retry: return "RETRY"
             case .rollback: return "ROLLBACK"
+            case .skip: return "SKIP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2446,20 +2455,69 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
+    public enum StageRetryMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allActions
+        case failedActions
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StageRetryMode] {
+            return [
+                .allActions,
+                .failedActions
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allActions: return "ALL_ACTIONS"
+            case .failedActions: return "FAILED_ACTIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+
+    /// The retry configuration specifies automatic retry for a failed stage, along with the configured retry mode.
+    public struct RetryConfiguration: Swift.Sendable {
+        /// The method that you want to configure for automatic stage retry on stage failure. You can specify to retry only failed action in the stage or all actions in the stage.
+        public var retryMode: CodePipelineClientTypes.StageRetryMode?
+
+        public init(
+            retryMode: CodePipelineClientTypes.StageRetryMode? = nil
+        )
+        {
+            self.retryMode = retryMode
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+
     /// The configuration that specifies the result, such as rollback, to occur upon stage failure.
     public struct FailureConditions: Swift.Sendable {
         /// The conditions that are configured as failure conditions.
         public var conditions: [CodePipelineClientTypes.Condition]?
         /// The specified result for when the failure conditions are met, such as rolling back the stage.
         public var result: CodePipelineClientTypes.Result?
+        /// The retry configuration specifies automatic retry for a failed stage, along with the configured retry mode.
+        public var retryConfiguration: CodePipelineClientTypes.RetryConfiguration?
 
         public init(
             conditions: [CodePipelineClientTypes.Condition]? = nil,
-            result: CodePipelineClientTypes.Result? = nil
+            result: CodePipelineClientTypes.Result? = nil,
+            retryConfiguration: CodePipelineClientTypes.RetryConfiguration? = nil
         )
         {
             self.conditions = conditions
             self.result = result
+            self.retryConfiguration = retryConfiguration
         }
     }
 }
@@ -3956,6 +4014,7 @@ extension CodePipelineClientTypes {
         case cancelled
         case failed
         case inprogress
+        case skipped
         case stopped
         case stopping
         case succeeded
@@ -3966,6 +4025,7 @@ extension CodePipelineClientTypes {
                 .cancelled,
                 .failed,
                 .inprogress,
+                .skipped,
                 .stopped,
                 .stopping,
                 .succeeded
@@ -3982,6 +4042,7 @@ extension CodePipelineClientTypes {
             case .cancelled: return "Cancelled"
             case .failed: return "Failed"
             case .inprogress: return "InProgress"
+            case .skipped: return "Skipped"
             case .stopped: return "Stopped"
             case .stopping: return "Stopping"
             case .succeeded: return "Succeeded"
@@ -4047,6 +4108,59 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
+    public enum RetryTrigger: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatedstageretry
+        case manualstageretry
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetryTrigger] {
+            return [
+                .automatedstageretry,
+                .manualstageretry
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatedstageretry: return "AutomatedStageRetry"
+            case .manualstageretry: return "ManualStageRetry"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+
+    /// The details of a specific automatic retry on stage failure, including the attempt number and trigger.
+    public struct RetryStageMetadata: Swift.Sendable {
+        /// The number of attempts for a specific stage with automatic retry on stage failure. One attempt is allowed for automatic stage retry on failure.
+        public var autoStageRetryAttempt: Swift.Int?
+        /// The latest trigger for a specific stage where manual or automatic retries have been made upon stage failure.
+        public var latestRetryTrigger: CodePipelineClientTypes.RetryTrigger?
+        /// The number of attempts for a specific stage where manual retries have been made upon stage failure.
+        public var manualStageRetryAttempt: Swift.Int?
+
+        public init(
+            autoStageRetryAttempt: Swift.Int? = nil,
+            latestRetryTrigger: CodePipelineClientTypes.RetryTrigger? = nil,
+            manualStageRetryAttempt: Swift.Int? = nil
+        )
+        {
+            self.autoStageRetryAttempt = autoStageRetryAttempt
+            self.latestRetryTrigger = latestRetryTrigger
+            self.manualStageRetryAttempt = manualStageRetryAttempt
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+
     /// Represents information about the state of the stage.
     public struct StageState: Swift.Sendable {
         /// The state of the stage.
@@ -4065,6 +4179,8 @@ extension CodePipelineClientTypes {
         public var onFailureConditionState: CodePipelineClientTypes.StageConditionState?
         /// The state of the success conditions for a stage.
         public var onSuccessConditionState: CodePipelineClientTypes.StageConditionState?
+        /// he details of a specific automatic retry on stage failure, including the attempt number and trigger.
+        public var retryStageMetadata: CodePipelineClientTypes.RetryStageMetadata?
         /// The name of the stage.
         public var stageName: Swift.String?
 
@@ -4077,6 +4193,7 @@ extension CodePipelineClientTypes {
             latestExecution: CodePipelineClientTypes.StageExecution? = nil,
             onFailureConditionState: CodePipelineClientTypes.StageConditionState? = nil,
             onSuccessConditionState: CodePipelineClientTypes.StageConditionState? = nil,
+            retryStageMetadata: CodePipelineClientTypes.RetryStageMetadata? = nil,
             stageName: Swift.String? = nil
         )
         {
@@ -4088,6 +4205,7 @@ extension CodePipelineClientTypes {
             self.latestExecution = latestExecution
             self.onFailureConditionState = onFailureConditionState
             self.onSuccessConditionState = onSuccessConditionState
+            self.retryStageMetadata = retryStageMetadata
             self.stageName = stageName
         }
     }
@@ -6041,35 +6159,6 @@ public struct StageNotRetryableException: ClientRuntime.ModeledError, AWSClientR
     )
     {
         self.properties.message = message
-    }
-}
-
-extension CodePipelineClientTypes {
-
-    public enum StageRetryMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case allActions
-        case failedActions
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StageRetryMode] {
-            return [
-                .allActions,
-                .failedActions
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .allActions: return "ALL_ACTIONS"
-            case .failedActions: return "FAILED_ACTIONS"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -9374,13 +9463,30 @@ extension CodePipelineClientTypes.FailureConditions {
         guard let value else { return }
         try writer["conditions"].writeList(value.conditions, memberWritingClosure: CodePipelineClientTypes.Condition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["result"].write(value.result)
+        try writer["retryConfiguration"].write(value.retryConfiguration, with: CodePipelineClientTypes.RetryConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.FailureConditions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodePipelineClientTypes.FailureConditions()
         value.result = try reader["result"].readIfPresent()
+        value.retryConfiguration = try reader["retryConfiguration"].readIfPresent(with: CodePipelineClientTypes.RetryConfiguration.read(from:))
         value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodePipelineClientTypes.RetryConfiguration {
+
+    static func write(value: CodePipelineClientTypes.RetryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["retryMode"].write(value.retryMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.RetryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodePipelineClientTypes.RetryConfiguration()
+        value.retryMode = try reader["retryMode"].readIfPresent()
         return value
     }
 }
@@ -9904,6 +10010,19 @@ extension CodePipelineClientTypes.StageState {
         value.beforeEntryConditionState = try reader["beforeEntryConditionState"].readIfPresent(with: CodePipelineClientTypes.StageConditionState.read(from:))
         value.onSuccessConditionState = try reader["onSuccessConditionState"].readIfPresent(with: CodePipelineClientTypes.StageConditionState.read(from:))
         value.onFailureConditionState = try reader["onFailureConditionState"].readIfPresent(with: CodePipelineClientTypes.StageConditionState.read(from:))
+        value.retryStageMetadata = try reader["retryStageMetadata"].readIfPresent(with: CodePipelineClientTypes.RetryStageMetadata.read(from:))
+        return value
+    }
+}
+
+extension CodePipelineClientTypes.RetryStageMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.RetryStageMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodePipelineClientTypes.RetryStageMetadata()
+        value.autoStageRetryAttempt = try reader["autoStageRetryAttempt"].readIfPresent()
+        value.manualStageRetryAttempt = try reader["manualStageRetryAttempt"].readIfPresent()
+        value.latestRetryTrigger = try reader["latestRetryTrigger"].readIfPresent()
         return value
     }
 }

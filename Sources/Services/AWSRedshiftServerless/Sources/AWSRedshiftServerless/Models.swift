@@ -572,6 +572,8 @@ extension RedshiftServerlessClientTypes {
     public struct NetworkInterface: Swift.Sendable {
         /// The availability Zone.
         public var availabilityZone: Swift.String?
+        /// The IPv6 address of the network interface within the subnet.
+        public var ipv6Address: Swift.String?
         /// The unique identifier of the network interface.
         public var networkInterfaceId: Swift.String?
         /// The IPv4 address of the network interface within the subnet.
@@ -581,12 +583,14 @@ extension RedshiftServerlessClientTypes {
 
         public init(
             availabilityZone: Swift.String? = nil,
+            ipv6Address: Swift.String? = nil,
             networkInterfaceId: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil,
             subnetId: Swift.String? = nil
         )
         {
             self.availabilityZone = availabilityZone
+            self.ipv6Address = ipv6Address
             self.networkInterfaceId = networkInterfaceId
             self.privateIpAddress = privateIpAddress
             self.subnetId = subnetId
@@ -969,7 +973,7 @@ public struct CreateScheduledActionInput: Swift.Sendable {
     /// The name of the namespace for which to create a scheduled action.
     /// This member is required.
     public var namespaceName: Swift.String?
-    /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide
+    /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Management Guide
     /// This member is required.
     public var roleArn: Swift.String?
     /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.
@@ -1053,7 +1057,7 @@ extension RedshiftServerlessClientTypes {
         public var namespaceName: Swift.String?
         /// An array of timestamps of when the next scheduled actions will trigger.
         public var nextInvocations: [Foundation.Date]?
-        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide
+        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Management Guide
         public var roleArn: Swift.String?
         /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.
         ///
@@ -1429,6 +1433,31 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+/// There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
+public struct Ipv6CidrBlockNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "Ipv6CidrBlockNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 public struct CreateWorkgroupInput: Swift.Sendable {
     /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
@@ -1436,6 +1465,8 @@ public struct CreateWorkgroupInput: Swift.Sendable {
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
     public var enhancedVpcRouting: Swift.Bool?
+    /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
+    public var ipAddressType: Swift.String?
     /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
     public var maxCapacity: Swift.Int?
     /// The name of the namespace to associate with the workgroup.
@@ -1459,6 +1490,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         baseCapacity: Swift.Int? = nil,
         configParameters: [RedshiftServerlessClientTypes.ConfigParameter]? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        ipAddressType: Swift.String? = nil,
         maxCapacity: Swift.Int? = nil,
         namespaceName: Swift.String? = nil,
         port: Swift.Int? = nil,
@@ -1472,6 +1504,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         self.baseCapacity = baseCapacity
         self.configParameters = configParameters
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.ipAddressType = ipAddressType
         self.maxCapacity = maxCapacity
         self.namespaceName = namespaceName
         self.port = port
@@ -1564,6 +1597,8 @@ extension RedshiftServerlessClientTypes {
         public var endpoint: RedshiftServerlessClientTypes.Endpoint?
         /// The value that specifies whether to enable enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public var enhancedVpcRouting: Swift.Bool?
+        /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
+        public var ipAddressType: Swift.String?
         /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
         public var maxCapacity: Swift.Int?
         /// The namespace the workgroup is associated with.
@@ -1599,6 +1634,7 @@ extension RedshiftServerlessClientTypes {
             customDomainName: Swift.String? = nil,
             endpoint: RedshiftServerlessClientTypes.Endpoint? = nil,
             enhancedVpcRouting: Swift.Bool? = nil,
+            ipAddressType: Swift.String? = nil,
             maxCapacity: Swift.Int? = nil,
             namespaceName: Swift.String? = nil,
             patchVersion: Swift.String? = nil,
@@ -1622,6 +1658,7 @@ extension RedshiftServerlessClientTypes {
             self.customDomainName = customDomainName
             self.endpoint = endpoint
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.ipAddressType = ipAddressType
             self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
             self.patchVersion = patchVersion
@@ -3058,7 +3095,7 @@ public struct UpdateScheduledActionInput: Swift.Sendable {
     public var enabled: Swift.Bool?
     /// The end time in UTC of the scheduled action to update.
     public var endTime: Foundation.Date?
-    /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide
+    /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Management Guide
     public var roleArn: Swift.String?
     /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.
     ///
@@ -3426,6 +3463,8 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
     public var enhancedVpcRouting: Swift.Bool?
+    /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
+    public var ipAddressType: Swift.String?
     /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
     public var maxCapacity: Swift.Int?
     /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
@@ -3444,6 +3483,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         baseCapacity: Swift.Int? = nil,
         configParameters: [RedshiftServerlessClientTypes.ConfigParameter]? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        ipAddressType: Swift.String? = nil,
         maxCapacity: Swift.Int? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
@@ -3455,6 +3495,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         self.baseCapacity = baseCapacity
         self.configParameters = configParameters
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.ipAddressType = ipAddressType
         self.maxCapacity = maxCapacity
         self.port = port
         self.publiclyAccessible = publiclyAccessible
@@ -3971,6 +4012,7 @@ extension CreateWorkgroupInput {
         try writer["baseCapacity"].write(value.baseCapacity)
         try writer["configParameters"].writeList(value.configParameters, memberWritingClosure: RedshiftServerlessClientTypes.ConfigParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["enhancedVpcRouting"].write(value.enhancedVpcRouting)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["maxCapacity"].write(value.maxCapacity)
         try writer["namespaceName"].write(value.namespaceName)
         try writer["port"].write(value.port)
@@ -4421,6 +4463,7 @@ extension UpdateWorkgroupInput {
         try writer["baseCapacity"].write(value.baseCapacity)
         try writer["configParameters"].writeList(value.configParameters, memberWritingClosure: RedshiftServerlessClientTypes.ConfigParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["enhancedVpcRouting"].write(value.enhancedVpcRouting)
+        try writer["ipAddressType"].write(value.ipAddressType)
         try writer["maxCapacity"].write(value.maxCapacity)
         try writer["port"].write(value.port)
         try writer["publiclyAccessible"].write(value.publiclyAccessible)
@@ -5253,6 +5296,7 @@ enum CreateWorkgroupOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InsufficientCapacityException": return try InsufficientCapacityException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "Ipv6CidrBlockNotFoundException": return try Ipv6CidrBlockNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -6034,6 +6078,7 @@ enum UpdateWorkgroupOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InsufficientCapacityException": return try InsufficientCapacityException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "Ipv6CidrBlockNotFoundException": return try Ipv6CidrBlockNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6162,6 +6207,19 @@ extension InsufficientCapacityException {
     }
 }
 
+extension Ipv6CidrBlockNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> Ipv6CidrBlockNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = Ipv6CidrBlockNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidPaginationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPaginationException {
@@ -6246,6 +6304,7 @@ extension RedshiftServerlessClientTypes.NetworkInterface {
         value.subnetId = try reader["subnetId"].readIfPresent()
         value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.ipv6Address = try reader["ipv6Address"].readIfPresent()
         return value
     }
 }
@@ -6450,6 +6509,7 @@ extension RedshiftServerlessClientTypes.Workgroup {
         value.patchVersion = try reader["patchVersion"].readIfPresent()
         value.maxCapacity = try reader["maxCapacity"].readIfPresent()
         value.crossAccountVpcs = try reader["crossAccountVpcs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent()
         return value
     }
 }

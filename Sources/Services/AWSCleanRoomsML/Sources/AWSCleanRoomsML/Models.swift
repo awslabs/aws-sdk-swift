@@ -514,6 +514,36 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes {
 
+    /// The parameters for the SQL type Protected Query.
+    public struct ProtectedQuerySQLParameters: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
+        public var analysisTemplateArn: Swift.String?
+        /// The protected query SQL parameters.
+        public var parameters: [Swift.String: Swift.String]?
+        /// The query string to be submitted.
+        public var queryString: Swift.String?
+
+        public init(
+            analysisTemplateArn: Swift.String? = nil,
+            parameters: [Swift.String: Swift.String]? = nil,
+            queryString: Swift.String? = nil
+        )
+        {
+            self.analysisTemplateArn = analysisTemplateArn
+            self.parameters = parameters
+            self.queryString = queryString
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes.ProtectedQuerySQLParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
     /// Defines the Amazon S3 bucket where the seed audience for the generating audience is stored.
     public struct AudienceGenerationJobDataSource: Swift.Sendable {
         /// Defines the Amazon S3 bucket where the seed audience for the generating audience is stored. A valid data source is a JSON line file in the following format: {"user_id": "111111"}
@@ -521,21 +551,29 @@ extension CleanRoomsMLClientTypes {
         ///
         ///
         ///     ...
-        /// This member is required.
         public var dataSource: CleanRoomsMLClientTypes.S3ConfigMap?
-        /// The ARN of the IAM role that can read the Amazon S3 bucket where the training data is stored.
+        /// The ARN of the IAM role that can read the Amazon S3 bucket where the seed audience is stored.
         /// This member is required.
         public var roleArn: Swift.String?
+        /// The protected SQL query parameters.
+        public var sqlParameters: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters?
 
         public init(
             dataSource: CleanRoomsMLClientTypes.S3ConfigMap? = nil,
-            roleArn: Swift.String? = nil
+            roleArn: Swift.String? = nil,
+            sqlParameters: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters? = nil
         )
         {
             self.dataSource = dataSource
             self.roleArn = roleArn
+            self.sqlParameters = sqlParameters
         }
     }
+}
+
+extension CleanRoomsMLClientTypes.AudienceGenerationJobDataSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AudienceGenerationJobDataSource(dataSource: \(Swift.String(describing: dataSource)), roleArn: \(Swift.String(describing: roleArn)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsMLClientTypes {
@@ -603,6 +641,8 @@ public struct GetAudienceGenerationJobOutput: Swift.Sendable {
     /// The name of the audience generation job.
     /// This member is required.
     public var name: Swift.String?
+    /// The unique identifier of the protected query for this audience generation job.
+    public var protectedQueryIdentifier: Swift.String?
     /// The seed audience that was used for this audience generation job. This field will be null if the account calling the API is the account that started this audience generation job.
     public var seedAudience: CleanRoomsMLClientTypes.AudienceGenerationJobDataSource?
     /// The AWS account that started this audience generation job.
@@ -627,6 +667,7 @@ public struct GetAudienceGenerationJobOutput: Swift.Sendable {
         includeSeedInOutput: Swift.Bool? = nil,
         metrics: CleanRoomsMLClientTypes.AudienceQualityMetrics? = nil,
         name: Swift.String? = nil,
+        protectedQueryIdentifier: Swift.String? = nil,
         seedAudience: CleanRoomsMLClientTypes.AudienceGenerationJobDataSource? = nil,
         startedBy: Swift.String? = nil,
         status: CleanRoomsMLClientTypes.AudienceGenerationJobStatus? = nil,
@@ -643,6 +684,7 @@ public struct GetAudienceGenerationJobOutput: Swift.Sendable {
         self.includeSeedInOutput = includeSeedInOutput
         self.metrics = metrics
         self.name = name
+        self.protectedQueryIdentifier = protectedQueryIdentifier
         self.seedAudience = seedAudience
         self.startedBy = startedBy
         self.status = status
@@ -1091,7 +1133,7 @@ public struct ListAudienceModelsOutput: Swift.Sendable {
 
 extension CleanRoomsMLClientTypes {
 
-    /// Configure the list of audience output sizes that can be created. A request to [StartAudienceGenerationJob] that uses this configured audience model must have an audienceSize selected from this list. You can use the ABSOLUTE[AudienceSize] to configure out audience sizes using the count of identifiers in the output. You can use the Percentage[AudienceSize] to configure sizes in the range 1-100 percent.
+    /// Returns the relevance scores at these audience sizes when used in the [GetAudienceGenerationJob] for a specified audience generation job and configured audience model. Specifies the list of allowed audienceSize values when used in the [StartAudienceExportJob] for an audience generation job. You can use the ABSOLUTE[AudienceSize] to configure out audience sizes using the count of identifiers in the output. You can use the Percentage[AudienceSize] to configure sizes in the range 1-100 percent.
     public struct AudienceSizeConfig: Swift.Sendable {
         /// An array of the different audience output sizes.
         /// This member is required.
@@ -2648,6 +2690,7 @@ extension GetAudienceGenerationJobOutput {
         value.includeSeedInOutput = try reader["includeSeedInOutput"].readIfPresent()
         value.metrics = try reader["metrics"].readIfPresent(with: CleanRoomsMLClientTypes.AudienceQualityMetrics.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.protectedQueryIdentifier = try reader["protectedQueryIdentifier"].readIfPresent()
         value.seedAudience = try reader["seedAudience"].readIfPresent(with: CleanRoomsMLClientTypes.AudienceGenerationJobDataSource.read(from:))
         value.startedBy = try reader["startedBy"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -3364,6 +3407,7 @@ extension CleanRoomsMLClientTypes.AudienceGenerationJobDataSource {
         guard let value else { return }
         try writer["dataSource"].write(value.dataSource, with: CleanRoomsMLClientTypes.S3ConfigMap.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
+        try writer["sqlParameters"].write(value.sqlParameters, with: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.AudienceGenerationJobDataSource {
@@ -3371,6 +3415,26 @@ extension CleanRoomsMLClientTypes.AudienceGenerationJobDataSource {
         var value = CleanRoomsMLClientTypes.AudienceGenerationJobDataSource()
         value.dataSource = try reader["dataSource"].readIfPresent(with: CleanRoomsMLClientTypes.S3ConfigMap.read(from:))
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.sqlParameters = try reader["sqlParameters"].readIfPresent(with: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.ProtectedQuerySQLParameters {
+
+    static func write(value: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analysisTemplateArn"].write(value.analysisTemplateArn)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["queryString"].write(value.queryString)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.ProtectedQuerySQLParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.ProtectedQuerySQLParameters()
+        value.queryString = try reader["queryString"].readIfPresent()
+        value.analysisTemplateArn = try reader["analysisTemplateArn"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

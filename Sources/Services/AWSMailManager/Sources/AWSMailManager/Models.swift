@@ -749,6 +749,8 @@ extension MailManagerClientTypes {
 
     public enum ArchiveStringEmailAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cc
+        case envelopeFrom
+        case envelopeTo
         case from
         case subject
         case to
@@ -757,6 +759,8 @@ extension MailManagerClientTypes {
         public static var allCases: [ArchiveStringEmailAttribute] {
             return [
                 .cc,
+                .envelopeFrom,
+                .envelopeTo,
                 .from,
                 .subject,
                 .to
@@ -771,6 +775,8 @@ extension MailManagerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cc: return "CC"
+            case .envelopeFrom: return "ENVELOPE_FROM"
+            case .envelopeTo: return "ENVELOPE_TO"
             case .from: return "FROM"
             case .subject: return "SUBJECT"
             case .to: return "TO"
@@ -2797,6 +2803,30 @@ public struct DeleteTrafficPolicyOutput: Swift.Sendable {
 
 extension MailManagerClientTypes {
 
+    /// The SMTP envelope information of the email.
+    public struct Envelope: Swift.Sendable {
+        /// The RCPT FROM given by the host from which the email was received.
+        public var from: Swift.String?
+        /// The HELO used by the host from which the email was received.
+        public var helo: Swift.String?
+        /// All SMTP TO entries given by the host from which the email was received.
+        public var to: [Swift.String]?
+
+        public init(
+            from: Swift.String? = nil,
+            helo: Swift.String? = nil,
+            to: [Swift.String]? = nil
+        )
+        {
+            self.from = from
+            self.helo = helo
+            self.to = to
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
     /// The configuration for exporting email data to an Amazon S3 bucket.
     public struct S3ExportDestinationConfiguration: Swift.Sendable {
         /// The S3 location to deliver the exported email data.
@@ -2975,16 +3005,73 @@ public struct GetArchiveMessageInput: Swift.Sendable {
     }
 }
 
+extension MailManagerClientTypes {
+
+    /// The metadata about the email.
+    public struct Metadata: Swift.Sendable {
+        /// The ID of the ingress endpoint through which the email was received.
+        public var ingressPointId: Swift.String?
+        /// The ID of the rule set that processed the email.
+        public var ruleSetId: Swift.String?
+        /// The name of the host from which the email was received.
+        public var senderHostname: Swift.String?
+        /// The IP address of the host from which the email was received.
+        public var senderIpAddress: Swift.String?
+        /// The timestamp of when the email was received.
+        public var timestamp: Foundation.Date?
+        /// The TLS cipher suite used to communicate with the host from which the email was received.
+        public var tlsCipherSuite: Swift.String?
+        /// The TLS protocol used to communicate with the host from which the email was received.
+        public var tlsProtocol: Swift.String?
+        /// The ID of the traffic policy that was in effect when the email was received.
+        public var trafficPolicyId: Swift.String?
+
+        public init(
+            ingressPointId: Swift.String? = nil,
+            ruleSetId: Swift.String? = nil,
+            senderHostname: Swift.String? = nil,
+            senderIpAddress: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil,
+            tlsCipherSuite: Swift.String? = nil,
+            tlsProtocol: Swift.String? = nil,
+            trafficPolicyId: Swift.String? = nil
+        )
+        {
+            self.ingressPointId = ingressPointId
+            self.ruleSetId = ruleSetId
+            self.senderHostname = senderHostname
+            self.senderIpAddress = senderIpAddress
+            self.timestamp = timestamp
+            self.tlsCipherSuite = tlsCipherSuite
+            self.tlsProtocol = tlsProtocol
+            self.trafficPolicyId = trafficPolicyId
+        }
+    }
+}
+
+extension MailManagerClientTypes.Metadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Metadata(ingressPointId: \(Swift.String(describing: ingressPointId)), ruleSetId: \(Swift.String(describing: ruleSetId)), senderHostname: \(Swift.String(describing: senderHostname)), timestamp: \(Swift.String(describing: timestamp)), tlsCipherSuite: \(Swift.String(describing: tlsCipherSuite)), tlsProtocol: \(Swift.String(describing: tlsProtocol)), trafficPolicyId: \(Swift.String(describing: trafficPolicyId)), senderIpAddress: \"CONTENT_REDACTED\")"}
+}
+
 /// The response containing details about the requested archived email message.
 public struct GetArchiveMessageOutput: Swift.Sendable {
+    /// The SMTP envelope information of the email.
+    public var envelope: MailManagerClientTypes.Envelope?
     /// A pre-signed URL to temporarily download the full message content.
     public var messageDownloadLink: Swift.String?
+    /// The metadata about the email.
+    public var metadata: MailManagerClientTypes.Metadata?
 
     public init(
-        messageDownloadLink: Swift.String? = nil
+        envelope: MailManagerClientTypes.Envelope? = nil,
+        messageDownloadLink: Swift.String? = nil,
+        metadata: MailManagerClientTypes.Metadata? = nil
     )
     {
+        self.envelope = envelope
         self.messageDownloadLink = messageDownloadLink
+        self.metadata = metadata
     }
 }
 
@@ -3176,18 +3263,26 @@ extension MailManagerClientTypes {
         public var cc: Swift.String?
         /// The date the email was sent.
         public var date: Swift.String?
+        /// The SMTP envelope information of the email.
+        public var envelope: MailManagerClientTypes.Envelope?
         /// The email address of the sender.
         public var from: Swift.String?
         /// A flag indicating if the email has attachments.
         public var hasAttachments: Swift.Bool?
         /// The email message ID this is a reply to.
         public var inReplyTo: Swift.String?
+        /// The ID of the ingress endpoint through which the email was received.
+        public var ingressPointId: Swift.String?
         /// The unique message ID of the email.
         public var messageId: Swift.String?
         /// The received headers from the email delivery path.
         public var receivedHeaders: [Swift.String]?
         /// The timestamp of when the email was received.
         public var receivedTimestamp: Foundation.Date?
+        /// The name of the host from which the email was received.
+        public var senderHostname: Swift.String?
+        /// The IP address of the host from which the email was received.
+        public var senderIpAddress: Swift.String?
         /// The subject header value of the email.
         public var subject: Swift.String?
         /// The email addresses in the To header.
@@ -3203,12 +3298,16 @@ extension MailManagerClientTypes {
             archivedMessageId: Swift.String? = nil,
             cc: Swift.String? = nil,
             date: Swift.String? = nil,
+            envelope: MailManagerClientTypes.Envelope? = nil,
             from: Swift.String? = nil,
             hasAttachments: Swift.Bool? = nil,
             inReplyTo: Swift.String? = nil,
+            ingressPointId: Swift.String? = nil,
             messageId: Swift.String? = nil,
             receivedHeaders: [Swift.String]? = nil,
             receivedTimestamp: Foundation.Date? = nil,
+            senderHostname: Swift.String? = nil,
+            senderIpAddress: Swift.String? = nil,
             subject: Swift.String? = nil,
             to: Swift.String? = nil,
             xMailer: Swift.String? = nil,
@@ -3219,12 +3318,16 @@ extension MailManagerClientTypes {
             self.archivedMessageId = archivedMessageId
             self.cc = cc
             self.date = date
+            self.envelope = envelope
             self.from = from
             self.hasAttachments = hasAttachments
             self.inReplyTo = inReplyTo
+            self.ingressPointId = ingressPointId
             self.messageId = messageId
             self.receivedHeaders = receivedHeaders
             self.receivedTimestamp = receivedTimestamp
+            self.senderHostname = senderHostname
+            self.senderIpAddress = senderIpAddress
             self.subject = subject
             self.to = to
             self.xMailer = xMailer
@@ -3232,6 +3335,11 @@ extension MailManagerClientTypes {
             self.xPriority = xPriority
         }
     }
+}
+
+extension MailManagerClientTypes.Row: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Row(archivedMessageId: \(Swift.String(describing: archivedMessageId)), cc: \(Swift.String(describing: cc)), date: \(Swift.String(describing: date)), envelope: \(Swift.String(describing: envelope)), from: \(Swift.String(describing: from)), hasAttachments: \(Swift.String(describing: hasAttachments)), inReplyTo: \(Swift.String(describing: inReplyTo)), ingressPointId: \(Swift.String(describing: ingressPointId)), messageId: \(Swift.String(describing: messageId)), receivedHeaders: \(Swift.String(describing: receivedHeaders)), receivedTimestamp: \(Swift.String(describing: receivedTimestamp)), senderHostname: \(Swift.String(describing: senderHostname)), subject: \(Swift.String(describing: subject)), to: \(Swift.String(describing: to)), xMailer: \(Swift.String(describing: xMailer)), xOriginalMailer: \(Swift.String(describing: xOriginalMailer)), xPriority: \(Swift.String(describing: xPriority)), senderIpAddress: \"CONTENT_REDACTED\")"}
 }
 
 /// The response containing search results from a completed archive search.
@@ -4064,6 +4172,8 @@ public struct StartArchiveExportInput: Swift.Sendable {
     /// The start of the timestamp range to include emails from.
     /// This member is required.
     public var fromTimestamp: Foundation.Date?
+    /// Whether to include message metadata as JSON files in the export.
+    public var includeMetadata: Swift.Bool?
     /// The maximum number of email items to include in the export.
     public var maxResults: Swift.Int?
     /// The end of the timestamp range to include emails from.
@@ -4075,6 +4185,7 @@ public struct StartArchiveExportInput: Swift.Sendable {
         exportDestinationConfiguration: MailManagerClientTypes.ExportDestinationConfiguration? = nil,
         filters: MailManagerClientTypes.ArchiveFilters? = nil,
         fromTimestamp: Foundation.Date? = nil,
+        includeMetadata: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         toTimestamp: Foundation.Date? = nil
     )
@@ -4083,6 +4194,7 @@ public struct StartArchiveExportInput: Swift.Sendable {
         self.exportDestinationConfiguration = exportDestinationConfiguration
         self.filters = filters
         self.fromTimestamp = fromTimestamp
+        self.includeMetadata = includeMetadata
         self.maxResults = maxResults
         self.toTimestamp = toTimestamp
     }
@@ -4935,6 +5047,7 @@ extension StartArchiveExportInput {
         try writer["ExportDestinationConfiguration"].write(value.exportDestinationConfiguration, with: MailManagerClientTypes.ExportDestinationConfiguration.write(value:to:))
         try writer["Filters"].write(value.filters, with: MailManagerClientTypes.ArchiveFilters.write(value:to:))
         try writer["FromTimestamp"].writeTimestamp(value.fromTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["IncludeMetadata"].write(value.includeMetadata)
         try writer["MaxResults"].write(value.maxResults)
         try writer["ToTimestamp"].writeTimestamp(value.toTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
@@ -5249,7 +5362,9 @@ extension GetArchiveMessageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetArchiveMessageOutput()
+        value.envelope = try reader["Envelope"].readIfPresent(with: MailManagerClientTypes.Envelope.read(from:))
         value.messageDownloadLink = try reader["MessageDownloadLink"].readIfPresent()
+        value.metadata = try reader["Metadata"].readIfPresent(with: MailManagerClientTypes.Metadata.read(from:))
         return value
     }
 }
@@ -6618,6 +6733,35 @@ extension MailManagerClientTypes.ExportStatus {
     }
 }
 
+extension MailManagerClientTypes.Metadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Metadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.Metadata()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ingressPointId = try reader["IngressPointId"].readIfPresent()
+        value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent()
+        value.ruleSetId = try reader["RuleSetId"].readIfPresent()
+        value.senderHostname = try reader["SenderHostname"].readIfPresent()
+        value.senderIpAddress = try reader["SenderIpAddress"].readIfPresent()
+        value.tlsCipherSuite = try reader["TlsCipherSuite"].readIfPresent()
+        value.tlsProtocol = try reader["TlsProtocol"].readIfPresent()
+        return value
+    }
+}
+
+extension MailManagerClientTypes.Envelope {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Envelope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.Envelope()
+        value.helo = try reader["Helo"].readIfPresent()
+        value.from = try reader["From"].readIfPresent()
+        value.to = try reader["To"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension MailManagerClientTypes.MessageBody {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.MessageBody {
@@ -6662,6 +6806,10 @@ extension MailManagerClientTypes.Row {
         value.xMailer = try reader["XMailer"].readIfPresent()
         value.xOriginalMailer = try reader["XOriginalMailer"].readIfPresent()
         value.xPriority = try reader["XPriority"].readIfPresent()
+        value.ingressPointId = try reader["IngressPointId"].readIfPresent()
+        value.senderHostname = try reader["SenderHostname"].readIfPresent()
+        value.senderIpAddress = try reader["SenderIpAddress"].readIfPresent()
+        value.envelope = try reader["Envelope"].readIfPresent(with: MailManagerClientTypes.Envelope.read(from:))
         return value
     }
 }

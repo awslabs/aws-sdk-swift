@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.76.0"
+let clientRuntimeVersion: Version = "0.79.0"
 let crtVersion: Version = "0.36.0"
 
 let excludeRuntimeUnitTests = false
@@ -98,7 +98,9 @@ let serviceTargets: [String] = [
     "AWSCodeGuruReviewer",
     "AWSCodeGuruSecurity",
     "AWSCodePipeline",
+    "AWSCodeStarconnections",
     "AWSCodeartifact",
+    "AWSCodestarnotifications",
     "AWSCognitoIdentity",
     "AWSCognitoIdentityProvider",
     "AWSCognitoSync",
@@ -373,6 +375,7 @@ let serviceTargets: [String] = [
     "AWSSimSpaceWeaver",
     "AWSSnowDeviceManagement",
     "AWSSnowball",
+    "AWSSocialMessaging",
     "AWSSsmSap",
     "AWSStorageGateway",
     "AWSSupplyChain",
@@ -399,7 +402,6 @@ let serviceTargets: [String] = [
     "AWSWellArchitected",
     "AWSWisdom",
     "AWSWorkDocs",
-    "AWSWorkLink",
     "AWSWorkMail",
     "AWSWorkMailMessageFlow",
     "AWSWorkSpaces",

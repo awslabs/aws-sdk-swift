@@ -1869,7 +1869,9 @@ extension ApplicationAutoScalingClientTypes {
         case neptunereaderaveragecpuutilization
         case rdsreaderaveragecpuutilization
         case rdsreaderaveragedatabaseconnections
+        case sagemakerinferencecomponentconcurrentrequestspercopyhighresolution
         case sagemakerinferencecomponentinvocationspercopy
+        case sagemakervariantconcurrentrequestspermodelhighresolution
         case sagemakervariantinvocationsperinstance
         case sagemakervariantprovisionedconcurrencyutilization
         case workspacesaverageusersessionscapacityutilization
@@ -1898,7 +1900,9 @@ extension ApplicationAutoScalingClientTypes {
                 .neptunereaderaveragecpuutilization,
                 .rdsreaderaveragecpuutilization,
                 .rdsreaderaveragedatabaseconnections,
+                .sagemakerinferencecomponentconcurrentrequestspercopyhighresolution,
                 .sagemakerinferencecomponentinvocationspercopy,
+                .sagemakervariantconcurrentrequestspermodelhighresolution,
                 .sagemakervariantinvocationsperinstance,
                 .sagemakervariantprovisionedconcurrencyutilization,
                 .workspacesaverageusersessionscapacityutilization
@@ -1933,7 +1937,9 @@ extension ApplicationAutoScalingClientTypes {
             case .neptunereaderaveragecpuutilization: return "NeptuneReaderAverageCPUUtilization"
             case .rdsreaderaveragecpuutilization: return "RDSReaderAverageCPUUtilization"
             case .rdsreaderaveragedatabaseconnections: return "RDSReaderAverageDatabaseConnections"
+            case .sagemakerinferencecomponentconcurrentrequestspercopyhighresolution: return "SageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution"
             case .sagemakerinferencecomponentinvocationspercopy: return "SageMakerInferenceComponentInvocationsPerCopy"
+            case .sagemakervariantconcurrentrequestspermodelhighresolution: return "SageMakerVariantConcurrentRequestsPerModelHighResolution"
             case .sagemakervariantinvocationsperinstance: return "SageMakerVariantInvocationsPerInstance"
             case .sagemakervariantprovisionedconcurrencyutilization: return "SageMakerVariantProvisionedConcurrencyUtilization"
             case .workspacesaverageusersessionscapacityutilization: return "WorkSpacesAverageUserSessionsCapacityUtilization"

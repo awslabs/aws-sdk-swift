@@ -1111,7 +1111,7 @@ extension WorkSpacesThinClientClientTypes {
         public var desktopEndpoint: Swift.String?
         /// The type of streaming desktop for the environment.
         public var desktopType: WorkSpacesThinClientClientTypes.DesktopType?
-        /// "The tag keys and optional values for the newly created devices for this environment."
+        /// The tag keys and optional values for the newly created devices for this environment.
         public var deviceCreationTags: [Swift.String: Swift.String]?
         /// The ID of the environment.
         public var id: Swift.String?

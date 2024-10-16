@@ -151,7 +151,7 @@ public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The maximimum number of results to return per page.
+    /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -227,6 +227,108 @@ extension ConnectContactLensClientTypes {
         {
             self.matchedCategories = matchedCategories
             self.matchedDetails = matchedDetails
+        }
+    }
+}
+
+extension ConnectContactLensClientTypes {
+
+    public enum PostContactSummaryFailureCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failedSafetyGuidelines
+        case insufficientConversationContent
+        case internalError
+        case invalidAnalysisConfiguration
+        case quotaExceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PostContactSummaryFailureCode] {
+            return [
+                .failedSafetyGuidelines,
+                .insufficientConversationContent,
+                .internalError,
+                .invalidAnalysisConfiguration,
+                .quotaExceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedSafetyGuidelines: return "FAILED_SAFETY_GUIDELINES"
+            case .insufficientConversationContent: return "INSUFFICIENT_CONVERSATION_CONTENT"
+            case .internalError: return "INTERNAL_ERROR"
+            case .invalidAnalysisConfiguration: return "INVALID_ANALYSIS_CONFIGURATION"
+            case .quotaExceeded: return "QUOTA_EXCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectContactLensClientTypes {
+
+    public enum PostContactSummaryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PostContactSummaryStatus] {
+            return [
+                .completed,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectContactLensClientTypes {
+
+    /// Information about the post-contact summary.
+    public struct PostContactSummary: Swift.Sendable {
+        /// The content of the summary.
+        public var content: Swift.String?
+        /// If the summary failed to be generated, one of the following failure codes occurs:
+        ///
+        /// * QUOTA_EXCEEDED: The number of concurrent analytics jobs reached your service quota.
+        ///
+        /// * INSUFFICIENT_CONVERSATION_CONTENT: The conversation needs to have at least one turn from both the participants in order to generate the summary.
+        ///
+        /// * FAILED_SAFETY_GUIDELINES: The generated summary cannot be provided because it failed to meet system safety guidelines.
+        ///
+        /// * INVALID_ANALYSIS_CONFIGURATION: This code occurs when, for example, you're using a [language](https://docs.aws.amazon.com/connect/latest/adminguide/supported-languages.html#supported-languages-contact-lens) that isn't supported by generative AI-powered post-contact summaries.
+        ///
+        /// * INTERNAL_ERROR: Internal system error.
+        public var failureCode: ConnectContactLensClientTypes.PostContactSummaryFailureCode?
+        /// Whether the summary was successfully COMPLETED or FAILED to be generated.
+        /// This member is required.
+        public var status: ConnectContactLensClientTypes.PostContactSummaryStatus?
+
+        public init(
+            content: Swift.String? = nil,
+            failureCode: ConnectContactLensClientTypes.PostContactSummaryFailureCode? = nil,
+            status: ConnectContactLensClientTypes.PostContactSummaryStatus? = nil
+        )
+        {
+            self.content = content
+            self.failureCode = failureCode
+            self.status = status
         }
     }
 }
@@ -320,13 +422,13 @@ extension ConnectContactLensClientTypes {
         public var id: Swift.String?
         /// List of positions where issues were detected on the transcript.
         public var issuesDetected: [ConnectContactLensClientTypes.IssueDetected]?
-        /// The identifier of the participant.
+        /// The identifier of the participant. Valid values are CUSTOMER or AGENT.
         /// This member is required.
         public var participantId: Swift.String?
         /// The role of participant. For example, is it a customer, agent, or system.
         /// This member is required.
         public var participantRole: Swift.String?
-        /// The sentiment of the detected for this piece of transcript.
+        /// The sentiment detected for this piece of transcript.
         /// This member is required.
         public var sentiment: ConnectContactLensClientTypes.SentimentValue?
 
@@ -359,15 +461,19 @@ extension ConnectContactLensClientTypes {
     public struct RealtimeContactAnalysisSegment: Swift.Sendable {
         /// The matched category rules.
         public var categories: ConnectContactLensClientTypes.Categories?
+        /// Information about the post-contact summary.
+        public var postContactSummary: ConnectContactLensClientTypes.PostContactSummary?
         /// The analyzed transcript.
         public var transcript: ConnectContactLensClientTypes.Transcript?
 
         public init(
             categories: ConnectContactLensClientTypes.Categories? = nil,
+            postContactSummary: ConnectContactLensClientTypes.PostContactSummary? = nil,
             transcript: ConnectContactLensClientTypes.Transcript? = nil
         )
         {
             self.categories = categories
+            self.postContactSummary = postContactSummary
             self.transcript = transcript
         }
     }
@@ -518,6 +624,19 @@ extension ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
         var value = ConnectContactLensClientTypes.RealtimeContactAnalysisSegment()
         value.transcript = try reader["Transcript"].readIfPresent(with: ConnectContactLensClientTypes.Transcript.read(from:))
         value.categories = try reader["Categories"].readIfPresent(with: ConnectContactLensClientTypes.Categories.read(from:))
+        value.postContactSummary = try reader["PostContactSummary"].readIfPresent(with: ConnectContactLensClientTypes.PostContactSummary.read(from:))
+        return value
+    }
+}
+
+extension ConnectContactLensClientTypes.PostContactSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.PostContactSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectContactLensClientTypes.PostContactSummary()
+        value.content = try reader["Content"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureCode = try reader["FailureCode"].readIfPresent()
         return value
     }
 }
