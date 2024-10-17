@@ -28,7 +28,7 @@ rm -rf Tests/Services/*
 ./gradlew -p codegen/sdk-codegen build
 
 # Move generated Swift code into place in the Sources/ dir
-./gradlew -p codegen/sdk-codegen stageSdks
+./gradlew -p codegen/sdk-codegen stageSdks -PwithManifests
 
 # Regenerate the package manifest and doc index, with args passed into this script
 cd AWSSDKSwiftCLI

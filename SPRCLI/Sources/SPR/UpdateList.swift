@@ -49,20 +49,17 @@ extension SPRPublisher {
         jsonEncoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         let data = try jsonEncoder.encode(list)
         let body = ByteStream.data(data)
-        let input = PutObjectInput(body: body, bucket: bucket, contentType: "application/json", key: listKey)
+        let input = PutObjectInput(body: body, bucket: bucket, cacheControl: "public, no-cache", contentType: "application/json", key: listKey)
         _ = try await s3Client.putObject(input: input)
     }
 
     var listKey: String {
-        "\(scope)/\(name)"
+        (keyPrefix + [scope, name]).joined(separator: "/")
     }
 
     private var releaseURL: URL {
         get throws {
-            guard let baseURL = URL(string: url) else {
-                throw Error("URL is invalid")
-            }
-            return baseURL
+            return url
                 .appending(component: scope)
                 .appending(component: name)
                 .appending(component: version)
