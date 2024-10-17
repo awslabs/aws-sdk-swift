@@ -4094,8 +4094,6 @@ extension BedrockAgentClientTypes {
         public var stopSequences: [Swift.String]?
         /// Controls the randomness of the response. Choose a lower value for more predictable outputs and a higher value for more surprising outputs.
         public var temperature: Swift.Float?
-        /// The number of most-likely candidates that the model considers for the next token during generation.
-        public var topk: Swift.Int?
         /// The percentage of most-likely candidates that the model considers for the next token.
         public var topp: Swift.Float?
 
@@ -4103,14 +4101,12 @@ extension BedrockAgentClientTypes {
             maxTokens: Swift.Int? = nil,
             stopSequences: [Swift.String]? = nil,
             temperature: Swift.Float? = nil,
-            topk: Swift.Int? = nil,
             topp: Swift.Float? = nil
         )
         {
             self.maxTokens = maxTokens
             self.stopSequences = stopSequences
             self.temperature = temperature
-            self.topk = topk
             self.topp = topp
         }
     }
@@ -7346,6 +7342,7 @@ extension BedrockAgentClientTypes {
         /// This member is required.
         public var name: Swift.String?
         /// Contains configurations for the prompt template.
+        /// This member is required.
         public var templateConfiguration: BedrockAgentClientTypes.PromptTemplateConfiguration?
         /// The type of prompt template to use.
         /// This member is required.
@@ -12844,7 +12841,6 @@ extension BedrockAgentClientTypes.PromptModelInferenceConfiguration {
         try writer["maxTokens"].write(value.maxTokens)
         try writer["stopSequences"].writeList(value.stopSequences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["temperature"].write(value.temperature)
-        try writer["topK"].write(value.topk)
         try writer["topP"].write(value.topp)
     }
 
@@ -12853,7 +12849,6 @@ extension BedrockAgentClientTypes.PromptModelInferenceConfiguration {
         var value = BedrockAgentClientTypes.PromptModelInferenceConfiguration()
         value.temperature = try reader["temperature"].readIfPresent()
         value.topp = try reader["topP"].readIfPresent()
-        value.topk = try reader["topK"].readIfPresent()
         value.maxTokens = try reader["maxTokens"].readIfPresent()
         value.stopSequences = try reader["stopSequences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
