@@ -63,7 +63,7 @@ private var runtimeProducts: [Product] {
 }
 
 private func productForService(_ service: String) -> Product {
-    .library(name: service, targets: [service])
+    .library(name: service, targets: [String(service.trimmingPrefix("aws-sdk-swift."))])
 }
 
 // MARK: Dependencies
@@ -105,7 +105,7 @@ private var runtimeTargets: [Target] {
                 .awsSDKHTTPAuth,
                 .awsSDKIdentity
             ],
-            path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
+            path: "Sources/Core/aws-sdk-swift.AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
                 .process("Resources"),
             ]
@@ -113,27 +113,27 @@ private var runtimeTargets: [Target] {
         .target(
             name: "AWSSDKCommon",
             dependencies: [.crt],
-            path: "Sources/Core/AWSSDKCommon/Sources"
+            path: "Sources/Core/aws-sdk-swift.AWSSDKCommon/Sources"
         ),
         .target(
             name: "AWSSDKEventStreamsAuth",
             dependencies: [.smithyEventStreamsAPI, .smithyEventStreamsAuthAPI, .smithyEventStreams, .crt, .clientRuntime, "AWSSDKHTTPAuth"],
-            path: "Sources/Core/AWSSDKEventStreamsAuth/Sources"
+            path: "Sources/Core/aws-sdk-swift.AWSSDKEventStreamsAuth/Sources"
         ),
         .target(
             name: "AWSSDKHTTPAuth",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKIdentity", "AWSSDKChecksums"],
-            path: "Sources/Core/AWSSDKHTTPAuth/Sources"
+            path: "Sources/Core/aws-sdk-swift.AWSSDKHTTPAuth/Sources"
         ),
         .target(
             name: "AWSSDKIdentity",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
-            path: "Sources/Core/AWSSDKIdentity/Sources"
+            path: "Sources/Core/aws-sdk-swift.AWSSDKIdentity/Sources"
         ),
         .target(
             name: "AWSSDKChecksums",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums, .smithyHTTPAPI],
-            path: "Sources/Core/AWSSDKChecksums/Sources"
+            path: "Sources/Core/aws-sdk-swift.AWSSDKChecksums/Sources"
         )
     ]
 }
@@ -144,23 +144,23 @@ private var runtimeTestTargets: [Target] {
         .testTarget(
             name: "AWSClientRuntimeTests",
             dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils, .awsSDKCommon],
-            path: "Sources/Core/AWSClientRuntime/Tests/AWSClientRuntimeTests",
+            path: "Sources/Core/aws-sdk-swift.AWSClientRuntime/Tests/AWSClientRuntimeTests",
             resources: [.process("Resources")]
         ),
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
             dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams, .smithyTestUtils],
-            path: "Sources/Core/AWSSDKEventStreamsAuth/Tests/AWSSDKEventStreamsAuthTests"
+            path: "Sources/Core/aws-sdk-swift.AWSSDKEventStreamsAuth/Tests/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(
             name: "AWSSDKHTTPAuthTests",
             dependencies: ["AWSSDKHTTPAuth", "AWSClientRuntime", "AWSSDKEventStreamsAuth", .crt, .clientRuntime, .smithyTestUtils],
-            path: "Sources/Core/AWSSDKHTTPAuth/Tests/AWSSDKHTTPAuthTests"
+            path: "Sources/Core/aws-sdk-swift.AWSSDKHTTPAuth/Tests/AWSSDKHTTPAuthTests"
         ),
         .testTarget(
             name: "AWSSDKIdentityTests",
             dependencies: [.smithy, .smithyIdentity, "AWSSDKIdentity", .awsClientRuntime],
-            path: "Sources/Core/AWSSDKIdentity/Tests/AWSSDKIdentityTests",
+            path: "Sources/Core/aws-sdk-swift.AWSSDKIdentity/Tests/AWSSDKIdentityTests",
             resources: [.process("Resources")]
         ),
     ]
@@ -168,7 +168,7 @@ private var runtimeTestTargets: [Target] {
 
 private func target(_ service: String) -> Target {
     .target(
-        name: service,
+        name: String(service.trimmingPrefix("aws-sdk-swift.")),
         dependencies: [
             .clientRuntime,
             .awsClientRuntime,
@@ -189,16 +189,16 @@ private func target(_ service: String) -> Target {
             .awsSDKEventStreamsAuth,
             .awsSDKChecksums,
         ],
-        path: "Sources/Services/\(service)/Sources/\(service)",
+        path: "Sources/Services/\(service)/Sources/\(service.trimmingPrefix("aws-sdk-swift."))",
         resources: [.process("Resources")]
     )
 }
 
 private func unitTestTarget(_ service: String) -> Target {
-    let testName = "\(service)Tests"
+    let testName = "\(service)Tests".trimmingPrefix("aws-sdk-swift.")
     return .testTarget(
         name: "\(testName)",
-        dependencies: [.clientRuntime, .awsClientRuntime, .byName(name: service), .smithyTestUtils],
+        dependencies: [.clientRuntime, .awsClientRuntime, .byName(name: String(service.trimmingPrefix("aws-sdk-swift."))), .smithyTestUtils],
         path: "Sources/Services/\(service)/Tests/\(testName)"
     )
 }

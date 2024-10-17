@@ -60,17 +60,17 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 ## AWS Runtime Module Documentation
 
-[AWSClientRuntime](../../../../../swift/api/awsclientruntime/latest)
+[aws-sdk-swift.AWSClientRuntime](../../../../../swift/api/aws-sdk-swift.awsclientruntime/latest)
 
-[AWSSDKChecksums](../../../../../swift/api/awssdkchecksums/latest)
+[aws-sdk-swift.AWSSDKChecksums](../../../../../swift/api/aws-sdk-swift.awssdkchecksums/latest)
 
-[AWSSDKCommon](../../../../../swift/api/awssdkcommon/latest)
+[aws-sdk-swift.AWSSDKCommon](../../../../../swift/api/aws-sdk-swift.awssdkcommon/latest)
 
-[AWSSDKEventStreamsAuth](../../../../../swift/api/awssdkeventstreamsauth/latest)
+[aws-sdk-swift.AWSSDKEventStreamsAuth](../../../../../swift/api/aws-sdk-swift.awssdkeventstreamsauth/latest)
 
-[AWSSDKHTTPAuth](../../../../../swift/api/awssdkhttpauth/latest)
+[aws-sdk-swift.AWSSDKHTTPAuth](../../../../../swift/api/aws-sdk-swift.awssdkhttpauth/latest)
 
-[AWSSDKIdentity](../../../../../swift/api/awssdkidentity/latest)
+[aws-sdk-swift.AWSSDKIdentity](../../../../../swift/api/aws-sdk-swift.awssdkidentity/latest)
 
 
 ## Service Documentation
