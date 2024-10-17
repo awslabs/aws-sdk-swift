@@ -37177,9 +37177,9 @@ extension ConnectClientTypes.EvaluationAnswerData {
             case "StringValue":
                 return .stringvalue(try reader["StringValue"].read())
             case "NumericValue":
-                return .numericvalue(try reader["NumericValue"].read() ?? 0)
+                return .numericvalue(try reader["NumericValue"].read())
             case "NotApplicable":
-                return .notapplicable(try reader["NotApplicable"].read() ?? false)
+                return .notapplicable(try reader["NotApplicable"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }

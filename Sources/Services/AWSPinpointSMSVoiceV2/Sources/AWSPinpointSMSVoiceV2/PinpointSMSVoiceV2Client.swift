@@ -882,7 +882,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `CreateRegistrationAttachment` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.
+    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
     ///
     /// - Parameter CreateRegistrationAttachmentInput : [no documentation found]
     ///
@@ -2816,7 +2816,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `DescribeOptedOutNumbers` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the output includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify an opted out number that isn't valid, an error is returned.
+    /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the output includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify an opted out number that isn't valid, an exception is returned.
     ///
     /// - Parameter DescribeOptedOutNumbersInput : [no documentation found]
     ///
