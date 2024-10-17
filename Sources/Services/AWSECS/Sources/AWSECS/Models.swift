@@ -8259,7 +8259,7 @@ public struct RunTaskInput: Swift.Sendable {
     public var platformVersion: Swift.String?
     /// Specifies whether to propagate the tags from the task definition to the task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the task during task creation. To add tags to a task after task creation, use the[TagResource](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TagResource.html) API action. An error will be received if you specify the SERVICE option when running a task.
     public var propagateTags: ECSClientTypes.PropagateTags?
-    /// The reference ID to use for the task. The reference ID can have a maximum length of 1024 characters.
+    /// This parameter is only used by Amazon ECS. It is not intended for use by customers.
     public var referenceId: Swift.String?
     /// An optional tag specified when a task is started. For example, if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a [ListTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListTasks.html) call with the startedBy value. Up to 128 letters (uppercase and lowercase), numbers, hyphens (-), forward slash (/), and underscores (_) are allowed. If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
     public var startedBy: Swift.String?
@@ -8363,7 +8363,7 @@ public struct StartTaskInput: Swift.Sendable {
     public var overrides: ECSClientTypes.TaskOverride?
     /// Specifies whether to propagate the tags from the task definition or the service to the task. If no value is specified, the tags aren't propagated.
     public var propagateTags: ECSClientTypes.PropagateTags?
-    /// The reference ID to use for the task.
+    /// This parameter is only used by Amazon ECS. It is not intended for use by customers.
     public var referenceId: Swift.String?
     /// An optional tag specified when a task is started. For example, if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a [ListTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListTasks.html) call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens (-), forward slash (/), and underscores (_) are allowed. If a task is started by an Amazon ECS service, the startedBy parameter contains the deployment ID of the service that starts it.
     public var startedBy: Swift.String?

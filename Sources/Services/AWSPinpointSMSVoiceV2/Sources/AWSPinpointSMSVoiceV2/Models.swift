@@ -705,6 +705,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case unknownRegistrationSection
         case unknownRegistrationType
         case unknownRegistrationVersion
+        case unspecifiedParameterNotSupported
         case verificationCodeMismatch
         case voiceCapabilityNotAvailable
         case sdkUnknown(Swift.String)
@@ -748,6 +749,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .unknownRegistrationSection,
                 .unknownRegistrationType,
                 .unknownRegistrationVersion,
+                .unspecifiedParameterNotSupported,
                 .verificationCodeMismatch,
                 .voiceCapabilityNotAvailable
             ]
@@ -797,6 +799,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .unknownRegistrationSection: return "UNKNOWN_REGISTRATION_SECTION"
             case .unknownRegistrationType: return "UNKNOWN_REGISTRATION_TYPE"
             case .unknownRegistrationVersion: return "UNKNOWN_REGISTRATION_VERSION"
+            case .unspecifiedParameterNotSupported: return "UNSPECIFIED_PARAMETER_NOT_SUPPORTED"
             case .verificationCodeMismatch: return "VERIFICATION_CODE_MISMATCH"
             case .voiceCapabilityNotAvailable: return "VOICE_CAPABILITY_NOT_AVAILABLE"
             case let .sdkUnknown(s): return s
@@ -1771,6 +1774,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case created
         case deleted
         case provisioning
+        case requiresAuthentication
         case requiresUpdates
         case reviewing
         case submitted
@@ -1783,6 +1787,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .created,
                 .deleted,
                 .provisioning,
+                .requiresAuthentication,
                 .requiresUpdates,
                 .reviewing,
                 .submitted
@@ -1801,6 +1806,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .created: return "CREATED"
             case .deleted: return "DELETED"
             case .provisioning: return "PROVISIONING"
+            case .requiresAuthentication: return "REQUIRES_AUTHENTICATION"
             case .requiresUpdates: return "REQUIRES_UPDATES"
             case .reviewing: return "REVIEWING"
             case .submitted: return "SUBMITTED"
@@ -1937,9 +1943,9 @@ public struct CreateRegistrationAssociationOutput: Swift.Sendable {
 }
 
 public struct CreateRegistrationAttachmentInput: Swift.Sendable {
-    /// The registration file to upload. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG.
+    /// The registration file to upload. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG.
     public var attachmentBody: Foundation.Data?
-    /// A URL to the required registration file. For example, you can provide the S3 object URL.
+    /// Registration files have to be stored in an Amazon S3 bucket. The URI to use when sending is in the format s3://BucketName/FileName.
     public var attachmentUrl: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
@@ -2021,6 +2027,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case denied
         case discarded
         case draft
+        case requiresAuthentication
         case reviewing
         case revoked
         case submitted
@@ -2033,6 +2040,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .denied,
                 .discarded,
                 .draft,
+                .requiresAuthentication,
                 .reviewing,
                 .revoked,
                 .submitted
@@ -2051,6 +2059,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .denied: return "DENIED"
             case .discarded: return "DISCARDED"
             case .draft: return "DRAFT"
+            case .requiresAuthentication: return "REQUIRES_AUTHENTICATION"
             case .reviewing: return "REVIEWING"
             case .revoked: return "REVOKED"
             case .submitted: return "SUBMITTED"
@@ -3296,7 +3305,7 @@ public struct DescribeOptedOutNumbersInput: Swift.Sendable {
     /// The OptOutListName or OptOutListArn of the OptOutList. You can use [DescribeOptOutLists] to find the values for OptOutListName and OptOutListArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var optOutListName: Swift.String?
-    /// An array of phone numbers to search for in the OptOutList.
+    /// An array of phone numbers to search for in the OptOutList. If you specify an opted out number that isn't valid, an exception is returned.
     public var optedOutNumbers: [Swift.String]?
 
     public init(
