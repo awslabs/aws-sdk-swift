@@ -37501,14 +37501,18 @@ public struct RestoreAnalysisInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the analysis.
     /// This member is required.
     public var awsAccountId: Swift.String?
+    /// A boolean value that determines if the analysis will be restored to folders that it previously resided in. A True value restores analysis back to all folders that it previously resided in. A False value restores the analysis but does not restore the analysis back to all previously resided folders. Restoring a restricted analysis requires this parameter to be set to True.
+    public var restoreToFolders: Swift.Bool?
 
     public init(
         analysisId: Swift.String? = nil,
-        awsAccountId: Swift.String? = nil
+        awsAccountId: Swift.String? = nil,
+        restoreToFolders: Swift.Bool? = false
     )
     {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
+        self.restoreToFolders = restoreToFolders
     }
 }
 
@@ -37519,6 +37523,8 @@ public struct RestoreAnalysisOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
+    /// A list of folder arns thatthe analysis failed to be restored to.
+    public var restorationFailedFolderArns: [Swift.String]?
     /// The HTTP status of the request.
     public var status: Swift.Int
 
@@ -37526,12 +37532,14 @@ public struct RestoreAnalysisOutput: Swift.Sendable {
         analysisId: Swift.String? = nil,
         arn: Swift.String? = nil,
         requestId: Swift.String? = nil,
+        restorationFailedFolderArns: [Swift.String]? = nil,
         status: Swift.Int = 0
     )
     {
         self.analysisId = analysisId
         self.arn = arn
         self.requestId = requestId
+        self.restorationFailedFolderArns = restorationFailedFolderArns
         self.status = status
     }
 }
@@ -38090,6 +38098,45 @@ public struct StartDashboardSnapshotJobOutput: Swift.Sendable {
         self.arn = arn
         self.requestId = requestId
         self.snapshotJobId = snapshotJobId
+        self.status = status
+    }
+}
+
+public struct StartDashboardSnapshotJobScheduleInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dashboard that you want to start a snapshot job schedule for.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon QuickSight console in the Schedules pane of the dashboard that the schedule is configured for.
+    /// This member is required.
+    public var scheduleId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dashboardId: Swift.String? = nil,
+        scheduleId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dashboardId = dashboardId
+        self.scheduleId = scheduleId
+    }
+}
+
+public struct StartDashboardSnapshotJobScheduleOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
         self.status = status
     }
 }
@@ -42840,6 +42887,18 @@ extension RestoreAnalysisInput {
     }
 }
 
+extension RestoreAnalysisInput {
+
+    static func queryItemProvider(_ value: RestoreAnalysisInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let restoreToFolders = value.restoreToFolders {
+            let restoreToFoldersQueryItem = Smithy.URIQueryItem(name: "restore-to-folders".urlPercentEncoding(), value: Swift.String(restoreToFolders).urlPercentEncoding())
+            items.append(restoreToFoldersQueryItem)
+        }
+        return items
+    }
+}
+
 extension SearchAnalysesInput {
 
     static func urlPathProvider(_ value: SearchAnalysesInput) -> Swift.String? {
@@ -42949,6 +43008,22 @@ extension StartDashboardSnapshotJobInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/snapshot-jobs"
+    }
+}
+
+extension StartDashboardSnapshotJobScheduleInput {
+
+    static func urlPathProvider(_ value: StartDashboardSnapshotJobScheduleInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let dashboardId = value.dashboardId else {
+            return nil
+        }
+        guard let scheduleId = value.scheduleId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/schedules/\(scheduleId.urlPercentEncoding())"
     }
 }
 
@@ -46257,6 +46332,7 @@ extension RestoreAnalysisOutput {
         value.analysisId = try reader["AnalysisId"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
+        value.restorationFailedFolderArns = try reader["RestorationFailedFolderArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -46392,6 +46468,19 @@ extension StartDashboardSnapshotJobOutput {
         value.arn = try reader["Arn"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.snapshotJobId = try reader["SnapshotJobId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension StartDashboardSnapshotJobScheduleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDashboardSnapshotJobScheduleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartDashboardSnapshotJobScheduleOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -49583,6 +49672,8 @@ enum RestoreAnalysisOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
@@ -49765,6 +49856,26 @@ enum StartDashboardSnapshotJobOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedPricingPlanException": return try UnsupportedPricingPlanException.makeError(baseError: baseError)
+            case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartDashboardSnapshotJobScheduleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
