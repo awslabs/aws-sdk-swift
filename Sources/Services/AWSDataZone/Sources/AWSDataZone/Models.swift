@@ -1268,12 +1268,14 @@ extension DataZoneClientTypes {
     public enum ProjectDesignation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case contributor
         case owner
+        case projectCatalogSteward
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProjectDesignation] {
             return [
                 .contributor,
-                .owner
+                .owner,
+                .projectCatalogSteward
             ]
         }
 
@@ -1286,6 +1288,7 @@ extension DataZoneClientTypes {
             switch self {
             case .contributor: return "CONTRIBUTOR"
             case .owner: return "OWNER"
+            case .projectCatalogSteward: return "PROJECT_CATALOG_STEWARD"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6295,12 +6298,18 @@ extension CreateProjectOutput: Swift.CustomDebugStringConvertible {
 extension DataZoneClientTypes {
 
     public enum UserDesignation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case projectCatalogConsumer
+        case projectCatalogSteward
+        case projectCatalogViewer
         case projectContributor
         case projectOwner
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UserDesignation] {
             return [
+                .projectCatalogConsumer,
+                .projectCatalogSteward,
+                .projectCatalogViewer,
                 .projectContributor,
                 .projectOwner
             ]
@@ -6313,6 +6322,9 @@ extension DataZoneClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .projectCatalogConsumer: return "PROJECT_CATALOG_CONSUMER"
+            case .projectCatalogSteward: return "PROJECT_CATALOG_STEWARD"
+            case .projectCatalogViewer: return "PROJECT_CATALOG_VIEWER"
             case .projectContributor: return "PROJECT_CONTRIBUTOR"
             case .projectOwner: return "PROJECT_OWNER"
             case let .sdkUnknown(s): return s
