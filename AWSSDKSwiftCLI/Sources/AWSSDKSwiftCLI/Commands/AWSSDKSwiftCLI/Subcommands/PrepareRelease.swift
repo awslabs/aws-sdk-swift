@@ -165,6 +165,14 @@ struct PrepareRelease {
         do {
             try "\(newVersion)".write(toFile: "Package.version" , atomically: true, encoding: .utf8)
             log("Updated Package.version: \(newVersion)")
+            if (repoType == .awsSdkSwift) {
+                try "\(newVersion)".write(
+                    toFile: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime/Resources/sdk-version.txt",
+                    atomically: true,
+                    encoding: .utf8
+                )
+                log("Updated AWSClientRuntime/Resources/Package.version: \(newVersion)")
+            }
         } catch {
           throw Error("Failed to write version \(newVersion) to Package.version")
         }
