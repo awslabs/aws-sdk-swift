@@ -54,9 +54,9 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes {
 
-    /// Indicates that an Amazon S3 canned ACL should be set to control ownership of stored query results. When Athena stores query results in Amazon S3, the canned ACL is set with the x-amz-acl request header. For more information about S3 Object Ownership, see [Object Ownership settings](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html#object-ownership-overview) in the Amazon S3 User Guide.
+    /// Indicates that an Amazon S3 canned ACL should be set to control ownership of stored query results, including data files inserted by Athena as the result of statements like CTAS or INSERT INTO. When Athena stores query results in Amazon S3, the canned ACL is set with the x-amz-acl request header. For more information about S3 Object Ownership, see [Object Ownership settings](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html#object-ownership-overview) in the Amazon S3 User Guide.
     public struct AclConfiguration: Swift.Sendable {
-        /// The Amazon S3 canned ACL that Athena should specify when storing query results. Currently the only supported canned ACL is BUCKET_OWNER_FULL_CONTROL. If a query runs in a workgroup and the workgroup overrides client-side settings, then the Amazon S3 canned ACL specified in the workgroup's settings is used for all queries that run in the workgroup. For more information about Amazon S3 canned ACLs, see [Canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl) in the Amazon S3 User Guide.
+        /// The Amazon S3 canned ACL that Athena should specify when storing query results, including data files inserted by Athena as the result of statements like CTAS or INSERT INTO. Currently the only supported canned ACL is BUCKET_OWNER_FULL_CONTROL. If a query runs in a workgroup and the workgroup overrides client-side settings, then the Amazon S3 canned ACL specified in the workgroup's settings is used for all queries that run in the workgroup. For more information about Amazon S3 canned ACLs, see [Canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl) in the Amazon S3 User Guide.
         /// This member is required.
         public var s3AclOption: AthenaClientTypes.S3AclOption?
 
@@ -901,7 +901,6 @@ public struct CreateCapacityReservationOutput: Swift.Sendable {
 extension AthenaClientTypes {
 
     public enum DataCatalogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case federated
         case glue
         case hive
         case lambda
@@ -909,7 +908,6 @@ extension AthenaClientTypes {
 
         public static var allCases: [DataCatalogType] {
             return [
-                .federated,
                 .glue,
                 .hive,
                 .lambda
@@ -923,7 +921,6 @@ extension AthenaClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .federated: return "FEDERATED"
             case .glue: return "GLUE"
             case .hive: return "HIVE"
             case .lambda: return "LAMBDA"
@@ -955,21 +952,10 @@ public struct CreateDataCatalogInput: Swift.Sendable {
     /// * The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue Data Catalog belongs. catalog-id=catalog_id
     ///
     /// * The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
-    ///
-    ///
-    ///
-    ///
-    /// * The FEDERATED data catalog type uses one of the following parameters, but not both. Use connection-arn for an existing Glue connection. Use connection-type and connection-properties to specify the configuration setting for a new connection.
-    ///
-    /// * connection-arn:
-    ///
-    /// * lambda-role-arn (optional): The execution role to use for the Lambda function. If not provided, one is created.
-    ///
-    /// * connection-type:MYSQL|REDSHIFT|...., connection-properties:"" For  , use escaped JSON text, as in the following example. "{\"spill_bucket\":\"my_spill\",\"spill_prefix\":\"athena-spill\",\"host\":\"abc12345.snowflakecomputing.com\",\"port\":\"1234\",\"warehouse\":\"DEV_WH\",\"database\":\"TEST\",\"schema\":\"PUBLIC\",\"SecretArn\":\"arn:aws:secretsmanager:ap-south-1:111122223333:secret:snowflake-XHb67j\"}"
     public var parameters: [Swift.String: Swift.String]?
     /// A list of comma separated tags to add to the data catalog that is created.
     public var tags: [AthenaClientTypes.Tag]?
-    /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for an Glue Data Catalog, and HIVE for an external Apache Hive metastore. FEDERATED is a federated catalog for which Athena creates the connection and the Lambda function for you based on the parameters that you pass.
+    /// The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
     /// This member is required.
     public var type: AthenaClientTypes.DataCatalogType?
 
@@ -989,273 +975,9 @@ public struct CreateDataCatalogInput: Swift.Sendable {
     }
 }
 
-extension AthenaClientTypes {
-
-    public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case bigquery
-        case clouderahive
-        case clouderaimpala
-        case cloudwatch
-        case cloudwatchmetrics
-        case cmdb
-        case datalakegen2
-        case db2
-        case db2as400
-        case documentdb
-        case dynamodb
-        case googlecloudstorage
-        case hbase
-        case hortonworkshive
-        case msk
-        case mysql
-        case neptune
-        case opensearch
-        case oracle
-        case postgresql
-        case redis
-        case redshift
-        case saphana
-        case snowflake
-        case sqlserver
-        case synapse
-        case teradata
-        case timestream
-        case tpcds
-        case vertica
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ConnectionType] {
-            return [
-                .bigquery,
-                .clouderahive,
-                .clouderaimpala,
-                .cloudwatch,
-                .cloudwatchmetrics,
-                .cmdb,
-                .datalakegen2,
-                .db2,
-                .db2as400,
-                .documentdb,
-                .dynamodb,
-                .googlecloudstorage,
-                .hbase,
-                .hortonworkshive,
-                .msk,
-                .mysql,
-                .neptune,
-                .opensearch,
-                .oracle,
-                .postgresql,
-                .redis,
-                .redshift,
-                .saphana,
-                .snowflake,
-                .sqlserver,
-                .synapse,
-                .teradata,
-                .timestream,
-                .tpcds,
-                .vertica
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .bigquery: return "BIGQUERY"
-            case .clouderahive: return "CLOUDERAHIVE"
-            case .clouderaimpala: return "CLOUDERAIMPALA"
-            case .cloudwatch: return "CLOUDWATCH"
-            case .cloudwatchmetrics: return "CLOUDWATCHMETRICS"
-            case .cmdb: return "CMDB"
-            case .datalakegen2: return "DATALAKEGEN2"
-            case .db2: return "DB2"
-            case .db2as400: return "DB2AS400"
-            case .documentdb: return "DOCUMENTDB"
-            case .dynamodb: return "DYNAMODB"
-            case .googlecloudstorage: return "GOOGLECLOUDSTORAGE"
-            case .hbase: return "HBASE"
-            case .hortonworkshive: return "HORTONWORKSHIVE"
-            case .msk: return "MSK"
-            case .mysql: return "MYSQL"
-            case .neptune: return "NEPTUNE"
-            case .opensearch: return "OPENSEARCH"
-            case .oracle: return "ORACLE"
-            case .postgresql: return "POSTGRESQL"
-            case .redis: return "REDIS"
-            case .redshift: return "REDSHIFT"
-            case .saphana: return "SAPHANA"
-            case .snowflake: return "SNOWFLAKE"
-            case .sqlserver: return "SQLSERVER"
-            case .synapse: return "SYNAPSE"
-            case .teradata: return "TERADATA"
-            case .timestream: return "TIMESTREAM"
-            case .tpcds: return "TPCDS"
-            case .vertica: return "VERTICA"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension AthenaClientTypes {
-
-    public enum DataCatalogStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case createComplete
-        case createFailed
-        case createFailedCleanupComplete
-        case createFailedCleanupFailed
-        case createFailedCleanupInProgress
-        case createInProgress
-        case deleteComplete
-        case deleteFailed
-        case deleteInProgress
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DataCatalogStatus] {
-            return [
-                .createComplete,
-                .createFailed,
-                .createFailedCleanupComplete,
-                .createFailedCleanupFailed,
-                .createFailedCleanupInProgress,
-                .createInProgress,
-                .deleteComplete,
-                .deleteFailed,
-                .deleteInProgress
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .createComplete: return "CREATE_COMPLETE"
-            case .createFailed: return "CREATE_FAILED"
-            case .createFailedCleanupComplete: return "CREATE_FAILED_CLEANUP_COMPLETE"
-            case .createFailedCleanupFailed: return "CREATE_FAILED_CLEANUP_FAILED"
-            case .createFailedCleanupInProgress: return "CREATE_FAILED_CLEANUP_IN_PROGRESS"
-            case .createInProgress: return "CREATE_IN_PROGRESS"
-            case .deleteComplete: return "DELETE_COMPLETE"
-            case .deleteFailed: return "DELETE_FAILED"
-            case .deleteInProgress: return "DELETE_IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension AthenaClientTypes {
-
-    /// Contains information about a data catalog in an Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
-    public struct DataCatalog: Swift.Sendable {
-        /// The type of connection for a FEDERATED data catalog (for example, REDSHIFT, MYSQL, or SQLSERVER). For information about individual connectors, see [Available data source connectors](https://docs.aws.amazon.com/athena/latest/ug/connectors-available.html).
-        public var connectionType: AthenaClientTypes.ConnectionType?
-        /// An optional description of the data catalog.
-        public var description: Swift.String?
-        /// Text of the error that occurred during data catalog creation or deletion.
-        public var error: Swift.String?
-        /// The name of the data catalog. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
-        /// This member is required.
-        public var name: Swift.String?
-        /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.
-        ///
-        /// * For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version. metadata-function=lambda_arn, sdk-version=version_number
-        ///
-        /// * For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.
-        ///
-        /// * If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required. metadata-function=lambda_arn, record-function=lambda_arn
-        ///
-        /// * If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function. function=lambda_arn
-        ///
-        ///
-        ///
-        ///
-        /// * The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue catalog belongs. catalog-id=catalog_id
-        ///
-        /// * The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
-        ///
-        ///
-        ///
-        ///
-        /// * The FEDERATED data catalog type uses one of the following parameters, but not both. Use connection-arn for an existing Glue connection. Use connection-type and connection-properties to specify the configuration setting for a new connection.
-        ///
-        /// * connection-arn:
-        ///
-        /// * connection-type:MYSQL|REDSHIFT|...., connection-properties:"" For  , use escaped JSON text, as in the following example. "{\"spill_bucket\":\"my_spill\",\"spill_prefix\":\"athena-spill\",\"host\":\"abc12345.snowflakecomputing.com\",\"port\":\"1234\",\"warehouse\":\"DEV_WH\",\"database\":\"TEST\",\"schema\":\"PUBLIC\",\"SecretArn\":\"arn:aws:secretsmanager:ap-south-1:111122223333:secret:snowflake-XHb67j\"}"
-        public var parameters: [Swift.String: Swift.String]?
-        /// The status of the creation or deletion of the data catalog.
-        ///
-        /// * The LAMBDA, GLUE, and HIVE data catalog types are created synchronously. Their status is either CREATE_COMPLETE or CREATE_FAILED.
-        ///
-        /// * The FEDERATED data catalog type is created asynchronously.
-        ///
-        ///
-        /// Data catalog creation status:
-        ///
-        /// * CREATE_IN_PROGRESS: Federated data catalog creation in progress.
-        ///
-        /// * CREATE_COMPLETE: Data catalog creation complete.
-        ///
-        /// * CREATE_FAILED: Data catalog could not be created.
-        ///
-        /// * CREATE_FAILED_CLEANUP_IN_PROGRESS: Federated data catalog creation failed and is being removed.
-        ///
-        /// * CREATE_FAILED_CLEANUP_COMPLETE: Federated data catalog creation failed and was removed.
-        ///
-        /// * CREATE_FAILED_CLEANUP_FAILED: Federated data catalog creation failed but could not be removed.
-        ///
-        ///
-        /// Data catalog deletion status:
-        ///
-        /// * DELETE_IN_PROGRESS: Federated data catalog deletion in progress.
-        ///
-        /// * DELETE_COMPLETE: Federated data catalog deleted.
-        ///
-        /// * DELETE_FAILED: Federated data catalog could not be deleted.
-        public var status: AthenaClientTypes.DataCatalogStatus?
-        /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for an Glue Data Catalog, and HIVE for an external Apache Hive metastore. FEDERATED is a federated catalog for which Athena creates the connection and the Lambda function for you based on the parameters that you pass.
-        /// This member is required.
-        public var type: AthenaClientTypes.DataCatalogType?
-
-        public init(
-            connectionType: AthenaClientTypes.ConnectionType? = nil,
-            description: Swift.String? = nil,
-            error: Swift.String? = nil,
-            name: Swift.String? = nil,
-            parameters: [Swift.String: Swift.String]? = nil,
-            status: AthenaClientTypes.DataCatalogStatus? = nil,
-            type: AthenaClientTypes.DataCatalogType? = nil
-        )
-        {
-            self.connectionType = connectionType
-            self.description = description
-            self.error = error
-            self.name = name
-            self.parameters = parameters
-            self.status = status
-            self.type = type
-        }
-    }
-}
-
 public struct CreateDataCatalogOutput: Swift.Sendable {
-    /// Contains information about a data catalog in an Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
-    public var dataCatalog: AthenaClientTypes.DataCatalog?
 
-    public init(
-        dataCatalog: AthenaClientTypes.DataCatalog? = nil
-    )
-    {
-        self.dataCatalog = dataCatalog
-    }
+    public init() { }
 }
 
 public struct CreateNamedQueryInput: Swift.Sendable {
@@ -1649,15 +1371,8 @@ public struct DeleteDataCatalogInput: Swift.Sendable {
 }
 
 public struct DeleteDataCatalogOutput: Swift.Sendable {
-    /// Contains information about a data catalog in an Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
-    public var dataCatalog: AthenaClientTypes.DataCatalog?
 
-    public init(
-        dataCatalog: AthenaClientTypes.DataCatalog? = nil
-    )
-    {
-        self.dataCatalog = dataCatalog
-    }
+    public init() { }
 }
 
 public struct DeleteNamedQueryInput: Swift.Sendable {
@@ -2394,6 +2109,51 @@ public struct GetDataCatalogInput: Swift.Sendable {
     }
 }
 
+extension AthenaClientTypes {
+
+    /// Contains information about a data catalog in an Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
+    public struct DataCatalog: Swift.Sendable {
+        /// An optional description of the data catalog.
+        public var description: Swift.String?
+        /// The name of the data catalog. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.
+        ///
+        /// * For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version. metadata-function=lambda_arn, sdk-version=version_number
+        ///
+        /// * For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.
+        ///
+        /// * If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required. metadata-function=lambda_arn, record-function=lambda_arn
+        ///
+        /// * If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function. function=lambda_arn
+        ///
+        ///
+        ///
+        ///
+        /// * The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue catalog belongs. catalog-id=catalog_id
+        ///
+        /// * The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.
+        public var parameters: [Swift.String: Swift.String]?
+        /// The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
+        /// This member is required.
+        public var type: AthenaClientTypes.DataCatalogType?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            parameters: [Swift.String: Swift.String]? = nil,
+            type: AthenaClientTypes.DataCatalogType? = nil
+        )
+        {
+            self.description = description
+            self.name = name
+            self.parameters = parameters
+            self.type = type
+        }
+    }
+}
+
 public struct GetDataCatalogOutput: Swift.Sendable {
     /// The data catalog returned.
     public var dataCatalog: AthenaClientTypes.DataCatalog?
@@ -2691,7 +2451,7 @@ public struct GetQueryResultsOutput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The results of the query execution.
     public var resultSet: AthenaClientTypes.ResultSet?
-    /// The number of rows inserted with a CREATE TABLE AS SELECT statement.
+    /// The number of rows inserted with a CREATE TABLE AS SELECT, INSERT INTO, or UPDATE statement.
     public var updateCount: Swift.Int?
 
     public init(
@@ -3489,55 +3249,15 @@ extension AthenaClientTypes {
     public struct DataCatalogSummary: Swift.Sendable {
         /// The name of the data catalog. The catalog name is unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
         public var catalogName: Swift.String?
-        /// The type of connection for a FEDERATED data catalog (for example, REDSHIFT, MYSQL, or SQLSERVER). For information about individual connectors, see [Available data source connectors](https://docs.aws.amazon.com/athena/latest/ug/connectors-available.html).
-        public var connectionType: AthenaClientTypes.ConnectionType?
-        /// Text of the error that occurred during data catalog creation or deletion.
-        public var error: Swift.String?
-        /// The status of the creation or deletion of the data catalog.
-        ///
-        /// * The LAMBDA, GLUE, and HIVE data catalog types are created synchronously. Their status is either CREATE_COMPLETE or CREATE_FAILED.
-        ///
-        /// * The FEDERATED data catalog type is created asynchronously.
-        ///
-        ///
-        /// Data catalog creation status:
-        ///
-        /// * CREATE_IN_PROGRESS: Federated data catalog creation in progress.
-        ///
-        /// * CREATE_COMPLETE: Data catalog creation complete.
-        ///
-        /// * CREATE_FAILED: Data catalog could not be created.
-        ///
-        /// * CREATE_FAILED_CLEANUP_IN_PROGRESS: Federated data catalog creation failed and is being removed.
-        ///
-        /// * CREATE_FAILED_CLEANUP_COMPLETE: Federated data catalog creation failed and was removed.
-        ///
-        /// * CREATE_FAILED_CLEANUP_FAILED: Federated data catalog creation failed but could not be removed.
-        ///
-        ///
-        /// Data catalog deletion status:
-        ///
-        /// * DELETE_IN_PROGRESS: Federated data catalog deletion in progress.
-        ///
-        /// * DELETE_COMPLETE: Federated data catalog deleted.
-        ///
-        /// * DELETE_FAILED: Federated data catalog could not be deleted.
-        public var status: AthenaClientTypes.DataCatalogStatus?
         /// The data catalog type.
         public var type: AthenaClientTypes.DataCatalogType?
 
         public init(
             catalogName: Swift.String? = nil,
-            connectionType: AthenaClientTypes.ConnectionType? = nil,
-            error: Swift.String? = nil,
-            status: AthenaClientTypes.DataCatalogStatus? = nil,
             type: AthenaClientTypes.DataCatalogType? = nil
         )
         {
             self.catalogName = catalogName
-            self.connectionType = connectionType
-            self.error = error
-            self.status = status
             self.type = type
         }
     }
@@ -6165,12 +5885,7 @@ extension CreateCapacityReservationOutput {
 extension CreateDataCatalogOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataCatalogOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = CreateDataCatalogOutput()
-        value.dataCatalog = try reader["DataCatalog"].readIfPresent(with: AthenaClientTypes.DataCatalog.read(from:))
-        return value
+        return CreateDataCatalogOutput()
     }
 }
 
@@ -6236,12 +5951,7 @@ extension DeleteCapacityReservationOutput {
 extension DeleteDataCatalogOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataCatalogOutput {
-        let data = try await httpResponse.data()
-        let responseReader = try SmithyJSON.Reader.from(data: data)
-        let reader = responseReader
-        var value = DeleteDataCatalogOutput()
-        value.dataCatalog = try reader["DataCatalog"].readIfPresent(with: AthenaClientTypes.DataCatalog.read(from:))
-        return value
+        return DeleteDataCatalogOutput()
     }
 }
 
@@ -8286,22 +7996,6 @@ extension AthenaClientTypes.UnprocessedQueryExecutionId {
     }
 }
 
-extension AthenaClientTypes.DataCatalog {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.DataCatalog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AthenaClientTypes.DataCatalog()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent()
-        value.connectionType = try reader["ConnectionType"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent()
-        return value
-    }
-}
-
 extension AthenaClientTypes.NotebookMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.NotebookMetadata {
@@ -8416,6 +8110,19 @@ extension AthenaClientTypes.Database {
         var value = AthenaClientTypes.Database()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.description = try reader["Description"].readIfPresent()
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AthenaClientTypes.DataCatalog {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AthenaClientTypes.DataCatalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AthenaClientTypes.DataCatalog()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -8755,9 +8462,6 @@ extension AthenaClientTypes.DataCatalogSummary {
         var value = AthenaClientTypes.DataCatalogSummary()
         value.catalogName = try reader["CatalogName"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.connectionType = try reader["ConnectionType"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent()
         return value
     }
 }
