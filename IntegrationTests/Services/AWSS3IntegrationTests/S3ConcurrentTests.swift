@@ -16,7 +16,7 @@ class S3ConcurrentTests: S3XCTestCase {
     public var fileData: Data!
     let MEGABYTE: Double = 1_000_000
 
-    #if !os(macOS) && !os(iOS) && !os(tvOS)
+    #if !os(macOS) && !os(iOS) && !os(tvOS) && !os(visionOS)
     // Payload below 1,048,576 bytes; sends as simple data payload
     func test_20x_1MB_getObject() async throws {
         fileData = try generateDummyTextData(numMegabytes: MEGABYTE)
