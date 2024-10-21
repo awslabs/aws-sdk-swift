@@ -161,6 +161,8 @@ extension ApplicationInsightsClientTypes {
         case mysql
         case oracle
         case postgresql
+        case sapAseHighAvailability
+        case sapAseSingleNode
         case sapHanaHighAvailability
         case sapHanaMultiNode
         case sapHanaSingleNode
@@ -186,6 +188,8 @@ extension ApplicationInsightsClientTypes {
                 .mysql,
                 .oracle,
                 .postgresql,
+                .sapAseHighAvailability,
+                .sapAseSingleNode,
                 .sapHanaHighAvailability,
                 .sapHanaMultiNode,
                 .sapHanaSingleNode,
@@ -217,6 +221,8 @@ extension ApplicationInsightsClientTypes {
             case .mysql: return "MYSQL"
             case .oracle: return "ORACLE"
             case .postgresql: return "POSTGRESQL"
+            case .sapAseHighAvailability: return "SAP_ASE_HIGH_AVAILABILITY"
+            case .sapAseSingleNode: return "SAP_ASE_SINGLE_NODE"
             case .sapHanaHighAvailability: return "SAP_HANA_HIGH_AVAILABILITY"
             case .sapHanaMultiNode: return "SAP_HANA_MULTI_NODE"
             case .sapHanaSingleNode: return "SAP_HANA_SINGLE_NODE"
@@ -398,7 +404,7 @@ extension ApplicationInsightsClientTypes {
 
     /// Describes the status of the application.
     public struct ApplicationInfo: Swift.Sendable {
-        /// The AWS account ID for the owner of the application.
+        /// The Amazon Web Services account ID for the owner of the application.
         public var accountId: Swift.String?
         /// If set to true, the managed policies for SSM and CW will be attached to the instance roles if they are missing.
         public var attachMissingPermission: Swift.Bool?
@@ -422,6 +428,8 @@ extension ApplicationInsightsClientTypes {
         public var remarks: Swift.String?
         /// The name of the resource group used for the application.
         public var resourceGroupName: Swift.String?
+        /// The SNS topic ARN that is associated with SNS notifications for updates or issues.
+        public var snsNotificationArn: Swift.String?
 
         public init(
             accountId: Swift.String? = nil,
@@ -433,7 +441,8 @@ extension ApplicationInsightsClientTypes {
             opsCenterEnabled: Swift.Bool? = nil,
             opsItemSNSTopicArn: Swift.String? = nil,
             remarks: Swift.String? = nil,
-            resourceGroupName: Swift.String? = nil
+            resourceGroupName: Swift.String? = nil,
+            snsNotificationArn: Swift.String? = nil
         )
         {
             self.accountId = accountId
@@ -446,6 +455,7 @@ extension ApplicationInsightsClientTypes {
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.remarks = remarks
             self.resourceGroupName = resourceGroupName
+            self.snsNotificationArn = snsNotificationArn
         }
     }
 }
@@ -580,7 +590,7 @@ extension ApplicationInsightsClientTypes {
 
     /// The event information.
     public struct ConfigurationEvent: Swift.Sendable {
-        /// The AWS account ID for the owner of the application to which the configuration event belongs.
+        /// The Amazon Web Services account ID for the owner of the application to which the configuration event belongs.
         public var accountId: Swift.String?
         /// The details of the event in plain text.
         public var eventDetail: Swift.String?
@@ -678,7 +688,7 @@ extension ApplicationInsightsClientTypes {
     ///
     /// * For each associated resource, each tag key must be unique and it can have only one value.
     ///
-    /// * The aws: prefix is reserved for use by AWS; you can’t use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix.
+    /// * The aws: prefix is reserved for use by Amazon Web Services; you can’t use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix.
     public struct Tag: Swift.Sendable {
         /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
         /// This member is required.
@@ -715,6 +725,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     public var opsItemSNSTopicArn: Swift.String?
     /// The name of the resource group.
     public var resourceGroupName: Swift.String?
+    /// The SNS notification topic ARN.
+    public var snsNotificationArn: Swift.String?
     /// List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
     public var tags: [ApplicationInsightsClientTypes.Tag]?
 
@@ -727,6 +739,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         opsCenterEnabled: Swift.Bool? = nil,
         opsItemSNSTopicArn: Swift.String? = nil,
         resourceGroupName: Swift.String? = nil,
+        snsNotificationArn: Swift.String? = nil,
         tags: [ApplicationInsightsClientTypes.Tag]? = nil
     )
     {
@@ -738,6 +751,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         self.opsCenterEnabled = opsCenterEnabled
         self.opsItemSNSTopicArn = opsItemSNSTopicArn
         self.resourceGroupName = resourceGroupName
+        self.snsNotificationArn = snsNotificationArn
         self.tags = tags
     }
 }
@@ -792,7 +806,7 @@ public struct CreateLogPatternInput: Swift.Sendable {
     /// The name of the log pattern set.
     /// This member is required.
     public var patternSetName: Swift.String?
-    /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
+    /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.
     /// This member is required.
     public var rank: Swift.Int?
     /// The name of the resource group.
@@ -825,7 +839,7 @@ extension ApplicationInsightsClientTypes {
         public var patternName: Swift.String?
         /// The name of the log pattern. A log pattern name can contain as many as 30 characters, and it cannot be empty. The characters can be Unicode letters, digits, or one of the following symbols: period, dash, underscore.
         public var patternSetName: Swift.String?
-        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
+        /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.
         public var rank: Swift.Int
 
         public init(
@@ -929,7 +943,7 @@ public struct DeleteLogPatternOutput: Swift.Sendable {
 }
 
 public struct DescribeApplicationInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the resource group.
     /// This member is required.
@@ -958,7 +972,7 @@ public struct DescribeApplicationOutput: Swift.Sendable {
 }
 
 public struct DescribeComponentInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the component.
     /// This member is required.
@@ -996,7 +1010,7 @@ public struct DescribeComponentOutput: Swift.Sendable {
 }
 
 public struct DescribeComponentConfigurationInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the component.
     /// This member is required.
@@ -1081,7 +1095,7 @@ public struct DescribeComponentConfigurationRecommendationInput: Swift.Sendable 
     /// The tier of the application component.
     /// This member is required.
     public var tier: ApplicationInsightsClientTypes.Tier?
-    /// The name of the workload.
+    /// The name of the workload. The name of the workload is required when the tier of the application component is SAP_ASE_SINGLE_NODE or SAP_ASE_HIGH_AVAILABILITY.
     public var workloadName: Swift.String?
 
     public init(
@@ -1113,7 +1127,7 @@ public struct DescribeComponentConfigurationRecommendationOutput: Swift.Sendable
 }
 
 public struct DescribeLogPatternInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the log pattern.
     /// This member is required.
@@ -1140,7 +1154,7 @@ public struct DescribeLogPatternInput: Swift.Sendable {
 }
 
 public struct DescribeLogPatternOutput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The successfully created log pattern.
     public var logPattern: ApplicationInsightsClientTypes.LogPattern?
@@ -1160,7 +1174,7 @@ public struct DescribeLogPatternOutput: Swift.Sendable {
 }
 
 public struct DescribeObservationInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The ID of the observation.
     /// This member is required.
@@ -1240,15 +1254,15 @@ extension ApplicationInsightsClientTypes {
         public var ec2State: Swift.String?
         /// The time when the observation ended, in epoch seconds.
         public var endTime: Foundation.Date?
-        /// The Amazon Resource Name (ARN) of the AWS Health Event-based observation.
+        /// The Amazon Resource Name (ARN) of the Health Event-based observation.
         public var healthEventArn: Swift.String?
-        /// The description of the AWS Health event provided by the service, such as Amazon EC2.
+        /// The description of the Health event provided by the service, such as Amazon EC2.
         public var healthEventDescription: Swift.String?
-        /// The category of the AWS Health event, such as issue.
+        /// The category of the Health event, such as issue.
         public var healthEventTypeCategory: Swift.String?
-        /// The type of the AWS Health event, for example, AWS_EC2_POWER_CONNECTIVITY_ISSUE.
+        /// The type of the Health event, for example, AWS_EC2_POWER_CONNECTIVITY_ISSUE.
         public var healthEventTypeCode: Swift.String?
-        /// The service to which the AWS Health Event belongs, such as EC2.
+        /// The service to which the Health Event belongs, such as EC2.
         public var healthService: Swift.String?
         /// The ID of the observation type.
         public var id: Swift.String?
@@ -1413,7 +1427,7 @@ public struct DescribeObservationOutput: Swift.Sendable {
 }
 
 public struct DescribeProblemInput: Swift.Sendable {
-    /// The AWS account ID for the owner of the resource group affected by the problem.
+    /// The Amazon Web Services account ID for the owner of the resource group affected by the problem.
     public var accountId: Swift.String?
     /// The ID of the problem.
     /// This member is required.
@@ -1625,7 +1639,7 @@ extension ApplicationInsightsClientTypes {
 
     /// Describes a problem that is detected by correlating observations.
     public struct Problem: Swift.Sendable {
-        /// The AWS account ID for the owner of the resource group affected by the problem.
+        /// The Amazon Web Services account ID for the owner of the resource group affected by the problem.
         public var accountId: Swift.String?
         /// The resource affected by the problem.
         public var affectedResource: Swift.String?
@@ -1647,6 +1661,8 @@ extension ApplicationInsightsClientTypes {
         public var resourceGroupName: Swift.String?
         /// A measure of the level of impact of the problem.
         public var severityLevel: ApplicationInsightsClientTypes.SeverityLevel?
+        /// The short name of the problem associated with the SNS notification.
+        public var shortName: Swift.String?
         /// The time when the problem started, in epoch seconds.
         public var startTime: Foundation.Date?
         /// The status of the problem.
@@ -1668,6 +1684,7 @@ extension ApplicationInsightsClientTypes {
             resolutionMethod: ApplicationInsightsClientTypes.ResolutionMethod? = nil,
             resourceGroupName: Swift.String? = nil,
             severityLevel: ApplicationInsightsClientTypes.SeverityLevel? = nil,
+            shortName: Swift.String? = nil,
             startTime: Foundation.Date? = nil,
             status: ApplicationInsightsClientTypes.Status? = nil,
             title: Swift.String? = nil,
@@ -1685,6 +1702,7 @@ extension ApplicationInsightsClientTypes {
             self.resolutionMethod = resolutionMethod
             self.resourceGroupName = resourceGroupName
             self.severityLevel = severityLevel
+            self.shortName = shortName
             self.startTime = startTime
             self.status = status
             self.title = title
@@ -1696,17 +1714,21 @@ extension ApplicationInsightsClientTypes {
 public struct DescribeProblemOutput: Swift.Sendable {
     /// Information about the problem.
     public var problem: ApplicationInsightsClientTypes.Problem?
+    /// The SNS notification topic ARN of the problem.
+    public var snsNotificationArn: Swift.String?
 
     public init(
-        problem: ApplicationInsightsClientTypes.Problem? = nil
+        problem: ApplicationInsightsClientTypes.Problem? = nil,
+        snsNotificationArn: Swift.String? = nil
     )
     {
         self.problem = problem
+        self.snsNotificationArn = snsNotificationArn
     }
 }
 
 public struct DescribeProblemObservationsInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The ID of the problem.
     /// This member is required.
@@ -1751,7 +1773,7 @@ public struct DescribeProblemObservationsOutput: Swift.Sendable {
 }
 
 public struct DescribeWorkloadInput: Swift.Sendable {
-    /// The AWS account ID for the workload owner.
+    /// The Amazon Web Services account ID for the workload owner.
     public var accountId: Swift.String?
     /// The name of the component.
     /// This member is required.
@@ -1798,7 +1820,7 @@ public struct DescribeWorkloadOutput: Swift.Sendable {
 }
 
 public struct ListApplicationsInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
@@ -1834,7 +1856,7 @@ public struct ListApplicationsOutput: Swift.Sendable {
 }
 
 public struct ListComponentsInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
@@ -1875,7 +1897,7 @@ public struct ListComponentsOutput: Swift.Sendable {
 }
 
 public struct ListConfigurationHistoryInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The end time of the event.
     public var endTime: Foundation.Date?
@@ -1927,7 +1949,7 @@ public struct ListConfigurationHistoryOutput: Swift.Sendable {
 }
 
 public struct ListLogPatternsInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
@@ -1956,7 +1978,7 @@ public struct ListLogPatternsInput: Swift.Sendable {
 }
 
 public struct ListLogPatternsOutput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The list of log patterns.
     public var logPatterns: [ApplicationInsightsClientTypes.LogPattern]?
@@ -1980,7 +2002,7 @@ public struct ListLogPatternsOutput: Swift.Sendable {
 }
 
 public struct ListLogPatternSetsInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
@@ -2005,7 +2027,7 @@ public struct ListLogPatternSetsInput: Swift.Sendable {
 }
 
 public struct ListLogPatternSetsOutput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The list of log pattern sets.
     public var logPatternSets: [Swift.String]?
@@ -2029,7 +2051,7 @@ public struct ListLogPatternSetsOutput: Swift.Sendable {
 }
 
 public struct ListProblemsInput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The name of the component.
     public var componentName: Swift.String?
@@ -2069,7 +2091,7 @@ public struct ListProblemsInput: Swift.Sendable {
 }
 
 public struct ListProblemsOutput: Swift.Sendable {
-    /// The AWS account ID for the resource group owner.
+    /// The Amazon Web Services account ID for the resource group owner.
     public var accountId: Swift.String?
     /// The token used to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
@@ -2118,7 +2140,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct ListWorkloadsInput: Swift.Sendable {
-    /// The AWS account ID of the owner of the workload.
+    /// The Amazon Web Services account ID of the owner of the workload.
     public var accountId: Swift.String?
     /// The name of the component.
     /// This member is required.
@@ -2153,6 +2175,8 @@ extension ApplicationInsightsClientTypes {
     public struct Workload: Swift.Sendable {
         /// The name of the component.
         public var componentName: Swift.String?
+        /// Indicates whether all of the component configurations required to monitor a workload were provided.
+        public var missingWorkloadConfig: Swift.Bool?
         /// The tier of the workload.
         public var tier: ApplicationInsightsClientTypes.Tier?
         /// The ID of the workload.
@@ -2164,6 +2188,7 @@ extension ApplicationInsightsClientTypes {
 
         public init(
             componentName: Swift.String? = nil,
+            missingWorkloadConfig: Swift.Bool? = nil,
             tier: ApplicationInsightsClientTypes.Tier? = nil,
             workloadId: Swift.String? = nil,
             workloadName: Swift.String? = nil,
@@ -2171,6 +2196,7 @@ extension ApplicationInsightsClientTypes {
         )
         {
             self.componentName = componentName
+            self.missingWorkloadConfig = missingWorkloadConfig
             self.tier = tier
             self.workloadId = workloadId
             self.workloadName = workloadName
@@ -2313,6 +2339,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
     /// The name of the resource group.
     /// This member is required.
     public var resourceGroupName: Swift.String?
+    /// The SNS topic ARN. Allows you to receive SNS notifications for updates and issues with an application.
+    public var snsNotificationArn: Swift.String?
 
     public init(
         attachMissingPermission: Swift.Bool? = nil,
@@ -2321,7 +2349,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
         opsCenterEnabled: Swift.Bool? = nil,
         opsItemSNSTopicArn: Swift.String? = nil,
         removeSNSTopic: Swift.Bool? = nil,
-        resourceGroupName: Swift.String? = nil
+        resourceGroupName: Swift.String? = nil,
+        snsNotificationArn: Swift.String? = nil
     )
     {
         self.attachMissingPermission = attachMissingPermission
@@ -2331,6 +2360,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         self.opsItemSNSTopicArn = opsItemSNSTopicArn
         self.removeSNSTopic = removeSNSTopic
         self.resourceGroupName = resourceGroupName
+        self.snsNotificationArn = snsNotificationArn
     }
 }
 
@@ -2425,7 +2455,7 @@ public struct UpdateLogPatternInput: Swift.Sendable {
     /// The name of the log pattern set.
     /// This member is required.
     public var patternSetName: Swift.String?
-    /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
+    /// Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for Amazon Web Services provided patterns.
     public var rank: Swift.Int?
     /// The name of the resource group.
     /// This member is required.
@@ -2811,6 +2841,7 @@ extension CreateApplicationInput {
         try writer["OpsCenterEnabled"].write(value.opsCenterEnabled)
         try writer["OpsItemSNSTopicArn"].write(value.opsItemSNSTopicArn)
         try writer["ResourceGroupName"].write(value.resourceGroupName)
+        try writer["SNSNotificationArn"].write(value.snsNotificationArn)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: ApplicationInsightsClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -3086,6 +3117,7 @@ extension UpdateApplicationInput {
         try writer["OpsItemSNSTopicArn"].write(value.opsItemSNSTopicArn)
         try writer["RemoveSNSTopic"].write(value.removeSNSTopic)
         try writer["ResourceGroupName"].write(value.resourceGroupName)
+        try writer["SNSNotificationArn"].write(value.snsNotificationArn)
     }
 }
 
@@ -3297,6 +3329,7 @@ extension DescribeProblemOutput {
         let reader = responseReader
         var value = DescribeProblemOutput()
         value.problem = try reader["Problem"].readIfPresent(with: ApplicationInsightsClientTypes.Problem.read(from:))
+        value.snsNotificationArn = try reader["SNSNotificationArn"].readIfPresent()
         return value
     }
 }
@@ -4185,6 +4218,7 @@ extension ApplicationInsightsClientTypes.ApplicationInfo {
         value.resourceGroupName = try reader["ResourceGroupName"].readIfPresent()
         value.lifeCycle = try reader["LifeCycle"].readIfPresent()
         value.opsItemSNSTopicArn = try reader["OpsItemSNSTopicArn"].readIfPresent()
+        value.snsNotificationArn = try reader["SNSNotificationArn"].readIfPresent()
         value.opsCenterEnabled = try reader["OpsCenterEnabled"].readIfPresent()
         value.cweMonitorEnabled = try reader["CWEMonitorEnabled"].readIfPresent()
         value.remarks = try reader["Remarks"].readIfPresent()
@@ -4285,6 +4319,7 @@ extension ApplicationInsightsClientTypes.Problem {
         var value = ApplicationInsightsClientTypes.Problem()
         value.id = try reader["Id"].readIfPresent()
         value.title = try reader["Title"].readIfPresent()
+        value.shortName = try reader["ShortName"].readIfPresent()
         value.insights = try reader["Insights"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.affectedResource = try reader["AffectedResource"].readIfPresent()
@@ -4356,6 +4391,7 @@ extension ApplicationInsightsClientTypes.Workload {
         value.workloadName = try reader["WorkloadName"].readIfPresent()
         value.tier = try reader["Tier"].readIfPresent()
         value.workloadRemarks = try reader["WorkloadRemarks"].readIfPresent()
+        value.missingWorkloadConfig = try reader["MissingWorkloadConfig"].readIfPresent()
         return value
     }
 }
