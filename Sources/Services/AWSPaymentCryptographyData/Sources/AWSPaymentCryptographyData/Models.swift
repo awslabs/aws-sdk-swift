@@ -47,6 +47,108 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension PaymentCryptographyDataClientTypes {
 
+    /// The parameter values of the current PIN to be changed on the EMV chip card.
+    public struct CurrentPinAttributes: Swift.Sendable {
+        /// The encrypted pinblock of the current pin stored on the chip card.
+        /// This member is required.
+        public var currentEncryptedPinBlock: Swift.String?
+        /// The keyArn of the current PIN PEK.
+        /// This member is required.
+        public var currentPinPekIdentifier: Swift.String?
+
+        public init(
+            currentEncryptedPinBlock: Swift.String? = nil,
+            currentPinPekIdentifier: Swift.String? = nil
+        )
+        {
+            self.currentEncryptedPinBlock = currentEncryptedPinBlock
+            self.currentPinPekIdentifier = currentPinPekIdentifier
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.CurrentPinAttributes: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CurrentPinAttributes(currentPinPekIdentifier: \(Swift.String(describing: currentPinPekIdentifier)), currentEncryptedPinBlock: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    public enum MajorKeyDerivationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case emvOptionA
+        case emvOptionB
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MajorKeyDerivationMode] {
+            return [
+                .emvOptionA,
+                .emvOptionB
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .emvOptionA: return "EMV_OPTION_A"
+            case .emvOptionB: return "EMV_OPTION_B"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive the confidentiality and integrity keys for a payment card using Amex derivation method.
+    public struct AmexAttributes: Swift.Sendable {
+        /// The transaction counter of the current transaction that is provided by the terminal during transaction processing.
+        /// This member is required.
+        public var applicationTransactionCounter: Swift.String?
+        /// The keyArn of the issuer master key for cryptogram (IMK-AC) for the payment card.
+        /// This member is required.
+        public var authorizationRequestKeyIdentifier: Swift.String?
+        /// The encrypted pinblock of the old pin stored on the chip card.
+        public var currentPinAttributes: PaymentCryptographyDataClientTypes.CurrentPinAttributes?
+        /// The method to use when deriving the master key for a payment card using Amex derivation.
+        /// This member is required.
+        public var majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode?
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN) of the cardholder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            applicationTransactionCounter: Swift.String? = nil,
+            authorizationRequestKeyIdentifier: Swift.String? = nil,
+            currentPinAttributes: PaymentCryptographyDataClientTypes.CurrentPinAttributes? = nil,
+            majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil
+        )
+        {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.authorizationRequestKeyIdentifier = authorizationRequestKeyIdentifier
+            self.currentPinAttributes = currentPinAttributes
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.AmexAttributes: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AmexAttributes(applicationTransactionCounter: \(Swift.String(describing: applicationTransactionCounter)), authorizationRequestKeyIdentifier: \(Swift.String(describing: authorizationRequestKeyIdentifier)), currentPinAttributes: \(Swift.String(describing: currentPinAttributes)), majorKeyDerivationMode: \(Swift.String(describing: majorKeyDerivationMode)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
     /// Card data parameters that are required to generate a Card Security Code (CSC2) for an AMEX payment card.
     public struct AmexCardSecurityCodeVersion1: Swift.Sendable {
         /// The expiry date of a payment card.
@@ -758,7 +860,7 @@ extension PaymentCryptographyDataClientTypes {
         public var majorKeyDerivationMode: PaymentCryptographyDataClientTypes.EmvMajorKeyDerivationMode?
         /// The block cipher method to use for encryption.
         public var mode: PaymentCryptographyDataClientTypes.EmvEncryptionMode?
-        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
         /// This member is required.
         public var panSequenceNumber: Swift.String?
         /// The Primary Account Number (PAN), a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
@@ -1007,6 +1109,254 @@ extension DecryptDataOutput: Swift.CustomDebugStringConvertible {
 
 extension PaymentCryptographyDataClientTypes {
 
+    /// Parameters to derive the confidentiality and integrity keys for a payment card using EMV2000 deruv.
+    public struct Emv2000Attributes: Swift.Sendable {
+        /// The transaction counter of the current transaction that is provided by the terminal during transaction processing.
+        /// This member is required.
+        public var applicationTransactionCounter: Swift.String?
+        /// The method to use when deriving the master key for the payment card.
+        /// This member is required.
+        public var majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode?
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN) of the cardholder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            applicationTransactionCounter: Swift.String? = nil,
+            majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil
+        )
+        {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.Emv2000Attributes: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Emv2000Attributes(applicationTransactionCounter: \(Swift.String(describing: applicationTransactionCounter)), majorKeyDerivationMode: \(Swift.String(describing: majorKeyDerivationMode)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    public enum PinBlockLengthPosition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case frontOfPinBlock
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PinBlockLengthPosition] {
+            return [
+                .frontOfPinBlock,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .frontOfPinBlock: return "FRONT_OF_PIN_BLOCK"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    public enum PinBlockPaddingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case isoIec78164
+        case noPadding
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PinBlockPaddingType] {
+            return [
+                .isoIec78164,
+                .noPadding
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .isoIec78164: return "ISO_IEC_7816_4"
+            case .noPadding: return "NO_PADDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive the confidentiality and integrity keys for an Emv common payment card.
+    public struct EmvCommonAttributes: Swift.Sendable {
+        /// The application cryptogram for the current transaction that is provided by the terminal during transaction processing.
+        /// This member is required.
+        public var applicationCryptogram: Swift.String?
+        /// The method to use when deriving the master key for the payment card.
+        /// This member is required.
+        public var majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode?
+        /// The block cipher method to use for encryption.
+        /// This member is required.
+        public var mode: PaymentCryptographyDataClientTypes.EmvEncryptionMode?
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// Specifies if PIN block length should be added to front of the pin block. If value is set to FRONT_OF_PIN_BLOCK, then PIN block padding type should be ISO_IEC_7816_4.
+        /// This member is required.
+        public var pinBlockLengthPosition: PaymentCryptographyDataClientTypes.PinBlockLengthPosition?
+        /// The padding to be added to the PIN block prior to encryption. Padding type should be ISO_IEC_7816_4, if PinBlockLengthPosition is set to FRONT_OF_PIN_BLOCK. No padding is required, if PinBlockLengthPosition is set to NONE.
+        /// This member is required.
+        public var pinBlockPaddingType: PaymentCryptographyDataClientTypes.PinBlockPaddingType?
+        /// The Primary Account Number (PAN) of the cardholder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            applicationCryptogram: Swift.String? = nil,
+            majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
+            mode: PaymentCryptographyDataClientTypes.EmvEncryptionMode? = nil,
+            panSequenceNumber: Swift.String? = nil,
+            pinBlockLengthPosition: PaymentCryptographyDataClientTypes.PinBlockLengthPosition? = nil,
+            pinBlockPaddingType: PaymentCryptographyDataClientTypes.PinBlockPaddingType? = nil,
+            primaryAccountNumber: Swift.String? = nil
+        )
+        {
+            self.applicationCryptogram = applicationCryptogram
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.mode = mode
+            self.panSequenceNumber = panSequenceNumber
+            self.pinBlockLengthPosition = pinBlockLengthPosition
+            self.pinBlockPaddingType = pinBlockPaddingType
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.EmvCommonAttributes: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EmvCommonAttributes(majorKeyDerivationMode: \(Swift.String(describing: majorKeyDerivationMode)), mode: \(Swift.String(describing: mode)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), pinBlockLengthPosition: \(Swift.String(describing: pinBlockLengthPosition)), pinBlockPaddingType: \(Swift.String(describing: pinBlockPaddingType)), applicationCryptogram: \"CONTENT_REDACTED\", primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive the confidentiality and integrity keys for a Mastercard payment card.
+    public struct MasterCardAttributes: Swift.Sendable {
+        /// The application cryptogram for the current transaction that is provided by the terminal during transaction processing.
+        /// This member is required.
+        public var applicationCryptogram: Swift.String?
+        /// The method to use when deriving the master key for the payment card.
+        /// This member is required.
+        public var majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode?
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN) of the cardholder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            applicationCryptogram: Swift.String? = nil,
+            majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil
+        )
+        {
+            self.applicationCryptogram = applicationCryptogram
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.MasterCardAttributes: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MasterCardAttributes(majorKeyDerivationMode: \(Swift.String(describing: majorKeyDerivationMode)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), applicationCryptogram: \"CONTENT_REDACTED\", primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive the confidentiality and integrity keys for a Visa payment card.
+    public struct VisaAttributes: Swift.Sendable {
+        /// The transaction counter of the current transaction that is provided by the terminal during transaction processing.
+        /// This member is required.
+        public var applicationTransactionCounter: Swift.String?
+        /// The keyArn of the issuer master key for cryptogram (IMK-AC) for the payment card.
+        /// This member is required.
+        public var authorizationRequestKeyIdentifier: Swift.String?
+        /// The encrypted pinblock of the old pin stored on the chip card.
+        public var currentPinAttributes: PaymentCryptographyDataClientTypes.CurrentPinAttributes?
+        /// The method to use when deriving the master key for the payment card.
+        /// This member is required.
+        public var majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode?
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN). Typically 00 is used, if no value is provided by the terminal.
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN) of the cardholder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            applicationTransactionCounter: Swift.String? = nil,
+            authorizationRequestKeyIdentifier: Swift.String? = nil,
+            currentPinAttributes: PaymentCryptographyDataClientTypes.CurrentPinAttributes? = nil,
+            majorKeyDerivationMode: PaymentCryptographyDataClientTypes.MajorKeyDerivationMode? = nil,
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil
+        )
+        {
+            self.applicationTransactionCounter = applicationTransactionCounter
+            self.authorizationRequestKeyIdentifier = authorizationRequestKeyIdentifier
+            self.currentPinAttributes = currentPinAttributes
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.VisaAttributes: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VisaAttributes(applicationTransactionCounter: \(Swift.String(describing: applicationTransactionCounter)), authorizationRequestKeyIdentifier: \(Swift.String(describing: authorizationRequestKeyIdentifier)), currentPinAttributes: \(Swift.String(describing: currentPinAttributes)), majorKeyDerivationMode: \(Swift.String(describing: majorKeyDerivationMode)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters to derive the payment card specific confidentiality and integrity keys.
+    public enum DerivationMethodAttributes: Swift.Sendable {
+        /// Parameters to derive the confidentiality and integrity keys for a payment card using Emv common derivation method.
+        case emvcommon(PaymentCryptographyDataClientTypes.EmvCommonAttributes)
+        /// Parameters to derive the confidentiality and integrity keys for a payment card using Amex derivation method.
+        case amex(PaymentCryptographyDataClientTypes.AmexAttributes)
+        /// Parameters to derive the confidentiality and integrity keys for a a payment card using Visa derivation method.
+        case visa(PaymentCryptographyDataClientTypes.VisaAttributes)
+        /// Parameters to derive the confidentiality and integrity keys for a payment card using Emv2000 derivation method.
+        case emv2000(PaymentCryptographyDataClientTypes.Emv2000Attributes)
+        /// Parameters to derive the confidentiality and integrity keys for a payment card using Mastercard derivation method.
+        case mastercard(PaymentCryptographyDataClientTypes.MasterCardAttributes)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
     /// Parameters that are used for Derived Unique Key Per Transaction (DUKPT) derivation algorithm.
     public struct DukptAttributes: Swift.Sendable {
         /// The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY.
@@ -1243,35 +1593,6 @@ extension PaymentCryptographyDataClientTypes {
 
 extension PaymentCryptographyDataClientTypes {
 
-    public enum MajorKeyDerivationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case emvOptionA
-        case emvOptionB
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [MajorKeyDerivationMode] {
-            return [
-                .emvOptionA,
-                .emvOptionB
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .emvOptionA: return "EMV_OPTION_A"
-            case .emvOptionB: return "EMV_OPTION_B"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes {
-
     public enum SessionKeyDerivationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amex
         case emv2000
@@ -1438,6 +1759,173 @@ public struct GenerateMacOutput: Swift.Sendable {
 extension GenerateMacOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GenerateMacOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), mac: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    public enum PinBlockFormatForEmvPinChange: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case isoFormat0
+        case isoFormat1
+        case isoFormat3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PinBlockFormatForEmvPinChange] {
+            return [
+                .isoFormat0,
+                .isoFormat1,
+                .isoFormat3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .isoFormat0: return "ISO_FORMAT_0"
+            case .isoFormat1: return "ISO_FORMAT_1"
+            case .isoFormat3: return "ISO_FORMAT_3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GenerateMacEmvPinChangeInput: Swift.Sendable {
+    /// The attributes and data values to derive payment card specific confidentiality and integrity keys.
+    /// This member is required.
+    public var derivationMethodAttributes: PaymentCryptographyDataClientTypes.DerivationMethodAttributes?
+    /// The message data is the APDU command from the card reader or terminal. The target encrypted PIN block, after translation to ISO2 format, is appended to this message data to generate an issuer script response.
+    /// This member is required.
+    public var messageData: Swift.String?
+    /// The incoming new encrypted PIN block data for offline pin change on an EMV card.
+    /// This member is required.
+    public var newEncryptedPinBlock: Swift.String?
+    /// The keyARN of the PEK protecting the incoming new encrypted PIN block.
+    /// This member is required.
+    public var newPinPekIdentifier: Swift.String?
+    /// The PIN encoding format of the incoming new encrypted PIN block as specified in ISO 9564.
+    /// This member is required.
+    public var pinBlockFormat: PaymentCryptographyDataClientTypes.PinBlockFormatForEmvPinChange?
+    /// The keyARN of the issuer master key (IMK-SMC) used to protect the PIN block data in the issuer script response.
+    /// This member is required.
+    public var secureMessagingConfidentialityKeyIdentifier: Swift.String?
+    /// The keyARN of the issuer master key (IMK-SMI) used to authenticate the issuer script response.
+    /// This member is required.
+    public var secureMessagingIntegrityKeyIdentifier: Swift.String?
+
+    public init(
+        derivationMethodAttributes: PaymentCryptographyDataClientTypes.DerivationMethodAttributes? = nil,
+        messageData: Swift.String? = nil,
+        newEncryptedPinBlock: Swift.String? = nil,
+        newPinPekIdentifier: Swift.String? = nil,
+        pinBlockFormat: PaymentCryptographyDataClientTypes.PinBlockFormatForEmvPinChange? = nil,
+        secureMessagingConfidentialityKeyIdentifier: Swift.String? = nil,
+        secureMessagingIntegrityKeyIdentifier: Swift.String? = nil
+    )
+    {
+        self.derivationMethodAttributes = derivationMethodAttributes
+        self.messageData = messageData
+        self.newEncryptedPinBlock = newEncryptedPinBlock
+        self.newPinPekIdentifier = newPinPekIdentifier
+        self.pinBlockFormat = pinBlockFormat
+        self.secureMessagingConfidentialityKeyIdentifier = secureMessagingConfidentialityKeyIdentifier
+        self.secureMessagingIntegrityKeyIdentifier = secureMessagingIntegrityKeyIdentifier
+    }
+}
+
+extension GenerateMacEmvPinChangeInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateMacEmvPinChangeInput(derivationMethodAttributes: \(Swift.String(describing: derivationMethodAttributes)), newPinPekIdentifier: \(Swift.String(describing: newPinPekIdentifier)), pinBlockFormat: \(Swift.String(describing: pinBlockFormat)), secureMessagingConfidentialityKeyIdentifier: \(Swift.String(describing: secureMessagingConfidentialityKeyIdentifier)), secureMessagingIntegrityKeyIdentifier: \(Swift.String(describing: secureMessagingIntegrityKeyIdentifier)), messageData: \"CONTENT_REDACTED\", newEncryptedPinBlock: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// The attributes values used for Amex and Visa derivation methods.
+    public struct VisaAmexDerivationOutputs: Swift.Sendable {
+        /// The keyArn of the issuer master key for cryptogram (IMK-AC) used by the operation.
+        /// This member is required.
+        public var authorizationRequestKeyArn: Swift.String?
+        /// The key check value (KCV) of the issuer master key for cryptogram (IMK-AC) used by the operation.
+        /// This member is required.
+        public var authorizationRequestKeyCheckValue: Swift.String?
+        /// The keyArn of the current PIN PEK.
+        public var currentPinPekArn: Swift.String?
+        /// The key check value (KCV) of the current PIN PEK.
+        public var currentPinPekKeyCheckValue: Swift.String?
+
+        public init(
+            authorizationRequestKeyArn: Swift.String? = nil,
+            authorizationRequestKeyCheckValue: Swift.String? = nil,
+            currentPinPekArn: Swift.String? = nil,
+            currentPinPekKeyCheckValue: Swift.String? = nil
+        )
+        {
+            self.authorizationRequestKeyArn = authorizationRequestKeyArn
+            self.authorizationRequestKeyCheckValue = authorizationRequestKeyCheckValue
+            self.currentPinPekArn = currentPinPekArn
+            self.currentPinPekKeyCheckValue = currentPinPekKeyCheckValue
+        }
+    }
+}
+
+public struct GenerateMacEmvPinChangeOutput: Swift.Sendable {
+    /// Returns the incoming new encrpted PIN block.
+    /// This member is required.
+    public var encryptedPinBlock: Swift.String?
+    /// Returns the mac of the issuer script containing message data and appended target encrypted pin block in ISO2 format.
+    /// This member is required.
+    public var mac: Swift.String?
+    /// Returns the keyArn of the PEK protecting the incoming new encrypted PIN block.
+    /// This member is required.
+    public var newPinPekArn: Swift.String?
+    /// The key check value (KCV) of the PEK uprotecting the incoming new encrypted PIN block.
+    /// This member is required.
+    public var newPinPekKeyCheckValue: Swift.String?
+    /// Returns the keyArn of the IMK-SMC used by the operation.
+    /// This member is required.
+    public var secureMessagingConfidentialityKeyArn: Swift.String?
+    /// The key check value (KCV) of the SMC issuer master key used by the operation.
+    /// This member is required.
+    public var secureMessagingConfidentialityKeyCheckValue: Swift.String?
+    /// Returns the keyArn of the IMK-SMI used by the operation.
+    /// This member is required.
+    public var secureMessagingIntegrityKeyArn: Swift.String?
+    /// The key check value (KCV) of the SMI issuer master key used by the operation.
+    /// This member is required.
+    public var secureMessagingIntegrityKeyCheckValue: Swift.String?
+    /// The attribute values used for Amex and Visa derivation methods.
+    public var visaAmexDerivationOutputs: PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs?
+
+    public init(
+        encryptedPinBlock: Swift.String? = nil,
+        mac: Swift.String? = nil,
+        newPinPekArn: Swift.String? = nil,
+        newPinPekKeyCheckValue: Swift.String? = nil,
+        secureMessagingConfidentialityKeyArn: Swift.String? = nil,
+        secureMessagingConfidentialityKeyCheckValue: Swift.String? = nil,
+        secureMessagingIntegrityKeyArn: Swift.String? = nil,
+        secureMessagingIntegrityKeyCheckValue: Swift.String? = nil,
+        visaAmexDerivationOutputs: PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs? = nil
+    )
+    {
+        self.encryptedPinBlock = encryptedPinBlock
+        self.mac = mac
+        self.newPinPekArn = newPinPekArn
+        self.newPinPekKeyCheckValue = newPinPekKeyCheckValue
+        self.secureMessagingConfidentialityKeyArn = secureMessagingConfidentialityKeyArn
+        self.secureMessagingConfidentialityKeyCheckValue = secureMessagingConfidentialityKeyCheckValue
+        self.secureMessagingIntegrityKeyArn = secureMessagingIntegrityKeyArn
+        self.secureMessagingIntegrityKeyCheckValue = secureMessagingIntegrityKeyCheckValue
+        self.visaAmexDerivationOutputs = visaAmexDerivationOutputs
+    }
+}
+
+extension GenerateMacEmvPinChangeOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateMacEmvPinChangeOutput(newPinPekArn: \(Swift.String(describing: newPinPekArn)), newPinPekKeyCheckValue: \(Swift.String(describing: newPinPekKeyCheckValue)), secureMessagingConfidentialityKeyArn: \(Swift.String(describing: secureMessagingConfidentialityKeyArn)), secureMessagingConfidentialityKeyCheckValue: \(Swift.String(describing: secureMessagingConfidentialityKeyCheckValue)), secureMessagingIntegrityKeyArn: \(Swift.String(describing: secureMessagingIntegrityKeyArn)), secureMessagingIntegrityKeyCheckValue: \(Swift.String(describing: secureMessagingIntegrityKeyCheckValue)), visaAmexDerivationOutputs: \(Swift.String(describing: visaAmexDerivationOutputs)), encryptedPinBlock: \"CONTENT_REDACTED\", mac: \"CONTENT_REDACTED\")"}
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -2585,6 +3073,13 @@ extension GenerateMacInput {
     }
 }
 
+extension GenerateMacEmvPinChangeInput {
+
+    static func urlPathProvider(_ value: GenerateMacEmvPinChangeInput) -> Swift.String? {
+        return "/macemvpinchange/generate"
+    }
+}
+
 extension GeneratePinDataInput {
 
     static func urlPathProvider(_ value: GeneratePinDataInput) -> Swift.String? {
@@ -2676,6 +3171,20 @@ extension GenerateMacInput {
         try writer["KeyIdentifier"].write(value.keyIdentifier)
         try writer["MacLength"].write(value.macLength)
         try writer["MessageData"].write(value.messageData)
+    }
+}
+
+extension GenerateMacEmvPinChangeInput {
+
+    static func write(value: GenerateMacEmvPinChangeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DerivationMethodAttributes"].write(value.derivationMethodAttributes, with: PaymentCryptographyDataClientTypes.DerivationMethodAttributes.write(value:to:))
+        try writer["MessageData"].write(value.messageData)
+        try writer["NewEncryptedPinBlock"].write(value.newEncryptedPinBlock)
+        try writer["NewPinPekIdentifier"].write(value.newPinPekIdentifier)
+        try writer["PinBlockFormat"].write(value.pinBlockFormat)
+        try writer["SecureMessagingConfidentialityKeyIdentifier"].write(value.secureMessagingConfidentialityKeyIdentifier)
+        try writer["SecureMessagingIntegrityKeyIdentifier"].write(value.secureMessagingIntegrityKeyIdentifier)
     }
 }
 
@@ -2824,6 +3333,26 @@ extension GenerateMacOutput {
         value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
         value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
         value.mac = try reader["Mac"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GenerateMacEmvPinChangeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateMacEmvPinChangeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GenerateMacEmvPinChangeOutput()
+        value.encryptedPinBlock = try reader["EncryptedPinBlock"].readIfPresent() ?? ""
+        value.mac = try reader["Mac"].readIfPresent() ?? ""
+        value.newPinPekArn = try reader["NewPinPekArn"].readIfPresent() ?? ""
+        value.newPinPekKeyCheckValue = try reader["NewPinPekKeyCheckValue"].readIfPresent() ?? ""
+        value.secureMessagingConfidentialityKeyArn = try reader["SecureMessagingConfidentialityKeyArn"].readIfPresent() ?? ""
+        value.secureMessagingConfidentialityKeyCheckValue = try reader["SecureMessagingConfidentialityKeyCheckValue"].readIfPresent() ?? ""
+        value.secureMessagingIntegrityKeyArn = try reader["SecureMessagingIntegrityKeyArn"].readIfPresent() ?? ""
+        value.secureMessagingIntegrityKeyCheckValue = try reader["SecureMessagingIntegrityKeyCheckValue"].readIfPresent() ?? ""
+        value.visaAmexDerivationOutputs = try reader["VisaAmexDerivationOutputs"].readIfPresent(with: PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs.read(from:))
         return value
     }
 }
@@ -2983,6 +3512,24 @@ enum GenerateCardValidationDataOutputError {
 }
 
 enum GenerateMacOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GenerateMacEmvPinChangeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3206,6 +3753,19 @@ extension VerificationFailedException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyDataClientTypes.VisaAmexDerivationOutputs()
+        value.authorizationRequestKeyArn = try reader["AuthorizationRequestKeyArn"].readIfPresent() ?? ""
+        value.authorizationRequestKeyCheckValue = try reader["AuthorizationRequestKeyCheckValue"].readIfPresent() ?? ""
+        value.currentPinPekArn = try reader["CurrentPinPekArn"].readIfPresent()
+        value.currentPinPekKeyCheckValue = try reader["CurrentPinPekKeyCheckValue"].readIfPresent()
         return value
     }
 }
@@ -3467,6 +4027,98 @@ extension PaymentCryptographyDataClientTypes.SessionKeyDerivationValue {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.DerivationMethodAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.DerivationMethodAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .amex(amex):
+                try writer["Amex"].write(amex, with: PaymentCryptographyDataClientTypes.AmexAttributes.write(value:to:))
+            case let .emv2000(emv2000):
+                try writer["Emv2000"].write(emv2000, with: PaymentCryptographyDataClientTypes.Emv2000Attributes.write(value:to:))
+            case let .emvcommon(emvcommon):
+                try writer["EmvCommon"].write(emvcommon, with: PaymentCryptographyDataClientTypes.EmvCommonAttributes.write(value:to:))
+            case let .mastercard(mastercard):
+                try writer["Mastercard"].write(mastercard, with: PaymentCryptographyDataClientTypes.MasterCardAttributes.write(value:to:))
+            case let .visa(visa):
+                try writer["Visa"].write(visa, with: PaymentCryptographyDataClientTypes.VisaAttributes.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.MasterCardAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.MasterCardAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationCryptogram"].write(value.applicationCryptogram)
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.Emv2000Attributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.Emv2000Attributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.VisaAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.VisaAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["AuthorizationRequestKeyIdentifier"].write(value.authorizationRequestKeyIdentifier)
+        try writer["CurrentPinAttributes"].write(value.currentPinAttributes, with: PaymentCryptographyDataClientTypes.CurrentPinAttributes.write(value:to:))
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.CurrentPinAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.CurrentPinAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CurrentEncryptedPinBlock"].write(value.currentEncryptedPinBlock)
+        try writer["CurrentPinPekIdentifier"].write(value.currentPinPekIdentifier)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.AmexAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.AmexAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTransactionCounter"].write(value.applicationTransactionCounter)
+        try writer["AuthorizationRequestKeyIdentifier"].write(value.authorizationRequestKeyIdentifier)
+        try writer["CurrentPinAttributes"].write(value.currentPinAttributes, with: PaymentCryptographyDataClientTypes.CurrentPinAttributes.write(value:to:))
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.EmvCommonAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.EmvCommonAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationCryptogram"].write(value.applicationCryptogram)
+        try writer["MajorKeyDerivationMode"].write(value.majorKeyDerivationMode)
+        try writer["Mode"].write(value.mode)
+        try writer["PanSequenceNumber"].write(value.panSequenceNumber)
+        try writer["PinBlockLengthPosition"].write(value.pinBlockLengthPosition)
+        try writer["PinBlockPaddingType"].write(value.pinBlockPaddingType)
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
     }
 }
 

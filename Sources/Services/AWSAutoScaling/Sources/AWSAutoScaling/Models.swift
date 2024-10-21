@@ -167,7 +167,7 @@ public struct UpdateAutoScalingGroupOutput: Swift.Sendable {
 
 extension AutoScalingClientTypes {
 
-    /// Specifies the minimum and maximum for the AcceleratorCount object when you specify [InstanceRequirements] for an Auto Scaling group.
+    /// Specifies the minimum and maximum for the AcceleratorCount object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group.
     public struct AcceleratorCountRequest: Swift.Sendable {
         /// The maximum value.
         public var max: Swift.Int?
@@ -266,7 +266,7 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Specifies the minimum and maximum for the AcceleratorTotalMemoryMiB object when you specify [InstanceRequirements] for an Auto Scaling group.
+    /// Specifies the minimum and maximum for the AcceleratorTotalMemoryMiB object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group.
     public struct AcceleratorTotalMemoryMiBRequest: Swift.Sendable {
         /// The memory maximum in MiB.
         public var max: Swift.Int?
@@ -800,7 +800,7 @@ public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension AutoScalingClientTypes {
 
-    /// Describes information used for one or more scheduled scaling action updates in a [BatchPutScheduledUpdateGroupAction] operation.
+    /// Describes information used for one or more scheduled scaling action updates in a [BatchPutScheduledUpdateGroupAction](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_BatchPutScheduledUpdateGroupAction.html) operation.
     public struct ScheduledUpdateGroupActionRequest: Swift.Sendable {
         /// The desired capacity is the initial capacity of the Auto Scaling group after the scheduled action runs and the capacity it attempts to maintain.
         public var desiredCapacity: Swift.Int?
@@ -1028,13 +1028,13 @@ extension AutoScalingClientTypes {
 
     /// Use this structure to specify the distribution of On-Demand Instances and Spot Instances and the allocation strategies used to fulfill On-Demand and Spot capacities for a mixed instances policy.
     public struct InstancesDistribution: Swift.Sendable {
-        /// The allocation strategy to apply to your On-Demand Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values: lowest-price Uses price to determine which instance types are the highest priority, launching the lowest priced instance types within an Availability Zone first. This is the default value for Auto Scaling groups that specify [InstanceRequirements]. prioritized You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling launches your highest priority instance types first. If all your On-Demand capacity cannot be fulfilled using your highest priority instance type, then Amazon EC2 Auto Scaling launches the remaining capacity using the second priority instance type, and so on. This is the default value for Auto Scaling groups that don't specify [InstanceRequirements] and cannot be used for groups that do.
+        /// The allocation strategy to apply to your On-Demand Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values: lowest-price Uses price to determine which instance types are the highest priority, launching the lowest priced instance types within an Availability Zone first. This is the default value for Auto Scaling groups that specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html). prioritized You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling launches your highest priority instance types first. If all your On-Demand capacity cannot be fulfilled using your highest priority instance type, then Amazon EC2 Auto Scaling launches the remaining capacity using the second priority instance type, and so on. This is the default value for Auto Scaling groups that don't specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) and cannot be used for groups that do.
         public var onDemandAllocationStrategy: Swift.String?
         /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances. This base portion is launched first as your group scales. This number has the same unit of measurement as the group's desired capacity. If you change the default unit of measurement (number of instances) by specifying weighted capacity values in your launch template overrides list, or by changing the default desired capacity type setting of the group, you must specify this number using the same unit of measurement. Default: 0
         public var onDemandBaseCapacity: Swift.Int?
         /// Controls the percentages of On-Demand Instances and Spot Instances for your additional capacity beyond OnDemandBaseCapacity. Expressed as a number (for example, 20 specifies 20% On-Demand Instances, 80% Spot Instances). If set to 100, only On-Demand Instances are used. Default: 100
         public var onDemandPercentageAboveBaseCapacity: Swift.Int?
-        /// The allocation strategy to apply to your Spot Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values: capacity-optimized Requests Spot Instances using pools that are optimally chosen based on the available Spot capacity. This strategy has the lowest risk of interruption. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized. capacity-optimized-prioritized You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling honors the instance type priorities on a best effort basis but optimizes for capacity first. Note that if the On-Demand allocation strategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. This is not a valid value for Auto Scaling groups that specify [InstanceRequirements]. lowest-price Requests Spot Instances using the lowest priced pools within an Availability Zone, across the number of Spot pools that you specify for the SpotInstancePools property. To ensure that your desired capacity is met, you might receive Spot Instances from several pools. This is the default value, but it might lead to high interruption rates because this strategy only considers instance price and not available capacity. price-capacity-optimized (recommended) The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price.
+        /// The allocation strategy to apply to your Spot Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values: capacity-optimized Requests Spot Instances using pools that are optimally chosen based on the available Spot capacity. This strategy has the lowest risk of interruption. To give certain instance types a higher chance of launching first, use capacity-optimized-prioritized. capacity-optimized-prioritized You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling honors the instance type priorities on a best effort basis but optimizes for capacity first. Note that if the On-Demand allocation strategy is set to prioritized, the same priority is applied when fulfilling On-Demand capacity. This is not a valid value for Auto Scaling groups that specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html). lowest-price Requests Spot Instances using the lowest priced pools within an Availability Zone, across the number of Spot pools that you specify for the SpotInstancePools property. To ensure that your desired capacity is met, you might receive Spot Instances from several pools. This is the default value, but it might lead to high interruption rates because this strategy only considers instance price and not available capacity. price-capacity-optimized (recommended) The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price.
         public var spotAllocationStrategy: Swift.String?
         /// The number of Spot Instance pools across which to allocate your Spot Instances. The Spot pools are determined from the different instance types in the overrides. Valid only when the SpotAllocationStrategy is lowest-price. Value must be in the range of 1–20. Default: 2
         public var spotInstancePools: Swift.Int?
@@ -1094,7 +1094,7 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Specifies the minimum and maximum for the BaselineEbsBandwidthMbps object when you specify [InstanceRequirements] for an Auto Scaling group.
+    /// Specifies the minimum and maximum for the BaselineEbsBandwidthMbps object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group.
     public struct BaselineEbsBandwidthMbpsRequest: Swift.Sendable {
         /// The maximum value in Mbps.
         public var max: Swift.Int?
@@ -1268,7 +1268,7 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Specifies the minimum and maximum for the MemoryGiBPerVCpu object when you specify [InstanceRequirements] for an Auto Scaling group.
+    /// Specifies the minimum and maximum for the MemoryGiBPerVCpu object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group.
     public struct MemoryGiBPerVCpuRequest: Swift.Sendable {
         /// The memory maximum in GiB.
         public var max: Swift.Double?
@@ -1288,7 +1288,7 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Specifies the minimum and maximum for the MemoryMiB object when you specify [InstanceRequirements] for an Auto Scaling group.
+    /// Specifies the minimum and maximum for the MemoryMiB object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group.
     public struct MemoryMiBRequest: Swift.Sendable {
         /// The memory maximum in MiB.
         public var max: Swift.Int?
@@ -1309,7 +1309,7 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Specifies the minimum and maximum for the NetworkBandwidthGbps object when you specify [InstanceRequirements] for an Auto Scaling group. Setting the minimum bandwidth does not guarantee that your instance will achieve the minimum bandwidth. Amazon EC2 will identify instance types that support the specified minimum bandwidth, but the actual bandwidth of your instance might go below the specified minimum at times. For more information, see [Available instance bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth) in the Amazon EC2 User Guide for Linux Instances.
+    /// Specifies the minimum and maximum for the NetworkBandwidthGbps object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group. Setting the minimum bandwidth does not guarantee that your instance will achieve the minimum bandwidth. Amazon EC2 will identify instance types that support the specified minimum bandwidth, but the actual bandwidth of your instance might go below the specified minimum at times. For more information, see [Available instance bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth) in the Amazon EC2 User Guide for Linux Instances.
     public struct NetworkBandwidthGbpsRequest: Swift.Sendable {
         /// The maximum amount of network bandwidth, in gigabits per second (Gbps).
         public var max: Swift.Double?
@@ -1329,7 +1329,7 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Specifies the minimum and maximum for the NetworkInterfaceCount object when you specify [InstanceRequirements] for an Auto Scaling group.
+    /// Specifies the minimum and maximum for the NetworkInterfaceCount object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group.
     public struct NetworkInterfaceCountRequest: Swift.Sendable {
         /// The maximum number of network interfaces.
         public var max: Swift.Int?
@@ -1349,7 +1349,7 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Specifies the minimum and maximum for the TotalLocalStorageGB object when you specify [InstanceRequirements] for an Auto Scaling group.
+    /// Specifies the minimum and maximum for the TotalLocalStorageGB object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group.
     public struct TotalLocalStorageGBRequest: Swift.Sendable {
         /// The storage maximum in GB.
         public var max: Swift.Double?
@@ -1369,7 +1369,7 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Specifies the minimum and maximum for the VCpuCount object when you specify [InstanceRequirements] for an Auto Scaling group.
+    /// Specifies the minimum and maximum for the VCpuCount object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group.
     public struct VCpuCountRequest: Swift.Sendable {
         /// The maximum number of vCPUs.
         public var max: Swift.Int?
@@ -2335,7 +2335,7 @@ extension AutoScalingClientTypes {
 
     /// Describes a filter that is used to return a more specific list of results from a describe operation. If you specify multiple filters, the filters are automatically logically joined with an AND, and the request returns only the results that match all of the specified filters. For more information, see [Tag Auto Scaling groups and instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html) in the Amazon EC2 Auto Scaling User Guide.
     public struct Filter: Swift.Sendable {
-        /// The name of the filter. The valid values for Name depend on which API operation you're using with the filter ([DescribeAutoScalingGroups] or [DescribeTags]). DescribeAutoScalingGroups Valid values for Name include the following:
+        /// The name of the filter. The valid values for Name depend on which API operation you're using with the filter ([DescribeAutoScalingGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingGroups.html) or [DescribeTags](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTags.html)). DescribeAutoScalingGroups Valid values for Name include the following:
         ///
         /// * tag-key - Accepts tag keys. The results only include information about the Auto Scaling groups associated with these tag keys.
         ///
@@ -2822,7 +2822,7 @@ extension AutoScalingClientTypes {
         public var predictedCapacity: Swift.Int?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf.
         public var serviceLinkedRoleARN: Swift.String?
-        /// The current state of the group when the [DeleteAutoScalingGroup] operation is in progress.
+        /// The current state of the group when the [DeleteAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteAutoScalingGroup.html) operation is in progress.
         public var status: Swift.String?
         /// The suspended processes associated with the group.
         public var suspendedProcesses: [AutoScalingClientTypes.SuspendedProcess]?
@@ -5734,7 +5734,7 @@ public struct PutNotificationConfigurationInput: Swift.Sendable {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
-    /// The type of event that causes the notification to be sent. To query the notification types supported by Amazon EC2 Auto Scaling, call the [DescribeAutoScalingNotificationTypes] API.
+    /// The type of event that causes the notification to be sent. To query the notification types supported by Amazon EC2 Auto Scaling, call the [DescribeAutoScalingNotificationTypes](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingNotificationTypes.html) API.
     /// This member is required.
     public var notificationTypes: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the Amazon SNS topic.
@@ -6331,7 +6331,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
     /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
     public var newInstancesProtectedFromScaleIn: Swift.Bool?
-    /// The name of an existing placement group into which to launch your instances. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide for Linux Instances. A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
+    /// The name of an existing placement group into which to launch your instances. To remove the placement group setting, pass an empty string for placement-group. For more information about placement groups, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide for Linux Instances. A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
     public var placementGroup: Swift.String?
     /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see [Service-linked roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html) in the Amazon EC2 Auto Scaling User Guide.
     public var serviceLinkedRoleARN: Swift.String?
