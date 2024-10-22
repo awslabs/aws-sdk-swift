@@ -31,7 +31,7 @@ class AWSJSONErrorTests: HttpResponseTestBase {
         let httpResponse = try httpResponseWithNoErrorCode()
         let reader = try await Reader.from(data: httpResponse.body.readData() ?? Data())
         XCTAssertThrowsError(try AWSJSONError(httpResponse: httpResponse, responseReader: reader, noErrorWrapping: true)) { error in
-            XCTAssertTrue(error is BaseErrorDecodeError)
+            XCTAssertTrue((error as? BaseErrorDecodeError) == BaseErrorDecodeError.missingRequiredData)
         }
     }
 
