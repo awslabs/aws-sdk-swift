@@ -15,6 +15,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
@@ -993,6 +994,134 @@ extension TimestreamQueryClientTypes {
 
 extension TimestreamQueryClientTypes {
 
+    /// Provides insights into the table with the most sub-optimal spatial range scanned by your query.
+    public struct QuerySpatialCoverageMax: Swift.Sendable {
+        /// The partition key used for partitioning, which can be a default measure_name or a [customer defined partition key](https://docs.aws.amazon.com/timestream/latest/developerguide/customer-defined-partition-keys.html).
+        public var partitionKey: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the table with the most sub-optimal spatial pruning.
+        public var tableArn: Swift.String?
+        /// The maximum ratio of spatial coverage.
+        public var value: Swift.Double
+
+        public init(
+            partitionKey: [Swift.String]? = nil,
+            tableArn: Swift.String? = nil,
+            value: Swift.Double = 0.0
+        )
+        {
+            self.partitionKey = partitionKey
+            self.tableArn = tableArn
+            self.value = value
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// Provides insights into the spatial coverage of the query, including the table with sub-optimal (max) spatial pruning. This information can help you identify areas for improvement in your partitioning strategy to enhance spatial pruning For example, you can do the following with the QuerySpatialCoverage information:
+    ///
+    /// * Add measure_name or use [customer-defined partition key](https://docs.aws.amazon.com/timestream/latest/developerguide/customer-defined-partition-keys.html) (CDPK) predicates.
+    ///
+    /// * If you've already done the preceding action, remove functions around them or clauses, such as LIKE.
+    public struct QuerySpatialCoverage: Swift.Sendable {
+        /// Provides insights into the spatial coverage of the executed query and the table with the most inefficient spatial pruning.
+        ///
+        /// * Value – The maximum ratio of spatial coverage.
+        ///
+        /// * TableArn – The Amazon Resource Name (ARN) of the table with sub-optimal spatial pruning.
+        ///
+        /// * PartitionKey – The partition key used for partitioning, which can be a default measure_name or a CDPK.
+        public var max: TimestreamQueryClientTypes.QuerySpatialCoverageMax?
+
+        public init(
+            max: TimestreamQueryClientTypes.QuerySpatialCoverageMax? = nil
+        )
+        {
+            self.max = max
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// Provides insights into the table with the most sub-optimal temporal pruning scanned by your query.
+    public struct QueryTemporalRangeMax: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the table which is queried with the largest time range.
+        public var tableArn: Swift.String?
+        /// The maximum duration in nanoseconds between the start and end of the query.
+        public var value: Swift.Int
+
+        public init(
+            tableArn: Swift.String? = nil,
+            value: Swift.Int = 0
+        )
+        {
+            self.tableArn = tableArn
+            self.value = value
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// Provides insights into the temporal range of the query, including the table with the largest (max) time range.
+    public struct QueryTemporalRange: Swift.Sendable {
+        /// Encapsulates the following properties that provide insights into the most sub-optimal performing table on the temporal axis:
+        ///
+        /// * Value – The maximum duration in nanoseconds between the start and end of the query.
+        ///
+        /// * TableArn – The Amazon Resource Name (ARN) of the table which is queried with the largest time range.
+        public var max: TimestreamQueryClientTypes.QueryTemporalRangeMax?
+
+        public init(
+            max: TimestreamQueryClientTypes.QueryTemporalRangeMax? = nil
+        )
+        {
+            self.max = max
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// Provides various insights and metrics related to the ExecuteScheduledQueryRequest that was executed.
+    public struct ScheduledQueryInsightsResponse: Swift.Sendable {
+        /// Indicates the size of query result set in bytes. You can use this data to validate if the result set has changed as part of the query tuning exercise.
+        public var outputBytes: Swift.Int?
+        /// Indicates the total number of rows returned as part of the query result set. You can use this data to validate if the number of rows in the result set have changed as part of the query tuning exercise.
+        public var outputRows: Swift.Int?
+        /// Provides insights into the spatial coverage of the query, including the table with sub-optimal (max) spatial pruning. This information can help you identify areas for improvement in your partitioning strategy to enhance spatial pruning.
+        public var querySpatialCoverage: TimestreamQueryClientTypes.QuerySpatialCoverage?
+        /// Indicates the number of tables in the query.
+        public var queryTableCount: Swift.Int?
+        /// Provides insights into the temporal range of the query, including the table with the largest (max) time range. Following are some of the potential options for optimizing time-based pruning:
+        ///
+        /// * Add missing time-predicates.
+        ///
+        /// * Remove functions around the time predicates.
+        ///
+        /// * Add time predicates to all the sub-queries.
+        public var queryTemporalRange: TimestreamQueryClientTypes.QueryTemporalRange?
+
+        public init(
+            outputBytes: Swift.Int? = 0,
+            outputRows: Swift.Int? = 0,
+            querySpatialCoverage: TimestreamQueryClientTypes.QuerySpatialCoverage? = nil,
+            queryTableCount: Swift.Int? = 0,
+            queryTemporalRange: TimestreamQueryClientTypes.QueryTemporalRange? = nil
+        )
+        {
+            self.outputBytes = outputBytes
+            self.outputRows = outputRows
+            self.querySpatialCoverage = querySpatialCoverage
+            self.queryTableCount = queryTableCount
+            self.queryTemporalRange = queryTemporalRange
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
     public enum ScheduledQueryRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case autoTriggerFailure
         case autoTriggerSuccess
@@ -1038,6 +1167,8 @@ extension TimestreamQueryClientTypes {
         public var failureReason: Swift.String?
         /// InvocationTime for this run. This is the time at which the query is scheduled to run. Parameter @scheduled_runtime can be used in the query to get the value.
         public var invocationTime: Foundation.Date?
+        /// Provides various insights and metrics related to the run summary of the scheduled query.
+        public var queryInsightsResponse: TimestreamQueryClientTypes.ScheduledQueryInsightsResponse?
         /// The status of a scheduled query run.
         public var runStatus: TimestreamQueryClientTypes.ScheduledQueryRunStatus?
         /// The actual time when the query was run.
@@ -1048,6 +1179,7 @@ extension TimestreamQueryClientTypes {
             executionStats: TimestreamQueryClientTypes.ExecutionStats? = nil,
             failureReason: Swift.String? = nil,
             invocationTime: Foundation.Date? = nil,
+            queryInsightsResponse: TimestreamQueryClientTypes.ScheduledQueryInsightsResponse? = nil,
             runStatus: TimestreamQueryClientTypes.ScheduledQueryRunStatus? = nil,
             triggerTime: Foundation.Date? = nil
         )
@@ -1056,6 +1188,7 @@ extension TimestreamQueryClientTypes {
             self.executionStats = executionStats
             self.failureReason = failureReason
             self.invocationTime = invocationTime
+            self.queryInsightsResponse = queryInsightsResponse
             self.runStatus = runStatus
             self.triggerTime = triggerTime
         }
@@ -1187,12 +1320,64 @@ public struct DescribeScheduledQueryOutput: Swift.Sendable {
     }
 }
 
+extension TimestreamQueryClientTypes {
+
+    public enum ScheduledQueryInsightsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabledWithRateControl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduledQueryInsightsMode] {
+            return [
+                .disabled,
+                .enabledWithRateControl
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabledWithRateControl: return "ENABLED_WITH_RATE_CONTROL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// Encapsulates settings for enabling QueryInsights on an ExecuteScheduledQueryRequest.
+    public struct ScheduledQueryInsights: Swift.Sendable {
+        /// Provides the following modes to enable ScheduledQueryInsights:
+        ///
+        /// * ENABLED_WITH_RATE_CONTROL – Enables ScheduledQueryInsights for the queries being processed. This mode also includes a rate control mechanism, which limits the QueryInsights feature to 1 query per second (QPS).
+        ///
+        /// * DISABLED – Disables ScheduledQueryInsights.
+        /// This member is required.
+        public var mode: TimestreamQueryClientTypes.ScheduledQueryInsightsMode?
+
+        public init(
+            mode: TimestreamQueryClientTypes.ScheduledQueryInsightsMode? = nil
+        )
+        {
+            self.mode = mode
+        }
+    }
+}
+
 public struct ExecuteScheduledQueryInput: Swift.Sendable {
     /// Not used.
     public var clientToken: Swift.String?
     /// The timestamp in UTC. Query will be run as if it was invoked at this timestamp.
     /// This member is required.
     public var invocationTime: Foundation.Date?
+    /// Encapsulates settings for enabling QueryInsights. Enabling QueryInsights returns insights and metrics as a part of the Amazon SNS notification for the query that you executed. You can use QueryInsights to tune your query performance and cost.
+    public var queryInsights: TimestreamQueryClientTypes.ScheduledQueryInsights?
     /// ARN of the scheduled query.
     /// This member is required.
     public var scheduledQueryArn: Swift.String?
@@ -1200,18 +1385,20 @@ public struct ExecuteScheduledQueryInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         invocationTime: Foundation.Date? = nil,
+        queryInsights: TimestreamQueryClientTypes.ScheduledQueryInsights? = nil,
         scheduledQueryArn: Swift.String? = nil
     )
     {
         self.clientToken = clientToken
         self.invocationTime = invocationTime
+        self.queryInsights = queryInsights
         self.scheduledQueryArn = scheduledQueryArn
     }
 }
 
 extension ExecuteScheduledQueryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ExecuteScheduledQueryInput(invocationTime: \(Swift.String(describing: invocationTime)), scheduledQueryArn: \(Swift.String(describing: scheduledQueryArn)), clientToken: \"CONTENT_REDACTED\")"}
+        "ExecuteScheduledQueryInput(invocationTime: \(Swift.String(describing: invocationTime)), queryInsights: \(Swift.String(describing: queryInsights)), scheduledQueryArn: \(Swift.String(describing: scheduledQueryArn)), clientToken: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListScheduledQueriesInput: Swift.Sendable {
@@ -1418,6 +1605,65 @@ public struct QueryExecutionException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+extension TimestreamQueryClientTypes {
+
+    public enum QueryInsightsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabledWithRateControl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryInsightsMode] {
+            return [
+                .disabled,
+                .enabledWithRateControl
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabledWithRateControl: return "ENABLED_WITH_RATE_CONTROL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// QueryInsights is a performance tuning feature that helps you optimize your queries, reducing costs and improving performance. With QueryInsights, you can assess the pruning efficiency of your queries and identify areas for improvement to enhance query performance. With QueryInsights, you can also analyze the effectiveness of your queries in terms of temporal and spatial pruning, and identify opportunities to improve performance. Specifically, you can evaluate how well your queries use time-based and partition key-based indexing strategies to optimize data retrieval. To optimize query performance, it's essential that you fine-tune both the temporal and spatial parameters that govern query execution. The key metrics provided by QueryInsights are QuerySpatialCoverage and QueryTemporalRange. QuerySpatialCoverage indicates how much of the spatial axis the query scans, with lower values being more efficient. QueryTemporalRange shows the time range scanned, with narrower ranges being more performant. Benefits of QueryInsights The following are the key benefits of using QueryInsights:
+    ///
+    /// * Identifying inefficient queries – QueryInsights provides information on the time-based and attribute-based pruning of the tables accessed by the query. This information helps you identify the tables that are sub-optimally accessed.
+    ///
+    /// * Optimizing your data model and partitioning – You can use the QueryInsights information to access and fine-tune your data model and partitioning strategy.
+    ///
+    /// * Tuning queries – QueryInsights highlights opportunities to use indexes more effectively.
+    ///
+    ///
+    /// The maximum number of Query API requests you're allowed to make with QueryInsights enabled is 1 query per second (QPS). If you exceed this query rate, it might result in throttling.
+    public struct QueryInsights: Swift.Sendable {
+        /// Provides the following modes to enable QueryInsights:
+        ///
+        /// * ENABLED_WITH_RATE_CONTROL – Enables QueryInsights for the queries being processed. This mode also includes a rate control mechanism, which limits the QueryInsights feature to 1 query per second (QPS).
+        ///
+        /// * DISABLED – Disables QueryInsights.
+        /// This member is required.
+        public var mode: TimestreamQueryClientTypes.QueryInsightsMode?
+
+        public init(
+            mode: TimestreamQueryClientTypes.QueryInsightsMode? = nil
+        )
+        {
+            self.mode = mode
+        }
+    }
+}
+
 public struct QueryInput: Swift.Sendable {
     /// Unique, case-sensitive string of up to 64 ASCII characters specified when a Query request is made. Providing a ClientToken makes the call to Query idempotent. This means that running the same query repeatedly will produce the same result. In other words, making multiple identical Query requests has the same effect as making a single request. When using ClientToken in a query, note the following:
     ///
@@ -1452,6 +1698,8 @@ public struct QueryInput: Swift.Sendable {
     ///
     /// * If the IAM principal of the query initiator and the result reader are not the same and/or the query initiator and the result reader do not have the same query string in the query requests, the query will fail with an Invalid pagination token error.
     public var nextToken: Swift.String?
+    /// Encapsulates settings for enabling QueryInsights. Enabling QueryInsights returns insights and metrics in addition to query results for the query that you executed. You can use QueryInsights to tune your query performance.
+    public var queryInsights: TimestreamQueryClientTypes.QueryInsights?
     /// The query to be run by Timestream.
     /// This member is required.
     public var queryString: Swift.String?
@@ -1460,19 +1708,71 @@ public struct QueryInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         maxRows: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        queryInsights: TimestreamQueryClientTypes.QueryInsights? = nil,
         queryString: Swift.String? = nil
     )
     {
         self.clientToken = clientToken
         self.maxRows = maxRows
         self.nextToken = nextToken
+        self.queryInsights = queryInsights
         self.queryString = queryString
     }
 }
 
 extension QueryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "QueryInput(maxRows: \(Swift.String(describing: maxRows)), nextToken: \(Swift.String(describing: nextToken)), clientToken: \"CONTENT_REDACTED\", queryString: \"CONTENT_REDACTED\")"}
+        "QueryInput(maxRows: \(Swift.String(describing: maxRows)), nextToken: \(Swift.String(describing: nextToken)), queryInsights: \(Swift.String(describing: queryInsights)), clientToken: \"CONTENT_REDACTED\", queryString: \"CONTENT_REDACTED\")"}
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// Provides various insights and metrics related to the query that you executed.
+    public struct QueryInsightsResponse: Swift.Sendable {
+        /// Indicates the size of query result set in bytes. You can use this data to validate if the result set has changed as part of the query tuning exercise.
+        public var outputBytes: Swift.Int?
+        /// Indicates the total number of rows returned as part of the query result set. You can use this data to validate if the number of rows in the result set have changed as part of the query tuning exercise.
+        public var outputRows: Swift.Int?
+        /// Provides insights into the spatial coverage of the query, including the table with sub-optimal (max) spatial pruning. This information can help you identify areas for improvement in your partitioning strategy to enhance spatial pruning.
+        public var querySpatialCoverage: TimestreamQueryClientTypes.QuerySpatialCoverage?
+        /// Indicates the number of tables in the query.
+        public var queryTableCount: Swift.Int?
+        /// Provides insights into the temporal range of the query, including the table with the largest (max) time range. Following are some of the potential options for optimizing time-based pruning:
+        ///
+        /// * Add missing time-predicates.
+        ///
+        /// * Remove functions around the time predicates.
+        ///
+        /// * Add time predicates to all the sub-queries.
+        public var queryTemporalRange: TimestreamQueryClientTypes.QueryTemporalRange?
+        /// Indicates the partitions created by the Unload operation.
+        public var unloadPartitionCount: Swift.Int?
+        /// Indicates the size, in bytes, written by the Unload operation.
+        public var unloadWrittenBytes: Swift.Int?
+        /// Indicates the rows written by the Unload query.
+        public var unloadWrittenRows: Swift.Int?
+
+        public init(
+            outputBytes: Swift.Int? = 0,
+            outputRows: Swift.Int? = 0,
+            querySpatialCoverage: TimestreamQueryClientTypes.QuerySpatialCoverage? = nil,
+            queryTableCount: Swift.Int? = 0,
+            queryTemporalRange: TimestreamQueryClientTypes.QueryTemporalRange? = nil,
+            unloadPartitionCount: Swift.Int? = 0,
+            unloadWrittenBytes: Swift.Int? = 0,
+            unloadWrittenRows: Swift.Int? = 0
+        )
+        {
+            self.outputBytes = outputBytes
+            self.outputRows = outputRows
+            self.querySpatialCoverage = querySpatialCoverage
+            self.queryTableCount = queryTableCount
+            self.queryTemporalRange = queryTemporalRange
+            self.unloadPartitionCount = unloadPartitionCount
+            self.unloadWrittenBytes = unloadWrittenBytes
+            self.unloadWrittenRows = unloadWrittenRows
+        }
+    }
 }
 
 extension TimestreamQueryClientTypes {
@@ -1778,6 +2078,8 @@ public struct QueryOutput: Swift.Sendable {
     /// A unique ID for the given query.
     /// This member is required.
     public var queryId: Swift.String?
+    /// Encapsulates QueryInsights containing insights and metrics related to the query that you executed.
+    public var queryInsightsResponse: TimestreamQueryClientTypes.QueryInsightsResponse?
     /// Information about the status of the query, including progress and bytes scanned.
     public var queryStatus: TimestreamQueryClientTypes.QueryStatus?
     /// The result set rows returned by the query.
@@ -1788,6 +2090,7 @@ public struct QueryOutput: Swift.Sendable {
         columnInfo: [TimestreamQueryClientTypes.ColumnInfo]? = nil,
         nextToken: Swift.String? = nil,
         queryId: Swift.String? = nil,
+        queryInsightsResponse: TimestreamQueryClientTypes.QueryInsightsResponse? = nil,
         queryStatus: TimestreamQueryClientTypes.QueryStatus? = nil,
         rows: [TimestreamQueryClientTypes.Row]? = nil
     )
@@ -1795,6 +2098,7 @@ public struct QueryOutput: Swift.Sendable {
         self.columnInfo = columnInfo
         self.nextToken = nextToken
         self.queryId = queryId
+        self.queryInsightsResponse = queryInsightsResponse
         self.queryStatus = queryStatus
         self.rows = rows
     }
@@ -1996,6 +2300,7 @@ extension ExecuteScheduledQueryInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["InvocationTime"].writeTimestamp(value.invocationTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["QueryInsights"].write(value.queryInsights, with: TimestreamQueryClientTypes.ScheduledQueryInsights.write(value:to:))
         try writer["ScheduledQueryArn"].write(value.scheduledQueryArn)
     }
 }
@@ -2035,6 +2340,7 @@ extension QueryInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["MaxRows"].write(value.maxRows)
         try writer["NextToken"].write(value.nextToken)
+        try writer["QueryInsights"].write(value.queryInsights, with: TimestreamQueryClientTypes.QueryInsights.write(value:to:))
         try writer["QueryString"].write(value.queryString)
     }
 }
@@ -2200,6 +2506,7 @@ extension QueryOutput {
         value.columnInfo = try reader["ColumnInfo"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.ColumnInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.queryId = try reader["QueryId"].readIfPresent() ?? ""
+        value.queryInsightsResponse = try reader["QueryInsightsResponse"].readIfPresent(with: TimestreamQueryClientTypes.QueryInsightsResponse.read(from:))
         value.queryStatus = try reader["QueryStatus"].readIfPresent(with: TimestreamQueryClientTypes.QueryStatus.read(from:))
         value.rows = try reader["Rows"].readListIfPresent(memberReadingClosure: TimestreamQueryClientTypes.Row.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
@@ -2675,6 +2982,7 @@ extension TimestreamQueryClientTypes.ScheduledQueryRunSummary {
         value.triggerTime = try reader["TriggerTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.runStatus = try reader["RunStatus"].readIfPresent()
         value.executionStats = try reader["ExecutionStats"].readIfPresent(with: TimestreamQueryClientTypes.ExecutionStats.read(from:))
+        value.queryInsightsResponse = try reader["QueryInsightsResponse"].readIfPresent(with: TimestreamQueryClientTypes.ScheduledQueryInsightsResponse.read(from:))
         value.errorReportLocation = try reader["ErrorReportLocation"].readIfPresent(with: TimestreamQueryClientTypes.ErrorReportLocation.read(from:))
         value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
@@ -2698,6 +3006,63 @@ extension TimestreamQueryClientTypes.S3ReportLocation {
         var value = TimestreamQueryClientTypes.S3ReportLocation()
         value.bucketName = try reader["BucketName"].readIfPresent()
         value.objectKey = try reader["ObjectKey"].readIfPresent()
+        return value
+    }
+}
+
+extension TimestreamQueryClientTypes.ScheduledQueryInsightsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ScheduledQueryInsightsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.ScheduledQueryInsightsResponse()
+        value.querySpatialCoverage = try reader["QuerySpatialCoverage"].readIfPresent(with: TimestreamQueryClientTypes.QuerySpatialCoverage.read(from:))
+        value.queryTemporalRange = try reader["QueryTemporalRange"].readIfPresent(with: TimestreamQueryClientTypes.QueryTemporalRange.read(from:))
+        value.queryTableCount = try reader["QueryTableCount"].readIfPresent()
+        value.outputRows = try reader["OutputRows"].readIfPresent()
+        value.outputBytes = try reader["OutputBytes"].readIfPresent()
+        return value
+    }
+}
+
+extension TimestreamQueryClientTypes.QueryTemporalRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.QueryTemporalRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.QueryTemporalRange()
+        value.max = try reader["Max"].readIfPresent(with: TimestreamQueryClientTypes.QueryTemporalRangeMax.read(from:))
+        return value
+    }
+}
+
+extension TimestreamQueryClientTypes.QueryTemporalRangeMax {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.QueryTemporalRangeMax {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.QueryTemporalRangeMax()
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        value.tableArn = try reader["TableArn"].readIfPresent()
+        return value
+    }
+}
+
+extension TimestreamQueryClientTypes.QuerySpatialCoverage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.QuerySpatialCoverage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.QuerySpatialCoverage()
+        value.max = try reader["Max"].readIfPresent(with: TimestreamQueryClientTypes.QuerySpatialCoverageMax.read(from:))
+        return value
+    }
+}
+
+extension TimestreamQueryClientTypes.QuerySpatialCoverageMax {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.QuerySpatialCoverageMax {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.QuerySpatialCoverageMax()
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        value.tableArn = try reader["TableArn"].readIfPresent()
+        value.partitionKey = try reader["PartitionKey"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3063,6 +3428,39 @@ extension TimestreamQueryClientTypes.QueryStatus {
         value.cumulativeBytesScanned = try reader["CumulativeBytesScanned"].readIfPresent() ?? 0
         value.cumulativeBytesMetered = try reader["CumulativeBytesMetered"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension TimestreamQueryClientTypes.QueryInsightsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.QueryInsightsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.QueryInsightsResponse()
+        value.querySpatialCoverage = try reader["QuerySpatialCoverage"].readIfPresent(with: TimestreamQueryClientTypes.QuerySpatialCoverage.read(from:))
+        value.queryTemporalRange = try reader["QueryTemporalRange"].readIfPresent(with: TimestreamQueryClientTypes.QueryTemporalRange.read(from:))
+        value.queryTableCount = try reader["QueryTableCount"].readIfPresent()
+        value.outputRows = try reader["OutputRows"].readIfPresent()
+        value.outputBytes = try reader["OutputBytes"].readIfPresent()
+        value.unloadPartitionCount = try reader["UnloadPartitionCount"].readIfPresent()
+        value.unloadWrittenRows = try reader["UnloadWrittenRows"].readIfPresent()
+        value.unloadWrittenBytes = try reader["UnloadWrittenBytes"].readIfPresent()
+        return value
+    }
+}
+
+extension TimestreamQueryClientTypes.ScheduledQueryInsights {
+
+    static func write(value: TimestreamQueryClientTypes.ScheduledQueryInsights?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Mode"].write(value.mode)
+    }
+}
+
+extension TimestreamQueryClientTypes.QueryInsights {
+
+    static func write(value: TimestreamQueryClientTypes.QueryInsights?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Mode"].write(value.mode)
     }
 }
 
