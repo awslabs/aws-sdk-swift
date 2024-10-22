@@ -135,6 +135,13 @@ jobs:
         version:
           - "5.9"
           - "6.0"
+        flags:
+          - ""
+          - "--swift-sdk x86_64-swift-linux-musl"
+        exclude:
+          # Don't run old Linux with swift static linking
+          - version: "5.9"
+            flags: "--swift-sdk x86_64-swift-linux-musl"
     env:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
@@ -190,5 +197,5 @@ jobs:
       - name: Build and Run Protocol Tests on Linux
         run: |
           cd codegen/
-          swift test
+          swift test ${{ matrix.flags }}
           cd ..
