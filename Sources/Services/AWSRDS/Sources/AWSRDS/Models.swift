@@ -8764,7 +8764,7 @@ public struct CreateEventSubscriptionOutput: Swift.Sendable {
     }
 }
 
-/// The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
+/// The GlobalClusterIdentifier already exists. Specify a new global database identifier (unique name) to create a new global database cluster or to rename an existing one.
 public struct GlobalClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -9009,6 +9009,8 @@ extension RDSClientTypes {
         public var databaseName: Swift.String?
         /// The deletion protection setting for the new global database cluster.
         public var deletionProtection: Swift.Bool?
+        /// The writer endpoint for the new global database cluster. This endpoint always points to the writer DB instance in the current primary cluster.
+        public var endpoint: Swift.String?
         /// The Aurora database engine used by the global database cluster.
         public var engine: Swift.String?
         /// The life cycle type for the global cluster. For more information, see CreateGlobalCluster.
@@ -9035,6 +9037,7 @@ extension RDSClientTypes {
         public init(
             databaseName: Swift.String? = nil,
             deletionProtection: Swift.Bool? = nil,
+            endpoint: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineLifecycleSupport: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
@@ -9050,6 +9053,7 @@ extension RDSClientTypes {
         {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
+            self.endpoint = endpoint
             self.engine = engine
             self.engineLifecycleSupport = engineLifecycleSupport
             self.engineVersion = engineVersion
@@ -29621,6 +29625,7 @@ enum ModifyGlobalClusterOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "GlobalClusterAlreadyExistsFault": return try GlobalClusterAlreadyExistsFault.makeError(baseError: baseError)
             case "GlobalClusterNotFoundFault": return try GlobalClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
@@ -33206,6 +33211,7 @@ extension RDSClientTypes.GlobalCluster {
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: RDSClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
+        value.endpoint = try reader["Endpoint"].readIfPresent()
         value.failoverState = try reader["FailoverState"].readIfPresent(with: RDSClientTypes.FailoverState.read(from:))
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
