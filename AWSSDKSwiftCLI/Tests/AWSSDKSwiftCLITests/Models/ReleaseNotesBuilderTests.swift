@@ -195,8 +195,7 @@ class ReleaseNotesBuilderTests: CLITestCase {
 
     private func setUpBuildRequestAndMappingJSONs(_ buildRequest: String, _ mapping: String) {
         // In real scenario, the JSON files we need are located one level above, in the workspace directory.
-        // For tests, due to sandboxing, the dummy files are created in current directory instead of
-        //  in parent directory.
+        // So, the dummy files are created in the parent of the current directory to match a real build.
         FileManager.default.createFile(atPath: "../build-request.json", contents: Data(buildRequest.utf8))
         FileManager.default.createFile(atPath: "../feature-service-id.json", contents: Data(mapping.utf8))
     }
