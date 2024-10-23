@@ -107,6 +107,7 @@ jobs:
           cd AWSSDKSwiftCLI
           swift test
           cd ../SPRCLI
+          unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
           swift test
       - name: Prepare Protocol & Unit Tests
         run: |

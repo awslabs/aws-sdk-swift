@@ -20,13 +20,13 @@ struct FeaturesReader {
     }
 
     public func getFeaturesFromFile() throws -> Features {
-        let path = URL(filePath: repoPath).appending(component: requestFile).path()
+        let path = URL(filePath: repoPath).appendingPathComponent(requestFile, isDirectory: false).path
         let fileContents = try FileManager.default.loadContents(atPath: path)
         return try JSONDecoder().decode(Features.self, from: fileContents)
     }
 
     public func getFeaturesIDToServiceNameDictFromFile() throws -> [String: String] {
-        let path = URL(filePath: repoPath).appending(component: mappingFile).path()
+        let path = URL(filePath: repoPath).appendingPathComponent(mappingFile, isDirectory: false).path
         let fileContents = try FileManager.default.loadContents(atPath: path)
         return try JSONDecoder().decode([String: String].self, from: fileContents)
     }
