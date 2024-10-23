@@ -382,6 +382,8 @@ extension PaymentCryptographyClientTypes {
         case aes128
         case aes192
         case aes256
+        case eccNistP256
+        case eccNistP384
         case rsa2048
         case rsa3072
         case rsa4096
@@ -394,6 +396,8 @@ extension PaymentCryptographyClientTypes {
                 .aes128,
                 .aes192,
                 .aes256,
+                .eccNistP256,
+                .eccNistP384,
                 .rsa2048,
                 .rsa3072,
                 .rsa4096,
@@ -412,6 +416,8 @@ extension PaymentCryptographyClientTypes {
             case .aes128: return "AES_128"
             case .aes192: return "AES_192"
             case .aes256: return "AES_256"
+            case .eccNistP256: return "ECC_NIST_P256"
+            case .eccNistP384: return "ECC_NIST_P384"
             case .rsa2048: return "RSA_2048"
             case .rsa3072: return "RSA_3072"
             case .rsa4096: return "RSA_4096"

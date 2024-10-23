@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 
 /// Access to the Apache Airflow Web UI or CLI has been denied due to insufficient permissions. To learn more, see [Accessing an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/access-policies.html).
@@ -327,12 +328,11 @@ extension MWAAClientTypes {
     }
 }
 
-/// This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation to create an environment. For more information, see [Get started with Amazon Managed Workflows for Apache Airflow](https://docs.aws.amazon.com/mwaa/latest/userguide/get-started.html).
+/// This section contains the Amazon Managed Workflows for Apache Airflow (Amazon MWAA) API reference documentation to create an environment. For more information, see [Get started with Amazon Managed Workflows for Apache Airflow](https://docs.aws.amazon.com/mwaa/latest/userguide/get-started.html).
 public struct CreateEnvironmentInput: Swift.Sendable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String: Swift.String]?
-    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2
-    ///     2.8.1
+    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see [Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA)](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     /// This member is required.
@@ -737,7 +737,7 @@ extension MWAAClientTypes {
     public struct Environment: Swift.Sendable {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
         public var airflowConfigurationOptions: [Swift.String: Swift.String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
         public var airflowVersion: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public var arn: Swift.String?
@@ -921,6 +921,169 @@ public struct GetEnvironmentOutput: Swift.Sendable {
     {
         self.environment = environment
     }
+}
+
+/// An exception indicating that a client-side error occurred during the Apache Airflow REST API call.
+public struct RestApiClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The error response data from the Apache Airflow REST API call, provided as a JSON object.
+        public internal(set) var restApiResponse: Smithy.Document? = nil
+        /// The HTTP status code returned by the Apache Airflow REST API call.
+        public internal(set) var restApiStatusCode: Swift.Int? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RestApiClientException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        restApiResponse: Smithy.Document? = nil,
+        restApiStatusCode: Swift.Int? = nil
+    )
+    {
+        self.properties.restApiResponse = restApiResponse
+        self.properties.restApiStatusCode = restApiStatusCode
+    }
+}
+
+extension RestApiClientException: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestApiClientException(restApiStatusCode: \(Swift.String(describing: properties.restApiStatusCode)), restApiResponse: \"CONTENT_REDACTED\")"}
+}
+
+/// An exception indicating that a server-side error occurred during the Apache Airflow REST API call.
+public struct RestApiServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The error response data from the Apache Airflow REST API call, provided as a JSON object.
+        public internal(set) var restApiResponse: Smithy.Document? = nil
+        /// The HTTP status code returned by the Apache Airflow REST API call.
+        public internal(set) var restApiStatusCode: Swift.Int? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RestApiServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        restApiResponse: Smithy.Document? = nil,
+        restApiStatusCode: Swift.Int? = nil
+    )
+    {
+        self.properties.restApiResponse = restApiResponse
+        self.properties.restApiStatusCode = restApiStatusCode
+    }
+}
+
+extension RestApiServerException: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestApiServerException(restApiStatusCode: \(Swift.String(describing: properties.restApiStatusCode)), restApiResponse: \"CONTENT_REDACTED\")"}
+}
+
+extension MWAAClientTypes {
+
+    public enum RestApiMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delete
+        case `get`
+        case patch
+        case post
+        case put
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RestApiMethod] {
+            return [
+                .delete,
+                .get,
+                .patch,
+                .post,
+                .put
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "DELETE"
+            case .get: return "GET"
+            case .patch: return "PATCH"
+            case .post: return "POST"
+            case .put: return "PUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct InvokeRestApiInput: Swift.Sendable {
+    /// The request body for the Apache Airflow REST API call, provided as a JSON object.
+    public var body: Smithy.Document?
+    /// The HTTP method used for making Airflow REST API calls. For example, POST.
+    /// This member is required.
+    public var method: MWAAClientTypes.RestApiMethod?
+    /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances. For more information, see [Apache Airflow API](https://airflow.apache.org/docs/apache-airflow/stable/stable-rest-api-ref.html)
+    /// This member is required.
+    public var path: Swift.String?
+    /// Query parameters to be included in the Apache Airflow REST API call, provided as a JSON object.
+    public var queryParameters: Smithy.Document?
+
+    public init(
+        body: Smithy.Document? = nil,
+        method: MWAAClientTypes.RestApiMethod? = nil,
+        name: Swift.String? = nil,
+        path: Swift.String? = nil,
+        queryParameters: Smithy.Document? = nil
+    )
+    {
+        self.body = body
+        self.method = method
+        self.name = name
+        self.path = path
+        self.queryParameters = queryParameters
+    }
+}
+
+extension InvokeRestApiInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InvokeRestApiInput(method: \(Swift.String(describing: method)), name: \(Swift.String(describing: name)), path: \(Swift.String(describing: path)), queryParameters: \(Swift.String(describing: queryParameters)), body: \"CONTENT_REDACTED\")"}
+}
+
+public struct InvokeRestApiOutput: Swift.Sendable {
+    /// The response data from the Apache Airflow REST API call, provided as a JSON object.
+    public var restApiResponse: Smithy.Document?
+    /// The HTTP status code returned by the Apache Airflow REST API call.
+    public var restApiStatusCode: Swift.Int?
+
+    public init(
+        restApiResponse: Smithy.Document? = nil,
+        restApiStatusCode: Swift.Int? = nil
+    )
+    {
+        self.restApiResponse = restApiResponse
+        self.restApiStatusCode = restApiStatusCode
+    }
+}
+
+extension InvokeRestApiOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InvokeRestApiOutput(restApiStatusCode: \(Swift.String(describing: restApiStatusCode)), restApiResponse: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEnvironmentsInput: Swift.Sendable {
@@ -1270,7 +1433,7 @@ extension MWAAClientTypes {
 public struct UpdateEnvironmentInput: Swift.Sendable {
     /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see [Apache Airflow configuration options](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-env-variables.html).
     public var airflowConfigurationOptions: [Swift.String: Swift.String]?
-    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1.
+    /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see [Upgrading an Amazon MWAA environment](https://docs.aws.amazon.com/mwaa/latest/userguide/upgrading-environment.html). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
     public var airflowVersion: Swift.String?
     /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see [Adding or updating DAGs](https://docs.aws.amazon.com/mwaa/latest/userguide/configuring-dag-folder.html).
     public var dagS3Path: Swift.String?
@@ -1431,6 +1594,16 @@ extension GetEnvironmentInput {
     }
 }
 
+extension InvokeRestApiInput {
+
+    static func urlPathProvider(_ value: InvokeRestApiInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/restapi/\(name.urlPercentEncoding())"
+    }
+}
+
 extension ListEnvironmentsInput {
 
     static func urlPathProvider(_ value: ListEnvironmentsInput) -> Swift.String? {
@@ -1551,6 +1724,17 @@ extension CreateEnvironmentInput {
     }
 }
 
+extension InvokeRestApiInput {
+
+    static func write(value: InvokeRestApiInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+        try writer["Method"].write(value.method)
+        try writer["Path"].write(value.path)
+        try writer["QueryParameters"].write(value.queryParameters)
+    }
+}
+
 extension PublishMetricsInput {
 
     static func write(value: PublishMetricsInput?, to writer: SmithyJSON.Writer) throws {
@@ -1650,6 +1834,19 @@ extension GetEnvironmentOutput {
         let reader = responseReader
         var value = GetEnvironmentOutput()
         value.environment = try reader["Environment"].readIfPresent(with: MWAAClientTypes.Environment.read(from:))
+        return value
+    }
+}
+
+extension InvokeRestApiOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeRestApiOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = InvokeRestApiOutput()
+        value.restApiResponse = try reader["RestApiResponse"].readIfPresent()
+        value.restApiStatusCode = try reader["RestApiStatusCode"].readIfPresent()
         return value
     }
 }
@@ -1784,6 +1981,25 @@ enum GetEnvironmentOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum InvokeRestApiOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "RestApiClientException": return try RestApiClientException.makeError(baseError: baseError)
+            case "RestApiServerException": return try RestApiServerException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1929,6 +2145,34 @@ extension AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RestApiServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RestApiServerException {
+        let reader = baseError.errorBodyReader
+        var value = RestApiServerException()
+        value.properties.restApiResponse = try reader["RestApiResponse"].readIfPresent()
+        value.properties.restApiStatusCode = try reader["RestApiStatusCode"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RestApiClientException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RestApiClientException {
+        let reader = baseError.errorBodyReader
+        var value = RestApiClientException()
+        value.properties.restApiResponse = try reader["RestApiResponse"].readIfPresent()
+        value.properties.restApiStatusCode = try reader["RestApiStatusCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
