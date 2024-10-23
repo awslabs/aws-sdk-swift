@@ -26,6 +26,7 @@ let package = Package(
             resources: [
                 .process("Resources/Package.Prefix.txt"),
                 .process("Resources/Package.Base.txt"),
+                .process("Resources/SmokeTestsPackage.Base.txt"),
                 .process("Resources/DocIndex.Base.md")
             ]
         ),
