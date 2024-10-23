@@ -19,10 +19,10 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
         .sha256
     ].sorted().map { $0.toString() }
 
-    let validationMode: Bool
+    let validationMode: String
     let priorityList: [String]
 
-    public init(validationMode: Bool, priorityList: [String] = []) {
+    public init(validationMode: String, priorityList: [String] = []) {
         self.validationMode = validationMode
         self.priorityList = !priorityList.isEmpty
             ? withPriority(checksums: priorityList)
@@ -31,7 +31,7 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
 
     private func validateChecksum(response: HTTPResponse, logger: any LogAgent, attributes: Context) async throws {
         // Exit if validation should not be performed
-        if !validationMode {
+        if validationMode != "ENABLED" && attributes.responseChecksumValidation == .whenRequired {
             logger.info("Checksum validation should not be performed! Skipping workflow...")
             return
         }
