@@ -34,9 +34,6 @@ class UserAgentMiddleware(val settings: SwiftSettings) : MiddlewareRenderable {
     }
 
     private fun middlewareParamsString(writer: SwiftWriter): String {
-        return writer.format(
-            "serviceID: serviceName, version: \$S, config: config",
-            settings.moduleVersion,
-        )
+        return writer.format("serviceID: serviceName, config: config")
     }
 }

@@ -21,11 +21,10 @@ public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput> {
 
     public init(
         serviceID: String,
-        version: String,
         config: DefaultClientConfiguration & AWSDefaultClientConfiguration
     ) {
         self.serviceID = serviceID
-        self.version = version
+        self.version = sdkVersion
         self.config = config
     }
 }
