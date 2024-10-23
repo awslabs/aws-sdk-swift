@@ -235,7 +235,8 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         let colA = ["crc32", "crc32c"]
         let validationMode = "unset"
         var colBHeaders = Headers()
-        // crc64 is not modeled in the service so no validation should be perforemd, but we shouldnt error
+        // crc64 is supported for this request (not included in colA array),
+        //   so no validation should be performed, but we shouldnt error
         colBHeaders.add(name: "x-amz-checksum-crc64", value: "6+bG5g==")
         addFlexibleChecksumsResponseMiddleware(validationMode, colA)
         try await AssertValidationAsExpected(
@@ -245,7 +246,24 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         )
     }
 
-    func getChecksumMismatchException() async throws -> () {
+    func testNoResponseValidationOccurs() async throws -> () {
+        let colA = ["crc32", "crc32c"]
+        let validationMode = "unset"
+        var colBHeaders = Headers()
+        colBHeaders.add(name: "x-amz-checksum-crc32", value: "6+bG5g==")
+        // Change responseChecksumValidation config to .whenRequired
+        builder.attributes.responseChecksumValidation = .whenSupported
+        addFlexibleChecksumsResponseMiddleware(validationMode, colA)
+        // Since responseChecksumValidation config is set to .whenRequired and validationMode is not "ENABLED",
+        //   no response checksum validation should occur.
+        try await AssertValidationAsExpected(
+            responseHeaders: colBHeaders,
+            validationMode: true,
+            expectedValidationHeader: "x-amz-checksum-crc32"
+        )
+    }
+
+    func testChecksumMismatchException() async throws -> () {
         let validationMode = "ENABLED"
         var testHeaders = Headers()
         testHeaders.add(name: "x-amz-checksum-crc32", value: "AAAA==")
