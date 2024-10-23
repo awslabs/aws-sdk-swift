@@ -2771,7 +2771,7 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// The foundation model output from the orchestration step.
     public struct OrchestrationModelInvocationOutput: Swift.Sendable {
-        /// Contains information about the foundation model output.
+        /// Contains information about the foundation model output from the orchestration step.
         public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// Contains details of the raw response from the foundation model output.
         public var rawResponse: BedrockAgentRuntimeClientTypes.RawResponse?
@@ -3090,11 +3090,11 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// The foundation model output from the post-processing step.
     public struct PostProcessingModelInvocationOutput: Swift.Sendable {
-        /// Provides details of the foundation model.
+        /// Contains information about the foundation model output from the post-processing step.
         public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// Details about the response from the Lambda parsing of the output of the post-processing step.
         public var parsedResponse: BedrockAgentRuntimeClientTypes.PostProcessingParsedResponse?
-        /// Contains the raw output from the foundation model.
+        /// Details of the raw response from the foundation model output.
         public var rawResponse: BedrockAgentRuntimeClientTypes.RawResponse?
         /// The unique identifier of the trace.
         public var traceId: Swift.String?
@@ -3168,11 +3168,11 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// The foundation model output from the pre-processing step.
     public struct PreProcessingModelInvocationOutput: Swift.Sendable {
-        /// Provides details of the foundation model.
+        /// Contains information about the foundation model output from the pre-processing step.
         public var metadata: BedrockAgentRuntimeClientTypes.Metadata?
         /// Details about the response from the Lambda parsing of the output of the pre-processing step.
         public var parsedResponse: BedrockAgentRuntimeClientTypes.PreProcessingParsedResponse?
-        /// Contains the raw output from the foundation model.
+        /// Details of the raw response from the foundation model output.
         public var rawResponse: BedrockAgentRuntimeClientTypes.RawResponse?
         /// The unique identifier of the trace.
         public var traceId: Swift.String?
@@ -3814,14 +3814,25 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// Settings for how the model processes the prompt prior to retrieval and generation.
     public struct OrchestrationConfiguration: Swift.Sendable {
+        /// Additional model parameters and corresponding values not included in the textInferenceConfig structure for a knowledge base. This allows users to provide custom model parameters specific to the language model being used.
+        public var additionalModelRequestFields: [Swift.String: Smithy.Document]?
+        /// Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source.
+        public var inferenceConfig: BedrockAgentRuntimeClientTypes.InferenceConfig?
+        /// Contains the template for the prompt that's sent to the model for response generation.
+        public var promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate?
         /// To split up the prompt and retrieve multiple sources, set the transformation type to QUERY_DECOMPOSITION.
-        /// This member is required.
         public var queryTransformationConfiguration: BedrockAgentRuntimeClientTypes.QueryTransformationConfiguration?
 
         public init(
+            additionalModelRequestFields: [Swift.String: Smithy.Document]? = nil,
+            inferenceConfig: BedrockAgentRuntimeClientTypes.InferenceConfig? = nil,
+            promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate? = nil,
             queryTransformationConfiguration: BedrockAgentRuntimeClientTypes.QueryTransformationConfiguration? = nil
         )
         {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.inferenceConfig = inferenceConfig
+            self.promptTemplate = promptTemplate
             self.queryTransformationConfiguration = queryTransformationConfiguration
         }
     }
@@ -6278,6 +6289,9 @@ extension BedrockAgentRuntimeClientTypes.OrchestrationConfiguration {
 
     static func write(value: BedrockAgentRuntimeClientTypes.OrchestrationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalModelRequestFields"].writeMap(value.additionalModelRequestFields, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockAgentRuntimeClientTypes.InferenceConfig.write(value:to:))
+        try writer["promptTemplate"].write(value.promptTemplate, with: BedrockAgentRuntimeClientTypes.PromptTemplate.write(value:to:))
         try writer["queryTransformationConfiguration"].write(value.queryTransformationConfiguration, with: BedrockAgentRuntimeClientTypes.QueryTransformationConfiguration.write(value:to:))
     }
 }

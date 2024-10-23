@@ -3236,7 +3236,7 @@ public struct GetImportedModelInput: Swift.Sendable {
 public struct GetImportedModelOutput: Swift.Sendable {
     /// Creation time of the imported model.
     public var creationTime: Foundation.Date?
-    /// Specifies if the imported model supports fine tuning.
+    /// Specifies if the imported model supports converse.
     public var instructSupported: Swift.Bool?
     /// Job Amazon Resource Name (ARN) associated with the imported model.
     public var jobArn: Swift.String?
@@ -3451,7 +3451,7 @@ extension BedrockClientTypes {
         /// Creation time of the imported model.
         /// This member is required.
         public var creationTime: Foundation.Date?
-        /// Specifies if the imported model supports fine tuning.
+        /// Specifies if the imported model supports converse.
         public var instructSupported: Swift.Bool?
         /// The architecture of the imported model.
         public var modelArchitecture: Swift.String?
