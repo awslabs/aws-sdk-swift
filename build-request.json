@@ -1,0 +1,31 @@
+{
+  "features": [
+    {
+      "releaseNotes": "New feature description A.",
+      "featureMetadata": {
+        "trebuchet": {
+          "featureId": "feature-id-a",
+          "featureType": "NEW_FEATURE"
+        }
+      }
+    },
+    {
+      "releaseNotes": "New feature description B.",
+      "featureMetadata": {
+        "trebuchet": {
+          "featureId": "feature-id-b",
+          "featureType": "NEW_FEATURE"
+        }
+      }
+    },
+    {
+      "releaseNotes": "Doc update description C.",
+      "featureMetadata": {
+        "trebuchet": {
+          "featureId": "feature-id-c",
+          "featureType": "DOC_UPDATE"
+        }
+      }
+    }
+  ]
+}
