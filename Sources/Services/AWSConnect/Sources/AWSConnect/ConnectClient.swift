@@ -1159,7 +1159,7 @@ extension ConnectClient {
 
     /// Performs the `AssociateTrafficDistributionGroupUser` operation on the `AmazonConnectService` service.
     ///
-    /// Associates an agent with a traffic distribution group.
+    /// Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
     ///
     /// - Parameter AssociateTrafficDistributionGroupUserInput : [no documentation found]
     ///
@@ -7878,7 +7878,7 @@ extension ConnectClient {
 
     /// Performs the `DisassociateTrafficDistributionGroupUser` operation on the `AmazonConnectService` service.
     ///
-    /// Disassociates an agent from a traffic distribution group.
+    /// Disassociates an agent from a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
     ///
     /// - Parameter DisassociateTrafficDistributionGroupUserInput : [no documentation found]
     ///
@@ -8597,7 +8597,7 @@ extension ConnectClient {
 
     /// Performs the `GetMetricDataV2` operation on the `AmazonConnectService` service.
     ///
-    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Historical metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter GetMetricDataV2Input : [no documentation found]
     ///
@@ -14463,6 +14463,81 @@ extension ConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartOutboundVoiceContact")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartScreenSharing` operation on the `AmazonConnectService` service.
+    ///
+    /// Starts screen sharing for a contact. For more information about screen sharing, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// - Parameter StartScreenSharingInput : [no documentation found]
+    ///
+    /// - Returns: `StartScreenSharingOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func startScreenSharing(input: StartScreenSharingInput) async throws -> StartScreenSharingOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startScreenSharing")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartScreenSharingInput, StartScreenSharingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartScreenSharingInput, StartScreenSharingOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartScreenSharingInput, StartScreenSharingOutput>(StartScreenSharingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartScreenSharingInput, StartScreenSharingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartScreenSharingInput, StartScreenSharingOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartScreenSharingInput, StartScreenSharingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartScreenSharingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartScreenSharingInput, StartScreenSharingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartScreenSharingOutput>(StartScreenSharingOutput.httpOutput(from:), StartScreenSharingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartScreenSharingInput, StartScreenSharingOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartScreenSharingOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartScreenSharingOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartScreenSharingInput, StartScreenSharingOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartScreenSharingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartScreenSharingInput, StartScreenSharingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartScreenSharingInput, StartScreenSharingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartScreenSharing")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
