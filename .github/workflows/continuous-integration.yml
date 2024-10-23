@@ -15,7 +15,7 @@ jobs:
       matrix:
         # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
-          - macos-13
+          - macos-14
           - macos-15
         xcode:
           - Xcode_15.2
@@ -30,7 +30,7 @@ jobs:
           - 'platform=macOS'
         exclude:
           # Don't run old macOS with new Xcode
-          - runner: macos-13
+          - runner: macos-14
             xcode: Xcode_16
           # Don't run new macOS with old Xcode
           - runner: macos-15
@@ -102,7 +102,7 @@ jobs:
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Run CLI Unit Tests
-        if: ${{ matrix.destination == 'platform=macOS' && matrix.runner == 'macos-15' }}
+        if: ${{ matrix.destination == 'platform=macOS' }}
         run: |
           cd AWSSDKSwiftCLI
           swift test
