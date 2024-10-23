@@ -190,6 +190,13 @@ jobs:
         run: ./scripts/ci_steps/install_native_linux_dependencies.sh
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
+      - name: Run CLI Unit Tests
+        run: |
+          cd AWSSDKSwiftCLI
+          swift test
+          cd ../SPRCLI
+          unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
+          swift build
       - name: Prepare Protocol & Unit Tests
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
