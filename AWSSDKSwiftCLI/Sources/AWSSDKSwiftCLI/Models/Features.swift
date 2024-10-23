@@ -8,10 +8,10 @@
 import Foundation
 import AWSCLIUtils
 
-/// Reads the Trebuchet request & service mapping files from the current working directory.
+/// Reads the Trebuchet request & service mapping files from the parent of the current working directory.
 struct FeaturesReader {
-    private let requestFile = "build-request.json"
-    private let mappingFile = "feature-service-id.json"
+    private let requestFile = "../build-request.json"
+    private let mappingFile = "../feature-service-id.json"
 
     public func getFeaturesFromFile() throws -> Features {
         let fileContents = try FileManager.default.loadContents(atPath: requestFile)
