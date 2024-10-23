@@ -15,6 +15,7 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
     let CHECKSUM_HEADER_VALIDATION_PRIORITY_LIST: [String] = [
         ChecksumAlgorithm.crc32c,
         .crc32,
+        .crc64nvme,
         .sha1,
         .sha256
     ].sorted().map { $0.toString() }
