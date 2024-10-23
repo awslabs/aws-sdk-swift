@@ -18,9 +18,11 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
 
     public let id: String = "FlexibleChecksumsRequestMiddleware"
 
+    let requestChecksumRequired: Bool
     let checksumAlgorithm: String?
 
-    public init(checksumAlgorithm: String?) {
+    public init(requestChecksumRequired: Bool, checksumAlgorithm: String?) {
+        self.requestChecksumRequired = requestChecksumRequired
         self.checksumAlgorithm = checksumAlgorithm
     }
 
@@ -37,20 +39,6 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             throw ClientError.unknownError("No logger found!")
         }
 
-        guard let checksumString = checksumAlgorithm else {
-            logger.info("No checksum provided! Skipping flexible checksums workflow...")
-            return
-        }
-
-        guard let checksumHashFunction = ChecksumAlgorithm.from(string: checksumString) else {
-            logger.info("Found no supported checksums! Skipping flexible checksums workflow...")
-            return
-        }
-
-        // Determine the header name
-        let headerName = "x-amz-checksum-\(checksumHashFunction)"
-        logger.debug("Resolved checksum header name: \(headerName)")
-
         // Check if any checksum header is already provided by the user
         let checksumHeaderPrefix = "x-amz-checksum-"
         if builder.headers.headers.contains(where: {
@@ -60,6 +48,34 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             logger.debug("Checksum header already provided by the user. Skipping calculation.")
             return
         }
+
+        var checksumHashFunction: ChecksumAlgorithm
+        if let checksumAlgorithm {
+            if let hashFunction = ChecksumAlgorithm.from(string: checksumAlgorithm) {
+                // If user chose supported algorithm, continue
+                checksumHashFunction = hashFunction
+            } else {
+                // If user chose unsupported algorithm, throw error
+                throw ClientError.invalidValue("Error: Checksum algorithm \(checksumAlgorithm) is not supported!")
+            }
+        } else {
+            // If user didn't choose an algorithm, then:
+            if requestChecksumRequired || (attributes.requestChecksumCalculation == .whenSupported) {
+                // If requestChecksumRequired == true OR RequestChecksumCalculation == when_supported, use CRC32 as default algorithm.
+                checksumHashFunction = ChecksumAlgorithm.from(string: "crc32")!
+                logger.info("No algorithm chosen by user. Defaulting to CRC32 checksum algorithm.")
+            } else {
+                // If requestChecksumRequired == false AND RequestChecksumCalculation == when_required, skip calculation.
+                logger.info("Checksum not required for the operation.")
+                logger.info("Client config `requestChecksumCalculation` set to `.whenRequired`")
+                logger.info("No checksum algorithm chosen by the user. Skipping checksum calculation...")
+                return
+            }
+        }
+
+        // Determine the header name
+        let headerName = "x-amz-checksum-\(checksumHashFunction)"
+        logger.debug("Resolved checksum header name: \(headerName)")
 
         // Handle body vs handle stream
         switch builder.body {
