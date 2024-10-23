@@ -8,25 +8,26 @@
 import Foundation
 import AWSCLIUtils
 
-struct FeaturesReader: Decodable {
-    private let requestFilePath: String
-    private let mappingFilePath: String
+struct FeaturesReader {
+    private let repoPath: String
+    private let requestFile = "build-request.json"
+    private let mappingFile = "feature-service-id.json"
 
     public init(
-        requestFilePath: String = "../build-request.json",
-        mappingFilePath: String = "../feature-service-id.json"
+        repoPath: String = "."
     ) {
-        self.requestFilePath = requestFilePath
-        self.mappingFilePath = mappingFilePath
+        self.repoPath = repoPath
     }
 
     public func getFeaturesFromFile() throws -> Features {
-        let fileContents = try FileManager.default.loadContents(atPath: requestFilePath)
+        let path = URL(filePath: repoPath).appending(component: requestFile).path()
+        let fileContents = try FileManager.default.loadContents(atPath: path)
         return try JSONDecoder().decode(Features.self, from: fileContents)
     }
 
     public func getFeaturesIDToServiceNameDictFromFile() throws -> [String: String] {
-        let fileContents = try FileManager.default.loadContents(atPath: mappingFilePath)
+        let path = URL(filePath: repoPath).appending(component: mappingFile).path()
+        let fileContents = try FileManager.default.loadContents(atPath: path)
         return try JSONDecoder().decode([String: String].self, from: fileContents)
     }
 }

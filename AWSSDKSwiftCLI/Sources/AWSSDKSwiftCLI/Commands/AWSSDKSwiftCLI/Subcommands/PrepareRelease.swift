@@ -235,13 +235,16 @@ struct PrepareRelease {
         previousVersion: Version
     ) throws {
         let commits = try Process.git.listOfCommitsBetween("HEAD", "\(previousVersion)")
-        
+        let featuresReader = FeaturesReader(repoPath: repoPath)
+
         let releaseNotes = try ReleaseNotesBuilder(
             previousVersion: previousVersion,
             newVersion: newVersion,
             repoOrg: repoOrg,
             repoType: repoType,
-            commits: commits
+            commits: commits,
+            features: featuresReader.getFeaturesFromFile(),
+            featuresIDToServiceName: featuresReader.getFeaturesIDToServiceNameDictFromFile()
         ).build()
         
         let manifest = ReleaseManifest(

@@ -209,10 +209,8 @@ class ReleaseNotesBuilderTests: XCTestCase {
             repoType: .awsSdkSwift,
             commits: testCommits,
             // Parametrize behavior of FeaturesReader with paths used to create JSON test files
-            featuresReader: FeaturesReader(
-                requestFilePath: "build-request.json",
-                mappingFilePath: "feature-service-id.json"
-            )
+            features: FeaturesReader().getFeaturesFromFile(),
+            featuresIDToServiceName: FeaturesReader().getFeaturesIDToServiceNameDictFromFile()
         )
     }
 }
