@@ -101,6 +101,13 @@ jobs:
           java-version: 17
       - name: Tools Versions
         run: ./scripts/ci_steps/log_tool_versions.sh
+      - name: Run CLI Unit Tests
+        if: ${{ matrix.destination == 'platform=macOS' && matrix.runner == 'macos-15' }}
+        run: |
+          cd AWSSDKSwiftCLI
+          swift test
+          cd ../SPRCLI
+          swift test
       - name: Prepare Protocol & Unit Tests
         run: |
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
