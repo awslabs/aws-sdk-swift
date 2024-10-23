@@ -33,6 +33,8 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
                   .withPath(value: "/")
                   .withOperation(value: "Test Operation")
                   .withLogger(value: testLogger)
+                  .withRequestChecksumCalculation(value: .whenSupported)
+                  .withResponseChecksumValidation(value: .whenSupported)
                   .build()
         var metricsAttributes = Attributes()
         metricsAttributes.set(key: OrchestratorMetricsAttributesKeys.service, value: "Service")
@@ -49,8 +51,8 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         let checksumAlgorithm = "sha256"
         let testData = ByteStream.data(Data("Hello, world!".utf8))
         setNormalPayload(payload: testData)
-        addFlexibleChecksumsRequestMiddleware(checksumAlgorithm: checksumAlgorithm)
-        addFlexibleChecksumsResponseMiddleware(validationMode: true)
+        addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
+        addFlexibleChecksumsResponseMiddleware("ENABLED")
         try await AssertHeaderIsPresentAndValidationOccurs(
             expectedHeader: "x-amz-checksum-sha256",
             responseBody: testData,
@@ -62,8 +64,8 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         let checksumAlgorithm = "sha1"
         let testData = ByteStream.data(Data("Hello, world!".utf8))
         setNormalPayload(payload: testData)
-        addFlexibleChecksumsRequestMiddleware(checksumAlgorithm: checksumAlgorithm)
-        addFlexibleChecksumsResponseMiddleware(validationMode: true)
+        addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
+        addFlexibleChecksumsResponseMiddleware("ENABLED")
         try await AssertHeaderIsPresentAndValidationOccurs(
             expectedHeader: "x-amz-checksum-sha1",
             responseBody: testData,
@@ -75,8 +77,8 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         let checksumAlgorithm = "crc32"
         let testData = ByteStream.data(Data("Hello, world!".utf8))
         setNormalPayload(payload: testData)
-        addFlexibleChecksumsRequestMiddleware(checksumAlgorithm: checksumAlgorithm)
-        addFlexibleChecksumsResponseMiddleware(validationMode: true)
+        addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
+        addFlexibleChecksumsResponseMiddleware("ENABLED")
         try await AssertHeaderIsPresentAndValidationOccurs(
             expectedHeader: "x-amz-checksum-crc32",
             responseBody: testData,
@@ -88,8 +90,8 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         let checksumAlgorithm = "crc32c"
         let testData = ByteStream.data(Data("Hello, world!".utf8))
         setNormalPayload(payload: testData)
-        addFlexibleChecksumsRequestMiddleware(checksumAlgorithm: checksumAlgorithm)
-        addFlexibleChecksumsResponseMiddleware(validationMode: true)
+        addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
+        addFlexibleChecksumsResponseMiddleware("ENABLED")
         try await AssertHeaderIsPresentAndValidationOccurs(
             expectedHeader: "x-amz-checksum-crc32c",
             responseBody: testData,
@@ -97,24 +99,39 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         )
     }
 
-    func testNilChecksumAlgorithm() async throws {
+    func testUseDefaultChecksumAlgorithm() async throws {
         let testData = ByteStream.data(Data("Hello, world!".utf8))
         setNormalPayload(payload: testData)
-        addFlexibleChecksumsRequestMiddleware(checksumAlgorithm: nil)
-        addFlexibleChecksumsResponseMiddleware(validationMode: false)
+        addFlexibleChecksumsRequestMiddleware(false, nil)
+        addFlexibleChecksumsResponseMiddleware("unset")
         try await AssertHeaderIsPresentAndValidationOccurs(
             checkLogs: [
-                "No checksum provided! Skipping flexible checksums workflow...",
-                "Checksum validation should not be performed! Skipping workflow..."
+                "No algorithm chosen by user. Defaulting to CRC32 checksum algorithm."
             ]
         )
     }
 
-    private func addFlexibleChecksumsRequestMiddleware(checksumAlgorithm: String?) {
-        builder.interceptors.add(FlexibleChecksumsRequestMiddleware<MockInput, MockOutput>(checksumAlgorithm: checksumAlgorithm))
+    func testNoRequestChecksumCalculation() async throws {
+        let testData = ByteStream.data(Data("Hello, world!".utf8))
+        setNormalPayload(payload: testData)
+        // Change requestChecksumCalculation config to .whenRequired
+        builder.attributes.requestChecksumCalculation = .whenRequired
+        addFlexibleChecksumsRequestMiddleware(false, nil)
+        addFlexibleChecksumsResponseMiddleware("unset")
+        try await AssertHeaderIsPresentAndValidationOccurs(
+            checkLogs: [
+                "Checksum not required for the operation.",
+                "Client config `requestChecksumCalculation` set to `.whenRequired`",
+                "No checksum algorithm chosen by the user. Skipping checksum calculation..."
+            ]
+        )
     }
 
-    private func addFlexibleChecksumsResponseMiddleware(validationMode: Bool, priorityList: [String] = []) {
+    private func addFlexibleChecksumsRequestMiddleware(_ requestChecksumRequired: Bool, _ checksumAlgorithm: String?) {
+        builder.interceptors.add(FlexibleChecksumsRequestMiddleware<MockInput, MockOutput>(requestChecksumRequired: requestChecksumRequired, checksumAlgorithm: checksumAlgorithm))
+    }
+
+    private func addFlexibleChecksumsResponseMiddleware(_ validationMode: String, _ priorityList: [String] = []) {
         builder.interceptors.add(FlexibleChecksumsResponseMiddleware<MockInput, MockOutput>(
                 validationMode: validationMode,
                 priorityList: priorityList
@@ -153,8 +170,8 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
 
         setStreamingPayload(payload: testData, checksum: checksumAlgorithm)
 
-        addFlexibleChecksumsRequestMiddleware(checksumAlgorithm: checksumAlgorithm)
-        addFlexibleChecksumsResponseMiddleware(validationMode: true)
+        addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
+        addFlexibleChecksumsResponseMiddleware("ENABLED")
         try await AssertionsWhenStreaming(
             expectedHeader: "x-amz-checksum-crc32",
             responseBody: testData,
@@ -169,29 +186,29 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
     func testAlgorithmSelectionCase1() async throws -> () {
         let colA = ["crc64", "crc32", "crc32c"]
         let colB = ["crc32c", "crc32"]
-        let validationMode = false
+        let validationMode = "unset"
         var colBHeaders = Headers()
         colB.forEach { checksum in
-            colBHeaders.add(name: "x-amz-checksum-\(checksum)", value: "AAAAA")
+            colBHeaders.add(name: "x-amz-checksum-\(checksum)", value: "yKEG5Q==")
         }
-        addFlexibleChecksumsResponseMiddleware(validationMode: validationMode, priorityList: colA)
+        addFlexibleChecksumsResponseMiddleware(validationMode, colA)
         try await AssertValidationAsExpected(
             responseHeaders: colBHeaders,
-            validationMode: validationMode,
-            expectedValidationHeader: nil
+            validationMode: true, // true since responseChecksumValidation is set to .whenSupported
+            expectedValidationHeader: "x-amz-checksum-crc32c"
         )
     }
 
     func testAlgorithmSelectionCase2() async throws -> () {
         let colA = ["sha256", "crc32"]
-        let validationMode = true
+        let validationMode = "ENABLED"
         var colBHeaders = Headers()
         // Add only sha256 header in response
         colBHeaders.add(name: "x-amz-checksum-sha256", value: "MV9b23bQeMQ7isAGTkoBZGErH853yGk0W/yUx1iU7dM=")
-        addFlexibleChecksumsResponseMiddleware(validationMode: validationMode, priorityList: colA)
+        addFlexibleChecksumsResponseMiddleware(validationMode, colA)
         try await AssertValidationAsExpected(
             responseHeaders: colBHeaders,
-            validationMode: validationMode,
+            validationMode: true,
             expectedValidationHeader: "x-amz-checksum-sha256"
         )
     }
@@ -199,43 +216,43 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
     func testAlgorithmSelectionCase3() async throws -> () {
         let colA = ["sha256", "crc32"]
         let colB = ["crc32", "sha256"]
-        let validationMode = true
+        let validationMode = "ENABLED"
         var colBHeaders = Headers()
         // Add both sha256 header and crc32 in response
         // Add expected crc32 checksum as value since it should take priority
         colB.forEach { checksum in
             colBHeaders.add(name: "x-amz-checksum-\(checksum)", value: "6+bG5g==")
         }
-        addFlexibleChecksumsResponseMiddleware(validationMode: validationMode, priorityList: colA)
+        addFlexibleChecksumsResponseMiddleware(validationMode, colA)
         try await AssertValidationAsExpected(
             responseHeaders: colBHeaders,
-            validationMode: validationMode,
+            validationMode: true,
             expectedValidationHeader: "x-amz-checksum-crc32"
         )
     }
 
     func testAlgorithmSelectionCase4() async throws -> () {
         let colA = ["crc32", "crc32c"]
-        let validationMode = false
+        let validationMode = "unset"
         var colBHeaders = Headers()
         // crc64 is not modeled in the service so no validation should be perforemd, but we shouldnt error
         colBHeaders.add(name: "x-amz-checksum-crc64", value: "6+bG5g==")
-        addFlexibleChecksumsResponseMiddleware(validationMode: validationMode, priorityList: colA)
+        addFlexibleChecksumsResponseMiddleware(validationMode, colA)
         try await AssertValidationAsExpected(
             responseHeaders: colBHeaders,
-            validationMode: validationMode,
+            validationMode: false,
             expectedValidationHeader: nil
         )
     }
 
     func getChecksumMismatchException() async throws -> () {
-        let validationMode = true
+        let validationMode = "ENABLED"
         var testHeaders = Headers()
         testHeaders.add(name: "x-amz-checksum-crc32", value: "AAAA==")
-        addFlexibleChecksumsResponseMiddleware(validationMode: validationMode)
+        addFlexibleChecksumsResponseMiddleware(validationMode)
         try await AssertValidationAsExpected(
             responseHeaders: testHeaders,
-            validationMode: validationMode,
+            validationMode: true,
             expectedValidationHeader: "x-amz-checksum-crc32",
             expectedChecksumMismatch: true
         )
@@ -355,7 +372,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
         let expectedChecksumSHA256 = "ZOyIygCyaOW6GjVnihtTFtIS9PNmskdyMlNKiuyjfzw="
         let signingConfig = SigningConfig(algorithm: .signingV4, signatureType: .requestHeaders, service: "S3", region: "us-west-2", signedBodyValue: .unsignedPayload)
         setPutPayload(payload: testData, checksumSHA256: expectedChecksumSHA256, signingConfig: signingConfig)
-        addFlexibleChecksumsRequestMiddleware(checksumAlgorithm: checksumAlgorithm)
+        addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
         try await assertPutRequestHeaders(expectedChecksumSHA256: expectedChecksumSHA256)
     }
 
