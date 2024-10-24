@@ -26,7 +26,6 @@ class RestXMLProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestXMLCustomiz
         "SDKAppendedGzipAfterProvidedEncoding_restXml", // not implemented yet (request compression)
         "S3PreservesEmbeddedDotSegmentInUriLabel", // moved to s3-tests.smithy
         "S3PreservesLeadingDotSegmentInUriLabel", // moved to s3-tests.smithy
-        "NestedXmlMapWithXmlNameSerializes", // broken in Smithy 1.52, should be fixed in next release
     )
 
     override fun generateDeserializers(ctx: ProtocolGenerator.GenerationContext) {
