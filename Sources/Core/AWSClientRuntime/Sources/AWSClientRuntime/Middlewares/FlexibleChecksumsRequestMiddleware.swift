@@ -81,7 +81,8 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         switch builder.body {
         case .data(let data):
             guard let data else {
-                throw ClientError.dataNotFound("Cannot calculate checksum of empty body!")
+                logger.info("Request body is empty. Skipping request checksum calculation...")
+                return
             }
 
             if builder.headers.value(for: headerName) == nil {
@@ -103,7 +104,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             attributes.checksum = checksumHashFunction
             builder.updateHeader(name: "x-amz-trailer", value: [headerName])
         case .noStream:
-            throw ClientError.dataNotFound("Cannot calculate the checksum of an empty body!")
+            logger.info("Request body is empty. Skipping request checksum calculation...")
         }
     }
 }
