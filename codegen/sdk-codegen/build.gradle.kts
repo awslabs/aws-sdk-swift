@@ -8,12 +8,9 @@
 
 import software.amazon.smithy.gradle.tasks.SmithyBuild
 import software.amazon.smithy.model.Model
-import software.amazon.smithy.model.node.Node
-import software.amazon.smithy.model.node.ObjectNode
 import software.amazon.smithy.model.shapes.ServiceShape
 import java.nio.charset.Charset
 import java.util.Properties
-import kotlin.streams.toList
 
 plugins {
     id("software.amazon.smithy") version "0.5.3"
@@ -166,8 +163,6 @@ fun discoverServices(): List<AwsService> {
                 ?: error { "Expected aws.api#service trait attached to model ${file.absolutePath}" }
             val (name, version, _) = file.name.split(".")
             val packageName = "AWS${serviceApi.sdkId.filterNot { it.isWhitespace() }.capitalize()}"
-            val packageVersion = serviceClientVersions.getStringMember(name).orNull()?.value ?:
-                serviceClientVersions.getStringMember("sdk").get().value
 
             logger.info("discovered service: ${serviceApi.sdkId}")
 
@@ -183,24 +178,25 @@ fun discoverServices(): List<AwsService> {
 }
 val discoveredServices: List<AwsService> by lazy { discoverServices() }
 
-val serviceClientVersions: ObjectNode by lazy {
-    val json = rootProject.file("ServiceClientVersions.json").readText(Charset.forName("UTF-8"))
-    Node.parse(json).expectObjectNode()
-}
+val packageVersion = rootProject.file("Package.version.next").readText(Charset.forName("UTF-8"))
+val packageScope = rootProject.file("Package.scope").readText(Charset.forName("UTF-8"))
+
+val AwsService.scopedPackageName: String
+    get() = packageName.takeIf { packageScope.isEmpty() } ?: (packageScope + "." + packageName)
 
 val AwsService.outputDir: String
     get() = project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
 
 val AwsService.sourcesDir: String
     get(){
-        return rootProject.file("Sources/Services/aws-sdk-swift.$packageName").absolutePath
+        return rootProject.file("Sources/Services/$scopedPackageName").absolutePath
     }
 
 /**
  * Service specific model extras
  */
 val AwsService.modelExtrasDir: String
-    get() = rootProject.file("Tests/AdditionalServiceTests/$packageName/models").absolutePath
+    get() = rootProject.file("Tests/AdditionalServiceTests/$scopedPackageName/models").absolutePath
 
 task("stageSdks") {
     group = "codegen"

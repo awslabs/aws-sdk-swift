@@ -38,6 +38,7 @@ struct GeneratePackageManifestCommand: ParsableCommand {
     func run() throws {
         let generatePackageManifest = GeneratePackageManifest.standard(
             repoPath: repoPath,
+            packageScope: nil,
             packageFileName: packageFileName,
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
@@ -54,6 +55,8 @@ struct GeneratePackageManifestCommand: ParsableCommand {
 struct GeneratePackageManifest {
     /// The path to the package repository
     let repoPath: String
+    /// The package scope.  Used for Swift Package Registry.
+    let packageScope: String?
     /// The name of the package manifest file, usually `Package.swift`
     let packageFileName: String
     /// The version to set for the ClientRuntime dependency
@@ -69,6 +72,7 @@ struct GeneratePackageManifest {
     let excludeRuntimeTests: Bool
 
     typealias BuildPackageManifest = (
+        _ packageScope: String,
         _ clientRuntimeVersion: Version,
         _ crtVersion: Version,
         _ services: [PackageManifestBuilder.Service]
@@ -90,10 +94,11 @@ struct GeneratePackageManifest {
     ///
     /// - Returns: The contents of the generated package manifest.
     func generatePackageManifestContents() throws -> String {
+        let packageScope = try resolvePackageScope()
         let versions = try resolveVersions()
-        let services = try resolveServices().map { PackageManifestBuilder.Service(name: $0) }
+        let services = try resolveServices(packageScope: packageScope).map { PackageManifestBuilder.Service(name: $0) }
         log("Creating package manifest contents...")
-        let contents = try buildPackageManifest(versions.clientRuntime, versions.crt, services)
+        let contents = try buildPackageManifest(packageScope, versions.clientRuntime, versions.crt, services)
         log("Successfully created package manifest contents")
         return contents
     }
@@ -110,6 +115,21 @@ struct GeneratePackageManifest {
             encoding: .utf8
         )
         log("Successfully saved package manifest to \(packageFileName)")
+    }
+
+    func resolvePackageScope() throws -> String {
+        log("Resolving package scope...")
+        if let packageScope {
+            log("Using package scope provided: \(packageScope)")
+            return packageScope
+        }
+        let filename = "Package.scope"
+        let data = try FileManager.default.loadContents(atPath: filename)
+        guard let scope = String(data: data, encoding: .utf8) else {
+            throw Error("Package scope in file \(filename) is not valid UTF-8")
+        }
+        log("Using package scope loaded from file \(filename): \(scope)")
+        return scope
     }
 
     /// Returns the versions for ClientRuntime and CRT.
@@ -163,7 +183,7 @@ struct GeneratePackageManifest {
     /// Otherwise, this returns the list of services that exist within `Sources/Services`
     ///
     /// - Returns: The list of services to include in the package manifest
-    func resolveServices() throws -> [String] {
+    func resolveServices(packageScope: String) throws -> [String] {
         log("Resolving services...")
         let resolvedServices: [String]
         if let services = self.services {
@@ -174,7 +194,7 @@ struct GeneratePackageManifest {
             resolvedServices = try FileManager.default.enabledServices()
         }
         log("Resolved list of services: \(resolvedServices.count)")
-        return resolvedServices
+        return resolvedServices.map { $0.trimmingPrefix("\(packageScope).") }.map(String.init)
     }
 }
 
@@ -194,6 +214,7 @@ extension GeneratePackageManifest {
     /// - Returns: the standard package manifest generator
     static func standard(
         repoPath: String,
+        packageScope: String? = nil,
         packageFileName: String,
         clientRuntimeVersion: Version? = nil,
         crtVersion: Version? = nil,
@@ -203,13 +224,15 @@ extension GeneratePackageManifest {
     ) -> Self {
         GeneratePackageManifest(
             repoPath: repoPath,
+            packageScope: packageScope,
             packageFileName: packageFileName,
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
             excludeRuntimeTests: excludeRuntimeTests
-        ) { _clientRuntimeVersion, _crtVersion, _services in
+        ) { _packageScope, _clientRuntimeVersion, _crtVersion, _services in
             let builder = PackageManifestBuilder(
+                packageScope: _packageScope,
                 clientRuntimeVersion: _clientRuntimeVersion,
                 crtVersion: _crtVersion,
                 services: _services,
