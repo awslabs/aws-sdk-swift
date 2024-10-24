@@ -22,7 +22,7 @@ class UserAgentMiddleware(val settings: SwiftSettings) : MiddlewareRenderable {
         writer: SwiftWriter,
         op: OperationShape
     ) {
-        val params = middlewareParamsString(writer)
+        val params = middlewareParamsString(ctx, writer)
         val input = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op)
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
         writer.write(
@@ -33,10 +33,10 @@ class UserAgentMiddleware(val settings: SwiftSettings) : MiddlewareRenderable {
         )
     }
 
-    private fun middlewareParamsString(writer: SwiftWriter): String {
+    private fun middlewareParamsString(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter): String {
         return writer.format(
-            "serviceID: serviceName, version: \$S, config: config",
-            settings.moduleVersion,
+            "serviceID: serviceName, version: \$L.version, config: config",
+            ctx.symbolProvider.toSymbol(ctx.service).name,
         )
     }
 }

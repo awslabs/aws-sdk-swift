@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ClientRuntime
+import AWSCLIUtils
 
 public struct SPRPublisher {
 
@@ -14,9 +14,9 @@ public struct SPRPublisher {
     public var name: String
     public var version: String
     public var path: String
-    public var region: String = ""
-    public var bucket: String?
-    public var url: String
+    public var region: String
+    public var bucket: String
+    public var url: URL
     public var distributionID: String?
     public var replace = false
 
@@ -29,11 +29,14 @@ public struct SPRPublisher {
         version: String,
         path: String,
         region: String,
-        bucket: String?,
+        bucket: String,
         url: String,
         distributionID: String?,
         replace: Bool
-    ) {
+    ) throws {
+        guard let url = URL(string: url) else {
+            throw Error("`url` param is not a valid URL")
+        }
         self.scope = scope
         self.name = name
         self.version = version
@@ -46,7 +49,6 @@ public struct SPRPublisher {
     }
 
     public mutating func run() async throws {
-        await setOptions()
         print("    Verifying package...               ", terminator: "")
         try verifyPackage()
         print("[done]")
@@ -62,6 +64,10 @@ public struct SPRPublisher {
         print("    Updating package list...           ", terminator: "")
         try await updateList()
         print("[done]")
+    }
+
+    var keyPrefix: [String] {
+        url.pathComponents.filter { $0 != "/" }
     }
 
     private mutating func setOptions() async {

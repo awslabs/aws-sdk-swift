@@ -14,14 +14,16 @@ struct PackageManifestBuilder {
         let name: String
     }
 
+    let packageScope: String
     let clientRuntimeVersion: Version
     let crtVersion: Version
     let services: [Service]
     let excludeRuntimeTests: Bool
     let prefixContents: () throws -> String
     let basePackageContents: () throws -> String
-    
+
     init(
+        packageScope: String,
         clientRuntimeVersion: Version,
         crtVersion: Version,
         services: [Service],
@@ -29,6 +31,7 @@ struct PackageManifestBuilder {
         prefixContents: @escaping () throws -> String,
         basePackageContents: @escaping () throws -> String
     ) {
+        self.packageScope = packageScope
         self.clientRuntimeVersion = clientRuntimeVersion
         self.crtVersion = crtVersion
         self.services = services
@@ -38,12 +41,14 @@ struct PackageManifestBuilder {
     }
     
     init(
+        packageScope: String,
         clientRuntimeVersion: Version,
         crtVersion: Version,
         services: [Service],
         excludeRuntimeTests: Bool
     ) {
         self.init(
+            packageScope: packageScope,
             clientRuntimeVersion: clientRuntimeVersion,
             crtVersion: crtVersion,
             services: services,
@@ -93,6 +98,9 @@ struct PackageManifestBuilder {
             // Add the generated content that defines the dependencies' versions
             buildDependencies(),
             "",
+            // Add the package scope
+            buildPackageScope(),
+            "",
             // Remove the runtime tests if needed
             buildRuntimeTests(),
             "",
@@ -117,6 +125,10 @@ struct PackageManifestBuilder {
         let clientRuntimeVersion: Version = \(clientRuntimeVersion.description.wrappedInQuotes())
         let crtVersion: Version = \(crtVersion.description.wrappedInQuotes())
         """
+    }
+
+    private func buildPackageScope() -> String {
+        "let packageScope = \(packageScope.wrappedInQuotes())"
     }
 
     private func buildRuntimeTests() -> String {
