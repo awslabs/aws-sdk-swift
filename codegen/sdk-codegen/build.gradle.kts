@@ -11,6 +11,7 @@ import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
 import java.nio.charset.Charset
 import java.util.Properties
+import kotlin.streams.toList
 
 plugins {
     id("software.amazon.smithy") version "0.5.3"
