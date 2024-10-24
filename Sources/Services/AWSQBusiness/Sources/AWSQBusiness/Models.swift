@@ -398,6 +398,8 @@ extension QBusinessClientTypes {
         public var allowedFormat: Swift.String?
         /// Information about the field values that an end user can use to provide to Amazon Q Business for Amazon Q Business to perform the requested plugin action.
         public var allowedValues: [QBusinessClientTypes.ActionReviewPayloadFieldAllowedValue]?
+        /// Use to create a custom form with array fields (fields with nested objects inside an array).
+        public var arrayItemJsonSchema: Smithy.Document?
         /// The field level description of each action review input field. This could be an explanation of the field. In the Amazon Q Business web experience, these descriptions could be used to display as tool tips to help users understand the field.
         public var displayDescription: Swift.String?
         /// The name of the field.
@@ -414,6 +416,7 @@ extension QBusinessClientTypes {
         public init(
             allowedFormat: Swift.String? = nil,
             allowedValues: [QBusinessClientTypes.ActionReviewPayloadFieldAllowedValue]? = nil,
+            arrayItemJsonSchema: Smithy.Document? = nil,
             displayDescription: Swift.String? = nil,
             displayName: Swift.String? = nil,
             displayOrder: Swift.Int? = nil,
@@ -424,6 +427,7 @@ extension QBusinessClientTypes {
         {
             self.allowedFormat = allowedFormat
             self.allowedValues = allowedValues
+            self.arrayItemJsonSchema = arrayItemJsonSchema
             self.displayDescription = displayDescription
             self.displayName = displayName
             self.displayOrder = displayOrder
@@ -10111,6 +10115,7 @@ extension QBusinessClientTypes.ActionReviewPayloadField {
         value.value = try reader["value"].readIfPresent()
         value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.ActionReviewPayloadFieldAllowedValue.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedFormat = try reader["allowedFormat"].readIfPresent()
+        value.arrayItemJsonSchema = try reader["arrayItemJsonSchema"].readIfPresent()
         value.`required` = try reader["required"].readIfPresent()
         return value
     }
