@@ -2380,7 +2380,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
-    /// - `GlobalClusterAlreadyExistsFault` : The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
+    /// - `GlobalClusterAlreadyExistsFault` : The GlobalClusterIdentifier already exists. Specify a new global database identifier (unique name) to create a new global database cluster or to rename an existing one.
     /// - `GlobalClusterQuotaExceededFault` : The number of global database clusters for this account is already at the maximum allowed.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     public func createGlobalCluster(input: CreateGlobalClusterInput) async throws -> CreateGlobalClusterOutput {
@@ -9146,6 +9146,7 @@ extension RDSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `GlobalClusterAlreadyExistsFault` : The GlobalClusterIdentifier already exists. Specify a new global database identifier (unique name) to create a new global database cluster or to rename an existing one.
     /// - `GlobalClusterNotFoundFault` : The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.

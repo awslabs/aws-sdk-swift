@@ -15,8 +15,8 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.82.0"
-let crtVersion: Version = "0.36.0"
+let clientRuntimeVersion: Version = "0.83.0"
+let crtVersion: Version = "0.37.0"
 
 let packageScope = "aws-sdk-swift"
 

@@ -12,7 +12,7 @@ import XCTest
 /*
  *  Regression tests for protection against change in generated release notes markdown content.
  */
-class ReleaseNotesBuilderTests: XCTestCase {
+class ReleaseNotesBuilderTests: CLITestCase {
     /* Reusable feature strings */
 
     // New feature 1
@@ -195,10 +195,9 @@ class ReleaseNotesBuilderTests: XCTestCase {
 
     private func setUpBuildRequestAndMappingJSONs(_ buildRequest: String, _ mapping: String) {
         // In real scenario, the JSON files we need are located one level above, in the workspace directory.
-        // For tests, due to sandboxing, the dummy files are created in current directory instead of
-        //  in parent directory.
-        FileManager.default.createFile(atPath: "build-request.json", contents: Data(buildRequest.utf8))
-        FileManager.default.createFile(atPath: "feature-service-id.json", contents: Data(mapping.utf8))
+        // So, the dummy files are created in the parent of the current directory to match a real build.
+        FileManager.default.createFile(atPath: "../build-request.json", contents: Data(buildRequest.utf8))
+        FileManager.default.createFile(atPath: "../feature-service-id.json", contents: Data(mapping.utf8))
     }
 
     private func setUpBuilder(testCommits: [String] = []) throws -> ReleaseNotesBuilder {
@@ -208,11 +207,9 @@ class ReleaseNotesBuilderTests: XCTestCase {
             repoOrg: .awslabs,
             repoType: .awsSdkSwift,
             commits: testCommits,
-            // Parametrize behavior of FeaturesReader with paths used to create JSON test files
-            featuresReader: FeaturesReader(
-                requestFilePath: "build-request.json",
-                mappingFilePath: "feature-service-id.json"
-            )
+            // Parameterize behavior of FeaturesReader with paths used to create JSON test files
+            features: FeaturesReader().getFeaturesFromFile(),
+            featuresIDToServiceName: FeaturesReader().getFeaturesIDToServiceNameDictFromFile()
         )
     }
 }

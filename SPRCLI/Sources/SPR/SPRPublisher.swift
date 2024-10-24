@@ -69,4 +69,19 @@ public struct SPRPublisher {
     var keyPrefix: [String] {
         url.pathComponents.filter { $0 != "/" }
     }
+
+    private mutating func setOptions() async {
+        await SDKLoggingSystem().initialize(logLevel: .error)
+        let env = ProcessInfo.processInfo.environment
+        bucket = bucket ?? env["AWS_SDK_SPR_BUCKET"]
+        if region.isEmpty {
+            region = env["AWS_SDK_SPR_REGION"] ?? "us-east-1"
+        }
+        distributionID = Self.resolvedDistributionID(from: distributionID)
+    }
+
+    static func resolvedDistributionID(from distributionID: String?) -> String? {
+        let env = ProcessInfo.processInfo.environment
+        return distributionID ?? env["AWS_SDK_SPR_DISTRIBUTION_ID"]
+    }
 }

@@ -59,10 +59,13 @@ extension SPRPublisher {
 
     private var releaseURL: URL {
         get throws {
-            return url
-                .appending(component: scope)
-                .appending(component: name)
-                .appending(component: version)
+            guard let baseURL = URL(string: url) else {
+                throw Error("URL is invalid")
+            }
+            return baseURL
+                .appendingPathComponent(scope)
+                .appendingPathComponent(name)
+                .appendingPathComponent(version)
         }
     }
 }

@@ -8,25 +8,18 @@
 import Foundation
 import AWSCLIUtils
 
-struct FeaturesReader: Decodable {
-    private let requestFilePath: String
-    private let mappingFilePath: String
-
-    public init(
-        requestFilePath: String = "../build-request.json",
-        mappingFilePath: String = "../feature-service-id.json"
-    ) {
-        self.requestFilePath = requestFilePath
-        self.mappingFilePath = mappingFilePath
-    }
+/// Reads the Trebuchet request & service mapping files from the parent of the current working directory.
+struct FeaturesReader {
+    private let requestFile = "../build-request.json"
+    private let mappingFile = "../feature-service-id.json"
 
     public func getFeaturesFromFile() throws -> Features {
-        let fileContents = try FileManager.default.loadContents(atPath: requestFilePath)
+        let fileContents = try FileManager.default.loadContents(atPath: requestFile)
         return try JSONDecoder().decode(Features.self, from: fileContents)
     }
 
     public func getFeaturesIDToServiceNameDictFromFile() throws -> [String: String] {
-        let fileContents = try FileManager.default.loadContents(atPath: mappingFilePath)
+        let fileContents = try FileManager.default.loadContents(atPath: mappingFile)
         return try JSONDecoder().decode([String: String].self, from: fileContents)
     }
 }
