@@ -820,6 +820,7 @@ extension AppConfigClientTypes {
     public enum EnvironmentState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deploying
         case readyForDeployment
+        case reverted
         case rolledBack
         case rollingBack
         case sdkUnknown(Swift.String)
@@ -828,6 +829,7 @@ extension AppConfigClientTypes {
             return [
                 .deploying,
                 .readyForDeployment,
+                .reverted,
                 .rolledBack,
                 .rollingBack
             ]
@@ -842,6 +844,7 @@ extension AppConfigClientTypes {
             switch self {
             case .deploying: return "DEPLOYING"
             case .readyForDeployment: return "READY_FOR_DEPLOYMENT"
+            case .reverted: return "REVERTED"
             case .rolledBack: return "ROLLED_BACK"
             case .rollingBack: return "ROLLING_BACK"
             case let .sdkUnknown(s): return s
@@ -1427,7 +1430,7 @@ public struct GetConfigurationInput: Swift.Sendable {
     /// The application to get. Specify either the application name or the application ID.
     /// This member is required.
     public var application: Swift.String?
-    /// The configuration version returned in the most recent [GetConfiguration] response. AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to [GetConfiguration], your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend you use the [StartConfigurationSession](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html) and [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html) APIs, which track the client configuration version on your behalf. If you choose to continue using [GetConfiguration], we recommend that you include the ClientConfigurationVersion value with every call to [GetConfiguration]. The value to use for ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by [GetConfiguration] when there is new or updated data, and should be saved for subsequent calls to [GetConfiguration]. For more information about working with configurations, see [Retrieving the Configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html) in the AppConfig User Guide.
+    /// The configuration version returned in the most recent [GetConfiguration] response. AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to [GetConfiguration], your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend you use the [StartConfigurationSession](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html) and [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html) APIs, which track the client configuration version on your behalf. If you choose to continue using [GetConfiguration], we recommend that you include the ClientConfigurationVersion value with every call to [GetConfiguration]. The value to use for ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by [GetConfiguration] when there is new or updated data, and should be saved for subsequent calls to [GetConfiguration]. For more information about working with configurations, see [Retrieving feature flags and configuration data in AppConfig](http://docs.aws.amazon.com/appconfig/latest/userguide/retrieving-feature-flags.html) in the AppConfig User Guide.
     public var clientConfigurationVersion: Swift.String?
     /// The clientId parameter in the following command is a unique, user-specified ID to identify the client for the configuration. This ID enables AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.
     /// This member is required.
@@ -1605,6 +1608,7 @@ extension AppConfigClientTypes {
         case deploymentCompleted
         case deploymentStarted
         case percentageUpdated
+        case revertCompleted
         case rollbackCompleted
         case rollbackStarted
         case sdkUnknown(Swift.String)
@@ -1615,6 +1619,7 @@ extension AppConfigClientTypes {
                 .deploymentCompleted,
                 .deploymentStarted,
                 .percentageUpdated,
+                .revertCompleted,
                 .rollbackCompleted,
                 .rollbackStarted
             ]
@@ -1631,6 +1636,7 @@ extension AppConfigClientTypes {
             case .deploymentCompleted: return "DEPLOYMENT_COMPLETED"
             case .deploymentStarted: return "DEPLOYMENT_STARTED"
             case .percentageUpdated: return "PERCENTAGE_UPDATED"
+            case .revertCompleted: return "REVERT_COMPLETED"
             case .rollbackCompleted: return "ROLLBACK_COMPLETED"
             case .rollbackStarted: return "ROLLBACK_STARTED"
             case let .sdkUnknown(s): return s
@@ -1718,6 +1724,7 @@ extension AppConfigClientTypes {
         case baking
         case complete
         case deploying
+        case reverted
         case rolledBack
         case rollingBack
         case validating
@@ -1728,6 +1735,7 @@ extension AppConfigClientTypes {
                 .baking,
                 .complete,
                 .deploying,
+                .reverted,
                 .rolledBack,
                 .rollingBack,
                 .validating
@@ -1744,6 +1752,7 @@ extension AppConfigClientTypes {
             case .baking: return "BAKING"
             case .complete: return "COMPLETE"
             case .deploying: return "DEPLOYING"
+            case .reverted: return "REVERTED"
             case .rolledBack: return "ROLLED_BACK"
             case .rollingBack: return "ROLLING_BACK"
             case .validating: return "VALIDATING"
@@ -2893,6 +2902,8 @@ public struct StartDeploymentOutput: Swift.Sendable {
 }
 
 public struct StopDeploymentInput: Swift.Sendable {
+    /// A Boolean that enables AppConfig to rollback a COMPLETED deployment to the previous configuration version. This action moves the deployment to a status of REVERTED.
+    public var allowRevert: Swift.Bool?
     /// The application ID.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2904,11 +2915,13 @@ public struct StopDeploymentInput: Swift.Sendable {
     public var environmentId: Swift.String?
 
     public init(
+        allowRevert: Swift.Bool? = false,
         applicationId: Swift.String? = nil,
         deploymentNumber: Swift.Int? = 0,
         environmentId: Swift.String? = nil
     )
     {
+        self.allowRevert = allowRevert
         self.applicationId = applicationId
         self.deploymentNumber = deploymentNumber
         self.environmentId = environmentId
@@ -4095,6 +4108,17 @@ extension StopDeploymentInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/environments/\(environmentId.urlPercentEncoding())/deployments/\(deploymentNumber)"
+    }
+}
+
+extension StopDeploymentInput {
+
+    static func headerProvider(_ value: StopDeploymentInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let allowRevert = value.allowRevert {
+            items.add(SmithyHTTPAPI.Header(name: "Allow-Revert", value: Swift.String(allowRevert)))
+        }
+        return items
     }
 }
 

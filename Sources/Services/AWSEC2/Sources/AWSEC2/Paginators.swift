@@ -1137,6 +1137,39 @@ extension PaginatorSequence where OperationStackInput == DescribeInstanceEventWi
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeInstanceImageMetadataOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInstanceImageMetadataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceImageMetadataOutput`
+    public func describeInstanceImageMetadataPaginated(input: DescribeInstanceImageMetadataInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceImageMetadataInput, DescribeInstanceImageMetadataOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeInstanceImageMetadataInput, DescribeInstanceImageMetadataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeInstanceImageMetadata(input:))
+    }
+}
+
+extension DescribeInstanceImageMetadataInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeInstanceImageMetadataInput {
+        return DescribeInstanceImageMetadataInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            instanceIds: self.instanceIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeInstanceImageMetadataInput, OperationStackOutput == DescribeInstanceImageMetadataOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeInstanceImageMetadataPaginated`
+    /// to access the nested member `[EC2ClientTypes.InstanceImageMetadata]`
+    /// - Returns: `[EC2ClientTypes.InstanceImageMetadata]`
+    public func instanceImageMetadata() async throws -> [EC2ClientTypes.InstanceImageMetadata] {
+        return try await self.asyncCompactMap { item in item.instanceImageMetadata }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeInstancesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
