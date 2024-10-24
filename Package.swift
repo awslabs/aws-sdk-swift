@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.83.0"
+let clientRuntimeVersion: Version = "0.84.0"
 let crtVersion: Version = "0.37.0"
 
 let packageScope = "aws-sdk-swift"
@@ -278,7 +278,6 @@ let serviceTargets: [String] = [
     "AWSNetworkFirewall",
     "AWSNetworkManager",
     "AWSNetworkMonitor",
-    "AWSNimble",
     "AWSOAM",
     "AWSOSIS",
     "AWSOmics",
