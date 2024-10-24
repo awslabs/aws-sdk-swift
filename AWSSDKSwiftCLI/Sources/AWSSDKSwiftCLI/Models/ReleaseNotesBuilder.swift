@@ -15,7 +15,8 @@ struct ReleaseNotesBuilder {
     let repoOrg: PrepareRelease.Org
     let repoType: PrepareRelease.Repo
     let commits: [String]
-    var featuresReader: FeaturesReader = FeaturesReader()
+    let features: Features
+    let featuresIDToServiceName: [String: String]
 
     // MARK: - Build
 
@@ -41,9 +42,7 @@ struct ReleaseNotesBuilder {
     }
 
     func buildServiceChangeSection() throws -> [String] {
-        let features = try featuresReader.getFeaturesFromFile()
-        let mapping = try featuresReader.getFeaturesIDToServiceNameDictFromFile()
-        return buildServiceFeatureSection(features, mapping) + buildServiceDocSection(features, mapping)
+        return buildServiceFeatureSection(features, featuresIDToServiceName) + buildServiceDocSection(features, featuresIDToServiceName)
     }
 
     private func buildServiceFeatureSection(
