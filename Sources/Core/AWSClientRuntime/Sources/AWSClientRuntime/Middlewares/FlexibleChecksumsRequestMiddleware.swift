@@ -9,6 +9,7 @@ import enum SmithyChecksumsAPI.ChecksumAlgorithm
 import enum SmithyChecksums.ChecksumMismatchException
 import enum Smithy.ClientError
 import class Smithy.Context
+import struct Foundation.Data
 import AwsCommonRuntimeKit
 import AWSSDKChecksums
 import ClientRuntime
@@ -80,31 +81,47 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         // Handle body vs handle stream
         switch builder.body {
         case .data(let data):
+            try await calculateAndAddChecksumHeader(data: data)
+        case .stream(let stream):
+            if stream.isEligibleForChunkedStreaming {
+                // Handle calculating and adding checksum header in ChunkedStream
+                attributes.checksum = checksumHashFunction
+                builder.updateHeader(name: "x-amz-trailer", value: [headerName])
+            } else {
+                // If not eligible for chunked streaming, calculate and add checksum to request header now
+                //   instead of in a trailing header.
+                let streamBytes: Data?
+                let currentPosition = stream.position
+                if stream.isSeekable {
+                    // Explicit seek to beginning for correct behavior of FileHandle
+                    try stream.seek(toOffset: 0)
+                    streamBytes = try await stream.readToEnd()
+                    try stream.seek(toOffset: currentPosition)
+                } else {
+                    streamBytes = try await stream.readToEndAsync()
+                    builder.withBody(.data(streamBytes))
+                }
+                try await calculateAndAddChecksumHeader(data: streamBytes)
+            }
+        case .noStream:
+            logger.info("Request body is empty. Skipping request checksum calculation...")
+        }
+
+        func calculateAndAddChecksumHeader(data: Data?) async throws {
             guard let data else {
                 logger.info("Request body is empty. Skipping request checksum calculation...")
                 return
             }
-
             if builder.headers.value(for: headerName) == nil {
                 logger.debug("Calculating checksum")
             }
-
             // Create checksum instance
             let checksum = checksumHashFunction.createChecksum()
-
             // Pass data to hash
             try checksum.update(chunk: data)
-
             // Retrieve the hash
             let hash = try checksum.digest().toBase64String()
-
             builder.updateHeader(name: headerName, value: [hash])
-        case .stream:
-            // Will handle calculating checksum and setting header later
-            attributes.checksum = checksumHashFunction
-            builder.updateHeader(name: "x-amz-trailer", value: [headerName])
-        case .noStream:
-            logger.info("Request body is empty. Skipping request checksum calculation...")
         }
     }
 }
