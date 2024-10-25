@@ -181,6 +181,34 @@ extension CodeBuildClientTypes {
     }
 }
 
+extension CodeBuildClientTypes {
+
+    /// Information about the auto-retry configuration for the build.
+    public struct AutoRetryConfig: Swift.Sendable {
+        /// The maximum number of additional automatic retries after a failed build. For example, if the auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically retry your build for up to 2 additional times.
+        public var autoRetryLimit: Swift.Int?
+        /// The number of times that the build has been retried. The initial build will have an auto-retry number of 0.
+        public var autoRetryNumber: Swift.Int?
+        /// The build ARN of the auto-retried build triggered by the current build. The next auto-retry will be null for builds that don't trigger an auto-retry.
+        public var nextAutoRetry: Swift.String?
+        /// The build ARN of the build that triggered the current auto-retry build. The previous auto-retry will be null for the initial build.
+        public var previousAutoRetry: Swift.String?
+
+        public init(
+            autoRetryLimit: Swift.Int? = nil,
+            autoRetryNumber: Swift.Int? = nil,
+            nextAutoRetry: Swift.String? = nil,
+            previousAutoRetry: Swift.String? = nil
+        )
+        {
+            self.autoRetryLimit = autoRetryLimit
+            self.autoRetryNumber = autoRetryNumber
+            self.nextAutoRetry = nextAutoRetry
+            self.previousAutoRetry = previousAutoRetry
+        }
+    }
+}
+
 /// The input value that was provided is not valid.
 public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -2021,6 +2049,8 @@ extension CodeBuildClientTypes {
         public var arn: Swift.String?
         /// Information about the output artifacts for the build.
         public var artifacts: CodeBuildClientTypes.BuildArtifacts?
+        /// Information about the auto-retry configuration for the build.
+        public var autoRetryConfig: CodeBuildClientTypes.AutoRetryConfig?
         /// The ARN of the batch build that this build is a member of, if applicable.
         public var buildBatchArn: Swift.String?
         /// Whether the build is complete. True if complete; otherwise, false.
@@ -2117,6 +2147,7 @@ extension CodeBuildClientTypes {
         public init(
             arn: Swift.String? = nil,
             artifacts: CodeBuildClientTypes.BuildArtifacts? = nil,
+            autoRetryConfig: CodeBuildClientTypes.AutoRetryConfig? = nil,
             buildBatchArn: Swift.String? = nil,
             buildComplete: Swift.Bool = false,
             buildNumber: Swift.Int? = nil,
@@ -2151,6 +2182,7 @@ extension CodeBuildClientTypes {
         {
             self.arn = arn
             self.artifacts = artifacts
+            self.autoRetryConfig = autoRetryConfig
             self.buildBatchArn = buildBatchArn
             self.buildComplete = buildComplete
             self.buildNumber = buildNumber
@@ -3244,6 +3276,8 @@ extension CodeBuildClientTypes {
         public var arn: Swift.String?
         /// Information about the build output artifacts for the build project.
         public var artifacts: CodeBuildClientTypes.ProjectArtifacts?
+        /// The maximum number of additional automatic retries after a failed build. For example, if the auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically retry your build for up to 2 additional times.
+        public var autoRetryLimit: Swift.Int?
         /// Information about the build badge for the build project.
         public var badge: CodeBuildClientTypes.ProjectBadge?
         /// A [ProjectBuildBatchConfig] object that defines the batch build options for the project.
@@ -3313,6 +3347,7 @@ extension CodeBuildClientTypes {
         public init(
             arn: Swift.String? = nil,
             artifacts: CodeBuildClientTypes.ProjectArtifacts? = nil,
+            autoRetryLimit: Swift.Int? = nil,
             badge: CodeBuildClientTypes.ProjectBadge? = nil,
             buildBatchConfig: CodeBuildClientTypes.ProjectBuildBatchConfig? = nil,
             cache: CodeBuildClientTypes.ProjectCache? = nil,
@@ -3343,6 +3378,7 @@ extension CodeBuildClientTypes {
         {
             self.arn = arn
             self.artifacts = artifacts
+            self.autoRetryLimit = autoRetryLimit
             self.badge = badge
             self.buildBatchConfig = buildBatchConfig
             self.cache = cache
@@ -4020,6 +4056,8 @@ public struct CreateProjectInput: Swift.Sendable {
     /// Information about the build output artifacts for the build project.
     /// This member is required.
     public var artifacts: CodeBuildClientTypes.ProjectArtifacts?
+    /// The maximum number of additional automatic retries after a failed build. For example, if the auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically retry your build for up to 2 additional times.
+    public var autoRetryLimit: Swift.Int?
     /// Set this to true to generate a publicly accessible URL for your project's build badge.
     public var badgeEnabled: Swift.Bool?
     /// A [ProjectBuildBatchConfig] object that defines the batch build options for the project.
@@ -4080,6 +4118,7 @@ public struct CreateProjectInput: Swift.Sendable {
 
     public init(
         artifacts: CodeBuildClientTypes.ProjectArtifacts? = nil,
+        autoRetryLimit: Swift.Int? = nil,
         badgeEnabled: Swift.Bool? = nil,
         buildBatchConfig: CodeBuildClientTypes.ProjectBuildBatchConfig? = nil,
         cache: CodeBuildClientTypes.ProjectCache? = nil,
@@ -4103,6 +4142,7 @@ public struct CreateProjectInput: Swift.Sendable {
     )
     {
         self.artifacts = artifacts
+        self.autoRetryLimit = autoRetryLimit
         self.badgeEnabled = badgeEnabled
         self.buildBatchConfig = buildBatchConfig
         self.cache = cache
@@ -5972,6 +6012,8 @@ public struct RetryBuildBatchOutput: Swift.Sendable {
 public struct StartBuildInput: Swift.Sendable {
     /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
     public var artifactsOverride: CodeBuildClientTypes.ProjectArtifacts?
+    /// The maximum number of additional automatic retries after a failed build. For example, if the auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically retry your build for up to 2 additional times.
+    public var autoRetryLimitOverride: Swift.Int?
     /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
     public var buildStatusConfigOverride: CodeBuildClientTypes.BuildStatusConfig?
     /// A buildspec file declaration that overrides the latest one defined in the build project, for this build only. The buildspec defined on the project is not changed. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see [Buildspec File Name and Storage Location](https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage). Since this property allows you to change the build commands that will run in the container, you should note that an IAM principal with the ability to call this API and set this parameter can override the default settings. Moreover, we encourage that you use a trustworthy buildspec location like a file in your source repository or a Amazon S3 bucket.
@@ -6038,6 +6080,7 @@ public struct StartBuildInput: Swift.Sendable {
 
     public init(
         artifactsOverride: CodeBuildClientTypes.ProjectArtifacts? = nil,
+        autoRetryLimitOverride: Swift.Int? = nil,
         buildStatusConfigOverride: CodeBuildClientTypes.BuildStatusConfig? = nil,
         buildspecOverride: Swift.String? = nil,
         cacheOverride: CodeBuildClientTypes.ProjectCache? = nil,
@@ -6072,6 +6115,7 @@ public struct StartBuildInput: Swift.Sendable {
     )
     {
         self.artifactsOverride = artifactsOverride
+        self.autoRetryLimitOverride = autoRetryLimitOverride
         self.buildStatusConfigOverride = buildStatusConfigOverride
         self.buildspecOverride = buildspecOverride
         self.cacheOverride = cacheOverride
@@ -6433,6 +6477,8 @@ public struct UpdateFleetOutput: Swift.Sendable {
 public struct UpdateProjectInput: Swift.Sendable {
     /// Information to be changed about the build output artifacts for the build project.
     public var artifacts: CodeBuildClientTypes.ProjectArtifacts?
+    /// The maximum number of additional automatic retries after a failed build. For example, if the auto-retry limit is set to 2, CodeBuild will call the RetryBuild API to automatically retry your build for up to 2 additional times.
+    public var autoRetryLimit: Swift.Int?
     /// Set this to true to generate a publicly accessible URL for your project's build badge.
     public var badgeEnabled: Swift.Bool?
     /// Contains configuration information about a batch build project.
@@ -6490,6 +6536,7 @@ public struct UpdateProjectInput: Swift.Sendable {
 
     public init(
         artifacts: CodeBuildClientTypes.ProjectArtifacts? = nil,
+        autoRetryLimit: Swift.Int? = nil,
         badgeEnabled: Swift.Bool? = nil,
         buildBatchConfig: CodeBuildClientTypes.ProjectBuildBatchConfig? = nil,
         cache: CodeBuildClientTypes.ProjectCache? = nil,
@@ -6513,6 +6560,7 @@ public struct UpdateProjectInput: Swift.Sendable {
     )
     {
         self.artifacts = artifacts
+        self.autoRetryLimit = autoRetryLimit
         self.badgeEnabled = badgeEnabled
         self.buildBatchConfig = buildBatchConfig
         self.cache = cache
@@ -7097,6 +7145,7 @@ extension CreateProjectInput {
     static func write(value: CreateProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["artifacts"].write(value.artifacts, with: CodeBuildClientTypes.ProjectArtifacts.write(value:to:))
+        try writer["autoRetryLimit"].write(value.autoRetryLimit)
         try writer["badgeEnabled"].write(value.badgeEnabled)
         try writer["buildBatchConfig"].write(value.buildBatchConfig, with: CodeBuildClientTypes.ProjectBuildBatchConfig.write(value:to:))
         try writer["cache"].write(value.cache, with: CodeBuildClientTypes.ProjectCache.write(value:to:))
@@ -7440,6 +7489,7 @@ extension StartBuildInput {
     static func write(value: StartBuildInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["artifactsOverride"].write(value.artifactsOverride, with: CodeBuildClientTypes.ProjectArtifacts.write(value:to:))
+        try writer["autoRetryLimitOverride"].write(value.autoRetryLimitOverride)
         try writer["buildStatusConfigOverride"].write(value.buildStatusConfigOverride, with: CodeBuildClientTypes.BuildStatusConfig.write(value:to:))
         try writer["buildspecOverride"].write(value.buildspecOverride)
         try writer["cacheOverride"].write(value.cacheOverride, with: CodeBuildClientTypes.ProjectCache.write(value:to:))
@@ -7551,6 +7601,7 @@ extension UpdateProjectInput {
     static func write(value: UpdateProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["artifacts"].write(value.artifacts, with: CodeBuildClientTypes.ProjectArtifacts.write(value:to:))
+        try writer["autoRetryLimit"].write(value.autoRetryLimit)
         try writer["badgeEnabled"].write(value.badgeEnabled)
         try writer["buildBatchConfig"].write(value.buildBatchConfig, with: CodeBuildClientTypes.ProjectBuildBatchConfig.write(value:to:))
         try writer["cache"].write(value.cache, with: CodeBuildClientTypes.ProjectCache.write(value:to:))
@@ -9505,6 +9556,20 @@ extension CodeBuildClientTypes.Build {
         value.fileSystemLocations = try reader["fileSystemLocations"].readListIfPresent(memberReadingClosure: CodeBuildClientTypes.ProjectFileSystemLocation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.debugSession = try reader["debugSession"].readIfPresent(with: CodeBuildClientTypes.DebugSession.read(from:))
         value.buildBatchArn = try reader["buildBatchArn"].readIfPresent()
+        value.autoRetryConfig = try reader["autoRetryConfig"].readIfPresent(with: CodeBuildClientTypes.AutoRetryConfig.read(from:))
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.AutoRetryConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.AutoRetryConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.AutoRetryConfig()
+        value.autoRetryLimit = try reader["autoRetryLimit"].readIfPresent()
+        value.autoRetryNumber = try reader["autoRetryNumber"].readIfPresent()
+        value.nextAutoRetry = try reader["nextAutoRetry"].readIfPresent()
+        value.previousAutoRetry = try reader["previousAutoRetry"].readIfPresent()
         return value
     }
 }
@@ -9727,6 +9792,7 @@ extension CodeBuildClientTypes.Project {
         value.projectVisibility = try reader["projectVisibility"].readIfPresent()
         value.publicProjectAlias = try reader["publicProjectAlias"].readIfPresent()
         value.resourceAccessRole = try reader["resourceAccessRole"].readIfPresent()
+        value.autoRetryLimit = try reader["autoRetryLimit"].readIfPresent()
         return value
     }
 }

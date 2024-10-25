@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.84.0"
+let clientRuntimeVersion: Version = "0.85.0"
 let crtVersion: Version = "0.37.0"
 
 let excludeRuntimeUnitTests = false
