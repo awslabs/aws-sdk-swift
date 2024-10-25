@@ -3959,6 +3959,28 @@ extension LambdaClientTypes {
     }
 }
 
+extension LambdaClientTypes {
+
+    /// An object that contains details about an error related to retrieving tags.
+    public struct TagsError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.message = message
+        }
+    }
+}
+
 public struct GetFunctionOutput: Swift.Sendable {
     /// The deployment package of the function or version.
     public var code: LambdaClientTypes.FunctionCodeLocation?
@@ -3966,20 +3988,24 @@ public struct GetFunctionOutput: Swift.Sendable {
     public var concurrency: LambdaClientTypes.Concurrency?
     /// The configuration of the function or version.
     public var configuration: LambdaClientTypes.FunctionConfiguration?
-    /// The function's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html).
+    /// The function's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). Lambda returns tag data only if you have explicit allow permissions for [lambda:ListTags](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/lambda/latest/api/API_ListTags.html).
     public var tags: [Swift.String: Swift.String]?
+    /// An object that contains details about an error related to retrieving tags.
+    public var tagsError: LambdaClientTypes.TagsError?
 
     public init(
         code: LambdaClientTypes.FunctionCodeLocation? = nil,
         concurrency: LambdaClientTypes.Concurrency? = nil,
         configuration: LambdaClientTypes.FunctionConfiguration? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        tagsError: LambdaClientTypes.TagsError? = nil
     )
     {
         self.code = code
         self.concurrency = concurrency
         self.configuration = configuration
         self.tags = tags
+        self.tagsError = tagsError
     }
 }
 
@@ -10413,6 +10439,7 @@ extension GetFunctionOutput {
         value.concurrency = try reader["Concurrency"].readIfPresent(with: LambdaClientTypes.Concurrency.read(from:))
         value.configuration = try reader["Configuration"].readIfPresent(with: LambdaClientTypes.FunctionConfiguration.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tagsError = try reader["TagsError"].readIfPresent(with: LambdaClientTypes.TagsError.read(from:))
         return value
     }
 }
@@ -13592,6 +13619,17 @@ extension LambdaClientTypes.FunctionCodeLocation {
         value.location = try reader["Location"].readIfPresent()
         value.imageUri = try reader["ImageUri"].readIfPresent()
         value.resolvedImageUri = try reader["ResolvedImageUri"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.TagsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TagsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.TagsError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }
