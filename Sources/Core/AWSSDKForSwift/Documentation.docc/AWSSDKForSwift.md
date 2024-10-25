@@ -583,8 +583,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNetworkMonitor](../../../../../swift/api/awsnetworkmonitor/latest)
 
-[AWSNimble](../../../../../swift/api/awsnimble/latest)
-
 [AWSOAM](../../../../../swift/api/awsoam/latest)
 
 [AWSOSIS](../../../../../swift/api/awsosis/latest)
