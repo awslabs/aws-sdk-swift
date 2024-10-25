@@ -38,7 +38,7 @@ class FlexibleChecksumsRequestIntegration : SwiftIntegration {
     }
 }
 
-private fun String.lowercaseFirstLetter(): String =
+fun String.lowercaseFirstLetter(): String =
     takeIf { it.isNotEmpty() }?.let { it.first().lowercase() + it.substring(1) } ?: this
 
 private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
@@ -52,14 +52,16 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
-        val inputMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()
+        val algorithmMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()
+        val requestChecksumIsRequired = httpChecksumTrait?.isRequestChecksumRequired
 
         writer.write(
-            "\$N<\$L, \$L>(checksumAlgorithm: input.\$L?.rawValue)",
+            "\$N<\$L, \$L>(requestChecksumRequired: \$L, checksumAlgorithm: input.\$L?.rawValue)",
             AWSClientRuntimeTypes.Core.FlexibleChecksumsRequestMiddleware,
             inputShapeName,
             outputShapeName,
-            inputMemberName,
+            requestChecksumIsRequired,
+            algorithmMemberName,
         )
     }
 }

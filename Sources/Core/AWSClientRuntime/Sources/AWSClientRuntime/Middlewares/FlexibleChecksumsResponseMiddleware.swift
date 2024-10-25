@@ -15,14 +15,15 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
     let CHECKSUM_HEADER_VALIDATION_PRIORITY_LIST: [String] = [
         ChecksumAlgorithm.crc32c,
         .crc32,
+        .crc64nvme,
         .sha1,
         .sha256
     ].sorted().map { $0.toString() }
 
-    let validationMode: Bool
+    let validationMode: String
     let priorityList: [String]
 
-    public init(validationMode: Bool, priorityList: [String] = []) {
+    public init(validationMode: String, priorityList: [String] = []) {
         self.validationMode = validationMode
         self.priorityList = !priorityList.isEmpty
             ? withPriority(checksums: priorityList)
@@ -31,13 +32,15 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
 
     private func validateChecksum(response: HTTPResponse, logger: any LogAgent, attributes: Context) async throws {
         // Exit if validation should not be performed
-        if !validationMode {
+        if validationMode != "ENABLED" && attributes.responseChecksumValidation == .whenRequired {
             logger.info("Checksum validation should not be performed! Skipping workflow...")
             return
         }
 
         let checksumHeaderIsPresent = priorityList.first {
-            response.headers.value(for: "x-amz-checksum-\($0)") != nil
+            response.headers.value(for: "x-amz-checksum-\($0)") != nil  &&
+            // Checksum of checksums has "-#" at the end and should be ignored.
+            !(response.headers.value(for: "x-amz-checksum-\($0)")!.hasSuffix("-#"))
         }
 
         guard let checksumHeader = checksumHeaderIsPresent else {
@@ -65,7 +68,8 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
         switch response.body {
         case .data(let data):
             guard let data else {
-                throw ClientError.dataNotFound("Cannot calculate checksum of empty body!")
+                logger.info("Response body is empty. Skipping response checksum validation...")
+                return
             }
 
             let responseChecksumHasher = responseChecksum.createChecksum()
@@ -87,7 +91,8 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
             attributes.httpResponse = response
             attributes.httpResponse?.body = validatingStream
         case .noStream:
-            throw ClientError.dataNotFound("Cannot calculate the checksum of an empty body!")
+            logger.info("Response body is empty. Skipping response checksum validation...")
+            return
         }
     }
 }
