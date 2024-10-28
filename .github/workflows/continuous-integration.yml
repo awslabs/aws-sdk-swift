@@ -53,7 +53,7 @@ jobs:
       - name: Configure Xcode
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
       - name: Install visionOS sim if needed
-        if: ${{ contains(matrix.destination, 'platform=visionOS' }}
+        if: ${{ contains(matrix.destination, 'platform=visionOS') }}
         run: |
           sudo xcodebuild -runFirstLaunch
           sudo xcrun simctl list
