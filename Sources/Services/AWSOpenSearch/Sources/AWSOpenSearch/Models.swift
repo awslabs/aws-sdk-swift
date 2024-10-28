@@ -2225,6 +2225,76 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Container for specifying configuration of any node type.
+    public struct NodeConfig: Swift.Sendable {
+        /// The number of nodes of a particular node type in the cluster.
+        public var count: Swift.Int?
+        /// A boolean that indicates whether a particular node type is enabled or not.
+        public var enabled: Swift.Bool?
+        /// The instance type of a particular node type in the cluster.
+        public var type: OpenSearchClientTypes.OpenSearchPartitionInstanceType?
+
+        public init(
+            count: Swift.Int? = nil,
+            enabled: Swift.Bool? = nil,
+            type: OpenSearchClientTypes.OpenSearchPartitionInstanceType? = nil
+        )
+        {
+            self.count = count
+            self.enabled = enabled
+            self.type = type
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum NodeOptionsNodeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case coordinator
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeOptionsNodeType] {
+            return [
+                .coordinator
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .coordinator: return "coordinator"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Container for specifying node type.
+    public struct NodeOption: Swift.Sendable {
+        /// Container for specifying configuration of any node type.
+        public var nodeConfig: OpenSearchClientTypes.NodeConfig?
+        /// Container for node type like coordinating.
+        public var nodeType: OpenSearchClientTypes.NodeOptionsNodeType?
+
+        public init(
+            nodeConfig: OpenSearchClientTypes.NodeConfig? = nil,
+            nodeType: OpenSearchClientTypes.NodeOptionsNodeType? = nil
+        )
+        {
+            self.nodeConfig = nodeConfig
+            self.nodeType = nodeType
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     public enum OpenSearchWarmPartitionInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ultrawarm1LargeSearch
         case ultrawarm1MediumSearch
@@ -2289,6 +2359,8 @@ extension OpenSearchClientTypes {
         public var instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType?
         /// A boolean that indicates whether a multi-AZ domain is turned on with a standby AZ. For more information, see [Configuring a multi-AZ domain in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-multiaz.html).
         public var multiAZWithStandbyEnabled: Swift.Bool?
+        /// List of node options for the domain.
+        public var nodeOptions: [OpenSearchClientTypes.NodeOption]?
         /// The number of warm nodes in the cluster.
         public var warmCount: Swift.Int?
         /// Whether to enable warm storage for the cluster.
@@ -2308,6 +2380,7 @@ extension OpenSearchClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType? = nil,
             multiAZWithStandbyEnabled: Swift.Bool? = nil,
+            nodeOptions: [OpenSearchClientTypes.NodeOption]? = nil,
             warmCount: Swift.Int? = nil,
             warmEnabled: Swift.Bool? = nil,
             warmType: OpenSearchClientTypes.OpenSearchWarmPartitionInstanceType? = nil,
@@ -2322,6 +2395,7 @@ extension OpenSearchClientTypes {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.multiAZWithStandbyEnabled = multiAZWithStandbyEnabled
+            self.nodeOptions = nodeOptions
             self.warmCount = warmCount
             self.warmEnabled = warmEnabled
             self.warmType = warmType
@@ -11872,6 +11946,7 @@ extension OpenSearchClientTypes.ClusterConfig {
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["InstanceType"].write(value.instanceType)
         try writer["MultiAZWithStandbyEnabled"].write(value.multiAZWithStandbyEnabled)
+        try writer["NodeOptions"].writeList(value.nodeOptions, memberWritingClosure: OpenSearchClientTypes.NodeOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WarmCount"].write(value.warmCount)
         try writer["WarmEnabled"].write(value.warmEnabled)
         try writer["WarmType"].write(value.warmType)
@@ -11894,6 +11969,43 @@ extension OpenSearchClientTypes.ClusterConfig {
         value.warmCount = try reader["WarmCount"].readIfPresent()
         value.coldStorageOptions = try reader["ColdStorageOptions"].readIfPresent(with: OpenSearchClientTypes.ColdStorageOptions.read(from:))
         value.multiAZWithStandbyEnabled = try reader["MultiAZWithStandbyEnabled"].readIfPresent()
+        value.nodeOptions = try reader["NodeOptions"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.NodeOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.NodeOption {
+
+    static func write(value: OpenSearchClientTypes.NodeOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NodeConfig"].write(value.nodeConfig, with: OpenSearchClientTypes.NodeConfig.write(value:to:))
+        try writer["NodeType"].write(value.nodeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.NodeOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.NodeOption()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.nodeConfig = try reader["NodeConfig"].readIfPresent(with: OpenSearchClientTypes.NodeConfig.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.NodeConfig {
+
+    static func write(value: OpenSearchClientTypes.NodeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Count"].write(value.count)
+        try writer["Enabled"].write(value.enabled)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.NodeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.NodeConfig()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.count = try reader["Count"].readIfPresent()
         return value
     }
 }

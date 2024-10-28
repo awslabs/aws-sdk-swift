@@ -858,7 +858,20 @@ public struct ResourceNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
 
 ///
 public struct ApplyPendingMaintenanceActionInput: Swift.Sendable {
-    /// The pending maintenance action to apply to this resource. Valid Values: system-update, db-upgrade, hardware-maintenance, ca-certificate-rotation
+    /// The pending maintenance action to apply to this resource. Valid Values:
+    ///
+    /// * ca-certificate-rotation
+    ///
+    /// * db-upgrade
+    ///
+    /// * hardware-maintenance
+    ///
+    /// * os-upgrade
+    ///
+    /// * system-update
+    ///
+    ///
+    /// For more information about these actions, see [Maintenance actions for Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora) or [Maintenance actions for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds).
     /// This member is required.
     public var applyAction: Swift.String?
     /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid Values:
@@ -890,7 +903,20 @@ extension RDSClientTypes {
 
     /// Provides information about a pending maintenance action for a resource.
     public struct PendingMaintenanceAction: Swift.Sendable {
-        /// The type of pending maintenance action that is available for the resource. For more information about maintenance actions, see [Maintaining a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html). Valid Values: system-update | db-upgrade | hardware-maintenance | ca-certificate-rotation
+        /// The type of pending maintenance action that is available for the resource. For more information about maintenance actions, see [Maintaining a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html). Valid Values:
+        ///
+        /// * ca-certificate-rotation
+        ///
+        /// * db-upgrade
+        ///
+        /// * hardware-maintenance
+        ///
+        /// * os-upgrade
+        ///
+        /// * system-update
+        ///
+        ///
+        /// For more information about these actions, see [Maintenance actions for Amazon Aurora](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-aurora) or [Maintenance actions for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#maintenance-actions-rds).
         public var action: Swift.String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
         public var autoAppliedAfterDate: Foundation.Date?
@@ -3982,7 +4008,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var enableHttpEndpoint: Swift.Bool?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
-    /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only
+    /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only This setting is no longer used. Instead use the ClusterScalabilityType setting.
     public var enableLimitlessDatabase: Swift.Bool?
     /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var enableLocalWriteForwarding: Swift.Bool?
@@ -16981,7 +17007,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var enableHttpEndpoint: Swift.Bool?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
-    /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only
+    /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only This setting is no longer used. Instead use the ClusterScalabilityType setting when you create your Aurora Limitless Database DB cluster.
     public var enableLimitlessDatabase: Swift.Bool?
     /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var enableLocalWriteForwarding: Swift.Bool?
@@ -19661,6 +19687,8 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [ IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
+    /// Specifies whether to turn on Performance Insights for the DB cluster.
+    public var enablePerformanceInsights: Swift.Bool?
     /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// This member is required.
     public var engine: Swift.String?
@@ -19688,6 +19716,10 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     ///
     /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var kmsKeyId: Swift.String?
+    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60 Default: 0
+    public var monitoringInterval: Swift.Int?
+    /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An example is arn:aws:iam:123456789012:role/emaccess. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value.
+    public var monitoringRoleArn: Swift.String?
     /// The network type of the DB cluster. Valid Values:
     ///
     /// * IPV4
@@ -19699,6 +19731,19 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var networkType: Swift.String?
     /// The name of the option group to use for the restored DB cluster. DB clusters are associated with a default option group that can't be modified.
     public var optionGroupName: Swift.String?
+    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var performanceInsightsKMSKeyId: Swift.String?
+    /// The number of days to retain Performance Insights data. Valid Values:
+    ///
+    /// * 7
+    ///
+    /// * month * 31, where month is a number of months from 1-23. Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31)
+    ///
+    /// * 731
+    ///
+    ///
+    /// Default: 7 days If you specify a retention period that isn't valid, such as 94, Amazon RDS issues an error.
+    public var performanceInsightsRetentionPeriod: Swift.Int?
     /// The port number on which the new DB cluster accepts connections. Constraints: This value must be 1150-65535 Default: The same port as the original DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var port: Swift.Int?
     /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
@@ -19752,14 +19797,19 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         domainIAMRoleName: Swift.String? = nil,
         enableCloudwatchLogsExports: [Swift.String]? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
+        enablePerformanceInsights: Swift.Bool? = nil,
         engine: Swift.String? = nil,
         engineLifecycleSupport: Swift.String? = nil,
         engineMode: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
+        monitoringInterval: Swift.Int? = nil,
+        monitoringRoleArn: Swift.String? = nil,
         networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
+        performanceInsightsKMSKeyId: Swift.String? = nil,
+        performanceInsightsRetentionPeriod: Swift.Int? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
@@ -19784,14 +19834,19 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         self.domainIAMRoleName = domainIAMRoleName
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+        self.enablePerformanceInsights = enablePerformanceInsights
         self.engine = engine
         self.engineLifecycleSupport = engineLifecycleSupport
         self.engineMode = engineMode
         self.engineVersion = engineVersion
         self.iops = iops
         self.kmsKeyId = kmsKeyId
+        self.monitoringInterval = monitoringInterval
+        self.monitoringRoleArn = monitoringRoleArn
         self.networkType = networkType
         self.optionGroupName = optionGroupName
+        self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
+        self.performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriod
         self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
@@ -19866,6 +19921,8 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [ IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
+    /// Specifies whether to turn on Performance Insights for the DB cluster.
+    public var enablePerformanceInsights: Swift.Bool?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
     /// * Amazon Aurora (PostgreSQL only) - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
@@ -19888,6 +19945,10 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     ///
     /// If DBClusterIdentifier refers to a DB cluster that isn't encrypted, then the restore request is rejected. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var kmsKeyId: Swift.String?
+    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60 Default: 0
+    public var monitoringInterval: Swift.Int?
+    /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An example is arn:aws:iam:123456789012:role/emaccess. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value.
+    public var monitoringRoleArn: Swift.String?
     /// The network type of the DB cluster. Valid Values:
     ///
     /// * IPV4
@@ -19899,6 +19960,19 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var networkType: Swift.String?
     /// The name of the option group for the new DB cluster. DB clusters are associated with a default option group that can't be modified.
     public var optionGroupName: Swift.String?
+    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var performanceInsightsKMSKeyId: Swift.String?
+    /// The number of days to retain Performance Insights data. Valid Values:
+    ///
+    /// * 7
+    ///
+    /// * month * 31, where month is a number of months from 1-23. Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31)
+    ///
+    /// * 731
+    ///
+    ///
+    /// Default: 7 days If you specify a retention period that isn't valid, such as 94, Amazon RDS issues an error.
+    public var performanceInsightsRetentionPeriod: Swift.Int?
     /// The port number on which the new DB cluster accepts connections. Constraints: A value from 1150-65535. Default: The default port for the engine. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var port: Swift.Int?
     /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
@@ -19975,12 +20049,17 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         domainIAMRoleName: Swift.String? = nil,
         enableCloudwatchLogsExports: [Swift.String]? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
+        enablePerformanceInsights: Swift.Bool? = nil,
         engineLifecycleSupport: Swift.String? = nil,
         engineMode: Swift.String? = nil,
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
+        monitoringInterval: Swift.Int? = nil,
+        monitoringRoleArn: Swift.String? = nil,
         networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
+        performanceInsightsKMSKeyId: Swift.String? = nil,
+        performanceInsightsRetentionPeriod: Swift.Int? = nil,
         port: Swift.Int? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
@@ -20007,12 +20086,17 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         self.domainIAMRoleName = domainIAMRoleName
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+        self.enablePerformanceInsights = enablePerformanceInsights
         self.engineLifecycleSupport = engineLifecycleSupport
         self.engineMode = engineMode
         self.iops = iops
         self.kmsKeyId = kmsKeyId
+        self.monitoringInterval = monitoringInterval
+        self.monitoringRoleArn = monitoringRoleArn
         self.networkType = networkType
         self.optionGroupName = optionGroupName
+        self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
+        self.performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriod
         self.port = port
         self.publiclyAccessible = publiclyAccessible
         self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
@@ -25028,14 +25112,19 @@ extension RestoreDBClusterFromSnapshotInput {
         try writer["DomainIAMRoleName"].write(value.domainIAMRoleName)
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
+        try writer["EnablePerformanceInsights"].write(value.enablePerformanceInsights)
         try writer["Engine"].write(value.engine)
         try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineMode"].write(value.engineMode)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["Iops"].write(value.iops)
         try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["MonitoringInterval"].write(value.monitoringInterval)
+        try writer["MonitoringRoleArn"].write(value.monitoringRoleArn)
         try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
+        try writer["PerformanceInsightsKMSKeyId"].write(value.performanceInsightsKMSKeyId)
+        try writer["PerformanceInsightsRetentionPeriod"].write(value.performanceInsightsRetentionPeriod)
         try writer["Port"].write(value.port)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["RdsCustomClusterConfiguration"].write(value.rdsCustomClusterConfiguration, with: RDSClientTypes.RdsCustomClusterConfiguration.write(value:to:))
@@ -25065,12 +25154,17 @@ extension RestoreDBClusterToPointInTimeInput {
         try writer["DomainIAMRoleName"].write(value.domainIAMRoleName)
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
+        try writer["EnablePerformanceInsights"].write(value.enablePerformanceInsights)
         try writer["EngineLifecycleSupport"].write(value.engineLifecycleSupport)
         try writer["EngineMode"].write(value.engineMode)
         try writer["Iops"].write(value.iops)
         try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["MonitoringInterval"].write(value.monitoringInterval)
+        try writer["MonitoringRoleArn"].write(value.monitoringRoleArn)
         try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
+        try writer["PerformanceInsightsKMSKeyId"].write(value.performanceInsightsKMSKeyId)
+        try writer["PerformanceInsightsRetentionPeriod"].write(value.performanceInsightsRetentionPeriod)
         try writer["Port"].write(value.port)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["RdsCustomClusterConfiguration"].write(value.rdsCustomClusterConfiguration, with: RDSClientTypes.RdsCustomClusterConfiguration.write(value:to:))
