@@ -11,9 +11,9 @@ env:
 
 jobs:
   codegen-build-test:
-    runs-on: macos-14-xlarge
+    runs-on: macos-15-xlarge
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.1.app/Contents/Developer
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
