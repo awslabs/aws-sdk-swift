@@ -52,8 +52,8 @@ jobs:
     steps:
       - name: Configure Xcode
         run: sudo xcode-select -s /Applications/${{ matrix.xcode }}.app
-      - name: Install visionOS 2.0 sim
-        if: ${{ matrix.destination == 'platform=visionOS Simulator,OS=2.0,name=Apple Vision Pro' }}
+      - name: Install visionOS sim if needed
+        if: ${{ contains(matrix.destination, 'platform=visionOS' }}
         run: |
           sudo xcodebuild -runFirstLaunch
           sudo xcrun simctl list
