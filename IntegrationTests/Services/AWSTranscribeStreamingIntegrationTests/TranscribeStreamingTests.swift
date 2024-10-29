@@ -87,8 +87,6 @@ final class TranscribeStreamingTests: XCTestCase {
         try await withThrowingTaskGroup(of: Void.self) { group in
             for _ in 1...36 {
                 group.addTask {
-//                    try await self.testStartStreamTranscription()
-
                     do {
                         try await self.testStartStreamTranscription()
                     } catch {
