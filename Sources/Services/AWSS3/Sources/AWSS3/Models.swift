@@ -14320,6 +14320,9 @@ extension GetObjectAttributesInput {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-max-parts", value: Swift.String(maxParts)))
         }
         if let objectAttributes = value.objectAttributes {
+            if objectAttributes.isEmpty {
+                items.add(name: "x-amz-object-attributes", value: "")
+            }
             objectAttributes.forEach { headerValue in
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-object-attributes", value: ClientRuntime.quoteHeaderValue(Swift.String(headerValue.rawValue))))
             }
@@ -14905,6 +14908,9 @@ extension ListObjectsInput {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         if let optionalObjectAttributes = value.optionalObjectAttributes {
+            if optionalObjectAttributes.isEmpty {
+                items.add(name: "x-amz-optional-object-attributes", value: "")
+            }
             optionalObjectAttributes.forEach { headerValue in
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-optional-object-attributes", value: ClientRuntime.quoteHeaderValue(Swift.String(headerValue.rawValue))))
             }
@@ -14959,6 +14965,9 @@ extension ListObjectsV2Input {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         if let optionalObjectAttributes = value.optionalObjectAttributes {
+            if optionalObjectAttributes.isEmpty {
+                items.add(name: "x-amz-optional-object-attributes", value: "")
+            }
             optionalObjectAttributes.forEach { headerValue in
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-optional-object-attributes", value: ClientRuntime.quoteHeaderValue(Swift.String(headerValue.rawValue))))
             }
@@ -15022,6 +15031,9 @@ extension ListObjectVersionsInput {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
         if let optionalObjectAttributes = value.optionalObjectAttributes {
+            if optionalObjectAttributes.isEmpty {
+                items.add(name: "x-amz-optional-object-attributes", value: "")
+            }
             optionalObjectAttributes.forEach { headerValue in
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-optional-object-attributes", value: ClientRuntime.quoteHeaderValue(Swift.String(headerValue.rawValue))))
             }

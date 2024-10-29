@@ -18,6 +18,7 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -26,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
@@ -76,70 +78,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     )
     {
         self.properties.message = message
-    }
-}
-
-extension RepostspaceClientTypes {
-
-    public enum ConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case configured
-        case unconfigured
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ConfigurationStatus] {
-            return [
-                .configured,
-                .unconfigured
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .configured: return "CONFIGURED"
-            case .unconfigured: return "UNCONFIGURED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The ID of the resource.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
     }
 }
 
@@ -204,51 +142,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
-    }
-}
-
-/// Request would cause a service quota to be exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The code to identify the quota.
-        /// This member is required.
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// The id of the resource.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-        /// The code to identify the service.
-        /// This member is required.
-        public internal(set) var serviceCode: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil,
-        serviceCode: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-        self.properties.serviceCode = serviceCode
     }
 }
 
@@ -377,6 +270,259 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
+    }
+}
+
+extension RepostspaceClientTypes {
+
+    public enum Role: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case administrator
+        case expert
+        case moderator
+        case supportrequestor
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Role] {
+            return [
+                .administrator,
+                .expert,
+                .moderator,
+                .supportrequestor
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .administrator: return "ADMINISTRATOR"
+            case .expert: return "EXPERT"
+            case .moderator: return "MODERATOR"
+            case .supportrequestor: return "SUPPORTREQUESTOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct BatchAddRoleInput: Swift.Sendable {
+    /// The user or group accessor identifiers to add the role to.
+    /// This member is required.
+    public var accessorIds: [Swift.String]?
+    /// The role to add to the users or groups.
+    /// This member is required.
+    public var role: RepostspaceClientTypes.Role?
+    /// The unique ID of the private re:Post.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        accessorIds: [Swift.String]? = nil,
+        role: RepostspaceClientTypes.Role? = nil,
+        spaceId: Swift.String? = nil
+    )
+    {
+        self.accessorIds = accessorIds
+        self.role = role
+        self.spaceId = spaceId
+    }
+}
+
+extension RepostspaceClientTypes {
+
+    /// An error that occurred during a batch operation.
+    public struct BatchError: Swift.Sendable {
+        /// The accessor identifier that's related to the error.
+        /// This member is required.
+        public var accessorId: Swift.String?
+        /// The error code.
+        /// This member is required.
+        public var error: Swift.Int?
+        /// Description of the error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            accessorId: Swift.String? = nil,
+            error: Swift.Int? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.accessorId = accessorId
+            self.error = error
+            self.message = message
+        }
+    }
+}
+
+public struct BatchAddRoleOutput: Swift.Sendable {
+    /// An array of successfully updated accessor identifiers.
+    /// This member is required.
+    public var addedAccessorIds: [Swift.String]?
+    /// An array of errors that occurred when roles were added.
+    /// This member is required.
+    public var errors: [RepostspaceClientTypes.BatchError]?
+
+    public init(
+        addedAccessorIds: [Swift.String]? = nil,
+        errors: [RepostspaceClientTypes.BatchError]? = nil
+    )
+    {
+        self.addedAccessorIds = addedAccessorIds
+        self.errors = errors
+    }
+}
+
+public struct BatchRemoveRoleInput: Swift.Sendable {
+    /// The user or group accessor identifiers to remove the role from.
+    /// This member is required.
+    public var accessorIds: [Swift.String]?
+    /// The role to remove from the users or groups.
+    /// This member is required.
+    public var role: RepostspaceClientTypes.Role?
+    /// The unique ID of the private re:Post.
+    /// This member is required.
+    public var spaceId: Swift.String?
+
+    public init(
+        accessorIds: [Swift.String]? = nil,
+        role: RepostspaceClientTypes.Role? = nil,
+        spaceId: Swift.String? = nil
+    )
+    {
+        self.accessorIds = accessorIds
+        self.role = role
+        self.spaceId = spaceId
+    }
+}
+
+public struct BatchRemoveRoleOutput: Swift.Sendable {
+    /// An array of errors that occurred when roles were removed.
+    /// This member is required.
+    public var errors: [RepostspaceClientTypes.BatchError]?
+    /// An array of successfully updated accessor identifiers.
+    /// This member is required.
+    public var removedAccessorIds: [Swift.String]?
+
+    public init(
+        errors: [RepostspaceClientTypes.BatchError]? = nil,
+        removedAccessorIds: [Swift.String]? = nil
+    )
+    {
+        self.errors = errors
+        self.removedAccessorIds = removedAccessorIds
+    }
+}
+
+extension RepostspaceClientTypes {
+
+    public enum ConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case configured
+        case unconfigured
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationStatus] {
+            return [
+                .configured,
+                .unconfigured
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .configured: return "CONFIGURED"
+            case .unconfigured: return "UNCONFIGURED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Updating or deleting a resource can cause an inconsistent state.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The ID of the resource.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+/// Request would cause a service quota to be exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The code to identify the quota.
+        /// This member is required.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The id of the resource.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+        /// The code to identify the service.
+        /// This member is required.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+        self.properties.serviceCode = serviceCode
     }
 }
 
@@ -564,6 +710,7 @@ public struct GetSpaceOutput: Swift.Sendable {
     /// The description of the private re:Post.
     public var description: Swift.String?
     /// The list of groups that are administrators of the private re:Post.
+    @available(*, deprecated, message: "This property has been depracted and will be replaced by the roles property.")
     public var groupAdmins: [Swift.String]?
     /// The name of the private re:Post.
     /// This member is required.
@@ -571,6 +718,8 @@ public struct GetSpaceOutput: Swift.Sendable {
     /// The AWS generated subdomain of the private re:Post
     /// This member is required.
     public var randomDomain: Swift.String?
+    /// A map of accessor identifiers and their roles.
+    public var roles: [Swift.String: [RepostspaceClientTypes.Role]]?
     /// The unique ID of the private re:Post.
     /// This member is required.
     public var spaceId: Swift.String?
@@ -584,6 +733,7 @@ public struct GetSpaceOutput: Swift.Sendable {
     /// This member is required.
     public var tier: RepostspaceClientTypes.TierLevel?
     /// The list of users that are administrators of the private re:Post.
+    @available(*, deprecated, message: "This property has been depracted and will be replaced by the roles property.")
     public var userAdmins: [Swift.String]?
     /// The number of users that have onboarded to the private re:Post.
     public var userCount: Swift.Int?
@@ -608,6 +758,7 @@ public struct GetSpaceOutput: Swift.Sendable {
         groupAdmins: [Swift.String]? = nil,
         name: Swift.String? = nil,
         randomDomain: Swift.String? = nil,
+        roles: [Swift.String: [RepostspaceClientTypes.Role]]? = nil,
         spaceId: Swift.String? = nil,
         status: Swift.String? = nil,
         storageLimit: Swift.Int? = nil,
@@ -630,6 +781,7 @@ public struct GetSpaceOutput: Swift.Sendable {
         self.groupAdmins = groupAdmins
         self.name = name
         self.randomDomain = randomDomain
+        self.roles = roles
         self.spaceId = spaceId
         self.status = status
         self.storageLimit = storageLimit
@@ -644,7 +796,7 @@ public struct GetSpaceOutput: Swift.Sendable {
 
 extension GetSpaceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSpaceOutput(arn: \(Swift.String(describing: arn)), clientId: \(Swift.String(describing: clientId)), configurationStatus: \(Swift.String(describing: configurationStatus)), contentSize: \(Swift.String(describing: contentSize)), createDateTime: \(Swift.String(describing: createDateTime)), customerRoleArn: \(Swift.String(describing: customerRoleArn)), deleteDateTime: \(Swift.String(describing: deleteDateTime)), groupAdmins: \(Swift.String(describing: groupAdmins)), randomDomain: \(Swift.String(describing: randomDomain)), spaceId: \(Swift.String(describing: spaceId)), status: \(Swift.String(describing: status)), storageLimit: \(Swift.String(describing: storageLimit)), tier: \(Swift.String(describing: tier)), userAdmins: \(Swift.String(describing: userAdmins)), userCount: \(Swift.String(describing: userCount)), userKMSKey: \(Swift.String(describing: userKMSKey)), vanityDomain: \(Swift.String(describing: vanityDomain)), vanityDomainStatus: \(Swift.String(describing: vanityDomainStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetSpaceOutput(arn: \(Swift.String(describing: arn)), clientId: \(Swift.String(describing: clientId)), configurationStatus: \(Swift.String(describing: configurationStatus)), contentSize: \(Swift.String(describing: contentSize)), createDateTime: \(Swift.String(describing: createDateTime)), customerRoleArn: \(Swift.String(describing: customerRoleArn)), deleteDateTime: \(Swift.String(describing: deleteDateTime)), groupAdmins: \(Swift.String(describing: groupAdmins)), randomDomain: \(Swift.String(describing: randomDomain)), roles: \(Swift.String(describing: roles)), spaceId: \(Swift.String(describing: spaceId)), status: \(Swift.String(describing: status)), storageLimit: \(Swift.String(describing: storageLimit)), tier: \(Swift.String(describing: tier)), userAdmins: \(Swift.String(describing: userAdmins)), userCount: \(Swift.String(describing: userCount)), userKMSKey: \(Swift.String(describing: userKMSKey)), vanityDomain: \(Swift.String(describing: vanityDomain)), vanityDomainStatus: \(Swift.String(describing: vanityDomainStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListSpacesInput: Swift.Sendable {
@@ -934,6 +1086,26 @@ extension UpdateSpaceInput: Swift.CustomDebugStringConvertible {
         "UpdateSpaceInput(roleArn: \(Swift.String(describing: roleArn)), spaceId: \(Swift.String(describing: spaceId)), tier: \(Swift.String(describing: tier)), description: \"CONTENT_REDACTED\")"}
 }
 
+extension BatchAddRoleInput {
+
+    static func urlPathProvider(_ value: BatchAddRoleInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/spaces/\(spaceId.urlPercentEncoding())/roles"
+    }
+}
+
+extension BatchRemoveRoleInput {
+
+    static func urlPathProvider(_ value: BatchRemoveRoleInput) -> Swift.String? {
+        guard let spaceId = value.spaceId else {
+            return nil
+        }
+        return "/spaces/\(spaceId.urlPercentEncoding())/roles"
+    }
+}
+
 extension CreateSpaceInput {
 
     static func urlPathProvider(_ value: CreateSpaceInput) -> Swift.String? {
@@ -1076,6 +1248,24 @@ extension UpdateSpaceInput {
     }
 }
 
+extension BatchAddRoleInput {
+
+    static func write(value: BatchAddRoleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessorIds"].writeList(value.accessorIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["role"].write(value.role)
+    }
+}
+
+extension BatchRemoveRoleInput {
+
+    static func write(value: BatchRemoveRoleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessorIds"].writeList(value.accessorIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["role"].write(value.role)
+    }
+}
+
 extension CreateSpaceInput {
 
     static func write(value: CreateSpaceInput?, to writer: SmithyJSON.Writer) throws {
@@ -1115,6 +1305,32 @@ extension UpdateSpaceInput {
         try writer["description"].write(value.description)
         try writer["roleArn"].write(value.roleArn)
         try writer["tier"].write(value.tier)
+    }
+}
+
+extension BatchAddRoleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchAddRoleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchAddRoleOutput()
+        value.addedAccessorIds = try reader["addedAccessorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.BatchError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchRemoveRoleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchRemoveRoleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchRemoveRoleOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: RepostspaceClientTypes.BatchError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.removedAccessorIds = try reader["removedAccessorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -1162,6 +1378,7 @@ extension GetSpaceOutput {
         value.groupAdmins = try reader["groupAdmins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.randomDomain = try reader["randomDomain"].readIfPresent() ?? ""
+        value.roles = try reader["roles"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RepostspaceClientTypes.Role>().read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.spaceId = try reader["spaceId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? ""
         value.storageLimit = try reader["storageLimit"].readIfPresent() ?? 0
@@ -1232,6 +1449,42 @@ extension UpdateSpaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSpaceOutput {
         return UpdateSpaceOutput()
+    }
+}
+
+enum BatchAddRoleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchRemoveRoleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -1435,38 +1688,6 @@ enum UpdateSpaceOutputError {
     }
 }
 
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -1542,6 +1763,50 @@ extension AccessDeniedException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RepostspaceClientTypes.BatchError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RepostspaceClientTypes.BatchError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RepostspaceClientTypes.BatchError()
+        value.accessorId = try reader["accessorId"].readIfPresent() ?? ""
+        value.error = try reader["error"].readIfPresent() ?? 0
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

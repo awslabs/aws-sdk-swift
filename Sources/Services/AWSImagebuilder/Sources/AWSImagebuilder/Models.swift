@@ -616,12 +616,14 @@ extension ImagebuilderClientTypes {
 
     public enum Platform: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case linux
+        case macos
         case windows
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Platform] {
             return [
                 .linux,
+                .macos,
                 .windows
             ]
         }
@@ -634,6 +636,7 @@ extension ImagebuilderClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .linux: return "Linux"
+            case .macos: return "macOS"
             case .windows: return "Windows"
             case let .sdkUnknown(s): return s
             }
@@ -1568,7 +1571,7 @@ public struct CreateContainerRecipeInput: Swift.Sendable {
     public var imageOsVersionOverride: Swift.String?
     /// A group of options that can be used to configure an instance for building and testing container images.
     public var instanceConfiguration: ImagebuilderClientTypes.InstanceConfiguration?
-    /// Identifies which KMS key is used to encrypt the container image.
+    /// Identifies which KMS key is used to encrypt the Dockerfile template.
     public var kmsKeyId: Swift.String?
     /// The name of the container recipe.
     /// This member is required.
@@ -1910,7 +1913,7 @@ extension ImagebuilderClientTypes {
 
     /// Settings that Image Builder uses to configure the ECR repository and the output container images that Amazon Inspector scans.
     public struct EcrConfiguration: Swift.Sendable {
-        /// Tags for Image Builder to apply to the output container image that &INS; scans. Tags can help you identify and manage your scanned images.
+        /// Tags for Image Builder to apply to the output container image that Amazon Inspector scans. Tags can help you identify and manage your scanned images.
         public var containerTags: [Swift.String]?
         /// The name of the container repository that Amazon Inspector scans to identify findings for your container images. The name includes the path for the repository location. If you don’t provide this information, Image Builder creates a repository in your account named image-builder-image-scanning-repository for vulnerability scans of your output container images.
         public var repositoryName: Swift.String?
@@ -2429,6 +2432,66 @@ extension ImagebuilderClientTypes {
     }
 }
 
+extension ImagebuilderClientTypes {
+
+    public enum TenancyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dedicated
+        case `default`
+        case host
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TenancyType] {
+            return [
+                .dedicated,
+                .default,
+                .host
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dedicated: return "dedicated"
+            case .default: return "default"
+            case .host: return "host"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
+    /// By default, EC2 instances run on shared tenancy hardware. This means that multiple Amazon Web Services accounts might share the same physical hardware. When you use dedicated hardware, the physical server that hosts your instances is dedicated to your Amazon Web Services account. Instance placement settings contain the details for the physical hardware where instances that Image Builder launches during image creation will run.
+    public struct Placement: Swift.Sendable {
+        /// The Availability Zone where your build and test instances will launch.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Dedicated Host on which build and test instances run. This only applies if tenancy is host. If you specify the host ID, you must not specify the resource group ARN. If you specify both, Image Builder returns an error.
+        public var hostId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the host resource group in which to launch build and test instances. This only applies if tenancy is host. If you specify the resource group ARN, you must not specify the host ID. If you specify both, Image Builder returns an error.
+        public var hostResourceGroupArn: Swift.String?
+        /// The tenancy of the instance. An instance with a tenancy of dedicated runs on single-tenant hardware. An instance with a tenancy of host runs on a Dedicated Host. If tenancy is set to host, then you can optionally specify one target for placement – either host ID or host resource group ARN. If automatic placement is enabled for your host, and you don't specify any placement target, Amazon EC2 will try to find an available host for your build and test instances.
+        public var tenancy: ImagebuilderClientTypes.TenancyType?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            hostId: Swift.String? = nil,
+            hostResourceGroupArn: Swift.String? = nil,
+            tenancy: ImagebuilderClientTypes.TenancyType? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.hostId = hostId
+            self.hostResourceGroupArn = hostResourceGroupArn
+            self.tenancy = tenancy
+        }
+    }
+}
+
 public struct CreateInfrastructureConfigurationInput: Swift.Sendable {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
@@ -2449,7 +2512,9 @@ public struct CreateInfrastructureConfigurationInput: Swift.Sendable {
     /// The name of the infrastructure configuration.
     /// This member is required.
     public var name: Swift.String?
-    /// The tags attached to the resource created by Image Builder.
+    /// The instance placement settings that define where the instances that are launched from your image will run.
+    public var placement: ImagebuilderClientTypes.Placement?
+    /// The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during the build process. Tags are formatted as key value pairs.
     public var resourceTags: [Swift.String: Swift.String]?
     /// The security group IDs to associate with the instance used to customize your Amazon EC2 AMI.
     public var securityGroupIds: [Swift.String]?
@@ -2457,7 +2522,7 @@ public struct CreateInfrastructureConfigurationInput: Swift.Sendable {
     public var snsTopicArn: Swift.String?
     /// The subnet ID in which to place the instance used to customize your Amazon EC2 AMI.
     public var subnetId: Swift.String?
-    /// The tags of the infrastructure configuration.
+    /// The metadata tags to assign to the infrastructure configuration resource that Image Builder creates as output. Tags are formatted as key value pairs.
     public var tags: [Swift.String: Swift.String]?
     /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails.
     public var terminateInstanceOnFailure: Swift.Bool?
@@ -2471,6 +2536,7 @@ public struct CreateInfrastructureConfigurationInput: Swift.Sendable {
         keyPair: Swift.String? = nil,
         logging: ImagebuilderClientTypes.Logging? = nil,
         name: Swift.String? = nil,
+        placement: ImagebuilderClientTypes.Placement? = nil,
         resourceTags: [Swift.String: Swift.String]? = nil,
         securityGroupIds: [Swift.String]? = nil,
         snsTopicArn: Swift.String? = nil,
@@ -2487,6 +2553,7 @@ public struct CreateInfrastructureConfigurationInput: Swift.Sendable {
         self.keyPair = keyPair
         self.logging = logging
         self.name = name
+        self.placement = placement
         self.resourceTags = resourceTags
         self.securityGroupIds = securityGroupIds
         self.snsTopicArn = snsTopicArn
@@ -3857,6 +3924,8 @@ extension ImagebuilderClientTypes {
         public var logging: ImagebuilderClientTypes.Logging?
         /// The name of the infrastructure configuration.
         public var name: Swift.String?
+        /// The instance placement settings that define where the instances that are launched from your image will run.
+        public var placement: ImagebuilderClientTypes.Placement?
         /// The tags attached to the resource created by Image Builder.
         public var resourceTags: [Swift.String: Swift.String]?
         /// The security group IDs of the infrastructure configuration.
@@ -3881,6 +3950,7 @@ extension ImagebuilderClientTypes {
             keyPair: Swift.String? = nil,
             logging: ImagebuilderClientTypes.Logging? = nil,
             name: Swift.String? = nil,
+            placement: ImagebuilderClientTypes.Placement? = nil,
             resourceTags: [Swift.String: Swift.String]? = nil,
             securityGroupIds: [Swift.String]? = nil,
             snsTopicArn: Swift.String? = nil,
@@ -3899,6 +3969,7 @@ extension ImagebuilderClientTypes {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
@@ -6436,6 +6507,8 @@ extension ImagebuilderClientTypes {
         public var instanceTypes: [Swift.String]?
         /// The name of the infrastructure configuration.
         public var name: Swift.String?
+        /// The instance placement settings that define where the instances that are launched from your image will run.
+        public var placement: ImagebuilderClientTypes.Placement?
         /// The tags attached to the image created by Image Builder.
         public var resourceTags: [Swift.String: Swift.String]?
         /// The tags of the infrastructure configuration.
@@ -6449,6 +6522,7 @@ extension ImagebuilderClientTypes {
             instanceProfileName: Swift.String? = nil,
             instanceTypes: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            placement: ImagebuilderClientTypes.Placement? = nil,
             resourceTags: [Swift.String: Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil
         )
@@ -6460,6 +6534,7 @@ extension ImagebuilderClientTypes {
             self.instanceProfileName = instanceProfileName
             self.instanceTypes = instanceTypes
             self.name = name
+            self.placement = placement
             self.resourceTags = resourceTags
             self.tags = tags
         }
@@ -7989,6 +8064,8 @@ public struct UpdateInfrastructureConfigurationInput: Swift.Sendable {
     public var keyPair: Swift.String?
     /// The logging configuration of the infrastructure configuration.
     public var logging: ImagebuilderClientTypes.Logging?
+    /// The instance placement settings that define where the instances that are launched from your image will run.
+    public var placement: ImagebuilderClientTypes.Placement?
     /// The tags attached to the resource created by Image Builder.
     public var resourceTags: [Swift.String: Swift.String]?
     /// The security group IDs to associate with the instance used to customize your Amazon EC2 AMI.
@@ -8009,6 +8086,7 @@ public struct UpdateInfrastructureConfigurationInput: Swift.Sendable {
         instanceTypes: [Swift.String]? = nil,
         keyPair: Swift.String? = nil,
         logging: ImagebuilderClientTypes.Logging? = nil,
+        placement: ImagebuilderClientTypes.Placement? = nil,
         resourceTags: [Swift.String: Swift.String]? = nil,
         securityGroupIds: [Swift.String]? = nil,
         snsTopicArn: Swift.String? = nil,
@@ -8024,6 +8102,7 @@ public struct UpdateInfrastructureConfigurationInput: Swift.Sendable {
         self.instanceTypes = instanceTypes
         self.keyPair = keyPair
         self.logging = logging
+        self.placement = placement
         self.resourceTags = resourceTags
         self.securityGroupIds = securityGroupIds
         self.snsTopicArn = snsTopicArn
@@ -9136,6 +9215,7 @@ extension CreateInfrastructureConfigurationInput {
         try writer["keyPair"].write(value.keyPair)
         try writer["logging"].write(value.logging, with: ImagebuilderClientTypes.Logging.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["placement"].write(value.placement, with: ImagebuilderClientTypes.Placement.write(value:to:))
         try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["snsTopicArn"].write(value.snsTopicArn)
@@ -9555,6 +9635,7 @@ extension UpdateInfrastructureConfigurationInput {
         try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["keyPair"].write(value.keyPair)
         try writer["logging"].write(value.logging, with: ImagebuilderClientTypes.Logging.write(value:to:))
+        try writer["placement"].write(value.placement, with: ImagebuilderClientTypes.Placement.write(value:to:))
         try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["snsTopicArn"].write(value.snsTopicArn)
@@ -12882,6 +12963,28 @@ extension ImagebuilderClientTypes.InfrastructureConfiguration {
         value.resourceTags = try reader["resourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.instanceMetadataOptions = try reader["instanceMetadataOptions"].readIfPresent(with: ImagebuilderClientTypes.InstanceMetadataOptions.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.placement = try reader["placement"].readIfPresent(with: ImagebuilderClientTypes.Placement.read(from:))
+        return value
+    }
+}
+
+extension ImagebuilderClientTypes.Placement {
+
+    static func write(value: ImagebuilderClientTypes.Placement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["availabilityZone"].write(value.availabilityZone)
+        try writer["hostId"].write(value.hostId)
+        try writer["hostResourceGroupArn"].write(value.hostResourceGroupArn)
+        try writer["tenancy"].write(value.tenancy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Placement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.Placement()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.tenancy = try reader["tenancy"].readIfPresent()
+        value.hostId = try reader["hostId"].readIfPresent()
+        value.hostResourceGroupArn = try reader["hostResourceGroupArn"].readIfPresent()
         return value
     }
 }
@@ -13667,6 +13770,7 @@ extension ImagebuilderClientTypes.InfrastructureConfigurationSummary {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceProfileName = try reader["instanceProfileName"].readIfPresent()
+        value.placement = try reader["placement"].readIfPresent(with: ImagebuilderClientTypes.Placement.read(from:))
         return value
     }
 }

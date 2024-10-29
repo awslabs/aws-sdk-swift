@@ -3236,6 +3236,8 @@ public struct GetImportedModelInput: Swift.Sendable {
 public struct GetImportedModelOutput: Swift.Sendable {
     /// Creation time of the imported model.
     public var creationTime: Foundation.Date?
+    /// Specifies if the imported model supports converse.
+    public var instructSupported: Swift.Bool?
     /// Job Amazon Resource Name (ARN) associated with the imported model.
     public var jobArn: Swift.String?
     /// Job name associated with the imported model.
@@ -3253,6 +3255,7 @@ public struct GetImportedModelOutput: Swift.Sendable {
 
     public init(
         creationTime: Foundation.Date? = nil,
+        instructSupported: Swift.Bool? = nil,
         jobArn: Swift.String? = nil,
         jobName: Swift.String? = nil,
         modelArchitecture: Swift.String? = nil,
@@ -3263,6 +3266,7 @@ public struct GetImportedModelOutput: Swift.Sendable {
     )
     {
         self.creationTime = creationTime
+        self.instructSupported = instructSupported
         self.jobArn = jobArn
         self.jobName = jobName
         self.modelArchitecture = modelArchitecture
@@ -3442,11 +3446,15 @@ public struct ListImportedModelsInput: Swift.Sendable {
 
 extension BedrockClientTypes {
 
-    /// Information about tne imported model.
+    /// Information about the imported model.
     public struct ImportedModelSummary: Swift.Sendable {
         /// Creation time of the imported model.
         /// This member is required.
         public var creationTime: Foundation.Date?
+        /// Specifies if the imported model supports converse.
+        public var instructSupported: Swift.Bool?
+        /// The architecture of the imported model.
+        public var modelArchitecture: Swift.String?
         /// The Amazon Resource Name (ARN) of the imported model.
         /// This member is required.
         public var modelArn: Swift.String?
@@ -3456,11 +3464,15 @@ extension BedrockClientTypes {
 
         public init(
             creationTime: Foundation.Date? = nil,
+            instructSupported: Swift.Bool? = nil,
+            modelArchitecture: Swift.String? = nil,
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil
         )
         {
             self.creationTime = creationTime
+            self.instructSupported = instructSupported
+            self.modelArchitecture = modelArchitecture
             self.modelArn = modelArn
             self.modelName = modelName
         }
@@ -6812,6 +6824,7 @@ extension GetImportedModelOutput {
         let reader = responseReader
         var value = GetImportedModelOutput()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.instructSupported = try reader["instructSupported"].readIfPresent()
         value.jobArn = try reader["jobArn"].readIfPresent()
         value.jobName = try reader["jobName"].readIfPresent()
         value.modelArchitecture = try reader["modelArchitecture"].readIfPresent()
@@ -8953,6 +8966,8 @@ extension BedrockClientTypes.ImportedModelSummary {
         value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
         value.modelName = try reader["modelName"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.instructSupported = try reader["instructSupported"].readIfPresent()
+        value.modelArchitecture = try reader["modelArchitecture"].readIfPresent()
         return value
     }
 }

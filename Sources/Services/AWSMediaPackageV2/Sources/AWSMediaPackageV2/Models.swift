@@ -124,42 +124,6 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
-    /// The configuration of the channel group.
-    public struct ChannelGroupListConfiguration: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) associated with the resource.
-        /// This member is required.
-        public var arn: Swift.String?
-        /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
-        /// This member is required.
-        public var channelGroupName: Swift.String?
-        /// The date and time the channel group was created.
-        /// This member is required.
-        public var createdAt: Foundation.Date?
-        /// Any descriptive information that you want to add to the channel group for future identification purposes.
-        public var description: Swift.String?
-        /// The date and time the channel group was modified.
-        /// This member is required.
-        public var modifiedAt: Foundation.Date?
-
-        public init(
-            arn: Swift.String? = nil,
-            channelGroupName: Swift.String? = nil,
-            createdAt: Foundation.Date? = nil,
-            description: Swift.String? = nil,
-            modifiedAt: Foundation.Date? = nil
-        )
-        {
-            self.arn = arn
-            self.channelGroupName = channelGroupName
-            self.createdAt = createdAt
-            self.description = description
-            self.modifiedAt = modifiedAt
-        }
-    }
-}
-
-extension MediaPackageV2ClientTypes {
-
     public enum ConflictExceptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case conflictingOperation
         case idempotentParameterMismatch
@@ -245,6 +209,69 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+extension MediaPackageV2ClientTypes {
+
+    public enum ResourceTypeNotFound: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case channel
+        case channelGroup
+        case harvestJob
+        case originEndpoint
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceTypeNotFound] {
+            return [
+                .channel,
+                .channelGroup,
+                .harvestJob,
+                .originEndpoint
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .channel: return "CHANNEL"
+            case .channelGroup: return "CHANNEL_GROUP"
+            case .harvestJob: return "HARVEST_JOB"
+            case .originEndpoint: return "ORIGIN_ENDPOINT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The specified resource doesn't exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The specified resource type wasn't found.
+        public internal(set) var resourceTypeNotFound: MediaPackageV2ClientTypes.ResourceTypeNotFound? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceTypeNotFound: MediaPackageV2ClientTypes.ResourceTypeNotFound? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.resourceTypeNotFound = resourceTypeNotFound
+    }
+}
+
 /// The request throughput limit was exceeded.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -283,6 +310,13 @@ extension MediaPackageV2ClientTypes {
         case encryptionContractWithoutAudioRenditionIncompatible
         case encryptionMethodContainerTypeMismatch
         case endTimeEarlierThanStartTime
+        case harvestedManifestHasStartEndFilterConfiguration
+        case harvestedManifestNotFoundOnEndpoint
+        case harvestJobCustomerEndpointReadAccessDenied
+        case harvestJobIneligibleForCancellation
+        case harvestJobS3DestinationMissingOrIncomplete
+        case harvestJobUnableToWriteToS3Destination
+        case invalidHarvestJobDuration
         case invalidManifestFilter
         case invalidPaginationMaxResults
         case invalidPaginationToken
@@ -310,6 +344,7 @@ extension MediaPackageV2ClientTypes {
         case sourceDisruptionsEnabledIncorrectly
         case startTagTimeOffsetInvalid
         case timingSourceMissing
+        case tooManyInProgressHarvestJobs
         case tsContainerTypeWithDashManifest
         case updatePeriodSmallerThanSegmentDuration
         case urlInvalid
@@ -336,6 +371,13 @@ extension MediaPackageV2ClientTypes {
                 .encryptionContractWithoutAudioRenditionIncompatible,
                 .encryptionMethodContainerTypeMismatch,
                 .endTimeEarlierThanStartTime,
+                .harvestedManifestHasStartEndFilterConfiguration,
+                .harvestedManifestNotFoundOnEndpoint,
+                .harvestJobCustomerEndpointReadAccessDenied,
+                .harvestJobIneligibleForCancellation,
+                .harvestJobS3DestinationMissingOrIncomplete,
+                .harvestJobUnableToWriteToS3Destination,
+                .invalidHarvestJobDuration,
                 .invalidManifestFilter,
                 .invalidPaginationMaxResults,
                 .invalidPaginationToken,
@@ -363,6 +405,7 @@ extension MediaPackageV2ClientTypes {
                 .sourceDisruptionsEnabledIncorrectly,
                 .startTagTimeOffsetInvalid,
                 .timingSourceMissing,
+                .tooManyInProgressHarvestJobs,
                 .tsContainerTypeWithDashManifest,
                 .updatePeriodSmallerThanSegmentDuration,
                 .urlInvalid,
@@ -395,6 +438,13 @@ extension MediaPackageV2ClientTypes {
             case .encryptionContractWithoutAudioRenditionIncompatible: return "ENCRYPTION_CONTRACT_WITHOUT_AUDIO_RENDITION_INCOMPATIBLE"
             case .encryptionMethodContainerTypeMismatch: return "ENCRYPTION_METHOD_CONTAINER_TYPE_MISMATCH"
             case .endTimeEarlierThanStartTime: return "END_TIME_EARLIER_THAN_START_TIME"
+            case .harvestedManifestHasStartEndFilterConfiguration: return "HARVESTED_MANIFEST_HAS_START_END_FILTER_CONFIGURATION"
+            case .harvestedManifestNotFoundOnEndpoint: return "HARVESTED_MANIFEST_NOT_FOUND_ON_ENDPOINT"
+            case .harvestJobCustomerEndpointReadAccessDenied: return "HARVEST_JOB_CUSTOMER_ENDPOINT_READ_ACCESS_DENIED"
+            case .harvestJobIneligibleForCancellation: return "HARVEST_JOB_INELIGIBLE_FOR_CANCELLATION"
+            case .harvestJobS3DestinationMissingOrIncomplete: return "HARVEST_JOB_S3_DESTINATION_MISSING_OR_INCOMPLETE"
+            case .harvestJobUnableToWriteToS3Destination: return "HARVEST_JOB_UNABLE_TO_WRITE_TO_S3_DESTINATION"
+            case .invalidHarvestJobDuration: return "INVALID_HARVEST_JOB_DURATION"
             case .invalidManifestFilter: return "INVALID_MANIFEST_FILTER"
             case .invalidPaginationMaxResults: return "INVALID_PAGINATION_MAX_RESULTS"
             case .invalidPaginationToken: return "INVALID_PAGINATION_TOKEN"
@@ -422,6 +472,7 @@ extension MediaPackageV2ClientTypes {
             case .sourceDisruptionsEnabledIncorrectly: return "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
             case .startTagTimeOffsetInvalid: return "START_TAG_TIME_OFFSET_INVALID"
             case .timingSourceMissing: return "TIMING_SOURCE_MISSING"
+            case .tooManyInProgressHarvestJobs: return "TOO_MANY_IN_PROGRESS_HARVEST_JOBS"
             case .tsContainerTypeWithDashManifest: return "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
             case .updatePeriodSmallerThanSegmentDuration: return "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
             case .urlInvalid: return "URL_INVALID"
@@ -467,6 +518,79 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+public struct CancelHarvestJobInput: Swift.Sendable {
+    /// The name of the channel group containing the channel from which the harvest job is running.
+    /// This member is required.
+    public var channelGroupName: Swift.String?
+    /// The name of the channel from which the harvest job is running.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The current Entity Tag (ETag) associated with the harvest job. Used for concurrency control.
+    public var eTag: Swift.String?
+    /// The name of the harvest job to cancel. This name must be unique within the channel and cannot be changed after the harvest job is submitted.
+    /// This member is required.
+    public var harvestJobName: Swift.String?
+    /// The name of the origin endpoint that the harvest job is harvesting from. This cannot be changed after the harvest job is submitted.
+    /// This member is required.
+    public var originEndpointName: Swift.String?
+
+    public init(
+        channelGroupName: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        eTag: Swift.String? = nil,
+        harvestJobName: Swift.String? = nil,
+        originEndpointName: Swift.String? = nil
+    )
+    {
+        self.channelGroupName = channelGroupName
+        self.channelName = channelName
+        self.eTag = eTag
+        self.harvestJobName = harvestJobName
+        self.originEndpointName = originEndpointName
+    }
+}
+
+public struct CancelHarvestJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// The configuration of the channel group.
+    public struct ChannelGroupListConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) associated with the resource.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
+        /// This member is required.
+        public var channelGroupName: Swift.String?
+        /// The date and time the channel group was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Any descriptive information that you want to add to the channel group for future identification purposes.
+        public var description: Swift.String?
+        /// The date and time the channel group was modified.
+        /// This member is required.
+        public var modifiedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            channelGroupName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            modifiedAt: Foundation.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.channelGroupName = channelGroupName
+            self.createdAt = createdAt
+            self.description = description
+            self.modifiedAt = modifiedAt
+        }
+    }
+}
+
 public struct DeleteChannelPolicyInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
@@ -488,66 +612,6 @@ public struct DeleteChannelPolicyInput: Swift.Sendable {
 public struct DeleteChannelPolicyOutput: Swift.Sendable {
 
     public init() { }
-}
-
-extension MediaPackageV2ClientTypes {
-
-    public enum ResourceTypeNotFound: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case channel
-        case channelGroup
-        case originEndpoint
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceTypeNotFound] {
-            return [
-                .channel,
-                .channelGroup,
-                .originEndpoint
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .channel: return "CHANNEL"
-            case .channelGroup: return "CHANNEL_GROUP"
-            case .originEndpoint: return "ORIGIN_ENDPOINT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// The specified resource doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-        /// The specified resource type wasn't found.
-        public internal(set) var resourceTypeNotFound: MediaPackageV2ClientTypes.ResourceTypeNotFound? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceTypeNotFound: MediaPackageV2ClientTypes.ResourceTypeNotFound? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.resourceTypeNotFound = resourceTypeNotFound
-    }
 }
 
 public struct GetChannelPolicyInput: Swift.Sendable {
@@ -2964,6 +3028,554 @@ public struct GetChannelGroupOutput: Swift.Sendable {
     }
 }
 
+extension MediaPackageV2ClientTypes {
+
+    /// Configuration parameters for where in an S3 bucket to place the harvested content.
+    public struct S3DestinationConfig: Swift.Sendable {
+        /// The name of an S3 bucket within which harvested content will be exported.
+        /// This member is required.
+        public var bucketName: Swift.String?
+        /// The path within the specified S3 bucket where the harvested content will be placed.
+        /// This member is required.
+        public var destinationPath: Swift.String?
+
+        public init(
+            bucketName: Swift.String? = nil,
+            destinationPath: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.destinationPath = destinationPath
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// The configuration for the destination where the harvested content will be exported.
+    public struct Destination: Swift.Sendable {
+        /// The configuration for exporting harvested content to an S3 bucket. This includes details such as the bucket name and destination path within the bucket.
+        /// This member is required.
+        public var s3Destination: MediaPackageV2ClientTypes.S3DestinationConfig?
+
+        public init(
+            s3Destination: MediaPackageV2ClientTypes.S3DestinationConfig? = nil
+        )
+        {
+            self.s3Destination = s3Destination
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// Information about a harvested DASH manifest.
+    public struct HarvestedDashManifest: Swift.Sendable {
+        /// The name of the harvested DASH manifest.
+        /// This member is required.
+        public var manifestName: Swift.String?
+
+        public init(
+            manifestName: Swift.String? = nil
+        )
+        {
+            self.manifestName = manifestName
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// Information about a harvested HLS manifest.
+    public struct HarvestedHlsManifest: Swift.Sendable {
+        /// The name of the harvested HLS manifest.
+        /// This member is required.
+        public var manifestName: Swift.String?
+
+        public init(
+            manifestName: Swift.String? = nil
+        )
+        {
+            self.manifestName = manifestName
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// Information about a harvested Low-Latency HLS manifest.
+    public struct HarvestedLowLatencyHlsManifest: Swift.Sendable {
+        /// The name of the harvested Low-Latency HLS manifest.
+        /// This member is required.
+        public var manifestName: Swift.String?
+
+        public init(
+            manifestName: Swift.String? = nil
+        )
+        {
+            self.manifestName = manifestName
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// A collection of harvested manifests of different types.
+    public struct HarvestedManifests: Swift.Sendable {
+        /// A list of harvested DASH manifests.
+        public var dashManifests: [MediaPackageV2ClientTypes.HarvestedDashManifest]?
+        /// A list of harvested HLS manifests.
+        public var hlsManifests: [MediaPackageV2ClientTypes.HarvestedHlsManifest]?
+        /// A list of harvested Low-Latency HLS manifests.
+        public var lowLatencyHlsManifests: [MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest]?
+
+        public init(
+            dashManifests: [MediaPackageV2ClientTypes.HarvestedDashManifest]? = nil,
+            hlsManifests: [MediaPackageV2ClientTypes.HarvestedHlsManifest]? = nil,
+            lowLatencyHlsManifests: [MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest]? = nil
+        )
+        {
+            self.dashManifests = dashManifests
+            self.hlsManifests = hlsManifests
+            self.lowLatencyHlsManifests = lowLatencyHlsManifests
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// Defines the schedule configuration for a harvest job.
+    public struct HarvesterScheduleConfiguration: Swift.Sendable {
+        /// The end time for the harvest job.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The start time for the harvest job.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        )
+        {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+/// The request object for creating a new harvest job.
+public struct CreateHarvestJobInput: Swift.Sendable {
+    /// The name of the channel group containing the channel from which to harvest content.
+    /// This member is required.
+    public var channelGroupName: Swift.String?
+    /// The name of the channel from which to harvest content.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// An optional description for the harvest job.
+    public var description: Swift.String?
+    /// The S3 destination where the harvested content will be placed.
+    /// This member is required.
+    public var destination: MediaPackageV2ClientTypes.Destination?
+    /// A name for the harvest job. This name must be unique within the channel.
+    public var harvestJobName: Swift.String?
+    /// A list of manifests to be harvested.
+    /// This member is required.
+    public var harvestedManifests: MediaPackageV2ClientTypes.HarvestedManifests?
+    /// The name of the origin endpoint from which to harvest content.
+    /// This member is required.
+    public var originEndpointName: Swift.String?
+    /// The configuration for when the harvest job should run, including start and end times.
+    /// This member is required.
+    public var scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration?
+    /// A collection of tags associated with the harvest job.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        channelGroupName: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        destination: MediaPackageV2ClientTypes.Destination? = nil,
+        harvestJobName: Swift.String? = nil,
+        harvestedManifests: MediaPackageV2ClientTypes.HarvestedManifests? = nil,
+        originEndpointName: Swift.String? = nil,
+        scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.channelGroupName = channelGroupName
+        self.channelName = channelName
+        self.clientToken = clientToken
+        self.description = description
+        self.destination = destination
+        self.harvestJobName = harvestJobName
+        self.harvestedManifests = harvestedManifests
+        self.originEndpointName = originEndpointName
+        self.scheduleConfiguration = scheduleConfiguration
+        self.tags = tags
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    public enum HarvestJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case completed
+        case failed
+        case inProgress
+        case queued
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HarvestJobStatus] {
+            return [
+                .cancelled,
+                .completed,
+                .failed,
+                .inProgress,
+                .queued
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .queued: return "QUEUED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The response object returned after creating a harvest job.
+public struct CreateHarvestJobOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created harvest job.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the channel group containing the channel from which content is being harvested.
+    /// This member is required.
+    public var channelGroupName: Swift.String?
+    /// The name of the channel from which content is being harvested.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The date and time the harvest job was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the harvest job, if provided.
+    public var description: Swift.String?
+    /// The S3 destination where the harvested content will be placed.
+    /// This member is required.
+    public var destination: MediaPackageV2ClientTypes.Destination?
+    /// The current version of the harvest job. Used for concurrency control.
+    public var eTag: Swift.String?
+    /// An error message if the harvest job creation failed.
+    public var errorMessage: Swift.String?
+    /// The name of the created harvest job.
+    /// This member is required.
+    public var harvestJobName: Swift.String?
+    /// A list of manifests that will be harvested.
+    /// This member is required.
+    public var harvestedManifests: MediaPackageV2ClientTypes.HarvestedManifests?
+    /// The date and time the harvest job was last modified.
+    /// This member is required.
+    public var modifiedAt: Foundation.Date?
+    /// The name of the origin endpoint from which content is being harvested.
+    /// This member is required.
+    public var originEndpointName: Swift.String?
+    /// The configuration for when the harvest job will run, including start and end times.
+    /// This member is required.
+    public var scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration?
+    /// The current status of the harvest job (e.g., CREATED, IN_PROGRESS, ABORTED, COMPLETED, FAILED).
+    /// This member is required.
+    public var status: MediaPackageV2ClientTypes.HarvestJobStatus?
+    /// A collection of tags associated with the harvest job.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelGroupName: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        destination: MediaPackageV2ClientTypes.Destination? = nil,
+        eTag: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        harvestJobName: Swift.String? = nil,
+        harvestedManifests: MediaPackageV2ClientTypes.HarvestedManifests? = nil,
+        modifiedAt: Foundation.Date? = nil,
+        originEndpointName: Swift.String? = nil,
+        scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
+        status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.channelGroupName = channelGroupName
+        self.channelName = channelName
+        self.createdAt = createdAt
+        self.description = description
+        self.destination = destination
+        self.eTag = eTag
+        self.errorMessage = errorMessage
+        self.harvestJobName = harvestJobName
+        self.harvestedManifests = harvestedManifests
+        self.modifiedAt = modifiedAt
+        self.originEndpointName = originEndpointName
+        self.scheduleConfiguration = scheduleConfiguration
+        self.status = status
+        self.tags = tags
+    }
+}
+
+/// The request object for retrieving a specific harvest job.
+public struct GetHarvestJobInput: Swift.Sendable {
+    /// The name of the channel group containing the channel associated with the harvest job.
+    /// This member is required.
+    public var channelGroupName: Swift.String?
+    /// The name of the channel associated with the harvest job.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The name of the harvest job to retrieve.
+    /// This member is required.
+    public var harvestJobName: Swift.String?
+    /// The name of the origin endpoint associated with the harvest job.
+    /// This member is required.
+    public var originEndpointName: Swift.String?
+
+    public init(
+        channelGroupName: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        harvestJobName: Swift.String? = nil,
+        originEndpointName: Swift.String? = nil
+    )
+    {
+        self.channelGroupName = channelGroupName
+        self.channelName = channelName
+        self.harvestJobName = harvestJobName
+        self.originEndpointName = originEndpointName
+    }
+}
+
+/// The response object containing the details of the requested harvest job.
+public struct GetHarvestJobOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the harvest job.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the channel group containing the channel associated with the harvest job.
+    /// This member is required.
+    public var channelGroupName: Swift.String?
+    /// The name of the channel associated with the harvest job.
+    /// This member is required.
+    public var channelName: Swift.String?
+    /// The date and time when the harvest job was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the harvest job, if provided.
+    public var description: Swift.String?
+    /// The S3 destination where the harvested content is being placed.
+    /// This member is required.
+    public var destination: MediaPackageV2ClientTypes.Destination?
+    /// The current version of the harvest job. Used for concurrency control.
+    public var eTag: Swift.String?
+    /// An error message if the harvest job encountered any issues.
+    public var errorMessage: Swift.String?
+    /// The name of the harvest job.
+    /// This member is required.
+    public var harvestJobName: Swift.String?
+    /// A list of manifests that are being or have been harvested.
+    /// This member is required.
+    public var harvestedManifests: MediaPackageV2ClientTypes.HarvestedManifests?
+    /// The date and time when the harvest job was last modified.
+    /// This member is required.
+    public var modifiedAt: Foundation.Date?
+    /// The name of the origin endpoint associated with the harvest job.
+    /// This member is required.
+    public var originEndpointName: Swift.String?
+    /// The configuration for when the harvest job is scheduled to run, including start and end times.
+    /// This member is required.
+    public var scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration?
+    /// The current status of the harvest job (e.g., QUEUED, IN_PROGRESS, CANCELLED, COMPLETED, FAILED).
+    /// This member is required.
+    public var status: MediaPackageV2ClientTypes.HarvestJobStatus?
+    /// A collection of tags associated with the harvest job.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        channelGroupName: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        destination: MediaPackageV2ClientTypes.Destination? = nil,
+        eTag: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        harvestJobName: Swift.String? = nil,
+        harvestedManifests: MediaPackageV2ClientTypes.HarvestedManifests? = nil,
+        modifiedAt: Foundation.Date? = nil,
+        originEndpointName: Swift.String? = nil,
+        scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
+        status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.channelGroupName = channelGroupName
+        self.channelName = channelName
+        self.createdAt = createdAt
+        self.description = description
+        self.destination = destination
+        self.eTag = eTag
+        self.errorMessage = errorMessage
+        self.harvestJobName = harvestJobName
+        self.harvestedManifests = harvestedManifests
+        self.modifiedAt = modifiedAt
+        self.originEndpointName = originEndpointName
+        self.scheduleConfiguration = scheduleConfiguration
+        self.status = status
+        self.tags = tags
+    }
+}
+
+/// The request object for listing harvest jobs.
+public struct ListHarvestJobsInput: Swift.Sendable {
+    /// The name of the channel group to filter the harvest jobs by. If specified, only harvest jobs associated with channels in this group will be returned.
+    /// This member is required.
+    public var channelGroupName: Swift.String?
+    /// The name of the channel to filter the harvest jobs by. If specified, only harvest jobs associated with this channel will be returned.
+    public var channelName: Swift.String?
+    /// The maximum number of harvest jobs to return in a single request. If not specified, a default value will be used.
+    public var maxResults: Swift.Int?
+    /// A token used for pagination. Provide this value in subsequent requests to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The name of the origin endpoint to filter the harvest jobs by. If specified, only harvest jobs associated with this origin endpoint will be returned.
+    public var originEndpointName: Swift.String?
+    /// The status to filter the harvest jobs by. If specified, only harvest jobs with this status will be returned.
+    public var status: MediaPackageV2ClientTypes.HarvestJobStatus?
+
+    public init(
+        channelGroupName: Swift.String? = nil,
+        channelName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        originEndpointName: Swift.String? = nil,
+        status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil
+    )
+    {
+        self.channelGroupName = channelGroupName
+        self.channelName = channelName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.originEndpointName = originEndpointName
+        self.status = status
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// Represents a harvest job resource in MediaPackage v2, which is used to export content from an origin endpoint to an S3 bucket.
+    public struct HarvestJob: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the harvest job.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The name of the channel group containing the channel associated with this harvest job.
+        /// This member is required.
+        public var channelGroupName: Swift.String?
+        /// The name of the channel associated with this harvest job.
+        /// This member is required.
+        public var channelName: Swift.String?
+        /// The date and time when the harvest job was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// An optional description of the harvest job.
+        public var description: Swift.String?
+        /// The S3 destination where the harvested content will be placed.
+        /// This member is required.
+        public var destination: MediaPackageV2ClientTypes.Destination?
+        /// The current version of the harvest job. Used for concurrency control.
+        public var eTag: Swift.String?
+        /// An error message if the harvest job encountered any issues.
+        public var errorMessage: Swift.String?
+        /// The name of the harvest job.
+        /// This member is required.
+        public var harvestJobName: Swift.String?
+        /// A list of manifests that are being or have been harvested.
+        /// This member is required.
+        public var harvestedManifests: MediaPackageV2ClientTypes.HarvestedManifests?
+        /// The date and time when the harvest job was last modified.
+        /// This member is required.
+        public var modifiedAt: Foundation.Date?
+        /// The name of the origin endpoint associated with this harvest job.
+        /// This member is required.
+        public var originEndpointName: Swift.String?
+        /// The configuration for when the harvest job is scheduled to run.
+        /// This member is required.
+        public var scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration?
+        /// The current status of the harvest job (e.g., QUEUED, IN_PROGRESS, CANCELLED, COMPLETED, FAILED).
+        /// This member is required.
+        public var status: MediaPackageV2ClientTypes.HarvestJobStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            channelGroupName: Swift.String? = nil,
+            channelName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            destination: MediaPackageV2ClientTypes.Destination? = nil,
+            eTag: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            harvestJobName: Swift.String? = nil,
+            harvestedManifests: MediaPackageV2ClientTypes.HarvestedManifests? = nil,
+            modifiedAt: Foundation.Date? = nil,
+            originEndpointName: Swift.String? = nil,
+            scheduleConfiguration: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration? = nil,
+            status: MediaPackageV2ClientTypes.HarvestJobStatus? = nil
+        )
+        {
+            self.arn = arn
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.createdAt = createdAt
+            self.description = description
+            self.destination = destination
+            self.eTag = eTag
+            self.errorMessage = errorMessage
+            self.harvestJobName = harvestJobName
+            self.harvestedManifests = harvestedManifests
+            self.modifiedAt = modifiedAt
+            self.originEndpointName = originEndpointName
+            self.scheduleConfiguration = scheduleConfiguration
+            self.status = status
+        }
+    }
+}
+
+/// The response object containing the list of harvest jobs that match the specified criteria.
+public struct ListHarvestJobsOutput: Swift.Sendable {
+    /// An array of harvest job objects that match the specified criteria.
+    public var items: [MediaPackageV2ClientTypes.HarvestJob]?
+    /// A token used for pagination. Include this value in subsequent requests to retrieve the next set of results. If null, there are no more results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [MediaPackageV2ClientTypes.HarvestJob]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListChannelGroupsInput: Swift.Sendable {
     /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
@@ -3123,6 +3735,36 @@ public struct UntagResourceInput: Swift.Sendable {
     }
 }
 
+extension CancelHarvestJobInput {
+
+    static func urlPathProvider(_ value: CancelHarvestJobInput) -> Swift.String? {
+        guard let channelGroupName = value.channelGroupName else {
+            return nil
+        }
+        guard let channelName = value.channelName else {
+            return nil
+        }
+        guard let originEndpointName = value.originEndpointName else {
+            return nil
+        }
+        guard let harvestJobName = value.harvestJobName else {
+            return nil
+        }
+        return "/channelGroup/\(channelGroupName.urlPercentEncoding())/channel/\(channelName.urlPercentEncoding())/originEndpoint/\(originEndpointName.urlPercentEncoding())/harvestJob/\(harvestJobName.urlPercentEncoding())"
+    }
+}
+
+extension CancelHarvestJobInput {
+
+    static func headerProvider(_ value: CancelHarvestJobInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let eTag = value.eTag {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-update-if-match", value: Swift.String(eTag)))
+        }
+        return items
+    }
+}
+
 extension CreateChannelInput {
 
     static func urlPathProvider(_ value: CreateChannelInput) -> Swift.String? {
@@ -3154,6 +3796,33 @@ extension CreateChannelGroupInput {
 extension CreateChannelGroupInput {
 
     static func headerProvider(_ value: CreateChannelGroupInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let clientToken = value.clientToken {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-client-token", value: Swift.String(clientToken)))
+        }
+        return items
+    }
+}
+
+extension CreateHarvestJobInput {
+
+    static func urlPathProvider(_ value: CreateHarvestJobInput) -> Swift.String? {
+        guard let channelGroupName = value.channelGroupName else {
+            return nil
+        }
+        guard let channelName = value.channelName else {
+            return nil
+        }
+        guard let originEndpointName = value.originEndpointName else {
+            return nil
+        }
+        return "/channelGroup/\(channelGroupName.urlPercentEncoding())/channel/\(channelName.urlPercentEncoding())/originEndpoint/\(originEndpointName.urlPercentEncoding())/harvestJob"
+    }
+}
+
+extension CreateHarvestJobInput {
+
+    static func headerProvider(_ value: CreateHarvestJobInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-client-token", value: Swift.String(clientToken)))
@@ -3290,6 +3959,25 @@ extension GetChannelPolicyInput {
     }
 }
 
+extension GetHarvestJobInput {
+
+    static func urlPathProvider(_ value: GetHarvestJobInput) -> Swift.String? {
+        guard let channelGroupName = value.channelGroupName else {
+            return nil
+        }
+        guard let channelName = value.channelName else {
+            return nil
+        }
+        guard let originEndpointName = value.originEndpointName else {
+            return nil
+        }
+        guard let harvestJobName = value.harvestJobName else {
+            return nil
+        }
+        return "/channelGroup/\(channelGroupName.urlPercentEncoding())/channel/\(channelName.urlPercentEncoding())/originEndpoint/\(originEndpointName.urlPercentEncoding())/harvestJob/\(harvestJobName.urlPercentEncoding())"
+    }
+}
+
 extension GetOriginEndpointInput {
 
     static func urlPathProvider(_ value: GetOriginEndpointInput) -> Swift.String? {
@@ -3366,6 +4054,44 @@ extension ListChannelsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListHarvestJobsInput {
+
+    static func urlPathProvider(_ value: ListHarvestJobsInput) -> Swift.String? {
+        guard let channelGroupName = value.channelGroupName else {
+            return nil
+        }
+        return "/channelGroup/\(channelGroupName.urlPercentEncoding())/harvestJob"
+    }
+}
+
+extension ListHarvestJobsInput {
+
+    static func queryItemProvider(_ value: ListHarvestJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "includeStatus".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        if let channelName = value.channelName {
+            let channelNameQueryItem = Smithy.URIQueryItem(name: "channelName".urlPercentEncoding(), value: Swift.String(channelName).urlPercentEncoding())
+            items.append(channelNameQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let originEndpointName = value.originEndpointName {
+            let originEndpointNameQueryItem = Smithy.URIQueryItem(name: "originEndpointName".urlPercentEncoding(), value: Swift.String(originEndpointName).urlPercentEncoding())
+            items.append(originEndpointNameQueryItem)
         }
         return items
     }
@@ -3568,6 +4294,19 @@ extension CreateChannelGroupInput {
     }
 }
 
+extension CreateHarvestJobInput {
+
+    static func write(value: CreateHarvestJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Destination"].write(value.destination, with: MediaPackageV2ClientTypes.Destination.write(value:to:))
+        try writer["HarvestJobName"].write(value.harvestJobName)
+        try writer["HarvestedManifests"].write(value.harvestedManifests, with: MediaPackageV2ClientTypes.HarvestedManifests.write(value:to:))
+        try writer["ScheduleConfiguration"].write(value.scheduleConfiguration, with: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateOriginEndpointInput {
 
     static func write(value: CreateOriginEndpointInput?, to writer: SmithyJSON.Writer) throws {
@@ -3640,6 +4379,13 @@ extension UpdateOriginEndpointInput {
     }
 }
 
+extension CancelHarvestJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelHarvestJobOutput {
+        return CancelHarvestJobOutput()
+    }
+}
+
 extension CreateChannelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateChannelOutput {
@@ -3675,6 +4421,32 @@ extension CreateChannelGroupOutput {
         value.eTag = try reader["ETag"].readIfPresent()
         value.egressDomain = try reader["EgressDomain"].readIfPresent() ?? ""
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateHarvestJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateHarvestJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateHarvestJobOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent()
+        value.destination = try reader["Destination"].readIfPresent(with: MediaPackageV2ClientTypes.Destination.read(from:))
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.harvestJobName = try reader["HarvestJobName"].readIfPresent() ?? ""
+        value.harvestedManifests = try reader["HarvestedManifests"].readIfPresent(with: MediaPackageV2ClientTypes.HarvestedManifests.read(from:))
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
+        value.scheduleConfiguration = try reader["ScheduleConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -3796,6 +4568,32 @@ extension GetChannelPolicyOutput {
     }
 }
 
+extension GetHarvestJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetHarvestJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetHarvestJobOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent()
+        value.destination = try reader["Destination"].readIfPresent(with: MediaPackageV2ClientTypes.Destination.read(from:))
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.harvestJobName = try reader["HarvestJobName"].readIfPresent() ?? ""
+        value.harvestedManifests = try reader["HarvestedManifests"].readIfPresent(with: MediaPackageV2ClientTypes.HarvestedManifests.read(from:))
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
+        value.scheduleConfiguration = try reader["ScheduleConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension GetOriginEndpointOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetOriginEndpointOutput {
@@ -3859,6 +4657,19 @@ extension ListChannelsOutput {
         let reader = responseReader
         var value = ListChannelsOutput()
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ChannelListConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListHarvestJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListHarvestJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListHarvestJobsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.HarvestJob.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -3984,6 +4795,25 @@ extension UpdateOriginEndpointOutput {
     }
 }
 
+enum CancelHarvestJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateChannelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4005,6 +4835,26 @@ enum CreateChannelOutputError {
 }
 
 enum CreateChannelGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateHarvestJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4187,6 +5037,24 @@ enum GetChannelPolicyOutputError {
     }
 }
 
+enum GetHarvestJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetOriginEndpointOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4241,6 +5109,24 @@ enum ListChannelGroupsOutputError {
 }
 
 enum ListChannelsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListHarvestJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4455,19 +5341,6 @@ extension ValidationException {
     }
 }
 
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
@@ -4508,6 +5381,19 @@ extension AccessDeniedException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension MediaPackageV2ClientTypes.IngestEndpoint {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.IngestEndpoint {
@@ -4515,6 +5401,119 @@ extension MediaPackageV2ClientTypes.IngestEndpoint {
         var value = MediaPackageV2ClientTypes.IngestEndpoint()
         value.id = try reader["Id"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.Destination {
+
+    static func write(value: MediaPackageV2ClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Destination"].write(value.s3Destination, with: MediaPackageV2ClientTypes.S3DestinationConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.Destination()
+        value.s3Destination = try reader["S3Destination"].readIfPresent(with: MediaPackageV2ClientTypes.S3DestinationConfig.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.S3DestinationConfig {
+
+    static func write(value: MediaPackageV2ClientTypes.S3DestinationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketName"].write(value.bucketName)
+        try writer["DestinationPath"].write(value.destinationPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.S3DestinationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.S3DestinationConfig()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
+        value.destinationPath = try reader["DestinationPath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvestedManifests {
+
+    static func write(value: MediaPackageV2ClientTypes.HarvestedManifests?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashManifests"].writeList(value.dashManifests, memberWritingClosure: MediaPackageV2ClientTypes.HarvestedDashManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.HarvestedHlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LowLatencyHlsManifests"].writeList(value.lowLatencyHlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedManifests {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvestedManifests()
+        value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.HarvestedHlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.HarvestedDashManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest {
+
+    static func write(value: MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ManifestName"].write(value.manifestName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvestedLowLatencyHlsManifest()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvestedDashManifest {
+
+    static func write(value: MediaPackageV2ClientTypes.HarvestedDashManifest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ManifestName"].write(value.manifestName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedDashManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvestedDashManifest()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvestedHlsManifest {
+
+    static func write(value: MediaPackageV2ClientTypes.HarvestedHlsManifest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ManifestName"].write(value.manifestName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestedHlsManifest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvestedHlsManifest()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvesterScheduleConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvesterScheduleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvesterScheduleConfiguration()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4822,6 +5821,29 @@ extension MediaPackageV2ClientTypes.ChannelListConfiguration {
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
         value.inputType = try reader["InputType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.HarvestJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.HarvestJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.HarvestJob()
+        value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
+        value.destination = try reader["Destination"].readIfPresent(with: MediaPackageV2ClientTypes.Destination.read(from:))
+        value.harvestJobName = try reader["HarvestJobName"].readIfPresent() ?? ""
+        value.harvestedManifests = try reader["HarvestedManifests"].readIfPresent(with: MediaPackageV2ClientTypes.HarvestedManifests.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.scheduleConfiguration = try reader["ScheduleConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.HarvesterScheduleConfiguration.read(from:))
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
         return value
     }
 }

@@ -25,6 +25,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
@@ -1637,7 +1638,17 @@ public struct CreateAgentInput: Swift.Sendable {
     public var customerEncryptionKeyArn: Swift.String?
     /// A description of the agent.
     public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the foundation model to be used for orchestration by the agent you create.
+    /// The identifier for the model that you want to be used for orchestration by the agent you create. The modelId to provide depends on the type of model or throughput that you use:
+    ///
+    /// * If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see [Supported Regions and models for cross-region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference-support.html) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use an [imported model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html), specify the ARN of the imported model. You can get the model ARN from a successful call to [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html) or from the Imported models page in the Amazon Bedrock console.
     public var foundationModel: Swift.String?
     /// The unique Guardrail configuration assigned to the agent when it is created.
     public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
@@ -1893,7 +1904,17 @@ public struct UpdateAgentInput: Swift.Sendable {
     public var customerEncryptionKeyArn: Swift.String?
     /// Specifies a new description of the agent.
     public var description: Swift.String?
-    /// Specifies a new foundation model to be used for orchestration by the agent.
+    /// The identifier for the model that you want to be used for orchestration by the agent you create. The modelId to provide depends on the type of model or throughput that you use:
+    ///
+    /// * If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see [Supported Regions and models for cross-region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference-support.html) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use an [imported model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html), specify the ARN of the imported model. You can get the model ARN from a successful call to [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html) or from the Imported models page in the Amazon Bedrock console.
     /// This member is required.
     public var foundationModel: Swift.String?
     /// The unique Guardrail configuration assigned to the agent when it is updated.
@@ -3971,8 +3992,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.FlowCondition: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CONTENT_REDACTED"
-    }
+        "FlowCondition(name: \(Swift.String(describing: name)), expression: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -3990,11 +4010,6 @@ extension BedrockAgentClientTypes {
             self.conditions = conditions
         }
     }
-}
-
-extension BedrockAgentClientTypes.ConditionFlowNodeConfiguration: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ConditionFlowNodeConfiguration(conditions: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -4094,8 +4109,6 @@ extension BedrockAgentClientTypes {
         public var stopSequences: [Swift.String]?
         /// Controls the randomness of the response. Choose a lower value for more predictable outputs and a higher value for more surprising outputs.
         public var temperature: Swift.Float?
-        /// The number of most-likely candidates that the model considers for the next token during generation.
-        public var topk: Swift.Int?
         /// The percentage of most-likely candidates that the model considers for the next token.
         public var topp: Swift.Float?
 
@@ -4103,14 +4116,12 @@ extension BedrockAgentClientTypes {
             maxTokens: Swift.Int? = nil,
             stopSequences: [Swift.String]? = nil,
             temperature: Swift.Float? = nil,
-            topk: Swift.Int? = nil,
             topp: Swift.Float? = nil
         )
         {
             self.maxTokens = maxTokens
             self.stopSequences = stopSequences
             self.temperature = temperature
-            self.topk = topk
             self.topp = topp
         }
     }
@@ -4209,6 +4220,8 @@ extension BedrockAgentClientTypes {
 
     /// Contains configurations for a prompt defined inline in the node.
     public struct PromptFlowNodeInlineConfiguration: Swift.Sendable {
+        /// Contains model-specific inference configurations that aren't in the inferenceConfiguration field. To see model-specific inference parameters, see [Inference request parameters and response fields for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+        public var additionalModelRequestFields: Smithy.Document?
         /// Contains inference configurations for the prompt.
         public var inferenceConfiguration: BedrockAgentClientTypes.PromptInferenceConfiguration?
         /// The unique identifier of the model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) to run inference with.
@@ -4222,12 +4235,14 @@ extension BedrockAgentClientTypes {
         public var templateType: BedrockAgentClientTypes.PromptTemplateType?
 
         public init(
+            additionalModelRequestFields: Smithy.Document? = nil,
             inferenceConfiguration: BedrockAgentClientTypes.PromptInferenceConfiguration? = nil,
             modelId: Swift.String? = nil,
             templateConfiguration: BedrockAgentClientTypes.PromptTemplateConfiguration? = nil,
             templateType: BedrockAgentClientTypes.PromptTemplateType? = nil
         )
         {
+            self.additionalModelRequestFields = additionalModelRequestFields
             self.inferenceConfiguration = inferenceConfiguration
             self.modelId = modelId
             self.templateConfiguration = templateConfiguration
@@ -4609,7 +4624,8 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.FlowDefinition: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "FlowDefinition(connections: \(Swift.String(describing: connections)), nodes: \"CONTENT_REDACTED\")"}
+        "CONTENT_REDACTED"
+    }
 }
 
 public struct CreateFlowInput: Swift.Sendable {
@@ -4648,6 +4664,11 @@ public struct CreateFlowInput: Swift.Sendable {
         self.name = name
         self.tags = tags
     }
+}
+
+extension CreateFlowInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFlowInput(clientToken: \(Swift.String(describing: clientToken)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), definition: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -4743,6 +4764,11 @@ public struct CreateFlowOutput: Swift.Sendable {
         self.updatedAt = updatedAt
         self.version = version
     }
+}
+
+extension CreateFlowOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFlowOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteFlowInput: Swift.Sendable {
@@ -5220,6 +5246,11 @@ public struct CreateFlowVersionOutput: Swift.Sendable {
     }
 }
 
+extension CreateFlowVersionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFlowVersionOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
+}
+
 public struct DeleteFlowVersionInput: Swift.Sendable {
     /// The unique identifier of the flow whose version that you want to delete
     /// This member is required.
@@ -5331,6 +5362,11 @@ public struct GetFlowVersionOutput: Swift.Sendable {
         self.status = status
         self.version = version
     }
+}
+
+extension GetFlowVersionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetFlowVersionOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListFlowVersionsInput: Swift.Sendable {
@@ -5550,6 +5586,11 @@ public struct GetFlowOutput: Swift.Sendable {
     }
 }
 
+extension GetFlowOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetFlowOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), validations: \(Swift.String(describing: validations)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListFlowsInput: Swift.Sendable {
     /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     public var maxResults: Swift.Int?
@@ -5708,6 +5749,11 @@ public struct UpdateFlowInput: Swift.Sendable {
     }
 }
 
+extension UpdateFlowInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateFlowInput(customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), flowIdentifier: \(Swift.String(describing: flowIdentifier)), name: \(Swift.String(describing: name)), definition: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateFlowOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the flow.
     /// This member is required.
@@ -5766,6 +5812,11 @@ public struct UpdateFlowOutput: Swift.Sendable {
         self.updatedAt = updatedAt
         self.version = version
     }
+}
+
+extension UpdateFlowOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateFlowOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetIngestionJobInput: Swift.Sendable {
@@ -7336,6 +7387,8 @@ extension BedrockAgentClientTypes {
 
     /// Contains details about a variant of the prompt.
     public struct PromptVariant: Swift.Sendable {
+        /// Contains model-specific inference configurations that aren't in the inferenceConfiguration field. To see model-specific inference parameters, see [Inference request parameters and response fields for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+        public var additionalModelRequestFields: Smithy.Document?
         /// Contains inference configurations for the prompt variant.
         public var inferenceConfiguration: BedrockAgentClientTypes.PromptInferenceConfiguration?
         /// An array of objects, each containing a key-value pair that defines a metadata tag and value to attach to a prompt variant. For more information, see [Create a prompt using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html).
@@ -7346,12 +7399,14 @@ extension BedrockAgentClientTypes {
         /// This member is required.
         public var name: Swift.String?
         /// Contains configurations for the prompt template.
+        /// This member is required.
         public var templateConfiguration: BedrockAgentClientTypes.PromptTemplateConfiguration?
         /// The type of prompt template to use.
         /// This member is required.
         public var templateType: BedrockAgentClientTypes.PromptTemplateType?
 
         public init(
+            additionalModelRequestFields: Smithy.Document? = nil,
             inferenceConfiguration: BedrockAgentClientTypes.PromptInferenceConfiguration? = nil,
             metadata: [BedrockAgentClientTypes.PromptMetadataEntry]? = nil,
             modelId: Swift.String? = nil,
@@ -7360,6 +7415,7 @@ extension BedrockAgentClientTypes {
             templateType: BedrockAgentClientTypes.PromptTemplateType? = nil
         )
         {
+            self.additionalModelRequestFields = additionalModelRequestFields
             self.inferenceConfiguration = inferenceConfiguration
             self.metadata = metadata
             self.modelId = modelId
@@ -12796,6 +12852,7 @@ extension BedrockAgentClientTypes.PromptFlowNodeInlineConfiguration {
 
     static func write(value: BedrockAgentClientTypes.PromptFlowNodeInlineConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalModelRequestFields"].write(value.additionalModelRequestFields)
         try writer["inferenceConfiguration"].write(value.inferenceConfiguration, with: BedrockAgentClientTypes.PromptInferenceConfiguration.write(value:to:))
         try writer["modelId"].write(value.modelId)
         try writer["templateConfiguration"].write(value.templateConfiguration, with: BedrockAgentClientTypes.PromptTemplateConfiguration.write(value:to:))
@@ -12809,6 +12866,7 @@ extension BedrockAgentClientTypes.PromptFlowNodeInlineConfiguration {
         value.templateConfiguration = try reader["templateConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptTemplateConfiguration.read(from:))
         value.modelId = try reader["modelId"].readIfPresent() ?? ""
         value.inferenceConfiguration = try reader["inferenceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptInferenceConfiguration.read(from:))
+        value.additionalModelRequestFields = try reader["additionalModelRequestFields"].readIfPresent()
         return value
     }
 }
@@ -12844,7 +12902,6 @@ extension BedrockAgentClientTypes.PromptModelInferenceConfiguration {
         try writer["maxTokens"].write(value.maxTokens)
         try writer["stopSequences"].writeList(value.stopSequences, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["temperature"].write(value.temperature)
-        try writer["topK"].write(value.topk)
         try writer["topP"].write(value.topp)
     }
 
@@ -12853,7 +12910,6 @@ extension BedrockAgentClientTypes.PromptModelInferenceConfiguration {
         var value = BedrockAgentClientTypes.PromptModelInferenceConfiguration()
         value.temperature = try reader["temperature"].readIfPresent()
         value.topp = try reader["topP"].readIfPresent()
-        value.topk = try reader["topK"].readIfPresent()
         value.maxTokens = try reader["maxTokens"].readIfPresent()
         value.stopSequences = try reader["stopSequences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -13357,6 +13413,7 @@ extension BedrockAgentClientTypes.PromptVariant {
 
     static func write(value: BedrockAgentClientTypes.PromptVariant?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalModelRequestFields"].write(value.additionalModelRequestFields)
         try writer["inferenceConfiguration"].write(value.inferenceConfiguration, with: BedrockAgentClientTypes.PromptInferenceConfiguration.write(value:to:))
         try writer["metadata"].writeList(value.metadata, memberWritingClosure: BedrockAgentClientTypes.PromptMetadataEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["modelId"].write(value.modelId)
@@ -13374,6 +13431,7 @@ extension BedrockAgentClientTypes.PromptVariant {
         value.modelId = try reader["modelId"].readIfPresent()
         value.inferenceConfiguration = try reader["inferenceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptInferenceConfiguration.read(from:))
         value.metadata = try reader["metadata"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptMetadataEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.additionalModelRequestFields = try reader["additionalModelRequestFields"].readIfPresent()
         return value
     }
 }

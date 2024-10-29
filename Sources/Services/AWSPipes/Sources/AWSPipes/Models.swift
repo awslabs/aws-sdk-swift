@@ -936,15 +936,15 @@ extension PipesClientTypes {
         public var deadLetterConfig: PipesClientTypes.DeadLetterConfig?
         /// The maximum length of a time to wait for events.
         public var maximumBatchingWindowInSeconds: Swift.Int?
-        /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, EventBridge never discards old records.
+        /// Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, EventBridge never discards old records.
         public var maximumRecordAgeInSeconds: Swift.Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
+        /// Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
         public var maximumRetryAttempts: Swift.Int?
-        /// (Streams only) Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half until all the records are processed or there is one failed message left in the batch.
+        /// Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half until all the records are processed or there is one failed message left in the batch.
         public var onPartialBatchItemFailure: PipesClientTypes.OnPartialBatchItemFailureStreams?
-        /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        /// The number of batches to process concurrently from each shard. The default value is 1.
         public var parallelizationFactor: Swift.Int?
-        /// (Streams only) The position in a stream from which to start reading.
+        /// The position in a stream from which to start reading.
         /// This member is required.
         public var startingPosition: PipesClientTypes.DynamoDBStreamStartPosition?
 
@@ -1050,15 +1050,15 @@ extension PipesClientTypes {
         public var deadLetterConfig: PipesClientTypes.DeadLetterConfig?
         /// The maximum length of a time to wait for events.
         public var maximumBatchingWindowInSeconds: Swift.Int?
-        /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, EventBridge never discards old records.
+        /// Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, EventBridge never discards old records.
         public var maximumRecordAgeInSeconds: Swift.Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
+        /// Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
         public var maximumRetryAttempts: Swift.Int?
-        /// (Streams only) Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half until all the records are processed or there is one failed message left in the batch.
+        /// Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half until all the records are processed or there is one failed message left in the batch.
         public var onPartialBatchItemFailure: PipesClientTypes.OnPartialBatchItemFailureStreams?
-        /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        /// The number of batches to process concurrently from each shard. The default value is 1.
         public var parallelizationFactor: Swift.Int?
-        /// (Streams only) The position in a stream from which to start reading.
+        /// The position in a stream from which to start reading.
         /// This member is required.
         public var startingPosition: PipesClientTypes.KinesisStreamStartPosition?
         /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading, in Unix time seconds.
@@ -1142,7 +1142,7 @@ extension PipesClientTypes {
         public var credentials: PipesClientTypes.MSKAccessCredentials?
         /// The maximum length of a time to wait for events.
         public var maximumBatchingWindowInSeconds: Swift.Int?
-        /// (Streams only) The position in a stream from which to start reading.
+        /// The position in a stream from which to start reading.
         public var startingPosition: PipesClientTypes.MSKStartPosition?
         /// The name of the topic that the pipe will read from.
         /// This member is required.
@@ -1297,7 +1297,7 @@ extension PipesClientTypes {
         public var maximumBatchingWindowInSeconds: Swift.Int?
         /// The ARN of the Secrets Manager secret used for certification.
         public var serverRootCaCertificate: Swift.String?
-        /// (Streams only) The position in a stream from which to start reading.
+        /// The position in a stream from which to start reading.
         public var startingPosition: PipesClientTypes.SelfManagedKafkaStartPosition?
         /// The name of the topic that the pipe will read from.
         /// This member is required.
@@ -2522,7 +2522,7 @@ extension PipesClientTypes {
         /// Dynamic path to the source data field that represents the time value for your data.
         /// This member is required.
         public var timeValue: Swift.String?
-        /// How to format the timestamps. For example, YYYY-MM-DDThh:mm:ss.sssTZD. Required if TimeFieldType is specified as TIMESTAMP_FORMAT.
+        /// How to format the timestamps. For example, yyyy-MM-dd'T'HH:mm:ss'Z'. Required if TimeFieldType is specified as TIMESTAMP_FORMAT.
         public var timestampFormat: Swift.String?
         /// 64 bit version value or source data field that represents the version value for your data. Write requests with a higher version number will update the existing measure values of the record and version. In cases where the measure value is the same, the version will still be updated. Default value is 1. Timestream for LiveAnalytics does not support updating partial measure values in a record. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated. Default value is 1. Version must be 1 or greater, or you will receive a ValidationException error.
         /// This member is required.
@@ -3309,13 +3309,13 @@ extension PipesClientTypes {
         public var deadLetterConfig: PipesClientTypes.DeadLetterConfig?
         /// The maximum length of a time to wait for events.
         public var maximumBatchingWindowInSeconds: Swift.Int?
-        /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, EventBridge never discards old records.
+        /// Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, EventBridge never discards old records.
         public var maximumRecordAgeInSeconds: Swift.Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
+        /// Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
         public var maximumRetryAttempts: Swift.Int?
-        /// (Streams only) Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half until all the records are processed or there is one failed message left in the batch.
+        /// Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half until all the records are processed or there is one failed message left in the batch.
         public var onPartialBatchItemFailure: PipesClientTypes.OnPartialBatchItemFailureStreams?
-        /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        /// The number of batches to process concurrently from each shard. The default value is 1.
         public var parallelizationFactor: Swift.Int?
 
         public init(
@@ -3349,13 +3349,13 @@ extension PipesClientTypes {
         public var deadLetterConfig: PipesClientTypes.DeadLetterConfig?
         /// The maximum length of a time to wait for events.
         public var maximumBatchingWindowInSeconds: Swift.Int?
-        /// (Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, EventBridge never discards old records.
+        /// Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, EventBridge never discards old records.
         public var maximumRecordAgeInSeconds: Swift.Int?
-        /// (Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
+        /// Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, EventBridge retries failed records until the record expires in the event source.
         public var maximumRetryAttempts: Swift.Int?
-        /// (Streams only) Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half until all the records are processed or there is one failed message left in the batch.
+        /// Define how to handle item process failures. AUTOMATIC_BISECT halves each batch and retry each half until all the records are processed or there is one failed message left in the batch.
         public var onPartialBatchItemFailure: PipesClientTypes.OnPartialBatchItemFailureStreams?
-        /// (Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        /// The number of batches to process concurrently from each shard. The default value is 1.
         public var parallelizationFactor: Swift.Int?
 
         public init(

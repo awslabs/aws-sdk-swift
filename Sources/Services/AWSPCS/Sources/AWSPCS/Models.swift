@@ -1157,7 +1157,7 @@ extension PCSClientTypes {
 
     /// Additional options related to the Slurm scheduler.
     public struct ClusterSlurmConfigurationRequest: Swift.Sendable {
-        /// The time before an idle node is scaled down.
+        /// The time (in seconds) before an idle node is scaled down. Default: 600
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
@@ -1379,7 +1379,7 @@ extension PCSClientTypes {
     public struct ClusterSlurmConfiguration: Swift.Sendable {
         /// The shared Slurm key for authentication, also known as the cluster secret.
         public var authKey: PCSClientTypes.SlurmAuthKey?
-        /// The time before an idle node is scaled down.
+        /// The time (in seconds) before an idle node is scaled down. Default: 600
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?

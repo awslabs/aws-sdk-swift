@@ -5399,7 +5399,7 @@ extension WAFV2ClientTypes {
         public var logType: WAFV2ClientTypes.LogType?
         /// Filtering that specifies which web requests are kept in the logs and which are dropped. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation.
         public var loggingFilter: WAFV2ClientTypes.LoggingFilter?
-        /// Indicates whether the logging configuration was created by Firewall Manager, as part of an WAF policy configuration. If true, only Firewall Manager can modify or delete the configuration.
+        /// Indicates whether the logging configuration was created by Firewall Manager, as part of an WAF policy configuration. If true, only Firewall Manager can modify or delete the configuration. The logging configuration can be created by Firewall Manager for use with any web ACL that Firewall Manager is using for an WAF policy. Web ACLs that Firewall Manager creates and uses have their ManagedByFirewallManager property set to true. Web ACLs that were created by a customer account and then retrofitted by Firewall Manager for use by a policy have their RetrofittedByFirewallManager property set to true. For either case, any corresponding logging configuration will indicate ManagedByFirewallManager.
         public var managedByFirewallManager: Swift.Bool
         /// The parts of the request that you want to keep out of the logs. For example, if you redact the SingleHeader field, the HEADER field in the logs will be REDACTED for all rules that use the SingleHeaderFieldToMatch setting. Redaction applies only to the component that's specified in the rule's FieldToMatch setting, so the SingleHeader redaction doesn't apply to rules that use the HeadersFieldToMatch. You can specify only the following fields for redaction: UriPath, QueryString, SingleHeader, and Method. This setting has no impact on request sampling. With request sampling, the only way to exclude fields is by disabling sampling in the web ACL visibility configuration.
         public var redactedFields: [WAFV2ClientTypes.FieldToMatch]?
@@ -8121,7 +8121,7 @@ extension WAFV2ClientTypes {
         ///
         /// * When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon: :
         public var labelNamespace: Swift.String?
-        /// Indicates whether this web ACL is managed by Firewall Manager. If true, then only Firewall Manager can delete the web ACL or any Firewall Manager rule groups in the web ACL.
+        /// Indicates whether this web ACL was created by Firewall Manager and is being managed by Firewall Manager. If true, then only Firewall Manager can delete the web ACL or any Firewall Manager rule groups in the web ACL. See also the properties RetrofittedByFirewallManager, PreProcessFirewallManagerRuleGroups, and PostProcessFirewallManagerRuleGroups.
         public var managedByFirewallManager: Swift.Bool
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         /// This member is required.
@@ -8130,6 +8130,8 @@ extension WAFV2ClientTypes {
         public var postProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]?
         /// The first set of rules for WAF to process in the web ACL. This is defined in an Firewall Manager WAF policy and contains only rule group references. You can't alter these. Any rules and rule groups that you define for the web ACL are prioritized after these. In the Firewall Manager WAF policy, the Firewall Manager administrator can define a set of rule groups to run first in the web ACL and a set of rule groups to run last. Within each set, the administrator prioritizes the rule groups, to determine their relative processing order.
         public var preProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]?
+        /// Indicates whether this web ACL was created by a customer account and then retrofitted by Firewall Manager. If true, then the web ACL is currently being managed by a Firewall Manager WAF policy, and only Firewall Manager can manage any Firewall Manager rule groups in the web ACL. See also the properties ManagedByFirewallManager, PreProcessFirewallManagerRuleGroups, and PostProcessFirewallManagerRuleGroups.
+        public var retrofittedByFirewallManager: Swift.Bool
         /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
         public var rules: [WAFV2ClientTypes.Rule]?
         /// Specifies the domains that WAF should accept in a web request token. This enables the use of tokens across multiple protected websites. When WAF provides a token, it uses the domain of the Amazon Web Services resource that the web ACL is protecting. If you don't specify a list of token domains, WAF accepts tokens only for the domain of the protected resource. With a token domain list, WAF accepts the resource's host domain plus all domains in the token domain list, including their prefixed subdomains.
@@ -8153,6 +8155,7 @@ extension WAFV2ClientTypes {
             name: Swift.String? = nil,
             postProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]? = nil,
             preProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]? = nil,
+            retrofittedByFirewallManager: Swift.Bool = false,
             rules: [WAFV2ClientTypes.Rule]? = nil,
             tokenDomains: [Swift.String]? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
@@ -8172,6 +8175,7 @@ extension WAFV2ClientTypes {
             self.name = name
             self.postProcessFirewallManagerRuleGroups = postProcessFirewallManagerRuleGroups
             self.preProcessFirewallManagerRuleGroups = preProcessFirewallManagerRuleGroups
+            self.retrofittedByFirewallManager = retrofittedByFirewallManager
             self.rules = rules
             self.tokenDomains = tokenDomains
             self.visibilityConfig = visibilityConfig
@@ -12950,6 +12954,7 @@ extension WAFV2ClientTypes.WebACL {
         value.challengeConfig = try reader["ChallengeConfig"].readIfPresent(with: WAFV2ClientTypes.ChallengeConfig.read(from:))
         value.tokenDomains = try reader["TokenDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.associationConfig = try reader["AssociationConfig"].readIfPresent(with: WAFV2ClientTypes.AssociationConfig.read(from:))
+        value.retrofittedByFirewallManager = try reader["RetrofittedByFirewallManager"].readIfPresent() ?? false
         return value
     }
 }

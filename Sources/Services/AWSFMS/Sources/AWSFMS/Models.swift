@@ -1159,6 +1159,7 @@ extension FMSClientTypes {
         case trafficinspectioncrossesazboundary
         case unexpectedfirewallroutes
         case unexpectedtargetgatewayroutes
+        case webaclconfigurationorscopeofuse
         case webaclmissingrulegroup
         case sdkUnknown(Swift.String)
 
@@ -1192,6 +1193,7 @@ extension FMSClientTypes {
                 .trafficinspectioncrossesazboundary,
                 .unexpectedfirewallroutes,
                 .unexpectedtargetgatewayroutes,
+                .webaclconfigurationorscopeofuse,
                 .webaclmissingrulegroup
             ]
         }
@@ -1231,6 +1233,7 @@ extension FMSClientTypes {
             case .trafficinspectioncrossesazboundary: return "TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY"
             case .unexpectedfirewallroutes: return "UNEXPECTED_FIREWALL_ROUTES"
             case .unexpectedtargetgatewayroutes: return "UNEXPECTED_TARGET_GATEWAY_ROUTES"
+            case .webaclconfigurationorscopeofuse: return "WEB_ACL_CONFIGURATION_OR_SCOPE_OF_USE"
             case .webaclmissingrulegroup: return "WEB_ACL_MISSING_RULE_GROUP"
             case let .sdkUnknown(s): return s
             }
@@ -1719,15 +1722,15 @@ extension FMSClientTypes {
         ///
         /// * Example: NETWORK_FIREWALL - Distributed deployment model with custom Availability Zone configuration and route management "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"fragmentcustomactionname\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}},{\"actionName\":\"fragmentcustomactionname\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"fragmentmetricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"firewallCreationConfig\":{\"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]},{\"availabilityZoneName\":\"us-east-1b\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]}]}},\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":null,\"routeManagementAction\":\"MONITOR\",\"routeManagementTargetTypes\":[\"InternetGateway\"],\"routeManagementConfig\":{\"allowCrossAZTrafficIfNoEndpoint\":true}},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":boolean}}"  To use the distributed deployment model, you must set [PolicyOption](https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html) to NULL.
         ///
-        /// * Example: SECURITY_GROUPS_COMMON"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false, \"applyToAllEC2InstanceENIs\":false,\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd\"}]}"
+        /// * Example: SECURITY_GROUPS_COMMON"{\"type\":\"SECURITY_GROUPS_COMMON\",\"securityGroups\":[{\"id\":\"sg-03b1f67d69ed00197\"}],\"revertManualSecurityGroupChanges\":true,\"exclusiveResourceSecurityGroupManagement\":true,\"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":true,\"enableSecurityGroupReferencesDistribution\":true}"
         ///
         /// * Example: SECURITY_GROUPS_COMMON - Security group tag distribution ""{\"type\":\"SECURITY_GROUPS_COMMON\",\"securityGroups\":[{\"id\":\"sg-000e55995d61a06bd\"}],\"revertManualSecurityGroupChanges\":true,\"exclusiveResourceSecurityGroupManagement\":false,\"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":false,\"enableTagDistribution\":true}"" Firewall Manager automatically distributes tags from the primary group to the security groups created by this policy. To use security group tag distribution, you must also set revertManualSecurityGroupChanges to true, otherwise Firewall Manager won't be able to create the policy. When you enable revertManualSecurityGroupChanges, Firewall Manager identifies and reports when the security groups created by this policy become non-compliant. Firewall Manager won't distribute system tags added by Amazon Web Services services into the replica security groups. System tags begin with the aws: prefix.
         ///
         /// * Example: Shared VPCs. Apply the preceding policy to resources in shared VPCs as well as to those in VPCs that the account owns "{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false, \"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":true,\"securityGroups\":[{\"id\":\" sg-000e55995d61a06bd\"}]}"
         ///
-        /// * Example: SECURITY_GROUPS_CONTENT_AUDIT"{\"type\":\"SECURITY_GROUPS_CONTENT_AUDIT\",\"securityGroups\":[{\"id\":\"sg-000e55995d61a06bd\"}],\"securityGroupAction\":{\"type\":\"ALLOW\"}}" The security group action for content audit can be ALLOW or DENY. For ALLOW, all in-scope security group rules must be within the allowed range of the policy's security group rules. For DENY, all in-scope security group rules must not contain a value or a range that matches a rule value or range in the policy security group.
+        /// * Example: SECURITY_GROUPS_CONTENT_AUDIT"{\"type\":\"SECURITY_GROUPS_CONTENT_AUDIT\",\"preManagedOptions\":[{\"denyProtocolAllValue\":true},{\"auditSgDirection\":{\"type\":\"ALL\"}}],\"securityGroups\":[{\"id\":\"sg-049b2393a25468971\"}],\"securityGroupAction\":{\"type\":\"ALLOW\"}}" The security group action for content audit can be ALLOW or DENY. For ALLOW, all in-scope security group rules must be within the allowed range of the policy's security group rules. For DENY, all in-scope security group rules must not contain a value or a range that matches a rule value or range in the policy security group.
         ///
-        /// * Example: SECURITY_GROUPS_USAGE_AUDIT"{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true}"
+        /// * Example: SECURITY_GROUPS_USAGE_AUDIT"{\"type\":\"SECURITY_GROUPS_USAGE_AUDIT\",\"deleteUnusedSecurityGroups\":true,\"coalesceRedundantSecurityGroups\":true,\"optionalDelayForUnusedInMinutes\":60}"
         ///
         /// * Example: SHIELD_ADVANCED with web ACL management "{\"type\":\"SHIELD_ADVANCED\",\"optimizeUnassociatedWebACL\":true}" If you set optimizeUnassociatedWebACL to true, Firewall Manager creates web ACLs in accounts within the policy scope if the web ACLs will be used by at least one resource. Firewall Manager creates web ACLs in the accounts within policy scope only if the web ACLs will be used by at least one resource. If at any time an account comes into policy scope, Firewall Manager automatically creates a web ACL in the account if at least one resource will use the web ACL. Upon enablement, Firewall Manager performs a one-time cleanup of unused web ACLs in your account. The cleanup process can take several hours. If a resource leaves policy scope after Firewall Manager creates a web ACL, Firewall Manager doesn't disassociate the resource from the web ACL. If you want Firewall Manager to clean up the web ACL, you must first manually disassociate the resources from the web ACL, and then enable the manage unused web ACLs option in your policy. If you set optimizeUnassociatedWebACL to false, and Firewall Manager automatically creates an empty web ACL in each account that's within policy scope.
         ///
@@ -1757,11 +1760,11 @@ extension FMSClientTypes {
         ///
         ///
         ///
-        /// * Example: WAFV2 - Firewall Manager support for WAF managed rule group versioning "{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":true,\"version\":\"Version_2.0\",\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesCommonRuleSet\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[{\"name\":\"NoUserAgent_HEADER\"}]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":{\"logDestinationConfigs\":[\"arn:aws:firehose:us-west-2:12345678912:deliverystream/aws-waf-logs-fms-admin-destination\"],\"redactedFields\":[{\"redactedFieldType\":\"SingleHeader\",\"redactedFieldValue\":\"Cookies\"},{\"redactedFieldType\":\"Method\"}]}}" To use a specific version of a WAF managed rule group in your Firewall Manager policy, you must set versionEnabled to true, and set version to the version you'd like to use. If you don't set versionEnabled to true, or if you omit versionEnabled, then Firewall Manager uses the default version of the WAF managed rule group.
+        /// * Example: WAFV2 - Firewall Manager support for WAF managed rule group versioning "{\"preProcessRuleGroups\":[{\"ruleGroupType\":\"ManagedRuleGroup\",\"overrideAction\":{\"type\":\"NONE\"},\"sampledRequestsEnabled\":true,\"managedRuleGroupIdentifier\":{\"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\",\"vendorName\":\"AWS\",\"managedRuleGroupConfigs\":null}}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\":null,\"tokenDomains\":null,\"customResponse\":null,\"type\":\"WAFV2\",\"overrideCustomerWebACLAssociation\":false,\"sampledRequestsEnabledForDefaultActions\":true,\"optimizeUnassociatedWebACL\":true,\"webACLSource\":\"RETROFIT_EXISTING\"}" To use a specific version of a WAF managed rule group in your Firewall Manager policy, you must set versionEnabled to true, and set version to the version you'd like to use. If you don't set versionEnabled to true, or if you omit versionEnabled, then Firewall Manager uses the default version of the WAF managed rule group.
         ///
         /// * Example: WAFV2 - Logging configurations "{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null, \"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\": {\"versionEnabled\":null,\"version\":null,\"vendorName\":\"AWS\", \"managedRuleGroupName\":\"AWSManagedRulesAdminProtectionRuleSet\"} ,\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[], \"sampledRequestsEnabled\":true}],\"postProcessRuleGroups\":[], \"defaultAction\":{\"type\":\"ALLOW\"},\"customRequestHandling\" :null,\"customResponse\":null,\"overrideCustomerWebACLAssociation\" :false,\"loggingConfiguration\":{\"logDestinationConfigs\": [\"arn:aws:s3:::aws-waf-logs-example-bucket\"] ,\"redactedFields\":[],\"loggingFilterConfigs\":{\"defaultBehavior\":\"KEEP\", \"filters\":[{\"behavior\":\"KEEP\",\"requirement\":\"MEETS_ALL\", \"conditions\":[{\"actionCondition\":\"CAPTCHA\"},{\"actionCondition\": \"CHALLENGE\"}, {\"actionCondition\":\"EXCLUDED_AS_COUNT\"}]}]}},\"sampledRequestsEnabledForDefaultActions\":true}" Firewall Manager supports Amazon Kinesis Data Firehose and Amazon S3 as the logDestinationConfigs in your loggingConfiguration. For information about WAF logging configurations, see [LoggingConfiguration](https://docs.aws.amazon.com/waf/latest/APIReference/API_LoggingConfiguration.html) in the WAF API Reference In the loggingConfiguration, you can specify one logDestinationConfigs. Optionally provide as many as 20 redactedFields. The RedactedFieldType must be one of URI, QUERY_STRING, HEADER, or METHOD.
         ///
-        /// * Example: WAF Classic"{\"type\": \"WAF\", \"ruleGroups\": [{\"id\":\"12345678-1bcd-9012-efga-0987654321ab\", \"overrideAction\" : {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}"
+        /// * Example: WAF Classic"{\"ruleGroups\":[{\"id\":\"78cb36c0-1b5e-4d7d-82b2-cf48d3ad9659\",\"overrideAction\":{\"type\":\"NONE\"}}],\"overrideCustomerWebACLAssociation\":true,\"defaultAction\":{\"type\":\"ALLOW\"},\"type\":\"WAF\"}"
         public var managedServiceData: Swift.String?
         /// Contains the settings to configure a network ACL policy, a Network Firewall firewall policy deployment model, or a third-party firewall policy.
         public var policyOption: FMSClientTypes.PolicyOption?
@@ -2239,6 +2242,8 @@ public struct GetViolationDetailsInput: Swift.Sendable {
     public var memberAccount: Swift.String?
     /// The ID of the Firewall Manager policy that you want the details for. You can get violation details for the following policy types:
     ///
+    /// * WAF
+    ///
     /// * DNS Firewall
     ///
     /// * Imported Network Firewall
@@ -2255,7 +2260,7 @@ public struct GetViolationDetailsInput: Swift.Sendable {
     /// The ID of the resource that has violations.
     /// This member is required.
     public var resourceId: Swift.String?
-    /// The resource type. This is in the format shown in the [Amazon Web Services Resource Types Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html). Supported resource types are: AWS::EC2::Instance, AWS::EC2::NetworkInterface, AWS::EC2::SecurityGroup, AWS::NetworkFirewall::FirewallPolicy, and AWS::EC2::Subnet.
+    /// The resource type. This is in the format shown in the [Amazon Web Services Resource Types Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html). Supported resource types are: AWS::WAFv2::WebACL, AWS::EC2::Instance, AWS::EC2::NetworkInterface, AWS::EC2::SecurityGroup, AWS::NetworkFirewall::FirewallPolicy, and AWS::EC2::Subnet.
     /// This member is required.
     public var resourceType: Swift.String?
 
@@ -4106,6 +4111,46 @@ extension FMSClientTypes {
 
 extension FMSClientTypes {
 
+    /// The violation details for a web ACL whose configuration is incompatible with the Firewall Manager policy.
+    public struct WebACLHasIncompatibleConfigurationViolation: Swift.Sendable {
+        /// Information about the problems that Firewall Manager encountered with the web ACL configuration.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the web ACL.
+        public var webACLArn: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            webACLArn: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.webACLArn = webACLArn
+        }
+    }
+}
+
+extension FMSClientTypes {
+
+    /// The violation details for a web ACL that's associated with at least one resource that's out of scope of the Firewall Manager policy.
+    public struct WebACLHasOutOfScopeResourcesViolation: Swift.Sendable {
+        /// An array of Amazon Resource Name (ARN) for the resources that are out of scope of the policy and are associated with the web ACL.
+        public var outOfScopeResourceList: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the web ACL.
+        public var webACLArn: Swift.String?
+
+        public init(
+            outOfScopeResourceList: [Swift.String]? = nil,
+            webACLArn: Swift.String? = nil
+        )
+        {
+            self.outOfScopeResourceList = outOfScopeResourceList
+            self.webACLArn = webACLArn
+        }
+    }
+}
+
+extension FMSClientTypes {
+
     /// Violation detail based on resource type.
     public struct ResourceViolation: Swift.Sendable {
         /// Violation detail for an EC2 instance.
@@ -4156,6 +4201,10 @@ extension FMSClientTypes {
         public var thirdPartyFirewallMissingFirewallViolation: FMSClientTypes.ThirdPartyFirewallMissingFirewallViolation?
         /// The violation details for a third-party firewall's subnet that's been deleted.
         public var thirdPartyFirewallMissingSubnetViolation: FMSClientTypes.ThirdPartyFirewallMissingSubnetViolation?
+        /// The violation details for a web ACL whose configuration is incompatible with the Firewall Manager policy.
+        public var webACLHasIncompatibleConfigurationViolation: FMSClientTypes.WebACLHasIncompatibleConfigurationViolation?
+        /// The violation details for a web ACL that's associated with at least one resource that's out of scope of the Firewall Manager policy.
+        public var webACLHasOutOfScopeResourcesViolation: FMSClientTypes.WebACLHasOutOfScopeResourcesViolation?
 
         public init(
             awsEc2InstanceViolation: FMSClientTypes.AwsEc2InstanceViolation? = nil,
@@ -4181,7 +4230,9 @@ extension FMSClientTypes {
             routeHasOutOfScopeEndpointViolation: FMSClientTypes.RouteHasOutOfScopeEndpointViolation? = nil,
             thirdPartyFirewallMissingExpectedRouteTableViolation: FMSClientTypes.ThirdPartyFirewallMissingExpectedRouteTableViolation? = nil,
             thirdPartyFirewallMissingFirewallViolation: FMSClientTypes.ThirdPartyFirewallMissingFirewallViolation? = nil,
-            thirdPartyFirewallMissingSubnetViolation: FMSClientTypes.ThirdPartyFirewallMissingSubnetViolation? = nil
+            thirdPartyFirewallMissingSubnetViolation: FMSClientTypes.ThirdPartyFirewallMissingSubnetViolation? = nil,
+            webACLHasIncompatibleConfigurationViolation: FMSClientTypes.WebACLHasIncompatibleConfigurationViolation? = nil,
+            webACLHasOutOfScopeResourcesViolation: FMSClientTypes.WebACLHasOutOfScopeResourcesViolation? = nil
         )
         {
             self.awsEc2InstanceViolation = awsEc2InstanceViolation
@@ -4208,6 +4259,8 @@ extension FMSClientTypes {
             self.thirdPartyFirewallMissingExpectedRouteTableViolation = thirdPartyFirewallMissingExpectedRouteTableViolation
             self.thirdPartyFirewallMissingFirewallViolation = thirdPartyFirewallMissingFirewallViolation
             self.thirdPartyFirewallMissingSubnetViolation = thirdPartyFirewallMissingSubnetViolation
+            self.webACLHasIncompatibleConfigurationViolation = webACLHasIncompatibleConfigurationViolation
+            self.webACLHasOutOfScopeResourcesViolation = webACLHasOutOfScopeResourcesViolation
         }
     }
 }
@@ -7621,6 +7674,30 @@ extension FMSClientTypes.ResourceViolation {
         value.firewallSubnetMissingVPCEndpointViolation = try reader["FirewallSubnetMissingVPCEndpointViolation"].readIfPresent(with: FMSClientTypes.FirewallSubnetMissingVPCEndpointViolation.read(from:))
         value.invalidNetworkAclEntriesViolation = try reader["InvalidNetworkAclEntriesViolation"].readIfPresent(with: FMSClientTypes.InvalidNetworkAclEntriesViolation.read(from:))
         value.possibleRemediationActions = try reader["PossibleRemediationActions"].readIfPresent(with: FMSClientTypes.PossibleRemediationActions.read(from:))
+        value.webACLHasIncompatibleConfigurationViolation = try reader["WebACLHasIncompatibleConfigurationViolation"].readIfPresent(with: FMSClientTypes.WebACLHasIncompatibleConfigurationViolation.read(from:))
+        value.webACLHasOutOfScopeResourcesViolation = try reader["WebACLHasOutOfScopeResourcesViolation"].readIfPresent(with: FMSClientTypes.WebACLHasOutOfScopeResourcesViolation.read(from:))
+        return value
+    }
+}
+
+extension FMSClientTypes.WebACLHasOutOfScopeResourcesViolation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.WebACLHasOutOfScopeResourcesViolation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FMSClientTypes.WebACLHasOutOfScopeResourcesViolation()
+        value.webACLArn = try reader["WebACLArn"].readIfPresent()
+        value.outOfScopeResourceList = try reader["OutOfScopeResourceList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FMSClientTypes.WebACLHasIncompatibleConfigurationViolation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FMSClientTypes.WebACLHasIncompatibleConfigurationViolation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FMSClientTypes.WebACLHasIncompatibleConfigurationViolation()
+        value.webACLArn = try reader["WebACLArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
