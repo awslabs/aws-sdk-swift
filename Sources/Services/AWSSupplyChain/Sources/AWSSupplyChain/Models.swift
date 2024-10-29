@@ -1041,6 +1041,8 @@ extension SupplyChainClientTypes {
         public var awsAccountId: Swift.String?
         /// The instance creation timestamp.
         public var createdTime: Foundation.Date?
+        /// The Amazon Web Services Supply Chain instance error message. If the instance results in an unhealthy state, customers need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
+        public var errorMessage: Swift.String?
         /// The Amazon Web Services Supply Chain instance description.
         public var instanceDescription: Swift.String?
         /// The Amazon Web Services Supply Chain instance identifier.
@@ -1063,6 +1065,7 @@ extension SupplyChainClientTypes {
         public init(
             awsAccountId: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
+            errorMessage: Swift.String? = nil,
             instanceDescription: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceName: Swift.String? = nil,
@@ -1075,6 +1078,7 @@ extension SupplyChainClientTypes {
         {
             self.awsAccountId = awsAccountId
             self.createdTime = createdTime
+            self.errorMessage = errorMessage
             self.instanceDescription = instanceDescription
             self.instanceId = instanceId
             self.instanceName = instanceName
@@ -3057,6 +3061,7 @@ extension SupplyChainClientTypes.Instance {
         value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
         value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.webAppDnsDomain = try reader["webAppDnsDomain"].readIfPresent()
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)

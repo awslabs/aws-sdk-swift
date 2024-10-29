@@ -29,15 +29,15 @@ let package = Package(
             name: "AWSDirectoryServiceData",
             dependencies: [
                 .product(
+                    name: "ClientRuntime",
+                    package: "aws-sdk-swift.smithy-swift"
+                ),
+                .product(
                     name: "SmithyHTTPAuthAPI",
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
                     name: "Smithy",
-                    package: "aws-sdk-swift.smithy-swift"
-                ),
-                .product(
-                    name: "ClientRuntime",
                     package: "aws-sdk-swift.smithy-swift"
                 ),
                 .product(
