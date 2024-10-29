@@ -2770,6 +2770,8 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
+        case mlP5e48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
         case mlR5d16xlarge
@@ -2794,6 +2796,7 @@ extension SageMakerClientTypes {
         case mlTrn1n32xlarge
         case mlTrn12xlarge
         case mlTrn132xlarge
+        case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TrainingInstanceType] {
@@ -2863,6 +2866,8 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
+                .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
                 .mlR5d16xlarge,
@@ -2886,7 +2891,8 @@ extension SageMakerClientTypes {
                 .mlT3Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
-                .mlTrn132xlarge
+                .mlTrn132xlarge,
+                .mlTrn248xlarge
             ]
         }
 
@@ -2962,6 +2968,8 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
+            case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d16xlarge: return "ml.r5d.16xlarge"
@@ -2986,6 +2994,7 @@ extension SageMakerClientTypes {
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn12xlarge: return "ml.trn1.2xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3522,7 +3531,7 @@ extension SageMakerClientTypes {
 
     /// Configures how labels are consolidated across human workers and processes output data.
     public struct AnnotationConsolidationConfig: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for [annotation consolidation](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-annotation-consolidation.html) and to process output data. This parameter is required for all labeling jobs. For [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html), use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see [Post-annotation Lambda](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-custom-templates-step3.html#sms-custom-templates-step3-postlambda). Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.
+        /// The Amazon Resource Name (ARN) of a Lambda function implements the logic for [annotation consolidation](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-annotation-consolidation.html) and to process output data. For [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html), use one of the following Amazon SageMaker Ground Truth Lambda function ARNs for AnnotationConsolidationLambdaArn. For custom labeling workflows, see [Post-annotation Lambda](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-custom-templates-step3.html#sms-custom-templates-step3-postlambda). Bounding box - Finds the most similar boxes from different workers based on the Jaccard index of the boxes.
         ///
         /// * arn:aws:lambda:us-east-1:432418664414:function:ACS-BoundingBox
         ///
@@ -12484,20 +12493,6 @@ extension SageMakerClientTypes {
         /// * CoreML: Compilation for the CoreML [OutputConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_OutputConfig.html)TargetDevice supports the following compiler options:
         ///
         /// * class_labels: Specifies the classification labels file name inside input tar.gz file. For example, {"class_labels": "imagenet_labels_1000.txt"}. Labels inside the txt file should be separated by newlines.
-        ///
-        ///
-        ///
-        ///
-        /// * EIA: Compilation for the Elastic Inference Accelerator supports the following compiler options:
-        ///
-        /// * precision_mode: Specifies the precision of compiled artifacts. Supported values are "FP16" and "FP32". Default is "FP32".
-        ///
-        /// * signature_def_key: Specifies the signature to use for models in SavedModel format. Defaults is TensorFlow's default signature def key.
-        ///
-        /// * output_names: Specifies a list of output tensor names for models in FrozenGraph format. Set at most one API field, either: signature_def_key or output_names.
-        ///
-        ///
-        /// For example: {"precision_mode": "FP32", "output_names": ["output:0"]}
         public var compilerOptions: Swift.String?
         /// The Amazon Web Services Key Management Service key (Amazon Web Services KMS) that Amazon SageMaker uses to encrypt your output models with Amazon S3 server-side encryption after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see [KMS-Managed Encryption Keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html) in the Amazon Simple Storage Service Developer Guide. The KmsKeyId can be any of the following formats:
         ///
@@ -13608,7 +13603,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A collection of settings that apply to spaces created in the domain.
+    /// The default settings for shared spaces that users create in the domain. SageMaker applies these settings only to shared spaces. It doesn't apply them to private spaces.
     public struct DefaultSpaceSettings: Swift.Sendable {
         /// The settings for assigning a custom file system to a domain. Permitted users can access this file system in Amazon SageMaker Studio.
         public var customFileSystemConfigs: [SageMakerClientTypes.CustomFileSystemConfig]?
@@ -13992,15 +13987,15 @@ extension SageMakerClientTypes {
 
     /// A collection of settings that apply to users in a domain. These settings are specified when the CreateUserProfile API is called, and as DefaultUserSettings when the CreateDomain API is called. SecurityGroups is aggregated when specified in both calls. For all other settings in UserSettings, the values specified in CreateUserProfile take precedence over those specified in CreateDomain.
     public struct UserSettings: Swift.Sendable {
-        /// Indicates whether auto-mounting of an EFS volume is supported for the user profile. The DefaultAsDomain value is only supported for user profiles. Do not use the DefaultAsDomain value when setting this parameter for a domain.
+        /// Indicates whether auto-mounting of an EFS volume is supported for the user profile. The DefaultAsDomain value is only supported for user profiles. Do not use the DefaultAsDomain value when setting this parameter for a domain. SageMaker applies this setting only to private spaces that the user creates in the domain. SageMaker doesn't apply this setting to shared spaces.
         public var autoMountHomeEFS: SageMakerClientTypes.AutoMountHomeEFS?
-        /// The Canvas app settings.
+        /// The Canvas app settings. SageMaker applies these settings only to private spaces that SageMaker creates for the Canvas app.
         public var canvasAppSettings: SageMakerClientTypes.CanvasAppSettings?
-        /// The Code Editor application settings.
+        /// The Code Editor application settings. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var codeEditorAppSettings: SageMakerClientTypes.CodeEditorAppSettings?
-        /// The settings for assigning a custom file system to a user profile. Permitted users can access this file system in Amazon SageMaker Studio.
+        /// The settings for assigning a custom file system to a user profile. Permitted users can access this file system in Amazon SageMaker Studio. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var customFileSystemConfigs: [SageMakerClientTypes.CustomFileSystemConfig]?
-        /// Details about the POSIX identity that is used for file system operations.
+        /// Details about the POSIX identity that is used for file system operations. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var customPosixUserConfig: SageMakerClientTypes.CustomPosixUserConfig?
         /// The default experience that the user is directed to when accessing the domain. The supported values are:
         ///
@@ -14008,9 +14003,9 @@ extension SageMakerClientTypes {
         ///
         /// * app:JupyterServer:: Indicates that Studio Classic is the default experience.
         public var defaultLandingUri: Swift.String?
-        /// The execution role for the user.
+        /// The execution role for the user. SageMaker applies this setting only to private spaces that the user creates in the domain. SageMaker doesn't apply this setting to shared spaces.
         public var executionRole: Swift.String?
-        /// The settings for the JupyterLab application.
+        /// The settings for the JupyterLab application. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var jupyterLabAppSettings: SageMakerClientTypes.JupyterLabAppSettings?
         /// The Jupyter server's app settings.
         public var jupyterServerAppSettings: SageMakerClientTypes.JupyterServerAppSettings?
@@ -14020,11 +14015,11 @@ extension SageMakerClientTypes {
         public var rSessionAppSettings: SageMakerClientTypes.RSessionAppSettings?
         /// A collection of settings that configure user interaction with the RStudioServerPro app.
         public var rStudioServerProAppSettings: SageMakerClientTypes.RStudioServerProAppSettings?
-        /// The security groups for the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly, unless specified as part of the DefaultUserSettings for the domain. Amazon SageMaker adds a security group to allow NFS traffic from Amazon SageMaker Studio. Therefore, the number of security groups that you can specify is one less than the maximum number shown.
+        /// The security groups for the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly, unless specified as part of the DefaultUserSettings for the domain. Amazon SageMaker adds a security group to allow NFS traffic from Amazon SageMaker Studio. Therefore, the number of security groups that you can specify is one less than the maximum number shown. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var securityGroups: [Swift.String]?
         /// Specifies options for sharing Amazon SageMaker Studio notebooks.
         public var sharingSettings: SageMakerClientTypes.SharingSettings?
-        /// The storage settings for a space.
+        /// The storage settings for a space. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public var spaceStorageSettings: SageMakerClientTypes.DefaultSpaceStorageSettings?
         /// Whether the user can access Studio. If this value is set to DISABLED, the user cannot access Studio, even if that is the default experience for the domain.
         public var studioWebPortal: SageMakerClientTypes.StudioWebPortal?
@@ -14227,7 +14222,7 @@ public struct CreateDomainInput: Swift.Sendable {
     /// The mode of authentication that members use to access the domain.
     /// This member is required.
     public var authMode: SageMakerClientTypes.AuthMode?
-    /// The default settings used to create a space.
+    /// The default settings for shared spaces that users create in the domain.
     public var defaultSpaceSettings: SageMakerClientTypes.DefaultSpaceSettings?
     /// The default settings to use to create a user profile when UserSettings isn't specified in the call to the CreateUserProfile API. SecurityGroups is aggregated when specified in both calls. For all other settings in UserSettings, the values specified in CreateUserProfile take precedence over those specified in CreateDomain.
     /// This member is required.
@@ -14952,7 +14947,7 @@ extension SageMakerClientTypes {
 
     /// Identifies a model that you want to host and the resources chosen to deploy for hosting it. If you are deploying multiple models, tell SageMaker how to distribute traffic among the models by specifying variant weights. For more information on production variants, check [ Production variants](https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html).
     public struct ProductionVariant: Swift.Sendable {
-        /// The size of the Elastic Inference (EI) instance to use for the production variant. EI instances provide on-demand GPU computing for inference. For more information, see [Using Elastic Inference in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
+        /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify the size of the EI instance to use for the production variant.
         public var acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType?
         /// The timeout value, in seconds, for your inference container to pass health check by SageMaker Hosting. For more information about health check, see [How Your Container Should Respond to Health Check (Ping) Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-algo-ping-requests).
         public var containerStartupHealthCheckTimeoutInSeconds: Swift.Int?
@@ -21621,7 +21616,7 @@ extension SageMakerClientTypes {
 }
 
 public struct CreateNotebookInstanceInput: Swift.Sendable {
-    /// A list of Elastic Inference (EI) instance types to associate with this notebook instance. Currently, only one instance type can be associated with a notebook instance. For more information, see [Using Elastic Inference in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
+    /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of EI instance types to associate with this notebook instance.
     public var acceleratorTypes: [SageMakerClientTypes.NotebookInstanceAcceleratorType]?
     /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var additionalCodeRepositories: [Swift.String]?
@@ -27207,7 +27202,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
     public var authMode: SageMakerClientTypes.AuthMode?
     /// The creation time.
     public var creationTime: Foundation.Date?
-    /// The default settings used to create a space.
+    /// The default settings for shared spaces that users create in the domain.
     public var defaultSpaceSettings: SageMakerClientTypes.DefaultSpaceSettings?
     /// Settings which are applied to UserProfiles in this domain if settings are not explicitly specified in a given UserProfile.
     public var defaultUserSettings: SageMakerClientTypes.UserSettings?
@@ -27700,7 +27695,7 @@ extension SageMakerClientTypes {
 
     /// The production variant summary for a deployment when an endpoint is creating or updating with the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) or [UpdateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateEndpoint.html) operations. Describes the VariantStatus , weight and capacity for a production variant associated with an endpoint.
     public struct PendingProductionVariantSummary: Swift.Sendable {
-        /// The size of the Elastic Inference (EI) instance to use for the production variant. EI instances provide on-demand GPU computing for inference. For more information, see [Using Elastic Inference in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
+        /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify the size of the EI instance to use for the production variant.
         public var acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType?
         /// The number of instances associated with the variant.
         public var currentInstanceCount: Swift.Int?
@@ -31995,7 +31990,7 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribeNotebookInstanceOutput: Swift.Sendable {
-    /// A list of the Elastic Inference (EI) instance types associated with this notebook instance. Currently only one EI instance type can be associated with a notebook instance. For more information, see [Using Elastic Inference in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
+    /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types associated with this notebook instance.
     public var acceleratorTypes: [SageMakerClientTypes.NotebookInstanceAcceleratorType]?
     /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var additionalCodeRepositories: [Swift.String]?
@@ -48103,7 +48098,7 @@ public struct UpdateDomainInput: Swift.Sendable {
     public var appNetworkAccessType: SageMakerClientTypes.AppNetworkAccessType?
     /// The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided. If setting up the domain for use with RStudio, this value must be set to Service.
     public var appSecurityGroupManagement: SageMakerClientTypes.AppSecurityGroupManagement?
-    /// The default settings used to create a space within the domain.
+    /// The default settings for shared spaces that users create in the domain.
     public var defaultSpaceSettings: SageMakerClientTypes.DefaultSpaceSettings?
     /// A collection of settings.
     public var defaultUserSettings: SageMakerClientTypes.UserSettings?
@@ -48915,13 +48910,13 @@ public struct UpdateMonitoringScheduleOutput: Swift.Sendable {
 }
 
 public struct UpdateNotebookInstanceInput: Swift.Sendable {
-    /// A list of the Elastic Inference (EI) instance types to associate with this notebook instance. Currently only one EI instance type can be associated with a notebook instance. For more information, see [Using Elastic Inference in Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html).
+    /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to associate with this notebook instance.
     public var acceleratorTypes: [SageMakerClientTypes.NotebookInstanceAcceleratorType]?
     /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var additionalCodeRepositories: [Swift.String]?
     /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git Repositories with SageMaker Notebook Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html).
     public var defaultCodeRepository: Swift.String?
-    /// A list of the Elastic Inference (EI) instance types to remove from this notebook instance. This operation is idempotent. If you specify an accelerator type that is not associated with the notebook instance when you call this method, it does not throw an error.
+    /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to remove from this notebook instance.
     public var disassociateAcceleratorTypes: Swift.Bool?
     /// A list of names or URLs of the default Git repositories to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
     public var disassociateAdditionalCodeRepositories: Swift.Bool?

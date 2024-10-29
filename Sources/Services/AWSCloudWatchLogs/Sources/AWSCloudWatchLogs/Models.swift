@@ -5081,6 +5081,8 @@ public struct UpdateAnomalyInput: Swift.Sendable {
     public var anomalyDetectorArn: Swift.String?
     /// If you are suppressing or unsuppressing an anomaly, specify its unique ID here. You can find anomaly IDs by using the [ListAnomalies](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListAnomalies.html) operation.
     public var anomalyId: Swift.String?
+    /// Set this to true to prevent CloudWatch Logs from displaying this behavior as an anomaly in the future. The behavior is then treated as baseline behavior. However, if similar but more severe occurrences of this behavior occur in the future, those will still be reported as anomalies. The default is false
+    public var baseline: Swift.Bool?
     /// If you are suppressing or unsuppressing an pattern, specify its unique ID here. You can find pattern IDs by using the [ListAnomalies](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListAnomalies.html) operation.
     public var patternId: Swift.String?
     /// If you are temporarily suppressing an anomaly or pattern, use this structure to specify how long the suppression is to last.
@@ -5091,6 +5093,7 @@ public struct UpdateAnomalyInput: Swift.Sendable {
     public init(
         anomalyDetectorArn: Swift.String? = nil,
         anomalyId: Swift.String? = nil,
+        baseline: Swift.Bool? = nil,
         patternId: Swift.String? = nil,
         suppressionPeriod: CloudWatchLogsClientTypes.SuppressionPeriod? = nil,
         suppressionType: CloudWatchLogsClientTypes.SuppressionType? = nil
@@ -5098,6 +5101,7 @@ public struct UpdateAnomalyInput: Swift.Sendable {
     {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyId = anomalyId
+        self.baseline = baseline
         self.patternId = patternId
         self.suppressionPeriod = suppressionPeriod
         self.suppressionType = suppressionType
@@ -6430,6 +6434,7 @@ extension UpdateAnomalyInput {
         guard let value else { return }
         try writer["anomalyDetectorArn"].write(value.anomalyDetectorArn)
         try writer["anomalyId"].write(value.anomalyId)
+        try writer["baseline"].write(value.baseline)
         try writer["patternId"].write(value.patternId)
         try writer["suppressionPeriod"].write(value.suppressionPeriod, with: CloudWatchLogsClientTypes.SuppressionPeriod.write(value:to:))
         try writer["suppressionType"].write(value.suppressionType)
