@@ -29,6 +29,7 @@ Package.resolved
 build/
 codegen/protocol-test-codegen-local/smithy-build.json
 codegen/protocol-test-codegen/smithy-build.json
+SmokeTests/
 
 # vim temporary files
 *.swp
