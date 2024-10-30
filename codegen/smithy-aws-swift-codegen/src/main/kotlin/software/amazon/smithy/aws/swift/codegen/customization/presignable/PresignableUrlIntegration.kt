@@ -307,7 +307,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
 
     private fun overrideHttpMethod(operation: OperationShape): String {
         return when (operation.id.toString()) {
-            "com.amazonaws.s3#PutObject" -> "put"
+            "com.amazonaws.s3#PutObject", "com.amazonaws.s3#UploadPart" -> "put"
             else -> "get"
         }
     }

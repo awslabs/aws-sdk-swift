@@ -22130,7 +22130,7 @@ extension UploadPartInput {
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .get)
+                      .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPart")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
