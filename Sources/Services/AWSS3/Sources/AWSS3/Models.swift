@@ -22158,7 +22158,6 @@ extension UploadPartInput {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutput>())
-        builder.serialize(ClientRuntime.BlobStreamBodyMiddleware<UploadPartInput, UploadPartOutput>(keyPath: \.body))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(UploadPartOutput.httpOutput(from:), UploadPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -22170,6 +22169,7 @@ extension UploadPartInput {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UploadPartOutput>())
         builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartInput, UploadPartOutput>())
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
+        builder.serialize(UploadPartInputGETQueryItemMiddleware())
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UploadPart")
@@ -22186,22 +22186,78 @@ extension UploadPartInput {
     }
 }
 
-public struct PutObjectPresignedURLMiddleware {
-    public let id: Swift.String = "PutObjectPresignedURLMiddleware"
+public struct UploadPartInputGETQueryItemMiddleware {
+    public let id: Swift.String = "UploadPartInputGETQueryItemMiddleware"
 
     public init() {}
 }
-extension PutObjectPresignedURLMiddleware: Smithy.RequestMessageSerializer {
+extension UploadPartInputGETQueryItemMiddleware: Smithy.RequestMessageSerializer {
     public typealias InputType = UploadPartInput
     public typealias RequestType = SmithyHTTPAPI.HTTPRequest
 
     public func apply(input: InputType, builder: SmithyHTTPAPI.HTTPRequestBuilder, attributes: Smithy.Context) throws {
-        let metadata = input.metadata ?? [:]
-        for (metadataKey, metadataValue) in metadata {
-            let queryItem = Smithy.URIQueryItem(
-                name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
-                value: metadataValue.urlPercentEncoding()
-            )
+        if let body = input.body {
+            let queryItem = Smithy.URIQueryItem(name: "Body".urlPercentEncoding(), value: Swift.String(body).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let bucket = input.bucket {
+            let queryItem = Smithy.URIQueryItem(name: "Bucket".urlPercentEncoding(), value: Swift.String(bucket).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let contentLength = input.contentLength {
+            let queryItem = Smithy.URIQueryItem(name: "ContentLength".urlPercentEncoding(), value: Swift.String(contentLength).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let contentMD5 = input.contentMD5 {
+            let queryItem = Smithy.URIQueryItem(name: "ContentMD5".urlPercentEncoding(), value: Swift.String(contentMD5).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let checksumAlgorithm = input.checksumAlgorithm {
+            let queryItem = Smithy.URIQueryItem(name: "ChecksumAlgorithm".urlPercentEncoding(), value: Swift.String(checksumAlgorithm.rawValue).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let checksumCRC32 = input.checksumCRC32 {
+            let queryItem = Smithy.URIQueryItem(name: "ChecksumCRC32".urlPercentEncoding(), value: Swift.String(checksumCRC32).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let checksumCRC32C = input.checksumCRC32C {
+            let queryItem = Smithy.URIQueryItem(name: "ChecksumCRC32C".urlPercentEncoding(), value: Swift.String(checksumCRC32C).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let checksumSHA1 = input.checksumSHA1 {
+            let queryItem = Smithy.URIQueryItem(name: "ChecksumSHA1".urlPercentEncoding(), value: Swift.String(checksumSHA1).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let checksumSHA256 = input.checksumSHA256 {
+            let queryItem = Smithy.URIQueryItem(name: "ChecksumSHA256".urlPercentEncoding(), value: Swift.String(checksumSHA256).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let key = input.key {
+            let queryItem = Smithy.URIQueryItem(name: "Key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let uploadId = input.uploadId {
+            let queryItem = Smithy.URIQueryItem(name: "UploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let sseCustomerAlgorithm = input.sseCustomerAlgorithm {
+            let queryItem = Smithy.URIQueryItem(name: "SSECustomerAlgorithm".urlPercentEncoding(), value: Swift.String(sseCustomerAlgorithm).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let sseCustomerKey = input.sseCustomerKey {
+            let queryItem = Smithy.URIQueryItem(name: "SSECustomerKey".urlPercentEncoding(), value: Swift.String(sseCustomerKey).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let sseCustomerKeyMD5 = input.sseCustomerKeyMD5 {
+            let queryItem = Smithy.URIQueryItem(name: "SSECustomerKeyMD5".urlPercentEncoding(), value: Swift.String(sseCustomerKeyMD5).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let requestPayer = input.requestPayer {
+            let queryItem = Smithy.URIQueryItem(name: "RequestPayer".urlPercentEncoding(), value: Swift.String(requestPayer.rawValue).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let expectedBucketOwner = input.expectedBucketOwner {
+            let queryItem = Smithy.URIQueryItem(name: "ExpectedBucketOwner".urlPercentEncoding(), value: Swift.String(expectedBucketOwner).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
     }

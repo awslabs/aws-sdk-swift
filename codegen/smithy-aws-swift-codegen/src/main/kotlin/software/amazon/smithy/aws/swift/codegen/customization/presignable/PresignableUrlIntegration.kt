@@ -81,10 +81,10 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 renderPresignURLAPIInServiceClient(writer, symbol.name, op, inputType)
             }
             when (presignableOperation.operationId) {
-                "com.amazonaws.s3#GetObject", "com.amazonaws.polly#SynthesizeSpeech" -> {
+                "com.amazonaws.s3#GetObject", "com.amazonaws.s3#UploadPart", "com.amazonaws.polly#SynthesizeSpeech" -> {
                     renderMiddlewareClassForQueryString(ctx, delegator, op)
                 }
-                "com.amazonaws.s3#PutObject", "com.amazonaws.s3#UploadPart" -> {
+                "com.amazonaws.s3#PutObject" -> {
                     renderMiddlewareClassForPutObject(ctx, delegator, op)
                 }
             }
@@ -197,7 +197,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         operationMiddlewareCopy.removeMiddleware(op, AmzSdkInvocationIdMiddleware.NAME)
 
         when (op.id.toString()) {
-            "com.amazonaws.s3#GetObject", "com.amazonaws.polly#SynthesizeSpeech" -> {
+            "com.amazonaws.s3#GetObject", "com.amazonaws.s3#UploadPart", "com.amazonaws.polly#SynthesizeSpeech" -> {
                 operationMiddlewareCopy.removeMiddleware(op, "OperationInputBodyMiddleware")
                 operationMiddlewareCopy.appendMiddleware(op, InputTypeGETQueryItemMiddlewareRenderable(inputSymbol))
             }
