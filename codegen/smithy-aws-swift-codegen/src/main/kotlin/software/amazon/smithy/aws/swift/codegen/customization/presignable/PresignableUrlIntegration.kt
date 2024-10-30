@@ -40,6 +40,7 @@ internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> = mapOf(
     "com.amazonaws.s3#AmazonS3" to setOf(
         "com.amazonaws.s3#GetObject",
         "com.amazonaws.s3#PutObject",
+        "com.amazonaws.s3#UploadPart",
     )
 )
 
