@@ -22196,12 +22196,12 @@ extension UploadPartPresignedURLMiddleware: Smithy.RequestMessageSerializer {
     public typealias RequestType = SmithyHTTPAPI.HTTPRequest
 
     public func apply(input: InputType, builder: SmithyHTTPAPI.HTTPRequestBuilder, attributes: Smithy.Context) throws {
-        if let uploadId = input.uploadId {
-            let queryItem = Smithy.URIQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
-            builder.withQueryItem(queryItem)
-        }
         if let partNumber = input.partNumber {
             let queryItem = Smithy.URIQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
+            builder.withQueryItem(queryItem)
+        }
+        if let uploadId = input.uploadId {
+            let queryItem = Smithy.URIQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
     }
