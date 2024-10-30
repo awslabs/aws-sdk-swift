@@ -1818,7 +1818,7 @@ extension RedshiftClient {
 
     /// Performs the `CreateIntegration` operation on the `RedshiftServiceVersion20121201` service.
     ///
-    /// Creates a zero-ETL integration with Amazon Redshift.
+    /// Creates a zero-ETL integration or S3 event integration with Amazon Redshift.
     ///
     /// - Parameter CreateIntegrationInput : [no documentation found]
     ///
@@ -1829,7 +1829,7 @@ extension RedshiftClient {
     /// __Possible Exceptions:__
     /// - `IntegrationAlreadyExistsFault` : The integration you are trying to create already exists.
     /// - `IntegrationConflictOperationFault` : A conflicting conditional operation is currently in progress against this resource. This typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
-    /// - `IntegrationQuotaExceededFault` : You can't create any more zero-ETL integrations because the quota has been reached.
+    /// - `IntegrationQuotaExceededFault` : You can't create any more zero-ETL or S3 event integrations because the quota has been reached.
     /// - `IntegrationSourceNotFoundFault` : The specified integration source can't be found.
     /// - `IntegrationTargetNotFoundFault` : The specified integration target can't be found.
     /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
@@ -3187,7 +3187,7 @@ extension RedshiftClient {
 
     /// Performs the `DeleteIntegration` operation on the `RedshiftServiceVersion20121201` service.
     ///
-    /// Deletes a zero-ETL integration with Amazon Redshift.
+    /// Deletes a zero-ETL integration or S3 event integration with Amazon Redshift.
     ///
     /// - Parameter DeleteIntegrationInput : [no documentation found]
     ///
@@ -5473,7 +5473,7 @@ extension RedshiftClient {
 
     /// Performs the `DescribeIntegrations` operation on the `RedshiftServiceVersion20121201` service.
     ///
-    /// Describes one or more zero-ETL integrations with Amazon Redshift.
+    /// Describes one or more zero-ETL or S3 event integrations with Amazon Redshift.
     ///
     /// - Parameter DescribeIntegrationsInput : [no documentation found]
     ///
@@ -8495,7 +8495,7 @@ extension RedshiftClient {
 
     /// Performs the `ModifyIntegration` operation on the `RedshiftServiceVersion20121201` service.
     ///
-    /// Modifies a zero-ETL integration with Amazon Redshift.
+    /// Modifies a zero-ETL integration or S3 event integration with Amazon Redshift.
     ///
     /// - Parameter ModifyIntegrationInput : [no documentation found]
     ///

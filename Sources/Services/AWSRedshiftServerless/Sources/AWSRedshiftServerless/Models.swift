@@ -1458,6 +1458,55 @@ public struct Ipv6CidrBlockNotFoundException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
+extension RedshiftServerlessClientTypes {
+
+    public enum PerformanceTargetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerformanceTargetStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    /// An object that represents the price performance target settings for the workgroup.
+    public struct PerformanceTarget: Swift.Sendable {
+        /// The target price performance level for the workgroup. Valid values include 1, 25, 50, 75, and 100. These correspond to the price performance levels LOW_COST, ECONOMICAL, BALANCED, RESOURCEFUL, and HIGH_PERFORMANCE.
+        public var level: Swift.Int?
+        /// Whether the price performance target is enabled for the workgroup.
+        public var status: RedshiftServerlessClientTypes.PerformanceTargetStatus?
+
+        public init(
+            level: Swift.Int? = nil,
+            status: RedshiftServerlessClientTypes.PerformanceTargetStatus? = nil
+        )
+        {
+            self.level = level
+            self.status = status
+        }
+    }
+}
+
 public struct CreateWorkgroupInput: Swift.Sendable {
     /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
@@ -1474,6 +1523,8 @@ public struct CreateWorkgroupInput: Swift.Sendable {
     public var namespaceName: Swift.String?
     /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
     public var port: Swift.Int?
+    /// An object that represents the price performance target settings for the workgroup.
+    public var pricePerformanceTarget: RedshiftServerlessClientTypes.PerformanceTarget?
     /// A value that specifies whether the workgroup can be accessed from a public network.
     public var publiclyAccessible: Swift.Bool?
     /// An array of security group IDs to associate with the workgroup.
@@ -1494,6 +1545,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         maxCapacity: Swift.Int? = nil,
         namespaceName: Swift.String? = nil,
         port: Swift.Int? = nil,
+        pricePerformanceTarget: RedshiftServerlessClientTypes.PerformanceTarget? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -1508,6 +1560,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         self.maxCapacity = maxCapacity
         self.namespaceName = namespaceName
         self.port = port
+        self.pricePerformanceTarget = pricePerformanceTarget
         self.publiclyAccessible = publiclyAccessible
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
@@ -1607,6 +1660,8 @@ extension RedshiftServerlessClientTypes {
         public var patchVersion: Swift.String?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public var port: Swift.Int?
+        /// An object that represents the price performance target settings for the workgroup.
+        public var pricePerformanceTarget: RedshiftServerlessClientTypes.PerformanceTarget?
         /// A value that specifies whether the workgroup can be accessible from a public network.
         public var publiclyAccessible: Swift.Bool?
         /// An array of security group IDs to associate with the workgroup.
@@ -1639,6 +1694,7 @@ extension RedshiftServerlessClientTypes {
             namespaceName: Swift.String? = nil,
             patchVersion: Swift.String? = nil,
             port: Swift.Int? = nil,
+            pricePerformanceTarget: RedshiftServerlessClientTypes.PerformanceTarget? = nil,
             publiclyAccessible: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             status: RedshiftServerlessClientTypes.WorkgroupStatus? = nil,
@@ -1663,6 +1719,7 @@ extension RedshiftServerlessClientTypes {
             self.namespaceName = namespaceName
             self.patchVersion = patchVersion
             self.port = port
+            self.pricePerformanceTarget = pricePerformanceTarget
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.status = status
@@ -3469,6 +3526,8 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
     public var maxCapacity: Swift.Int?
     /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
     public var port: Swift.Int?
+    /// An object that represents the price performance target settings for the workgroup.
+    public var pricePerformanceTarget: RedshiftServerlessClientTypes.PerformanceTarget?
     /// A value that specifies whether the workgroup can be accessible from a public network.
     public var publiclyAccessible: Swift.Bool?
     /// An array of security group IDs to associate with the workgroup.
@@ -3486,6 +3545,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         ipAddressType: Swift.String? = nil,
         maxCapacity: Swift.Int? = nil,
         port: Swift.Int? = nil,
+        pricePerformanceTarget: RedshiftServerlessClientTypes.PerformanceTarget? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -3498,6 +3558,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         self.ipAddressType = ipAddressType
         self.maxCapacity = maxCapacity
         self.port = port
+        self.pricePerformanceTarget = pricePerformanceTarget
         self.publiclyAccessible = publiclyAccessible
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
@@ -4016,6 +4077,7 @@ extension CreateWorkgroupInput {
         try writer["maxCapacity"].write(value.maxCapacity)
         try writer["namespaceName"].write(value.namespaceName)
         try writer["port"].write(value.port)
+        try writer["pricePerformanceTarget"].write(value.pricePerformanceTarget, with: RedshiftServerlessClientTypes.PerformanceTarget.write(value:to:))
         try writer["publiclyAccessible"].write(value.publiclyAccessible)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4466,6 +4528,7 @@ extension UpdateWorkgroupInput {
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["maxCapacity"].write(value.maxCapacity)
         try writer["port"].write(value.port)
+        try writer["pricePerformanceTarget"].write(value.pricePerformanceTarget, with: RedshiftServerlessClientTypes.PerformanceTarget.write(value:to:))
         try writer["publiclyAccessible"].write(value.publiclyAccessible)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6510,6 +6573,24 @@ extension RedshiftServerlessClientTypes.Workgroup {
         value.maxCapacity = try reader["maxCapacity"].readIfPresent()
         value.crossAccountVpcs = try reader["crossAccountVpcs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.pricePerformanceTarget = try reader["pricePerformanceTarget"].readIfPresent(with: RedshiftServerlessClientTypes.PerformanceTarget.read(from:))
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.PerformanceTarget {
+
+    static func write(value: RedshiftServerlessClientTypes.PerformanceTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["level"].write(value.level)
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.PerformanceTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.PerformanceTarget()
+        value.status = try reader["status"].readIfPresent()
+        value.level = try reader["level"].readIfPresent()
         return value
     }
 }
