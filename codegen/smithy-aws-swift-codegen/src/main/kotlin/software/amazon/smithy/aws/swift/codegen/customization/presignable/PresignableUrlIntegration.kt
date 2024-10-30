@@ -5,10 +5,12 @@ import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
 import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.customization.PutObjectPresignedURLMiddleware
+import software.amazon.smithy.aws.swift.codegen.customization.UploadPartPresignedURLMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AmzSdkInvocationIdMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AmzSdkRequestMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.InputTypeGETQueryItemMiddlewareRenderable
 import software.amazon.smithy.aws.swift.codegen.middleware.PutObjectPresignedURLMiddlewareRenderable
+import software.amazon.smithy.aws.swift.codegen.middleware.UploadPartPresignedURLMiddlewareRenderable
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.OperationIndex
@@ -81,11 +83,14 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 renderPresignURLAPIInServiceClient(writer, symbol.name, op, inputType)
             }
             when (presignableOperation.operationId) {
-                "com.amazonaws.s3#GetObject", "com.amazonaws.s3#UploadPart", "com.amazonaws.polly#SynthesizeSpeech" -> {
+                "com.amazonaws.s3#GetObject", "com.amazonaws.polly#SynthesizeSpeech" -> {
                     renderMiddlewareClassForQueryString(ctx, delegator, op)
                 }
                 "com.amazonaws.s3#PutObject" -> {
                     renderMiddlewareClassForPutObject(ctx, delegator, op)
+                }
+                "com.amazonaws.s3#UploadPart" -> {
+                    renderMiddlewareClassForUploadPart(ctx, delegator, op)
                 }
             }
         }
@@ -197,13 +202,17 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         operationMiddlewareCopy.removeMiddleware(op, AmzSdkInvocationIdMiddleware.NAME)
 
         when (op.id.toString()) {
-            "com.amazonaws.s3#GetObject", "com.amazonaws.s3#UploadPart", "com.amazonaws.polly#SynthesizeSpeech" -> {
+            "com.amazonaws.s3#GetObject", "com.amazonaws.polly#SynthesizeSpeech" -> {
                 operationMiddlewareCopy.removeMiddleware(op, "OperationInputBodyMiddleware")
                 operationMiddlewareCopy.appendMiddleware(op, InputTypeGETQueryItemMiddlewareRenderable(inputSymbol))
             }
             "com.amazonaws.s3#PutObject" -> {
                 operationMiddlewareCopy.removeMiddleware(op, "OperationInputBodyMiddleware")
                 operationMiddlewareCopy.appendMiddleware(op, PutObjectPresignedURLMiddlewareRenderable())
+            }
+            "com.amazonaws.s3#UploadPart" -> {
+                operationMiddlewareCopy.removeMiddleware(op, "OperationInputBodyMiddleware")
+                operationMiddlewareCopy.appendMiddleware(op, UploadPartPresignedURLMiddlewareRenderable())
             }
         }
 
@@ -259,6 +268,34 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             .build()
         delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
             val queryItemMiddleware = PutObjectPresignedURLMiddleware(
+                inputSymbol,
+                outputSymbol,
+                outputErrorSymbol,
+                writer
+            )
+            MiddlewareGenerator(writer, queryItemMiddleware).generate()
+        }
+    }
+
+    private fun renderMiddlewareClassForUploadPart(codegenContext: SwiftCodegenContext, delegator: SwiftDelegator, op: OperationShape) {
+
+        val serviceShape = codegenContext.model.expectShape<ServiceShape>(codegenContext.settings.service)
+        val ctx = codegenContext.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
+
+        val opIndex = OperationIndex.of(ctx.model)
+        val inputShape = opIndex.getInput(op).get()
+        val outputShape = opIndex.getOutput(op).get()
+        val operationErrorName = MiddlewareShapeUtils.outputErrorSymbolName(op)
+        val inputSymbol = ctx.symbolProvider.toSymbol(inputShape)
+        val outputSymbol = ctx.symbolProvider.toSymbol(outputShape)
+        val outputErrorSymbol = Symbol.builder().name(operationErrorName).build()
+        val filename = ModelFileUtils.filename(ctx.settings, "${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
+        val headerMiddlewareSymbol = Symbol.builder()
+            .definitionFile(filename)
+            .name(inputSymbol.name)
+            .build()
+        delegator.useShapeWriter(headerMiddlewareSymbol) { writer ->
+            val queryItemMiddleware = UploadPartPresignedURLMiddleware(
                 inputSymbol,
                 outputSymbol,
                 outputErrorSymbol,
