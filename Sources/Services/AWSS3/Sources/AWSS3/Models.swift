@@ -22186,6 +22186,27 @@ extension UploadPartInput {
     }
 }
 
+public struct PutObjectPresignedURLMiddleware {
+    public let id: Swift.String = "PutObjectPresignedURLMiddleware"
+
+    public init() {}
+}
+extension PutObjectPresignedURLMiddleware: Smithy.RequestMessageSerializer {
+    public typealias InputType = UploadPartInput
+    public typealias RequestType = SmithyHTTPAPI.HTTPRequest
+
+    public func apply(input: InputType, builder: SmithyHTTPAPI.HTTPRequestBuilder, attributes: Smithy.Context) throws {
+        let metadata = input.metadata ?? [:]
+        for (metadataKey, metadataValue) in metadata {
+            let queryItem = Smithy.URIQueryItem(
+                name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
+                value: metadataValue.urlPercentEncoding()
+            )
+            builder.withQueryItem(queryItem)
+        }
+    }
+}
+
 extension GetObjectInput {
     public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "S3"

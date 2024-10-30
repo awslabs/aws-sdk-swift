@@ -84,7 +84,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
                 "com.amazonaws.s3#GetObject", "com.amazonaws.polly#SynthesizeSpeech" -> {
                     renderMiddlewareClassForQueryString(ctx, delegator, op)
                 }
-                "com.amazonaws.s3#PutObject" -> {
+                "com.amazonaws.s3#PutObject", "com.amazonaws.s3#UploadPart" -> {
                     renderMiddlewareClassForPutObject(ctx, delegator, op)
                 }
             }
