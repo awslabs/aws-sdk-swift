@@ -10010,6 +10010,83 @@ public struct CreateClassifierOutput: Swift.Sendable {
     public init() { }
 }
 
+/// An exception thrown when you try to start another job while running a column stats generation job.
+public struct ColumnStatisticsTaskRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ColumnStatisticsTaskRunningException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct CreateColumnStatisticsTaskSettingsInput: Swift.Sendable {
+    /// The ID of the Data Catalog in which the database resides.
+    public var catalogID: Swift.String?
+    /// A list of column names for which to run statistics.
+    public var columnNameList: [Swift.String]?
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The role used for running the column statistics.
+    /// This member is required.
+    public var role: Swift.String?
+    /// The percentage of data to sample.
+    public var sampleSize: Swift.Double?
+    /// A schedule for running the column statistics, specified in CRON syntax.
+    public var schedule: Swift.String?
+    /// Name of the security configuration that is used to encrypt CloudWatch logs.
+    public var securityConfiguration: Swift.String?
+    /// The name of the table for which to generate column statistics.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// A map of tags.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        catalogID: Swift.String? = nil,
+        columnNameList: [Swift.String]? = nil,
+        databaseName: Swift.String? = nil,
+        role: Swift.String? = nil,
+        sampleSize: Swift.Double? = 0.0,
+        schedule: Swift.String? = nil,
+        securityConfiguration: Swift.String? = nil,
+        tableName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.catalogID = catalogID
+        self.columnNameList = columnNameList
+        self.databaseName = databaseName
+        self.role = role
+        self.sampleSize = sampleSize
+        self.schedule = schedule
+        self.securityConfiguration = securityConfiguration
+        self.tableName = tableName
+        self.tags = tags
+    }
+}
+
+public struct CreateColumnStatisticsTaskSettingsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension GlueClientTypes {
 
     public enum ConnectionPropertyKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -13144,6 +13221,29 @@ public struct DeleteColumnStatisticsForTableOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteColumnStatisticsTaskSettingsInput: Swift.Sendable {
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the table for which to delete column statistics.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.tableName = tableName
+    }
+}
+
+public struct DeleteColumnStatisticsTaskSettingsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteConnectionInput: Swift.Sendable {
     /// The ID of the Data Catalog in which the connection resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
@@ -14892,6 +14992,35 @@ public struct GetColumnStatisticsTaskRunInput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    public enum ComputationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case incremental
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputationType] {
+            return [
+                .full,
+                .incremental
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .incremental: return "INCREMENTAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum ColumnStatisticsState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case running
@@ -14938,6 +15067,8 @@ extension GlueClientTypes {
         public var columnNameList: [Swift.String]?
         /// The identifier for the particular column statistics task run.
         public var columnStatisticsTaskRunId: Swift.String?
+        /// The type of column statistics computation.
+        public var computationType: GlueClientTypes.ComputationType?
         /// The time that this task was created.
         public var creationTime: Foundation.Date?
         /// The Amazon Web Services account ID.
@@ -14973,6 +15104,7 @@ extension GlueClientTypes {
             catalogID: Swift.String? = nil,
             columnNameList: [Swift.String]? = nil,
             columnStatisticsTaskRunId: Swift.String? = nil,
+            computationType: GlueClientTypes.ComputationType? = nil,
             creationTime: Foundation.Date? = nil,
             customerId: Swift.String? = nil,
             databaseName: Swift.String? = nil,
@@ -14993,6 +15125,7 @@ extension GlueClientTypes {
             self.catalogID = catalogID
             self.columnNameList = columnNameList
             self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
+            self.computationType = computationType
             self.creationTime = creationTime
             self.customerId = customerId
             self.databaseName = databaseName
@@ -15063,6 +15196,80 @@ public struct GetColumnStatisticsTaskRunsOutput: Swift.Sendable {
     {
         self.columnStatisticsTaskRuns = columnStatisticsTaskRuns
         self.nextToken = nextToken
+    }
+}
+
+public struct GetColumnStatisticsTaskSettingsInput: Swift.Sendable {
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the table for which to retrieve column statistics.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.tableName = tableName
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The settings for a column statistics task.
+    public struct ColumnStatisticsTaskSettings: Swift.Sendable {
+        /// The ID of the Data Catalog in which the database resides.
+        public var catalogID: Swift.String?
+        /// A list of column names for which to run statistics.
+        public var columnNameList: [Swift.String]?
+        /// The name of the database where the table resides.
+        public var databaseName: Swift.String?
+        /// The role used for running the column statistics.
+        public var role: Swift.String?
+        /// The percentage of data to sample.
+        public var sampleSize: Swift.Double
+        /// A schedule for running the column statistics, specified in CRON syntax.
+        public var schedule: GlueClientTypes.Schedule?
+        /// Name of the security configuration that is used to encrypt CloudWatch logs.
+        public var securityConfiguration: Swift.String?
+        /// The name of the table for which to generate column statistics.
+        public var tableName: Swift.String?
+
+        public init(
+            catalogID: Swift.String? = nil,
+            columnNameList: [Swift.String]? = nil,
+            databaseName: Swift.String? = nil,
+            role: Swift.String? = nil,
+            sampleSize: Swift.Double = 0.0,
+            schedule: GlueClientTypes.Schedule? = nil,
+            securityConfiguration: Swift.String? = nil,
+            tableName: Swift.String? = nil
+        )
+        {
+            self.catalogID = catalogID
+            self.columnNameList = columnNameList
+            self.databaseName = databaseName
+            self.role = role
+            self.sampleSize = sampleSize
+            self.schedule = schedule
+            self.securityConfiguration = securityConfiguration
+            self.tableName = tableName
+        }
+    }
+}
+
+public struct GetColumnStatisticsTaskSettingsOutput: Swift.Sendable {
+    /// A ColumnStatisticsTaskSettings object representing the settings for the column statistics task.
+    public var columnStatisticsTaskSettings: GlueClientTypes.ColumnStatisticsTaskSettings?
+
+    public init(
+        columnStatisticsTaskSettings: GlueClientTypes.ColumnStatisticsTaskSettings? = nil
+    )
+    {
+        self.columnStatisticsTaskSettings = columnStatisticsTaskSettings
     }
 }
 
@@ -22362,31 +22569,6 @@ public struct StartBlueprintRunOutput: Swift.Sendable {
     }
 }
 
-/// An exception thrown when you try to start another job while running a column stats generation job.
-public struct ColumnStatisticsTaskRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ColumnStatisticsTaskRunningException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 public struct StartColumnStatisticsTaskRunInput: Swift.Sendable {
     /// The ID of the Data Catalog where the table reside. If none is supplied, the Amazon Web Services account ID is used by default.
     public var catalogID: Swift.String?
@@ -22436,6 +22618,29 @@ public struct StartColumnStatisticsTaskRunOutput: Swift.Sendable {
     {
         self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
     }
+}
+
+public struct StartColumnStatisticsTaskRunScheduleInput: Swift.Sendable {
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the table for which to start a column statistic task run schedule.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.tableName = tableName
+    }
+}
+
+public struct StartColumnStatisticsTaskRunScheduleOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct StartCrawlerInput: Swift.Sendable {
@@ -22982,6 +23187,29 @@ public struct StopColumnStatisticsTaskRunInput: Swift.Sendable {
 }
 
 public struct StopColumnStatisticsTaskRunOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StopColumnStatisticsTaskRunScheduleInput: Swift.Sendable {
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The name of the table for which to stop a column statistic task run schedule.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        databaseName: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.databaseName = databaseName
+        self.tableName = tableName
+    }
+}
+
+public struct StopColumnStatisticsTaskRunScheduleOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -23593,6 +23821,53 @@ public struct UpdateColumnStatisticsForTableOutput: Swift.Sendable {
     {
         self.errors = errors
     }
+}
+
+public struct UpdateColumnStatisticsTaskSettingsInput: Swift.Sendable {
+    /// The ID of the Data Catalog in which the database resides.
+    public var catalogID: Swift.String?
+    /// A list of column names for which to run statistics.
+    public var columnNameList: [Swift.String]?
+    /// The name of the database where the table resides.
+    /// This member is required.
+    public var databaseName: Swift.String?
+    /// The role used for running the column statistics.
+    public var role: Swift.String?
+    /// The percentage of data to sample.
+    public var sampleSize: Swift.Double?
+    /// A schedule for running the column statistics, specified in CRON syntax.
+    public var schedule: Swift.String?
+    /// Name of the security configuration that is used to encrypt CloudWatch logs.
+    public var securityConfiguration: Swift.String?
+    /// The name of the table for which to generate column statistics.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        catalogID: Swift.String? = nil,
+        columnNameList: [Swift.String]? = nil,
+        databaseName: Swift.String? = nil,
+        role: Swift.String? = nil,
+        sampleSize: Swift.Double? = 0.0,
+        schedule: Swift.String? = nil,
+        securityConfiguration: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.catalogID = catalogID
+        self.columnNameList = columnNameList
+        self.databaseName = databaseName
+        self.role = role
+        self.sampleSize = sampleSize
+        self.schedule = schedule
+        self.securityConfiguration = securityConfiguration
+        self.tableName = tableName
+    }
+}
+
+public struct UpdateColumnStatisticsTaskSettingsOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct UpdateConnectionInput: Swift.Sendable {
@@ -25794,6 +26069,13 @@ extension CreateClassifierInput {
     }
 }
 
+extension CreateColumnStatisticsTaskSettingsInput {
+
+    static func urlPathProvider(_ value: CreateColumnStatisticsTaskSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateConnectionInput {
 
     static func urlPathProvider(_ value: CreateConnectionInput) -> Swift.String? {
@@ -25965,6 +26247,13 @@ extension DeleteColumnStatisticsForPartitionInput {
 extension DeleteColumnStatisticsForTableInput {
 
     static func urlPathProvider(_ value: DeleteColumnStatisticsForTableInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteColumnStatisticsTaskSettingsInput {
+
+    static func urlPathProvider(_ value: DeleteColumnStatisticsTaskSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26196,6 +26485,13 @@ extension GetColumnStatisticsTaskRunInput {
 extension GetColumnStatisticsTaskRunsInput {
 
     static func urlPathProvider(_ value: GetColumnStatisticsTaskRunsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetColumnStatisticsTaskSettingsInput {
+
+    static func urlPathProvider(_ value: GetColumnStatisticsTaskSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26893,6 +27189,13 @@ extension StartColumnStatisticsTaskRunInput {
     }
 }
 
+extension StartColumnStatisticsTaskRunScheduleInput {
+
+    static func urlPathProvider(_ value: StartColumnStatisticsTaskRunScheduleInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartCrawlerInput {
 
     static func urlPathProvider(_ value: StartCrawlerInput) -> Swift.String? {
@@ -26977,6 +27280,13 @@ extension StopColumnStatisticsTaskRunInput {
     }
 }
 
+extension StopColumnStatisticsTaskRunScheduleInput {
+
+    static func urlPathProvider(_ value: StopColumnStatisticsTaskRunScheduleInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StopCrawlerInput {
 
     static func urlPathProvider(_ value: StopCrawlerInput) -> Swift.String? {
@@ -27057,6 +27367,13 @@ extension UpdateColumnStatisticsForPartitionInput {
 extension UpdateColumnStatisticsForTableInput {
 
     static func urlPathProvider(_ value: UpdateColumnStatisticsForTableInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateColumnStatisticsTaskSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateColumnStatisticsTaskSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27428,6 +27745,22 @@ extension CreateClassifierInput {
     }
 }
 
+extension CreateColumnStatisticsTaskSettingsInput {
+
+    static func write(value: CreateColumnStatisticsTaskSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogID"].write(value.catalogID)
+        try writer["ColumnNameList"].writeList(value.columnNameList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Role"].write(value.role)
+        try writer["SampleSize"].write(value.sampleSize)
+        try writer["Schedule"].write(value.schedule)
+        try writer["SecurityConfiguration"].write(value.securityConfiguration)
+        try writer["TableName"].write(value.tableName)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateConnectionInput {
 
     static func write(value: CreateConnectionInput?, to writer: SmithyJSON.Writer) throws {
@@ -27770,6 +28103,15 @@ extension DeleteColumnStatisticsForTableInput {
     }
 }
 
+extension DeleteColumnStatisticsTaskSettingsInput {
+
+    static func write(value: DeleteColumnStatisticsTaskSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["TableName"].write(value.tableName)
+    }
+}
+
 extension DeleteConnectionInput {
 
     static func write(value: DeleteConnectionInput?, to writer: SmithyJSON.Writer) throws {
@@ -28068,6 +28410,15 @@ extension GetColumnStatisticsTaskRunsInput {
         try writer["DatabaseName"].write(value.databaseName)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["TableName"].write(value.tableName)
+    }
+}
+
+extension GetColumnStatisticsTaskSettingsInput {
+
+    static func write(value: GetColumnStatisticsTaskSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatabaseName"].write(value.databaseName)
         try writer["TableName"].write(value.tableName)
     }
 }
@@ -29088,6 +29439,15 @@ extension StartColumnStatisticsTaskRunInput {
     }
 }
 
+extension StartColumnStatisticsTaskRunScheduleInput {
+
+    static func write(value: StartColumnStatisticsTaskRunScheduleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["TableName"].write(value.tableName)
+    }
+}
+
 extension StartCrawlerInput {
 
     static func write(value: StartCrawlerInput?, to writer: SmithyJSON.Writer) throws {
@@ -29214,6 +29574,15 @@ extension StopColumnStatisticsTaskRunInput {
     }
 }
 
+extension StopColumnStatisticsTaskRunScheduleInput {
+
+    static func write(value: StopColumnStatisticsTaskRunScheduleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["TableName"].write(value.tableName)
+    }
+}
+
 extension StopCrawlerInput {
 
     static func write(value: StopCrawlerInput?, to writer: SmithyJSON.Writer) throws {
@@ -29323,6 +29692,21 @@ extension UpdateColumnStatisticsForTableInput {
         try writer["CatalogId"].write(value.catalogId)
         try writer["ColumnStatisticsList"].writeList(value.columnStatisticsList, memberWritingClosure: GlueClientTypes.ColumnStatistics.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DatabaseName"].write(value.databaseName)
+        try writer["TableName"].write(value.tableName)
+    }
+}
+
+extension UpdateColumnStatisticsTaskSettingsInput {
+
+    static func write(value: UpdateColumnStatisticsTaskSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogID"].write(value.catalogID)
+        try writer["ColumnNameList"].writeList(value.columnNameList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Role"].write(value.role)
+        try writer["SampleSize"].write(value.sampleSize)
+        try writer["Schedule"].write(value.schedule)
+        try writer["SecurityConfiguration"].write(value.securityConfiguration)
         try writer["TableName"].write(value.tableName)
     }
 }
@@ -29856,6 +30240,13 @@ extension CreateClassifierOutput {
     }
 }
 
+extension CreateColumnStatisticsTaskSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateColumnStatisticsTaskSettingsOutput {
+        return CreateColumnStatisticsTaskSettingsOutput()
+    }
+}
+
 extension CreateConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConnectionOutput {
@@ -30139,6 +30530,13 @@ extension DeleteColumnStatisticsForTableOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteColumnStatisticsForTableOutput {
         return DeleteColumnStatisticsForTableOutput()
+    }
+}
+
+extension DeleteColumnStatisticsTaskSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteColumnStatisticsTaskSettingsOutput {
+        return DeleteColumnStatisticsTaskSettingsOutput()
     }
 }
 
@@ -30473,6 +30871,18 @@ extension GetColumnStatisticsTaskRunsOutput {
         var value = GetColumnStatisticsTaskRunsOutput()
         value.columnStatisticsTaskRuns = try reader["ColumnStatisticsTaskRuns"].readListIfPresent(memberReadingClosure: GlueClientTypes.ColumnStatisticsTaskRun.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetColumnStatisticsTaskSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetColumnStatisticsTaskSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetColumnStatisticsTaskSettingsOutput()
+        value.columnStatisticsTaskSettings = try reader["ColumnStatisticsTaskSettings"].readIfPresent(with: GlueClientTypes.ColumnStatisticsTaskSettings.read(from:))
         return value
     }
 }
@@ -31841,6 +32251,13 @@ extension StartColumnStatisticsTaskRunOutput {
     }
 }
 
+extension StartColumnStatisticsTaskRunScheduleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartColumnStatisticsTaskRunScheduleOutput {
+        return StartColumnStatisticsTaskRunScheduleOutput()
+    }
+}
+
 extension StartCrawlerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartCrawlerOutput {
@@ -31970,6 +32387,13 @@ extension StopColumnStatisticsTaskRunOutput {
     }
 }
 
+extension StopColumnStatisticsTaskRunScheduleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopColumnStatisticsTaskRunScheduleOutput {
+        return StopColumnStatisticsTaskRunScheduleOutput()
+    }
+}
+
 extension StopCrawlerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopCrawlerOutput {
@@ -32076,6 +32500,13 @@ extension UpdateColumnStatisticsForTableOutput {
         var value = UpdateColumnStatisticsForTableOutput()
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.ColumnStatisticsError.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension UpdateColumnStatisticsTaskSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateColumnStatisticsTaskSettingsOutput {
+        return UpdateColumnStatisticsTaskSettingsOutput()
     }
 }
 
@@ -32693,6 +33124,26 @@ enum CreateClassifierOutputError {
     }
 }
 
+enum CreateColumnStatisticsTaskSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "ColumnStatisticsTaskRunningException": return try ColumnStatisticsTaskRunningException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33163,6 +33614,22 @@ enum DeleteColumnStatisticsForTableOutputError {
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteColumnStatisticsTaskSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -33722,6 +34189,22 @@ enum GetColumnStatisticsTaskRunsOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetColumnStatisticsTaskSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -35438,6 +35921,23 @@ enum StartColumnStatisticsTaskRunOutputError {
     }
 }
 
+enum StartColumnStatisticsTaskRunScheduleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartCrawlerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35647,6 +36147,22 @@ enum StopColumnStatisticsTaskRunOutputError {
             case "ColumnStatisticsTaskNotRunningException": return try ColumnStatisticsTaskNotRunningException.makeError(baseError: baseError)
             case "ColumnStatisticsTaskStoppingException": return try ColumnStatisticsTaskStoppingException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopColumnStatisticsTaskRunScheduleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -35865,6 +36381,24 @@ enum UpdateColumnStatisticsForTableOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateColumnStatisticsTaskSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "VersionMismatchException": return try VersionMismatchException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -36409,6 +36943,19 @@ extension IllegalSessionStateException {
     }
 }
 
+extension ColumnStatisticsTaskRunningException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ColumnStatisticsTaskRunningException {
+        let reader = baseError.errorBodyReader
+        var value = ColumnStatisticsTaskRunningException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension IdempotentParameterMismatchException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatchException {
@@ -36571,19 +37118,6 @@ extension IllegalBlueprintStateException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IllegalBlueprintStateException {
         let reader = baseError.errorBodyReader
         var value = IllegalBlueprintStateException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ColumnStatisticsTaskRunningException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ColumnStatisticsTaskRunningException {
-        let reader = baseError.errorBodyReader
-        var value = ColumnStatisticsTaskRunningException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -41151,6 +41685,7 @@ extension GlueClientTypes.ColumnStatisticsTaskRun {
         value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
         value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent() ?? 0
         value.workerType = try reader["WorkerType"].readIfPresent()
+        value.computationType = try reader["ComputationType"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -41158,6 +41693,23 @@ extension GlueClientTypes.ColumnStatisticsTaskRun {
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.dpuSeconds = try reader["DPUSeconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.ColumnStatisticsTaskSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsTaskSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ColumnStatisticsTaskSettings()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.schedule = try reader["Schedule"].readIfPresent(with: GlueClientTypes.Schedule.read(from:))
+        value.columnNameList = try reader["ColumnNameList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.catalogID = try reader["CatalogID"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        value.sampleSize = try reader["SampleSize"].readIfPresent() ?? 0
+        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
         return value
     }
 }
