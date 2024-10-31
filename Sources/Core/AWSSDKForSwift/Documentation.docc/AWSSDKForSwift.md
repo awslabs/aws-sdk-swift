@@ -375,6 +375,12 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSGameLift](../../../../../swift/api/awsgamelift/latest)
 
+[AWSGeoMaps](../../../../../swift/api/awsgeomaps/latest)
+
+[AWSGeoPlaces](../../../../../swift/api/awsgeoplaces/latest)
+
+[AWSGeoRoutes](../../../../../swift/api/awsgeoroutes/latest)
+
 [AWSGlacier](../../../../../swift/api/awsglacier/latest)
 
 [AWSGlobalAccelerator](../../../../../swift/api/awsglobalaccelerator/latest)

@@ -626,13 +626,13 @@ public struct CreateKeyspaceOutput: Swift.Sendable {
     }
 }
 
-/// The operation tried to access a keyspace or table that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
+/// The operation tried to access a keyspace, table, or type that doesn't exist. The resource might not be specified correctly, or its status might not be ACTIVE.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
         /// Description of the error.
         public internal(set) var message: Swift.String? = nil
-        /// The unique identifier in the format of Amazon Resource Name (ARN), for the resource not found.
+        /// The unique identifier in the format of Amazon Resource Name (ARN) for the resource could't be found.
         public internal(set) var resourceArn: Swift.String? = nil
     }
 
@@ -1043,6 +1043,69 @@ public struct CreateTableOutput: Swift.Sendable {
     }
 }
 
+extension KeyspacesClientTypes {
+
+    /// A field definition consists out of a name and a type.
+    public struct FieldDefinition: Swift.Sendable {
+        /// The identifier.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Any supported Cassandra data type, including collections and other user-defined types that are contained in the same keyspace. For more information, see [Cassandra data type support](https://docs.aws.amazon.com/keyspaces/latest/devguide/cassandra-apis.html#cassandra-data-type) in the Amazon Keyspaces Developer Guide.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+public struct CreateTypeInput: Swift.Sendable {
+    /// The field definitions, consisting of names and types, that define this type.
+    /// This member is required.
+    public var fieldDefinitions: [KeyspacesClientTypes.FieldDefinition]?
+    /// The name of the keyspace.
+    /// This member is required.
+    public var keyspaceName: Swift.String?
+    /// The name of the user-defined type. UDT names must contain 48 characters or less, must begin with an alphabetic character, and can only contain alpha-numeric characters and underscores. Amazon Keyspaces converts upper case characters automatically into lower case characters. Alternatively, you can declare a UDT name in double quotes. When declaring a UDT name inside double quotes, Amazon Keyspaces preserves upper casing and allows special characters. You can also use double quotes as part of the name when you create the UDT, but you must escape each double quote character with an additional double quote character.
+    /// This member is required.
+    public var typeName: Swift.String?
+
+    public init(
+        fieldDefinitions: [KeyspacesClientTypes.FieldDefinition]? = nil,
+        keyspaceName: Swift.String? = nil,
+        typeName: Swift.String? = nil
+    )
+    {
+        self.fieldDefinitions = fieldDefinitions
+        self.keyspaceName = keyspaceName
+        self.typeName = typeName
+    }
+}
+
+public struct CreateTypeOutput: Swift.Sendable {
+    /// The unique identifier of the keyspace that contains the new type in the format of an Amazon Resource Name (ARN).
+    /// This member is required.
+    public var keyspaceArn: Swift.String?
+    /// The formatted name of the user-defined type that was created. Note that Amazon Keyspaces requires the formatted name of the type for other operations, for example GetType.
+    /// This member is required.
+    public var typeName: Swift.String?
+
+    public init(
+        keyspaceArn: Swift.String? = nil,
+        typeName: Swift.String? = nil
+    )
+    {
+        self.keyspaceArn = keyspaceArn
+        self.typeName = typeName
+    }
+}
+
 public struct DeleteKeyspaceInput: Swift.Sendable {
     /// The name of the keyspace to be deleted.
     /// This member is required.
@@ -1082,6 +1145,42 @@ public struct DeleteTableInput: Swift.Sendable {
 public struct DeleteTableOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DeleteTypeInput: Swift.Sendable {
+    /// The name of the keyspace of the to be deleted type.
+    /// This member is required.
+    public var keyspaceName: Swift.String?
+    /// The name of the type to be deleted.
+    /// This member is required.
+    public var typeName: Swift.String?
+
+    public init(
+        keyspaceName: Swift.String? = nil,
+        typeName: Swift.String? = nil
+    )
+    {
+        self.keyspaceName = keyspaceName
+        self.typeName = typeName
+    }
+}
+
+public struct DeleteTypeOutput: Swift.Sendable {
+    /// The unique identifier of the keyspace from which the type was deleted in the format of an Amazon Resource Name (ARN).
+    /// This member is required.
+    public var keyspaceArn: Swift.String?
+    /// The name of the type that was deleted.
+    /// This member is required.
+    public var typeName: Swift.String?
+
+    public init(
+        keyspaceArn: Swift.String? = nil,
+        typeName: Swift.String? = nil
+    )
+    {
+        self.keyspaceArn = keyspaceArn
+        self.typeName = typeName
+    }
 }
 
 public struct GetKeyspaceInput: Swift.Sendable {
@@ -1378,6 +1477,106 @@ public struct GetTableAutoScalingSettingsOutput: Swift.Sendable {
     }
 }
 
+public struct GetTypeInput: Swift.Sendable {
+    /// The name of the keyspace that contains this type.
+    /// This member is required.
+    public var keyspaceName: Swift.String?
+    /// The formatted name of the type. For example, if the name of the type was created without double quotes, Amazon Keyspaces saved the name in lower-case characters. If the name was created in double quotes, you must use double quotes to specify the type name.
+    /// This member is required.
+    public var typeName: Swift.String?
+
+    public init(
+        keyspaceName: Swift.String? = nil,
+        typeName: Swift.String? = nil
+    )
+    {
+        self.keyspaceName = keyspaceName
+        self.typeName = typeName
+    }
+}
+
+extension KeyspacesClientTypes {
+
+    public enum TypeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case restoring
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TypeStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .restoring
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .restoring: return "RESTORING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTypeOutput: Swift.Sendable {
+    /// The types that use this type.
+    public var directParentTypes: [Swift.String]?
+    /// The tables that use this type.
+    public var directReferringTables: [Swift.String]?
+    /// The names and types that define this type.
+    public var fieldDefinitions: [KeyspacesClientTypes.FieldDefinition]?
+    /// The unique identifier of the keyspace that contains this type in the format of an Amazon Resource Name (ARN).
+    /// This member is required.
+    public var keyspaceArn: Swift.String?
+    /// The name of the keyspace that contains this type.
+    /// This member is required.
+    public var keyspaceName: Swift.String?
+    /// The timestamp that shows when this type was last modified.
+    public var lastModifiedTimestamp: Foundation.Date?
+    /// The level of nesting implemented for this type.
+    public var maxNestingDepth: Swift.Int
+    /// The status of this type.
+    public var status: KeyspacesClientTypes.TypeStatus?
+    /// The name of the type.
+    /// This member is required.
+    public var typeName: Swift.String?
+
+    public init(
+        directParentTypes: [Swift.String]? = nil,
+        directReferringTables: [Swift.String]? = nil,
+        fieldDefinitions: [KeyspacesClientTypes.FieldDefinition]? = nil,
+        keyspaceArn: Swift.String? = nil,
+        keyspaceName: Swift.String? = nil,
+        lastModifiedTimestamp: Foundation.Date? = nil,
+        maxNestingDepth: Swift.Int = 0,
+        status: KeyspacesClientTypes.TypeStatus? = nil,
+        typeName: Swift.String? = nil
+    )
+    {
+        self.directParentTypes = directParentTypes
+        self.directReferringTables = directReferringTables
+        self.fieldDefinitions = fieldDefinitions
+        self.keyspaceArn = keyspaceArn
+        self.keyspaceName = keyspaceName
+        self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.maxNestingDepth = maxNestingDepth
+        self.status = status
+        self.typeName = typeName
+    }
+}
+
 public struct ListKeyspacesInput: Swift.Sendable {
     /// The total number of keyspaces to return in the output. If the total number of keyspaces available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     public var maxResults: Swift.Int?
@@ -1540,6 +1739,44 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.tags = tags
+    }
+}
+
+public struct ListTypesInput: Swift.Sendable {
+    /// The name of the keyspace that contains the listed types.
+    /// This member is required.
+    public var keyspaceName: Swift.String?
+    /// The total number of types to return in the output. If the total number of types available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
+    public var maxResults: Swift.Int?
+    /// The pagination token. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
+    public var nextToken: Swift.String?
+
+    public init(
+        keyspaceName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.keyspaceName = keyspaceName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListTypesOutput: Swift.Sendable {
+    /// The pagination token. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
+    public var nextToken: Swift.String?
+    /// The list of types contained in the specified keyspace.
+    /// This member is required.
+    public var types: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        types: [Swift.String]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.types = types
     }
 }
 
@@ -1797,6 +2034,13 @@ extension CreateTableInput {
     }
 }
 
+extension CreateTypeInput {
+
+    static func urlPathProvider(_ value: CreateTypeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteKeyspaceInput {
 
     static func urlPathProvider(_ value: DeleteKeyspaceInput) -> Swift.String? {
@@ -1807,6 +2051,13 @@ extension DeleteKeyspaceInput {
 extension DeleteTableInput {
 
     static func urlPathProvider(_ value: DeleteTableInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteTypeInput {
+
+    static func urlPathProvider(_ value: DeleteTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1832,6 +2083,13 @@ extension GetTableAutoScalingSettingsInput {
     }
 }
 
+extension GetTypeInput {
+
+    static func urlPathProvider(_ value: GetTypeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListKeyspacesInput {
 
     static func urlPathProvider(_ value: ListKeyspacesInput) -> Swift.String? {
@@ -1849,6 +2107,13 @@ extension ListTablesInput {
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListTypesInput {
+
+    static func urlPathProvider(_ value: ListTypesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1911,6 +2176,16 @@ extension CreateTableInput {
     }
 }
 
+extension CreateTypeInput {
+
+    static func write(value: CreateTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldDefinitions"].writeList(value.fieldDefinitions, memberWritingClosure: KeyspacesClientTypes.FieldDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["keyspaceName"].write(value.keyspaceName)
+        try writer["typeName"].write(value.typeName)
+    }
+}
+
 extension DeleteKeyspaceInput {
 
     static func write(value: DeleteKeyspaceInput?, to writer: SmithyJSON.Writer) throws {
@@ -1925,6 +2200,15 @@ extension DeleteTableInput {
         guard let value else { return }
         try writer["keyspaceName"].write(value.keyspaceName)
         try writer["tableName"].write(value.tableName)
+    }
+}
+
+extension DeleteTypeInput {
+
+    static func write(value: DeleteTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["keyspaceName"].write(value.keyspaceName)
+        try writer["typeName"].write(value.typeName)
     }
 }
 
@@ -1954,6 +2238,15 @@ extension GetTableAutoScalingSettingsInput {
     }
 }
 
+extension GetTypeInput {
+
+    static func write(value: GetTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["keyspaceName"].write(value.keyspaceName)
+        try writer["typeName"].write(value.typeName)
+    }
+}
+
 extension ListKeyspacesInput {
 
     static func write(value: ListKeyspacesInput?, to writer: SmithyJSON.Writer) throws {
@@ -1980,6 +2273,16 @@ extension ListTagsForResourceInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["resourceArn"].write(value.resourceArn)
+    }
+}
+
+extension ListTypesInput {
+
+    static func write(value: ListTypesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["keyspaceName"].write(value.keyspaceName)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -2061,6 +2364,19 @@ extension CreateTableOutput {
     }
 }
 
+extension CreateTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTypeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTypeOutput()
+        value.keyspaceArn = try reader["keyspaceArn"].readIfPresent() ?? ""
+        value.typeName = try reader["typeName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DeleteKeyspaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteKeyspaceOutput {
@@ -2072,6 +2388,19 @@ extension DeleteTableOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTableOutput {
         return DeleteTableOutput()
+    }
+}
+
+extension DeleteTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTypeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteTypeOutput()
+        value.keyspaceArn = try reader["keyspaceArn"].readIfPresent() ?? ""
+        value.typeName = try reader["typeName"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -2131,6 +2460,26 @@ extension GetTableAutoScalingSettingsOutput {
     }
 }
 
+extension GetTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTypeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTypeOutput()
+        value.directParentTypes = try reader["directParentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.directReferringTables = try reader["directReferringTables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fieldDefinitions = try reader["fieldDefinitions"].readListIfPresent(memberReadingClosure: KeyspacesClientTypes.FieldDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keyspaceArn = try reader["keyspaceArn"].readIfPresent() ?? ""
+        value.keyspaceName = try reader["keyspaceName"].readIfPresent() ?? ""
+        value.lastModifiedTimestamp = try reader["lastModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.maxNestingDepth = try reader["maxNestingDepth"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent()
+        value.typeName = try reader["typeName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ListKeyspacesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListKeyspacesOutput {
@@ -2166,6 +2515,19 @@ extension ListTagsForResourceOutput {
         var value = ListTagsForResourceOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: KeyspacesClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListTypesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTypesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTypesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.types = try reader["types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2245,6 +2607,25 @@ enum CreateTableOutputError {
     }
 }
 
+enum CreateTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteKeyspaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2265,6 +2646,25 @@ enum DeleteKeyspaceOutputError {
 }
 
 enum DeleteTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTypeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -2337,6 +2737,24 @@ enum GetTableAutoScalingSettingsOutputError {
     }
 }
 
+enum GetTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListKeyspacesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2391,6 +2809,24 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListTypesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RestoreTableOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2419,6 +2855,7 @@ enum TagResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -2809,6 +3246,23 @@ extension KeyspacesClientTypes.ReplicaAutoScalingSpecification {
         var value = KeyspacesClientTypes.ReplicaAutoScalingSpecification()
         value.region = try reader["region"].readIfPresent()
         value.autoScalingSpecification = try reader["autoScalingSpecification"].readIfPresent(with: KeyspacesClientTypes.AutoScalingSpecification.read(from:))
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.FieldDefinition {
+
+    static func write(value: KeyspacesClientTypes.FieldDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.FieldDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.FieldDefinition()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         return value
     }
 }

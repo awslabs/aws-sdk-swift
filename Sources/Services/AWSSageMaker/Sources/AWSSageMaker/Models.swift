@@ -2770,7 +2770,6 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
-        case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
@@ -2796,7 +2795,6 @@ extension SageMakerClientTypes {
         case mlTrn1n32xlarge
         case mlTrn12xlarge
         case mlTrn132xlarge
-        case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TrainingInstanceType] {
@@ -2866,7 +2864,6 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
-                .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
@@ -2891,8 +2888,7 @@ extension SageMakerClientTypes {
                 .mlT3Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
-                .mlTrn132xlarge,
-                .mlTrn248xlarge
+                .mlTrn132xlarge
             ]
         }
 
@@ -2968,7 +2964,6 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
-            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
@@ -2994,7 +2989,6 @@ extension SageMakerClientTypes {
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn12xlarge: return "ml.trn1.2xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
-            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -20644,6 +20638,32 @@ extension SageMakerClientTypes.ModelPackageModelCard: Swift.CustomDebugStringCon
 
 extension SageMakerClientTypes {
 
+    /// A structure describing the current state of the model in its life cycle.
+    public struct ModelLifeCycle: Swift.Sendable {
+        /// The current stage in the model life cycle.
+        /// This member is required.
+        public var stage: Swift.String?
+        /// Describes the stage related details.
+        public var stageDescription: Swift.String?
+        /// The current status of a stage in model life cycle.
+        /// This member is required.
+        public var stageStatus: Swift.String?
+
+        public init(
+            stage: Swift.String? = nil,
+            stageDescription: Swift.String? = nil,
+            stageStatus: Swift.String? = nil
+        )
+        {
+            self.stage = stage
+            self.stageDescription = stageDescription
+            self.stageStatus = stageStatus
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Contains explainability metrics for a model.
     public struct Explainability: Swift.Sendable {
         /// The explainability report for a model.
@@ -20885,6 +20905,8 @@ public struct CreateModelPackageInput: Swift.Sendable {
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
     /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
+    /// A structure describing the current state of the model in its life cycle.
+    public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
     /// A structure that contains model metrics reports.
     public var modelMetrics: SageMakerClientTypes.ModelMetrics?
     /// A description of the model package.
@@ -20921,6 +20943,7 @@ public struct CreateModelPackageInput: Swift.Sendable {
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
         modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
+        modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
         modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
         modelPackageDescription: Swift.String? = nil,
         modelPackageGroupName: Swift.String? = nil,
@@ -20945,6 +20968,7 @@ public struct CreateModelPackageInput: Swift.Sendable {
         self.metadataProperties = metadataProperties
         self.modelApprovalStatus = modelApprovalStatus
         self.modelCard = modelCard
+        self.modelLifeCycle = modelLifeCycle
         self.modelMetrics = modelMetrics
         self.modelPackageDescription = modelPackageDescription
         self.modelPackageGroupName = modelPackageGroupName
@@ -31458,6 +31482,8 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
     /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
+    /// A structure describing the current state of the model in its life cycle.
+    public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
     /// Metrics for the model.
     public var modelMetrics: SageMakerClientTypes.ModelMetrics?
     /// The Amazon Resource Name (ARN) of the model package.
@@ -31508,6 +31534,7 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
         modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
+        modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
         modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
         modelPackageArn: Swift.String? = nil,
         modelPackageDescription: Swift.String? = nil,
@@ -31539,6 +31566,7 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
         self.metadataProperties = metadataProperties
         self.modelApprovalStatus = modelApprovalStatus
         self.modelCard = modelCard
+        self.modelLifeCycle = modelLifeCycle
         self.modelMetrics = modelMetrics
         self.modelPackageArn = modelPackageArn
         self.modelPackageDescription = modelPackageDescription
@@ -45812,6 +45840,8 @@ extension SageMakerClientTypes {
         public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
         /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
         public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
+        /// A structure describing the current state of the model in its life cycle.
+        public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
         /// Metrics for the model.
         public var modelMetrics: SageMakerClientTypes.ModelMetrics?
         /// The Amazon Resource Name (ARN) of the model package.
@@ -45870,6 +45900,7 @@ extension SageMakerClientTypes {
             metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
             modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
             modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
+            modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
             modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
             modelPackageArn: Swift.String? = nil,
             modelPackageDescription: Swift.String? = nil,
@@ -45902,6 +45933,7 @@ extension SageMakerClientTypes {
             self.metadataProperties = metadataProperties
             self.modelApprovalStatus = modelApprovalStatus
             self.modelCard = modelCard
+            self.modelLifeCycle = modelLifeCycle
             self.modelMetrics = modelMetrics
             self.modelPackageArn = modelPackageArn
             self.modelPackageDescription = modelPackageDescription
@@ -48774,6 +48806,8 @@ public struct UpdateModelPackageInput: Swift.Sendable {
     public var additionalInferenceSpecificationsToAdd: [SageMakerClientTypes.AdditionalInferenceSpecificationDefinition]?
     /// A description for the approval status of the model.
     public var approvalDescription: Swift.String?
+    /// A unique token that guarantees that the call to this API is idempotent.
+    public var clientToken: Swift.String?
     /// The metadata properties associated with the model package versions.
     public var customerMetadataProperties: [Swift.String: Swift.String]?
     /// The metadata properties associated with the model package versions to remove.
@@ -48790,6 +48824,8 @@ public struct UpdateModelPackageInput: Swift.Sendable {
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
     /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
+    /// A structure describing the current state of the model in its life cycle.
+    public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
     /// The Amazon Resource Name (ARN) of the model package.
     /// This member is required.
     public var modelPackageArn: Swift.String?
@@ -48799,22 +48835,26 @@ public struct UpdateModelPackageInput: Swift.Sendable {
     public init(
         additionalInferenceSpecificationsToAdd: [SageMakerClientTypes.AdditionalInferenceSpecificationDefinition]? = nil,
         approvalDescription: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
         customerMetadataProperties: [Swift.String: Swift.String]? = nil,
         customerMetadataPropertiesToRemove: [Swift.String]? = nil,
         inferenceSpecification: SageMakerClientTypes.InferenceSpecification? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
         modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
+        modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
         modelPackageArn: Swift.String? = nil,
         sourceUri: Swift.String? = nil
     )
     {
         self.additionalInferenceSpecificationsToAdd = additionalInferenceSpecificationsToAdd
         self.approvalDescription = approvalDescription
+        self.clientToken = clientToken
         self.customerMetadataProperties = customerMetadataProperties
         self.customerMetadataPropertiesToRemove = customerMetadataPropertiesToRemove
         self.inferenceSpecification = inferenceSpecification
         self.modelApprovalStatus = modelApprovalStatus
         self.modelCard = modelCard
+        self.modelLifeCycle = modelLifeCycle
         self.modelPackageArn = modelPackageArn
         self.sourceUri = sourceUri
     }
@@ -52449,6 +52489,7 @@ extension CreateModelPackageInput {
         try writer["MetadataProperties"].write(value.metadataProperties, with: SageMakerClientTypes.MetadataProperties.write(value:to:))
         try writer["ModelApprovalStatus"].write(value.modelApprovalStatus)
         try writer["ModelCard"].write(value.modelCard, with: SageMakerClientTypes.ModelPackageModelCard.write(value:to:))
+        try writer["ModelLifeCycle"].write(value.modelLifeCycle, with: SageMakerClientTypes.ModelLifeCycle.write(value:to:))
         try writer["ModelMetrics"].write(value.modelMetrics, with: SageMakerClientTypes.ModelMetrics.write(value:to:))
         try writer["ModelPackageDescription"].write(value.modelPackageDescription)
         try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
@@ -55534,11 +55575,13 @@ extension UpdateModelPackageInput {
         guard let value else { return }
         try writer["AdditionalInferenceSpecificationsToAdd"].writeList(value.additionalInferenceSpecificationsToAdd, memberWritingClosure: SageMakerClientTypes.AdditionalInferenceSpecificationDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ApprovalDescription"].write(value.approvalDescription)
+        try writer["ClientToken"].write(value.clientToken)
         try writer["CustomerMetadataProperties"].writeMap(value.customerMetadataProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["CustomerMetadataPropertiesToRemove"].writeList(value.customerMetadataPropertiesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InferenceSpecification"].write(value.inferenceSpecification, with: SageMakerClientTypes.InferenceSpecification.write(value:to:))
         try writer["ModelApprovalStatus"].write(value.modelApprovalStatus)
         try writer["ModelCard"].write(value.modelCard, with: SageMakerClientTypes.ModelPackageModelCard.write(value:to:))
+        try writer["ModelLifeCycle"].write(value.modelLifeCycle, with: SageMakerClientTypes.ModelLifeCycle.write(value:to:))
         try writer["ModelPackageArn"].write(value.modelPackageArn)
         try writer["SourceUri"].write(value.sourceUri)
     }
@@ -57882,6 +57925,7 @@ extension DescribeModelPackageOutput {
         value.metadataProperties = try reader["MetadataProperties"].readIfPresent(with: SageMakerClientTypes.MetadataProperties.read(from:))
         value.modelApprovalStatus = try reader["ModelApprovalStatus"].readIfPresent()
         value.modelCard = try reader["ModelCard"].readIfPresent(with: SageMakerClientTypes.ModelPackageModelCard.read(from:))
+        value.modelLifeCycle = try reader["ModelLifeCycle"].readIfPresent(with: SageMakerClientTypes.ModelLifeCycle.read(from:))
         value.modelMetrics = try reader["ModelMetrics"].readIfPresent(with: SageMakerClientTypes.ModelMetrics.read(from:))
         value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent() ?? ""
         value.modelPackageDescription = try reader["ModelPackageDescription"].readIfPresent()
@@ -71102,6 +71146,25 @@ extension SageMakerClientTypes.ModelPackageModelCard {
     }
 }
 
+extension SageMakerClientTypes.ModelLifeCycle {
+
+    static func write(value: SageMakerClientTypes.ModelLifeCycle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Stage"].write(value.stage)
+        try writer["StageDescription"].write(value.stageDescription)
+        try writer["StageStatus"].write(value.stageStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelLifeCycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ModelLifeCycle()
+        value.stage = try reader["Stage"].readIfPresent() ?? ""
+        value.stageStatus = try reader["StageStatus"].readIfPresent() ?? ""
+        value.stageDescription = try reader["StageDescription"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.ModelQualityBaselineConfig {
 
     static func write(value: SageMakerClientTypes.ModelQualityBaselineConfig?, to writer: SmithyJSON.Writer) throws {
@@ -74689,6 +74752,7 @@ extension SageMakerClientTypes.ModelPackage {
         value.sourceUri = try reader["SourceUri"].readIfPresent()
         value.securityConfig = try reader["SecurityConfig"].readIfPresent(with: SageMakerClientTypes.ModelPackageSecurityConfig.read(from:))
         value.modelCard = try reader["ModelCard"].readIfPresent(with: SageMakerClientTypes.ModelPackageModelCard.read(from:))
+        value.modelLifeCycle = try reader["ModelLifeCycle"].readIfPresent(with: SageMakerClientTypes.ModelLifeCycle.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.customerMetadataProperties = try reader["CustomerMetadataProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.driftCheckBaselines = try reader["DriftCheckBaselines"].readIfPresent(with: SageMakerClientTypes.DriftCheckBaselines.read(from:))

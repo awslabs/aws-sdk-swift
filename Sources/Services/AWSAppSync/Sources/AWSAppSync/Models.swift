@@ -200,6 +200,226 @@ extension AppSyncClientTypes {
 
 extension AppSyncClientTypes {
 
+    /// Describes an Amazon Cognito configuration.
+    public struct CognitoConfig: Swift.Sendable {
+        /// A regular expression for validating the incoming Amazon Cognito user pool app client ID. If this value isn't set, no filtering is applied.
+        public var appIdClientRegex: Swift.String?
+        /// The Amazon Web Services Region in which the user pool was created.
+        /// This member is required.
+        public var awsRegion: Swift.String?
+        /// The user pool ID.
+        /// This member is required.
+        public var userPoolId: Swift.String?
+
+        public init(
+            appIdClientRegex: Swift.String? = nil,
+            awsRegion: Swift.String? = nil,
+            userPoolId: Swift.String? = nil
+        )
+        {
+            self.appIdClientRegex = appIdClientRegex
+            self.awsRegion = awsRegion
+            self.userPoolId = userPoolId
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// Describes an authorization provider.
+    public struct AuthProvider: Swift.Sendable {
+        /// The authorization type.
+        /// This member is required.
+        public var authType: AppSyncClientTypes.AuthenticationType?
+        /// Describes an Amazon Cognito user pool configuration.
+        public var cognitoConfig: AppSyncClientTypes.CognitoConfig?
+        /// A LambdaAuthorizerConfig specifies how to authorize AppSync API access when using the AWS_LAMBDA authorizer mode. Be aware that an AppSync API can have only one Lambda authorizer configured at a time.
+        public var lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig?
+        /// Describes an OpenID Connect (OIDC) configuration.
+        public var openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig?
+
+        public init(
+            authType: AppSyncClientTypes.AuthenticationType? = nil,
+            cognitoConfig: AppSyncClientTypes.CognitoConfig? = nil,
+            lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig? = nil,
+            openIDConnectConfig: AppSyncClientTypes.OpenIDConnectConfig? = nil
+        )
+        {
+            self.authType = authType
+            self.cognitoConfig = cognitoConfig
+            self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
+            self.openIDConnectConfig = openIDConnectConfig
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// Describes an authorization configuration. Use AuthMode to specify the publishing and subscription authorization configuration for an Event API.
+    public struct AuthMode: Swift.Sendable {
+        /// The authorization type.
+        /// This member is required.
+        public var authType: AppSyncClientTypes.AuthenticationType?
+
+        public init(
+            authType: AppSyncClientTypes.AuthenticationType? = nil
+        )
+        {
+            self.authType = authType
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    public enum EventLogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case debug
+        case error
+        case info
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventLogLevel] {
+            return [
+                .all,
+                .debug,
+                .error,
+                .info,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .debug: return "DEBUG"
+            case .error: return "ERROR"
+            case .info: return "INFO"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// Describes the CloudWatch Logs configuration for the Event API.
+    public struct EventLogConfig: Swift.Sendable {
+        /// The IAM service role that AppSync assumes to publish CloudWatch Logs in your account.
+        /// This member is required.
+        public var cloudWatchLogsRoleArn: Swift.String?
+        /// The type of information to log for the Event API.
+        /// This member is required.
+        public var logLevel: AppSyncClientTypes.EventLogLevel?
+
+        public init(
+            cloudWatchLogsRoleArn: Swift.String? = nil,
+            logLevel: AppSyncClientTypes.EventLogLevel? = nil
+        )
+        {
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.logLevel = logLevel
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// Describes the authorization configuration for connections, message publishing, message subscriptions, and logging for an Event API.
+    public struct EventConfig: Swift.Sendable {
+        /// A list of authorization providers.
+        /// This member is required.
+        public var authProviders: [AppSyncClientTypes.AuthProvider]?
+        /// A list of valid authorization modes for the Event API connections.
+        /// This member is required.
+        public var connectionAuthModes: [AppSyncClientTypes.AuthMode]?
+        /// A list of valid authorization modes for the Event API publishing.
+        /// This member is required.
+        public var defaultPublishAuthModes: [AppSyncClientTypes.AuthMode]?
+        /// A list of valid authorization modes for the Event API subscriptions.
+        /// This member is required.
+        public var defaultSubscribeAuthModes: [AppSyncClientTypes.AuthMode]?
+        /// The CloudWatch Logs configuration for the Event API.
+        public var logConfig: AppSyncClientTypes.EventLogConfig?
+
+        public init(
+            authProviders: [AppSyncClientTypes.AuthProvider]? = nil,
+            connectionAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
+            defaultPublishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
+            defaultSubscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
+            logConfig: AppSyncClientTypes.EventLogConfig? = nil
+        )
+        {
+            self.authProviders = authProviders
+            self.connectionAuthModes = connectionAuthModes
+            self.defaultPublishAuthModes = defaultPublishAuthModes
+            self.defaultSubscribeAuthModes = defaultSubscribeAuthModes
+            self.logConfig = logConfig
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// Describes an AppSync API. You can use Api for an AppSync API with your preferred configuration, such as an Event API that provides real-time message publishing and message subscriptions over WebSockets.
+    public struct Api: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the Api.
+        public var apiArn: Swift.String?
+        /// The Api ID.
+        public var apiId: Swift.String?
+        /// The date and time that the Api was created.
+        public var created: Foundation.Date?
+        /// The DNS records for the API. This will include an HTTP and a real-time endpoint.
+        public var dns: [Swift.String: Swift.String]?
+        /// The Event API configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
+        public var eventConfig: AppSyncClientTypes.EventConfig?
+        /// The name of the Api.
+        public var name: Swift.String?
+        /// The owner contact information for the Api
+        public var ownerContact: Swift.String?
+        /// A map with keys of TagKey objects and values of TagValue objects.
+        public var tags: [Swift.String: Swift.String]?
+        /// The Amazon Resource Name (ARN) of the WAF web access control list (web ACL) associated with this Api, if one exists.
+        public var wafWebAclArn: Swift.String?
+        /// A flag indicating whether to use X-Ray tracing for this Api.
+        public var xrayEnabled: Swift.Bool
+
+        public init(
+            apiArn: Swift.String? = nil,
+            apiId: Swift.String? = nil,
+            created: Foundation.Date? = nil,
+            dns: [Swift.String: Swift.String]? = nil,
+            eventConfig: AppSyncClientTypes.EventConfig? = nil,
+            name: Swift.String? = nil,
+            ownerContact: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            wafWebAclArn: Swift.String? = nil,
+            xrayEnabled: Swift.Bool = false
+        )
+        {
+            self.apiArn = apiArn
+            self.apiId = apiId
+            self.created = created
+            self.dns = dns
+            self.eventConfig = eventConfig
+            self.name = name
+            self.ownerContact = ownerContact
+            self.tags = tags
+            self.wafWebAclArn = wafWebAclArn
+            self.xrayEnabled = xrayEnabled
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
     public enum AssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case processing
@@ -1261,6 +1481,67 @@ extension AppSyncClientTypes {
     }
 }
 
+/// The operation exceeded the service quota for this resource.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct CreateApiInput: Swift.Sendable {
+    /// The Event API configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
+    public var eventConfig: AppSyncClientTypes.EventConfig?
+    /// The name for the Api.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The owner contact information for the Api.
+    public var ownerContact: Swift.String?
+    /// A map with keys of TagKey objects and values of TagValue objects.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        eventConfig: AppSyncClientTypes.EventConfig? = nil,
+        name: Swift.String? = nil,
+        ownerContact: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.eventConfig = eventConfig
+        self.name = name
+        self.ownerContact = ownerContact
+        self.tags = tags
+    }
+}
+
+public struct CreateApiOutput: Swift.Sendable {
+    /// The Api object.
+    public var api: AppSyncClientTypes.Api?
+
+    public init(
+        api: AppSyncClientTypes.Api? = nil
+    )
+    {
+        self.api = api
+    }
+}
+
 /// Represents the input of a CreateApiCache operation.
 public struct CreateApiCacheInput: Swift.Sendable {
     /// Caching behavior.
@@ -1389,6 +1670,124 @@ public struct CreateApiKeyOutput: Swift.Sendable {
     )
     {
         self.apiKey = apiKey
+    }
+}
+
+/// A conflict with a previous successful update is detected. This typically occurs when the previous update did not have time to propagate before the next update was made. A retry (with appropriate backoff logic) is the recommended response to this exception.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct CreateChannelNamespaceInput: Swift.Sendable {
+    /// The Api ID.
+    /// This member is required.
+    public var apiId: Swift.String?
+    /// The event handler functions that run custom business logic to process published events and subscribe requests.
+    public var codeHandlers: Swift.String?
+    /// The name of the ChannelNamespace. This name must be unique within the Api
+    /// This member is required.
+    public var name: Swift.String?
+    /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+    public var publishAuthModes: [AppSyncClientTypes.AuthMode]?
+    /// The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+    public var subscribeAuthModes: [AppSyncClientTypes.AuthMode]?
+    /// A map with keys of TagKey objects and values of TagValue objects.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        apiId: Swift.String? = nil,
+        codeHandlers: Swift.String? = nil,
+        name: Swift.String? = nil,
+        publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
+        subscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.apiId = apiId
+        self.codeHandlers = codeHandlers
+        self.name = name
+        self.publishAuthModes = publishAuthModes
+        self.subscribeAuthModes = subscribeAuthModes
+        self.tags = tags
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// Describes a channel namespace associated with an Api. The ChannelNamespace contains the definitions for code handlers for the Api.
+    public struct ChannelNamespace: Swift.Sendable {
+        /// The Api ID.
+        public var apiId: Swift.String?
+        /// The Amazon Resource Name (ARN) for the ChannelNamespace.
+        public var channelNamespaceArn: Swift.String?
+        /// The event handler functions that run custom business logic to process published events and subscribe requests.
+        public var codeHandlers: Swift.String?
+        /// The date and time that the ChannelNamespace was created.
+        public var created: Foundation.Date?
+        /// The date and time that the ChannelNamespace was last changed.
+        public var lastModified: Foundation.Date?
+        /// The name of the channel namespace. This name must be unique within the Api.
+        public var name: Swift.String?
+        /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Apiauthorization configuration.
+        public var publishAuthModes: [AppSyncClientTypes.AuthMode]?
+        /// The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Apiauthorization configuration.
+        public var subscribeAuthModes: [AppSyncClientTypes.AuthMode]?
+        /// A map with keys of TagKey objects and values of TagValue objects.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            apiId: Swift.String? = nil,
+            channelNamespaceArn: Swift.String? = nil,
+            codeHandlers: Swift.String? = nil,
+            created: Foundation.Date? = nil,
+            lastModified: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
+            subscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.apiId = apiId
+            self.channelNamespaceArn = channelNamespaceArn
+            self.codeHandlers = codeHandlers
+            self.created = created
+            self.lastModified = lastModified
+            self.name = name
+            self.publishAuthModes = publishAuthModes
+            self.subscribeAuthModes = subscribeAuthModes
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateChannelNamespaceOutput: Swift.Sendable {
+    /// The ChannelNamespace object.
+    public var channelNamespace: AppSyncClientTypes.ChannelNamespace?
+
+    public init(
+        channelNamespace: AppSyncClientTypes.ChannelNamespace? = nil
+    )
+    {
+        self.channelNamespace = channelNamespace
     }
 }
 
@@ -2471,11 +2870,11 @@ extension AppSyncClientTypes {
         public var cloudWatchLogsRoleArn: Swift.String?
         /// Set to TRUE to exclude sections that contain information such as headers, context, and evaluated mapping templates, regardless of logging level.
         public var excludeVerboseContent: Swift.Bool
-        /// The field logging level. Values can be NONE, ERROR, INFO, DEBUG, or ALL.
+        /// The field logging level. Values can be NONE, ERROR, or ALL.
         ///
         /// * NONE: No field-level logs are captured.
         ///
-        /// * ERROR: Logs the following information only for the fields that are in the error category:
+        /// * ERROR: Logs the following information only for the fields that are in error:
         ///
         /// * The error section in the server response.
         ///
@@ -2486,33 +2885,11 @@ extension AppSyncClientTypes {
         ///
         ///
         ///
-        /// * INFO: Logs the following information only for the fields that are in the info and error categories:
-        ///
-        /// * Info-level messages.
-        ///
-        /// * The user messages sent through $util.log.info and console.log.
-        ///
-        /// * Field-level tracing and mapping logs are not shown.
-        ///
-        ///
-        ///
-        ///
-        /// * DEBUG: Logs the following information only for the fields that are in the debug, info, and error categories:
-        ///
-        /// * Debug-level messages.
-        ///
-        /// * The user messages sent through $util.log.info, $util.log.debug, console.log, and console.debug.
-        ///
-        /// * Field-level tracing and mapping logs are not shown.
-        ///
-        ///
-        ///
-        ///
         /// * ALL: The following information is logged for all fields in the query:
         ///
         /// * Field-level tracing information.
         ///
-        /// * The generated request/response functions that were resolved for each field.
+        /// * The generated request/response functions that got resolved for each field.
         /// This member is required.
         public var fieldLogLevel: AppSyncClientTypes.FieldLogLevel?
 
@@ -3158,6 +3535,24 @@ public struct CreateTypeOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteApiInput: Swift.Sendable {
+    /// The Api ID.
+    /// This member is required.
+    public var apiId: Swift.String?
+
+    public init(
+        apiId: Swift.String? = nil
+    )
+    {
+        self.apiId = apiId
+    }
+}
+
+public struct DeleteApiOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// Represents the input of a DeleteApiCache operation.
 public struct DeleteApiCacheInput: Swift.Sendable {
     /// The API ID.
@@ -3197,6 +3592,29 @@ public struct DeleteApiKeyInput: Swift.Sendable {
 }
 
 public struct DeleteApiKeyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteChannelNamespaceInput: Swift.Sendable {
+    /// The ID of the Api associated with the ChannelNamespace.
+    /// This member is required.
+    public var apiId: Swift.String?
+    /// The name of the ChannelNamespace.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        apiId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.apiId = apiId
+        self.name = name
+    }
+}
+
+public struct DeleteChannelNamespaceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -3553,6 +3971,31 @@ public struct FlushApiCacheOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct GetApiInput: Swift.Sendable {
+    /// The Api ID.
+    /// This member is required.
+    public var apiId: Swift.String?
+
+    public init(
+        apiId: Swift.String? = nil
+    )
+    {
+        self.apiId = apiId
+    }
+}
+
+public struct GetApiOutput: Swift.Sendable {
+    /// The Api object.
+    public var api: AppSyncClientTypes.Api?
+
+    public init(
+        api: AppSyncClientTypes.Api? = nil
+    )
+    {
+        self.api = api
+    }
+}
+
 public struct GetApiAssociationInput: Swift.Sendable {
     /// The domain name.
     /// This member is required.
@@ -3605,6 +4048,36 @@ public struct GetApiCacheOutput: Swift.Sendable {
     }
 }
 
+public struct GetChannelNamespaceInput: Swift.Sendable {
+    /// The Api ID.
+    /// This member is required.
+    public var apiId: Swift.String?
+    /// The name of the ChannelNamespace.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        apiId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.apiId = apiId
+        self.name = name
+    }
+}
+
+public struct GetChannelNamespaceOutput: Swift.Sendable {
+    /// The ChannelNamespace object.
+    public var channelNamespace: AppSyncClientTypes.ChannelNamespace?
+
+    public init(
+        channelNamespace: AppSyncClientTypes.ChannelNamespace? = nil
+    )
+    {
+        self.channelNamespace = channelNamespace
+    }
+}
+
 public struct GetDataSourceInput: Swift.Sendable {
     /// The API ID.
     /// This member is required.
@@ -3636,7 +4109,7 @@ public struct GetDataSourceOutput: Swift.Sendable {
 }
 
 public struct GetDataSourceIntrospectionInput: Swift.Sendable {
-    /// A boolean flag that determines whether SDL should be generated for introspected types or not. If set to true, each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
+    /// A boolean flag that determines whether SDL should be generated for introspected types. If set to true, each model will contain an sdl property that contains the SDL for that type. The SDL only contains the type data and no additional metadata or directives.
     public var includeModelsSDL: Swift.Bool?
     /// The introspection ID. Each introspection contains a unique ID that can be used to reference the instrospection record.
     /// This member is required.
@@ -4107,6 +4580,75 @@ public struct ListApiKeysOutput: Swift.Sendable {
     )
     {
         self.apiKeys = apiKeys
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListApisInput: Swift.Sendable {
+    /// The maximum number of results that you want the request to return.
+    public var maxResults: Swift.Int?
+    /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListApisOutput: Swift.Sendable {
+    /// The Api objects.
+    public var apis: [AppSyncClientTypes.Api]?
+    /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+    public var nextToken: Swift.String?
+
+    public init(
+        apis: [AppSyncClientTypes.Api]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.apis = apis
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListChannelNamespacesInput: Swift.Sendable {
+    /// The Api ID.
+    /// This member is required.
+    public var apiId: Swift.String?
+    /// The maximum number of results that you want the request to return.
+    public var maxResults: Swift.Int?
+    /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+    public var nextToken: Swift.String?
+
+    public init(
+        apiId: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.apiId = apiId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListChannelNamespacesOutput: Swift.Sendable {
+    /// The ChannelNamespace objects.
+    public var channelNamespaces: [AppSyncClientTypes.ChannelNamespace]?
+    /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+    public var nextToken: Swift.String?
+
+    public init(
+        channelNamespaces: [AppSyncClientTypes.ChannelNamespace]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.channelNamespaces = channelNamespaces
         self.nextToken = nextToken
     }
 }
@@ -4769,6 +5311,44 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateApiInput: Swift.Sendable {
+    /// The Api ID.
+    /// This member is required.
+    public var apiId: Swift.String?
+    /// The new event configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
+    public var eventConfig: AppSyncClientTypes.EventConfig?
+    /// The name of the Api.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The owner contact information for the Api.
+    public var ownerContact: Swift.String?
+
+    public init(
+        apiId: Swift.String? = nil,
+        eventConfig: AppSyncClientTypes.EventConfig? = nil,
+        name: Swift.String? = nil,
+        ownerContact: Swift.String? = nil
+    )
+    {
+        self.apiId = apiId
+        self.eventConfig = eventConfig
+        self.name = name
+        self.ownerContact = ownerContact
+    }
+}
+
+public struct UpdateApiOutput: Swift.Sendable {
+    /// The Api object.
+    public var api: AppSyncClientTypes.Api?
+
+    public init(
+        api: AppSyncClientTypes.Api? = nil
+    )
+    {
+        self.api = api
+    }
+}
+
 /// Represents the input of a UpdateApiCache operation.
 public struct UpdateApiCacheInput: Swift.Sendable {
     /// Caching behavior.
@@ -4894,6 +5474,48 @@ public struct UpdateApiKeyOutput: Swift.Sendable {
     )
     {
         self.apiKey = apiKey
+    }
+}
+
+public struct UpdateChannelNamespaceInput: Swift.Sendable {
+    /// The Api ID.
+    /// This member is required.
+    public var apiId: Swift.String?
+    /// The event handler functions that run custom business logic to process published events and subscribe requests.
+    public var codeHandlers: Swift.String?
+    /// The name of the ChannelNamespace.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+    public var publishAuthModes: [AppSyncClientTypes.AuthMode]?
+    /// The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api authorization configuration.
+    public var subscribeAuthModes: [AppSyncClientTypes.AuthMode]?
+
+    public init(
+        apiId: Swift.String? = nil,
+        codeHandlers: Swift.String? = nil,
+        name: Swift.String? = nil,
+        publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
+        subscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil
+    )
+    {
+        self.apiId = apiId
+        self.codeHandlers = codeHandlers
+        self.name = name
+        self.publishAuthModes = publishAuthModes
+        self.subscribeAuthModes = subscribeAuthModes
+    }
+}
+
+public struct UpdateChannelNamespaceOutput: Swift.Sendable {
+    /// The ChannelNamespace object.
+    public var channelNamespace: AppSyncClientTypes.ChannelNamespace?
+
+    public init(
+        channelNamespace: AppSyncClientTypes.ChannelNamespace? = nil
+    )
+    {
+        self.channelNamespace = channelNamespace
     }
 }
 
@@ -5080,7 +5702,6 @@ public struct UpdateGraphqlApiInput: Swift.Sendable {
     /// This member is required.
     public var apiId: Swift.String?
     /// The new authentication type for the GraphqlApi object.
-    /// This member is required.
     public var authenticationType: AppSyncClientTypes.AuthenticationType?
     /// The enhancedMetricsConfig object.
     public var enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig?
@@ -5480,6 +6101,13 @@ extension AssociateSourceGraphqlApiInput {
     }
 }
 
+extension CreateApiInput {
+
+    static func urlPathProvider(_ value: CreateApiInput) -> Swift.String? {
+        return "/v2/apis"
+    }
+}
+
 extension CreateApiCacheInput {
 
     static func urlPathProvider(_ value: CreateApiCacheInput) -> Swift.String? {
@@ -5497,6 +6125,16 @@ extension CreateApiKeyInput {
             return nil
         }
         return "/v1/apis/\(apiId.urlPercentEncoding())/apikeys"
+    }
+}
+
+extension CreateChannelNamespaceInput {
+
+    static func urlPathProvider(_ value: CreateChannelNamespaceInput) -> Swift.String? {
+        guard let apiId = value.apiId else {
+            return nil
+        }
+        return "/v2/apis/\(apiId.urlPercentEncoding())/channelNamespaces"
     }
 }
 
@@ -5557,6 +6195,16 @@ extension CreateTypeInput {
     }
 }
 
+extension DeleteApiInput {
+
+    static func urlPathProvider(_ value: DeleteApiInput) -> Swift.String? {
+        guard let apiId = value.apiId else {
+            return nil
+        }
+        return "/v2/apis/\(apiId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteApiCacheInput {
 
     static func urlPathProvider(_ value: DeleteApiCacheInput) -> Swift.String? {
@@ -5577,6 +6225,19 @@ extension DeleteApiKeyInput {
             return nil
         }
         return "/v1/apis/\(apiId.urlPercentEncoding())/apikeys/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteChannelNamespaceInput {
+
+    static func urlPathProvider(_ value: DeleteChannelNamespaceInput) -> Swift.String? {
+        guard let apiId = value.apiId else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/v2/apis/\(apiId.urlPercentEncoding())/channelNamespaces/\(name.urlPercentEncoding())"
     }
 }
 
@@ -5715,6 +6376,16 @@ extension FlushApiCacheInput {
     }
 }
 
+extension GetApiInput {
+
+    static func urlPathProvider(_ value: GetApiInput) -> Swift.String? {
+        guard let apiId = value.apiId else {
+            return nil
+        }
+        return "/v2/apis/\(apiId.urlPercentEncoding())"
+    }
+}
+
 extension GetApiAssociationInput {
 
     static func urlPathProvider(_ value: GetApiAssociationInput) -> Swift.String? {
@@ -5732,6 +6403,19 @@ extension GetApiCacheInput {
             return nil
         }
         return "/v1/apis/\(apiId.urlPercentEncoding())/ApiCaches"
+    }
+}
+
+extension GetChannelNamespaceInput {
+
+    static func urlPathProvider(_ value: GetChannelNamespaceInput) -> Swift.String? {
+        guard let apiId = value.apiId else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/v2/apis/\(apiId.urlPercentEncoding())/channelNamespaces/\(name.urlPercentEncoding())"
     }
 }
 
@@ -5928,6 +6612,55 @@ extension ListApiKeysInput {
 extension ListApiKeysInput {
 
     static func queryItemProvider(_ value: ListApiKeysInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListApisInput {
+
+    static func urlPathProvider(_ value: ListApisInput) -> Swift.String? {
+        return "/v2/apis"
+    }
+}
+
+extension ListApisInput {
+
+    static func queryItemProvider(_ value: ListApisInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListChannelNamespacesInput {
+
+    static func urlPathProvider(_ value: ListChannelNamespacesInput) -> Swift.String? {
+        guard let apiId = value.apiId else {
+            return nil
+        }
+        return "/v2/apis/\(apiId.urlPercentEncoding())/channelNamespaces"
+    }
+}
+
+extension ListChannelNamespacesInput {
+
+    static func queryItemProvider(_ value: ListChannelNamespacesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -6284,6 +7017,16 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateApiInput {
+
+    static func urlPathProvider(_ value: UpdateApiInput) -> Swift.String? {
+        guard let apiId = value.apiId else {
+            return nil
+        }
+        return "/v2/apis/\(apiId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateApiCacheInput {
 
     static func urlPathProvider(_ value: UpdateApiCacheInput) -> Swift.String? {
@@ -6304,6 +7047,19 @@ extension UpdateApiKeyInput {
             return nil
         }
         return "/v1/apis/\(apiId.urlPercentEncoding())/apikeys/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateChannelNamespaceInput {
+
+    static func urlPathProvider(_ value: UpdateChannelNamespaceInput) -> Swift.String? {
+        guard let apiId = value.apiId else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/v2/apis/\(apiId.urlPercentEncoding())/channelNamespaces/\(name.urlPercentEncoding())"
     }
 }
 
@@ -6423,6 +7179,17 @@ extension AssociateSourceGraphqlApiInput {
     }
 }
 
+extension CreateApiInput {
+
+    static func write(value: CreateApiInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventConfig"].write(value.eventConfig, with: AppSyncClientTypes.EventConfig.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["ownerContact"].write(value.ownerContact)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateApiCacheInput {
 
     static func write(value: CreateApiCacheInput?, to writer: SmithyJSON.Writer) throws {
@@ -6442,6 +7209,18 @@ extension CreateApiKeyInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["expires"].write(value.expires)
+    }
+}
+
+extension CreateChannelNamespaceInput {
+
+    static func write(value: CreateChannelNamespaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codeHandlers"].write(value.codeHandlers)
+        try writer["name"].write(value.name)
+        try writer["publishAuthModes"].writeList(value.publishAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subscribeAuthModes"].writeList(value.subscribeAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -6595,6 +7374,16 @@ extension TagResourceInput {
     }
 }
 
+extension UpdateApiInput {
+
+    static func write(value: UpdateApiInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventConfig"].write(value.eventConfig, with: AppSyncClientTypes.EventConfig.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["ownerContact"].write(value.ownerContact)
+    }
+}
+
 extension UpdateApiCacheInput {
 
     static func write(value: UpdateApiCacheInput?, to writer: SmithyJSON.Writer) throws {
@@ -6612,6 +7401,16 @@ extension UpdateApiKeyInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["expires"].write(value.expires)
+    }
+}
+
+extension UpdateChannelNamespaceInput {
+
+    static func write(value: UpdateChannelNamespaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codeHandlers"].write(value.codeHandlers)
+        try writer["publishAuthModes"].writeList(value.publishAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subscribeAuthModes"].writeList(value.subscribeAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6751,6 +7550,18 @@ extension AssociateSourceGraphqlApiOutput {
     }
 }
 
+extension CreateApiOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApiOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateApiOutput()
+        value.api = try reader["api"].readIfPresent(with: AppSyncClientTypes.Api.read(from:))
+        return value
+    }
+}
+
 extension CreateApiCacheOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApiCacheOutput {
@@ -6771,6 +7582,18 @@ extension CreateApiKeyOutput {
         let reader = responseReader
         var value = CreateApiKeyOutput()
         value.apiKey = try reader["apiKey"].readIfPresent(with: AppSyncClientTypes.ApiKey.read(from:))
+        return value
+    }
+}
+
+extension CreateChannelNamespaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateChannelNamespaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateChannelNamespaceOutput()
+        value.channelNamespace = try reader["channelNamespace"].readIfPresent(with: AppSyncClientTypes.ChannelNamespace.read(from:))
         return value
     }
 }
@@ -6847,6 +7670,13 @@ extension CreateTypeOutput {
     }
 }
 
+extension DeleteApiOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApiOutput {
+        return DeleteApiOutput()
+    }
+}
+
 extension DeleteApiCacheOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApiCacheOutput {
@@ -6858,6 +7688,13 @@ extension DeleteApiKeyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApiKeyOutput {
         return DeleteApiKeyOutput()
+    }
+}
+
+extension DeleteChannelNamespaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChannelNamespaceOutput {
+        return DeleteChannelNamespaceOutput()
     }
 }
 
@@ -6969,6 +7806,18 @@ extension FlushApiCacheOutput {
     }
 }
 
+extension GetApiOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetApiOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetApiOutput()
+        value.api = try reader["api"].readIfPresent(with: AppSyncClientTypes.Api.read(from:))
+        return value
+    }
+}
+
 extension GetApiAssociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetApiAssociationOutput {
@@ -6989,6 +7838,18 @@ extension GetApiCacheOutput {
         let reader = responseReader
         var value = GetApiCacheOutput()
         value.apiCache = try reader["apiCache"].readIfPresent(with: AppSyncClientTypes.ApiCache.read(from:))
+        return value
+    }
+}
+
+extension GetChannelNamespaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetChannelNamespaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetChannelNamespaceOutput()
+        value.channelNamespace = try reader["channelNamespace"].readIfPresent(with: AppSyncClientTypes.ChannelNamespace.read(from:))
         return value
     }
 }
@@ -7141,6 +8002,32 @@ extension ListApiKeysOutput {
         let reader = responseReader
         var value = ListApiKeysOutput()
         value.apiKeys = try reader["apiKeys"].readListIfPresent(memberReadingClosure: AppSyncClientTypes.ApiKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListApisOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListApisOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListApisOutput()
+        value.apis = try reader["apis"].readListIfPresent(memberReadingClosure: AppSyncClientTypes.Api.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListChannelNamespacesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListChannelNamespacesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListChannelNamespacesOutput()
+        value.channelNamespaces = try reader["channelNamespaces"].readListIfPresent(memberReadingClosure: AppSyncClientTypes.ChannelNamespace.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7339,6 +8226,18 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateApiOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApiOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateApiOutput()
+        value.api = try reader["api"].readIfPresent(with: AppSyncClientTypes.Api.read(from:))
+        return value
+    }
+}
+
 extension UpdateApiCacheOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApiCacheOutput {
@@ -7359,6 +8258,18 @@ extension UpdateApiKeyOutput {
         let reader = responseReader
         var value = UpdateApiKeyOutput()
         value.apiKey = try reader["apiKey"].readIfPresent(with: AppSyncClientTypes.ApiKey.read(from:))
+        return value
+    }
+}
+
+extension UpdateChannelNamespaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateChannelNamespaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateChannelNamespaceOutput()
+        value.channelNamespace = try reader["channelNamespace"].readIfPresent(with: AppSyncClientTypes.ChannelNamespace.read(from:))
         return value
     }
 }
@@ -7502,6 +8413,24 @@ enum AssociateSourceGraphqlApiOutputError {
     }
 }
 
+enum CreateApiOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateApiCacheOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7534,6 +8463,26 @@ enum CreateApiKeyOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateChannelNamespaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7647,6 +8596,25 @@ enum CreateTypeOutputError {
     }
 }
 
+enum DeleteApiOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteApiCacheOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7674,6 +8642,25 @@ enum DeleteApiKeyOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteChannelNamespaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
@@ -7895,6 +8882,24 @@ enum FlushApiCacheOutputError {
     }
 }
 
+enum GetApiOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetApiAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7922,6 +8927,24 @@ enum GetApiCacheOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetChannelNamespaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
@@ -8119,6 +9142,39 @@ enum GetTypeOutputError {
 }
 
 enum ListApiKeysOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListApisOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListChannelNamespacesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8417,6 +9473,25 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateApiOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateApiCacheOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8447,6 +9522,25 @@ enum UpdateApiKeyOutputError {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateChannelNamespaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8674,6 +9768,19 @@ extension UnauthorizedException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ApiKeyLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ApiKeyLimitExceededException {
@@ -8692,6 +9799,19 @@ extension ApiKeyValidityOutOfBoundsException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ApiKeyValidityOutOfBoundsException {
         let reader = baseError.errorBodyReader
         var value = ApiKeyValidityOutOfBoundsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8774,6 +9894,160 @@ extension AppSyncClientTypes.SourceApiAssociationConfig {
     }
 }
 
+extension AppSyncClientTypes.Api {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.Api {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.Api()
+        value.apiId = try reader["apiId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.ownerContact = try reader["ownerContact"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.dns = try reader["dns"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.apiArn = try reader["apiArn"].readIfPresent()
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.xrayEnabled = try reader["xrayEnabled"].readIfPresent() ?? false
+        value.wafWebAclArn = try reader["wafWebAclArn"].readIfPresent()
+        value.eventConfig = try reader["eventConfig"].readIfPresent(with: AppSyncClientTypes.EventConfig.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.EventConfig {
+
+    static func write(value: AppSyncClientTypes.EventConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authProviders"].writeList(value.authProviders, memberWritingClosure: AppSyncClientTypes.AuthProvider.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["connectionAuthModes"].writeList(value.connectionAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["defaultPublishAuthModes"].writeList(value.defaultPublishAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["defaultSubscribeAuthModes"].writeList(value.defaultSubscribeAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["logConfig"].write(value.logConfig, with: AppSyncClientTypes.EventLogConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.EventConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.EventConfig()
+        value.authProviders = try reader["authProviders"].readListIfPresent(memberReadingClosure: AppSyncClientTypes.AuthProvider.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.connectionAuthModes = try reader["connectionAuthModes"].readListIfPresent(memberReadingClosure: AppSyncClientTypes.AuthMode.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.defaultPublishAuthModes = try reader["defaultPublishAuthModes"].readListIfPresent(memberReadingClosure: AppSyncClientTypes.AuthMode.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.defaultSubscribeAuthModes = try reader["defaultSubscribeAuthModes"].readListIfPresent(memberReadingClosure: AppSyncClientTypes.AuthMode.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.logConfig = try reader["logConfig"].readIfPresent(with: AppSyncClientTypes.EventLogConfig.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.EventLogConfig {
+
+    static func write(value: AppSyncClientTypes.EventLogConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogsRoleArn"].write(value.cloudWatchLogsRoleArn)
+        try writer["logLevel"].write(value.logLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.EventLogConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.EventLogConfig()
+        value.logLevel = try reader["logLevel"].readIfPresent() ?? .sdkUnknown("")
+        value.cloudWatchLogsRoleArn = try reader["cloudWatchLogsRoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppSyncClientTypes.AuthMode {
+
+    static func write(value: AppSyncClientTypes.AuthMode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authType"].write(value.authType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.AuthMode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.AuthMode()
+        value.authType = try reader["authType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppSyncClientTypes.AuthProvider {
+
+    static func write(value: AppSyncClientTypes.AuthProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authType"].write(value.authType)
+        try writer["cognitoConfig"].write(value.cognitoConfig, with: AppSyncClientTypes.CognitoConfig.write(value:to:))
+        try writer["lambdaAuthorizerConfig"].write(value.lambdaAuthorizerConfig, with: AppSyncClientTypes.LambdaAuthorizerConfig.write(value:to:))
+        try writer["openIDConnectConfig"].write(value.openIDConnectConfig, with: AppSyncClientTypes.OpenIDConnectConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.AuthProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.AuthProvider()
+        value.authType = try reader["authType"].readIfPresent() ?? .sdkUnknown("")
+        value.cognitoConfig = try reader["cognitoConfig"].readIfPresent(with: AppSyncClientTypes.CognitoConfig.read(from:))
+        value.openIDConnectConfig = try reader["openIDConnectConfig"].readIfPresent(with: AppSyncClientTypes.OpenIDConnectConfig.read(from:))
+        value.lambdaAuthorizerConfig = try reader["lambdaAuthorizerConfig"].readIfPresent(with: AppSyncClientTypes.LambdaAuthorizerConfig.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.LambdaAuthorizerConfig {
+
+    static func write(value: AppSyncClientTypes.LambdaAuthorizerConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizerResultTtlInSeconds"].write(value.authorizerResultTtlInSeconds)
+        try writer["authorizerUri"].write(value.authorizerUri)
+        try writer["identityValidationExpression"].write(value.identityValidationExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.LambdaAuthorizerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.LambdaAuthorizerConfig()
+        value.authorizerResultTtlInSeconds = try reader["authorizerResultTtlInSeconds"].readIfPresent() ?? 0
+        value.authorizerUri = try reader["authorizerUri"].readIfPresent() ?? ""
+        value.identityValidationExpression = try reader["identityValidationExpression"].readIfPresent()
+        return value
+    }
+}
+
+extension AppSyncClientTypes.OpenIDConnectConfig {
+
+    static func write(value: AppSyncClientTypes.OpenIDConnectConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authTTL"].write(value.authTTL)
+        try writer["clientId"].write(value.clientId)
+        try writer["iatTTL"].write(value.iatTTL)
+        try writer["issuer"].write(value.issuer)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.OpenIDConnectConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.OpenIDConnectConfig()
+        value.issuer = try reader["issuer"].readIfPresent() ?? ""
+        value.clientId = try reader["clientId"].readIfPresent()
+        value.iatTTL = try reader["iatTTL"].readIfPresent() ?? 0
+        value.authTTL = try reader["authTTL"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AppSyncClientTypes.CognitoConfig {
+
+    static func write(value: AppSyncClientTypes.CognitoConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appIdClientRegex"].write(value.appIdClientRegex)
+        try writer["awsRegion"].write(value.awsRegion)
+        try writer["userPoolId"].write(value.userPoolId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.CognitoConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.CognitoConfig()
+        value.userPoolId = try reader["userPoolId"].readIfPresent() ?? ""
+        value.awsRegion = try reader["awsRegion"].readIfPresent() ?? ""
+        value.appIdClientRegex = try reader["appIdClientRegex"].readIfPresent()
+        return value
+    }
+}
+
 extension AppSyncClientTypes.ApiCache {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.ApiCache {
@@ -8799,6 +10073,24 @@ extension AppSyncClientTypes.ApiKey {
         value.description = try reader["description"].readIfPresent()
         value.expires = try reader["expires"].readIfPresent() ?? 0
         value.deletes = try reader["deletes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AppSyncClientTypes.ChannelNamespace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.ChannelNamespace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.ChannelNamespace()
+        value.apiId = try reader["apiId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.subscribeAuthModes = try reader["subscribeAuthModes"].readListIfPresent(memberReadingClosure: AppSyncClientTypes.AuthMode.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.publishAuthModes = try reader["publishAuthModes"].readListIfPresent(memberReadingClosure: AppSyncClientTypes.AuthMode.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.codeHandlers = try reader["codeHandlers"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.channelNamespaceArn = try reader["channelNamespaceArn"].readIfPresent()
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -9159,25 +10451,6 @@ extension AppSyncClientTypes.EnhancedMetricsConfig {
     }
 }
 
-extension AppSyncClientTypes.LambdaAuthorizerConfig {
-
-    static func write(value: AppSyncClientTypes.LambdaAuthorizerConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizerResultTtlInSeconds"].write(value.authorizerResultTtlInSeconds)
-        try writer["authorizerUri"].write(value.authorizerUri)
-        try writer["identityValidationExpression"].write(value.identityValidationExpression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.LambdaAuthorizerConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppSyncClientTypes.LambdaAuthorizerConfig()
-        value.authorizerResultTtlInSeconds = try reader["authorizerResultTtlInSeconds"].readIfPresent() ?? 0
-        value.authorizerUri = try reader["authorizerUri"].readIfPresent() ?? ""
-        value.identityValidationExpression = try reader["identityValidationExpression"].readIfPresent()
-        return value
-    }
-}
-
 extension AppSyncClientTypes.AdditionalAuthenticationProvider {
 
     static func write(value: AppSyncClientTypes.AdditionalAuthenticationProvider?, to writer: SmithyJSON.Writer) throws {
@@ -9214,27 +10487,6 @@ extension AppSyncClientTypes.CognitoUserPoolConfig {
         value.userPoolId = try reader["userPoolId"].readIfPresent() ?? ""
         value.awsRegion = try reader["awsRegion"].readIfPresent() ?? ""
         value.appIdClientRegex = try reader["appIdClientRegex"].readIfPresent()
-        return value
-    }
-}
-
-extension AppSyncClientTypes.OpenIDConnectConfig {
-
-    static func write(value: AppSyncClientTypes.OpenIDConnectConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authTTL"].write(value.authTTL)
-        try writer["clientId"].write(value.clientId)
-        try writer["iatTTL"].write(value.iatTTL)
-        try writer["issuer"].write(value.issuer)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.OpenIDConnectConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppSyncClientTypes.OpenIDConnectConfig()
-        value.issuer = try reader["issuer"].readIfPresent() ?? ""
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.iatTTL = try reader["iatTTL"].readIfPresent() ?? 0
-        value.authTTL = try reader["authTTL"].readIfPresent() ?? 0
         return value
     }
 }
