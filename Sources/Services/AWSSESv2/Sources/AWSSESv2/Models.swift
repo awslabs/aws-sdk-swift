@@ -839,12 +839,38 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
-    /// An object that defines the email template to use for an email message, and the values to use for any message variables in that template. An email template is a type of message template that contains content that you want to define, save, and reuse in email messages that you send.
+    /// The content of the email, composed of a subject line, an HTML part, and a text-only part.
+    public struct EmailTemplateContent: Swift.Sendable {
+        /// The HTML body of the email.
+        public var html: Swift.String?
+        /// The subject line of the email.
+        public var subject: Swift.String?
+        /// The email body that will be visible to recipients whose email clients do not display HTML.
+        public var text: Swift.String?
+
+        public init(
+            html: Swift.String? = nil,
+            subject: Swift.String? = nil,
+            text: Swift.String? = nil
+        )
+        {
+            self.html = html
+            self.subject = subject
+            self.text = text
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object that defines the email template to use for an email message, and the values to use for any message variables in that template. An email template is a type of message template that contains content that you want to reuse in email messages that you send. You can specifiy the email template by providing the name or ARN of an email template previously saved in your Amazon SES account or by providing the full template content.
     public struct Template: Swift.Sendable {
         /// The list of message headers that will be added to the email message.
         public var headers: [SESv2ClientTypes.MessageHeader]?
         /// The Amazon Resource Name (ARN) of the template.
         public var templateArn: Swift.String?
+        /// The content of the template. Amazon SES supports only simple substitions when you send email using the SendEmail or SendBulkEmail operations and you provide the full template content in the request.
+        public var templateContent: SESv2ClientTypes.EmailTemplateContent?
         /// An object that defines the values to use for message variables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable.
         public var templateData: Swift.String?
         /// The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
@@ -853,12 +879,14 @@ extension SESv2ClientTypes {
         public init(
             headers: [SESv2ClientTypes.MessageHeader]? = nil,
             templateArn: Swift.String? = nil,
+            templateContent: SESv2ClientTypes.EmailTemplateContent? = nil,
             templateData: Swift.String? = nil,
             templateName: Swift.String? = nil
         )
         {
             self.headers = headers
             self.templateArn = templateArn
+            self.templateContent = templateContent
             self.templateData = templateData
             self.templateName = templateName
         }
@@ -2774,30 +2802,6 @@ public struct CreateEmailIdentityPolicyInput: Swift.Sendable {
 public struct CreateEmailIdentityPolicyOutput: Swift.Sendable {
 
     public init() { }
-}
-
-extension SESv2ClientTypes {
-
-    /// The content of the email, composed of a subject line, an HTML part, and a text-only part.
-    public struct EmailTemplateContent: Swift.Sendable {
-        /// The HTML body of the email.
-        public var html: Swift.String?
-        /// The subject line of the email.
-        public var subject: Swift.String?
-        /// The email body that will be visible to recipients whose email clients do not display HTML.
-        public var text: Swift.String?
-
-        public init(
-            html: Swift.String? = nil,
-            subject: Swift.String? = nil,
-            text: Swift.String? = nil
-        )
-        {
-            self.html = html
-            self.subject = subject
-            self.text = text
-        }
-    }
 }
 
 /// Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
@@ -12886,6 +12890,7 @@ extension SESv2ClientTypes.Template {
         guard let value else { return }
         try writer["Headers"].writeList(value.headers, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateArn"].write(value.templateArn)
+        try writer["TemplateContent"].write(value.templateContent, with: SESv2ClientTypes.EmailTemplateContent.write(value:to:))
         try writer["TemplateData"].write(value.templateData)
         try writer["TemplateName"].write(value.templateName)
     }

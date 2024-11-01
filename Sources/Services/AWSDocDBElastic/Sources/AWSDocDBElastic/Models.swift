@@ -51,35 +51,6 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-extension DocDBElasticClientTypes {
-
-    public enum Auth: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case plainText
-        case secretArn
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Auth] {
-            return [
-                .plainText,
-                .secretArn
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .plainText: return "PLAIN_TEXT"
-            case .secretArn: return "SECRET_ARN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 /// There was an access conflict.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -173,31 +144,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
-    }
-}
-
-/// The service quota for the action was exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
     }
 }
 
@@ -322,6 +268,202 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+extension DocDBElasticClientTypes {
+
+    public enum OptInType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applyOn
+        case immediate
+        case nextMaintenance
+        case undoOptIn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OptInType] {
+            return [
+                .applyOn,
+                .immediate,
+                .nextMaintenance,
+                .undoOptIn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applyOn: return "APPLY_ON"
+            case .immediate: return "IMMEDIATE"
+            case .nextMaintenance: return "NEXT_MAINTENANCE"
+            case .undoOptIn: return "UNDO_OPT_IN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ApplyPendingMaintenanceActionInput: Swift.Sendable {
+    /// The pending maintenance action to apply to the resource. Valid actions are:
+    ///
+    /// * ENGINE_UPDATE
+    ///
+    /// * ENGINE_UPGRADE
+    ///
+    /// * SECURITY_UPDATE
+    ///
+    /// * OS_UPDATE
+    ///
+    /// * MASTER_USER_PASSWORD_UPDATE
+    /// This member is required.
+    public var applyAction: Swift.String?
+    /// A specific date to apply the pending maintenance action. Required if opt-in-type is APPLY_ON. Format: yyyy/MM/dd HH:mm-yyyy/MM/dd HH:mm
+    public var applyOn: Swift.String?
+    /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type IMMEDIATE can't be undone.
+    /// This member is required.
+    public var optInType: DocDBElasticClientTypes.OptInType?
+    /// The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which the pending maintenance action applies.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        applyAction: Swift.String? = nil,
+        applyOn: Swift.String? = nil,
+        optInType: DocDBElasticClientTypes.OptInType? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.applyAction = applyAction
+        self.applyOn = applyOn
+        self.optInType = optInType
+        self.resourceArn = resourceArn
+    }
+}
+
+extension DocDBElasticClientTypes {
+
+    /// Retrieves the details of maintenance actions that are pending.
+    public struct PendingMaintenanceActionDetails: Swift.Sendable {
+        /// Displays the specific action of a pending maintenance action.
+        /// This member is required.
+        public var action: Swift.String?
+        /// Displays the date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any NEXT_MAINTENANCEoptInType requests are ignored.
+        public var autoAppliedAfterDate: Swift.String?
+        /// Displays the effective date when the pending maintenance action is applied to the resource.
+        public var currentApplyDate: Swift.String?
+        /// Displays a description providing more detail about the maintenance action.
+        public var description: Swift.String?
+        /// Displays the date when the maintenance action is automatically applied. The maintenance action is applied to the resource on this date regardless of the maintenance window for the resource. If this date is specified, any IMMEDIATEoptInType requests are ignored.
+        public var forcedApplyDate: Swift.String?
+        /// Displays the type of optInType request that has been received for the resource.
+        public var optInStatus: Swift.String?
+
+        public init(
+            action: Swift.String? = nil,
+            autoAppliedAfterDate: Swift.String? = nil,
+            currentApplyDate: Swift.String? = nil,
+            description: Swift.String? = nil,
+            forcedApplyDate: Swift.String? = nil,
+            optInStatus: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.autoAppliedAfterDate = autoAppliedAfterDate
+            self.currentApplyDate = currentApplyDate
+            self.description = description
+            self.forcedApplyDate = forcedApplyDate
+            self.optInStatus = optInStatus
+        }
+    }
+}
+
+extension DocDBElasticClientTypes {
+
+    /// Provides information about a pending maintenance action for a resource.
+    public struct ResourcePendingMaintenanceAction: Swift.Sendable {
+        /// Provides information about a pending maintenance action for a resource.
+        public var pendingMaintenanceActionDetails: [DocDBElasticClientTypes.PendingMaintenanceActionDetails]?
+        /// The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which the pending maintenance action applies.
+        public var resourceArn: Swift.String?
+
+        public init(
+            pendingMaintenanceActionDetails: [DocDBElasticClientTypes.PendingMaintenanceActionDetails]? = nil,
+            resourceArn: Swift.String? = nil
+        )
+        {
+            self.pendingMaintenanceActionDetails = pendingMaintenanceActionDetails
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+public struct ApplyPendingMaintenanceActionOutput: Swift.Sendable {
+    /// The output of the pending maintenance action being applied.
+    /// This member is required.
+    public var resourcePendingMaintenanceAction: DocDBElasticClientTypes.ResourcePendingMaintenanceAction?
+
+    public init(
+        resourcePendingMaintenanceAction: DocDBElasticClientTypes.ResourcePendingMaintenanceAction? = nil
+    )
+    {
+        self.resourcePendingMaintenanceAction = resourcePendingMaintenanceAction
+    }
+}
+
+extension DocDBElasticClientTypes {
+
+    public enum Auth: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case plainText
+        case secretArn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Auth] {
+            return [
+                .plainText,
+                .secretArn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .plainText: return "PLAIN_TEXT"
+            case .secretArn: return "SECRET_ARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The service quota for the action was exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 public struct CopyClusterSnapshotInput: Swift.Sendable {
     /// Set to true to copy all tags from the source cluster snapshot to the target elastic cluster snapshot. The default is false.
     public var copyTags: Swift.Bool?
@@ -397,6 +539,7 @@ extension DocDBElasticClientTypes {
         case copying
         case creating
         case deleting
+        case inaccessibleEncryptionCredentialsRecoverable
         case inaccessibleEncryptionCreds
         case inaccessibleSecretArn
         case inaccessibleVpcEndpoint
@@ -404,6 +547,7 @@ extension DocDBElasticClientTypes {
         case invalidSecurityGroupId
         case invalidSubnetId
         case ipAddressLimitExceeded
+        case maintenance
         case merging
         case modifying
         case splitting
@@ -420,6 +564,7 @@ extension DocDBElasticClientTypes {
                 .copying,
                 .creating,
                 .deleting,
+                .inaccessibleEncryptionCredentialsRecoverable,
                 .inaccessibleEncryptionCreds,
                 .inaccessibleSecretArn,
                 .inaccessibleVpcEndpoint,
@@ -427,6 +572,7 @@ extension DocDBElasticClientTypes {
                 .invalidSecurityGroupId,
                 .invalidSubnetId,
                 .ipAddressLimitExceeded,
+                .maintenance,
                 .merging,
                 .modifying,
                 .splitting,
@@ -449,6 +595,7 @@ extension DocDBElasticClientTypes {
             case .copying: return "COPYING"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
+            case .inaccessibleEncryptionCredentialsRecoverable: return "INACCESSIBLE_ENCRYPTION_CREDENTIALS_RECOVERABLE"
             case .inaccessibleEncryptionCreds: return "INACCESSIBLE_ENCRYPTION_CREDS"
             case .inaccessibleSecretArn: return "INACCESSIBLE_SECRET_ARN"
             case .inaccessibleVpcEndpoint: return "INACCESSIBLE_VPC_ENDPOINT"
@@ -456,6 +603,7 @@ extension DocDBElasticClientTypes {
             case .invalidSecurityGroupId: return "INVALID_SECURITY_GROUP_ID"
             case .invalidSubnetId: return "INVALID_SUBNET_ID"
             case .ipAddressLimitExceeded: return "IP_ADDRESS_LIMIT_EXCEEDED"
+            case .maintenance: return "MAINTENANCE"
             case .merging: return "MERGING"
             case .modifying: return "MODIFYING"
             case .splitting: return "SPLITTING"
@@ -923,6 +1071,32 @@ public struct GetClusterSnapshotOutput: Swift.Sendable {
     }
 }
 
+public struct GetPendingMaintenanceActionInput: Swift.Sendable {
+    /// Retrieves pending maintenance actions for a specific Amazon Resource Name (ARN).
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetPendingMaintenanceActionOutput: Swift.Sendable {
+    /// Provides information about a pending maintenance action for a resource.
+    /// This member is required.
+    public var resourcePendingMaintenanceAction: DocDBElasticClientTypes.ResourcePendingMaintenanceAction?
+
+    public init(
+        resourcePendingMaintenanceAction: DocDBElasticClientTypes.ResourcePendingMaintenanceAction? = nil
+    )
+    {
+        self.resourcePendingMaintenanceAction = resourcePendingMaintenanceAction
+    }
+}
+
 public struct ListClustersInput: Swift.Sendable {
     /// The maximum number of elastic cluster snapshot results to receive in the response.
     public var maxResults: Swift.Int?
@@ -1060,6 +1234,39 @@ public struct ListClusterSnapshotsOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.snapshots = snapshots
+    }
+}
+
+public struct ListPendingMaintenanceActionsInput: Swift.Sendable {
+    /// The maximum number of results to include in the response. If more records exist than the specified maxResults value, a pagination token (marker) is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by maxResults.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListPendingMaintenanceActionsOutput: Swift.Sendable {
+    /// An optional pagination token provided by a previous request. If this parameter is displayed, the responses will include only records beyond the marker, up to the value specified by maxResults.
+    public var nextToken: Swift.String?
+    /// Provides information about a pending maintenance action for a resource.
+    /// This member is required.
+    public var resourcePendingMaintenanceActions: [DocDBElasticClientTypes.ResourcePendingMaintenanceAction]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourcePendingMaintenanceActions: [DocDBElasticClientTypes.ResourcePendingMaintenanceAction]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourcePendingMaintenanceActions = resourcePendingMaintenanceActions
     }
 }
 
@@ -1316,6 +1523,13 @@ public struct UpdateClusterOutput: Swift.Sendable {
     }
 }
 
+extension ApplyPendingMaintenanceActionInput {
+
+    static func urlPathProvider(_ value: ApplyPendingMaintenanceActionInput) -> Swift.String? {
+        return "/pending-action"
+    }
+}
+
 extension CopyClusterSnapshotInput {
 
     static func urlPathProvider(_ value: CopyClusterSnapshotInput) -> Swift.String? {
@@ -1380,6 +1594,16 @@ extension GetClusterSnapshotInput {
     }
 }
 
+extension GetPendingMaintenanceActionInput {
+
+    static func urlPathProvider(_ value: GetPendingMaintenanceActionInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/pending-action/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension ListClustersInput {
 
     static func urlPathProvider(_ value: ListClustersInput) -> Swift.String? {
@@ -1422,6 +1646,29 @@ extension ListClusterSnapshotsInput {
             let snapshotTypeQueryItem = Smithy.URIQueryItem(name: "snapshotType".urlPercentEncoding(), value: Swift.String(snapshotType).urlPercentEncoding())
             items.append(snapshotTypeQueryItem)
         }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListPendingMaintenanceActionsInput {
+
+    static func urlPathProvider(_ value: ListPendingMaintenanceActionsInput) -> Swift.String? {
+        return "/pending-actions"
+    }
+}
+
+extension ListPendingMaintenanceActionsInput {
+
+    static func queryItemProvider(_ value: ListPendingMaintenanceActionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -1520,6 +1767,17 @@ extension UpdateClusterInput {
     }
 }
 
+extension ApplyPendingMaintenanceActionInput {
+
+    static func write(value: ApplyPendingMaintenanceActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applyAction"].write(value.applyAction)
+        try writer["applyOn"].write(value.applyOn)
+        try writer["optInType"].write(value.optInType)
+        try writer["resourceArn"].write(value.resourceArn)
+    }
+}
+
 extension CopyClusterSnapshotInput {
 
     static func write(value: CopyClusterSnapshotInput?, to writer: SmithyJSON.Writer) throws {
@@ -1600,6 +1858,18 @@ extension UpdateClusterInput {
         try writer["shardInstanceCount"].write(value.shardInstanceCount)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ApplyPendingMaintenanceActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ApplyPendingMaintenanceActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ApplyPendingMaintenanceActionOutput()
+        value.resourcePendingMaintenanceAction = try reader["resourcePendingMaintenanceAction"].readIfPresent(with: DocDBElasticClientTypes.ResourcePendingMaintenanceAction.read(from:))
+        return value
     }
 }
 
@@ -1687,6 +1957,18 @@ extension GetClusterSnapshotOutput {
     }
 }
 
+extension GetPendingMaintenanceActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPendingMaintenanceActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPendingMaintenanceActionOutput()
+        value.resourcePendingMaintenanceAction = try reader["resourcePendingMaintenanceAction"].readIfPresent(with: DocDBElasticClientTypes.ResourcePendingMaintenanceAction.read(from:))
+        return value
+    }
+}
+
 extension ListClustersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListClustersOutput {
@@ -1709,6 +1991,19 @@ extension ListClusterSnapshotsOutput {
         var value = ListClusterSnapshotsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.snapshots = try reader["snapshots"].readListIfPresent(memberReadingClosure: DocDBElasticClientTypes.ClusterSnapshotInList.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListPendingMaintenanceActionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPendingMaintenanceActionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPendingMaintenanceActionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.resourcePendingMaintenanceActions = try reader["resourcePendingMaintenanceActions"].readListIfPresent(memberReadingClosure: DocDBElasticClientTypes.ResourcePendingMaintenanceAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -1784,6 +2079,25 @@ extension UpdateClusterOutput {
         var value = UpdateClusterOutput()
         value.cluster = try reader["cluster"].readIfPresent(with: DocDBElasticClientTypes.Cluster.read(from:))
         return value
+    }
+}
+
+enum ApplyPendingMaintenanceActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -1920,6 +2234,25 @@ enum GetClusterSnapshotOutputError {
     }
 }
 
+enum GetPendingMaintenanceActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListClustersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1938,6 +2271,23 @@ enum ListClustersOutputError {
 }
 
 enum ListClusterSnapshotsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPendingMaintenanceActionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -2095,19 +2445,6 @@ extension ConflictException {
     }
 }
 
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -2177,6 +2514,45 @@ extension AccessDeniedException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DocDBElasticClientTypes.ResourcePendingMaintenanceAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.ResourcePendingMaintenanceAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBElasticClientTypes.ResourcePendingMaintenanceAction()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.pendingMaintenanceActionDetails = try reader["pendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: DocDBElasticClientTypes.PendingMaintenanceActionDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DocDBElasticClientTypes.PendingMaintenanceActionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.PendingMaintenanceActionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBElasticClientTypes.PendingMaintenanceActionDetails()
+        value.action = try reader["action"].readIfPresent() ?? ""
+        value.autoAppliedAfterDate = try reader["autoAppliedAfterDate"].readIfPresent()
+        value.forcedApplyDate = try reader["forcedApplyDate"].readIfPresent()
+        value.optInStatus = try reader["optInStatus"].readIfPresent()
+        value.currentApplyDate = try reader["currentApplyDate"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
         return value
     }
 }

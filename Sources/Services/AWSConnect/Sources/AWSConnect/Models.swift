@@ -6375,7 +6375,7 @@ public struct CreateUseCaseOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// Contains information about the identity of a user. For Amazon Connect instances that are created with the EXISTING_DIRECTORY identity management type, FirstName, LastName, and Email cannot be updated from within Amazon Connect because they are managed by the directory.
+    /// Contains information about the identity of a user. For Amazon Connect instances that are created with the EXISTING_DIRECTORY identity management type, FirstName, LastName, and Email cannot be updated from within Amazon Connect because they are managed by the directory. The FirstName and LastName length constraints below apply only to instances using SAML for identity management. If you are using Amazon Connect for identity management, the length constraints are 1-255 for FirstName, and 1-256 for LastName.
     public struct UserIdentityInfo: Swift.Sendable {
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public var email: Swift.String?
