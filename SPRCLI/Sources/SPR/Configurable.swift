@@ -18,13 +18,10 @@ public protocol Configurable {
 public extension Configurable {
 
     mutating func setOptions() async throws {
-        await SDKLoggingSystem.initialize(logLevel: .error)
+        await SDKLoggingSystem().initialize(logLevel: .error)
         let env = ProcessInfo.processInfo.environment
         if bucket.isEmpty {
             bucket = env["AWS_SDK_SPR_BUCKET"] ?? ""
-        }
-        if bucket.isEmpty {
-            throw Error("Bucket is not set")
         }
         if region.isEmpty {
             region = env["AWS_SDK_SPR_REGION"] ?? "us-east-1"

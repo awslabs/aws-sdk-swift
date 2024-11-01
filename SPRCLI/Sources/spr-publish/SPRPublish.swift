@@ -34,7 +34,7 @@ struct SPRPublish: AsyncParsableCommand, Configurable {
     var region: String = ""
 
     @Option(help: "The bucket name for the S3 bucket hosting the Registry. Alternate to this option, the bucket may be obtained from environment var AWS_SDK_SPR_BUCKET.")
-    public var bucket: String = ""
+    public var bucket: String
 
     @Option(help: "The base URL for the registry.")
     var url: String
