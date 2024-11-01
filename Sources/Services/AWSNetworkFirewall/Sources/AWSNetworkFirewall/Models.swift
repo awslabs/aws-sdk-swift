@@ -1144,6 +1144,22 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
+    /// Describes the amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle and Network Firewall removes the flow entry from its flow table. Existing connections and flows are not impacted when you update this value. Only new connections after you update this value are impacted.
+    public struct FlowTimeouts: Swift.Sendable {
+        /// The number of seconds that can pass without any TCP traffic sent through the firewall before the firewall determines that the connection is idle. After the idle timeout passes, data packets are dropped, however, the next TCP SYN packet is considered a new flow and is processed by the firewall. Clients or targets can use TCP keepalive packets to reset the idle timeout. You can define the TcpIdleTimeoutSeconds value to be between 60 and 6000 seconds. If no value is provided, it defaults to 350 seconds.
+        public var tcpIdleTimeoutSeconds: Swift.Int?
+
+        public init(
+            tcpIdleTimeoutSeconds: Swift.Int? = nil
+        )
+        {
+            self.tcpIdleTimeoutSeconds = tcpIdleTimeoutSeconds
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     public enum RuleOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case defaultActionOrder
         case strictOrder
@@ -1207,6 +1223,8 @@ extension NetworkFirewallClientTypes {
 
     /// Configuration settings for the handling of the stateful rule groups in a firewall policy.
     public struct StatefulEngineOptions: Swift.Sendable {
+        /// Configures the amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle.
+        public var flowTimeouts: NetworkFirewallClientTypes.FlowTimeouts?
         /// Indicates how to manage the order of stateful rule evaluation for the policy. STRICT_ORDER is the default and recommended option. With STRICT_ORDER, provide your rules in the order that you want them to be evaluated. You can then choose one or more default actions for packets that don't match any rules. Choose STRICT_ORDER to have the stateful rules engine determine the evaluation order of your rules. The default action for this rule order is PASS, followed by DROP, REJECT, and ALERT actions. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on your settings. For more information, see [Evaluation order for stateful rules](https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html) in the Network Firewall Developer Guide.
         public var ruleOrder: NetworkFirewallClientTypes.RuleOrder?
         /// Configures how Network Firewall processes traffic when a network connection breaks midstream. Network connections can break due to disruptions in external networks or within the firewall itself.
@@ -1219,10 +1237,12 @@ extension NetworkFirewallClientTypes {
         public var streamExceptionPolicy: NetworkFirewallClientTypes.StreamExceptionPolicy?
 
         public init(
+            flowTimeouts: NetworkFirewallClientTypes.FlowTimeouts? = nil,
             ruleOrder: NetworkFirewallClientTypes.RuleOrder? = nil,
             streamExceptionPolicy: NetworkFirewallClientTypes.StreamExceptionPolicy? = nil
         )
         {
+            self.flowTimeouts = flowTimeouts
             self.ruleOrder = ruleOrder
             self.streamExceptionPolicy = streamExceptionPolicy
         }
@@ -6433,6 +6453,7 @@ extension NetworkFirewallClientTypes.StatefulEngineOptions {
 
     static func write(value: NetworkFirewallClientTypes.StatefulEngineOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["FlowTimeouts"].write(value.flowTimeouts, with: NetworkFirewallClientTypes.FlowTimeouts.write(value:to:))
         try writer["RuleOrder"].write(value.ruleOrder)
         try writer["StreamExceptionPolicy"].write(value.streamExceptionPolicy)
     }
@@ -6442,6 +6463,22 @@ extension NetworkFirewallClientTypes.StatefulEngineOptions {
         var value = NetworkFirewallClientTypes.StatefulEngineOptions()
         value.ruleOrder = try reader["RuleOrder"].readIfPresent()
         value.streamExceptionPolicy = try reader["StreamExceptionPolicy"].readIfPresent()
+        value.flowTimeouts = try reader["FlowTimeouts"].readIfPresent(with: NetworkFirewallClientTypes.FlowTimeouts.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FlowTimeouts {
+
+    static func write(value: NetworkFirewallClientTypes.FlowTimeouts?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TcpIdleTimeoutSeconds"].write(value.tcpIdleTimeoutSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowTimeouts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowTimeouts()
+        value.tcpIdleTimeoutSeconds = try reader["TcpIdleTimeoutSeconds"].readIfPresent()
         return value
     }
 }

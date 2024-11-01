@@ -1925,6 +1925,80 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateSecurityGroupVpc` operation on the `AmazonEC2` service.
+    ///
+    /// Associates a security group with another VPC in the same Region. This enables you to use the same security group with network interfaces and instances in the specified VPC.
+    ///
+    /// * The VPC you want to associate the security group with must be in the same Region.
+    ///
+    /// * You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you.
+    ///
+    /// * You must own the security group and the VPC that it was created in.
+    ///
+    /// * You cannot use this feature with default security groups.
+    ///
+    /// * You cannot use this feature with the default VPC.
+    ///
+    /// - Parameter AssociateSecurityGroupVpcInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateSecurityGroupVpcOutput` : [no documentation found]
+    public func associateSecurityGroupVpc(input: AssociateSecurityGroupVpcInput) async throws -> AssociateSecurityGroupVpcOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateSecurityGroupVpc")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateSecurityGroupVpcInput, AssociateSecurityGroupVpcOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateSecurityGroupVpcInput, AssociateSecurityGroupVpcOutput>(AssociateSecurityGroupVpcInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateSecurityGroupVpcInput, AssociateSecurityGroupVpcOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSecurityGroupVpcInput, AssociateSecurityGroupVpcOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSecurityGroupVpcOutput>(AssociateSecurityGroupVpcOutput.httpOutput(from:), AssociateSecurityGroupVpcOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSecurityGroupVpcInput, AssociateSecurityGroupVpcOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSecurityGroupVpcOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateSecurityGroupVpcOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateSecurityGroupVpcInput, AssociateSecurityGroupVpcOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateSecurityGroupVpcInput, AssociateSecurityGroupVpcOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateSecurityGroupVpcInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSecurityGroupVpcInput, AssociateSecurityGroupVpcOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSecurityGroupVpcOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSecurityGroupVpcInput, AssociateSecurityGroupVpcOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSecurityGroupVpcInput, AssociateSecurityGroupVpcOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateSecurityGroupVpc")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateSubnetCidrBlock` operation on the `AmazonEC2` service.
     ///
     /// Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR block with your subnet.
@@ -7632,7 +7706,7 @@ extension EC2Client {
 
     /// Performs the `CreateTrafficMirrorSession` operation on the `AmazonEC2` service.
     ///
-    /// Creates a Traffic Mirror session. A Traffic Mirror session actively copies packets from a Traffic Mirror source to a Traffic Mirror target. Create a filter, and then assign it to the session to define a subset of the traffic to mirror, for example all TCP traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in a different VPC connected via VPC peering or a transit gateway. By default, no traffic is mirrored. Use [CreateTrafficMirrorFilter](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorFilter.htm) to create filter rules that specify the traffic to mirror.
+    /// Creates a Traffic Mirror session. A Traffic Mirror session actively copies packets from a Traffic Mirror source to a Traffic Mirror target. Create a filter, and then assign it to the session to define a subset of the traffic to mirror, for example all TCP traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in a different VPC connected via VPC peering or a transit gateway. By default, no traffic is mirrored. Use [CreateTrafficMirrorFilter](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorFilter.html) to create filter rules that specify the traffic to mirror.
     ///
     /// - Parameter CreateTrafficMirrorSessionInput : [no documentation found]
     ///
@@ -11945,7 +12019,7 @@ extension EC2Client {
 
     /// Performs the `DeleteSecurityGroup` operation on the `AmazonEC2` service.
     ///
-    /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface or is referenced by another security group in the same VPC, the operation fails with DependencyViolation.
+    /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface, is referenced by another security group in the same VPC, or has a VPC association, the operation fails with DependencyViolation.
     ///
     /// - Parameter DeleteSecurityGroupInput : [no documentation found]
     ///
@@ -21148,7 +21222,7 @@ extension EC2Client {
 
     /// Performs the `DescribeSecurityGroupReferences` operation on the `AmazonEC2` service.
     ///
-    /// Describes the VPCs on the other side of a VPC peering connection that are referencing the security groups you've specified in this request.
+    /// Describes the VPCs on the other side of a VPC peering or Transit Gateway connection that are referencing the security groups you've specified in this request.
     ///
     /// - Parameter DescribeSecurityGroupReferencesInput : [no documentation found]
     ///
@@ -21262,6 +21336,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSecurityGroupRules")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeSecurityGroupVpcAssociations` operation on the `AmazonEC2` service.
+    ///
+    /// Describes security group VPC associations made with [AssociateSecurityGroupVpc](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssociateSecurityGroupVpc.html).
+    ///
+    /// - Parameter DescribeSecurityGroupVpcAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSecurityGroupVpcAssociationsOutput` : [no documentation found]
+    public func describeSecurityGroupVpcAssociations(input: DescribeSecurityGroupVpcAssociationsInput) async throws -> DescribeSecurityGroupVpcAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeSecurityGroupVpcAssociations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>(DescribeSecurityGroupVpcAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityGroupVpcAssociationsOutput>(DescribeSecurityGroupVpcAssociationsOutput.httpOutput(from:), DescribeSecurityGroupVpcAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityGroupVpcAssociationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeSecurityGroupVpcAssociationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSecurityGroupVpcAssociationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSecurityGroupVpcAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSecurityGroupVpcAssociations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -21925,7 +22063,7 @@ extension EC2Client {
 
     /// Performs the `DescribeStaleSecurityGroups` operation on the `AmazonEC2` service.
     ///
-    /// Describes the stale security group rules for security groups in a specified VPC. Rules are stale when they reference a deleted security group in a peered VPC. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has been deleted.
+    /// Describes the stale security group rules for security groups referenced across a VPC peering connection, transit gateway connection, or with a security group VPC association. Rules are stale when they reference a deleted security group. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has been deleted, across a transit gateway where the transit gateway has been deleted (or [the transit gateway security group referencing feature](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-vpc-attachments.html#vpc-attachment-security) has been disabled), or if a security group VPC association has been disassociated.
     ///
     /// - Parameter DescribeStaleSecurityGroupsInput : [no documentation found]
     ///
@@ -26592,6 +26730,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateRouteTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisassociateSecurityGroupVpc` operation on the `AmazonEC2` service.
+    ///
+    /// Disassociates a security group from a VPC. You cannot disassociate the security group if any Elastic network interfaces in the associated VPC are still associated with the security group. Note that the disassociation is asynchronous and you can check the status of the request with [DescribeSecurityGroupVpcAssociations](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroupVpcAssociations.html).
+    ///
+    /// - Parameter DisassociateSecurityGroupVpcInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateSecurityGroupVpcOutput` : [no documentation found]
+    public func disassociateSecurityGroupVpc(input: DisassociateSecurityGroupVpcInput) async throws -> DisassociateSecurityGroupVpcOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateSecurityGroupVpc")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateSecurityGroupVpcInput, DisassociateSecurityGroupVpcOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateSecurityGroupVpcInput, DisassociateSecurityGroupVpcOutput>(DisassociateSecurityGroupVpcInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSecurityGroupVpcInput, DisassociateSecurityGroupVpcOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSecurityGroupVpcInput, DisassociateSecurityGroupVpcOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSecurityGroupVpcOutput>(DisassociateSecurityGroupVpcOutput.httpOutput(from:), DisassociateSecurityGroupVpcOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSecurityGroupVpcInput, DisassociateSecurityGroupVpcOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSecurityGroupVpcOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateSecurityGroupVpcOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateSecurityGroupVpcInput, DisassociateSecurityGroupVpcOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateSecurityGroupVpcInput, DisassociateSecurityGroupVpcOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateSecurityGroupVpcInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSecurityGroupVpcInput, DisassociateSecurityGroupVpcOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSecurityGroupVpcOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSecurityGroupVpcInput, DisassociateSecurityGroupVpcOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSecurityGroupVpcInput, DisassociateSecurityGroupVpcOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateSecurityGroupVpc")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

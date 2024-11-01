@@ -3167,6 +3167,8 @@ extension AutoScalingClientTypes {
         ///
         /// For more information, see [Undo changes with a rollback](https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-refresh-rollback.html) in the Amazon EC2 Auto Scaling User Guide.
         public var autoRollback: Swift.Bool?
+        /// The amount of time, in seconds, to wait at the end of an instance refresh before the instance refresh is considered complete.
+        public var bakeTime: Swift.Int?
         /// (Optional) The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
         public var checkpointDelay: Swift.Int?
         /// (Optional) Threshold values for each checkpoint in ascending order. Each number must be unique. To replace all instances in the Auto Scaling group, the last number in the array must be 100. For usage examples, see [Add checkpoints to an instance refresh](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-adding-checkpoints-instance-refresh.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -3187,6 +3189,7 @@ extension AutoScalingClientTypes {
         public init(
             alarmSpecification: AutoScalingClientTypes.AlarmSpecification? = nil,
             autoRollback: Swift.Bool? = nil,
+            bakeTime: Swift.Int? = nil,
             checkpointDelay: Swift.Int? = nil,
             checkpointPercentages: [Swift.Int]? = nil,
             instanceWarmup: Swift.Int? = nil,
@@ -3199,6 +3202,7 @@ extension AutoScalingClientTypes {
         {
             self.alarmSpecification = alarmSpecification
             self.autoRollback = autoRollback
+            self.bakeTime = bakeTime
             self.checkpointDelay = checkpointDelay
             self.checkpointPercentages = checkpointPercentages
             self.instanceWarmup = instanceWarmup
@@ -3306,6 +3310,7 @@ extension AutoScalingClientTypes {
 extension AutoScalingClientTypes {
 
     public enum InstanceRefreshStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case baking
         case cancelled
         case cancelling
         case failed
@@ -3319,6 +3324,7 @@ extension AutoScalingClientTypes {
 
         public static var allCases: [InstanceRefreshStatus] {
             return [
+                .baking,
                 .cancelled,
                 .cancelling,
                 .failed,
@@ -3338,6 +3344,7 @@ extension AutoScalingClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .baking: return "Baking"
             case .cancelled: return "Cancelled"
             case .cancelling: return "Cancelling"
             case .failed: return "Failed"
@@ -3396,6 +3403,8 @@ extension AutoScalingClientTypes {
         /// * RollbackFailed - The rollback failed to complete. You can troubleshoot using the status reason and the scaling activities.
         ///
         /// * RollbackSuccessful - The rollback completed successfully.
+        ///
+        /// * Baking - Waiting the specified bake time after an instance refresh has finished updating instances.
         public var status: AutoScalingClientTypes.InstanceRefreshStatus?
         /// The explanation for the specific status assigned to this operation.
         public var statusReason: Swift.String?
@@ -6195,6 +6204,8 @@ public struct StartInstanceRefreshInput: Swift.Sendable {
     /// * CloudWatch alarms
     ///
     /// * Skip matching
+    ///
+    /// * Bake time
     public var preferences: AutoScalingClientTypes.RefreshPreferences?
     /// The strategy to use for the instance refresh. The only valid value is Rolling.
     public var strategy: AutoScalingClientTypes.RefreshStrategy?
@@ -10024,6 +10035,7 @@ extension AutoScalingClientTypes.RefreshPreferences {
         guard let value else { return }
         try writer["AlarmSpecification"].write(value.alarmSpecification, with: AutoScalingClientTypes.AlarmSpecification.write(value:to:))
         try writer["AutoRollback"].write(value.autoRollback)
+        try writer["BakeTime"].write(value.bakeTime)
         try writer["CheckpointDelay"].write(value.checkpointDelay)
         try writer["CheckpointPercentages"].writeList(value.checkpointPercentages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InstanceWarmup"].write(value.instanceWarmup)
@@ -10047,6 +10059,7 @@ extension AutoScalingClientTypes.RefreshPreferences {
         value.standbyInstances = try reader["StandbyInstances"].readIfPresent()
         value.alarmSpecification = try reader["AlarmSpecification"].readIfPresent(with: AutoScalingClientTypes.AlarmSpecification.read(from:))
         value.maxHealthyPercentage = try reader["MaxHealthyPercentage"].readIfPresent()
+        value.bakeTime = try reader["BakeTime"].readIfPresent()
         return value
     }
 }
