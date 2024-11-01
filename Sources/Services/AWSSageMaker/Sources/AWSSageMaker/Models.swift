@@ -2741,6 +2741,22 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -2835,6 +2851,22 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -2935,6 +2967,22 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -7885,6 +7933,99 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct BatchDeleteClusterNodesInput: Swift.Sendable {
+    /// The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// A list of node IDs to be deleted from the specified cluster. For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
+    /// This member is required.
+    public var nodeIds: [Swift.String]?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        nodeIds: [Swift.String]? = nil
+    )
+    {
+        self.clusterName = clusterName
+        self.nodeIds = nodeIds
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum BatchDeleteClusterNodesErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invalidNodeStatus
+        case nodeIdInUse
+        case nodeIdNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchDeleteClusterNodesErrorCode] {
+            return [
+                .invalidNodeStatus,
+                .nodeIdInUse,
+                .nodeIdNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalidNodeStatus: return "InvalidNodeStatus"
+            case .nodeIdInUse: return "NodeIdInUse"
+            case .nodeIdNotFound: return "NodeIdNotFound"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Represents an error encountered when deleting a node from a SageMaker HyperPod cluster.
+    public struct BatchDeleteClusterNodesError: Swift.Sendable {
+        /// The error code associated with the error encountered when deleting a node. The code provides information about the specific issue encountered, such as the node not being found, the node's status being invalid for deletion, or the node ID being in use by another process.
+        /// This member is required.
+        public var code: SageMakerClientTypes.BatchDeleteClusterNodesErrorCode?
+        /// A message describing the error encountered when deleting a node.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The ID of the node that encountered an error during the deletion process.
+        /// This member is required.
+        public var nodeId: Swift.String?
+
+        public init(
+            code: SageMakerClientTypes.BatchDeleteClusterNodesErrorCode? = nil,
+            message: Swift.String? = nil,
+            nodeId: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+            self.nodeId = nodeId
+        }
+    }
+}
+
+public struct BatchDeleteClusterNodesOutput: Swift.Sendable {
+    /// A list of errors encountered when deleting the specified nodes.
+    public var failed: [SageMakerClientTypes.BatchDeleteClusterNodesError]?
+    /// A list of node IDs that were successfully deleted from the specified cluster.
+    public var successful: [Swift.String]?
+
+    public init(
+        failed: [SageMakerClientTypes.BatchDeleteClusterNodesError]? = nil,
+        successful: [Swift.String]? = nil
+    )
+    {
+        self.failed = failed
+        self.successful = successful
+    }
+}
+
 public struct BatchDescribeModelPackageInput: Swift.Sendable {
     /// The list of Amazon Resource Name (ARN) of the model package groups.
     /// This member is required.
@@ -9581,6 +9722,24 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
+        case mlGr64xlarge
+        case mlGr68xlarge
         case mlM512xlarge
         case mlM516xlarge
         case mlM524xlarge
@@ -9591,6 +9750,7 @@ extension SageMakerClientTypes {
         case mlM5Xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5e48xlarge
         case mlP548xlarge
         case mlT32xlarge
         case mlT3Large
@@ -9623,6 +9783,24 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
+                .mlGr64xlarge,
+                .mlGr68xlarge,
                 .mlM512xlarge,
                 .mlM516xlarge,
                 .mlM524xlarge,
@@ -9633,6 +9811,7 @@ extension SageMakerClientTypes {
                 .mlM5Xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlT32xlarge,
                 .mlT3Large,
@@ -9671,6 +9850,24 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
+            case .mlGr64xlarge: return "ml.gr6.4xlarge"
+            case .mlGr68xlarge: return "ml.gr6.8xlarge"
             case .mlM512xlarge: return "ml.m5.12xlarge"
             case .mlM516xlarge: return "ml.m5.16xlarge"
             case .mlM524xlarge: return "ml.m5.24xlarge"
@@ -9681,6 +9878,7 @@ extension SageMakerClientTypes {
             case .mlM5Xlarge: return "ml.m5.xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
@@ -44585,6 +44783,8 @@ extension SageMakerClientTypes {
         public var creationTime: Foundation.Date?
         /// Timestamp when the training job was last modified.
         public var lastModifiedTime: Foundation.Date?
+        /// The secondary status of the training job.
+        public var secondaryStatus: SageMakerClientTypes.SecondaryStatus?
         /// A timestamp that shows when the training job ended. This field is set only if the training job has one of the terminal statuses (Completed, Failed, or Stopped).
         public var trainingEndTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the training job.
@@ -44602,6 +44802,7 @@ extension SageMakerClientTypes {
         public init(
             creationTime: Foundation.Date? = nil,
             lastModifiedTime: Foundation.Date? = nil,
+            secondaryStatus: SageMakerClientTypes.SecondaryStatus? = nil,
             trainingEndTime: Foundation.Date? = nil,
             trainingJobArn: Swift.String? = nil,
             trainingJobName: Swift.String? = nil,
@@ -44611,6 +44812,7 @@ extension SageMakerClientTypes {
         {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
+            self.secondaryStatus = secondaryStatus
             self.trainingEndTime = trainingEndTime
             self.trainingJobArn = trainingJobArn
             self.trainingJobName = trainingJobName
@@ -49575,6 +49777,13 @@ extension AssociateTrialComponentInput {
     }
 }
 
+extension BatchDeleteClusterNodesInput {
+
+    static func urlPathProvider(_ value: BatchDeleteClusterNodesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension BatchDescribeModelPackageInput {
 
     static func urlPathProvider(_ value: BatchDescribeModelPackageInput) -> Swift.String? {
@@ -51924,6 +52133,15 @@ extension AssociateTrialComponentInput {
         guard let value else { return }
         try writer["TrialComponentName"].write(value.trialComponentName)
         try writer["TrialName"].write(value.trialName)
+    }
+}
+
+extension BatchDeleteClusterNodesInput {
+
+    static func write(value: BatchDeleteClusterNodesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterName"].write(value.clusterName)
+        try writer["NodeIds"].writeList(value.nodeIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -55791,6 +56009,19 @@ extension AssociateTrialComponentOutput {
         var value = AssociateTrialComponentOutput()
         value.trialArn = try reader["TrialArn"].readIfPresent()
         value.trialComponentArn = try reader["TrialComponentArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchDeleteClusterNodesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteClusterNodesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteClusterNodesOutput()
+        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.BatchDeleteClusterNodesError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -60308,6 +60539,20 @@ enum AssociateTrialComponentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDeleteClusterNodesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -65029,6 +65274,18 @@ extension SageMakerClientTypes.Tag {
         var value = SageMakerClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.BatchDeleteClusterNodesError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchDeleteClusterNodesError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.BatchDeleteClusterNodesError()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.nodeId = try reader["NodeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -74297,6 +74554,7 @@ extension SageMakerClientTypes.TrainingJobSummary {
         value.trainingEndTime = try reader["TrainingEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.trainingJobStatus = try reader["TrainingJobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.secondaryStatus = try reader["SecondaryStatus"].readIfPresent()
         value.warmPoolStatus = try reader["WarmPoolStatus"].readIfPresent(with: SageMakerClientTypes.WarmPoolStatus.read(from:))
         return value
     }
