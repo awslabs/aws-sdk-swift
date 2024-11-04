@@ -46,7 +46,7 @@ extension TaxSettingsClientTypes {
         /// The postal code associated with the address.
         /// This member is required.
         public var postalCode: Swift.String?
-        /// The state, region, or province that the address is located. If this is required for tax settings, use the same name as shown on the Tax Settings page.
+        /// The state, region, or province that the address is located. This field is only required for Canada, India, United Arab Emirates, Romania, and Brazil (CPF). It is optional for all other countries. If this is required for tax settings, use the same name as shown on the Tax Settings page.
         public var stateOrRegion: Swift.String?
 
         public init(
@@ -209,7 +209,7 @@ extension TaxSettingsClientTypes {
     public struct CanadaAdditionalInfo: Swift.Sendable {
         /// The Quebec Sales Tax ID number. Leave blank if you do not have a Quebec Sales Tax ID number.
         public var canadaQuebecSalesTaxNumber: Swift.String?
-        /// Manitoba Retail Sales Tax ID number. Customers purchasing Amazon Web Services for resale in Manitoba must provide a valid Retail Sales Tax ID number for Manitoba. Leave this blank if you do not have a Retail Sales Tax ID number in Manitoba or are not purchasing Amazon Web Services for resale.
+        /// Manitoba Retail Sales Tax ID number. Customers purchasing Amazon Web Services services for resale in Manitoba must provide a valid Retail Sales Tax ID number for Manitoba. Leave this blank if you do not have a Retail Sales Tax ID number in Manitoba or are not purchasing Amazon Web Services services for resale.
         public var canadaRetailSalesTaxNumber: Swift.String?
         /// The value for this parameter must be true if the provincialSalesTaxId value is provided for a TRN in British Columbia, Saskatchewan, or Manitoba provinces. To claim a provincial sales tax (PST) and retail sales tax (RST) reseller exemption, you must confirm that purchases from this account were made for resale. Otherwise, remove the PST or RST number from the provincialSalesTaxId parameter from your request.
         public var isResellerAccount: Swift.Bool?
@@ -486,15 +486,22 @@ extension TaxSettingsClientTypes {
 
     /// Additional tax information associated with your TRN in Malaysia.
     public struct MalaysiaAdditionalInfo: Swift.Sendable {
+        /// The tax registration number (TRN) in Malaysia. For individual, you can specify the taxInformationNumber in MalaysiaAdditionalInfo with NRIC type, and a valid MyKad or NRIC number. For business, you must specify a businessRegistrationNumber in MalaysiaAdditionalInfo with a TIN type and tax identification number. For business resellers, you must specify a businessRegistrationNumber and taxInformationNumber in MalaysiaAdditionalInfo with a sales and service tax (SST) type and a valid SST number. For business resellers with service codes, you must specify businessRegistrationNumber, taxInformationNumber, and distinct serviceTaxCodes in MalaysiaAdditionalInfo with a SST type and valid sales and service tax (SST) number. By using this API operation, Amazon Web Services registers your self-declaration that you’re an authorized business reseller registered with the Royal Malaysia Customs Department (RMCD), and have a valid SST number.
+        public var businessRegistrationNumber: Swift.String?
         /// List of service tax codes for your TRN in Malaysia.
-        /// This member is required.
         public var serviceTaxCodes: [TaxSettingsClientTypes.MalaysiaServiceTaxCode]?
+        /// The tax information number in Malaysia. For individual, you can specify the taxInformationNumber in MalaysiaAdditionalInfo with NRIC type, and a valid MyKad or NRIC number. For business resellers, you must specify a businessRegistrationNumber and taxInformationNumber in MalaysiaAdditionalInfo with a sales and service tax (SST) type and a valid SST number. For business resellers with service codes, you must specify businessRegistrationNumber, taxInformationNumber, and distinct serviceTaxCodes in MalaysiaAdditionalInfo with a SST type and valid sales and service tax (SST) number. By using this API operation, Amazon Web Services registers your self-declaration that you’re an authorized business reseller registered with the Royal Malaysia Customs Department (RMCD), and have a valid SST number.
+        public var taxInformationNumber: Swift.String?
 
         public init(
-            serviceTaxCodes: [TaxSettingsClientTypes.MalaysiaServiceTaxCode]? = nil
+            businessRegistrationNumber: Swift.String? = nil,
+            serviceTaxCodes: [TaxSettingsClientTypes.MalaysiaServiceTaxCode]? = [],
+            taxInformationNumber: Swift.String? = nil
         )
         {
+            self.businessRegistrationNumber = businessRegistrationNumber
             self.serviceTaxCodes = serviceTaxCodes
+            self.taxInformationNumber = taxInformationNumber
         }
     }
 }
@@ -883,7 +890,9 @@ extension TaxSettingsClientTypes {
         case cnpj
         case cpf
         case gst
+        case nric
         case sst
+        case tin
         case vat
         case sdkUnknown(Swift.String)
 
@@ -892,7 +901,9 @@ extension TaxSettingsClientTypes {
                 .cnpj,
                 .cpf,
                 .gst,
+                .nric,
                 .sst,
+                .tin,
                 .vat
             ]
         }
@@ -907,7 +918,9 @@ extension TaxSettingsClientTypes {
             case .cnpj: return "CNPJ"
             case .cpf: return "CPF"
             case .gst: return "GST"
+            case .nric: return "NRIC"
             case .sst: return "SST"
+            case .tin: return "TIN"
             case .vat: return "VAT"
             case let .sdkUnknown(s): return s
             }
@@ -1603,6 +1616,24 @@ extension ResourceNotFoundException: Swift.CustomDebugStringConvertible {
         "ResourceNotFoundException(errorCode: \(Swift.String(describing: properties.errorCode)), message: \"CONTENT_REDACTED\")"}
 }
 
+public struct DeleteSupplementalTaxRegistrationInput: Swift.Sendable {
+    /// The unique authority Id for the supplemental TRN information that needs to be deleted.
+    /// This member is required.
+    public var authorityId: Swift.String?
+
+    public init(
+        authorityId: Swift.String? = nil
+    )
+    {
+        self.authorityId = authorityId
+    }
+}
+
+public struct DeleteSupplementalTaxRegistrationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteTaxRegistrationInput: Swift.Sendable {
     /// Unique account identifier for the TRN information that needs to be deleted. If this isn't passed, the account ID corresponding to the credentials of the API caller will be used for this parameter.
     public var accountId: Swift.String?
@@ -1759,6 +1790,118 @@ public struct GetTaxRegistrationDocumentOutput: Swift.Sendable {
     }
 }
 
+public struct ListSupplementalTaxRegistrationsInput: Swift.Sendable {
+    /// The number of taxRegistrations results you want in one response.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension TaxSettingsClientTypes {
+
+    public enum SupplementalTaxRegistrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vat
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupplementalTaxRegistrationType] {
+            return [
+                .vat
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vat: return "VAT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
+    /// Supplemental TRN details.
+    public struct SupplementalTaxRegistration: Swift.Sendable {
+        /// The details of the address associated with the TRN information.
+        /// This member is required.
+        public var address: TaxSettingsClientTypes.Address?
+        /// Unique authority ID for the supplemental TRN.
+        /// This member is required.
+        public var authorityId: Swift.String?
+        /// The legal name associated with your TRN registration.
+        /// This member is required.
+        public var legalName: Swift.String?
+        /// The supplemental TRN unique identifier.
+        /// This member is required.
+        public var registrationId: Swift.String?
+        /// Type of supplemental TRN. Currently, this can only be VAT.
+        /// This member is required.
+        public var registrationType: TaxSettingsClientTypes.SupplementalTaxRegistrationType?
+        /// The status of your TRN.
+        /// This member is required.
+        public var status: TaxSettingsClientTypes.TaxRegistrationStatus?
+
+        public init(
+            address: TaxSettingsClientTypes.Address? = nil,
+            authorityId: Swift.String? = nil,
+            legalName: Swift.String? = nil,
+            registrationId: Swift.String? = nil,
+            registrationType: TaxSettingsClientTypes.SupplementalTaxRegistrationType? = nil,
+            status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil
+        )
+        {
+            self.address = address
+            self.authorityId = authorityId
+            self.legalName = legalName
+            self.registrationId = registrationId
+            self.registrationType = registrationType
+            self.status = status
+        }
+    }
+}
+
+extension TaxSettingsClientTypes.SupplementalTaxRegistration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+public struct ListSupplementalTaxRegistrationsOutput: Swift.Sendable {
+    /// The token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The list of supplemental tax registrations.
+    /// This member is required.
+    public var taxRegistrations: [TaxSettingsClientTypes.SupplementalTaxRegistration]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        taxRegistrations: [TaxSettingsClientTypes.SupplementalTaxRegistration]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.taxRegistrations = taxRegistrations
+    }
+}
+
+extension ListSupplementalTaxRegistrationsOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListSupplementalTaxRegistrationsOutput(nextToken: \(Swift.String(describing: nextToken)), taxRegistrations: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListTaxRegistrationsInput: Swift.Sendable {
     /// Number of accountDetails results you want in one response.
     public var maxResults: Swift.Int?
@@ -1795,6 +1938,80 @@ public struct ListTaxRegistrationsOutput: Swift.Sendable {
 extension ListTaxRegistrationsOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "ListTaxRegistrationsOutput(nextToken: \(Swift.String(describing: nextToken)), accountDetails: \"CONTENT_REDACTED\")"}
+}
+
+extension TaxSettingsClientTypes {
+
+    /// The supplemental TRN information to provide when adding or updating a supplemental TRN.
+    public struct SupplementalTaxRegistrationEntry: Swift.Sendable {
+        /// The details of the address associated with the TRN information.
+        /// This member is required.
+        public var address: TaxSettingsClientTypes.Address?
+        /// The legal name associated with your TRN registration.
+        /// This member is required.
+        public var legalName: Swift.String?
+        /// The supplemental TRN unique identifier.
+        /// This member is required.
+        public var registrationId: Swift.String?
+        /// Type of supplemental TRN. Currently, this can only be VAT.
+        /// This member is required.
+        public var registrationType: TaxSettingsClientTypes.SupplementalTaxRegistrationType?
+
+        public init(
+            address: TaxSettingsClientTypes.Address? = nil,
+            legalName: Swift.String? = nil,
+            registrationId: Swift.String? = nil,
+            registrationType: TaxSettingsClientTypes.SupplementalTaxRegistrationType? = nil
+        )
+        {
+            self.address = address
+            self.legalName = legalName
+            self.registrationId = registrationId
+            self.registrationType = registrationType
+        }
+    }
+}
+
+extension TaxSettingsClientTypes.SupplementalTaxRegistrationEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+public struct PutSupplementalTaxRegistrationInput: Swift.Sendable {
+    /// The supplemental TRN information that will be stored for the caller account ID.
+    /// This member is required.
+    public var taxRegistrationEntry: TaxSettingsClientTypes.SupplementalTaxRegistrationEntry?
+
+    public init(
+        taxRegistrationEntry: TaxSettingsClientTypes.SupplementalTaxRegistrationEntry? = nil
+    )
+    {
+        self.taxRegistrationEntry = taxRegistrationEntry
+    }
+}
+
+extension PutSupplementalTaxRegistrationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutSupplementalTaxRegistrationInput(taxRegistrationEntry: \"CONTENT_REDACTED\")"}
+}
+
+public struct PutSupplementalTaxRegistrationOutput: Swift.Sendable {
+    /// Unique authority ID for the supplemental TRN information that was stored.
+    /// This member is required.
+    public var authorityId: Swift.String?
+    /// The status of the supplemental TRN stored in the system after processing. Based on the validation occurring on the TRN, the status can be Verified, Pending, Rejected, or Deleted.
+    /// This member is required.
+    public var status: TaxSettingsClientTypes.TaxRegistrationStatus?
+
+    public init(
+        authorityId: Swift.String? = nil,
+        status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil
+    )
+    {
+        self.authorityId = authorityId
+        self.status = status
+    }
 }
 
 public struct PutTaxRegistrationInput: Swift.Sendable {
@@ -1845,6 +2062,13 @@ extension BatchPutTaxRegistrationInput {
     }
 }
 
+extension DeleteSupplementalTaxRegistrationInput {
+
+    static func urlPathProvider(_ value: DeleteSupplementalTaxRegistrationInput) -> Swift.String? {
+        return "/DeleteSupplementalTaxRegistration"
+    }
+}
+
 extension DeleteTaxRegistrationInput {
 
     static func urlPathProvider(_ value: DeleteTaxRegistrationInput) -> Swift.String? {
@@ -1866,10 +2090,24 @@ extension GetTaxRegistrationDocumentInput {
     }
 }
 
+extension ListSupplementalTaxRegistrationsInput {
+
+    static func urlPathProvider(_ value: ListSupplementalTaxRegistrationsInput) -> Swift.String? {
+        return "/ListSupplementalTaxRegistrations"
+    }
+}
+
 extension ListTaxRegistrationsInput {
 
     static func urlPathProvider(_ value: ListTaxRegistrationsInput) -> Swift.String? {
         return "/ListTaxRegistrations"
+    }
+}
+
+extension PutSupplementalTaxRegistrationInput {
+
+    static func urlPathProvider(_ value: PutSupplementalTaxRegistrationInput) -> Swift.String? {
+        return "/PutSupplementalTaxRegistration"
     }
 }
 
@@ -1894,6 +2132,14 @@ extension BatchPutTaxRegistrationInput {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["taxRegistrationEntry"].write(value.taxRegistrationEntry, with: TaxSettingsClientTypes.TaxRegistrationEntry.write(value:to:))
+    }
+}
+
+extension DeleteSupplementalTaxRegistrationInput {
+
+    static func write(value: DeleteSupplementalTaxRegistrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorityId"].write(value.authorityId)
     }
 }
 
@@ -1922,12 +2168,29 @@ extension GetTaxRegistrationDocumentInput {
     }
 }
 
+extension ListSupplementalTaxRegistrationsInput {
+
+    static func write(value: ListSupplementalTaxRegistrationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListTaxRegistrationsInput {
 
     static func write(value: ListTaxRegistrationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension PutSupplementalTaxRegistrationInput {
+
+    static func write(value: PutSupplementalTaxRegistrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["taxRegistrationEntry"].write(value.taxRegistrationEntry, with: TaxSettingsClientTypes.SupplementalTaxRegistrationEntry.write(value:to:))
     }
 }
 
@@ -1965,6 +2228,13 @@ extension BatchPutTaxRegistrationOutput {
     }
 }
 
+extension DeleteSupplementalTaxRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSupplementalTaxRegistrationOutput {
+        return DeleteSupplementalTaxRegistrationOutput()
+    }
+}
+
 extension DeleteTaxRegistrationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTaxRegistrationOutput {
@@ -1996,6 +2266,19 @@ extension GetTaxRegistrationDocumentOutput {
     }
 }
 
+extension ListSupplementalTaxRegistrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSupplementalTaxRegistrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSupplementalTaxRegistrationsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.taxRegistrations = try reader["taxRegistrations"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.SupplementalTaxRegistration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListTaxRegistrationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTaxRegistrationsOutput {
@@ -2005,6 +2288,19 @@ extension ListTaxRegistrationsOutput {
         var value = ListTaxRegistrationsOutput()
         value.accountDetails = try reader["accountDetails"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.AccountDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension PutSupplementalTaxRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutSupplementalTaxRegistrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutSupplementalTaxRegistrationOutput()
+        value.authorityId = try reader["authorityId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2047,6 +2343,23 @@ enum BatchPutTaxRegistrationOutputError {
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteSupplementalTaxRegistrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2101,6 +2414,22 @@ enum GetTaxRegistrationDocumentOutputError {
     }
 }
 
+enum ListSupplementalTaxRegistrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTaxRegistrationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2111,6 +2440,22 @@ enum ListTaxRegistrationsOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutSupplementalTaxRegistrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2532,13 +2877,17 @@ extension TaxSettingsClientTypes.MalaysiaAdditionalInfo {
 
     static func write(value: TaxSettingsClientTypes.MalaysiaAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["businessRegistrationNumber"].write(value.businessRegistrationNumber)
         try writer["serviceTaxCodes"].writeList(value.serviceTaxCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TaxSettingsClientTypes.MalaysiaServiceTaxCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["taxInformationNumber"].write(value.taxInformationNumber)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.MalaysiaAdditionalInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TaxSettingsClientTypes.MalaysiaAdditionalInfo()
         value.serviceTaxCodes = try reader["serviceTaxCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TaxSettingsClientTypes.MalaysiaServiceTaxCode>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.taxInformationNumber = try reader["taxInformationNumber"].readIfPresent()
+        value.businessRegistrationNumber = try reader["businessRegistrationNumber"].readIfPresent()
         return value
     }
 }
@@ -2556,6 +2905,21 @@ extension TaxSettingsClientTypes.TaxDocumentMetadata {
         var value = TaxSettingsClientTypes.TaxDocumentMetadata()
         value.taxDocumentAccessToken = try reader["taxDocumentAccessToken"].readIfPresent() ?? ""
         value.taxDocumentName = try reader["taxDocumentName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.SupplementalTaxRegistration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.SupplementalTaxRegistration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.SupplementalTaxRegistration()
+        value.registrationId = try reader["registrationId"].readIfPresent() ?? ""
+        value.registrationType = try reader["registrationType"].readIfPresent() ?? .sdkUnknown("")
+        value.legalName = try reader["legalName"].readIfPresent() ?? ""
+        value.address = try reader["address"].readIfPresent(with: TaxSettingsClientTypes.Address.read(from:))
+        value.authorityId = try reader["authorityId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2705,6 +3069,17 @@ extension TaxSettingsClientTypes.DestinationS3Location {
         guard let value else { return }
         try writer["bucket"].write(value.bucket)
         try writer["prefix"].write(value.`prefix`)
+    }
+}
+
+extension TaxSettingsClientTypes.SupplementalTaxRegistrationEntry {
+
+    static func write(value: TaxSettingsClientTypes.SupplementalTaxRegistrationEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["address"].write(value.address, with: TaxSettingsClientTypes.Address.write(value:to:))
+        try writer["legalName"].write(value.legalName)
+        try writer["registrationId"].write(value.registrationId)
+        try writer["registrationType"].write(value.registrationType)
     }
 }
 
