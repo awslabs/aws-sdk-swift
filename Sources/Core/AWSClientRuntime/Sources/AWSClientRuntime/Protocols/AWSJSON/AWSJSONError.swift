@@ -11,7 +11,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 
 public struct AWSJSONError: BaseError {
-    public let code: String
+    public var code: String
     public let message: String?
     public let requestID: String?
     @_spi(SmithyReadWrite) public var errorBodyReader: Reader { responseReader }
@@ -32,5 +32,13 @@ public struct AWSJSONError: BaseError {
         self.requestID = requestID
         self.httpResponse = httpResponse
         self.responseReader = responseReader
+    }
+}
+
+extension AWSJSONError {
+    public func makeAWSJsonErrorQueryCompatible(errorDetails: String?) throws -> AWSJSONError {
+        var error = try AWSJSONError(httpResponse: self.httpResponse, responseReader: self.responseReader, noErrorWrapping: false)
+        error.code = try AwsQueryCompatibleErrorDetails.parse(errorDetails).code
+        return error
     }
 }
