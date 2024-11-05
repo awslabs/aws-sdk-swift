@@ -37,7 +37,11 @@ public struct AWSJSONError: BaseError {
 
 extension AWSJSONError {
     public func makeAWSJsonErrorQueryCompatible(errorDetails: String?) throws -> AWSJSONError {
-        var error = try AWSJSONError(httpResponse: self.httpResponse, responseReader: self.responseReader, noErrorWrapping: false)
+        var error = try AWSJSONError(
+            httpResponse: self.httpResponse,
+            responseReader: self.responseReader,
+            noErrorWrapping: false // unused
+        )
         error.code = try AwsQueryCompatibleErrorDetails.parse(errorDetails).code
         return error
     }
