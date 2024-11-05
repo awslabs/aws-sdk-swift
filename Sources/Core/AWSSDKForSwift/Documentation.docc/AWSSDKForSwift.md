@@ -70,18 +70,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSDKIdentity](../../../../../swift/api/awssdkidentity/latest)
 
-[aws-sdk-swift.AWSClientRuntime](../../../../../swift/api/aws-sdk-swift.awsclientruntime/latest)
-
-[aws-sdk-swift.AWSSDKChecksums](../../../../../swift/api/aws-sdk-swift.awssdkchecksums/latest)
-
-[aws-sdk-swift.AWSSDKCommon](../../../../../swift/api/aws-sdk-swift.awssdkcommon/latest)
-
-[aws-sdk-swift.AWSSDKEventStreamsAuth](../../../../../swift/api/aws-sdk-swift.awssdkeventstreamsauth/latest)
-
-[aws-sdk-swift.AWSSDKHTTPAuth](../../../../../swift/api/aws-sdk-swift.awssdkhttpauth/latest)
-
-[aws-sdk-swift.AWSSDKIdentity](../../../../../swift/api/aws-sdk-swift.awssdkidentity/latest)
-
 
 ## Service Documentation
 
