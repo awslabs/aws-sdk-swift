@@ -44,7 +44,7 @@ class SQSTests: XCTestCase {
 
     func test_QueryCompatible() async throws {
         do {
-            let response = try await client.getQueueUrl(input: .init(queueName: "non-existent-queue-123"))
+            _ = try await client.getQueueUrl(input: .init(queueName: "non-existent-queue-123"))
             XCTFail("Expected an error to be thrown!")
         } catch let error as QueueDoesNotExist {
             let errorCode = error.errorCode
