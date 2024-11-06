@@ -63,20 +63,6 @@ fun getProperty(name: String): String? {
     return null
 }
 
-// TODO: Update this list with more services (currently just services with integration tests)
-val interceptorsServices = setOf<String>(
-    "AWSCloudFrontKeyValueStore",
-    "AWSEC2",
-    "AWSECS",
-    "AWSEventBridge",
-    "AWSKinesis",
-    "AWSMediaConvert",
-    "AWSRoute53",
-    "AWSS3",
-    "AWSSQS",
-    "AWSTranscribeStreaming",
-)
-
 // Represents information needed to generate a smithy projection JSON stanza
 data class AwsService(
     val name: String,
@@ -179,7 +165,7 @@ fun discoverServices(): List<AwsService> {
 }
 val discoveredServices: List<AwsService> by lazy { discoverServices() }
 
-val packageVersion = rootProject.file("Package.version.next").readText(Charset.forName("UTF-8"))
+val packageVersion = rootProject.file("Package.version.next").readText(Charset.forName("UTF-8")).trim()
 val packageScope = rootProject.file("Package.scope").readText(Charset.forName("UTF-8"))
 
 val AwsService.scopedPackageName: String
