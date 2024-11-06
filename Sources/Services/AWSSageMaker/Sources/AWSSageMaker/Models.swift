@@ -2741,6 +2741,22 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -2770,7 +2786,6 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
-        case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
@@ -2796,7 +2811,6 @@ extension SageMakerClientTypes {
         case mlTrn1n32xlarge
         case mlTrn12xlarge
         case mlTrn132xlarge
-        case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TrainingInstanceType] {
@@ -2837,6 +2851,22 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -2866,7 +2896,6 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
-                .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
@@ -2891,8 +2920,7 @@ extension SageMakerClientTypes {
                 .mlT3Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
-                .mlTrn132xlarge,
-                .mlTrn248xlarge
+                .mlTrn132xlarge
             ]
         }
 
@@ -2939,6 +2967,22 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -2968,7 +3012,6 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
-            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
@@ -2994,7 +3037,6 @@ extension SageMakerClientTypes {
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn12xlarge: return "ml.trn1.2xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
-            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7891,6 +7933,99 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct BatchDeleteClusterNodesInput: Swift.Sendable {
+    /// The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// A list of node IDs to be deleted from the specified cluster. For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
+    /// This member is required.
+    public var nodeIds: [Swift.String]?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        nodeIds: [Swift.String]? = nil
+    )
+    {
+        self.clusterName = clusterName
+        self.nodeIds = nodeIds
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum BatchDeleteClusterNodesErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invalidNodeStatus
+        case nodeIdInUse
+        case nodeIdNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchDeleteClusterNodesErrorCode] {
+            return [
+                .invalidNodeStatus,
+                .nodeIdInUse,
+                .nodeIdNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalidNodeStatus: return "InvalidNodeStatus"
+            case .nodeIdInUse: return "NodeIdInUse"
+            case .nodeIdNotFound: return "NodeIdNotFound"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Represents an error encountered when deleting a node from a SageMaker HyperPod cluster.
+    public struct BatchDeleteClusterNodesError: Swift.Sendable {
+        /// The error code associated with the error encountered when deleting a node. The code provides information about the specific issue encountered, such as the node not being found, the node's status being invalid for deletion, or the node ID being in use by another process.
+        /// This member is required.
+        public var code: SageMakerClientTypes.BatchDeleteClusterNodesErrorCode?
+        /// A message describing the error encountered when deleting a node.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The ID of the node that encountered an error during the deletion process.
+        /// This member is required.
+        public var nodeId: Swift.String?
+
+        public init(
+            code: SageMakerClientTypes.BatchDeleteClusterNodesErrorCode? = nil,
+            message: Swift.String? = nil,
+            nodeId: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+            self.nodeId = nodeId
+        }
+    }
+}
+
+public struct BatchDeleteClusterNodesOutput: Swift.Sendable {
+    /// A list of errors encountered when deleting the specified nodes.
+    public var failed: [SageMakerClientTypes.BatchDeleteClusterNodesError]?
+    /// A list of node IDs that were successfully deleted from the specified cluster.
+    public var successful: [Swift.String]?
+
+    public init(
+        failed: [SageMakerClientTypes.BatchDeleteClusterNodesError]? = nil,
+        successful: [Swift.String]? = nil
+    )
+    {
+        self.failed = failed
+        self.successful = successful
+    }
+}
+
 public struct BatchDescribeModelPackageInput: Swift.Sendable {
     /// The list of Amazon Resource Name (ARN) of the model package groups.
     /// This member is required.
@@ -9587,6 +9722,24 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
+        case mlGr64xlarge
+        case mlGr68xlarge
         case mlM512xlarge
         case mlM516xlarge
         case mlM524xlarge
@@ -9597,6 +9750,7 @@ extension SageMakerClientTypes {
         case mlM5Xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5e48xlarge
         case mlP548xlarge
         case mlT32xlarge
         case mlT3Large
@@ -9629,6 +9783,24 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
+                .mlGr64xlarge,
+                .mlGr68xlarge,
                 .mlM512xlarge,
                 .mlM516xlarge,
                 .mlM524xlarge,
@@ -9639,6 +9811,7 @@ extension SageMakerClientTypes {
                 .mlM5Xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlT32xlarge,
                 .mlT3Large,
@@ -9677,6 +9850,24 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
+            case .mlGr64xlarge: return "ml.gr6.4xlarge"
+            case .mlGr68xlarge: return "ml.gr6.8xlarge"
             case .mlM512xlarge: return "ml.m5.12xlarge"
             case .mlM516xlarge: return "ml.m5.16xlarge"
             case .mlM524xlarge: return "ml.m5.24xlarge"
@@ -9687,6 +9878,7 @@ extension SageMakerClientTypes {
             case .mlM5Xlarge: return "ml.m5.xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
@@ -20644,6 +20836,32 @@ extension SageMakerClientTypes.ModelPackageModelCard: Swift.CustomDebugStringCon
 
 extension SageMakerClientTypes {
 
+    /// A structure describing the current state of the model in its life cycle.
+    public struct ModelLifeCycle: Swift.Sendable {
+        /// The current stage in the model life cycle.
+        /// This member is required.
+        public var stage: Swift.String?
+        /// Describes the stage related details.
+        public var stageDescription: Swift.String?
+        /// The current status of a stage in model life cycle.
+        /// This member is required.
+        public var stageStatus: Swift.String?
+
+        public init(
+            stage: Swift.String? = nil,
+            stageDescription: Swift.String? = nil,
+            stageStatus: Swift.String? = nil
+        )
+        {
+            self.stage = stage
+            self.stageDescription = stageDescription
+            self.stageStatus = stageStatus
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Contains explainability metrics for a model.
     public struct Explainability: Swift.Sendable {
         /// The explainability report for a model.
@@ -20885,6 +21103,8 @@ public struct CreateModelPackageInput: Swift.Sendable {
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
     /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
+    /// A structure describing the current state of the model in its life cycle.
+    public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
     /// A structure that contains model metrics reports.
     public var modelMetrics: SageMakerClientTypes.ModelMetrics?
     /// A description of the model package.
@@ -20921,6 +21141,7 @@ public struct CreateModelPackageInput: Swift.Sendable {
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
         modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
+        modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
         modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
         modelPackageDescription: Swift.String? = nil,
         modelPackageGroupName: Swift.String? = nil,
@@ -20945,6 +21166,7 @@ public struct CreateModelPackageInput: Swift.Sendable {
         self.metadataProperties = metadataProperties
         self.modelApprovalStatus = modelApprovalStatus
         self.modelCard = modelCard
+        self.modelLifeCycle = modelLifeCycle
         self.modelMetrics = modelMetrics
         self.modelPackageDescription = modelPackageDescription
         self.modelPackageGroupName = modelPackageGroupName
@@ -31458,6 +31680,8 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
     /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
+    /// A structure describing the current state of the model in its life cycle.
+    public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
     /// Metrics for the model.
     public var modelMetrics: SageMakerClientTypes.ModelMetrics?
     /// The Amazon Resource Name (ARN) of the model package.
@@ -31508,6 +31732,7 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
         metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
         modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
+        modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
         modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
         modelPackageArn: Swift.String? = nil,
         modelPackageDescription: Swift.String? = nil,
@@ -31539,6 +31764,7 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
         self.metadataProperties = metadataProperties
         self.modelApprovalStatus = modelApprovalStatus
         self.modelCard = modelCard
+        self.modelLifeCycle = modelLifeCycle
         self.modelMetrics = modelMetrics
         self.modelPackageArn = modelPackageArn
         self.modelPackageDescription = modelPackageDescription
@@ -44557,6 +44783,8 @@ extension SageMakerClientTypes {
         public var creationTime: Foundation.Date?
         /// Timestamp when the training job was last modified.
         public var lastModifiedTime: Foundation.Date?
+        /// The secondary status of the training job.
+        public var secondaryStatus: SageMakerClientTypes.SecondaryStatus?
         /// A timestamp that shows when the training job ended. This field is set only if the training job has one of the terminal statuses (Completed, Failed, or Stopped).
         public var trainingEndTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the training job.
@@ -44574,6 +44802,7 @@ extension SageMakerClientTypes {
         public init(
             creationTime: Foundation.Date? = nil,
             lastModifiedTime: Foundation.Date? = nil,
+            secondaryStatus: SageMakerClientTypes.SecondaryStatus? = nil,
             trainingEndTime: Foundation.Date? = nil,
             trainingJobArn: Swift.String? = nil,
             trainingJobName: Swift.String? = nil,
@@ -44583,6 +44812,7 @@ extension SageMakerClientTypes {
         {
             self.creationTime = creationTime
             self.lastModifiedTime = lastModifiedTime
+            self.secondaryStatus = secondaryStatus
             self.trainingEndTime = trainingEndTime
             self.trainingJobArn = trainingJobArn
             self.trainingJobName = trainingJobName
@@ -45812,6 +46042,8 @@ extension SageMakerClientTypes {
         public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
         /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
         public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
+        /// A structure describing the current state of the model in its life cycle.
+        public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
         /// Metrics for the model.
         public var modelMetrics: SageMakerClientTypes.ModelMetrics?
         /// The Amazon Resource Name (ARN) of the model package.
@@ -45870,6 +46102,7 @@ extension SageMakerClientTypes {
             metadataProperties: SageMakerClientTypes.MetadataProperties? = nil,
             modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
             modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
+            modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
             modelMetrics: SageMakerClientTypes.ModelMetrics? = nil,
             modelPackageArn: Swift.String? = nil,
             modelPackageDescription: Swift.String? = nil,
@@ -45902,6 +46135,7 @@ extension SageMakerClientTypes {
             self.metadataProperties = metadataProperties
             self.modelApprovalStatus = modelApprovalStatus
             self.modelCard = modelCard
+            self.modelLifeCycle = modelLifeCycle
             self.modelMetrics = modelMetrics
             self.modelPackageArn = modelPackageArn
             self.modelPackageDescription = modelPackageDescription
@@ -48774,6 +49008,8 @@ public struct UpdateModelPackageInput: Swift.Sendable {
     public var additionalInferenceSpecificationsToAdd: [SageMakerClientTypes.AdditionalInferenceSpecificationDefinition]?
     /// A description for the approval status of the model.
     public var approvalDescription: Swift.String?
+    /// A unique token that guarantees that the call to this API is idempotent.
+    public var clientToken: Swift.String?
     /// The metadata properties associated with the model package versions.
     public var customerMetadataProperties: [Swift.String: Swift.String]?
     /// The metadata properties associated with the model package versions to remove.
@@ -48790,6 +49026,8 @@ public struct UpdateModelPackageInput: Swift.Sendable {
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
     /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
+    /// A structure describing the current state of the model in its life cycle.
+    public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
     /// The Amazon Resource Name (ARN) of the model package.
     /// This member is required.
     public var modelPackageArn: Swift.String?
@@ -48799,22 +49037,26 @@ public struct UpdateModelPackageInput: Swift.Sendable {
     public init(
         additionalInferenceSpecificationsToAdd: [SageMakerClientTypes.AdditionalInferenceSpecificationDefinition]? = nil,
         approvalDescription: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
         customerMetadataProperties: [Swift.String: Swift.String]? = nil,
         customerMetadataPropertiesToRemove: [Swift.String]? = nil,
         inferenceSpecification: SageMakerClientTypes.InferenceSpecification? = nil,
         modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
         modelCard: SageMakerClientTypes.ModelPackageModelCard? = nil,
+        modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
         modelPackageArn: Swift.String? = nil,
         sourceUri: Swift.String? = nil
     )
     {
         self.additionalInferenceSpecificationsToAdd = additionalInferenceSpecificationsToAdd
         self.approvalDescription = approvalDescription
+        self.clientToken = clientToken
         self.customerMetadataProperties = customerMetadataProperties
         self.customerMetadataPropertiesToRemove = customerMetadataPropertiesToRemove
         self.inferenceSpecification = inferenceSpecification
         self.modelApprovalStatus = modelApprovalStatus
         self.modelCard = modelCard
+        self.modelLifeCycle = modelLifeCycle
         self.modelPackageArn = modelPackageArn
         self.sourceUri = sourceUri
     }
@@ -49531,6 +49773,13 @@ extension AddTagsInput {
 extension AssociateTrialComponentInput {
 
     static func urlPathProvider(_ value: AssociateTrialComponentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension BatchDeleteClusterNodesInput {
+
+    static func urlPathProvider(_ value: BatchDeleteClusterNodesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -51887,6 +52136,15 @@ extension AssociateTrialComponentInput {
     }
 }
 
+extension BatchDeleteClusterNodesInput {
+
+    static func write(value: BatchDeleteClusterNodesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterName"].write(value.clusterName)
+        try writer["NodeIds"].writeList(value.nodeIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchDescribeModelPackageInput {
 
     static func write(value: BatchDescribeModelPackageInput?, to writer: SmithyJSON.Writer) throws {
@@ -52449,6 +52707,7 @@ extension CreateModelPackageInput {
         try writer["MetadataProperties"].write(value.metadataProperties, with: SageMakerClientTypes.MetadataProperties.write(value:to:))
         try writer["ModelApprovalStatus"].write(value.modelApprovalStatus)
         try writer["ModelCard"].write(value.modelCard, with: SageMakerClientTypes.ModelPackageModelCard.write(value:to:))
+        try writer["ModelLifeCycle"].write(value.modelLifeCycle, with: SageMakerClientTypes.ModelLifeCycle.write(value:to:))
         try writer["ModelMetrics"].write(value.modelMetrics, with: SageMakerClientTypes.ModelMetrics.write(value:to:))
         try writer["ModelPackageDescription"].write(value.modelPackageDescription)
         try writer["ModelPackageGroupName"].write(value.modelPackageGroupName)
@@ -55534,11 +55793,13 @@ extension UpdateModelPackageInput {
         guard let value else { return }
         try writer["AdditionalInferenceSpecificationsToAdd"].writeList(value.additionalInferenceSpecificationsToAdd, memberWritingClosure: SageMakerClientTypes.AdditionalInferenceSpecificationDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ApprovalDescription"].write(value.approvalDescription)
+        try writer["ClientToken"].write(value.clientToken)
         try writer["CustomerMetadataProperties"].writeMap(value.customerMetadataProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["CustomerMetadataPropertiesToRemove"].writeList(value.customerMetadataPropertiesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InferenceSpecification"].write(value.inferenceSpecification, with: SageMakerClientTypes.InferenceSpecification.write(value:to:))
         try writer["ModelApprovalStatus"].write(value.modelApprovalStatus)
         try writer["ModelCard"].write(value.modelCard, with: SageMakerClientTypes.ModelPackageModelCard.write(value:to:))
+        try writer["ModelLifeCycle"].write(value.modelLifeCycle, with: SageMakerClientTypes.ModelLifeCycle.write(value:to:))
         try writer["ModelPackageArn"].write(value.modelPackageArn)
         try writer["SourceUri"].write(value.sourceUri)
     }
@@ -55748,6 +56009,19 @@ extension AssociateTrialComponentOutput {
         var value = AssociateTrialComponentOutput()
         value.trialArn = try reader["TrialArn"].readIfPresent()
         value.trialComponentArn = try reader["TrialComponentArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchDeleteClusterNodesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteClusterNodesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteClusterNodesOutput()
+        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.BatchDeleteClusterNodesError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -57882,6 +58156,7 @@ extension DescribeModelPackageOutput {
         value.metadataProperties = try reader["MetadataProperties"].readIfPresent(with: SageMakerClientTypes.MetadataProperties.read(from:))
         value.modelApprovalStatus = try reader["ModelApprovalStatus"].readIfPresent()
         value.modelCard = try reader["ModelCard"].readIfPresent(with: SageMakerClientTypes.ModelPackageModelCard.read(from:))
+        value.modelLifeCycle = try reader["ModelLifeCycle"].readIfPresent(with: SageMakerClientTypes.ModelLifeCycle.read(from:))
         value.modelMetrics = try reader["ModelMetrics"].readIfPresent(with: SageMakerClientTypes.ModelMetrics.read(from:))
         value.modelPackageArn = try reader["ModelPackageArn"].readIfPresent() ?? ""
         value.modelPackageDescription = try reader["ModelPackageDescription"].readIfPresent()
@@ -60264,6 +60539,20 @@ enum AssociateTrialComponentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDeleteClusterNodesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -64985,6 +65274,18 @@ extension SageMakerClientTypes.Tag {
         var value = SageMakerClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.BatchDeleteClusterNodesError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchDeleteClusterNodesError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.BatchDeleteClusterNodesError()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.nodeId = try reader["NodeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -71102,6 +71403,25 @@ extension SageMakerClientTypes.ModelPackageModelCard {
     }
 }
 
+extension SageMakerClientTypes.ModelLifeCycle {
+
+    static func write(value: SageMakerClientTypes.ModelLifeCycle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Stage"].write(value.stage)
+        try writer["StageDescription"].write(value.stageDescription)
+        try writer["StageStatus"].write(value.stageStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelLifeCycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ModelLifeCycle()
+        value.stage = try reader["Stage"].readIfPresent() ?? ""
+        value.stageStatus = try reader["StageStatus"].readIfPresent() ?? ""
+        value.stageDescription = try reader["StageDescription"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.ModelQualityBaselineConfig {
 
     static func write(value: SageMakerClientTypes.ModelQualityBaselineConfig?, to writer: SmithyJSON.Writer) throws {
@@ -74234,6 +74554,7 @@ extension SageMakerClientTypes.TrainingJobSummary {
         value.trainingEndTime = try reader["TrainingEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.trainingJobStatus = try reader["TrainingJobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.secondaryStatus = try reader["SecondaryStatus"].readIfPresent()
         value.warmPoolStatus = try reader["WarmPoolStatus"].readIfPresent(with: SageMakerClientTypes.WarmPoolStatus.read(from:))
         return value
     }
@@ -74689,6 +75010,7 @@ extension SageMakerClientTypes.ModelPackage {
         value.sourceUri = try reader["SourceUri"].readIfPresent()
         value.securityConfig = try reader["SecurityConfig"].readIfPresent(with: SageMakerClientTypes.ModelPackageSecurityConfig.read(from:))
         value.modelCard = try reader["ModelCard"].readIfPresent(with: SageMakerClientTypes.ModelPackageModelCard.read(from:))
+        value.modelLifeCycle = try reader["ModelLifeCycle"].readIfPresent(with: SageMakerClientTypes.ModelLifeCycle.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.customerMetadataProperties = try reader["CustomerMetadataProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.driftCheckBaselines = try reader["DriftCheckBaselines"].readIfPresent(with: SageMakerClientTypes.DriftCheckBaselines.read(from:))

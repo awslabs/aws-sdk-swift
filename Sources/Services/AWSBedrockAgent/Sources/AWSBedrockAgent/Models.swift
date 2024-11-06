@@ -6438,7 +6438,7 @@ extension BedrockAgentClientTypes {
 
     /// Contains details about the model used to create vector embeddings for the knowledge base.
     public struct VectorKnowledgeBaseConfiguration: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
+        /// The Amazon Resource Name (ARN) of the model or inference profile used to create vector embeddings for the knowledge base.
         /// This member is required.
         public var embeddingModelArn: Swift.String?
         /// The embeddings model configuration details for the vector model used in Knowledge Base.
