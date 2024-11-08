@@ -346,7 +346,7 @@ public struct CancelJobInput: Swift.Sendable {
     /// The Batch job ID of the job to cancel.
     /// This member is required.
     public var jobId: Swift.String?
-    /// A message to attach to the job that explains the reason for canceling it. This message is returned by future [DescribeJobs] operations on the job. This message is also recorded in the Batch activity logs.
+    /// A message to attach to the job that explains the reason for canceling it. This message is returned by future [DescribeJobs] operations on the job. It is also recorded in the Batch activity logs. This parameter has as limit of 1024 characters.
     /// This member is required.
     public var reason: Swift.String?
 
@@ -427,23 +427,63 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// An object that represents a launch template to use in place of the default launch template. You must specify either the launch template ID or launch template name in the request, but not both. If security groups are specified using both the securityGroupIds parameter of CreateComputeEnvironment and the launch template, the values in the securityGroupIds parameter of CreateComputeEnvironment will be used. You can define up to ten (10) overrides for each compute environment. This object isn't applicable to jobs that are running on Fargate resources. To unset all override templates for a compute environment, you can pass an empty array to the [UpdateComputeEnvironment.overrides](https://docs.aws.amazon.com/batch/latest/APIReference/API_UpdateComputeEnvironment.html) parameter, or not include the overrides parameter when submitting the UpdateComputeEnvironment API operation.
+    public struct LaunchTemplateSpecificationOverride: Swift.Sendable {
+        /// The ID of the launch template. Note: If you specify the launchTemplateId you can't specify the launchTemplateName as well.
+        public var launchTemplateId: Swift.String?
+        /// The name of the launch template. Note: If you specify the launchTemplateName you can't specify the launchTemplateId as well.
+        public var launchTemplateName: Swift.String?
+        /// The instance type or family that this this override launch template should be applied to. This parameter is required when defining a launch template override. Information included in this parameter must meet the following requirements:
+        ///
+        /// * Must be a valid Amazon EC2 instance type or family.
+        ///
+        /// * optimal isn't allowed.
+        ///
+        /// * targetInstanceTypes can target only instance types and families that are included within the [ComputeResource.instanceTypes](https://docs.aws.amazon.com/batch/latest/APIReference/API_ComputeResource.html#Batch-Type-ComputeResource-instanceTypes) set. targetInstanceTypes doesn't need to include all of the instances from the instanceType set, but at least a subset. For example, if ComputeResource.instanceTypes includes [m5, g5], targetInstanceTypes can include [m5.2xlarge] and [m5.large] but not [c5.large].
+        ///
+        /// * targetInstanceTypes included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.
+        public var targetInstanceTypes: [Swift.String]?
+        /// The version number of the launch template, $Default, or $Latest. If the value is $Default, the default version of the launch template is used. If the value is $Latest, the latest version of the launch template is used. If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Default or $Latest is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Default: $Default Latest: $Latest
+        public var version: Swift.String?
+
+        public init(
+            launchTemplateId: Swift.String? = nil,
+            launchTemplateName: Swift.String? = nil,
+            targetInstanceTypes: [Swift.String]? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.launchTemplateId = launchTemplateId
+            self.launchTemplateName = launchTemplateName
+            self.targetInstanceTypes = targetInstanceTypes
+            self.version = version
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// An object that represents a launch template that's associated with a compute resource. You must specify either the launch template ID or launch template name in the request, but not both. If security groups are specified using both the securityGroupIds parameter of CreateComputeEnvironment and the launch template, the values in the securityGroupIds parameter of CreateComputeEnvironment will be used. This object isn't applicable to jobs that are running on Fargate resources.
     public struct LaunchTemplateSpecification: Swift.Sendable {
         /// The ID of the launch template.
         public var launchTemplateId: Swift.String?
         /// The name of the launch template.
         public var launchTemplateName: Swift.String?
-        /// The version number of the launch template, $Latest, or $Default. If the value is $Latest, the latest version of the launch template is used. If the value is $Default, the default version of the launch template is used. If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Latest or $Default is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Default: $Default.
+        /// A launch template to use in place of the default launch template. You must specify either the launch template ID or launch template name in the request, but not both. You can specify up to ten (10) launch template overrides that are associated to unique instance types or families for each compute environment. To unset all override templates for a compute environment, you can pass an empty array to the [UpdateComputeEnvironment.overrides](https://docs.aws.amazon.com/batch/latest/APIReference/API_UpdateComputeEnvironment.html) parameter, or not include the overrides parameter when submitting the UpdateComputeEnvironment API operation.
+        public var overrides: [BatchClientTypes.LaunchTemplateSpecificationOverride]?
+        /// The version number of the launch template, $Default, or $Latest. If the value is $Default, the default version of the launch template is used. If the value is $Latest, the latest version of the launch template is used. If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Default or $Latest is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Default: $Default Latest: $Latest
         public var version: Swift.String?
 
         public init(
             launchTemplateId: Swift.String? = nil,
             launchTemplateName: Swift.String? = nil,
+            overrides: [BatchClientTypes.LaunchTemplateSpecificationOverride]? = nil,
             version: Swift.String? = nil
         )
         {
             self.launchTemplateId = launchTemplateId
             self.launchTemplateName = launchTemplateName
+            self.overrides = overrides
             self.version = version
         }
     }
@@ -854,12 +894,12 @@ public struct CreateJobQueueInput: Swift.Sendable {
     /// The name of the job queue. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     /// This member is required.
     public var jobQueueName: Swift.String?
-    /// The set of actions that Batch performs on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed.
+    /// The set of actions that Batch performs on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed. (Note: The minimum value for maxTimeSeconds is 600 (10 minutes) and its maximum value is 86,400 (24 hours).)
     public var jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]?
     /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed.
     /// This member is required.
     public var priority: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the fair share scheduling policy. If this parameter is specified, the job queue uses a fair share scheduling policy. If this parameter isn't specified, the job queue uses a first in, first out (FIFO) scheduling policy. After a job queue is created, you can replace but can't remove the fair share scheduling policy. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
+    /// The Amazon Resource Name (ARN) of the fair share scheduling policy. Job queues that don't have a scheduling policy are scheduled in a first-in, first-out (FIFO) model. After a job queue has a scheduling policy, it can be replaced but can't be removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy. A job queue without a scheduling policy is scheduled as a FIFO job queue and can't have a scheduling policy added. Jobs queues with a scheduling policy can have a maximum of 500 active fair share identifiers. When the limit has been reached, submissions of any jobs that add a new fair share identifier fail.
     public var schedulingPolicyArn: Swift.String?
     /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
     public var state: BatchClientTypes.JQState?
@@ -2177,7 +2217,7 @@ extension BatchClientTypes {
 
     /// An object that contains the properties for the Amazon ECS resources of a job.
     public struct EcsProperties: Swift.Sendable {
-        /// An object that contains the properties for the Amazon ECS task definition of a job. This object is currently limited to one element.
+        /// An object that contains the properties for the Amazon ECS task definition of a job. This object is currently limited to one task element. However, the task element can run up to 10 containers.
         /// This member is required.
         public var taskProperties: [BatchClientTypes.EcsTaskProperties]?
 
@@ -2463,7 +2503,7 @@ extension BatchClientTypes {
 
     /// The properties for the pod.
     public struct EksPodProperties: Swift.Sendable {
-        /// The properties of the container that's used on the Amazon EKS pod.
+        /// The properties of the container that's used on the Amazon EKS pod. This object is limited to 10 elements.
         public var containers: [BatchClientTypes.EksContainer]?
         /// The DNS policy for the pod. The default value is ClusterFirst. If the hostNetwork parameter is not specified, the default is ClusterFirstWithHostNet. ClusterFirst indicates that any DNS query that does not match the configured cluster domain suffix is forwarded to the upstream nameserver inherited from the node. For more information, see [Pod's DNS policy](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy) in the Kubernetes documentation. Valid values: Default | ClusterFirst | ClusterFirstWithHostNet
         public var dnsPolicy: Swift.String?
@@ -2471,7 +2511,7 @@ extension BatchClientTypes {
         public var hostNetwork: Swift.Bool?
         /// References a Kubernetes secret resource. It holds a list of secrets. These secrets help to gain access to pull an images from a private registry. ImagePullSecret$name is required when this object is used.
         public var imagePullSecrets: [BatchClientTypes.ImagePullSecret]?
-        /// These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see [Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in the Kubernetes documentation. This object is limited to 10 elements
+        /// These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see [Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in the Kubernetes documentation. This object is limited to 10 elements.
         public var initContainers: [BatchClientTypes.EksContainer]?
         /// Metadata about the Kubernetes pod. For more information, see [Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
         public var metadata: BatchClientTypes.EksMetadata?
@@ -3291,6 +3331,8 @@ extension BatchClientTypes {
 
     /// An object that represents the details for an attempt for a job attempt that an Amazon EKS container runs.
     public struct EksAttemptContainerDetail: Swift.Sendable {
+        /// The ID for the container.
+        public var containerID: Swift.String?
         /// The exit code returned for the job attempt. A non-zero exit code is considered failed.
         public var exitCode: Swift.Int?
         /// The name of a container.
@@ -3299,11 +3341,13 @@ extension BatchClientTypes {
         public var reason: Swift.String?
 
         public init(
+            containerID: Swift.String? = nil,
             exitCode: Swift.Int? = nil,
             name: Swift.String? = nil,
             reason: Swift.String? = nil
         )
         {
+            self.containerID = containerID
             self.exitCode = exitCode
             self.name = name
             self.reason = reason
@@ -3325,6 +3369,8 @@ extension BatchClientTypes {
         public var nodeName: Swift.String?
         /// The name of the pod for this job attempt.
         public var podName: Swift.String?
+        /// The namespace of the Amazon EKS cluster that the pod exists in.
+        public var podNamespace: Swift.String?
         /// The Unix timestamp (in milliseconds) for when the attempt was started (when the attempt transitioned from the STARTING state to the RUNNING state).
         public var startedAt: Swift.Int?
         /// A short, human-readable string to provide additional details for the current status of the job attempt.
@@ -3338,6 +3384,7 @@ extension BatchClientTypes {
             initContainers: [BatchClientTypes.EksAttemptContainerDetail]? = nil,
             nodeName: Swift.String? = nil,
             podName: Swift.String? = nil,
+            podNamespace: Swift.String? = nil,
             startedAt: Swift.Int? = nil,
             statusReason: Swift.String? = nil,
             stoppedAt: Swift.Int? = nil
@@ -3348,6 +3395,7 @@ extension BatchClientTypes {
             self.initContainers = initContainers
             self.nodeName = nodeName
             self.podName = podName
+            self.podNamespace = podNamespace
             self.startedAt = startedAt
             self.statusReason = statusReason
             self.stoppedAt = stoppedAt
@@ -4348,7 +4396,7 @@ extension BatchClientTypes {
     public struct EksPodPropertiesOverride: Swift.Sendable {
         /// The overrides for the container that's used on the Amazon EKS pod.
         public var containers: [BatchClientTypes.EksContainerOverride]?
-        /// The overrides for the conatainers defined in the Amazon EKS pod. These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see [Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in the Kubernetes documentation. This object is limited to 10 elements
+        /// The overrides for the initContainers defined in the Amazon EKS pod. These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see [Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in the Kubernetes documentation.
         public var initContainers: [BatchClientTypes.EksContainerOverride]?
         /// Metadata about the overrides for the container that's used on the Amazon EKS pod.
         public var metadata: BatchClientTypes.EksMetadata?
@@ -4568,7 +4616,7 @@ public struct TerminateJobInput: Swift.Sendable {
     /// The Batch job ID of the job to terminate.
     /// This member is required.
     public var jobId: Swift.String?
-    /// A message to attach to the job that explains the reason for canceling it. This message is returned by future [DescribeJobs] operations on the job. This message is also recorded in the Batch activity logs.
+    /// A message to attach to the job that explains the reason for canceling it. This message is returned by future [DescribeJobs] operations on the job. It is also recorded in the Batch activity logs. This parameter has as limit of 1024 characters.
     /// This member is required.
     public var reason: Swift.String?
 
@@ -4784,7 +4832,7 @@ public struct UpdateJobQueueInput: Swift.Sendable {
     /// The name or the Amazon Resource Name (ARN) of the job queue.
     /// This member is required.
     public var jobQueue: Swift.String?
-    /// The set of actions that Batch perform on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed.
+    /// The set of actions that Batch perform on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed. (Note: The minimum value for maxTimeSeconds is 600 (10 minutes) and its maximum value is 86,400 (24 hours).)
     public var jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]?
     /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.
     public var priority: Swift.Int?
@@ -6107,6 +6155,7 @@ extension BatchClientTypes.LaunchTemplateSpecification {
         guard let value else { return }
         try writer["launchTemplateId"].write(value.launchTemplateId)
         try writer["launchTemplateName"].write(value.launchTemplateName)
+        try writer["overrides"].writeList(value.overrides, memberWritingClosure: BatchClientTypes.LaunchTemplateSpecificationOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["version"].write(value.version)
     }
 
@@ -6116,6 +6165,28 @@ extension BatchClientTypes.LaunchTemplateSpecification {
         value.launchTemplateId = try reader["launchTemplateId"].readIfPresent()
         value.launchTemplateName = try reader["launchTemplateName"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
+        value.overrides = try reader["overrides"].readListIfPresent(memberReadingClosure: BatchClientTypes.LaunchTemplateSpecificationOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.LaunchTemplateSpecificationOverride {
+
+    static func write(value: BatchClientTypes.LaunchTemplateSpecificationOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["launchTemplateId"].write(value.launchTemplateId)
+        try writer["launchTemplateName"].write(value.launchTemplateName)
+        try writer["targetInstanceTypes"].writeList(value.targetInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LaunchTemplateSpecificationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.LaunchTemplateSpecificationOverride()
+        value.launchTemplateId = try reader["launchTemplateId"].readIfPresent()
+        value.launchTemplateName = try reader["launchTemplateName"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.targetInstanceTypes = try reader["targetInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7163,6 +7234,7 @@ extension BatchClientTypes.EksAttemptDetail {
         value.initContainers = try reader["initContainers"].readListIfPresent(memberReadingClosure: BatchClientTypes.EksAttemptContainerDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.eksClusterArn = try reader["eksClusterArn"].readIfPresent()
         value.podName = try reader["podName"].readIfPresent()
+        value.podNamespace = try reader["podNamespace"].readIfPresent()
         value.nodeName = try reader["nodeName"].readIfPresent()
         value.startedAt = try reader["startedAt"].readIfPresent()
         value.stoppedAt = try reader["stoppedAt"].readIfPresent()
@@ -7177,6 +7249,7 @@ extension BatchClientTypes.EksAttemptContainerDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.EksAttemptContainerDetail()
         value.name = try reader["name"].readIfPresent()
+        value.containerID = try reader["containerID"].readIfPresent()
         value.exitCode = try reader["exitCode"].readIfPresent()
         value.reason = try reader["reason"].readIfPresent()
         return value

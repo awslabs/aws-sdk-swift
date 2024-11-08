@@ -5632,7 +5632,7 @@ public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWS
     }
 }
 
-/// You can't create any more zero-ETL integrations because the quota has been reached.
+/// You can't create any more zero-ETL or S3 event integrations because the quota has been reached.
 public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -10960,7 +10960,7 @@ public struct DescribeTagsInput: Swift.Sendable {
     ///
     /// * Snapshot copy grant
     ///
-    /// * Integration (zero-ETL integration) To describe the tags associated with an integration, don't specify ResourceType, instead specify the ResourceName of the integration.
+    /// * Integration (zero-ETL integration or S3 event integration) To describe the tags associated with an integration, don't specify ResourceType, instead specify the ResourceName of the integration.
     ///
     ///
     /// For more information about Amazon Redshift resource types and constructing ARNs, go to [Specifying Policy Elements: Actions, Effects, Resources, and Principals](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-overview.html#redshift-iam-access-control-specify-actions) in the Amazon Redshift Cluster Management Guide.

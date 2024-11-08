@@ -499,7 +499,7 @@ public struct DescribeAlertManagerDefinitionInput: Swift.Sendable {
 
 extension AmpClientTypes {
 
-    /// The details of an alert manager definition.
+    /// The details of an alert manager definition. It is the configuration for the alert manager, including information about receivers for routing alerts.
     public struct AlertManagerDefinitionDescription: Swift.Sendable {
         /// The date and time that the alert manager definition was created.
         /// This member is required.
@@ -601,7 +601,7 @@ public struct GetDefaultScraperConfigurationOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The ARN of the resource to list tages for. Must be a workspace or rule groups namespace resource.
+    /// The ARN of the resource to list tages for. Must be a workspace, scraper, or rule groups namespace resource.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -646,7 +646,7 @@ extension AmpClientTypes {
 
     /// Where to send the metrics from a scraper.
     public enum Destination: Swift.Sendable {
-        /// The Amazon Managed Service for Prometheusworkspace to send metrics to.
+        /// The Amazon Managed Service for Prometheus workspace to send metrics to.
         case ampconfiguration(AmpClientTypes.AmpConfiguration)
         case sdkUnknown(Swift.String)
     }
@@ -654,7 +654,7 @@ extension AmpClientTypes {
 
 extension AmpClientTypes {
 
-    /// A scrape configuration for a scraper, base 64 encoded. For more information, see [Scraper configuration] in the Amazon Managed Service for Prometheus User Guide.
+    /// A scrape configuration for a scraper, base 64 encoded. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration) in the Amazon Managed Service for Prometheus User Guide.
     public enum ScrapeConfiguration: Swift.Sendable {
         /// The base 64 encoded scrape configuration file.
         case configurationblob(Foundation.Data)
@@ -700,14 +700,14 @@ extension AmpClientTypes {
 
 /// Represents the input of a CreateScraper operation.
 public struct CreateScraperInput: Swift.Sendable {
-    /// (optional) a name to associate with the scraper. This is for your use, and does not need to be unique.
+    /// (optional) An alias to associate with the scraper. This is for your use, and does not need to be unique.
     public var alias: Swift.String?
     /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The Amazon Managed Service for Prometheus workspace to send metrics to.
     /// This member is required.
     public var destination: AmpClientTypes.Destination?
-    /// The configuration file to use in the new scraper. For more information, see [Scraper configuration] in the Amazon Managed Service for Prometheus User Guide.
+    /// The configuration file to use in the new scraper. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration) in the Amazon Managed Service for Prometheus User Guide.
     /// This member is required.
     public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
     /// The Amazon EKS cluster from which the scraper will collect metrics.
@@ -748,6 +748,10 @@ extension AmpClientTypes {
         case deleting
         /// Scraper deletion failed.
         case deletionFailed
+        /// Scraper update failed.
+        case updateFailed
+        /// Scraper is being updated. Deletion is disallowed until status is ACTIVE.
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScraperStatusCode] {
@@ -756,7 +760,9 @@ extension AmpClientTypes {
                 .creating,
                 .creationFailed,
                 .deleting,
-                .deletionFailed
+                .deletionFailed,
+                .updateFailed,
+                .updating
             ]
         }
 
@@ -772,6 +778,8 @@ extension AmpClientTypes {
             case .creationFailed: return "CREATION_FAILED"
             case .deleting: return "DELETING"
             case .deletionFailed: return "DELETION_FAILED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -880,7 +888,7 @@ extension AmpClientTypes {
     public struct ScraperDescription: Swift.Sendable {
         /// (Optional) A name associated with the scraper.
         public var alias: Swift.String?
-        /// The Amazon Resource Name (ARN) of the scraper.
+        /// The Amazon Resource Name (ARN) of the scraper. For example, arn:aws:aps:<region>:123456798012:scraper/s-example1-1234-abcd-5678-ef9012abcd34.
         /// This member is required.
         public var arn: Swift.String?
         /// The date and time that the scraper was created.
@@ -892,13 +900,13 @@ extension AmpClientTypes {
         /// The date and time that the scraper was last modified.
         /// This member is required.
         public var lastModifiedAt: Foundation.Date?
-        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf.
+        /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf. For example, arn:aws:iam::123456789012:role/service-role/AmazonGrafanaServiceRole-12example.
         /// This member is required.
         public var roleArn: Swift.String?
-        /// The configuration file in use by the scraper.
+        /// The configuration in use by the scraper.
         /// This member is required.
         public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
-        /// The ID of the scraper.
+        /// The ID of the scraper. For example, s-example1-1234-abcd-5678-ef9012abcd34.
         /// This member is required.
         public var scraperId: Swift.String?
         /// The Amazon EKS cluster from which the scraper collects metrics.
@@ -1060,11 +1068,67 @@ public struct ListScrapersOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateScraperInput: Swift.Sendable {
+    /// The new alias of the scraper.
+    public var alias: Swift.String?
+    /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
+    public var clientToken: Swift.String?
+    /// The new Amazon Managed Service for Prometheus workspace to send metrics to.
+    public var destination: AmpClientTypes.Destination?
+    /// Contains the base-64 encoded YAML configuration for the scraper. For more information about configuring a scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html) in the Amazon Managed Service for Prometheus User Guide.
+    public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
+    /// The ID of the scraper to update.
+    /// This member is required.
+    public var scraperId: Swift.String?
+
+    public init(
+        alias: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        destination: AmpClientTypes.Destination? = nil,
+        scrapeConfiguration: AmpClientTypes.ScrapeConfiguration? = nil,
+        scraperId: Swift.String? = nil
+    )
+    {
+        self.alias = alias
+        self.clientToken = clientToken
+        self.destination = destination
+        self.scrapeConfiguration = scrapeConfiguration
+        self.scraperId = scraperId
+    }
+}
+
+public struct UpdateScraperOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated scraper.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID of the updated scraper.
+    /// This member is required.
+    public var scraperId: Swift.String?
+    /// A structure that displays the current status of the scraper.
+    /// This member is required.
+    public var status: AmpClientTypes.ScraperStatus?
+    /// The list of tag keys and values that are associated with the scraper.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        scraperId: Swift.String? = nil,
+        status: AmpClientTypes.ScraperStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.scraperId = scraperId
+        self.status = status
+        self.tags = tags
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
-    /// The ARN of the workspace or rule groups namespace to apply tags to.
+    /// The ARN of the resource to apply tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// The list of tag keys and values to associate with the resource. Keys may not begin with aws:.
+    /// The list of tag keys and values to associate with the resource. Keys must not begin with aws:.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1084,7 +1148,7 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The ARN of the workspace or rule groups namespace.
+    /// The ARN of the resource from which to remove a tag.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The keys of the tags to remove.
@@ -1260,9 +1324,9 @@ extension AmpClientTypes {
 
     /// The full details about one Amazon Managed Service for Prometheus workspace in your account.
     public struct WorkspaceDescription: Swift.Sendable {
-        /// The alias that is assigned to this workspace to help identify it. It may not be unique.
+        /// The alias that is assigned to this workspace to help identify it. It does not need to be unique.
         public var alias: Swift.String?
-        /// The ARN of the workspace.
+        /// The ARN of the workspace. For example, arn:aws:aps:<region>:123456789012:workspace/ws-example1-1234-abcd-5678-ef90abcd1234.
         /// This member is required.
         public var arn: Swift.String?
         /// The date and time that the workspace was created.
@@ -1270,14 +1334,14 @@ extension AmpClientTypes {
         public var createdAt: Foundation.Date?
         /// (optional) If the workspace was created with a customer managed KMS key, the ARN for the key used.
         public var kmsKeyArn: Swift.String?
-        /// The Prometheus endpoint available for this workspace.
+        /// The Prometheus endpoint available for this workspace. For example, https://aps-workspaces.<region>.amazonaws.com/workspaces/ws-example1-1234-abcd-5678-ef90abcd1234/api/v1/.
         public var prometheusEndpoint: Swift.String?
         /// The current status of the workspace.
         /// This member is required.
         public var status: AmpClientTypes.WorkspaceStatus?
         /// The list of tag keys and values that are associated with the workspace.
         public var tags: [Swift.String: Swift.String]?
-        /// The unique ID for the workspace.
+        /// The unique ID for the workspace. For example, ws-example1-1234-abcd-5678-ef90abcd1234.
         /// This member is required.
         public var workspaceId: Swift.String?
 
@@ -1343,7 +1407,7 @@ extension AmpClientTypes {
 
     /// The information about one Amazon Managed Service for Prometheus workspace in your account.
     public struct WorkspaceSummary: Swift.Sendable {
-        /// The alias that is assigned to this workspace to help identify it. It may not be unique.
+        /// The alias that is assigned to this workspace to help identify it. It does not need to be unique.
         public var alias: Swift.String?
         /// The ARN of the workspace.
         /// This member is required.
@@ -1405,7 +1469,7 @@ public struct ListWorkspacesOutput: Swift.Sendable {
 public struct CreateLoggingConfigurationInput: Swift.Sendable {
     /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     public var clientToken: Swift.String?
-    /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this API.
+    /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation.
     /// This member is required.
     public var logGroupArn: Swift.String?
     /// The ID of the workspace to create the logging configuration for.
@@ -1541,7 +1605,7 @@ public struct DescribeLoggingConfigurationInput: Swift.Sendable {
 
 extension AmpClientTypes {
 
-    /// Contains information about the logging configuration.
+    /// Contains information about the logging configuration for the workspace.
     public struct LoggingConfigurationMetadata: Swift.Sendable {
         /// The date and time that the logging configuration was created.
         /// This member is required.
@@ -1802,7 +1866,7 @@ extension AmpClientTypes {
 
     /// The details about one rule groups namespace.
     public struct RuleGroupsNamespaceDescription: Swift.Sendable {
-        /// The ARN of the rule groups namespace.
+        /// The ARN of the rule groups namespace. For example, arn:aws:aps:<region>:123456789012:rulegroupsnamespace/ws-example1-1234-abcd-5678-ef90abcd1234/rulesfile1.
         /// This member is required.
         public var arn: Swift.String?
         /// The date and time that the rule groups namespace was created.
@@ -2408,6 +2472,16 @@ extension UpdateLoggingConfigurationInput {
     }
 }
 
+extension UpdateScraperInput {
+
+    static func urlPathProvider(_ value: UpdateScraperInput) -> Swift.String? {
+        guard let scraperId = value.scraperId else {
+            return nil
+        }
+        return "/scrapers/\(scraperId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateWorkspaceAliasInput {
 
     static func urlPathProvider(_ value: UpdateWorkspaceAliasInput) -> Swift.String? {
@@ -2503,6 +2577,17 @@ extension UpdateLoggingConfigurationInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["logGroupArn"].write(value.logGroupArn)
+    }
+}
+
+extension UpdateScraperInput {
+
+    static func write(value: UpdateScraperInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["alias"].write(value.alias)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["destination"].write(value.destination, with: AmpClientTypes.Destination.write(value:to:))
+        try writer["scrapeConfiguration"].write(value.scrapeConfiguration, with: AmpClientTypes.ScrapeConfiguration.write(value:to:))
     }
 }
 
@@ -2798,6 +2883,21 @@ extension UpdateLoggingConfigurationOutput {
         let reader = responseReader
         var value = UpdateLoggingConfigurationOutput()
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.LoggingConfigurationStatus.read(from:))
+        return value
+    }
+}
+
+extension UpdateScraperOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateScraperOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateScraperOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.scraperId = try reader["scraperId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperStatus.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -3262,6 +3362,26 @@ enum UpdateLoggingConfigurationOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateScraperOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

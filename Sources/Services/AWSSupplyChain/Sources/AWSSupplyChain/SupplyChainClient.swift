@@ -65,6 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SupplyChainClient: ClientRuntime.Client {
     public static let clientName = "SupplyChainClient"
+    public static let version = "1.0.36"
     let client: ClientRuntime.SdkHttpClient
     let config: SupplyChainClient.SupplyChainClientConfiguration
     let serviceName = "SupplyChain"
@@ -252,7 +253,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBillOfMaterialsImportJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateBillOfMaterialsImportJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBillOfMaterialsImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBillOfMaterialsImportJobInput, CreateBillOfMaterialsImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -273,7 +274,7 @@ extension SupplyChainClient {
 
     /// Performs the `CreateDataIntegrationFlow` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Create DataIntegrationFlow to map one or more different sources to one target using the SQL transformation query.
+    /// Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
     ///
     /// - Parameter CreateDataIntegrationFlowInput : The request parameters for CreateDataIntegrationFlow.
     ///
@@ -327,7 +328,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataIntegrationFlowOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDataIntegrationFlowOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataIntegrationFlowInput, CreateDataIntegrationFlowOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataIntegrationFlowInput, CreateDataIntegrationFlowOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataIntegrationFlowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataIntegrationFlowInput, CreateDataIntegrationFlowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDataIntegrationFlowInput, CreateDataIntegrationFlowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -348,7 +349,7 @@ extension SupplyChainClient {
 
     /// Performs the `CreateDataLakeDataset` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Create a data lake dataset.
+    /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name.
     ///
     /// - Parameter CreateDataLakeDatasetInput : The request parameters for CreateDataLakeDataset.
     ///
@@ -402,7 +403,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataLakeDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDataLakeDatasetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataLakeDatasetInput, CreateDataLakeDatasetOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataLakeDatasetInput, CreateDataLakeDatasetOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataLakeDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataLakeDatasetInput, CreateDataLakeDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDataLakeDatasetInput, CreateDataLakeDatasetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -423,7 +424,7 @@ extension SupplyChainClient {
 
     /// Performs the `CreateInstance` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Create a new instance for AWS Supply Chain. This is an asynchronous operation. Upon receiving a CreateInstance request, AWS Supply Chain immediately returns the instance resource, with instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance.
+    /// Enables you to programmatically create an Amazon Web Services Supply Chain instance by applying KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web Services Supply Chain immediately returns the instance resource, instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance. If the instance results in an unhealthy state, you need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
     ///
     /// - Parameter CreateInstanceInput : The request parameters for CreateInstance.
     ///
@@ -478,7 +479,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateInstanceInput, CreateInstanceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateInstanceInput, CreateInstanceOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateInstanceInput, CreateInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateInstanceInput, CreateInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -499,7 +500,7 @@ extension SupplyChainClient {
 
     /// Performs the `DeleteDataIntegrationFlow` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Delete the DataIntegrationFlow.
+    /// Enable you to programmatically delete an existing data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     ///
     /// - Parameter DeleteDataIntegrationFlowInput : The request parameters for DeleteDataIntegrationFlow.
     ///
@@ -550,7 +551,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataIntegrationFlowOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDataIntegrationFlowOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDataIntegrationFlowInput, DeleteDataIntegrationFlowOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDataIntegrationFlowInput, DeleteDataIntegrationFlowOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataIntegrationFlowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDataIntegrationFlowInput, DeleteDataIntegrationFlowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDataIntegrationFlowInput, DeleteDataIntegrationFlowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -571,7 +572,7 @@ extension SupplyChainClient {
 
     /// Performs the `DeleteDataLakeDataset` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Delete a data lake dataset.
+    /// Enables you to programmatically delete an Amazon Web Services Supply Chain data lake dataset. Developers can delete the existing datasets for a given instance ID, namespace, and instance name.
     ///
     /// - Parameter DeleteDataLakeDatasetInput : The request parameters of DeleteDataLakeDataset.
     ///
@@ -622,7 +623,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataLakeDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDataLakeDatasetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDataLakeDatasetInput, DeleteDataLakeDatasetOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDataLakeDatasetInput, DeleteDataLakeDatasetOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataLakeDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDataLakeDatasetInput, DeleteDataLakeDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDataLakeDatasetInput, DeleteDataLakeDatasetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -643,7 +644,7 @@ extension SupplyChainClient {
 
     /// Performs the `DeleteInstance` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Delete the instance. This is an asynchronous operation. Upon receiving a DeleteInstance request, AWS Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
+    /// Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
     ///
     /// - Parameter DeleteInstanceInput : The request parameters for DeleteInstance.
     ///
@@ -694,7 +695,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteInstanceInput, DeleteInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -766,7 +767,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBillOfMaterialsImportJobOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetBillOfMaterialsImportJobOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillOfMaterialsImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBillOfMaterialsImportJobInput, GetBillOfMaterialsImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -787,7 +788,7 @@ extension SupplyChainClient {
 
     /// Performs the `GetDataIntegrationFlow` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// View the DataIntegrationFlow details.
+    /// Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     ///
     /// - Parameter GetDataIntegrationFlowInput : The request parameters for GetDataIntegrationFlow.
     ///
@@ -838,7 +839,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataIntegrationFlowOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetDataIntegrationFlowOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataIntegrationFlowInput, GetDataIntegrationFlowOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataIntegrationFlowInput, GetDataIntegrationFlowOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataIntegrationFlowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataIntegrationFlowInput, GetDataIntegrationFlowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataIntegrationFlowInput, GetDataIntegrationFlowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -859,7 +860,7 @@ extension SupplyChainClient {
 
     /// Performs the `GetDataLakeDataset` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Get a data lake dataset.
+    /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
     ///
     /// - Parameter GetDataLakeDatasetInput : The request parameters for GetDataLakeDataset.
     ///
@@ -910,7 +911,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataLakeDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetDataLakeDatasetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataLakeDatasetInput, GetDataLakeDatasetOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDataLakeDatasetInput, GetDataLakeDatasetOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDataLakeDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDataLakeDatasetInput, GetDataLakeDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDataLakeDatasetInput, GetDataLakeDatasetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -931,7 +932,7 @@ extension SupplyChainClient {
 
     /// Performs the `GetInstance` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Get the AWS Supply Chain instance details.
+    /// Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
     ///
     /// - Parameter GetInstanceInput : The request parameters for GetInstance.
     ///
@@ -982,7 +983,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInstanceInput, GetInstanceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInstanceInput, GetInstanceOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInstanceInput, GetInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInstanceInput, GetInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1003,7 +1004,7 @@ extension SupplyChainClient {
 
     /// Performs the `ListDataIntegrationFlows` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Lists all the DataIntegrationFlows in a paginated way.
+    /// Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
     ///
     /// - Parameter ListDataIntegrationFlowsInput : The request parameters for ListDataIntegrationFlows.
     ///
@@ -1055,7 +1056,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataIntegrationFlowsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDataIntegrationFlowsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataIntegrationFlowsInput, ListDataIntegrationFlowsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataIntegrationFlowsInput, ListDataIntegrationFlowsOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataIntegrationFlowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataIntegrationFlowsInput, ListDataIntegrationFlowsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataIntegrationFlowsInput, ListDataIntegrationFlowsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1076,7 +1077,7 @@ extension SupplyChainClient {
 
     /// Performs the `ListDataLakeDatasets` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// List the data lake datasets for a specific instance and name space.
+    /// Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake datasets. Developers can view the datasets and the corresponding information such as namespace, schema, and so on for a given instance ID and namespace.
     ///
     /// - Parameter ListDataLakeDatasetsInput : The request parameters of ListDataLakeDatasets.
     ///
@@ -1128,7 +1129,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataLakeDatasetsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDataLakeDatasetsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataLakeDatasetsInput, ListDataLakeDatasetsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataLakeDatasetsInput, ListDataLakeDatasetsOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataLakeDatasetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataLakeDatasetsInput, ListDataLakeDatasetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataLakeDatasetsInput, ListDataLakeDatasetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1149,7 +1150,7 @@ extension SupplyChainClient {
 
     /// Performs the `ListInstances` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// List all the AWS Supply Chain instances in a paginated way.
+    /// List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
     ///
     /// - Parameter ListInstancesInput : The request parameters for ListInstances.
     ///
@@ -1201,7 +1202,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstancesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListInstancesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInstancesInput, ListInstancesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInstancesInput, ListInstancesOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInstancesInput, ListInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInstancesInput, ListInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1222,7 +1223,7 @@ extension SupplyChainClient {
 
     /// Performs the `ListTagsForResource` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// List all the tags for an Amazon Web ServicesSupply Chain resource.
+    /// List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags added to a resource. By listing the tags, developers can view the tag level information on a resource and perform actions such as, deleting a resource associated with a particular tag.
     ///
     /// - Parameter ListTagsForResourceInput : The request parameters of ListTagsForResource.
     ///
@@ -1273,7 +1274,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1349,7 +1350,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<SendDataIntegrationEventOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SendDataIntegrationEventOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendDataIntegrationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1370,7 +1371,7 @@ extension SupplyChainClient {
 
     /// Performs the `TagResource` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Create tags for an Amazon Web Services Supply chain resource.
+    /// You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets. You can use these tags to identify a group of resources or a single resource used by the developer.
     ///
     /// - Parameter TagResourceInput : The request parameters of TagResource.
     ///
@@ -1424,7 +1425,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1445,7 +1446,7 @@ extension SupplyChainClient {
 
     /// Performs the `UntagResource` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Delete tags for an Amazon Web Services Supply chain resource.
+    /// You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.
     ///
     /// - Parameter UntagResourceInput : The request parameters of UntagResource.
     ///
@@ -1497,7 +1498,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1518,7 +1519,7 @@ extension SupplyChainClient {
 
     /// Performs the `UpdateDataIntegrationFlow` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Update the DataIntegrationFlow.
+    /// Enables you to programmatically update an existing data pipeline to ingest data from the source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
     ///
     /// - Parameter UpdateDataIntegrationFlowInput : The request parameters for UpdateDataIntegrationFlow.
     ///
@@ -1572,7 +1573,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataIntegrationFlowOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateDataIntegrationFlowOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDataIntegrationFlowInput, UpdateDataIntegrationFlowOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDataIntegrationFlowInput, UpdateDataIntegrationFlowOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataIntegrationFlowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDataIntegrationFlowInput, UpdateDataIntegrationFlowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDataIntegrationFlowInput, UpdateDataIntegrationFlowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1593,7 +1594,7 @@ extension SupplyChainClient {
 
     /// Performs the `UpdateDataLakeDataset` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Update a data lake dataset.
+    /// Enables you to programmatically update an Amazon Web Services Supply Chain data lake dataset. Developers can update the description of a data lake dataset for a given instance ID, namespace, and dataset name.
     ///
     /// - Parameter UpdateDataLakeDatasetInput : The request parameters of UpdateDataLakeDataset.
     ///
@@ -1647,7 +1648,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataLakeDatasetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateDataLakeDatasetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDataLakeDatasetInput, UpdateDataLakeDatasetOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDataLakeDatasetInput, UpdateDataLakeDatasetOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataLakeDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDataLakeDatasetInput, UpdateDataLakeDatasetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDataLakeDatasetInput, UpdateDataLakeDatasetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1668,7 +1669,7 @@ extension SupplyChainClient {
 
     /// Performs the `UpdateInstance` operation on the `GalaxyPublicAPIGateway` service.
     ///
-    /// Update the instance.
+    /// Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
     ///
     /// - Parameter UpdateInstanceInput : The request parameters for UpdateInstance.
     ///
@@ -1722,7 +1723,7 @@ extension SupplyChainClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInstanceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateInstanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(serviceID: serviceName, version: SupplyChainClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateInstanceInput, UpdateInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateInstanceInput, UpdateInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

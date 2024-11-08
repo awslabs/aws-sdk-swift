@@ -351,7 +351,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var path: Swift.String?
         /// The port. You can specify a value from 1 to 65535 or #{port}.
         public var port: Swift.String?
-        /// The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You cannot redirect HTTPS to HTTP.
+        /// The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can redirect HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You can't redirect HTTPS to HTTP.
         public var `protocol`: Swift.String?
         /// The query parameters, URL-encoded when necessary, but not percent-encoded. Do not include the leading "?", as it is automatically added. You can specify any of the reserved keywords.
         public var query: Swift.String?
@@ -1210,6 +1210,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var loadBalancerAddresses: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress]?
         /// [Application Load Balancers on Outposts] The ID of the Outpost.
         public var outpostId: Swift.String?
+        /// [Network Load Balancers with UDP listeners] The IPv6 prefixes to use for source NAT. For each subnet, specify an IPv6 prefix (/80 netmask) from the subnet CIDR block or auto_assigned to use an IPv6 prefix selected at random from the subnet CIDR block.
+        public var sourceNatIpv6Prefixes: [Swift.String]?
         /// The ID of the subnet. You can specify one subnet per Availability Zone.
         public var subnetId: Swift.String?
         /// The name of the Availability Zone.
@@ -1218,12 +1220,14 @@ extension ElasticLoadBalancingv2ClientTypes {
         public init(
             loadBalancerAddresses: [ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress]? = nil,
             outpostId: Swift.String? = nil,
+            sourceNatIpv6Prefixes: [Swift.String]? = nil,
             subnetId: Swift.String? = nil,
             zoneName: Swift.String? = nil
         )
         {
             self.loadBalancerAddresses = loadBalancerAddresses
             self.outpostId = outpostId
+            self.sourceNatIpv6Prefixes = sourceNatIpv6Prefixes
             self.subnetId = subnetId
             self.zoneName = zoneName
         }
@@ -1737,9 +1741,9 @@ public struct CreateListenerInput: Swift.Sendable {
     public var loadBalancerArn: Swift.String?
     /// The mutual authentication configuration information.
     public var mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
-    /// The port on which the load balancer is listening. You cannot specify a port for a Gateway Load Balancer.
+    /// The port on which the load balancer is listening. You can't specify a port for a Gateway Load Balancer.
     public var port: Swift.Int?
-    /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
+    /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
     public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
     /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the Application Load Balancers Guide and [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the Network Load Balancers Guide.
     public var sslPolicy: Swift.String?
@@ -2024,6 +2028,35 @@ public struct TooManyLoadBalancersException: ClientRuntime.ModeledError, AWSClie
 
 extension ElasticLoadBalancingv2ClientTypes {
 
+    public enum EnablePrefixForIpv6SourceNatEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case off
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnablePrefixForIpv6SourceNatEnum] {
+            return [
+                .off,
+                .on
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .off: return "off"
+            case .on: return "on"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
     public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dualstack
         case dualstackWithoutPublicIpv4
@@ -2093,6 +2126,8 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var ipv6Address: Swift.String?
         /// [Network Load Balancers] The private IPv4 address for an internal load balancer.
         public var privateIPv4Address: Swift.String?
+        /// [Network Load Balancers with UDP listeners] The IPv6 prefix to use for source NAT. Specify an IPv6 prefix (/80 netmask) from the subnet CIDR block or auto_assigned to use an IPv6 prefix selected at random from the subnet CIDR block.
+        public var sourceNatIpv6Prefix: Swift.String?
         /// The ID of the subnet.
         public var subnetId: Swift.String?
 
@@ -2100,12 +2135,14 @@ extension ElasticLoadBalancingv2ClientTypes {
             allocationId: Swift.String? = nil,
             ipv6Address: Swift.String? = nil,
             privateIPv4Address: Swift.String? = nil,
+            sourceNatIpv6Prefix: Swift.String? = nil,
             subnetId: Swift.String? = nil
         )
         {
             self.allocationId = allocationId
             self.ipv6Address = ipv6Address
             self.privateIPv4Address = privateIPv4Address
+            self.sourceNatIpv6Prefix = sourceNatIpv6Prefix
             self.subnetId = subnetId
         }
     }
@@ -2146,18 +2183,20 @@ extension ElasticLoadBalancingv2ClientTypes {
 public struct CreateLoadBalancerInput: Swift.Sendable {
     /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool (CoIP pool).
     public var customerOwnedIpv4Pool: Swift.String?
-    /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+    /// [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6 prefix from each subnet for source NAT. The IP address type must be dualstack. The default value is off.
+    public var enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum?
+    /// The IP address type. Internal load balancers must use ipv4. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
     /// This member is required.
     public var name: Swift.String?
-    /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer. You cannot specify a scheme for a Gateway Load Balancer.
+    /// The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer. You can't specify a scheme for a Gateway Load Balancer.
     public var scheme: ElasticLoadBalancingv2ClientTypes.LoadBalancerSchemeEnum?
     /// [Application Load Balancers and Network Load Balancers] The IDs of the security groups for the load balancer.
     public var securityGroups: [Swift.String]?
-    /// The IDs of the subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You cannot specify Elastic IP addresses for your subnets.
+    /// The IDs of the subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You can't specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You can't specify Elastic IP addresses for your subnets.
     public var subnetMappings: [ElasticLoadBalancingv2ClientTypes.SubnetMapping]?
-    /// The IDs of the subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. To specify an Elastic IP address, specify subnet mappings instead of subnets. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
+    /// The IDs of the subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings, but not both. To specify an Elastic IP address, specify subnet mappings instead of subnets. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers and Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
     public var subnets: [Swift.String]?
     /// The tags to assign to the load balancer.
     public var tags: [ElasticLoadBalancingv2ClientTypes.Tag]?
@@ -2166,6 +2205,7 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
 
     public init(
         customerOwnedIpv4Pool: Swift.String? = nil,
+        enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum? = nil,
         ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil,
         name: Swift.String? = nil,
         scheme: ElasticLoadBalancingv2ClientTypes.LoadBalancerSchemeEnum? = nil,
@@ -2177,6 +2217,7 @@ public struct CreateLoadBalancerInput: Swift.Sendable {
     )
     {
         self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
+        self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
         self.ipAddressType = ipAddressType
         self.name = name
         self.scheme = scheme
@@ -2257,9 +2298,11 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var customerOwnedIpv4Pool: Swift.String?
         /// The public DNS name of the load balancer.
         public var dnsName: Swift.String?
+        /// [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6 prefix from each subnet for source NAT. The IP address type must be dualstack. The default value is off.
+        public var enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum?
         /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink.
         public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String?
-        /// [Application Load Balancers] The type of IP addresses used for public or private connections by the subnets attached to your load balancer. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The type of IP addresses used for public or private connections by the subnets attached to your load balancer. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+        /// The type of IP addresses used for public or private connections by the subnets attached to your load balancer. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
         public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public var loadBalancerArn: Swift.String?
@@ -2282,6 +2325,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             createdTime: Foundation.Date? = nil,
             customerOwnedIpv4Pool: Swift.String? = nil,
             dnsName: Swift.String? = nil,
+            enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum? = nil,
             enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: Swift.String? = nil,
             ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil,
             loadBalancerArn: Swift.String? = nil,
@@ -2298,6 +2342,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.createdTime = createdTime
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.dnsName = dnsName
+            self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
             self.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = enforceSecurityGroupInboundRulesOnPrivateLinkTraffic
             self.ipAddressType = ipAddressType
             self.loadBalancerArn = loadBalancerArn
@@ -2517,7 +2562,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    /// Information about a condition for a rule. Each rule can optionally include up to one of each of the following conditions: http-request-method, host-header, path-pattern, and source-ip. Each rule can also optionally include one or more of each of the following conditions: http-header and query-string. Note that the value for a condition cannot be empty. For more information, see [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html).
+    /// Information about a condition for a rule. Each rule can optionally include up to one of each of the following conditions: http-request-method, host-header, path-pattern, and source-ip. Each rule can also optionally include one or more of each of the following conditions: http-header and query-string. Note that the value for a condition can't be empty. For more information, see [Quotas for your Application Load Balancers](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html).
     public struct RuleCondition: Swift.Sendable {
         /// The field in the HTTP request. The following are the possible values:
         ///
@@ -2777,7 +2822,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 public struct CreateTargetGroupInput: Swift.Sendable {
-    /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance, ip, or alb, health checks are always enabled and cannot be disabled.
+    /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance, ip, or alb, health checks are always enabled and can't be disabled.
     public var healthCheckEnabled: Swift.Bool?
     /// The approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. If the target group protocol is TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds. If the target group protocol is GENEVE, the default is 10 seconds. If the target type is lambda, the default is 35 seconds.
     public var healthCheckIntervalSeconds: Swift.Int?
@@ -2791,7 +2836,7 @@ public struct CreateTargetGroupInput: Swift.Sendable {
     public var healthCheckTimeoutSeconds: Swift.Int?
     /// The number of consecutive health check successes required before considering a target healthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5. For target groups with a protocol of GENEVE, the default is 5. If the target type is lambda, the default is 5.
     public var healthyThresholdCount: Swift.Int?
-    /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
+    /// The IP address type. The default value is ipv4.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.TargetGroupIpAddressTypeEnum?
     /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP or TLS the range is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target groups with a protocol of GENEVE, the range is 200-399.
     public var matcher: ElasticLoadBalancingv2ClientTypes.Matcher?
@@ -2879,7 +2924,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var healthCheckTimeoutSeconds: Swift.Int?
         /// The number of consecutive health checks successes required before considering an unhealthy target healthy.
         public var healthyThresholdCount: Swift.Int?
-        /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
+        /// The IP address type. The default value is ipv4.
         public var ipAddressType: ElasticLoadBalancingv2ClientTypes.TargetGroupIpAddressTypeEnum?
         /// The Amazon Resource Name (ARN) of the load balancer that routes traffic to this target group. You can use each target group with only one load balancer.
         public var loadBalancerArns: [Swift.String]?
@@ -3038,7 +3083,7 @@ public struct CreateTrustStoreInput: Swift.Sendable {
     public var caCertificatesBundleS3Key: Swift.String?
     /// The Amazon S3 object version for the ca certificates bundle. If undefined the current version is used.
     public var caCertificatesBundleS3ObjectVersion: Swift.String?
-    /// The name of the trust store. This name must be unique per region and cannot be changed after creation.
+    /// The name of the trust store. This name must be unique per region and can't be changed after creation.
     /// This member is required.
     public var name: Swift.String?
     /// The tags to assign to the trust store.
@@ -3133,7 +3178,7 @@ public struct CreateTrustStoreOutput: Swift.Sendable {
     }
 }
 
-/// The specified association cannot be within the same account.
+/// The specified association can't be within the same account.
 public struct DeleteAssociationSameAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -3629,7 +3674,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.
         ///
-        /// * load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false. The default for Application Load Balancers is true, and cannot be changed.
+        /// * load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false. The default for Application Load Balancers is true, and can't be changed.
         ///
         ///
         /// The following attributes are supported by both Application Load Balancers and Network Load Balancers:
@@ -3978,7 +4023,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * deregistration_delay.connection_termination.enabled - Indicates whether the load balancer terminates connections at the end of the deregistration timeout. The value is true or false. For new UDP/TCP_UDP target groups the default is true. Otherwise, the default is false.
         ///
-        /// * preserve_client_ip.enabled - Indicates whether client IP preservation is enabled. The value is true or false. The default is disabled if the target group type is IP address and the target group protocol is TCP or TLS. Otherwise, the default is enabled. Client IP preservation cannot be disabled for UDP and TCP_UDP target groups.
+        /// * preserve_client_ip.enabled - Indicates whether client IP preservation is enabled. The value is true or false. The default is disabled if the target group type is IP address and the target group protocol is TCP or TLS. Otherwise, the default is enabled. Client IP preservation can't be disabled for UDP and TCP_UDP target groups.
         ///
         /// * proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.
         ///
@@ -3991,7 +4036,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * target_failover.on_deregistration - Indicates how the Gateway Load Balancer handles existing flows when a target is deregistered. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) can't be set independently. The value you set for both attributes must be the same.
         ///
-        /// * target_failover.on_unhealthy - Indicates how the Gateway Load Balancer handles existing flows when a target is unhealthy. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) cannot be set independently. The value you set for both attributes must be the same.
+        /// * target_failover.on_unhealthy - Indicates how the Gateway Load Balancer handles existing flows when a target is unhealthy. The possible values are rebalance and no_rebalance. The default is no_rebalance. The two attributes (target_failover.on_deregistration and target_failover.on_unhealthy) can't be set independently. The value you set for both attributes must be the same.
         public var key: Swift.String?
         /// The value of the attribute.
         public var value: Swift.String?
@@ -4661,9 +4706,9 @@ public struct ModifyListenerInput: Swift.Sendable {
     public var listenerArn: Swift.String?
     /// The mutual authentication configuration information.
     public var mutualAuthentication: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?
-    /// The port for connections from clients to the load balancer. You cannot specify a port for a Gateway Load Balancer.
+    /// The port for connections from clients to the load balancer. You can't specify a port for a Gateway Load Balancer.
     public var port: Swift.Int?
-    /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
+    /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
     public var `protocol`: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
     /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies) in the Application Load Balancers Guide or [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies) in the Network Load Balancers Guide.
     public var sslPolicy: Swift.String?
@@ -5018,7 +5063,7 @@ public struct RemoveTrustStoreRevocationsOutput: Swift.Sendable {
 }
 
 public struct SetIpAddressTypeInput: Swift.Sendable {
-    /// Note: Internal load balancers must use the ipv4 IP address type. [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). Note: Application Load Balancer authentication only supports IPv4 addresses when connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public IPv4 address the load balancer cannot complete the authentication process, resulting in HTTP 500 errors. [Network Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+    /// The IP address type. Internal load balancers must use ipv4. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). Application Load Balancer authentication supports IPv4 addresses only when connecting to an Identity Provider (IdP) or Amazon Cognito endpoint. Without a public IPv4 address the load balancer can't complete the authentication process, resulting in HTTP 500 errors. [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
     /// This member is required.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the load balancer.
@@ -5160,23 +5205,27 @@ public struct SetSecurityGroupsOutput: Swift.Sendable {
 }
 
 public struct SetSubnetsInput: Swift.Sendable {
-    /// [Application Load Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. [Gateway Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+    /// [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6 prefix from each subnet for source NAT. The IP address type must be dualstack. The default value is off.
+    public var enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum?
+    /// The IP address type. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses), dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4 (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4 (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
     public var loadBalancerArn: Swift.String?
-    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
+    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You can't specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
     public var subnetMappings: [ElasticLoadBalancingv2ClientTypes.SubnetMapping]?
-    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
+    /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers and Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
     public var subnets: [Swift.String]?
 
     public init(
+        enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum? = nil,
         ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil,
         loadBalancerArn: Swift.String? = nil,
         subnetMappings: [ElasticLoadBalancingv2ClientTypes.SubnetMapping]? = nil,
         subnets: [Swift.String]? = nil
     )
     {
+        self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
         self.ipAddressType = ipAddressType
         self.loadBalancerArn = loadBalancerArn
         self.subnetMappings = subnetMappings
@@ -5187,15 +5236,19 @@ public struct SetSubnetsInput: Swift.Sendable {
 public struct SetSubnetsOutput: Swift.Sendable {
     /// Information about the subnets.
     public var availabilityZones: [ElasticLoadBalancingv2ClientTypes.AvailabilityZone]?
-    /// [Application Load Balancers] The IP address type. [Network Load Balancers] The IP address type. [Gateway Load Balancers] The IP address type.
+    /// [Network Load Balancers] Indicates whether to use an IPv6 prefix from each subnet for source NAT.
+    public var enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum?
+    /// The IP address type.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType?
 
     public init(
         availabilityZones: [ElasticLoadBalancingv2ClientTypes.AvailabilityZone]? = nil,
+        enablePrefixForIpv6SourceNat: ElasticLoadBalancingv2ClientTypes.EnablePrefixForIpv6SourceNatEnum? = nil,
         ipAddressType: ElasticLoadBalancingv2ClientTypes.IpAddressType? = nil
     )
     {
         self.availabilityZones = availabilityZones
+        self.enablePrefixForIpv6SourceNat = enablePrefixForIpv6SourceNat
         self.ipAddressType = ipAddressType
     }
 }
@@ -5592,6 +5645,7 @@ extension CreateLoadBalancerInput {
     static func write(value: CreateLoadBalancerInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["CustomerOwnedIpv4Pool"].write(value.customerOwnedIpv4Pool)
+        try writer["EnablePrefixForIpv6SourceNat"].write(value.enablePrefixForIpv6SourceNat)
         try writer["IpAddressType"].write(value.ipAddressType)
         try writer["Name"].write(value.name)
         try writer["Scheme"].write(value.scheme)
@@ -6116,6 +6170,7 @@ extension SetSubnetsInput {
 
     static func write(value: SetSubnetsInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["EnablePrefixForIpv6SourceNat"].write(value.enablePrefixForIpv6SourceNat)
         try writer["IpAddressType"].write(value.ipAddressType)
         try writer["LoadBalancerArn"].write(value.loadBalancerArn)
         try writer["SubnetMappings"].writeList(value.subnetMappings, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.SubnetMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6648,6 +6703,7 @@ extension SetSubnetsOutput {
         let reader = responseReader["SetSubnetsResult"]
         var value = SetSubnetsOutput()
         value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.AvailabilityZone.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enablePrefixForIpv6SourceNat = try reader["EnablePrefixForIpv6SourceNat"].readIfPresent()
         value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
@@ -8405,6 +8461,7 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer {
         value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         value.customerOwnedIpv4Pool = try reader["CustomerOwnedIpv4Pool"].readIfPresent()
         value.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic = try reader["EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic"].readIfPresent()
+        value.enablePrefixForIpv6SourceNat = try reader["EnablePrefixForIpv6SourceNat"].readIfPresent()
         return value
     }
 }
@@ -8418,6 +8475,7 @@ extension ElasticLoadBalancingv2ClientTypes.AvailabilityZone {
         value.subnetId = try reader["SubnetId"].readIfPresent()
         value.outpostId = try reader["OutpostId"].readIfPresent()
         value.loadBalancerAddresses = try reader["LoadBalancerAddresses"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.LoadBalancerAddress.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceNatIpv6Prefixes = try reader["SourceNatIpv6Prefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8879,6 +8937,7 @@ extension ElasticLoadBalancingv2ClientTypes.SubnetMapping {
         try writer["AllocationId"].write(value.allocationId)
         try writer["IPv6Address"].write(value.ipv6Address)
         try writer["PrivateIPv4Address"].write(value.privateIPv4Address)
+        try writer["SourceNatIpv6Prefix"].write(value.sourceNatIpv6Prefix)
         try writer["SubnetId"].write(value.subnetId)
     }
 }

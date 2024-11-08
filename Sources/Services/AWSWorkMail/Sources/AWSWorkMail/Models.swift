@@ -906,6 +906,40 @@ public struct CreateGroupOutput: Swift.Sendable {
     }
 }
 
+public struct CreateIdentityCenterApplicationInput: Swift.Sendable {
+    /// The idempotency token associated with the request.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// The name of the IAM Identity Center application.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.instanceArn = instanceArn
+        self.name = name
+    }
+}
+
+public struct CreateIdentityCenterApplicationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the application.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+    }
+}
+
 extension WorkMailClientTypes {
 
     /// The rules for the given impersonation role.
@@ -1275,6 +1309,11 @@ public struct CreateResourceInput: Swift.Sendable {
     }
 }
 
+extension CreateResourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateResourceInput(hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), name: \(Swift.String(describing: name)), organizationId: \(Swift.String(describing: organizationId)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateResourceOutput: Swift.Sendable {
     /// The identifier of the new resource.
     public var resourceId: Swift.String?
@@ -1354,6 +1393,8 @@ public struct CreateUserInput: Swift.Sendable {
     public var firstName: Swift.String?
     /// If this parameter is enabled, the user will be hidden from the address book.
     public var hiddenFromGlobalAddressList: Swift.Bool?
+    /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+    public var identityProviderUserId: Swift.String?
     /// The last name of the new user.
     public var lastName: Swift.String?
     /// The name for the new user. WorkMail directory user names have a maximum length of 64. All others have a maximum length of 20.
@@ -1371,6 +1412,7 @@ public struct CreateUserInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         firstName: Swift.String? = nil,
         hiddenFromGlobalAddressList: Swift.Bool? = false,
+        identityProviderUserId: Swift.String? = nil,
         lastName: Swift.String? = nil,
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil,
@@ -1381,6 +1423,7 @@ public struct CreateUserInput: Swift.Sendable {
         self.displayName = displayName
         self.firstName = firstName
         self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+        self.identityProviderUserId = identityProviderUserId
         self.lastName = lastName
         self.name = name
         self.organizationId = organizationId
@@ -1391,7 +1434,7 @@ public struct CreateUserInput: Swift.Sendable {
 
 extension CreateUserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateUserInput(hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), name: \(Swift.String(describing: name)), organizationId: \(Swift.String(describing: organizationId)), role: \(Swift.String(describing: role)), displayName: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\")"}
+        "CreateUserInput(hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), identityProviderUserId: \(Swift.String(describing: identityProviderUserId)), name: \(Swift.String(describing: name)), organizationId: \(Swift.String(describing: organizationId)), role: \(Swift.String(describing: role)), displayName: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateUserOutput: Swift.Sendable {
@@ -1576,6 +1619,42 @@ public struct DeleteGroupOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteIdentityCenterApplicationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the application.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    )
+    {
+        self.applicationArn = applicationArn
+    }
+}
+
+public struct DeleteIdentityCenterApplicationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteIdentityProviderConfigurationInput: Swift.Sendable {
+    /// The Organization ID.
+    /// This member is required.
+    public var organizationId: Swift.String?
+
+    public init(
+        organizationId: Swift.String? = nil
+    )
+    {
+        self.organizationId = organizationId
+    }
+}
+
+public struct DeleteIdentityProviderConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteImpersonationRoleInput: Swift.Sendable {
     /// The ID of the impersonation role to delete.
     /// This member is required.
@@ -1702,6 +1781,8 @@ public struct DeleteOrganizationInput: Swift.Sendable {
     /// If true, deletes the AWS Directory Service directory associated with the organization.
     /// This member is required.
     public var deleteDirectory: Swift.Bool?
+    /// Deletes IAM Identity Center application for WorkMail. This action does not affect authentication settings for any organization.
+    public var deleteIdentityCenterApplication: Swift.Bool?
     /// Deletes a WorkMail organization even if the organization has enabled users.
     public var forceDelete: Swift.Bool?
     /// The organization ID.
@@ -1711,12 +1792,14 @@ public struct DeleteOrganizationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         deleteDirectory: Swift.Bool? = false,
+        deleteIdentityCenterApplication: Swift.Bool? = false,
         forceDelete: Swift.Bool? = false,
         organizationId: Swift.String? = nil
     )
     {
         self.clientToken = clientToken
         self.deleteDirectory = deleteDirectory
+        self.deleteIdentityCenterApplication = deleteIdentityCenterApplication
         self.forceDelete = forceDelete
         self.organizationId = organizationId
     }
@@ -1736,6 +1819,29 @@ public struct DeleteOrganizationOutput: Swift.Sendable {
         self.organizationId = organizationId
         self.state = state
     }
+}
+
+public struct DeletePersonalAccessTokenInput: Swift.Sendable {
+    /// The Organization ID.
+    /// This member is required.
+    public var organizationId: Swift.String?
+    /// The Personal Access Token ID.
+    /// This member is required.
+    public var personalAccessTokenId: Swift.String?
+
+    public init(
+        organizationId: Swift.String? = nil,
+        personalAccessTokenId: Swift.String? = nil
+    )
+    {
+        self.organizationId = organizationId
+        self.personalAccessTokenId = personalAccessTokenId
+    }
+}
+
+public struct DeletePersonalAccessTokenOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteResourceInput: Swift.Sendable {
@@ -2106,6 +2212,144 @@ public struct DescribeGroupOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeIdentityProviderConfigurationInput: Swift.Sendable {
+    /// The Organization ID.
+    /// This member is required.
+    public var organizationId: Swift.String?
+
+    public init(
+        organizationId: Swift.String? = nil
+    )
+    {
+        self.organizationId = organizationId
+    }
+}
+
+extension WorkMailClientTypes {
+
+    public enum IdentityProviderAuthenticationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case identityProviderAndDirectory
+        case identityProviderOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdentityProviderAuthenticationMode] {
+            return [
+                .identityProviderAndDirectory,
+                .identityProviderOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .identityProviderAndDirectory: return "IDENTITY_PROVIDER_AND_DIRECTORY"
+            case .identityProviderOnly: return "IDENTITY_PROVIDER_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkMailClientTypes {
+
+    /// The IAM Identity Center configuration.
+    public struct IdentityCenterConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of IAMIdentity Center Application for WorkMail. Must be created by the WorkMail API, see CreateIdentityCenterApplication.
+        /// This member is required.
+        public var applicationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the of IAM Identity Center instance. Must be in the same AWS account and region as WorkMail organization.
+        /// This member is required.
+        public var instanceArn: Swift.String?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            instanceArn: Swift.String? = nil
+        )
+        {
+            self.applicationArn = applicationArn
+            self.instanceArn = instanceArn
+        }
+    }
+}
+
+extension WorkMailClientTypes {
+
+    public enum PersonalAccessTokenConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PersonalAccessTokenConfigurationStatus] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkMailClientTypes {
+
+    /// Displays the Personal Access Token status.
+    public struct PersonalAccessTokenConfiguration: Swift.Sendable {
+        /// The validity of the Personal Access Token status in days.
+        public var lifetimeInDays: Swift.Int?
+        /// The status of the Personal Access Token allowed for the organization.
+        ///
+        /// * Active - Mailbox users can login to the web application and choose Settings to see the new Personal Access Tokens page to create and delete the Personal Access Tokens. Mailbox users can use the Personal Access Tokens to set up mailbox connection from desktop or mobile email clients.
+        ///
+        /// * Inactive - Personal Access Tokens are disabled for your organization. Mailbox users can’t create, list, or delete Personal Access Tokens and can’t use them to connect to their mailboxes from desktop or mobile email clients.
+        /// This member is required.
+        public var status: WorkMailClientTypes.PersonalAccessTokenConfigurationStatus?
+
+        public init(
+            lifetimeInDays: Swift.Int? = nil,
+            status: WorkMailClientTypes.PersonalAccessTokenConfigurationStatus? = nil
+        )
+        {
+            self.lifetimeInDays = lifetimeInDays
+            self.status = status
+        }
+    }
+}
+
+public struct DescribeIdentityProviderConfigurationOutput: Swift.Sendable {
+    /// The authentication mode used in WorkMail.
+    public var authenticationMode: WorkMailClientTypes.IdentityProviderAuthenticationMode?
+    /// The details of the IAM Identity Center configuration.
+    public var identityCenterConfiguration: WorkMailClientTypes.IdentityCenterConfiguration?
+    /// The details of the Personal Access Token configuration.
+    public var personalAccessTokenConfiguration: WorkMailClientTypes.PersonalAccessTokenConfiguration?
+
+    public init(
+        authenticationMode: WorkMailClientTypes.IdentityProviderAuthenticationMode? = nil,
+        identityCenterConfiguration: WorkMailClientTypes.IdentityCenterConfiguration? = nil,
+        personalAccessTokenConfiguration: WorkMailClientTypes.PersonalAccessTokenConfiguration? = nil
+    )
+    {
+        self.authenticationMode = authenticationMode
+        self.identityCenterConfiguration = identityCenterConfiguration
+        self.personalAccessTokenConfiguration = personalAccessTokenConfiguration
+    }
+}
+
 public struct DescribeInboundDmarcSettingsInput: Swift.Sendable {
     /// Lists the ID of the given organization.
     /// This member is required.
@@ -2377,6 +2621,11 @@ public struct DescribeResourceOutput: Swift.Sendable {
     }
 }
 
+extension DescribeResourceOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeResourceOutput(bookingOptions: \(Swift.String(describing: bookingOptions)), disabledDate: \(Swift.String(describing: disabledDate)), email: \(Swift.String(describing: email)), enabledDate: \(Swift.String(describing: enabledDate)), hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), name: \(Swift.String(describing: name)), resourceId: \(Swift.String(describing: resourceId)), state: \(Swift.String(describing: state)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct DescribeUserInput: Swift.Sendable {
     /// The identifier for the organization under which the user exists.
     /// This member is required.
@@ -2422,6 +2671,10 @@ public struct DescribeUserOutput: Swift.Sendable {
     public var firstName: Swift.String?
     /// If enabled, the user is hidden from the global address list.
     public var hiddenFromGlobalAddressList: Swift.Bool
+    /// Identity Store ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+    public var identityProviderIdentityStoreId: Swift.String?
+    /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+    public var identityProviderUserId: Swift.String?
     /// Initials of the user.
     public var initials: Swift.String?
     /// Job title of the user.
@@ -2460,6 +2713,8 @@ public struct DescribeUserOutput: Swift.Sendable {
         enabledDate: Foundation.Date? = nil,
         firstName: Swift.String? = nil,
         hiddenFromGlobalAddressList: Swift.Bool = false,
+        identityProviderIdentityStoreId: Swift.String? = nil,
+        identityProviderUserId: Swift.String? = nil,
         initials: Swift.String? = nil,
         jobTitle: Swift.String? = nil,
         lastName: Swift.String? = nil,
@@ -2485,6 +2740,8 @@ public struct DescribeUserOutput: Swift.Sendable {
         self.enabledDate = enabledDate
         self.firstName = firstName
         self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+        self.identityProviderIdentityStoreId = identityProviderIdentityStoreId
+        self.identityProviderUserId = identityProviderUserId
         self.initials = initials
         self.jobTitle = jobTitle
         self.lastName = lastName
@@ -2503,7 +2760,7 @@ public struct DescribeUserOutput: Swift.Sendable {
 
 extension DescribeUserOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeUserOutput(disabledDate: \(Swift.String(describing: disabledDate)), email: \(Swift.String(describing: email)), enabledDate: \(Swift.String(describing: enabledDate)), hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), mailboxDeprovisionedDate: \(Swift.String(describing: mailboxDeprovisionedDate)), mailboxProvisionedDate: \(Swift.String(describing: mailboxProvisionedDate)), name: \(Swift.String(describing: name)), state: \(Swift.String(describing: state)), userId: \(Swift.String(describing: userId)), userRole: \(Swift.String(describing: userRole)), city: \"CONTENT_REDACTED\", company: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", department: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", initials: \"CONTENT_REDACTED\", jobTitle: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", office: \"CONTENT_REDACTED\", street: \"CONTENT_REDACTED\", telephone: \"CONTENT_REDACTED\", zipCode: \"CONTENT_REDACTED\")"}
+        "DescribeUserOutput(disabledDate: \(Swift.String(describing: disabledDate)), email: \(Swift.String(describing: email)), enabledDate: \(Swift.String(describing: enabledDate)), hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), identityProviderIdentityStoreId: \(Swift.String(describing: identityProviderIdentityStoreId)), identityProviderUserId: \(Swift.String(describing: identityProviderUserId)), mailboxDeprovisionedDate: \(Swift.String(describing: mailboxDeprovisionedDate)), mailboxProvisionedDate: \(Swift.String(describing: mailboxProvisionedDate)), name: \(Swift.String(describing: name)), state: \(Swift.String(describing: state)), userId: \(Swift.String(describing: userId)), userRole: \(Swift.String(describing: userRole)), city: \"CONTENT_REDACTED\", company: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", department: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", initials: \"CONTENT_REDACTED\", jobTitle: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", office: \"CONTENT_REDACTED\", street: \"CONTENT_REDACTED\", telephone: \"CONTENT_REDACTED\", zipCode: \"CONTENT_REDACTED\")"}
 }
 
 public struct DisassociateDelegateFromResourceInput: Swift.Sendable {
@@ -3177,6 +3434,60 @@ public struct GetMobileDeviceAccessOverrideOutput: Swift.Sendable {
         self.description = description
         self.deviceId = deviceId
         self.effect = effect
+        self.userId = userId
+    }
+}
+
+public struct GetPersonalAccessTokenMetadataInput: Swift.Sendable {
+    /// The Organization ID.
+    /// This member is required.
+    public var organizationId: Swift.String?
+    /// The Personal Access Token ID.
+    /// This member is required.
+    public var personalAccessTokenId: Swift.String?
+
+    public init(
+        organizationId: Swift.String? = nil,
+        personalAccessTokenId: Swift.String? = nil
+    )
+    {
+        self.organizationId = organizationId
+        self.personalAccessTokenId = personalAccessTokenId
+    }
+}
+
+public struct GetPersonalAccessTokenMetadataOutput: Swift.Sendable {
+    /// The date when the Personal Access Token ID was created.
+    public var dateCreated: Foundation.Date?
+    /// The date when the Personal Access Token ID was last used.
+    public var dateLastUsed: Foundation.Date?
+    /// The time when the Personal Access Token ID will expire.
+    public var expiresTime: Foundation.Date?
+    /// The Personal Access Token name.
+    public var name: Swift.String?
+    /// The Personal Access Token ID.
+    public var personalAccessTokenId: Swift.String?
+    /// Lists all the Personal Access Token permissions for a mailbox.
+    public var scopes: [Swift.String]?
+    /// The WorkMail User ID.
+    public var userId: Swift.String?
+
+    public init(
+        dateCreated: Foundation.Date? = nil,
+        dateLastUsed: Foundation.Date? = nil,
+        expiresTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        personalAccessTokenId: Swift.String? = nil,
+        scopes: [Swift.String]? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.dateCreated = dateCreated
+        self.dateLastUsed = dateLastUsed
+        self.expiresTime = expiresTime
+        self.name = name
+        self.personalAccessTokenId = personalAccessTokenId
+        self.scopes = scopes
         self.userId = userId
     }
 }
@@ -4144,6 +4455,87 @@ public struct ListOrganizationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListPersonalAccessTokensInput: Swift.Sendable {
+    /// The maximum amount of items that should be returned in a response.
+    public var maxResults: Swift.Int?
+    /// The token from the previous response to query the next page.
+    public var nextToken: Swift.String?
+    /// The Organization ID.
+    /// This member is required.
+    public var organizationId: Swift.String?
+    /// The WorkMail User ID.
+    public var userId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        organizationId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.organizationId = organizationId
+        self.userId = userId
+    }
+}
+
+extension WorkMailClientTypes {
+
+    /// The summary of the Personal Access Token.
+    public struct PersonalAccessTokenSummary: Swift.Sendable {
+        /// The date when the Personal Access Token was created.
+        public var dateCreated: Foundation.Date?
+        /// The date when the Personal Access Token was last used.
+        public var dateLastUsed: Foundation.Date?
+        /// The date when the Personal Access Token will expire.
+        public var expiresTime: Foundation.Date?
+        /// The name of the Personal Access Token.
+        public var name: Swift.String?
+        /// The ID of the Personal Access Token.
+        public var personalAccessTokenId: Swift.String?
+        /// Lists all the Personal Access Token permissions for a mailbox.
+        public var scopes: [Swift.String]?
+        /// The user ID of the WorkMail user associated with the Personal Access Token.
+        public var userId: Swift.String?
+
+        public init(
+            dateCreated: Foundation.Date? = nil,
+            dateLastUsed: Foundation.Date? = nil,
+            expiresTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            personalAccessTokenId: Swift.String? = nil,
+            scopes: [Swift.String]? = nil,
+            userId: Swift.String? = nil
+        )
+        {
+            self.dateCreated = dateCreated
+            self.dateLastUsed = dateLastUsed
+            self.expiresTime = expiresTime
+            self.name = name
+            self.personalAccessTokenId = personalAccessTokenId
+            self.scopes = scopes
+            self.userId = userId
+        }
+    }
+}
+
+public struct ListPersonalAccessTokensOutput: Swift.Sendable {
+    /// The token from the previous response to query the next page.
+    public var nextToken: Swift.String?
+    /// Lists all the personal tokens in an organization or user, if user ID is provided.
+    public var personalAccessTokenSummaries: [WorkMailClientTypes.PersonalAccessTokenSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        personalAccessTokenSummaries: [WorkMailClientTypes.PersonalAccessTokenSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.personalAccessTokenSummaries = personalAccessTokenSummaries
+    }
+}
+
 public struct ListResourceDelegatesInput: Swift.Sendable {
     /// The number of maximum results in a page.
     public var maxResults: Swift.Int?
@@ -4285,6 +4677,11 @@ extension WorkMailClientTypes {
     }
 }
 
+extension WorkMailClientTypes.Resource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Resource(disabledDate: \(Swift.String(describing: disabledDate)), email: \(Swift.String(describing: email)), enabledDate: \(Swift.String(describing: enabledDate)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), state: \(Swift.String(describing: state)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListResourcesOutput: Swift.Sendable {
     /// The token used to paginate through all the organization's resources. While results are still available, it has an associated value. When the last page is reached, the token is empty.
     public var nextToken: Swift.String?
@@ -4354,6 +4751,8 @@ extension WorkMailClientTypes {
     public struct ListUsersFilters: Swift.Sendable {
         /// Filters only users with the provided display name prefix.
         public var displayNamePrefix: Swift.String?
+        /// Filters only users with the ID from the IAM Identity Center.
+        public var identityProviderUserIdPrefix: Swift.String?
         /// Filters only users with the provided email prefix.
         public var primaryEmailPrefix: Swift.String?
         /// Filters only users with the provided state.
@@ -4363,12 +4762,14 @@ extension WorkMailClientTypes {
 
         public init(
             displayNamePrefix: Swift.String? = nil,
+            identityProviderUserIdPrefix: Swift.String? = nil,
             primaryEmailPrefix: Swift.String? = nil,
             state: WorkMailClientTypes.EntityState? = nil,
             usernamePrefix: Swift.String? = nil
         )
         {
             self.displayNamePrefix = displayNamePrefix
+            self.identityProviderUserIdPrefix = identityProviderUserIdPrefix
             self.primaryEmailPrefix = primaryEmailPrefix
             self.state = state
             self.usernamePrefix = usernamePrefix
@@ -4378,7 +4779,7 @@ extension WorkMailClientTypes {
 
 extension WorkMailClientTypes.ListUsersFilters: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListUsersFilters(primaryEmailPrefix: \(Swift.String(describing: primaryEmailPrefix)), state: \(Swift.String(describing: state)), usernamePrefix: \(Swift.String(describing: usernamePrefix)), displayNamePrefix: \"CONTENT_REDACTED\")"}
+        "ListUsersFilters(identityProviderUserIdPrefix: \(Swift.String(describing: identityProviderUserIdPrefix)), primaryEmailPrefix: \(Swift.String(describing: primaryEmailPrefix)), state: \(Swift.String(describing: state)), usernamePrefix: \(Swift.String(describing: usernamePrefix)), displayNamePrefix: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListUsersInput: Swift.Sendable {
@@ -4420,6 +4821,10 @@ extension WorkMailClientTypes {
         public var enabledDate: Foundation.Date?
         /// The identifier of the user.
         public var id: Swift.String?
+        /// Identity store ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+        public var identityProviderIdentityStoreId: Swift.String?
+        /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+        public var identityProviderUserId: Swift.String?
         /// The name of the user.
         public var name: Swift.String?
         /// The state of the user, which can be ENABLED, DISABLED, or DELETED.
@@ -4433,6 +4838,8 @@ extension WorkMailClientTypes {
             email: Swift.String? = nil,
             enabledDate: Foundation.Date? = nil,
             id: Swift.String? = nil,
+            identityProviderIdentityStoreId: Swift.String? = nil,
+            identityProviderUserId: Swift.String? = nil,
             name: Swift.String? = nil,
             state: WorkMailClientTypes.EntityState? = nil,
             userRole: WorkMailClientTypes.UserRole? = nil
@@ -4443,6 +4850,8 @@ extension WorkMailClientTypes {
             self.email = email
             self.enabledDate = enabledDate
             self.id = id
+            self.identityProviderIdentityStoreId = identityProviderIdentityStoreId
+            self.identityProviderUserId = identityProviderUserId
             self.name = name
             self.state = state
             self.userRole = userRole
@@ -4555,6 +4964,39 @@ public struct PutEmailMonitoringConfigurationInput: Swift.Sendable {
 }
 
 public struct PutEmailMonitoringConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PutIdentityProviderConfigurationInput: Swift.Sendable {
+    /// The authentication mode used in WorkMail.
+    /// This member is required.
+    public var authenticationMode: WorkMailClientTypes.IdentityProviderAuthenticationMode?
+    /// The details of the IAM Identity Center configuration.
+    /// This member is required.
+    public var identityCenterConfiguration: WorkMailClientTypes.IdentityCenterConfiguration?
+    /// The ID of the WorkMail Organization.
+    /// This member is required.
+    public var organizationId: Swift.String?
+    /// The details of the Personal Access Token configuration.
+    /// This member is required.
+    public var personalAccessTokenConfiguration: WorkMailClientTypes.PersonalAccessTokenConfiguration?
+
+    public init(
+        authenticationMode: WorkMailClientTypes.IdentityProviderAuthenticationMode? = nil,
+        identityCenterConfiguration: WorkMailClientTypes.IdentityCenterConfiguration? = nil,
+        organizationId: Swift.String? = nil,
+        personalAccessTokenConfiguration: WorkMailClientTypes.PersonalAccessTokenConfiguration? = nil
+    )
+    {
+        self.authenticationMode = authenticationMode
+        self.identityCenterConfiguration = identityCenterConfiguration
+        self.organizationId = organizationId
+        self.personalAccessTokenConfiguration = personalAccessTokenConfiguration
+    }
+}
+
+public struct PutIdentityProviderConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -5289,6 +5731,11 @@ public struct UpdateResourceInput: Swift.Sendable {
     }
 }
 
+extension UpdateResourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateResourceInput(bookingOptions: \(Swift.String(describing: bookingOptions)), hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), name: \(Swift.String(describing: name)), organizationId: \(Swift.String(describing: organizationId)), resourceId: \(Swift.String(describing: resourceId)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateResourceOutput: Swift.Sendable {
 
     public init() { }
@@ -5309,6 +5756,8 @@ public struct UpdateUserInput: Swift.Sendable {
     public var firstName: Swift.String?
     /// If enabled, the user is hidden from the global address list.
     public var hiddenFromGlobalAddressList: Swift.Bool?
+    /// User ID from the IAM Identity Center. If this parameter is empty it will be updated automatically when the user logs in for the first time to the mailbox associated with WorkMail.
+    public var identityProviderUserId: Swift.String?
     /// Updates the user's initials.
     public var initials: Swift.String?
     /// Updates the user's job title.
@@ -5335,7 +5784,7 @@ public struct UpdateUserInput: Swift.Sendable {
     /// * User name: user
     /// This member is required.
     public var userId: Swift.String?
-    /// Updates the user's zipcode.
+    /// Updates the user's zip code.
     public var zipCode: Swift.String?
 
     public init(
@@ -5346,6 +5795,7 @@ public struct UpdateUserInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         firstName: Swift.String? = nil,
         hiddenFromGlobalAddressList: Swift.Bool? = nil,
+        identityProviderUserId: Swift.String? = nil,
         initials: Swift.String? = nil,
         jobTitle: Swift.String? = nil,
         lastName: Swift.String? = nil,
@@ -5365,6 +5815,7 @@ public struct UpdateUserInput: Swift.Sendable {
         self.displayName = displayName
         self.firstName = firstName
         self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+        self.identityProviderUserId = identityProviderUserId
         self.initials = initials
         self.jobTitle = jobTitle
         self.lastName = lastName
@@ -5380,7 +5831,7 @@ public struct UpdateUserInput: Swift.Sendable {
 
 extension UpdateUserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateUserInput(hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), organizationId: \(Swift.String(describing: organizationId)), role: \(Swift.String(describing: role)), userId: \(Swift.String(describing: userId)), city: \"CONTENT_REDACTED\", company: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", department: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", initials: \"CONTENT_REDACTED\", jobTitle: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", office: \"CONTENT_REDACTED\", street: \"CONTENT_REDACTED\", telephone: \"CONTENT_REDACTED\", zipCode: \"CONTENT_REDACTED\")"}
+        "UpdateUserInput(hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), identityProviderUserId: \(Swift.String(describing: identityProviderUserId)), organizationId: \(Swift.String(describing: organizationId)), role: \(Swift.String(describing: role)), userId: \(Swift.String(describing: userId)), city: \"CONTENT_REDACTED\", company: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", department: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", initials: \"CONTENT_REDACTED\", jobTitle: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", office: \"CONTENT_REDACTED\", street: \"CONTENT_REDACTED\", telephone: \"CONTENT_REDACTED\", zipCode: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateUserOutput: Swift.Sendable {
@@ -5433,6 +5884,13 @@ extension CreateAvailabilityConfigurationInput {
 extension CreateGroupInput {
 
     static func urlPathProvider(_ value: CreateGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateIdentityCenterApplicationInput {
+
+    static func urlPathProvider(_ value: CreateIdentityCenterApplicationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5507,6 +5965,20 @@ extension DeleteGroupInput {
     }
 }
 
+extension DeleteIdentityCenterApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteIdentityCenterApplicationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteIdentityProviderConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteIdentityProviderConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteImpersonationRoleInput {
 
     static func urlPathProvider(_ value: DeleteImpersonationRoleInput) -> Swift.String? {
@@ -5538,6 +6010,13 @@ extension DeleteMobileDeviceAccessRuleInput {
 extension DeleteOrganizationInput {
 
     static func urlPathProvider(_ value: DeleteOrganizationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeletePersonalAccessTokenInput {
+
+    static func urlPathProvider(_ value: DeletePersonalAccessTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5594,6 +6073,13 @@ extension DescribeEntityInput {
 extension DescribeGroupInput {
 
     static func urlPathProvider(_ value: DescribeGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeIdentityProviderConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeIdentityProviderConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5703,6 +6189,13 @@ extension GetMobileDeviceAccessOverrideInput {
     }
 }
 
+extension GetPersonalAccessTokenMetadataInput {
+
+    static func urlPathProvider(_ value: GetPersonalAccessTokenMetadataInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListAccessControlRulesInput {
 
     static func urlPathProvider(_ value: ListAccessControlRulesInput) -> Swift.String? {
@@ -5794,6 +6287,13 @@ extension ListOrganizationsInput {
     }
 }
 
+extension ListPersonalAccessTokensInput {
+
+    static func urlPathProvider(_ value: ListPersonalAccessTokensInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListResourceDelegatesInput {
 
     static func urlPathProvider(_ value: ListResourceDelegatesInput) -> Swift.String? {
@@ -5832,6 +6332,13 @@ extension PutAccessControlRuleInput {
 extension PutEmailMonitoringConfigurationInput {
 
     static func urlPathProvider(_ value: PutEmailMonitoringConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutIdentityProviderConfigurationInput {
+
+    static func urlPathProvider(_ value: PutIdentityProviderConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6047,6 +6554,16 @@ extension CreateGroupInput {
     }
 }
 
+extension CreateIdentityCenterApplicationInput {
+
+    static func write(value: CreateIdentityCenterApplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["InstanceArn"].write(value.instanceArn)
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension CreateImpersonationRoleInput {
 
     static func write(value: CreateImpersonationRoleInput?, to writer: SmithyJSON.Writer) throws {
@@ -6112,6 +6629,7 @@ extension CreateUserInput {
         try writer["DisplayName"].write(value.displayName)
         try writer["FirstName"].write(value.firstName)
         try writer["HiddenFromGlobalAddressList"].write(value.hiddenFromGlobalAddressList)
+        try writer["IdentityProviderUserId"].write(value.identityProviderUserId)
         try writer["LastName"].write(value.lastName)
         try writer["Name"].write(value.name)
         try writer["OrganizationId"].write(value.organizationId)
@@ -6165,6 +6683,22 @@ extension DeleteGroupInput {
     }
 }
 
+extension DeleteIdentityCenterApplicationInput {
+
+    static func write(value: DeleteIdentityCenterApplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationArn"].write(value.applicationArn)
+    }
+}
+
+extension DeleteIdentityProviderConfigurationInput {
+
+    static func write(value: DeleteIdentityProviderConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OrganizationId"].write(value.organizationId)
+    }
+}
+
 extension DeleteImpersonationRoleInput {
 
     static func write(value: DeleteImpersonationRoleInput?, to writer: SmithyJSON.Writer) throws {
@@ -6209,8 +6743,18 @@ extension DeleteOrganizationInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["DeleteDirectory"].write(value.deleteDirectory)
+        try writer["DeleteIdentityCenterApplication"].write(value.deleteIdentityCenterApplication)
         try writer["ForceDelete"].write(value.forceDelete)
         try writer["OrganizationId"].write(value.organizationId)
+    }
+}
+
+extension DeletePersonalAccessTokenInput {
+
+    static func write(value: DeletePersonalAccessTokenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OrganizationId"].write(value.organizationId)
+        try writer["PersonalAccessTokenId"].write(value.personalAccessTokenId)
     }
 }
 
@@ -6281,6 +6825,14 @@ extension DescribeGroupInput {
     static func write(value: DescribeGroupInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["GroupId"].write(value.groupId)
+        try writer["OrganizationId"].write(value.organizationId)
+    }
+}
+
+extension DescribeIdentityProviderConfigurationInput {
+
+    static func write(value: DescribeIdentityProviderConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["OrganizationId"].write(value.organizationId)
     }
 }
@@ -6427,6 +6979,15 @@ extension GetMobileDeviceAccessOverrideInput {
     }
 }
 
+extension GetPersonalAccessTokenMetadataInput {
+
+    static func write(value: GetPersonalAccessTokenMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OrganizationId"].write(value.organizationId)
+        try writer["PersonalAccessTokenId"].write(value.personalAccessTokenId)
+    }
+}
+
 extension ListAccessControlRulesInput {
 
     static func write(value: ListAccessControlRulesInput?, to writer: SmithyJSON.Writer) throws {
@@ -6560,6 +7121,17 @@ extension ListOrganizationsInput {
     }
 }
 
+extension ListPersonalAccessTokensInput {
+
+    static func write(value: ListPersonalAccessTokensInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["OrganizationId"].write(value.organizationId)
+        try writer["UserId"].write(value.userId)
+    }
+}
+
 extension ListResourceDelegatesInput {
 
     static func write(value: ListResourceDelegatesInput?, to writer: SmithyJSON.Writer) throws {
@@ -6627,6 +7199,17 @@ extension PutEmailMonitoringConfigurationInput {
         try writer["LogGroupArn"].write(value.logGroupArn)
         try writer["OrganizationId"].write(value.organizationId)
         try writer["RoleArn"].write(value.roleArn)
+    }
+}
+
+extension PutIdentityProviderConfigurationInput {
+
+    static func write(value: PutIdentityProviderConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationMode"].write(value.authenticationMode)
+        try writer["IdentityCenterConfiguration"].write(value.identityCenterConfiguration, with: WorkMailClientTypes.IdentityCenterConfiguration.write(value:to:))
+        try writer["OrganizationId"].write(value.organizationId)
+        try writer["PersonalAccessTokenConfiguration"].write(value.personalAccessTokenConfiguration, with: WorkMailClientTypes.PersonalAccessTokenConfiguration.write(value:to:))
     }
 }
 
@@ -6856,6 +7439,7 @@ extension UpdateUserInput {
         try writer["DisplayName"].write(value.displayName)
         try writer["FirstName"].write(value.firstName)
         try writer["HiddenFromGlobalAddressList"].write(value.hiddenFromGlobalAddressList)
+        try writer["IdentityProviderUserId"].write(value.identityProviderUserId)
         try writer["Initials"].write(value.initials)
         try writer["JobTitle"].write(value.jobTitle)
         try writer["LastName"].write(value.lastName)
@@ -6925,6 +7509,18 @@ extension CreateGroupOutput {
         let reader = responseReader
         var value = CreateGroupOutput()
         value.groupId = try reader["GroupId"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateIdentityCenterApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIdentityCenterApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIdentityCenterApplicationOutput()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
         return value
     }
 }
@@ -7024,6 +7620,20 @@ extension DeleteGroupOutput {
     }
 }
 
+extension DeleteIdentityCenterApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIdentityCenterApplicationOutput {
+        return DeleteIdentityCenterApplicationOutput()
+    }
+}
+
+extension DeleteIdentityProviderConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIdentityProviderConfigurationOutput {
+        return DeleteIdentityProviderConfigurationOutput()
+    }
+}
+
 extension DeleteImpersonationRoleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteImpersonationRoleOutput {
@@ -7062,6 +7672,13 @@ extension DeleteOrganizationOutput {
         value.organizationId = try reader["OrganizationId"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
         return value
+    }
+}
+
+extension DeletePersonalAccessTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePersonalAccessTokenOutput {
+        return DeletePersonalAccessTokenOutput()
     }
 }
 
@@ -7141,6 +7758,20 @@ extension DescribeGroupOutput {
         value.hiddenFromGlobalAddressList = try reader["HiddenFromGlobalAddressList"].readIfPresent() ?? false
         value.name = try reader["Name"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeIdentityProviderConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeIdentityProviderConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeIdentityProviderConfigurationOutput()
+        value.authenticationMode = try reader["AuthenticationMode"].readIfPresent()
+        value.identityCenterConfiguration = try reader["IdentityCenterConfiguration"].readIfPresent(with: WorkMailClientTypes.IdentityCenterConfiguration.read(from:))
+        value.personalAccessTokenConfiguration = try reader["PersonalAccessTokenConfiguration"].readIfPresent(with: WorkMailClientTypes.PersonalAccessTokenConfiguration.read(from:))
         return value
     }
 }
@@ -7240,6 +7871,8 @@ extension DescribeUserOutput {
         value.enabledDate = try reader["EnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.firstName = try reader["FirstName"].readIfPresent()
         value.hiddenFromGlobalAddressList = try reader["HiddenFromGlobalAddressList"].readIfPresent() ?? false
+        value.identityProviderIdentityStoreId = try reader["IdentityProviderIdentityStoreId"].readIfPresent()
+        value.identityProviderUserId = try reader["IdentityProviderUserId"].readIfPresent()
         value.initials = try reader["Initials"].readIfPresent()
         value.jobTitle = try reader["JobTitle"].readIfPresent()
         value.lastName = try reader["LastName"].readIfPresent()
@@ -7385,6 +8018,24 @@ extension GetMobileDeviceAccessOverrideOutput {
         value.description = try reader["Description"].readIfPresent()
         value.deviceId = try reader["DeviceId"].readIfPresent()
         value.effect = try reader["Effect"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent()
+        return value
+    }
+}
+
+extension GetPersonalAccessTokenMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPersonalAccessTokenMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPersonalAccessTokenMetadataOutput()
+        value.dateCreated = try reader["DateCreated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dateLastUsed = try reader["DateLastUsed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expiresTime = try reader["ExpiresTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent()
+        value.personalAccessTokenId = try reader["PersonalAccessTokenId"].readIfPresent()
+        value.scopes = try reader["Scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.userId = try reader["UserId"].readIfPresent()
         return value
     }
@@ -7557,6 +8208,19 @@ extension ListOrganizationsOutput {
     }
 }
 
+extension ListPersonalAccessTokensOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPersonalAccessTokensOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPersonalAccessTokensOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.personalAccessTokenSummaries = try reader["PersonalAccessTokenSummaries"].readListIfPresent(memberReadingClosure: WorkMailClientTypes.PersonalAccessTokenSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListResourceDelegatesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceDelegatesOutput {
@@ -7619,6 +8283,13 @@ extension PutEmailMonitoringConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutEmailMonitoringConfigurationOutput {
         return PutEmailMonitoringConfigurationOutput()
+    }
+}
+
+extension PutIdentityProviderConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutIdentityProviderConfigurationOutput {
+        return PutIdentityProviderConfigurationOutput()
     }
 }
 
@@ -7908,6 +8579,20 @@ enum CreateGroupOutputError {
     }
 }
 
+enum CreateIdentityCenterApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateImpersonationRoleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8089,6 +8774,37 @@ enum DeleteGroupOutputError {
     }
 }
 
+enum DeleteIdentityCenterApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OrganizationStateException": return try OrganizationStateException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIdentityProviderConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationStateException": return try OrganizationStateException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteImpersonationRoleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8157,6 +8873,22 @@ enum DeleteMobileDeviceAccessRuleOutputError {
 }
 
 enum DeleteOrganizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationStateException": return try OrganizationStateException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePersonalAccessTokenOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8313,6 +9045,23 @@ enum DescribeGroupOutputError {
     }
 }
 
+enum DescribeIdentityProviderConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationStateException": return try OrganizationStateException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeInboundDmarcSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8386,6 +9135,8 @@ enum DescribeUserOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "DirectoryServiceAuthenticationFailedException": return try DirectoryServiceAuthenticationFailedException.makeError(baseError: baseError)
+            case "DirectoryUnavailableException": return try DirectoryUnavailableException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
@@ -8574,6 +9325,23 @@ enum GetMobileDeviceAccessOverrideOutputError {
     }
 }
 
+enum GetPersonalAccessTokenMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationStateException": return try OrganizationStateException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAccessControlRulesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8615,6 +9383,7 @@ enum ListAvailabilityConfigurationsOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
             case "OrganizationStateException": return try OrganizationStateException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8787,6 +9556,24 @@ enum ListOrganizationsOutputError {
     }
 }
 
+enum ListPersonalAccessTokensOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "EntityStateException": return try EntityStateException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationStateException": return try OrganizationStateException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListResourceDelegatesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8873,6 +9660,23 @@ enum PutAccessControlRuleOutputError {
 }
 
 enum PutEmailMonitoringConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationStateException": return try OrganizationStateException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutIdentityProviderConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9552,6 +10356,40 @@ extension InvalidConfigurationException {
     }
 }
 
+extension WorkMailClientTypes.IdentityCenterConfiguration {
+
+    static func write(value: WorkMailClientTypes.IdentityCenterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationArn"].write(value.applicationArn)
+        try writer["InstanceArn"].write(value.instanceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.IdentityCenterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.IdentityCenterConfiguration()
+        value.instanceArn = try reader["InstanceArn"].readIfPresent() ?? ""
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WorkMailClientTypes.PersonalAccessTokenConfiguration {
+
+    static func write(value: WorkMailClientTypes.PersonalAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LifetimeInDays"].write(value.lifetimeInDays)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.PersonalAccessTokenConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.PersonalAccessTokenConfiguration()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.lifetimeInDays = try reader["LifetimeInDays"].readIfPresent()
+        return value
+    }
+}
+
 extension WorkMailClientTypes.BookingOptions {
 
     static func write(value: WorkMailClientTypes.BookingOptions?, to writer: SmithyJSON.Writer) throws {
@@ -9860,6 +10698,22 @@ extension WorkMailClientTypes.OrganizationSummary {
     }
 }
 
+extension WorkMailClientTypes.PersonalAccessTokenSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.PersonalAccessTokenSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkMailClientTypes.PersonalAccessTokenSummary()
+        value.personalAccessTokenId = try reader["PersonalAccessTokenId"].readIfPresent()
+        value.userId = try reader["UserId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.dateCreated = try reader["DateCreated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dateLastUsed = try reader["DateLastUsed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expiresTime = try reader["ExpiresTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scopes = try reader["Scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension WorkMailClientTypes.Delegate {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkMailClientTypes.Delegate {
@@ -9918,6 +10772,8 @@ extension WorkMailClientTypes.User {
         value.userRole = try reader["UserRole"].readIfPresent()
         value.enabledDate = try reader["EnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.disabledDate = try reader["DisabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.identityProviderUserId = try reader["IdentityProviderUserId"].readIfPresent()
+        value.identityProviderIdentityStoreId = try reader["IdentityProviderIdentityStoreId"].readIfPresent()
         return value
     }
 }
@@ -9974,6 +10830,7 @@ extension WorkMailClientTypes.ListUsersFilters {
     static func write(value: WorkMailClientTypes.ListUsersFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DisplayNamePrefix"].write(value.displayNamePrefix)
+        try writer["IdentityProviderUserIdPrefix"].write(value.identityProviderUserIdPrefix)
         try writer["PrimaryEmailPrefix"].write(value.primaryEmailPrefix)
         try writer["State"].write(value.state)
         try writer["UsernamePrefix"].write(value.usernamePrefix)
