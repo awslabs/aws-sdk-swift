@@ -74,6 +74,9 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             }
         }
 
+        // Save resolved ChecksumAlgorithm to interceptor context.
+        attributes.checksum = checksumHashFunction
+
         // Determine the header name
         let headerName = "x-amz-checksum-\(checksumHashFunction)"
         logger.debug("Resolved checksum header name: \(headerName)")
@@ -85,7 +88,6 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         case .stream(let stream):
             if stream.isEligibleForChunkedStreaming {
                 // Handle calculating and adding checksum header in ChunkedStream
-                attributes.checksum = checksumHashFunction
                 builder.updateHeader(name: "x-amz-trailer", value: [headerName])
             } else {
                 // If not eligible for chunked streaming, calculate and add checksum to request header now
