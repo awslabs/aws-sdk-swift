@@ -14,32 +14,36 @@ import AWSIntegrationTestUtils
 
 class S3ConcurrentTests: S3XCTestCase {
     public var fileData: Data!
-    let MEGABYTE: Double = 1_000_000
+    let MB = 1_000_000
 
-    #if !os(macOS) && !os(iOS) && !os(tvOS) && !os(visionOS)
     // Payload below 1,048,576 bytes; sends as simple data payload
     func test_20x_1MB_getObject() async throws {
-        fileData = try generateDummyTextData(numMegabytes: MEGABYTE)
+        fileData = try generateDummyTextData(count: MB)
         try await repeatConcurrentlyWithArgs(count: 20, test: getObject, args: fileData!)
     }
 
     // Payload over 1,048,576 bytes; uses aws chunked encoding & flexible checksum
     func test_20x_1_5MB_getObject() async throws {
-        fileData = try generateDummyTextData(numMegabytes: MEGABYTE * 1.5)
+        fileData = try generateDummyTextData(count: 3 * MB / 2)
         try await repeatConcurrentlyWithArgs(count: 20, test: getObject, args: fileData!)
     }
-    #endif
+
+    // Payload 256 bytes with 400 concurrent requests, sends as simple data
+    func test_400x_256B_getObject() async throws {
+        fileData = try generateDummyTextData(count: 256)
+        try await repeatConcurrentlyWithArgs(count: 400, test: getObject, args: fileData!)
+    }
 
     /* Helper functions */
 
     // Generates text data in increments of 10 bytes
-    func generateDummyTextData(numMegabytes: Double) throws -> Data {
+    func generateDummyTextData(count: Int) throws -> Data {
         let segmentData = Data("1234567890".utf8)
         var wholeData = Data()
-        for _ in 0..<(Int(numMegabytes)/10) {
+        for _ in 0..<(count / 10 + 1) {
             wholeData.append(segmentData)
         }
-        return wholeData
+        return wholeData.subdata(in: 0..<count)
     }
 
     // Puts data to S3, gets the uploaded file, then asserts retrieved data equals original data
@@ -55,5 +59,7 @@ class S3ConcurrentTests: S3XCTestCase {
             bucket: bucketName, key: objectKey
         )).body?.readData()
         XCTAssertEqual(data, retrievedData)
+        let deleteObjectInput = DeleteObjectInput(bucket: bucketName, key: objectKey)
+        _ = try await client.deleteObject(input: deleteObjectInput)
     }
 }

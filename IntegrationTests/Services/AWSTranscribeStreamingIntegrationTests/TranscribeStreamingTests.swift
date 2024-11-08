@@ -8,6 +8,7 @@
 import XCTest
 import Foundation
 import AWSTranscribeStreaming
+import protocol AWSClientRuntime.AWSServiceError
 
 final class TranscribeStreamingTests: XCTestCase {
 
@@ -85,16 +86,27 @@ final class TranscribeStreamingTests: XCTestCase {
 
     func test_many() async throws {
         try await withThrowingTaskGroup(of: Void.self) { group in
-            for _ in 1...36 {
+            for _ in 1...100 {
                 group.addTask {
-                    do {
-                        try await self.testStartStreamTranscription()
-                    } catch {
-                        print("ERROR: \(error)")
-                    }
+                    try await self.attempt()
                 }
             }
             try await group.waitForAll()
         }
+    }
+
+    private func attempt() async throws {
+        do {
+            try await self.testStartStreamTranscription()
+        } catch is LimitExceededException {
+            try await reattempt()
+        } catch let error as AWSServiceError where error.errorCode == "ThrottlingException" {
+            try await reattempt()
+        }
+    }
+
+    private func reattempt() async throws {
+        try await Task.sleep(nanoseconds: UInt64.random(in: 500_000_000...1_000_000_000))
+        try await self.attempt()
     }
 }
