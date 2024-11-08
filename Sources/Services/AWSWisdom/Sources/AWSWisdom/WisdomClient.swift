@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WisdomClient: ClientRuntime.Client {
     public static let clientName = "WisdomClient"
-    public static let version = "1.0.35"
+    public static let version = "1.0.36"
     let client: ClientRuntime.SdkHttpClient
     let config: WisdomClient.WisdomClientConfiguration
     let serviceName = "Wisdom"

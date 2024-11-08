@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceDeploymentClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceDeploymentClient"
-    public static let version = "1.0.35"
+    public static let version = "1.0.36"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceDeploymentClient.MarketplaceDeploymentClientConfiguration
     let serviceName = "Marketplace Deployment"

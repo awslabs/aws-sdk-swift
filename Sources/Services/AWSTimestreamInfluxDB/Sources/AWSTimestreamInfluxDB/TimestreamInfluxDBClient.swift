@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamInfluxDBClient: ClientRuntime.Client {
     public static let clientName = "TimestreamInfluxDBClient"
-    public static let version = "1.0.35"
+    public static let version = "1.0.36"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfiguration
     let serviceName = "Timestream InfluxDB"
