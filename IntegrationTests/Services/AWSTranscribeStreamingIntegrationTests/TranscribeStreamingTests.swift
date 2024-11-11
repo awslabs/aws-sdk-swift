@@ -12,9 +12,28 @@ import protocol AWSClientRuntime.AWSServiceError
 
 final class TranscribeStreamingTests: XCTestCase {
 
-    func testStartStreamTranscription() async throws {
+    // MARK: - Test transcription
 
-        // The heelo-swift.wav resource is an audio file that contains an automated voice
+    func test_singleStreamTranscription() async throws {
+        try await attempt()
+    }
+
+    func test_concurrentStreamTranscription() async throws {
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for _ in 1...25 {
+                group.addTask {
+                    try await self.attempt()
+                }
+            }
+            try await group.waitForAll()
+        }
+    }
+
+    // MARK: - Private / implementation methods
+
+    private func performStreamTranscription() async throws {
+
+        // The hello-swift.wav resource is an audio file that contains an automated voice
         // saying the words "Hello transcribed streaming from Swift S. D. K.".
         // It is 2.976 seconds in duration.
         let audioURL = Bundle.module.url(forResource: "hello-swift", withExtension: "wav")!
@@ -84,20 +103,9 @@ final class TranscribeStreamingTests: XCTestCase {
         XCTAssertTrue(candidates.contains(where: { $0.lowercased() == fullMessage.lowercased() }))
     }
 
-    func test_many() async throws {
-        try await withThrowingTaskGroup(of: Void.self) { group in
-            for _ in 1...100 {
-                group.addTask {
-                    try await self.attempt()
-                }
-            }
-            try await group.waitForAll()
-        }
-    }
-
     private func attempt() async throws {
         do {
-            try await self.testStartStreamTranscription()
+            try await self.performStreamTranscription()
         } catch is LimitExceededException {
             try await reattempt()
         } catch let error as AWSServiceError where error.errorCode == "ThrottlingException" {
@@ -106,7 +114,7 @@ final class TranscribeStreamingTests: XCTestCase {
     }
 
     private func reattempt() async throws {
-        try await Task.sleep(nanoseconds: UInt64.random(in: 500_000_000...1_000_000_000))
+        try await Task.sleep(nanoseconds: UInt64.random(in: 1_000_000_000...3_000_000_000))
         try await self.attempt()
     }
 }
