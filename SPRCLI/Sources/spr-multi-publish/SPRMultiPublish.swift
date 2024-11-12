@@ -11,7 +11,7 @@ import SPR
 import AWSCLIUtils
 
 @main
-struct SPRMultiPublish: AsyncParsableCommand {
+struct SPRMultiPublish: AsyncParsableCommand, Configurable {
 
     static var configuration = CommandConfiguration(
         commandName: "spr-multi-publish",
@@ -29,7 +29,7 @@ struct SPRMultiPublish: AsyncParsableCommand {
     var region: String = ""
 
     @Option(help: "The bucket name for the S3 bucket hosting the Registry. Alternate to this option, the bucket may be obtained from environment var AWS_SDK_SPR_BUCKET.")
-    var bucket: String?
+    var bucket: String = ""
 
     @Option(help: "The base URL for the registry.")
     var url: String
@@ -41,13 +41,14 @@ struct SPRMultiPublish: AsyncParsableCommand {
     var replace = false
 
     mutating func run() async throws {
+        try await setOptions()
         let start = Date()
         let allPackages = try runtimePackages + serviceClientPackages
         var allInvalidations = [String]()
         do {
             for (name, path) in allPackages {
                 print("Package: \(name)")
-                var publisher = SPRPublisher(
+                var publisher = try SPRPublisher(
                     scope: scope,
                     name: name,
                     version: version,
@@ -62,10 +63,10 @@ struct SPRMultiPublish: AsyncParsableCommand {
                 allInvalidations.append(contentsOf: publisher.invalidations)
                 print("")
             }
-            try await invalidate(allInvalidations)
+            try await SPRPublisher.invalidate(region: region, distributionID: distributionID, invalidations: allInvalidations)
         } catch {
             try printError("Error caught while publishing.")
-            try await invalidate(allInvalidations)
+            try await SPRPublisher.invalidate(region: region, distributionID: distributionID, invalidations: allInvalidations)
             throw error
         }
 
@@ -73,20 +74,14 @@ struct SPRMultiPublish: AsyncParsableCommand {
         print("Time elapsed: \(String(format: "%.2f", elapsed)) sec")
     }
 
-    private func invalidate(_ invalidations: [String]) async throws {
-        print("Finishing & invalidating \(invalidations.count) package lists.")
-        try await SPRPublisher.invalidate(region: region, distributionID: distributionID, invalidations: invalidations)
-    }
-
     private var runtimePackages: [(String, String)] {
         return [
-            ("smithy-swift", "../../smithy-swift/"),
-            awsRuntimePackage("AWSClientRuntime"),
-            awsRuntimePackage("AWSSDKChecksums"),
-            awsRuntimePackage("AWSSDKCommon"),
-            awsRuntimePackage("AWSSDKEventStreamsAuth"),
-            awsRuntimePackage("AWSSDKHTTPAuth"),
-            awsRuntimePackage("AWSSDKIdentity"),
+            awsRuntimePackage("aws-sdk-swift.AWSClientRuntime"),
+            awsRuntimePackage("aws-sdk-swift.AWSSDKChecksums"),
+            awsRuntimePackage("aws-sdk-swift.AWSSDKCommon"),
+            awsRuntimePackage("aws-sdk-swift.AWSSDKEventStreamsAuth"),
+            awsRuntimePackage("aws-sdk-swift.AWSSDKHTTPAuth"),
+            awsRuntimePackage("aws-sdk-swift.AWSSDKIdentity"),
         ]
     }
 
@@ -100,11 +95,11 @@ struct SPRMultiPublish: AsyncParsableCommand {
         }
     }
 
-    private func awsRuntimePackage(_ name: String) -> (String, String) {
-        return (name, "../Sources/Core/\(name)/")
+    private func awsRuntimePackage(_ directory: String) -> (String, String) {
+        return (directory.removePrefix("\(scope)."), "../Sources/Core/\(directory)/")
     }
 
-    private func serviceClientPackage(_ name: String) -> (String, String) {
-        return (name, "../Sources/Services/\(name)/")
+    private func serviceClientPackage(_ directory: String) -> (String, String) {
+        return (directory.removePrefix("\(scope)."), "../Sources/Services/\(directory)/")
     }
 }

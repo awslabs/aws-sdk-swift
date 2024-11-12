@@ -17,6 +17,8 @@ class PackageManifestBuilderTests: XCTestCase {
 let clientRuntimeVersion: Version = "1.2.3"
 let crtVersion: Version = "4.5.6"
 
+let packageScope = "abc-def-ghi"
+
 let excludeRuntimeUnitTests = false
 
 let serviceTargets: [String] = [
@@ -32,6 +34,7 @@ let serviceTargets: [String] = [
 
     func testBuild() throws {
         let subject = try PackageManifestBuilder(
+            packageScope: "abc-def-ghi",
             clientRuntimeVersion: .init("1.2.3"),
             crtVersion: .init("4.5.6"),
             services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0) },

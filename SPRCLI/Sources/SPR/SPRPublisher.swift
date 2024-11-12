@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AWSCLIUtils
 import ClientRuntime
 
 public struct SPRPublisher {
@@ -14,9 +15,9 @@ public struct SPRPublisher {
     public var name: String
     public var version: String
     public var path: String
-    public var region: String = ""
-    public var bucket: String?
-    public var url: String
+    public var region: String
+    public var bucket: String
+    public var url: URL
     public var distributionID: String?
     public var replace = false
 
@@ -33,7 +34,14 @@ public struct SPRPublisher {
         url: String,
         distributionID: String?,
         replace: Bool
-    ) {
+    ) throws {
+        let env = ProcessInfo.processInfo.environment
+        guard let url = URL(string: url) else {
+            throw Error("`url` param is not a valid URL")
+        }
+        guard let bucket = bucket ?? env["AWS_SDK_SPR_BUCKET"], !bucket.isEmpty else {
+            throw Error("`bucket` param was not provided")
+        }
         self.scope = scope
         self.name = name
         self.version = version
@@ -46,7 +54,6 @@ public struct SPRPublisher {
     }
 
     public mutating func run() async throws {
-        await setOptions()
         print("    Verifying package...               ", terminator: "")
         try verifyPackage()
         print("[done]")
@@ -64,10 +71,13 @@ public struct SPRPublisher {
         print("[done]")
     }
 
+    var keyPrefix: [String] {
+        url.pathComponents.filter { $0 != "/" }
+    }
+
     private mutating func setOptions() async {
         await SDKLoggingSystem().initialize(logLevel: .error)
         let env = ProcessInfo.processInfo.environment
-        bucket = bucket ?? env["AWS_SDK_SPR_BUCKET"]
         if region.isEmpty {
             region = env["AWS_SDK_SPR_REGION"] ?? "us-east-1"
         }

@@ -42,6 +42,9 @@ public func _run(_ process: Process) throws {
     #if DEBUG
     if let testRunner = ProcessRunner.testRunner {
         try testRunner.run(process)
+        if let pipe = process.standardOutput as? Pipe {
+            try pipe.fileHandleForWriting.close()
+        }
         return
     }
     #endif

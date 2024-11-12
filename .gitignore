@@ -37,6 +37,7 @@ SmokeTests/
 # VS Code config files
 .vscode/
 
-# Allow the AWSSDKSwiftCLI Package.resolved
+# Allow the AWSSDKSwiftCLI & SPRCLI Package.resolved
 # while excluding all other Package.resolved files
 !/AWSSDKSwiftCLI/Package.resolved
+!/SPRCLI/Package.resolved

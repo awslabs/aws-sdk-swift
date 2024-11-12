@@ -50,11 +50,11 @@ extension SPRPublisher {
         let fileHandle = try FileHandle(forReadingFrom: archiveFileURL)
         let stream = FileStream(fileHandle: fileHandle)
         let body = ByteStream.stream(stream)
-        let input = PutObjectInput(body: body, bucket: bucket, contentType: "application/zip", key: archiveKey)
+        let input = PutObjectInput(body: body, bucket: bucket, cacheControl: "public, immutable", contentType: "application/zip", key: archiveKey)
         _ = try await s3Client.putObject(input: input)
     }
 
     private var archiveKey: String {
-        "\(scope)/\(name)/\(version).zip"
+        (keyPrefix + [scope, name, "\(version).zip"]).joined(separator: "/")
     }
 }

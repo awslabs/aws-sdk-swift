@@ -166,30 +166,38 @@ fun discoverServices(): List<AwsService> {
 val discoveredServices: List<AwsService> by lazy { discoverServices() }
 
 val packageVersion = rootProject.file("Package.version.next").readText(Charset.forName("UTF-8")).trim()
+val packageScope = rootProject.file("Package.scope").readText(Charset.forName("UTF-8"))
+
+val AwsService.scopedPackageName: String
+    get() = packageName.takeIf { packageScope.isEmpty() } ?: (packageScope + "." + packageName)
 
 val AwsService.outputDir: String
     get() = project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
 
 val AwsService.sourcesDir: String
     get(){
-        return rootProject.file("Sources/Services/$packageName").absolutePath
+        return rootProject.file("Sources/Services/$scopedPackageName").absolutePath
     }
 
 /**
  * Service specific model extras
  */
 val AwsService.modelExtrasDir: String
-    get() = rootProject.file("Tests/AdditionalServiceTests/$packageName/models").absolutePath
+    get() = rootProject.file("Tests/AdditionalServiceTests/$scopedPackageName/models").absolutePath
 
 task("stageSdks") {
     group = "codegen"
     description = "relocate generated SDK artifacts from build directory to correct locations"
     doLast {
+        val withManifests = project.properties["withManifests"] != null
         discoveredServices.forEach {
             logger.info("copying ${it.outputDir} source to ${it.sourcesDir}")
             copy {
                 from(it.outputDir)
                 into(it.sourcesDir)
+                if (!withManifests) {
+                    exclude("Package.swift")
+                }
                 exclude { details ->
                     // Exclude `SmokeTests` directory
                     details.file.name.endsWith("SmokeTests")
