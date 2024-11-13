@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import AWSIntegrationTestUtils
 import Foundation
 import AWSTranscribeStreaming
 import protocol AWSClientRuntime.AWSServiceError
@@ -14,20 +15,15 @@ final class TranscribeStreamingTests: XCTestCase {
 
     // MARK: - Test transcription
 
-    func test_singleStreamTranscription() async throws {
+    func test_single_streamTranscription() async throws {
         try await attempt()
     }
 
-    func test_concurrentStreamTranscription() async throws {
-        try await withThrowingTaskGroup(of: Void.self) { group in
-            for _ in 1...25 {
-                group.addTask {
-                    try await self.attempt()
-                }
-            }
-            try await group.waitForAll()
-        }
+    #if !os(Linux) && !os(Windows)
+    func test_25x_concurrent_streamTranscription() async throws {
+        try await repeatConcurrently(count: 25, test: attempt)
     }
+    #endif
 
     // MARK: - Private / implementation methods
 
@@ -103,16 +99,28 @@ final class TranscribeStreamingTests: XCTestCase {
         XCTAssertTrue(candidates.contains(where: { $0.lowercased() == fullMessage.lowercased() }))
     }
 
+    // Performs the stream transcription, with retry for selected errors associated with
+    // rate limiting & throttling.
+    //
+    // Normal retry is not applied to transcribe streaming because the request body is not a
+    // non-rewindable stream.
     private func attempt() async throws {
         do {
             try await self.performStreamTranscription()
         } catch is LimitExceededException {
+            // LimitExceededException is thrown by the service when there are too many
+            // simultaneous transcriptions going on.  The default limit for AWSTranscribeStreaming
+            // is 25.
             try await reattempt()
         } catch let error as AWSServiceError where error.errorCode == "ThrottlingException" {
+            // Throttling errors may also be returned based on the number of recent requests
+            // made to AWSTranscribeStreaming.
             try await reattempt()
         }
+        // Any other error thrown is not caught and will fail the test.
     }
-
+    
+    // Wait randomly between 1-3 sec, then send the attempt again.
     private func reattempt() async throws {
         try await Task.sleep(nanoseconds: UInt64.random(in: 1_000_000_000...3_000_000_000))
         try await self.attempt()

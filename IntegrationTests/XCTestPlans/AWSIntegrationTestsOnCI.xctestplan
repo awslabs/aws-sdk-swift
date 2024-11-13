@@ -11,7 +11,8 @@
   "defaultOptions" : {
     "environmentVariableEntries" : [
 
-    ]
+    ],
+    "threadSanitizerEnabled" : true
   },
   "testTargets" : [
     {
