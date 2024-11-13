@@ -19,8 +19,17 @@ final class TranscribeStreamingTests: XCTestCase {
         try await attempt()
     }
 
+    // Concurrent stream transcription frequently fails on the CRT HTTP client with errors
+    // such as:
+    // code: 2058, message: "The connection has closed or is closing."
+    // code: 2087, message: "Stream acquisition failed because stream manager failed to acquire a connection"
+    //
+    // Disable this test on the CRT client until these failures can be investigated & corrected.
     #if !os(Linux) && !os(Windows)
-    func test_25x_concurrent_streamTranscription() async throws {
+    func test_25xConcurrent_streamTranscription() async throws {
+        // By default the TranscribeStreaming service allows 25 concurrent transcriptions.
+        // More than that (which can happen when multiple test runs are being performed) will result
+        // in throttling / resource exceeded errors, which may be retried (see retry logic below.)
         try await repeatConcurrently(count: 25, test: attempt)
     }
     #endif
@@ -102,27 +111,21 @@ final class TranscribeStreamingTests: XCTestCase {
     // Performs the stream transcription, with retry for selected errors associated with
     // rate limiting & throttling.
     //
-    // Normal retry is not applied to transcribe streaming because the request body is not a
+    // Normal retry is not applied to transcribe streaming because the request body is a
     // non-rewindable stream.
     private func attempt() async throws {
+        // These throttling / resource limit errors may be returned based on the number of
+        // recent requests made to AWSTranscribeStreaming.
+        let retryableCodes: [String?] = ["ThrottlingException", "LimitExceededException"]
+
+        // Perform the transcribe operation, with special handling for the two retryable errors.
         do {
             try await self.performStreamTranscription()
-        } catch is LimitExceededException {
-            // LimitExceededException is thrown by the service when there are too many
-            // simultaneous transcriptions going on.  The default limit for AWSTranscribeStreaming
-            // is 25.
-            try await reattempt()
-        } catch let error as AWSServiceError where error.errorCode == "ThrottlingException" {
-            // Throttling errors may also be returned based on the number of recent requests
-            // made to AWSTranscribeStreaming.
-            try await reattempt()
+        } catch let error as AWSServiceError where retryableCodes.contains(error.errorCode) {
+            // Wait randomly between 1-3 sec, then attempt again.
+            try await Task.sleep(nanoseconds: UInt64.random(in: 1_000_000_000...3_000_000_000))
+            try await self.attempt()
         }
         // Any other error thrown is not caught and will fail the test.
-    }
-    
-    // Wait randomly between 1-3 sec, then send the attempt again.
-    private func reattempt() async throws {
-        try await Task.sleep(nanoseconds: UInt64.random(in: 1_000_000_000...3_000_000_000))
-        try await self.attempt()
     }
 }
