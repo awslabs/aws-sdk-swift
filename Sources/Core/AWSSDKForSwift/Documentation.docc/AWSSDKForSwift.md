@@ -155,6 +155,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSBedrockRuntime](../../../../../swift/api/awsbedrockruntime/latest)
 
+[AWSBilling](../../../../../swift/api/awsbilling/latest)
+
 [AWSBillingconductor](../../../../../swift/api/awsbillingconductor/latest)
 
 [AWSBraket](../../../../../swift/api/awsbraket/latest)

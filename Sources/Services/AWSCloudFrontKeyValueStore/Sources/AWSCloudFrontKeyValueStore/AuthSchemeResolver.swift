@@ -95,7 +95,7 @@ public struct DefaultCloudFrontKeyValueStoreAuthSchemeResolver: CloudFrontKeyVal
         guard let opName = context.getOperation() else {
             throw Smithy.ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
-        guard let endpointParam = context.attributes.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
+        guard let endpointParam = context.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
         return CloudFrontKeyValueStoreAuthSchemeResolverParameters(operation: opName, endpoint: endpointParam.endpoint, kvsARN: endpointParam.kvsARN, region: endpointParam.region, useFIPS: endpointParam.useFIPS)
