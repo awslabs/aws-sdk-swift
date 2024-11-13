@@ -8,9 +8,8 @@
 import protocol ClientRuntime.BaseError
 import enum ClientRuntime.BaseErrorDecodeError
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(SmithyReadWrite) import class SmithyJSON.Reader
 
-public struct AWSJSONError: BaseError {
+public struct RpcV2CborError: BaseError {
     public let code: String
     public let message: String?
     public let requestID: String?
@@ -21,22 +20,16 @@ public struct AWSJSONError: BaseError {
 
     @_spi(SmithyReadWrite)
     public init(httpResponse: HTTPResponse, responseReader: Reader, noErrorWrapping: Bool, code: String? = nil) throws {
-        let errorCode: String? = try httpResponse.headers.value(for: "X-Amzn-Errortype")
-                            ?? responseReader["code"].readIfPresent()
-                            ?? responseReader["__type"].readIfPresent()
-        let resolvedCode = code ?? errorCode
-        let message: String? = try responseReader["Message"].readIfPresent()
-        let requestID: String? = try responseReader["RequestId"].readIfPresent()
-        guard let resolvedCode else { throw BaseErrorDecodeError.missingRequiredData }
-        self.code = sanitizeErrorType(resolvedCode)
-        self.message = message
-        self.requestID = requestID
+        // TODO
         self.httpResponse = httpResponse
         self.responseReader = responseReader
+        self.code = code ?? "UnknownError"
+        self.message = nil
+        self.requestID = nil
     }
 }
 
-extension AWSJSONError {
+extension RpcV2CborError {
     @_spi(SmithyReadWrite)
     public static func makeQueryCompatibleError(
         httpResponse: HTTPResponse,
@@ -45,7 +38,7 @@ extension AWSJSONError {
         errorDetails: String?
     ) throws -> AWSJSONError {
         let errorCode = try AwsQueryCompatibleErrorDetails.parse(errorDetails).code
-        return try AWSJSONError(
+        return try RpcV2CborError(
             httpResponse: httpResponse,
             responseReader: responseReader,
             noErrorWrapping: noErrorWrapping,
