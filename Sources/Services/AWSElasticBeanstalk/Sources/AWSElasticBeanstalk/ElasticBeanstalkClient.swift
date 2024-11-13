@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticBeanstalkClient: ClientRuntime.Client {
     public static let clientName = "ElasticBeanstalkClient"
-    public static let version = "1.0.38"
+    public static let version = "1.0.39"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticBeanstalkClient.ElasticBeanstalkClientConfiguration
     let serviceName = "Elastic Beanstalk"
