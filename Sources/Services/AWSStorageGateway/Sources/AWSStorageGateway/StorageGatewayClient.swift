@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class StorageGatewayClient: ClientRuntime.Client {
     public static let clientName = "StorageGatewayClient"
-    public static let version = "1.0.37"
+    public static let version = "1.0.38"
     let client: ClientRuntime.SdkHttpClient
     let config: StorageGatewayClient.StorageGatewayClientConfiguration
     let serviceName = "Storage Gateway"
