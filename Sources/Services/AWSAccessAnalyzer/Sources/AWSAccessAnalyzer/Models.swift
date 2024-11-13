@@ -77,7 +77,7 @@ extension AccessAnalyzerClientTypes {
     public struct Access: Swift.Sendable {
         /// A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check.
         public var actions: [Swift.String]?
-        /// A list of resources for the access permissions. Any strings that can be used as a resource in an IAM policy can be used in the list of resources to check.
+        /// A list of resources for the access permissions. Any strings that can be used as an Amazon Resource Name (ARN) in an IAM policy can be used in the list of resources to check. You can only use a wildcard in the portion of the ARN that specifies the resource ID.
         public var resources: [Swift.String]?
 
         public init(
@@ -1066,13 +1066,13 @@ extension AccessAnalyzerClientTypes {
 }
 
 public struct CheckAccessNotGrantedInput: Swift.Sendable {
-    /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access of the actions on all resources in the policy. If only resources are specified, then IAM Access Analyzer checks which actions have access to the specified resources. If both actions and resources are specified, then IAM Access Analyzer checks which of the specified actions have access to the specified resources.
+    /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access to peform at least one of the actions on any resource in the policy. If only resources are specified, then IAM Access Analyzer checks for access to perform any action on at least one of the resources. If both actions and resources are specified, IAM Access Analyzer checks for access to perform at least one of the specified actions on at least one of the specified resources.
     /// This member is required.
     public var access: [AccessAnalyzerClientTypes.Access]?
     /// The JSON policy document to use as the content for the policy.
     /// This member is required.
     public var policyDocument: Swift.String?
-    /// The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
+    /// The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets.
     /// This member is required.
     public var policyType: AccessAnalyzerClientTypes.AccessCheckPolicyType?
 
@@ -2472,6 +2472,38 @@ public struct GetFindingInput: Swift.Sendable {
 
 extension AccessAnalyzerClientTypes {
 
+    public enum ResourceControlPolicyRestriction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicable
+        case failedToEvaluateRcp
+        case notApplicable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceControlPolicyRestriction] {
+            return [
+                .applicable,
+                .failedToEvaluateRcp,
+                .notApplicable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applicable: return "APPLICABLE"
+            case .failedToEvaluateRcp: return "FAILED_TO_EVALUATE_RCP"
+            case .notApplicable: return "NOT_APPLICABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
     /// Includes details about how the access that generated the finding is granted. This is populated for Amazon S3 bucket findings.
     public struct FindingSourceDetail: Swift.Sendable {
         /// The account of the cross-account access point that generated the finding.
@@ -2572,6 +2604,8 @@ extension AccessAnalyzerClientTypes {
         public var principal: [Swift.String: Swift.String]?
         /// The resource that an external principal has access to.
         public var resource: Swift.String?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public var resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction?
         /// The Amazon Web Services account ID that owns the resource.
         /// This member is required.
         public var resourceOwnerAccount: Swift.String?
@@ -2597,6 +2631,7 @@ extension AccessAnalyzerClientTypes {
             isPublic: Swift.Bool? = nil,
             principal: [Swift.String: Swift.String]? = nil,
             resource: Swift.String? = nil,
+            resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction? = nil,
             resourceOwnerAccount: Swift.String? = nil,
             resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil,
@@ -2613,6 +2648,7 @@ extension AccessAnalyzerClientTypes {
             self.isPublic = isPublic
             self.principal = principal
             self.resource = resource
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
             self.sources = sources
@@ -2892,6 +2928,8 @@ extension AccessAnalyzerClientTypes {
         public var isPublic: Swift.Bool?
         /// The external principal that has access to a resource within the zone of trust.
         public var principal: [Swift.String: Swift.String]?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public var resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction?
         /// The sources of the external access finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
         public var sources: [AccessAnalyzerClientTypes.FindingSource]?
 
@@ -2900,6 +2938,7 @@ extension AccessAnalyzerClientTypes {
             condition: [Swift.String: Swift.String]? = nil,
             isPublic: Swift.Bool? = nil,
             principal: [Swift.String: Swift.String]? = nil,
+            resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction? = nil,
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil
         )
         {
@@ -2907,6 +2946,7 @@ extension AccessAnalyzerClientTypes {
             self.condition = condition
             self.isPublic = isPublic
             self.principal = principal
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.sources = sources
         }
     }
@@ -3512,6 +3552,8 @@ extension AccessAnalyzerClientTypes {
         public var principal: [Swift.String: Swift.String]?
         /// The resource that an external principal has access to. This is the resource associated with the access preview.
         public var resource: Swift.String?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public var resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction?
         /// The Amazon Web Services account ID that owns the resource. For most Amazon Web Services resources, the owning account is the account in which the resource was created.
         /// This member is required.
         public var resourceOwnerAccount: Swift.String?
@@ -3536,6 +3578,7 @@ extension AccessAnalyzerClientTypes {
             isPublic: Swift.Bool? = nil,
             principal: [Swift.String: Swift.String]? = nil,
             resource: Swift.String? = nil,
+            resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction? = nil,
             resourceOwnerAccount: Swift.String? = nil,
             resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil,
@@ -3553,6 +3596,7 @@ extension AccessAnalyzerClientTypes {
             self.isPublic = isPublic
             self.principal = principal
             self.resource = resource
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
             self.sources = sources
@@ -3834,6 +3878,8 @@ extension AccessAnalyzerClientTypes {
         public var principal: [Swift.String: Swift.String]?
         /// The resource that the external principal has access to.
         public var resource: Swift.String?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public var resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction?
         /// The Amazon Web Services account ID that owns the resource.
         /// This member is required.
         public var resourceOwnerAccount: Swift.String?
@@ -3859,6 +3905,7 @@ extension AccessAnalyzerClientTypes {
             isPublic: Swift.Bool? = nil,
             principal: [Swift.String: Swift.String]? = nil,
             resource: Swift.String? = nil,
+            resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction? = nil,
             resourceOwnerAccount: Swift.String? = nil,
             resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil,
@@ -3875,6 +3922,7 @@ extension AccessAnalyzerClientTypes {
             self.isPublic = isPublic
             self.principal = principal
             self.resource = resource
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
             self.sources = sources
@@ -4404,6 +4452,7 @@ extension AccessAnalyzerClientTypes {
 
     public enum PolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case identityPolicy
+        case resourceControlPolicy
         case resourcePolicy
         case serviceControlPolicy
         case sdkUnknown(Swift.String)
@@ -4411,6 +4460,7 @@ extension AccessAnalyzerClientTypes {
         public static var allCases: [PolicyType] {
             return [
                 .identityPolicy,
+                .resourceControlPolicy,
                 .resourcePolicy,
                 .serviceControlPolicy
             ]
@@ -4424,6 +4474,7 @@ extension AccessAnalyzerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .identityPolicy: return "IDENTITY_POLICY"
+            case .resourceControlPolicy: return "RESOURCE_CONTROL_POLICY"
             case .resourcePolicy: return "RESOURCE_POLICY"
             case .serviceControlPolicy: return "SERVICE_CONTROL_POLICY"
             case let .sdkUnknown(s): return s
@@ -7319,6 +7370,7 @@ extension AccessAnalyzerClientTypes.Finding {
         value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceControlPolicyRestriction = try reader["resourceControlPolicyRestriction"].readIfPresent()
         return value
     }
 }
@@ -7469,6 +7521,7 @@ extension AccessAnalyzerClientTypes.ExternalAccessDetails {
         value.isPublic = try reader["isPublic"].readIfPresent()
         value.principal = try reader["principal"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceControlPolicyRestriction = try reader["resourceControlPolicyRestriction"].readIfPresent()
         return value
     }
 }
@@ -7575,6 +7628,7 @@ extension AccessAnalyzerClientTypes.AccessPreviewFinding {
         value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceControlPolicyRestriction = try reader["resourceControlPolicyRestriction"].readIfPresent()
         return value
     }
 }
@@ -7624,6 +7678,7 @@ extension AccessAnalyzerClientTypes.FindingSummary {
         value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceControlPolicyRestriction = try reader["resourceControlPolicyRestriction"].readIfPresent()
         return value
     }
 }

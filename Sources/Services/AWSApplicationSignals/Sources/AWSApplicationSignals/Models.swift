@@ -1615,6 +1615,23 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension ApplicationSignalsClientTypes {
 
+    /// This object defines the length of the look-back window used to calculate one burn rate metric for this SLO. The burn rate measures how fast the service is consuming the error budget, relative to the attainment goal of the SLO. A burn rate of exactly 1 indicates that the SLO goal will be met exactly. For example, if you specify 60 as the number of minutes in the look-back window, the burn rate is calculated as the following: burn rate = error rate over the look-back window / (1 - attainment goal percentage) For more information about burn rates, see [Calculate burn rates](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html#CloudWatch-ServiceLevelObjectives-burn).
+    public struct BurnRateConfiguration: Swift.Sendable {
+        /// The number of minutes to use as the look-back window.
+        /// This member is required.
+        public var lookBackWindowMinutes: Swift.Int?
+
+        public init(
+            lookBackWindowMinutes: Swift.Int? = nil
+        )
+        {
+            self.lookBackWindowMinutes = lookBackWindowMinutes
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
     /// Use this structure to specify the information for the metric that a period-based SLO will monitor.
     public struct RequestBasedServiceLevelIndicatorMetricConfig: Swift.Sendable {
         /// If this SLO is related to a metric collected by Application Signals, you must use this field to specify which service the SLO metric is related to. To do so, you must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.
@@ -1754,6 +1771,8 @@ extension ApplicationSignalsClientTypes {
 }
 
 public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
+    /// Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
+    public var burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]?
     /// An optional description for this SLO.
     public var description: Swift.String?
     /// This structure contains the attributes that determine the goal of the SLO.
@@ -1769,6 +1788,7 @@ public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
     public var tags: [ApplicationSignalsClientTypes.Tag]?
 
     public init(
+        burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]? = nil,
         description: Swift.String? = nil,
         goal: ApplicationSignalsClientTypes.Goal? = nil,
         name: Swift.String? = nil,
@@ -1777,6 +1797,7 @@ public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
         tags: [ApplicationSignalsClientTypes.Tag]? = nil
     )
     {
+        self.burnRateConfigurations = burnRateConfigurations
         self.description = description
         self.goal = goal
         self.name = name
@@ -1793,6 +1814,8 @@ extension ApplicationSignalsClientTypes {
         /// The ARN of this SLO.
         /// This member is required.
         public var arn: Swift.String?
+        /// Each object in this array defines the length of the look-back window used to calculate one burn rate metric for this SLO. The burn rate measures how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
+        public var burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]?
         /// The date and time that this SLO was created. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         /// This member is required.
         public var createdTime: Foundation.Date?
@@ -1816,6 +1839,7 @@ extension ApplicationSignalsClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]? = nil,
             createdTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             evaluationType: ApplicationSignalsClientTypes.EvaluationType? = nil,
@@ -1827,6 +1851,7 @@ extension ApplicationSignalsClientTypes {
         )
         {
             self.arn = arn
+            self.burnRateConfigurations = burnRateConfigurations
             self.createdTime = createdTime
             self.description = description
             self.evaluationType = evaluationType
@@ -1991,6 +2016,8 @@ public struct ListServiceLevelObjectivesOutput: Swift.Sendable {
 }
 
 public struct UpdateServiceLevelObjectiveInput: Swift.Sendable {
+    /// Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
+    public var burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]?
     /// An optional description for the SLO.
     public var description: Swift.String?
     /// A structure that contains the attributes that determine the goal of the SLO. This includes the time period for evaluation and the attainment threshold.
@@ -2004,6 +2031,7 @@ public struct UpdateServiceLevelObjectiveInput: Swift.Sendable {
     public var sliConfig: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig?
 
     public init(
+        burnRateConfigurations: [ApplicationSignalsClientTypes.BurnRateConfiguration]? = nil,
         description: Swift.String? = nil,
         goal: ApplicationSignalsClientTypes.Goal? = nil,
         id: Swift.String? = nil,
@@ -2011,6 +2039,7 @@ public struct UpdateServiceLevelObjectiveInput: Swift.Sendable {
         sliConfig: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig? = nil
     )
     {
+        self.burnRateConfigurations = burnRateConfigurations
         self.description = description
         self.goal = goal
         self.id = id
@@ -2381,6 +2410,7 @@ extension CreateServiceLevelObjectiveInput {
 
     static func write(value: CreateServiceLevelObjectiveInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BurnRateConfigurations"].writeList(value.burnRateConfigurations, memberWritingClosure: ApplicationSignalsClientTypes.BurnRateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
         try writer["Goal"].write(value.goal, with: ApplicationSignalsClientTypes.Goal.write(value:to:))
         try writer["Name"].write(value.name)
@@ -2452,6 +2482,7 @@ extension UpdateServiceLevelObjectiveInput {
 
     static func write(value: UpdateServiceLevelObjectiveInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BurnRateConfigurations"].writeList(value.burnRateConfigurations, memberWritingClosure: ApplicationSignalsClientTypes.BurnRateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
         try writer["Goal"].write(value.goal, with: ApplicationSignalsClientTypes.Goal.write(value:to:))
         try writer["RequestBasedSliConfig"].write(value.requestBasedSliConfig, with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorConfig.write(value:to:))
@@ -3244,6 +3275,22 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjective {
         value.requestBasedSli = try reader["RequestBasedSli"].readIfPresent(with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator.read(from:))
         value.evaluationType = try reader["EvaluationType"].readIfPresent()
         value.goal = try reader["Goal"].readIfPresent(with: ApplicationSignalsClientTypes.Goal.read(from:))
+        value.burnRateConfigurations = try reader["BurnRateConfigurations"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.BurnRateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.BurnRateConfiguration {
+
+    static func write(value: ApplicationSignalsClientTypes.BurnRateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LookBackWindowMinutes"].write(value.lookBackWindowMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.BurnRateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.BurnRateConfiguration()
+        value.lookBackWindowMinutes = try reader["LookBackWindowMinutes"].readIfPresent() ?? 0
         return value
     }
 }
