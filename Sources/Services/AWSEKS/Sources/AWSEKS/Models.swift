@@ -1188,6 +1188,7 @@ extension EKSClientTypes {
         case taintsToRemove
         case upgradePolicy
         case version
+        case zonalShiftConfig
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UpdateParamType] {
@@ -1220,7 +1221,8 @@ extension EKSClientTypes {
                 .taintsToAdd,
                 .taintsToRemove,
                 .upgradePolicy,
-                .version
+                .version,
+                .zonalShiftConfig
             ]
         }
 
@@ -1260,6 +1262,7 @@ extension EKSClientTypes {
             case .taintsToRemove: return "TaintsToRemove"
             case .upgradePolicy: return "UpgradePolicy"
             case .version: return "Version"
+            case .zonalShiftConfig: return "ZonalShiftConfig"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1335,6 +1338,7 @@ extension EKSClientTypes {
         case upgradePolicyUpdate
         case versionUpdate
         case vpcConfigUpdate
+        case zonalShiftConfigUpdate
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UpdateType] {
@@ -1349,7 +1353,8 @@ extension EKSClientTypes {
                 .loggingUpdate,
                 .upgradePolicyUpdate,
                 .versionUpdate,
-                .vpcConfigUpdate
+                .vpcConfigUpdate,
+                .zonalShiftConfigUpdate
             ]
         }
 
@@ -1371,6 +1376,7 @@ extension EKSClientTypes {
             case .upgradePolicyUpdate: return "UpgradePolicyUpdate"
             case .versionUpdate: return "VersionUpdate"
             case .vpcConfigUpdate: return "VpcConfigUpdate"
+            case .zonalShiftConfigUpdate: return "ZonalShiftConfigUpdate"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2049,6 +2055,22 @@ extension EKSClientTypes {
     }
 }
 
+extension EKSClientTypes {
+
+    /// The configuration for zonal shift for the cluster.
+    public struct ZonalShiftConfigRequest: Swift.Sendable {
+        /// If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+}
+
 public struct CreateClusterInput: Swift.Sendable {
     /// The access configuration for the cluster.
     public var accessConfig: EKSClientTypes.CreateAccessConfigRequest?
@@ -2062,7 +2084,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public var kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest?
     /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
     public var logging: EKSClientTypes.Logging?
-    /// The unique name to give to your cluster.
+    /// The unique name to give to your cluster. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the cluster in.
     /// This member is required.
     public var name: Swift.String?
     /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review [Local clusters for Amazon EKS on Amazon Web Services Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-overview.html) in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
@@ -2079,6 +2101,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var upgradePolicy: EKSClientTypes.UpgradePolicyRequest?
     /// The desired Kubernetes version for your cluster. If you don't specify a value here, the default version available in Amazon EKS is used. The default version might not be the latest version available.
     public var version: Swift.String?
+    /// Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see [Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/zone-shift.html) in the Amazon EKS User Guide .
+    public var zonalShiftConfig: EKSClientTypes.ZonalShiftConfigRequest?
 
     public init(
         accessConfig: EKSClientTypes.CreateAccessConfigRequest? = nil,
@@ -2093,7 +2117,8 @@ public struct CreateClusterInput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil,
-        version: Swift.String? = nil
+        version: Swift.String? = nil,
+        zonalShiftConfig: EKSClientTypes.ZonalShiftConfigRequest? = nil
     )
     {
         self.accessConfig = accessConfig
@@ -2109,6 +2134,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.tags = tags
         self.upgradePolicy = upgradePolicy
         self.version = version
+        self.zonalShiftConfig = zonalShiftConfig
     }
 }
 
@@ -2477,6 +2503,22 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// The status of zonal shift configuration for the cluster
+    public struct ZonalShiftConfigResponse: Swift.Sendable {
+        /// Whether the zonal shift is enabled.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// An object representing an Amazon EKS cluster.
     public struct Cluster: Swift.Sendable {
         /// The access configuration for the cluster.
@@ -2523,6 +2565,8 @@ extension EKSClientTypes {
         public var upgradePolicy: EKSClientTypes.UpgradePolicyResponse?
         /// The Kubernetes server version for the cluster.
         public var version: Swift.String?
+        /// The configuration for zonal shift for the cluster.
+        public var zonalShiftConfig: EKSClientTypes.ZonalShiftConfigResponse?
 
         public init(
             accessConfig: EKSClientTypes.AccessConfigResponse? = nil,
@@ -2546,7 +2590,8 @@ extension EKSClientTypes {
             status: EKSClientTypes.ClusterStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             upgradePolicy: EKSClientTypes.UpgradePolicyResponse? = nil,
-            version: Swift.String? = nil
+            version: Swift.String? = nil,
+            zonalShiftConfig: EKSClientTypes.ZonalShiftConfigResponse? = nil
         )
         {
             self.accessConfig = accessConfig
@@ -2571,6 +2616,7 @@ extension EKSClientTypes {
             self.tags = tags
             self.upgradePolicy = upgradePolicy
             self.version = version
+            self.zonalShiftConfig = zonalShiftConfig
         }
     }
 }
@@ -3277,6 +3323,7 @@ extension EKSClientTypes {
         case autoScalingGroupOptInRequired
         case autoScalingGroupRateLimitExceeded
         case clusterUnreachable
+        case ec2InstanceTypeDoesNotExist
         case ec2LaunchTemplateDeletionFailure
         case ec2LaunchTemplateInvalidConfiguration
         case ec2LaunchTemplateMaxLimitExceeded
@@ -3316,6 +3363,7 @@ extension EKSClientTypes {
                 .autoScalingGroupOptInRequired,
                 .autoScalingGroupRateLimitExceeded,
                 .clusterUnreachable,
+                .ec2InstanceTypeDoesNotExist,
                 .ec2LaunchTemplateDeletionFailure,
                 .ec2LaunchTemplateInvalidConfiguration,
                 .ec2LaunchTemplateMaxLimitExceeded,
@@ -3361,6 +3409,7 @@ extension EKSClientTypes {
             case .autoScalingGroupOptInRequired: return "AutoScalingGroupOptInRequired"
             case .autoScalingGroupRateLimitExceeded: return "AutoScalingGroupRateLimitExceeded"
             case .clusterUnreachable: return "ClusterUnreachable"
+            case .ec2InstanceTypeDoesNotExist: return "Ec2InstanceTypeDoesNotExist"
             case .ec2LaunchTemplateDeletionFailure: return "Ec2LaunchTemplateDeletionFailure"
             case .ec2LaunchTemplateInvalidConfiguration: return "Ec2LaunchTemplateInvalidConfiguration"
             case .ec2LaunchTemplateMaxLimitExceeded: return "Ec2LaunchTemplateMaxLimitExceeded"
@@ -3406,6 +3455,8 @@ extension EKSClientTypes {
         /// * AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.
         ///
         /// * ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.
+        ///
+        /// * Ec2InstanceTypeDoesNotExist: One or more of the supplied Amazon EC2 instance types do not exist. Amazon EKS checked for the instance types that you provided in this Amazon Web Services Region, and one or more aren't available.
         ///
         /// * Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.
         ///
@@ -5838,6 +5889,8 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     public var resourcesVpcConfig: EKSClientTypes.VpcConfigRequest?
     /// You can enable or disable extended support for clusters currently on standard support. You cannot disable extended support once it starts. You must enable extended support before your cluster exits standard support.
     public var upgradePolicy: EKSClientTypes.UpgradePolicyRequest?
+    /// Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see [Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/zone-shift.html) in the Amazon EKS User Guide .
+    public var zonalShiftConfig: EKSClientTypes.ZonalShiftConfigRequest?
 
     public init(
         accessConfig: EKSClientTypes.UpdateAccessConfigRequest? = nil,
@@ -5845,7 +5898,8 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         logging: EKSClientTypes.Logging? = nil,
         name: Swift.String? = nil,
         resourcesVpcConfig: EKSClientTypes.VpcConfigRequest? = nil,
-        upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil
+        upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil,
+        zonalShiftConfig: EKSClientTypes.ZonalShiftConfigRequest? = nil
     )
     {
         self.accessConfig = accessConfig
@@ -5854,6 +5908,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         self.name = name
         self.resourcesVpcConfig = resourcesVpcConfig
         self.upgradePolicy = upgradePolicy
+        self.zonalShiftConfig = zonalShiftConfig
     }
 }
 
@@ -7101,6 +7156,7 @@ extension CreateClusterInput {
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["upgradePolicy"].write(value.upgradePolicy, with: EKSClientTypes.UpgradePolicyRequest.write(value:to:))
         try writer["version"].write(value.version)
+        try writer["zonalShiftConfig"].write(value.zonalShiftConfig, with: EKSClientTypes.ZonalShiftConfigRequest.write(value:to:))
     }
 }
 
@@ -7245,6 +7301,7 @@ extension UpdateClusterConfigInput {
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
         try writer["resourcesVpcConfig"].write(value.resourcesVpcConfig, with: EKSClientTypes.VpcConfigRequest.write(value:to:))
         try writer["upgradePolicy"].write(value.upgradePolicy, with: EKSClientTypes.UpgradePolicyRequest.write(value:to:))
+        try writer["zonalShiftConfig"].write(value.zonalShiftConfig, with: EKSClientTypes.ZonalShiftConfigRequest.write(value:to:))
     }
 }
 
@@ -9327,6 +9384,17 @@ extension EKSClientTypes.Cluster {
         value.outpostConfig = try reader["outpostConfig"].readIfPresent(with: EKSClientTypes.OutpostConfigResponse.read(from:))
         value.accessConfig = try reader["accessConfig"].readIfPresent(with: EKSClientTypes.AccessConfigResponse.read(from:))
         value.upgradePolicy = try reader["upgradePolicy"].readIfPresent(with: EKSClientTypes.UpgradePolicyResponse.read(from:))
+        value.zonalShiftConfig = try reader["zonalShiftConfig"].readIfPresent(with: EKSClientTypes.ZonalShiftConfigResponse.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.ZonalShiftConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ZonalShiftConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ZonalShiftConfigResponse()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -10113,6 +10181,14 @@ extension EKSClientTypes.UpgradePolicyRequest {
     static func write(value: EKSClientTypes.UpgradePolicyRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["supportType"].write(value.supportType)
+    }
+}
+
+extension EKSClientTypes.ZonalShiftConfigRequest {
+
+    static func write(value: EKSClientTypes.ZonalShiftConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
     }
 }
 

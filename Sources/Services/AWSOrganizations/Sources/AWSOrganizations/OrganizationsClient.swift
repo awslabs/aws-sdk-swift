@@ -63,6 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OrganizationsClient: ClientRuntime.Client {
     public static let clientName = "OrganizationsClient"
+    public static let version = "1.0.40"
     let client: ClientRuntime.SdkHttpClient
     let config: OrganizationsClient.OrganizationsClientConfiguration
     let serviceName = "Organizations"
@@ -263,6 +264,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -282,6 +285,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -324,7 +329,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptHandshakeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AcceptHandshakeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>(xAmzTarget: "AWSOrganizationsV20161128.AcceptHandshake"))
         builder.serialize(ClientRuntime.BodyMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AcceptHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>(contentType: "application/x-amz-json-1.1"))
@@ -351,6 +356,8 @@ extension OrganizationsClient {
     /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:
     ///
     /// * [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+    ///
+    /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
     ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
@@ -469,6 +476,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -488,6 +497,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -535,7 +546,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AttachPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AttachPolicyInput, AttachPolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AttachPolicyInput, AttachPolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachPolicyInput, AttachPolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.AttachPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<AttachPolicyInput, AttachPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachPolicyInput, AttachPolicyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -599,6 +610,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -618,6 +631,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -660,7 +675,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelHandshakeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CancelHandshakeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelHandshakeInput, CancelHandshakeOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelHandshakeInput, CancelHandshakeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelHandshakeInput, CancelHandshakeOutput>(xAmzTarget: "AWSOrganizationsV20161128.CancelHandshake"))
         builder.serialize(ClientRuntime.BodyMiddleware<CancelHandshakeInput, CancelHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelHandshakeInput, CancelHandshakeOutput>(contentType: "application/x-amz-json-1.1"))
@@ -807,6 +822,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -826,6 +843,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -869,7 +888,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CloseAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CloseAccountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CloseAccountInput, CloseAccountOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CloseAccountInput, CloseAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CloseAccountInput, CloseAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.CloseAccount"))
         builder.serialize(ClientRuntime.BodyMiddleware<CloseAccountInput, CloseAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CloseAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CloseAccountInput, CloseAccountOutput>(contentType: "application/x-amz-json-1.1"))
@@ -1019,6 +1038,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1038,6 +1059,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1081,7 +1104,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateAccountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAccountInput, CreateAccountOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAccountInput, CreateAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateAccountInput, CreateAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.CreateAccount"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateAccountInput, CreateAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAccountInput, CreateAccountOutput>(contentType: "application/x-amz-json-1.1"))
@@ -1249,6 +1272,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1268,6 +1293,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1311,7 +1338,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGovCloudAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateGovCloudAccountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.CreateGovCloudAccount"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGovCloudAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>(contentType: "application/x-amz-json-1.1"))
@@ -1443,6 +1470,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1462,6 +1491,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1504,7 +1535,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateOrganizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOrganizationInput, CreateOrganizationOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOrganizationInput, CreateOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateOrganizationInput, CreateOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.CreateOrganization"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateOrganizationInput, CreateOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOrganizationInput, CreateOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
@@ -1636,6 +1667,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1655,6 +1688,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1698,7 +1733,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOrganizationalUnitOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateOrganizationalUnitOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>(xAmzTarget: "AWSOrganizationsV20161128.CreateOrganizationalUnit"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOrganizationalUnitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>(contentType: "application/x-amz-json-1.1"))
@@ -1830,6 +1865,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1849,6 +1886,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1894,7 +1933,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreatePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePolicyInput, CreatePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePolicyInput, CreatePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePolicyInput, CreatePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.CreatePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<CreatePolicyInput, CreatePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePolicyInput, CreatePolicyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -1958,6 +1997,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1977,6 +2018,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2019,7 +2062,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeclineHandshakeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeclineHandshakeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeclineHandshake"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeclineHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>(contentType: "application/x-amz-json-1.1"))
@@ -2081,6 +2124,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2100,6 +2145,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2143,7 +2190,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteOrganizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeleteOrganization"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
@@ -2205,6 +2252,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2224,6 +2273,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2268,7 +2319,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationalUnitOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteOrganizationalUnitOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeleteOrganizationalUnit"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteOrganizationalUnitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>(contentType: "application/x-amz-json-1.1"))
@@ -2330,6 +2381,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2349,6 +2402,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2394,7 +2449,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeletePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePolicyInput, DeletePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePolicyInput, DeletePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeletePolicyInput, DeletePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeletePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeletePolicyInput, DeletePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeletePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeletePolicyInput, DeletePolicyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -2539,7 +2594,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeleteResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -2672,6 +2727,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2691,6 +2748,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2734,7 +2793,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterDelegatedAdministratorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeregisterDelegatedAdministratorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>(xAmzTarget: "AWSOrganizationsV20161128.DeregisterDelegatedAdministrator"))
         builder.serialize(ClientRuntime.BodyMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeregisterDelegatedAdministratorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>(contentType: "application/x-amz-json-1.1"))
@@ -2796,6 +2855,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2815,6 +2876,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2857,7 +2920,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeAccountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountInput, DescribeAccountOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountInput, DescribeAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountInput, DescribeAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeAccount"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountInput, DescribeAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountInput, DescribeAccountOutput>(contentType: "application/x-amz-json-1.1"))
@@ -2919,6 +2982,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2938,6 +3003,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2981,7 +3048,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCreateAccountStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeCreateAccountStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeCreateAccountStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCreateAccountStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>(contentType: "application/x-amz-json-1.1"))
@@ -3112,6 +3179,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -3131,6 +3200,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -3175,7 +3246,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEffectivePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeEffectivePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeEffectivePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeEffectivePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -3237,6 +3308,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -3256,6 +3329,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -3298,7 +3373,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHandshakeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeHandshakeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeHandshake"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeHandshakeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>(contentType: "application/x-amz-json-1.1"))
@@ -3372,7 +3447,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeOrganizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeOrganization"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
@@ -3433,6 +3508,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -3452,6 +3529,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -3495,7 +3574,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationalUnitOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeOrganizationalUnitOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeOrganizationalUnit"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeOrganizationalUnitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>(contentType: "application/x-amz-json-1.1"))
@@ -3556,6 +3635,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -3575,6 +3656,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -3619,7 +3702,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePolicyInput, DescribePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePolicyInput, DescribePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribePolicyInput, DescribePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribePolicyInput, DescribePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribePolicyInput, DescribePolicyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -3763,7 +3846,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DescribeResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -3894,6 +3977,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -3913,6 +3998,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -3960,7 +4047,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DetachPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetachPolicyInput, DetachPolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetachPolicyInput, DetachPolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachPolicyInput, DetachPolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.DetachPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<DetachPolicyInput, DetachPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachPolicyInput, DetachPolicyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -4100,6 +4187,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -4119,6 +4208,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -4162,7 +4253,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableAWSServiceAccessOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisableAWSServiceAccessOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>(xAmzTarget: "AWSOrganizationsV20161128.DisableAWSServiceAccess"))
         builder.serialize(ClientRuntime.BodyMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisableAWSServiceAccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>(contentType: "application/x-amz-json-1.1"))
@@ -4293,6 +4384,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -4312,6 +4405,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -4358,7 +4453,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<DisablePolicyTypeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisablePolicyTypeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>(xAmzTarget: "AWSOrganizationsV20161128.DisablePolicyType"))
         builder.serialize(ClientRuntime.BodyMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisablePolicyTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>(contentType: "application/x-amz-json-1.1"))
@@ -4489,6 +4584,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -4508,6 +4605,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -4551,7 +4650,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAWSServiceAccessOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<EnableAWSServiceAccessOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>(xAmzTarget: "AWSOrganizationsV20161128.EnableAWSServiceAccess"))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableAWSServiceAccessInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>(contentType: "application/x-amz-json-1.1"))
@@ -4632,6 +4731,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -4651,6 +4752,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -4693,7 +4796,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAllFeaturesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<EnableAllFeaturesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>(xAmzTarget: "AWSOrganizationsV20161128.EnableAllFeatures"))
         builder.serialize(ClientRuntime.BodyMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnableAllFeaturesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>(contentType: "application/x-amz-json-1.1"))
@@ -4824,6 +4927,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -4843,6 +4948,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -4890,7 +4997,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<EnablePolicyTypeOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<EnablePolicyTypeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>(xAmzTarget: "AWSOrganizationsV20161128.EnablePolicyType"))
         builder.serialize(ClientRuntime.BodyMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EnablePolicyTypeInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>(contentType: "application/x-amz-json-1.1"))
@@ -5050,6 +5157,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5069,6 +5178,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5111,7 +5222,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<InviteAccountToOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<InviteAccountToOrganizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.InviteAccountToOrganization"))
         builder.serialize(ClientRuntime.BodyMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InviteAccountToOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
@@ -5266,6 +5377,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5285,6 +5398,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5328,7 +5443,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<LeaveOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<LeaveOrganizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.LeaveOrganization"))
         builder.serialize(ClientRuntime.BodyMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: LeaveOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
@@ -5458,6 +5573,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5477,6 +5594,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5520,7 +5639,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAWSServiceAccessForOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAWSServiceAccessForOrganizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListAWSServiceAccessForOrganization"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAWSServiceAccessForOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
@@ -5581,6 +5700,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5600,6 +5721,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5642,7 +5765,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAccountsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountsInput, ListAccountsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountsInput, ListAccountsOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountsInput, ListAccountsOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListAccounts"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAccountsInput, ListAccountsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountsInput, ListAccountsOutput>(contentType: "application/x-amz-json-1.1"))
@@ -5703,6 +5826,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5722,6 +5847,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5765,7 +5892,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsForParentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAccountsForParentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListAccountsForParent"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAccountsForParentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>(contentType: "application/x-amz-json-1.1"))
@@ -5826,6 +5953,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5845,6 +5974,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5888,7 +6019,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChildrenOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListChildrenOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListChildrenInput, ListChildrenOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListChildrenInput, ListChildrenOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListChildrenInput, ListChildrenOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListChildren"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListChildrenInput, ListChildrenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListChildrenInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListChildrenInput, ListChildrenOutput>(contentType: "application/x-amz-json-1.1"))
@@ -5949,6 +6080,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5968,6 +6101,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6011,7 +6146,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCreateAccountStatusOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListCreateAccountStatusOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListCreateAccountStatus"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCreateAccountStatusInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(contentType: "application/x-amz-json-1.1"))
@@ -6141,6 +6276,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6160,6 +6297,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6203,7 +6342,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDelegatedAdministratorsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDelegatedAdministratorsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListDelegatedAdministrators"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDelegatedAdministratorsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(contentType: "application/x-amz-json-1.1"))
@@ -6335,6 +6474,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6354,6 +6495,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6397,7 +6540,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDelegatedServicesForAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDelegatedServicesForAccountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListDelegatedServicesForAccount"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDelegatedServicesForAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(contentType: "application/x-amz-json-1.1"))
@@ -6458,6 +6601,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6477,6 +6622,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6519,7 +6666,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHandshakesForAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListHandshakesForAccountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListHandshakesForAccount"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListHandshakesForAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(contentType: "application/x-amz-json-1.1"))
@@ -6581,6 +6728,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6600,6 +6749,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6642,7 +6793,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHandshakesForOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListHandshakesForOrganizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListHandshakesForOrganization"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListHandshakesForOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
@@ -6703,6 +6854,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6722,6 +6875,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6765,7 +6920,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationalUnitsForParentOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListOrganizationalUnitsForParentOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListOrganizationalUnitsForParent"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOrganizationalUnitsForParentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(contentType: "application/x-amz-json-1.1"))
@@ -6827,6 +6982,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6846,6 +7003,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6888,7 +7047,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListParentsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListParentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListParentsInput, ListParentsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListParentsInput, ListParentsOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListParentsInput, ListParentsOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListParents"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListParentsInput, ListParentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListParentsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListParentsInput, ListParentsOutput>(contentType: "application/x-amz-json-1.1"))
@@ -6949,6 +7108,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6968,6 +7129,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7011,7 +7174,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPoliciesOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListPoliciesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPoliciesInput, ListPoliciesOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPoliciesInput, ListPoliciesOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPoliciesInput, ListPoliciesOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListPolicies"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPoliciesInput, ListPoliciesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPoliciesInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPoliciesInput, ListPoliciesOutput>(contentType: "application/x-amz-json-1.1"))
@@ -7072,6 +7235,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7091,6 +7256,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7135,7 +7302,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPoliciesForTargetOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListPoliciesForTargetOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListPoliciesForTarget"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListPoliciesForTargetInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(contentType: "application/x-amz-json-1.1"))
@@ -7196,6 +7363,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7215,6 +7384,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7257,7 +7428,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRootsOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListRootsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRootsInput, ListRootsOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRootsInput, ListRootsOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListRootsInput, ListRootsOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListRoots"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListRootsInput, ListRootsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRootsInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRootsInput, ListRootsOutput>(contentType: "application/x-amz-json-1.1"))
@@ -7329,6 +7500,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7348,6 +7521,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7391,7 +7566,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListTagsForResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTagsForResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
@@ -7452,6 +7627,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7471,6 +7648,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7515,7 +7694,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetsForPolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTargetsForPolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.ListTargetsForPolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTargetsForPolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -7580,6 +7759,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7599,6 +7780,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7642,7 +7825,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<MoveAccountOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<MoveAccountOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<MoveAccountInput, MoveAccountOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<MoveAccountInput, MoveAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<MoveAccountInput, MoveAccountOutput>(xAmzTarget: "AWSOrganizationsV20161128.MoveAccount"))
         builder.serialize(ClientRuntime.BodyMiddleware<MoveAccountInput, MoveAccountOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: MoveAccountInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<MoveAccountInput, MoveAccountOutput>(contentType: "application/x-amz-json-1.1"))
@@ -7773,6 +7956,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7792,6 +7977,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7835,7 +8022,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.PutResourcePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
@@ -7968,6 +8155,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7987,6 +8176,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8030,7 +8221,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterDelegatedAdministratorOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RegisterDelegatedAdministratorOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>(xAmzTarget: "AWSOrganizationsV20161128.RegisterDelegatedAdministrator"))
         builder.serialize(ClientRuntime.BodyMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterDelegatedAdministratorInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>(contentType: "application/x-amz-json-1.1"))
@@ -8168,6 +8359,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -8187,6 +8380,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8230,7 +8425,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveAccountFromOrganizationOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<RemoveAccountFromOrganizationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>(xAmzTarget: "AWSOrganizationsV20161128.RemoveAccountFromOrganization"))
         builder.serialize(ClientRuntime.BodyMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveAccountFromOrganizationInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>(contentType: "application/x-amz-json-1.1"))
@@ -8372,6 +8567,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -8391,6 +8588,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8434,7 +8633,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<TagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutput>(xAmzTarget: "AWSOrganizationsV20161128.TagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
@@ -8576,6 +8775,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -8595,6 +8796,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8638,7 +8841,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutput>(xAmzTarget: "AWSOrganizationsV20161128.UntagResource"))
         builder.serialize(ClientRuntime.BodyMiddleware<UntagResourceInput, UntagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UntagResourceInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
@@ -8701,6 +8904,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -8720,6 +8925,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8763,7 +8970,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOrganizationalUnitOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateOrganizationalUnitOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>(xAmzTarget: "AWSOrganizationsV20161128.UpdateOrganizationalUnit"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateOrganizationalUnitInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>(contentType: "application/x-amz-json-1.1"))
@@ -8895,6 +9102,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -8914,6 +9123,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8960,7 +9171,7 @@ extension OrganizationsClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePolicyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdatePolicyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(serviceID: serviceName, version: "1.0", config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(xAmzTarget: "AWSOrganizationsV20161128.UpdatePolicy"))
         builder.serialize(ClientRuntime.BodyMiddleware<UpdatePolicyInput, UpdatePolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePolicyInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(contentType: "application/x-amz-json-1.1"))

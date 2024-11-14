@@ -815,6 +815,7 @@ extension Route53ClientTypes {
         case caCentral1
         case caWest1
         case cnNorth1
+        case cnNorthwest1
         case euCentral1
         case euCentral2
         case euNorth1
@@ -855,6 +856,7 @@ extension Route53ClientTypes {
                 .caCentral1,
                 .caWest1,
                 .cnNorth1,
+                .cnNorthwest1,
                 .euCentral1,
                 .euCentral2,
                 .euNorth1,
@@ -901,6 +903,7 @@ extension Route53ClientTypes {
             case .caCentral1: return "ca-central-1"
             case .caWest1: return "ca-west-1"
             case .cnNorth1: return "cn-north-1"
+            case .cnNorthwest1: return "cn-northwest-1"
             case .euCentral1: return "eu-central-1"
             case .euCentral2: return "eu-central-2"
             case .euNorth1: return "eu-north-1"
@@ -1527,6 +1530,7 @@ extension Route53ClientTypes {
         case caa
         case cname
         case ds
+        case https
         case mx
         case naptr
         case ns
@@ -1534,6 +1538,9 @@ extension Route53ClientTypes {
         case soa
         case spf
         case srv
+        case sshfp
+        case svcb
+        case tlsa
         case txt
         case sdkUnknown(Swift.String)
 
@@ -1544,6 +1551,7 @@ extension Route53ClientTypes {
                 .caa,
                 .cname,
                 .ds,
+                .https,
                 .mx,
                 .naptr,
                 .ns,
@@ -1551,6 +1559,9 @@ extension Route53ClientTypes {
                 .soa,
                 .spf,
                 .srv,
+                .sshfp,
+                .svcb,
+                .tlsa,
                 .txt
             ]
         }
@@ -1567,6 +1578,7 @@ extension Route53ClientTypes {
             case .caa: return "CAA"
             case .cname: return "CNAME"
             case .ds: return "DS"
+            case .https: return "HTTPS"
             case .mx: return "MX"
             case .naptr: return "NAPTR"
             case .ns: return "NS"
@@ -1574,6 +1586,9 @@ extension Route53ClientTypes {
             case .soa: return "SOA"
             case .spf: return "SPF"
             case .srv: return "SRV"
+            case .sshfp: return "SSHFP"
+            case .svcb: return "SVCB"
+            case .tlsa: return "TLSA"
             case .txt: return "TXT"
             case let .sdkUnknown(s): return s
             }
@@ -1715,7 +1730,7 @@ extension Route53ClientTypes {
         ///
         /// * If a group of weighted resource record sets includes one or more weighted alias resource record sets for which the alias target is an ELB load balancer, we recommend that you specify a TTL of 60 seconds for all of the non-alias weighted resource record sets that have the same name and type. Values other than 60 seconds (the TTL for load balancers) will change the effect of the values that you specify for Weight.
         public var ttl: Swift.Int?
-        /// The DNS record type. For information about different record types and how data is encoded for them, see [Supported DNS Resource Record Types](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html) in the Amazon Route 53 Developer Guide. Valid values for basic resource record sets: A | AAAA | CAA | CNAME | DS |MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT. When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group. Valid values for multivalue answer resource record sets: A | AAAA | MX | NAPTR | PTR | SPF | SRV | TXT SPF records were formerly used to verify the identity of the sender of email messages. However, we no longer recommend that you create resource record sets for which the value of Type is SPF. RFC 7208, Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1, has been updated to say, "...[I]ts existence and mechanism defined in [RFC4408] have led to some interoperability issues. Accordingly, its use is no longer appropriate for SPF version 1; implementations are not to use it." In RFC 7208, see section 14.1, [The SPF DNS Record Type](http://tools.ietf.org/html/rfc7208#section-14.1). Values for alias resource record sets:
+        /// The DNS record type. For information about different record types and how data is encoded for them, see [Supported DNS Resource Record Types](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html) in the Amazon Route 53 Developer Guide. Valid values for basic resource record sets: A | AAAA | CAA | CNAME | DS |MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT| TLSA| SSHFP| SVCB| HTTPS Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT| TLSA| SSHFP| SVCB| HTTPS. When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group. Valid values for multivalue answer resource record sets: A | AAAA | MX | NAPTR | PTR | SPF | SRV | TXT| CAA| TLSA| SSHFP| SVCB| HTTPS SPF records were formerly used to verify the identity of the sender of email messages. However, we no longer recommend that you create resource record sets for which the value of Type is SPF. RFC 7208, Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1, has been updated to say, "...[I]ts existence and mechanism defined in [RFC4408] have led to some interoperability issues. Accordingly, its use is no longer appropriate for SPF version 1; implementations are not to use it." In RFC 7208, see section 14.1, [The SPF DNS Record Type](http://tools.ietf.org/html/rfc7208#section-14.1). Values for alias resource record sets:
         ///
         /// * Amazon API Gateway custom regional APIs and edge-optimized APIs: A
         ///
@@ -2337,7 +2352,7 @@ extension Route53ClientTypes {
         ///
         /// * HTTP: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.
         ///
-        /// * HTTPS: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400. If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.
+        /// * HTTPS: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400. If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0, v1.1, or v1.2.
         ///
         /// * HTTP_STR_MATCH: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.
         ///

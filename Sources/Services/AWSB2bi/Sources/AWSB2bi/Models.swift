@@ -1080,6 +1080,46 @@ public struct CreateStarterMappingTemplateOutput: Swift.Sendable {
     }
 }
 
+public struct GenerateMappingInput: Swift.Sendable {
+    /// Provide the contents of a sample X12 EDI file (for inbound EDI) or JSON/XML file (for outbound EDI) to use as a starting point for the mapping.
+    /// This member is required.
+    public var inputFileContent: Swift.String?
+    /// Specify the mapping type: either JSONATA or XSLT.
+    /// This member is required.
+    public var mappingType: B2biClientTypes.MappingType?
+    /// Provide the contents of a sample X12 EDI file (for outbound EDI) or JSON/XML file (for inbound EDI) to use as a target for the mapping.
+    /// This member is required.
+    public var outputFileContent: Swift.String?
+
+    public init(
+        inputFileContent: Swift.String? = nil,
+        mappingType: B2biClientTypes.MappingType? = nil,
+        outputFileContent: Swift.String? = nil
+    )
+    {
+        self.inputFileContent = inputFileContent
+        self.mappingType = mappingType
+        self.outputFileContent = outputFileContent
+    }
+}
+
+public struct GenerateMappingOutput: Swift.Sendable {
+    /// Returns a percentage that estimates the accuracy of the generated mapping.
+    public var mappingAccuracy: Swift.Float?
+    /// Returns a mapping template based on your inputs.
+    /// This member is required.
+    public var mappingTemplate: Swift.String?
+
+    public init(
+        mappingAccuracy: Swift.Float? = nil,
+        mappingTemplate: Swift.String? = nil
+    )
+    {
+        self.mappingAccuracy = mappingAccuracy
+        self.mappingTemplate = mappingTemplate
+    }
+}
+
 public struct GetTransformerJobInput: Swift.Sendable {
     /// Specifies the system-assigned unique identifier for the transformer.
     /// This member is required.
@@ -3000,7 +3040,7 @@ public struct UpdateTransformerInput: Swift.Sendable {
     public var sampleDocument: Swift.String?
     /// Specify a structure that contains the Amazon S3 bucket and an array of the corresponding keys used to identify the location for your sample documents.
     public var sampleDocuments: B2biClientTypes.SampleDocuments?
-    /// Specifies the transformer's status. You can update the state of the transformer, from active to inactive, or inactive to active.
+    /// Specifies the transformer's status. You can update the state of the transformer from inactive to active.
     public var status: B2biClientTypes.TransformerStatus?
     /// Specifies the system-assigned unique identifier for the transformer.
     /// This member is required.
@@ -3185,6 +3225,13 @@ extension DeleteProfileInput {
 extension DeleteTransformerInput {
 
     static func urlPathProvider(_ value: DeleteTransformerInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GenerateMappingInput {
+
+    static func urlPathProvider(_ value: GenerateMappingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3470,6 +3517,16 @@ extension DeleteTransformerInput {
     static func write(value: DeleteTransformerInput?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
+    }
+}
+
+extension GenerateMappingInput {
+
+    static func write(value: GenerateMappingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inputFileContent"].write(value.inputFileContent)
+        try writer["mappingType"].write(value.mappingType)
+        try writer["outputFileContent"].write(value.outputFileContent)
     }
 }
 
@@ -3777,6 +3834,19 @@ extension DeleteTransformerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTransformerOutput {
         return DeleteTransformerOutput()
+    }
+}
+
+extension GenerateMappingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateMappingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GenerateMappingOutput()
+        value.mappingAccuracy = try reader["mappingAccuracy"].readIfPresent()
+        value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -4261,6 +4331,23 @@ enum DeleteTransformerOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GenerateMappingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

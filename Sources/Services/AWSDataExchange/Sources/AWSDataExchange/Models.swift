@@ -43,6 +43,11 @@ public struct DeleteAssetOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteDataGrantOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteDataSetOutput: Swift.Sendable {
 
     public init() { }
@@ -68,6 +73,35 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension DataExchangeClientTypes {
+
+    public enum AcceptanceStateFilterValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accepted
+        case pendingReceiverAcceptance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcceptanceStateFilterValue] {
+            return [
+                .accepted,
+                .pendingReceiverAcceptance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "ACCEPTED"
+            case .pendingReceiverAcceptance: return "PENDING_RECEIVER_ACCEPTANCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Access to the resource is denied.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -91,6 +125,366 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     )
     {
         self.properties.message = message
+    }
+}
+
+extension DataExchangeClientTypes {
+
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asset
+        case dataGrant
+        case dataSet
+        case eventAction
+        case job
+        case revision
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .asset,
+                .dataGrant,
+                .dataSet,
+                .eventAction,
+                .job,
+                .revision
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asset: return "ASSET"
+            case .dataGrant: return "DATA_GRANT"
+            case .dataSet: return "DATA_SET"
+            case .eventAction: return "EVENT_ACTION"
+            case .job: return "JOB"
+            case .revision: return "REVISION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The request couldn't be completed because it conflicted with the current state of the resource.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The request couldn't be completed because it conflicted with the current state of the resource.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The unique identifier for the resource with the conflict.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource with the conflict.
+        public internal(set) var resourceType: DataExchangeClientTypes.ResourceType? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: DataExchangeClientTypes.ResourceType? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+/// An exception occurred with the service.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The message identifying the service exception that occurred.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The resource couldn't be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The resource couldn't be found.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The unique identifier for the resource that couldn't be found.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of resource that couldn't be found.
+        public internal(set) var resourceType: DataExchangeClientTypes.ResourceType? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: DataExchangeClientTypes.ResourceType? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+/// The limit on the number of requests per second was exceeded.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The limit on the number of requests per second was exceeded.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension DataExchangeClientTypes {
+
+    public enum ExceptionCause: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case insufficients3bucketpolicy
+        case s3accessdenied
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExceptionCause] {
+            return [
+                .insufficients3bucketpolicy,
+                .s3accessdenied
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .insufficients3bucketpolicy: return "InsufficientS3BucketPolicy"
+            case .s3accessdenied: return "S3AccessDenied"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The request was invalid.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The unique identifier for the resource that couldn't be found.
+        public internal(set) var exceptionCause: DataExchangeClientTypes.ExceptionCause? = nil
+        /// The message that informs you about what was invalid about the request.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        exceptionCause: DataExchangeClientTypes.ExceptionCause? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.exceptionCause = exceptionCause
+        self.properties.message = message
+    }
+}
+
+public struct AcceptDataGrantInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the data grant to accept.
+    /// This member is required.
+    public var dataGrantArn: Swift.String?
+
+    public init(
+        dataGrantArn: Swift.String? = nil
+    )
+    {
+        self.dataGrantArn = dataGrantArn
+    }
+}
+
+extension DataExchangeClientTypes {
+
+    public enum DataGrantAcceptanceState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accepted
+        case pendingReceiverAcceptance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataGrantAcceptanceState] {
+            return [
+                .accepted,
+                .pendingReceiverAcceptance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "ACCEPTED"
+            case .pendingReceiverAcceptance: return "PENDING_RECEIVER_ACCEPTANCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataExchangeClientTypes {
+
+    public enum GrantDistributionScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOrganization
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GrantDistributionScope] {
+            return [
+                .awsOrganization,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOrganization: return "AWS_ORGANIZATION"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AcceptDataGrantOutput: Swift.Sendable {
+    /// The acceptance state of the data grant.
+    /// This member is required.
+    public var acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState?
+    /// The timestamp of when the data grant was accepted.
+    public var acceptedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the accepted data grant.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The timestamp of when the data grant was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the data set associated to the data grant.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+    /// The description of the accepted data grant.
+    public var description: Swift.String?
+    /// The timestamp of when access to the associated data set ends.
+    public var endsAt: Foundation.Date?
+    /// The distribution scope for the data grant.
+    /// This member is required.
+    public var grantDistributionScope: DataExchangeClientTypes.GrantDistributionScope?
+    /// The ID of the data grant.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the accepted data grant.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Web Services account ID of the data grant receiver.
+    /// This member is required.
+    public var receiverPrincipal: Swift.String?
+    /// The Amazon Web Services account ID of the data grant sender.
+    public var senderPrincipal: Swift.String?
+    /// The timestamp of when the data grant was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState? = nil,
+        acceptedAt: Foundation.Date? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataSetId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endsAt: Foundation.Date? = nil,
+        grantDistributionScope: DataExchangeClientTypes.GrantDistributionScope? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        receiverPrincipal: Swift.String? = nil,
+        senderPrincipal: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    )
+    {
+        self.acceptanceState = acceptanceState
+        self.acceptedAt = acceptedAt
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataSetId = dataSetId
+        self.description = description
+        self.endsAt = endsAt
+        self.grantDistributionScope = grantDistributionScope
+        self.id = id
+        self.name = name
+        self.receiverPrincipal = receiverPrincipal
+        self.senderPrincipal = senderPrincipal
+        self.updatedAt = updatedAt
     }
 }
 
@@ -777,223 +1171,6 @@ extension DataExchangeClientTypes {
     }
 }
 
-extension DataExchangeClientTypes {
-
-    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case asset
-        case dataSet
-        case eventAction
-        case job
-        case revision
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceType] {
-            return [
-                .asset,
-                .dataSet,
-                .eventAction,
-                .job,
-                .revision
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .asset: return "ASSET"
-            case .dataSet: return "DATA_SET"
-            case .eventAction: return "EVENT_ACTION"
-            case .job: return "JOB"
-            case .revision: return "REVISION"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// The request couldn't be completed because it conflicted with the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// The request couldn't be completed because it conflicted with the current state of the resource.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The unique identifier for the resource with the conflict.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource with the conflict.
-        public internal(set) var resourceType: DataExchangeClientTypes.ResourceType? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: DataExchangeClientTypes.ResourceType? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
-/// An exception occurred with the service.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// The message identifying the service exception that occurred.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// The resource couldn't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// The resource couldn't be found.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The unique identifier for the resource that couldn't be found.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of resource that couldn't be found.
-        public internal(set) var resourceType: DataExchangeClientTypes.ResourceType? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: DataExchangeClientTypes.ResourceType? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
-/// The limit on the number of requests per second was exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// The limit on the number of requests per second was exceeded.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-extension DataExchangeClientTypes {
-
-    public enum ExceptionCause: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case insufficients3bucketpolicy
-        case s3accessdenied
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ExceptionCause] {
-            return [
-                .insufficients3bucketpolicy,
-                .s3accessdenied
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .insufficients3bucketpolicy: return "InsufficientS3BucketPolicy"
-            case .s3accessdenied: return "S3AccessDenied"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// The request was invalid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// The unique identifier for the resource that couldn't be found.
-        public internal(set) var exceptionCause: DataExchangeClientTypes.ExceptionCause? = nil
-        /// The message that informs you about what was invalid about the request.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        exceptionCause: DataExchangeClientTypes.ExceptionCause? = nil,
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.exceptionCause = exceptionCause
-        self.properties.message = message
-    }
-}
-
 public struct CancelJobInput: Swift.Sendable {
     /// The unique identifier for a job.
     /// This member is required.
@@ -1055,6 +1232,7 @@ extension DataExchangeClientTypes {
 
     public enum LimitName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsLakeFormationDataPermissionAssetsPerRevision
+        case activeAndPendingDataGrants
         case amazonApiGatewayApiAssetsPerRevision
         case amazonRedshiftDatashareAssetsPerImportJobFromRedshift
         case amazonRedshiftDatashareAssetsPerRevision
@@ -1076,6 +1254,7 @@ extension DataExchangeClientTypes {
         case dataSetsPerAccount
         case dataSetsPerProduct
         case eventActionsPerAccount
+        case pendingDataGrantsPerConsumer
         case productsPerAccount
         case revisionsPerAwsLakeFormationDataPermissionDataSet
         case revisionsPerAmazonApiGatewayApiDataSet
@@ -1087,6 +1266,7 @@ extension DataExchangeClientTypes {
         public static var allCases: [LimitName] {
             return [
                 .awsLakeFormationDataPermissionAssetsPerRevision,
+                .activeAndPendingDataGrants,
                 .amazonApiGatewayApiAssetsPerRevision,
                 .amazonRedshiftDatashareAssetsPerImportJobFromRedshift,
                 .amazonRedshiftDatashareAssetsPerRevision,
@@ -1108,6 +1288,7 @@ extension DataExchangeClientTypes {
                 .dataSetsPerAccount,
                 .dataSetsPerProduct,
                 .eventActionsPerAccount,
+                .pendingDataGrantsPerConsumer,
                 .productsPerAccount,
                 .revisionsPerAwsLakeFormationDataPermissionDataSet,
                 .revisionsPerAmazonApiGatewayApiDataSet,
@@ -1125,6 +1306,7 @@ extension DataExchangeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .awsLakeFormationDataPermissionAssetsPerRevision: return "AWS Lake Formation data permission assets per revision"
+            case .activeAndPendingDataGrants: return "Active and pending data grants"
             case .amazonApiGatewayApiAssetsPerRevision: return "Amazon API Gateway API assets per revision"
             case .amazonRedshiftDatashareAssetsPerImportJobFromRedshift: return "Amazon Redshift datashare assets per import job from Redshift"
             case .amazonRedshiftDatashareAssetsPerRevision: return "Amazon Redshift datashare assets per revision"
@@ -1146,6 +1328,7 @@ extension DataExchangeClientTypes {
             case .dataSetsPerAccount: return "Data sets per account"
             case .dataSetsPerProduct: return "Data sets per product"
             case .eventActionsPerAccount: return "Event actions per account"
+            case .pendingDataGrantsPerConsumer: return "Pending data grants per consumer"
             case .productsPerAccount: return "Products per account"
             case .revisionsPerAwsLakeFormationDataPermissionDataSet: return "Revisions per AWS Lake Formation data permission data set"
             case .revisionsPerAmazonApiGatewayApiDataSet: return "Revisions per Amazon API Gateway API data set"
@@ -1189,6 +1372,125 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
         self.properties.limitName = limitName
         self.properties.limitValue = limitValue
         self.properties.message = message
+    }
+}
+
+public struct CreateDataGrantInput: Swift.Sendable {
+    /// The description of the data grant.
+    public var description: Swift.String?
+    /// The timestamp of when access to the associated data set ends.
+    public var endsAt: Foundation.Date?
+    /// The distribution scope of the data grant.
+    /// This member is required.
+    public var grantDistributionScope: DataExchangeClientTypes.GrantDistributionScope?
+    /// The name of the data grant.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Web Services account ID of the data grant receiver.
+    /// This member is required.
+    public var receiverPrincipal: Swift.String?
+    /// The ID of the data set used to create the data grant.
+    /// This member is required.
+    public var sourceDataSetId: Swift.String?
+    /// The tags to add to the data grant. A tag is a key-value pair.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        endsAt: Foundation.Date? = nil,
+        grantDistributionScope: DataExchangeClientTypes.GrantDistributionScope? = nil,
+        name: Swift.String? = nil,
+        receiverPrincipal: Swift.String? = nil,
+        sourceDataSetId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.description = description
+        self.endsAt = endsAt
+        self.grantDistributionScope = grantDistributionScope
+        self.name = name
+        self.receiverPrincipal = receiverPrincipal
+        self.sourceDataSetId = sourceDataSetId
+        self.tags = tags
+    }
+}
+
+public struct CreateDataGrantOutput: Swift.Sendable {
+    /// The acceptance state of the data grant.
+    /// This member is required.
+    public var acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState?
+    /// The timestamp of when the data grant was accepted.
+    public var acceptedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the data grant.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The timestamp of when the data grant was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the data set associated to the data grant.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+    /// The description of the data grant.
+    public var description: Swift.String?
+    /// The timestamp of when access to the associated data set ends.
+    public var endsAt: Foundation.Date?
+    /// The distribution scope for the data grant.
+    /// This member is required.
+    public var grantDistributionScope: DataExchangeClientTypes.GrantDistributionScope?
+    /// The ID of the data grant.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the data grant.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Web Services account ID of the data grant receiver.
+    /// This member is required.
+    public var receiverPrincipal: Swift.String?
+    /// The Amazon Web Services account ID of the data grant sender.
+    /// This member is required.
+    public var senderPrincipal: Swift.String?
+    /// The ID of the data set used to create the data grant.
+    /// This member is required.
+    public var sourceDataSetId: Swift.String?
+    /// The tags associated to the data grant. A tag is a key-value pair.
+    public var tags: [Swift.String: Swift.String]?
+    /// The timestamp of when the data grant was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState? = nil,
+        acceptedAt: Foundation.Date? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataSetId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endsAt: Foundation.Date? = nil,
+        grantDistributionScope: DataExchangeClientTypes.GrantDistributionScope? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        receiverPrincipal: Swift.String? = nil,
+        senderPrincipal: Swift.String? = nil,
+        sourceDataSetId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil
+    )
+    {
+        self.acceptanceState = acceptanceState
+        self.acceptedAt = acceptedAt
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataSetId = dataSetId
+        self.description = description
+        self.endsAt = endsAt
+        self.grantDistributionScope = grantDistributionScope
+        self.id = id
+        self.name = name
+        self.receiverPrincipal = receiverPrincipal
+        self.senderPrincipal = senderPrincipal
+        self.sourceDataSetId = sourceDataSetId
+        self.tags = tags
+        self.updatedAt = updatedAt
     }
 }
 
@@ -1252,13 +1554,17 @@ extension DataExchangeClientTypes {
 
     /// Details about the origin of the data set.
     public struct OriginDetails: Swift.Sendable {
+        /// The ID of the data grant.
+        public var dataGrantId: Swift.String?
         /// The product ID of the origin of the data set.
         public var productId: Swift.String?
 
         public init(
+            dataGrantId: Swift.String? = nil,
             productId: Swift.String? = nil
         )
         {
+            self.dataGrantId = dataGrantId
             self.productId = productId
         }
     }
@@ -2677,6 +2983,19 @@ public struct DeleteAssetInput: Swift.Sendable {
     }
 }
 
+public struct DeleteDataGrantInput: Swift.Sendable {
+    /// The ID of the data grant to delete.
+    /// This member is required.
+    public var dataGrantId: Swift.String?
+
+    public init(
+        dataGrantId: Swift.String? = nil
+    )
+    {
+        self.dataGrantId = dataGrantId
+    }
+}
+
 public struct DeleteDataSetInput: Swift.Sendable {
     /// The unique identifier for a data set.
     /// This member is required.
@@ -2788,6 +3107,98 @@ public struct GetAssetOutput: Swift.Sendable {
         self.name = name
         self.revisionId = revisionId
         self.sourceId = sourceId
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetDataGrantInput: Swift.Sendable {
+    /// The ID of the data grant.
+    /// This member is required.
+    public var dataGrantId: Swift.String?
+
+    public init(
+        dataGrantId: Swift.String? = nil
+    )
+    {
+        self.dataGrantId = dataGrantId
+    }
+}
+
+public struct GetDataGrantOutput: Swift.Sendable {
+    /// The acceptance state of the data grant.
+    /// This member is required.
+    public var acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState?
+    /// The timestamp of when the data grant was accepted.
+    public var acceptedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the data grant.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The timestamp of when the data grant was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the data set associated to the data grant.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+    /// The description of the data grant.
+    public var description: Swift.String?
+    /// The timestamp of when access to the associated data set ends.
+    public var endsAt: Foundation.Date?
+    /// The distribution scope for the data grant.
+    /// This member is required.
+    public var grantDistributionScope: DataExchangeClientTypes.GrantDistributionScope?
+    /// The ID of the data grant.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the data grant.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Web Services account ID of the data grant receiver.
+    /// This member is required.
+    public var receiverPrincipal: Swift.String?
+    /// The Amazon Web Services account ID of the data grant sender.
+    /// This member is required.
+    public var senderPrincipal: Swift.String?
+    /// The ID of the data set used to create the data grant.
+    /// This member is required.
+    public var sourceDataSetId: Swift.String?
+    /// The tags associated to the data grant. A tag is a key-value pair.
+    public var tags: [Swift.String: Swift.String]?
+    /// The timestamp of when the data grant was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState? = nil,
+        acceptedAt: Foundation.Date? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataSetId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endsAt: Foundation.Date? = nil,
+        grantDistributionScope: DataExchangeClientTypes.GrantDistributionScope? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        receiverPrincipal: Swift.String? = nil,
+        senderPrincipal: Swift.String? = nil,
+        sourceDataSetId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil
+    )
+    {
+        self.acceptanceState = acceptanceState
+        self.acceptedAt = acceptedAt
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataSetId = dataSetId
+        self.description = description
+        self.endsAt = endsAt
+        self.grantDistributionScope = grantDistributionScope
+        self.id = id
+        self.name = name
+        self.receiverPrincipal = receiverPrincipal
+        self.senderPrincipal = senderPrincipal
+        self.sourceDataSetId = sourceDataSetId
+        self.tags = tags
         self.updatedAt = updatedAt
     }
 }
@@ -2955,6 +3366,88 @@ public struct GetJobOutput: Swift.Sendable {
     }
 }
 
+public struct GetReceivedDataGrantInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the data grant.
+    /// This member is required.
+    public var dataGrantArn: Swift.String?
+
+    public init(
+        dataGrantArn: Swift.String? = nil
+    )
+    {
+        self.dataGrantArn = dataGrantArn
+    }
+}
+
+public struct GetReceivedDataGrantOutput: Swift.Sendable {
+    /// The acceptance state of the data grant.
+    /// This member is required.
+    public var acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState?
+    /// The timestamp of when the data grant was accepted.
+    public var acceptedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the data grant.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The timestamp of when the data grant was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ID of the data set associated to the data grant.
+    /// This member is required.
+    public var dataSetId: Swift.String?
+    /// The description of the data grant.
+    public var description: Swift.String?
+    /// The timestamp of when access to the associated data set ends.
+    public var endsAt: Foundation.Date?
+    /// The distribution scope for the data grant.
+    /// This member is required.
+    public var grantDistributionScope: DataExchangeClientTypes.GrantDistributionScope?
+    /// The ID of the data grant.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the data grant.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Web Services account ID of the data grant receiver.
+    /// This member is required.
+    public var receiverPrincipal: Swift.String?
+    /// The Amazon Web Services account ID of the data grant sender.
+    public var senderPrincipal: Swift.String?
+    /// The timestamp of when the data grant was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState? = nil,
+        acceptedAt: Foundation.Date? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataSetId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        endsAt: Foundation.Date? = nil,
+        grantDistributionScope: DataExchangeClientTypes.GrantDistributionScope? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        receiverPrincipal: Swift.String? = nil,
+        senderPrincipal: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    )
+    {
+        self.acceptanceState = acceptanceState
+        self.acceptedAt = acceptedAt
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataSetId = dataSetId
+        self.description = description
+        self.endsAt = endsAt
+        self.grantDistributionScope = grantDistributionScope
+        self.id = id
+        self.name = name
+        self.receiverPrincipal = receiverPrincipal
+        self.senderPrincipal = senderPrincipal
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct GetRevisionInput: Swift.Sendable {
     /// The unique identifier for a data set.
     /// This member is required.
@@ -3026,6 +3519,108 @@ public struct GetRevisionOutput: Swift.Sendable {
         self.sourceId = sourceId
         self.tags = tags
         self.updatedAt = updatedAt
+    }
+}
+
+public struct ListDataGrantsInput: Swift.Sendable {
+    /// The maximum number of results to be included in the next page.
+    public var maxResults: Swift.Int?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DataExchangeClientTypes {
+
+    /// Information about a data grant.
+    public struct DataGrantSummaryEntry: Swift.Sendable {
+        /// The acceptance state of the data grant.
+        /// This member is required.
+        public var acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState?
+        /// The timestamp of when the data grant was accepted.
+        public var acceptedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the data grant.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The timestamp of when the data grant was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The ID of the data set associated to the data grant.
+        /// This member is required.
+        public var dataSetId: Swift.String?
+        /// The timestamp of when access to the associated data set ends.
+        public var endsAt: Foundation.Date?
+        /// The ID of the data grant.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the data grant.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Web Services account ID of the data grant receiver.
+        /// This member is required.
+        public var receiverPrincipal: Swift.String?
+        /// The Amazon Web Services account ID of the data grant sender.
+        /// This member is required.
+        public var senderPrincipal: Swift.String?
+        /// The ID of the data set used to create the data grant.
+        /// This member is required.
+        public var sourceDataSetId: Swift.String?
+        /// The timestamp of when the data grant was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState? = nil,
+            acceptedAt: Foundation.Date? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dataSetId: Swift.String? = nil,
+            endsAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            receiverPrincipal: Swift.String? = nil,
+            senderPrincipal: Swift.String? = nil,
+            sourceDataSetId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.acceptanceState = acceptanceState
+            self.acceptedAt = acceptedAt
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSetId = dataSetId
+            self.endsAt = endsAt
+            self.id = id
+            self.name = name
+            self.receiverPrincipal = receiverPrincipal
+            self.senderPrincipal = senderPrincipal
+            self.sourceDataSetId = sourceDataSetId
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListDataGrantsOutput: Swift.Sendable {
+    /// An object that contains a list of data grant information.
+    public var dataGrantSummaries: [DataExchangeClientTypes.DataGrantSummaryEntry]?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataGrantSummaries: [DataExchangeClientTypes.DataGrantSummaryEntry]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.dataGrantSummaries = dataGrantSummaries
+        self.nextToken = nextToken
     }
 }
 
@@ -3388,6 +3983,107 @@ public struct ListJobsOutput: Swift.Sendable {
     )
     {
         self.jobs = jobs
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListReceivedDataGrantsInput: Swift.Sendable {
+    /// The acceptance state of the data grants to list.
+    public var acceptanceState: [DataExchangeClientTypes.AcceptanceStateFilterValue]?
+    /// The maximum number of results to be included in the next page.
+    public var maxResults: Swift.Int?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        acceptanceState: [DataExchangeClientTypes.AcceptanceStateFilterValue]? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.acceptanceState = acceptanceState
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DataExchangeClientTypes {
+
+    /// Information about a received data grant.
+    public struct ReceivedDataGrantSummariesEntry: Swift.Sendable {
+        /// The acceptance state of the data grant.
+        /// This member is required.
+        public var acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState?
+        /// The timestamp of when the data grant was accepted.
+        public var acceptedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the data grant.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The timestamp of when the data grant was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The ID of the data set associated to the data grant.
+        /// This member is required.
+        public var dataSetId: Swift.String?
+        /// The timestamp of when access to the associated data set ends.
+        public var endsAt: Foundation.Date?
+        /// The ID of the data grant.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the data grant.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Web Services account ID of the data grant receiver.
+        /// This member is required.
+        public var receiverPrincipal: Swift.String?
+        /// The Amazon Web Services account ID of the data grant sender.
+        /// This member is required.
+        public var senderPrincipal: Swift.String?
+        /// The timestamp of when the data grant was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            acceptanceState: DataExchangeClientTypes.DataGrantAcceptanceState? = nil,
+            acceptedAt: Foundation.Date? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            dataSetId: Swift.String? = nil,
+            endsAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            receiverPrincipal: Swift.String? = nil,
+            senderPrincipal: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.acceptanceState = acceptanceState
+            self.acceptedAt = acceptedAt
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSetId = dataSetId
+            self.endsAt = endsAt
+            self.id = id
+            self.name = name
+            self.receiverPrincipal = receiverPrincipal
+            self.senderPrincipal = senderPrincipal
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListReceivedDataGrantsOutput: Swift.Sendable {
+    /// An object that contains a list of received data grant information.
+    public var dataGrantSummaries: [DataExchangeClientTypes.ReceivedDataGrantSummariesEntry]?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataGrantSummaries: [DataExchangeClientTypes.ReceivedDataGrantSummariesEntry]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.dataGrantSummaries = dataGrantSummaries
         self.nextToken = nextToken
     }
 }
@@ -4231,6 +4927,16 @@ public struct UpdateRevisionOutput: Swift.Sendable {
     }
 }
 
+extension AcceptDataGrantInput {
+
+    static func urlPathProvider(_ value: AcceptDataGrantInput) -> Swift.String? {
+        guard let dataGrantArn = value.dataGrantArn else {
+            return nil
+        }
+        return "/v1/data-grants/\(dataGrantArn.urlPercentEncoding())/accept"
+    }
+}
+
 extension CancelJobInput {
 
     static func urlPathProvider(_ value: CancelJobInput) -> Swift.String? {
@@ -4238,6 +4944,13 @@ extension CancelJobInput {
             return nil
         }
         return "/v1/jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
+extension CreateDataGrantInput {
+
+    static func urlPathProvider(_ value: CreateDataGrantInput) -> Swift.String? {
+        return "/v1/data-grants"
     }
 }
 
@@ -4285,6 +4998,16 @@ extension DeleteAssetInput {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions/\(revisionId.urlPercentEncoding())/assets/\(assetId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDataGrantInput {
+
+    static func urlPathProvider(_ value: DeleteDataGrantInput) -> Swift.String? {
+        guard let dataGrantId = value.dataGrantId else {
+            return nil
+        }
+        return "/v1/data-grants/\(dataGrantId.urlPercentEncoding())"
     }
 }
 
@@ -4337,6 +5060,16 @@ extension GetAssetInput {
     }
 }
 
+extension GetDataGrantInput {
+
+    static func urlPathProvider(_ value: GetDataGrantInput) -> Swift.String? {
+        guard let dataGrantId = value.dataGrantId else {
+            return nil
+        }
+        return "/v1/data-grants/\(dataGrantId.urlPercentEncoding())"
+    }
+}
+
 extension GetDataSetInput {
 
     static func urlPathProvider(_ value: GetDataSetInput) -> Swift.String? {
@@ -4367,6 +5100,16 @@ extension GetJobInput {
     }
 }
 
+extension GetReceivedDataGrantInput {
+
+    static func urlPathProvider(_ value: GetReceivedDataGrantInput) -> Swift.String? {
+        guard let dataGrantArn = value.dataGrantArn else {
+            return nil
+        }
+        return "/v1/received-data-grants/\(dataGrantArn.urlPercentEncoding())"
+    }
+}
+
 extension GetRevisionInput {
 
     static func urlPathProvider(_ value: GetRevisionInput) -> Swift.String? {
@@ -4377,6 +5120,29 @@ extension GetRevisionInput {
             return nil
         }
         return "/v1/data-sets/\(dataSetId.urlPercentEncoding())/revisions/\(revisionId.urlPercentEncoding())"
+    }
+}
+
+extension ListDataGrantsInput {
+
+    static func urlPathProvider(_ value: ListDataGrantsInput) -> Swift.String? {
+        return "/v1/data-grants"
+    }
+}
+
+extension ListDataGrantsInput {
+
+    static func queryItemProvider(_ value: ListDataGrantsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
     }
 }
 
@@ -4486,6 +5252,35 @@ extension ListJobsInput {
         if let revisionId = value.revisionId {
             let revisionIdQueryItem = Smithy.URIQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
             items.append(revisionIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListReceivedDataGrantsInput {
+
+    static func urlPathProvider(_ value: ListReceivedDataGrantsInput) -> Swift.String? {
+        return "/v1/received-data-grants"
+    }
+}
+
+extension ListReceivedDataGrantsInput {
+
+    static func queryItemProvider(_ value: ListReceivedDataGrantsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let acceptanceState = value.acceptanceState {
+            acceptanceState.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "acceptanceState".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -4700,6 +5495,20 @@ extension UpdateRevisionInput {
     }
 }
 
+extension CreateDataGrantInput {
+
+    static func write(value: CreateDataGrantInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["EndsAt"].writeTimestamp(value.endsAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["GrantDistributionScope"].write(value.grantDistributionScope)
+        try writer["Name"].write(value.name)
+        try writer["ReceiverPrincipal"].write(value.receiverPrincipal)
+        try writer["SourceDataSetId"].write(value.sourceDataSetId)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateDataSetInput {
 
     static func write(value: CreateDataSetInput?, to writer: SmithyJSON.Writer) throws {
@@ -4808,10 +5617,60 @@ extension UpdateRevisionInput {
     }
 }
 
+extension AcceptDataGrantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AcceptDataGrantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AcceptDataGrantOutput()
+        value.acceptanceState = try reader["AcceptanceState"].readIfPresent() ?? .sdkUnknown("")
+        value.acceptedAt = try reader["AcceptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.endsAt = try reader["EndsAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.grantDistributionScope = try reader["GrantDistributionScope"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.receiverPrincipal = try reader["ReceiverPrincipal"].readIfPresent() ?? ""
+        value.senderPrincipal = try reader["SenderPrincipal"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension CancelJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelJobOutput {
         return CancelJobOutput()
+    }
+}
+
+extension CreateDataGrantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataGrantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataGrantOutput()
+        value.acceptanceState = try reader["AcceptanceState"].readIfPresent() ?? .sdkUnknown("")
+        value.acceptedAt = try reader["AcceptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.endsAt = try reader["EndsAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.grantDistributionScope = try reader["GrantDistributionScope"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.receiverPrincipal = try reader["ReceiverPrincipal"].readIfPresent() ?? ""
+        value.senderPrincipal = try reader["SenderPrincipal"].readIfPresent() ?? ""
+        value.sourceDataSetId = try reader["SourceDataSetId"].readIfPresent() ?? ""
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
@@ -4903,6 +5762,13 @@ extension DeleteAssetOutput {
     }
 }
 
+extension DeleteDataGrantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataGrantOutput {
+        return DeleteDataGrantOutput()
+    }
+}
+
 extension DeleteDataSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataSetOutput {
@@ -4941,6 +5807,32 @@ extension GetAssetOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.sourceId = try reader["SourceId"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension GetDataGrantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataGrantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataGrantOutput()
+        value.acceptanceState = try reader["AcceptanceState"].readIfPresent() ?? .sdkUnknown("")
+        value.acceptedAt = try reader["AcceptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.endsAt = try reader["EndsAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.grantDistributionScope = try reader["GrantDistributionScope"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.receiverPrincipal = try reader["ReceiverPrincipal"].readIfPresent() ?? ""
+        value.senderPrincipal = try reader["SenderPrincipal"].readIfPresent() ?? ""
+        value.sourceDataSetId = try reader["SourceDataSetId"].readIfPresent() ?? ""
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -5003,6 +5895,30 @@ extension GetJobOutput {
     }
 }
 
+extension GetReceivedDataGrantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetReceivedDataGrantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetReceivedDataGrantOutput()
+        value.acceptanceState = try reader["AcceptanceState"].readIfPresent() ?? .sdkUnknown("")
+        value.acceptedAt = try reader["AcceptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.endsAt = try reader["EndsAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.grantDistributionScope = try reader["GrantDistributionScope"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.receiverPrincipal = try reader["ReceiverPrincipal"].readIfPresent() ?? ""
+        value.senderPrincipal = try reader["SenderPrincipal"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension GetRevisionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRevisionOutput {
@@ -5022,6 +5938,19 @@ extension GetRevisionOutput {
         value.sourceId = try reader["SourceId"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ListDataGrantsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataGrantsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataGrantsOutput()
+        value.dataGrantSummaries = try reader["DataGrantSummaries"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.DataGrantSummaryEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -5073,6 +6002,19 @@ extension ListJobsOutput {
         let reader = responseReader
         var value = ListJobsOutput()
         value.jobs = try reader["Jobs"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.JobEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListReceivedDataGrantsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListReceivedDataGrantsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListReceivedDataGrantsOutput()
+        value.dataGrantSummaries = try reader["DataGrantSummaries"].readListIfPresent(memberReadingClosure: DataExchangeClientTypes.ReceivedDataGrantSummariesEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5256,6 +6198,25 @@ extension UpdateRevisionOutput {
     }
 }
 
+enum AcceptDataGrantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CancelJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5267,6 +6228,25 @@ enum CancelJobOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDataGrantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceLimitExceededException": return try ServiceLimitExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5366,6 +6346,24 @@ enum DeleteAssetOutputError {
     }
 }
 
+enum DeleteDataGrantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteDataSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5438,6 +6436,24 @@ enum GetAssetOutputError {
     }
 }
 
+enum GetDataGrantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDataSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5489,6 +6505,24 @@ enum GetJobOutputError {
     }
 }
 
+enum GetReceivedDataGrantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetRevisionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5497,6 +6531,24 @@ enum GetRevisionOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataGrantsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -5565,6 +6617,24 @@ enum ListJobsOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListReceivedDataGrantsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -5794,6 +6864,19 @@ extension ResourceNotFoundException {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -5849,19 +6932,6 @@ extension ConflictException {
     }
 }
 
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ServiceLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceLimitExceededException {
@@ -5883,6 +6953,7 @@ extension DataExchangeClientTypes.OriginDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataExchangeClientTypes.OriginDetails()
         value.productId = try reader["ProductId"].readIfPresent()
+        value.dataGrantId = try reader["DataGrantId"].readIfPresent()
         return value
     }
 }
@@ -6454,6 +7525,27 @@ extension DataExchangeClientTypes.S3SnapshotAsset {
     }
 }
 
+extension DataExchangeClientTypes.DataGrantSummaryEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.DataGrantSummaryEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.DataGrantSummaryEntry()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.senderPrincipal = try reader["SenderPrincipal"].readIfPresent() ?? ""
+        value.receiverPrincipal = try reader["ReceiverPrincipal"].readIfPresent() ?? ""
+        value.acceptanceState = try reader["AcceptanceState"].readIfPresent() ?? .sdkUnknown("")
+        value.acceptedAt = try reader["AcceptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endsAt = try reader["EndsAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.sourceDataSetId = try reader["SourceDataSetId"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension DataExchangeClientTypes.RevisionEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.RevisionEntry {
@@ -6520,6 +7612,26 @@ extension DataExchangeClientTypes.JobEntry {
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DataExchangeClientTypes.ReceivedDataGrantSummariesEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataExchangeClientTypes.ReceivedDataGrantSummariesEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataExchangeClientTypes.ReceivedDataGrantSummariesEntry()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.senderPrincipal = try reader["SenderPrincipal"].readIfPresent() ?? ""
+        value.receiverPrincipal = try reader["ReceiverPrincipal"].readIfPresent() ?? ""
+        value.acceptanceState = try reader["AcceptanceState"].readIfPresent() ?? .sdkUnknown("")
+        value.acceptedAt = try reader["AcceptedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endsAt = try reader["EndsAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dataSetId = try reader["DataSetId"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }

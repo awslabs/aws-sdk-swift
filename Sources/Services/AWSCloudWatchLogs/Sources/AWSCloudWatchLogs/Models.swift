@@ -345,6 +345,8 @@ extension CloudWatchLogsClientTypes {
         public var dynamicTokenPosition: Swift.Int
         /// Contains the values found for a dynamic token, and the number of times each value was found.
         public var enumerations: [Swift.String: Swift.Int]?
+        /// A name that CloudWatch Logs assigned to this dynamic token to make the pattern more readable. The string part of the inferredTokenName gives you a clearer idea of the content of this token. The number part of the inferredTokenName shows where in the pattern this token appears, compared to other dynamic tokens. CloudWatch Logs assigns the string part of the name based on analyzing the content of the log events that contain it. For example, an inferred token name of IPAddress-3 means that the token represents an IP address, and this token is the third dynamic token in the pattern.
+        public var inferredTokenName: Swift.String?
         /// Specifies whether this is a dynamic token.
         public var isDynamic: Swift.Bool?
         /// The string represented by this token. If this is a dynamic token, the value will be <*>
@@ -353,12 +355,14 @@ extension CloudWatchLogsClientTypes {
         public init(
             dynamicTokenPosition: Swift.Int = 0,
             enumerations: [Swift.String: Swift.Int]? = nil,
+            inferredTokenName: Swift.String? = nil,
             isDynamic: Swift.Bool? = nil,
             tokenString: Swift.String? = nil
         )
         {
             self.dynamicTokenPosition = dynamicTokenPosition
             self.enumerations = enumerations
+            self.inferredTokenName = inferredTokenName
             self.isDynamic = isDynamic
             self.tokenString = tokenString
         }
@@ -921,7 +925,7 @@ extension CloudWatchLogsClientTypes {
         public var allowedOutputFormats: [CloudWatchLogsClientTypes.OutputFormat]?
         /// The list of variable fields that can be used in the suffix path of a delivery that delivers to an S3 bucket.
         public var allowedSuffixPathFields: [Swift.String]?
-        /// A mapping that displays the default value of each property within a delivery’s configuration, if it is not specified in the request.
+        /// A mapping that displays the default value of each property within a delivery's configuration, if it is not specified in the request.
         public var defaultDeliveryConfigValues: CloudWatchLogsClientTypes.ConfigurationTemplateDeliveryConfigValues?
         /// A string specifying which destination type this configuration template applies to.
         public var deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType?
@@ -1064,9 +1068,9 @@ public struct CreateDeliveryInput: Swift.Sendable {
     public var deliverySourceName: Swift.String?
     /// The field delimiter to use between record fields when the final output format of a delivery is in Plain, W3C, or Raw format.
     public var fieldDelimiter: Swift.String?
-    /// The list of record fields to be delivered to the destination, in order. If the delivery’s log source has mandatory fields, they must be included in this list.
+    /// The list of record fields to be delivered to the destination, in order. If the delivery's log source has mandatory fields, they must be included in this list.
     public var recordFields: [Swift.String]?
-    /// This structure contains parameters that are valid only when the delivery’s delivery destination is an S3 bucket.
+    /// This structure contains parameters that are valid only when the delivery's delivery destination is an S3 bucket.
     public var s3DeliveryConfiguration: CloudWatchLogsClientTypes.S3DeliveryConfiguration?
     /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
     public var tags: [Swift.String: Swift.String]?
@@ -1091,7 +1095,7 @@ public struct CreateDeliveryInput: Swift.Sendable {
 
 extension CloudWatchLogsClientTypes {
 
-    /// This structure contains information about one delivery in your account. A delivery is a connection between a logical delivery source and a logical delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html). You can't update an existing delivery. You can only create and delete deliveries.
+    /// This structure contains information about one delivery in your account. A delivery is a connection between a logical delivery source and a logical delivery destination. For more information, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html). To update an existing delivery configuration, use [UpdateDeliveryConfiguration](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateDeliveryConfiguration.html).
     public struct Delivery: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that uniquely identifies this delivery.
         public var arn: Swift.String?
@@ -1201,7 +1205,7 @@ public struct CreateExportTaskInput: Swift.Sendable {
     /// The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services Region.
     /// This member is required.
     public var destination: Swift.String?
-    /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
+    /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs. The length of this parameter must comply with the S3 object key name length limits. The object key name is a sequence of Unicode characters with UTF-8 encoding, and can be up to 1,024 bytes.
     public var destinationPrefix: Swift.String?
     /// The start time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not exported.
     /// This member is required.
@@ -4762,7 +4766,7 @@ public struct StartQueryInput: Swift.Sendable {
     /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
     /// This member is required.
     public var endTime: Swift.Int?
-    /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 1000.
+    /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 10,000.
     public var limit: Swift.Int?
     /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, the ARN can't end with an asterisk (*). A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
     public var logGroupIdentifiers: [Swift.String]?
@@ -5077,6 +5081,8 @@ public struct UpdateAnomalyInput: Swift.Sendable {
     public var anomalyDetectorArn: Swift.String?
     /// If you are suppressing or unsuppressing an anomaly, specify its unique ID here. You can find anomaly IDs by using the [ListAnomalies](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListAnomalies.html) operation.
     public var anomalyId: Swift.String?
+    /// Set this to true to prevent CloudWatch Logs from displaying this behavior as an anomaly in the future. The behavior is then treated as baseline behavior. However, if similar but more severe occurrences of this behavior occur in the future, those will still be reported as anomalies. The default is false
+    public var baseline: Swift.Bool?
     /// If you are suppressing or unsuppressing an pattern, specify its unique ID here. You can find pattern IDs by using the [ListAnomalies](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListAnomalies.html) operation.
     public var patternId: Swift.String?
     /// If you are temporarily suppressing an anomaly or pattern, use this structure to specify how long the suppression is to last.
@@ -5087,6 +5093,7 @@ public struct UpdateAnomalyInput: Swift.Sendable {
     public init(
         anomalyDetectorArn: Swift.String? = nil,
         anomalyId: Swift.String? = nil,
+        baseline: Swift.Bool? = nil,
         patternId: Swift.String? = nil,
         suppressionPeriod: CloudWatchLogsClientTypes.SuppressionPeriod? = nil,
         suppressionType: CloudWatchLogsClientTypes.SuppressionType? = nil
@@ -5094,6 +5101,7 @@ public struct UpdateAnomalyInput: Swift.Sendable {
     {
         self.anomalyDetectorArn = anomalyDetectorArn
         self.anomalyId = anomalyId
+        self.baseline = baseline
         self.patternId = patternId
         self.suppressionPeriod = suppressionPeriod
         self.suppressionType = suppressionType
@@ -5106,9 +5114,9 @@ public struct UpdateDeliveryConfigurationInput: Swift.Sendable {
     /// The ID of the delivery to be updated by this request.
     /// This member is required.
     public var id: Swift.String?
-    /// The list of record fields to be delivered to the destination, in order. If the delivery’s log source has mandatory fields, they must be included in this list.
+    /// The list of record fields to be delivered to the destination, in order. If the delivery's log source has mandatory fields, they must be included in this list.
     public var recordFields: [Swift.String]?
-    /// This structure contains parameters that are valid only when the delivery’s delivery destination is an S3 bucket.
+    /// This structure contains parameters that are valid only when the delivery's delivery destination is an S3 bucket.
     public var s3DeliveryConfiguration: CloudWatchLogsClientTypes.S3DeliveryConfiguration?
 
     public init(
@@ -6426,6 +6434,7 @@ extension UpdateAnomalyInput {
         guard let value else { return }
         try writer["anomalyDetectorArn"].write(value.anomalyDetectorArn)
         try writer["anomalyId"].write(value.anomalyId)
+        try writer["baseline"].write(value.baseline)
         try writer["patternId"].write(value.patternId)
         try writer["suppressionPeriod"].write(value.suppressionPeriod, with: CloudWatchLogsClientTypes.SuppressionPeriod.write(value:to:))
         try writer["suppressionType"].write(value.suppressionType)
@@ -9249,6 +9258,7 @@ extension CloudWatchLogsClientTypes.PatternToken {
         value.isDynamic = try reader["isDynamic"].readIfPresent()
         value.tokenString = try reader["tokenString"].readIfPresent()
         value.enumerations = try reader["enumerations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.inferredTokenName = try reader["inferredTokenName"].readIfPresent()
         return value
     }
 }

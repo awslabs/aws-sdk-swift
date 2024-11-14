@@ -18368,6 +18368,130 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The color palette.
+    public struct Palette: Swift.Sendable {
+        /// The background color.
+        public var background: Swift.String?
+        /// The foreground color.
+        public var foreground: Swift.String?
+
+        public init(
+            background: Swift.String? = nil,
+            foreground: Swift.String? = nil
+        )
+        {
+            self.background = background
+            self.foreground = foreground
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The color palette.
+    public struct BrandColorPalette: Swift.Sendable {
+        /// The color that is used for accent elements.
+        public var accent: QuickSightClientTypes.Palette?
+        /// The color that is used for danger elements.
+        public var danger: QuickSightClientTypes.Palette?
+        /// The color that is used for dimension elements.
+        public var dimension: QuickSightClientTypes.Palette?
+        /// The color that is used for info elements.
+        public var info: QuickSightClientTypes.Palette?
+        /// The color that is used for measure elements.
+        public var measure: QuickSightClientTypes.Palette?
+        /// The primary color.
+        public var primary: QuickSightClientTypes.Palette?
+        /// The secondary color.
+        public var secondary: QuickSightClientTypes.Palette?
+        /// The color that is used for success elements.
+        public var success: QuickSightClientTypes.Palette?
+        /// The color that is used for warning elements.
+        public var warning: QuickSightClientTypes.Palette?
+
+        public init(
+            accent: QuickSightClientTypes.Palette? = nil,
+            danger: QuickSightClientTypes.Palette? = nil,
+            dimension: QuickSightClientTypes.Palette? = nil,
+            info: QuickSightClientTypes.Palette? = nil,
+            measure: QuickSightClientTypes.Palette? = nil,
+            primary: QuickSightClientTypes.Palette? = nil,
+            secondary: QuickSightClientTypes.Palette? = nil,
+            success: QuickSightClientTypes.Palette? = nil,
+            warning: QuickSightClientTypes.Palette? = nil
+        )
+        {
+            self.accent = accent
+            self.danger = danger
+            self.dimension = dimension
+            self.info = info
+            self.measure = measure
+            self.primary = primary
+            self.secondary = secondary
+            self.success = success
+            self.warning = warning
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The navigation bar style.
+    public struct NavbarStyle: Swift.Sendable {
+        /// The contextual navigation bar style.
+        public var contextualNavbar: QuickSightClientTypes.Palette?
+        /// The global navigation bar style.
+        public var globalNavbar: QuickSightClientTypes.Palette?
+
+        public init(
+            contextualNavbar: QuickSightClientTypes.Palette? = nil,
+            globalNavbar: QuickSightClientTypes.Palette? = nil
+        )
+        {
+            self.contextualNavbar = contextualNavbar
+            self.globalNavbar = globalNavbar
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The element style.
+    public struct BrandElementStyle: Swift.Sendable {
+        /// The navigation bar style.
+        public var navbarStyle: QuickSightClientTypes.NavbarStyle?
+
+        public init(
+            navbarStyle: QuickSightClientTypes.NavbarStyle? = nil
+        )
+        {
+            self.navbarStyle = navbarStyle
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The application theme.
+    public struct ApplicationTheme: Swift.Sendable {
+        /// The color palette.
+        public var brandColorPalette: QuickSightClientTypes.BrandColorPalette?
+        /// The element style.
+        public var brandElementStyle: QuickSightClientTypes.BrandElementStyle?
+
+        public init(
+            brandColorPalette: QuickSightClientTypes.BrandColorPalette? = nil,
+            brandElementStyle: QuickSightClientTypes.BrandElementStyle? = nil
+        )
+        {
+            self.brandColorPalette = brandColorPalette
+            self.brandElementStyle = brandElementStyle
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum AssetBundleExportJobAnalysisPropertyToOverride: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case name
         case sdkUnknown(Swift.String)
@@ -19861,26 +19985,116 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case password
+        case token
+        case x509
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthenticationType] {
+            return [
+                .password,
+                .token,
+                .x509
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .password: return "PASSWORD"
+            case .token: return "TOKEN"
+            case .x509: return "X509"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// VPC connection properties.
+    public struct VpcConnectionProperties: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the VPC connection.
+        /// This member is required.
+        public var vpcConnectionArn: Swift.String?
+
+        public init(
+            vpcConnectionArn: Swift.String? = nil
+        )
+        {
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An object that contains information needed to create a data source connection that uses OAuth client credentials. This option is available for data source connections that are made with Snowflake and Starburst.
+    public struct OAuthParameters: Swift.Sendable {
+        /// The resource uri of the identity provider.
+        public var identityProviderResourceUri: Swift.String?
+        /// VPC connection properties.
+        public var identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
+        /// The OAuth scope.
+        public var oAuthScope: Swift.String?
+        /// The token endpoint URL of the identity provider.
+        /// This member is required.
+        public var tokenProviderUrl: Swift.String?
+
+        public init(
+            identityProviderResourceUri: Swift.String? = nil,
+            identityProviderVpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties? = nil,
+            oAuthScope: Swift.String? = nil,
+            tokenProviderUrl: Swift.String? = nil
+        )
+        {
+            self.identityProviderResourceUri = identityProviderResourceUri
+            self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+            self.oAuthScope = oAuthScope
+            self.tokenProviderUrl = tokenProviderUrl
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The parameters for Snowflake.
     public struct SnowflakeParameters: Swift.Sendable {
+        /// The authentication type that you want to use for your connection. This parameter accepts OAuth and non-OAuth authentication types.
+        public var authenticationType: QuickSightClientTypes.AuthenticationType?
         /// Database.
         /// This member is required.
         public var database: Swift.String?
+        /// The database access control role.
+        public var databaseAccessControlRole: Swift.String?
         /// Host.
         /// This member is required.
         public var host: Swift.String?
+        /// An object that contains information needed to create a data source connection between an Amazon QuickSight account and Snowflake.
+        public var oAuthParameters: QuickSightClientTypes.OAuthParameters?
         /// Warehouse.
         /// This member is required.
         public var warehouse: Swift.String?
 
         public init(
+            authenticationType: QuickSightClientTypes.AuthenticationType? = nil,
             database: Swift.String? = nil,
+            databaseAccessControlRole: Swift.String? = nil,
             host: Swift.String? = nil,
+            oAuthParameters: QuickSightClientTypes.OAuthParameters? = nil,
             warehouse: Swift.String? = nil
         )
         {
+            self.authenticationType = authenticationType
             self.database = database
+            self.databaseAccessControlRole = databaseAccessControlRole
             self.host = host
+            self.oAuthParameters = oAuthParameters
             self.warehouse = warehouse
         }
     }
@@ -19968,12 +20182,18 @@ extension QuickSightClientTypes {
 
     /// The parameters that are required to connect to a Starburst data source.
     public struct StarburstParameters: Swift.Sendable {
+        /// The authentication type that you want to use for your connection. This parameter accepts OAuth and non-OAuth authentication types.
+        public var authenticationType: QuickSightClientTypes.AuthenticationType?
         /// The catalog name for the Starburst data source.
         /// This member is required.
         public var catalog: Swift.String?
+        /// The database access control role.
+        public var databaseAccessControlRole: Swift.String?
         /// The host name of the Starburst data source.
         /// This member is required.
         public var host: Swift.String?
+        /// An object that contains information needed to create a data source connection between an Amazon QuickSight account and Starburst.
+        public var oAuthParameters: QuickSightClientTypes.OAuthParameters?
         /// The port for the Starburst data source.
         /// This member is required.
         public var port: Swift.Int?
@@ -19981,14 +20201,20 @@ extension QuickSightClientTypes {
         public var productType: QuickSightClientTypes.StarburstProductType?
 
         public init(
+            authenticationType: QuickSightClientTypes.AuthenticationType? = nil,
             catalog: Swift.String? = nil,
+            databaseAccessControlRole: Swift.String? = nil,
             host: Swift.String? = nil,
+            oAuthParameters: QuickSightClientTypes.OAuthParameters? = nil,
             port: Swift.Int? = nil,
             productType: QuickSightClientTypes.StarburstProductType? = nil
         )
         {
+            self.authenticationType = authenticationType
             self.catalog = catalog
+            self.databaseAccessControlRole = databaseAccessControlRole
             self.host = host
+            self.oAuthParameters = oAuthParameters
             self.port = port
             self.productType = productType
         }
@@ -20143,23 +20369,6 @@ extension QuickSightClientTypes {
         )
         {
             self.disableSsl = disableSsl
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// VPC connection properties.
-    public struct VpcConnectionProperties: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) for the VPC connection.
-        /// This member is required.
-        public var vpcConnectionArn: Swift.String?
-
-        public init(
-            vpcConnectionArn: Swift.String? = nil
-        )
-        {
-            self.vpcConnectionArn = vpcConnectionArn
         }
     }
 }
@@ -22374,6 +22583,370 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The source of the image.
+    public enum ImageSource: Swift.Sendable {
+        /// The public URL that points to the source image.
+        case publicurl(Swift.String)
+        /// The Amazon S3 URI that points to the source image.
+        case s3uri(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The logo image configuration.
+    public struct ImageConfiguration: Swift.Sendable {
+        /// The source of the image.
+        public var source: QuickSightClientTypes.ImageSource?
+
+        public init(
+            source: QuickSightClientTypes.ImageSource? = nil
+        )
+        {
+            self.source = source
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The image set configuration.
+    public struct ImageSetConfiguration: Swift.Sendable {
+        /// The original image.
+        /// This member is required.
+        public var original: QuickSightClientTypes.ImageConfiguration?
+
+        public init(
+            original: QuickSightClientTypes.ImageConfiguration? = nil
+        )
+        {
+            self.original = original
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The logo set configuration.
+    public struct LogoSetConfiguration: Swift.Sendable {
+        /// The favicon logo.
+        public var favicon: QuickSightClientTypes.ImageSetConfiguration?
+        /// The primary logo.
+        /// This member is required.
+        public var primary: QuickSightClientTypes.ImageSetConfiguration?
+
+        public init(
+            favicon: QuickSightClientTypes.ImageSetConfiguration? = nil,
+            primary: QuickSightClientTypes.ImageSetConfiguration? = nil
+        )
+        {
+            self.favicon = favicon
+            self.primary = primary
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The logo configuration.
+    public struct LogoConfiguration: Swift.Sendable {
+        /// The alt text for the logo.
+        /// This member is required.
+        public var altText: Swift.String?
+        /// A set of configured logos.
+        /// This member is required.
+        public var logoSet: QuickSightClientTypes.LogoSetConfiguration?
+
+        public init(
+            altText: Swift.String? = nil,
+            logoSet: QuickSightClientTypes.LogoSetConfiguration? = nil
+        )
+        {
+            self.altText = altText
+            self.logoSet = logoSet
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The definition of the brand.
+    public struct BrandDefinition: Swift.Sendable {
+        /// The application theme of the brand.
+        public var applicationTheme: QuickSightClientTypes.ApplicationTheme?
+        /// The name of the brand.
+        /// This member is required.
+        public var brandName: Swift.String?
+        /// The description of the brand.
+        public var description: Swift.String?
+        /// The logo configuration of the brand.
+        public var logoConfiguration: QuickSightClientTypes.LogoConfiguration?
+
+        public init(
+            applicationTheme: QuickSightClientTypes.ApplicationTheme? = nil,
+            brandName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            logoConfiguration: QuickSightClientTypes.LogoConfiguration? = nil
+        )
+        {
+            self.applicationTheme = applicationTheme
+            self.brandName = brandName
+            self.description = description
+            self.logoConfiguration = logoConfiguration
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum BrandStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createFailed
+        case createInProgress
+        case createSucceeded
+        case deleteFailed
+        case deleteInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BrandStatus] {
+            return [
+                .createFailed,
+                .createInProgress,
+                .createSucceeded,
+                .deleteFailed,
+                .deleteInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .createSucceeded: return "CREATE_SUCCEEDED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The logo image.
+    public struct Image: Swift.Sendable {
+        /// The URL that points to the generated logo image.
+        public var generatedImageUrl: Swift.String?
+        /// The source of the logo image.
+        public var source: QuickSightClientTypes.ImageSource?
+
+        public init(
+            generatedImageUrl: Swift.String? = nil,
+            source: QuickSightClientTypes.ImageSource? = nil
+        )
+        {
+            self.generatedImageUrl = generatedImageUrl
+            self.source = source
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The image set.
+    public struct ImageSet: Swift.Sendable {
+        /// The image with the height set to 32 pixels.
+        public var height32: QuickSightClientTypes.Image?
+        /// The image with the height set to 64 pixels.
+        public var height64: QuickSightClientTypes.Image?
+        /// The original image.
+        /// This member is required.
+        public var original: QuickSightClientTypes.Image?
+
+        public init(
+            height32: QuickSightClientTypes.Image? = nil,
+            height64: QuickSightClientTypes.Image? = nil,
+            original: QuickSightClientTypes.Image? = nil
+        )
+        {
+            self.height32 = height32
+            self.height64 = height64
+            self.original = original
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A set of logos.
+    public struct LogoSet: Swift.Sendable {
+        /// The favicon logo.
+        public var favicon: QuickSightClientTypes.ImageSet?
+        /// The primary logo.
+        /// This member is required.
+        public var primary: QuickSightClientTypes.ImageSet?
+
+        public init(
+            favicon: QuickSightClientTypes.ImageSet? = nil,
+            primary: QuickSightClientTypes.ImageSet? = nil
+        )
+        {
+            self.favicon = favicon
+            self.primary = primary
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The logo configuration.
+    public struct Logo: Swift.Sendable {
+        /// The alt text for the logo.
+        /// This member is required.
+        public var altText: Swift.String?
+        /// A set of configured logos.
+        /// This member is required.
+        public var logoSet: QuickSightClientTypes.LogoSet?
+
+        public init(
+            altText: Swift.String? = nil,
+            logoSet: QuickSightClientTypes.LogoSet? = nil
+        )
+        {
+            self.altText = altText
+            self.logoSet = logoSet
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum BrandVersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createFailed
+        case createInProgress
+        case createSucceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BrandVersionStatus] {
+            return [
+                .createFailed,
+                .createInProgress,
+                .createSucceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .createSucceeded: return "CREATE_SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The details of the brand.
+    public struct BrandDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the brand.
+        public var arn: Swift.String?
+        /// The ID of the Amazon QuickSight brand.
+        /// This member is required.
+        public var brandId: Swift.String?
+        /// The status of the brand.
+        public var brandStatus: QuickSightClientTypes.BrandStatus?
+        /// The time that the brand was created.
+        public var createdTime: Foundation.Date?
+        /// A list of errors that occurred during the most recent brand operation.
+        public var errors: [Swift.String]?
+        /// The last time the brand was updated.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The logo details.
+        public var logo: QuickSightClientTypes.Logo?
+        /// The ID of the version.
+        public var versionId: Swift.String?
+        /// The status of the version.
+        public var versionStatus: QuickSightClientTypes.BrandVersionStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            brandId: Swift.String? = nil,
+            brandStatus: QuickSightClientTypes.BrandStatus? = nil,
+            createdTime: Foundation.Date? = nil,
+            errors: [Swift.String]? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            logo: QuickSightClientTypes.Logo? = nil,
+            versionId: Swift.String? = nil,
+            versionStatus: QuickSightClientTypes.BrandVersionStatus? = nil
+        )
+        {
+            self.arn = arn
+            self.brandId = brandId
+            self.brandStatus = brandStatus
+            self.createdTime = createdTime
+            self.errors = errors
+            self.lastUpdatedTime = lastUpdatedTime
+            self.logo = logo
+            self.versionId = versionId
+            self.versionStatus = versionStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A summary of the brand.
+    public struct BrandSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the brand.
+        public var arn: Swift.String?
+        /// The ID of the Amazon QuickSight brand.
+        public var brandId: Swift.String?
+        /// The name of the brand.
+        public var brandName: Swift.String?
+        /// The status of the brand.
+        public var brandStatus: QuickSightClientTypes.BrandStatus?
+        /// The time that the brand was created.
+        public var createdTime: Foundation.Date?
+        /// The description of the brand.
+        public var description: Swift.String?
+        /// The time when the brand was last updated.
+        public var lastUpdatedTime: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            brandId: Swift.String? = nil,
+            brandName: Swift.String? = nil,
+            brandStatus: QuickSightClientTypes.BrandStatus? = nil,
+            createdTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            lastUpdatedTime: Foundation.Date? = nil
+        )
+        {
+            self.arn = arn
+            self.brandId = brandId
+            self.brandName = brandName
+            self.brandStatus = brandStatus
+            self.createdTime = createdTime
+            self.description = description
+            self.lastUpdatedTime = lastUpdatedTime
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A calculated column for a dataset.
     public struct CalculatedColumn: Swift.Sendable {
         /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Amazon QuickSight preserves the existing calculated column.
@@ -22480,6 +23053,112 @@ public struct CancelIngestionOutput: Swift.Sendable {
         self.ingestionId = ingestionId
         self.requestId = requestId
         self.status = status
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum CapabilityState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityState] {
+            return [
+                .deny
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deny: return "DENY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A set of actions that correspond to Amazon QuickSight permissions.
+    public struct Capabilities: Swift.Sendable {
+        /// The ability to add or run anomaly detection.
+        public var addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update email reports.
+        public var createAndUpdateDashboardEmailReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update data sources.
+        public var createAndUpdateDataSources: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update datasets.
+        public var createAndUpdateDatasets: QuickSightClientTypes.CapabilityState?
+        /// The ability to export to Create and Update themes.
+        public var createAndUpdateThemes: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update threshold alerts.
+        public var createAndUpdateThresholdAlerts: QuickSightClientTypes.CapabilityState?
+        /// The ability to create a SPICE dataset.
+        public var createSPICEDataset: QuickSightClientTypes.CapabilityState?
+        /// The ability to create shared folders.
+        public var createSharedFolders: QuickSightClientTypes.CapabilityState?
+        /// The ability to export to CSV files.
+        public var exportToCsv: QuickSightClientTypes.CapabilityState?
+        /// The ability to export to Excel files.
+        public var exportToExcel: QuickSightClientTypes.CapabilityState?
+        /// The ability to rename shared folders.
+        public var renameSharedFolders: QuickSightClientTypes.CapabilityState?
+        /// The ability to share analyses.
+        public var shareAnalyses: QuickSightClientTypes.CapabilityState?
+        /// The ability to share dashboards.
+        public var shareDashboards: QuickSightClientTypes.CapabilityState?
+        /// The ability to share data sources.
+        public var shareDataSources: QuickSightClientTypes.CapabilityState?
+        /// The ability to share datasets.
+        public var shareDatasets: QuickSightClientTypes.CapabilityState?
+        /// The ability to subscribe to email reports.
+        public var subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to view account SPICE capacity.
+        public var viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState?
+
+        public init(
+            addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateDataSources: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateDatasets: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateThemes: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateThresholdAlerts: QuickSightClientTypes.CapabilityState? = nil,
+            createSPICEDataset: QuickSightClientTypes.CapabilityState? = nil,
+            createSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
+            exportToCsv: QuickSightClientTypes.CapabilityState? = nil,
+            exportToExcel: QuickSightClientTypes.CapabilityState? = nil,
+            renameSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
+            shareAnalyses: QuickSightClientTypes.CapabilityState? = nil,
+            shareDashboards: QuickSightClientTypes.CapabilityState? = nil,
+            shareDataSources: QuickSightClientTypes.CapabilityState? = nil,
+            shareDatasets: QuickSightClientTypes.CapabilityState? = nil,
+            subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
+            viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState? = nil
+        )
+        {
+            self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
+            self.createAndUpdateDashboardEmailReports = createAndUpdateDashboardEmailReports
+            self.createAndUpdateDataSources = createAndUpdateDataSources
+            self.createAndUpdateDatasets = createAndUpdateDatasets
+            self.createAndUpdateThemes = createAndUpdateThemes
+            self.createAndUpdateThresholdAlerts = createAndUpdateThresholdAlerts
+            self.createSPICEDataset = createSPICEDataset
+            self.createSharedFolders = createSharedFolders
+            self.exportToCsv = exportToCsv
+            self.exportToExcel = exportToExcel
+            self.renameSharedFolders = renameSharedFolders
+            self.shareAnalyses = shareAnalyses
+            self.shareDashboards = shareDashboards
+            self.shareDataSources = shareDataSources
+            self.shareDatasets = shareDatasets
+            self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
+            self.viewAccountSPICECapacity = viewAccountSPICECapacity
+        }
     }
 }
 
@@ -23692,6 +24371,105 @@ public struct CreateAnalysisOutput: Swift.Sendable {
     }
 }
 
+/// An internal service exception.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this request.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+public struct CreateBrandInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that owns the brand.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The definition of the brand.
+    public var brandDefinition: QuickSightClientTypes.BrandDefinition?
+    /// The ID of the Amazon QuickSight brand.
+    /// This member is required.
+    public var brandId: Swift.String?
+    /// A map of the key-value pairs that are assigned to the brand.
+    public var tags: [QuickSightClientTypes.Tag]?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
+        brandId: Swift.String? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.brandDefinition = brandDefinition
+        self.brandId = brandId
+        self.tags = tags
+    }
+}
+
+public struct CreateBrandOutput: Swift.Sendable {
+    /// The definition of the brand.
+    public var brandDefinition: QuickSightClientTypes.BrandDefinition?
+    /// The details of the brand.
+    public var brandDetail: QuickSightClientTypes.BrandDetail?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
+        brandDetail: QuickSightClientTypes.BrandDetail? = nil,
+        requestId: Swift.String? = nil
+    )
+    {
+        self.brandDefinition = brandDefinition
+        self.brandDetail = brandDetail
+        self.requestId = requestId
+    }
+}
+
 extension QuickSightClientTypes {
 
     /// A transform operation that creates calculated columns. Columns created in one such operation form a lexical closure.
@@ -23706,6 +24484,52 @@ extension QuickSightClientTypes {
         {
             self.columns = columns
         }
+    }
+}
+
+public struct CreateCustomPermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that you want to create the custom permissions profile in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A set of actions to include in the custom permissions profile.
+    public var capabilities: QuickSightClientTypes.Capabilities?
+    /// The name of the custom permissions profile that you want to create.
+    /// This member is required.
+    public var customPermissionsName: Swift.String?
+    /// The tags to associate with the custom permissions profile.
+    public var tags: [QuickSightClientTypes.Tag]?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        capabilities: QuickSightClientTypes.Capabilities? = nil,
+        customPermissionsName: Swift.String? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.capabilities = capabilities
+        self.customPermissionsName = customPermissionsName
+        self.tags = tags
+    }
+}
+
+public struct CreateCustomPermissionsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the custom permissions profile.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.requestId = requestId
+        self.status = status
     }
 }
 
@@ -28832,6 +29656,30 @@ public struct CreateVPCConnectionOutput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
+    /// The custom permissions profile.
+    public struct CustomPermissions: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the custom permissions profile.
+        public var arn: Swift.String?
+        /// A set of actions in the custom permissions profile.
+        public var capabilities: QuickSightClientTypes.Capabilities?
+        /// The name of the custom permissions profile.
+        public var customPermissionsName: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            capabilities: QuickSightClientTypes.Capabilities? = nil,
+            customPermissionsName: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.capabilities = capabilities
+            self.customPermissionsName = customPermissionsName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum DashboardErrorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
         case columnGeographicRoleMismatch
@@ -29864,6 +30712,99 @@ public struct DeleteAnalysisOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteBrandInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that owns the brand.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the Amazon QuickSight brand.
+    /// This member is required.
+    public var brandId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        brandId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.brandId = brandId
+    }
+}
+
+public struct DeleteBrandOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil
+    )
+    {
+        self.requestId = requestId
+    }
+}
+
+public struct DeleteBrandAssignmentInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that owns the brand assignment.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DeleteBrandAssignmentOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil
+    )
+    {
+        self.requestId = requestId
+    }
+}
+
+public struct DeleteCustomPermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the custom permissions profile that you want to delete.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The name of the custom permissions profile that you want to delete.
+    /// This member is required.
+    public var customPermissionsName: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        customPermissionsName: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.customPermissionsName = customPermissionsName
+    }
+}
+
+public struct DeleteCustomPermissionsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the custom permissions profile.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct DeleteDashboardInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the dashboard that you're deleting.
     /// This member is required.
@@ -30804,6 +31745,45 @@ public struct DeleteUserByPrincipalIdOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteUserCustomPermissionInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the custom permission configuration that you want to delete.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The namespace that the user belongs to.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The username of the user that you want to remove custom permissions from.
+    /// This member is required.
+    public var userName: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+        self.userName = userName
+    }
+}
+
+public struct DeleteUserCustomPermissionOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct DeleteVPCConnectionInput: Swift.Sendable {
     /// The Amazon Web Services account ID of the account where you want to delete a VPC connection.
     /// This member is required.
@@ -31373,6 +32353,153 @@ public struct DescribeAssetBundleImportJobOutput: Swift.Sendable {
         self.rollbackErrors = rollbackErrors
         self.status = status
         self.warnings = warnings
+    }
+}
+
+public struct DescribeBrandInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that owns the brand.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the Amazon QuickSight brand.
+    /// This member is required.
+    public var brandId: Swift.String?
+    /// The ID of the specific version. The default value is the latest version.
+    public var versionId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        brandId: Swift.String? = nil,
+        versionId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.brandId = brandId
+        self.versionId = versionId
+    }
+}
+
+public struct DescribeBrandOutput: Swift.Sendable {
+    /// The definition of the brand.
+    public var brandDefinition: QuickSightClientTypes.BrandDefinition?
+    /// The details of the brand.
+    public var brandDetail: QuickSightClientTypes.BrandDetail?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
+        brandDetail: QuickSightClientTypes.BrandDetail? = nil,
+        requestId: Swift.String? = nil
+    )
+    {
+        self.brandDefinition = brandDefinition
+        self.brandDetail = brandDetail
+        self.requestId = requestId
+    }
+}
+
+public struct DescribeBrandAssignmentInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that owns the brand assignment.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DescribeBrandAssignmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the brand.
+    public var brandArn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        brandArn: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    )
+    {
+        self.brandArn = brandArn
+        self.requestId = requestId
+    }
+}
+
+public struct DescribeBrandPublishedVersionInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that owns the brand.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the Amazon QuickSight brand.
+    /// This member is required.
+    public var brandId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        brandId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.brandId = brandId
+    }
+}
+
+public struct DescribeBrandPublishedVersionOutput: Swift.Sendable {
+    /// The definition of the brand.
+    public var brandDefinition: QuickSightClientTypes.BrandDefinition?
+    /// The details of the brand.
+    public var brandDetail: QuickSightClientTypes.BrandDetail?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
+        brandDetail: QuickSightClientTypes.BrandDetail? = nil,
+        requestId: Swift.String? = nil
+    )
+    {
+        self.brandDefinition = brandDefinition
+        self.brandDetail = brandDetail
+        self.requestId = requestId
+    }
+}
+
+public struct DescribeCustomPermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the custom permissions profile that you want described.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The name of the custom permissions profile to describe.
+    /// This member is required.
+    public var customPermissionsName: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        customPermissionsName: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.customPermissionsName = customPermissionsName
+    }
+}
+
+public struct DescribeCustomPermissionsOutput: Swift.Sendable {
+    /// The custom permissions profile.
+    public var customPermissions: QuickSightClientTypes.CustomPermissions?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        customPermissions: QuickSightClientTypes.CustomPermissions? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.customPermissions = customPermissions
+        self.requestId = requestId
+        self.status = status
     }
 }
 
@@ -35522,34 +36649,6 @@ extension QuickSightClientTypes {
     }
 }
 
-/// You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-        /// The Amazon Web Services request ID for this request.
-        public internal(set) var requestId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidRequestException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.requestId = requestId
-    }
-}
-
 public struct ListAnalysesInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the analyses.
     /// This member is required.
@@ -35679,6 +36778,88 @@ public struct ListAssetBundleImportJobsOutput: Swift.Sendable {
     )
     {
         self.assetBundleImportJobSummaryList = assetBundleImportJobSummaryList
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct ListBrandsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that owns the brands that you want to list.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to be returned in a single request.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListBrandsOutput: Swift.Sendable {
+    /// A list of all brands in your Amazon Web Services account. This structure provides basic information about each brand.
+    public var brands: [QuickSightClientTypes.BrandSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        brands: [QuickSightClientTypes.BrandSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.brands = brands
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCustomPermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the custom permissions profiles that you want to list.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCustomPermissionsOutput: Swift.Sendable {
+    /// A list of custom permissions profiles.
+    public var customPermissionsList: [QuickSightClientTypes.CustomPermissions]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        customPermissionsList: [QuickSightClientTypes.CustomPermissions]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.customPermissionsList = customPermissionsList
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
@@ -37501,14 +38682,18 @@ public struct RestoreAnalysisInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the analysis.
     /// This member is required.
     public var awsAccountId: Swift.String?
+    /// A boolean value that determines if the analysis will be restored to folders that it previously resided in. A True value restores analysis back to all folders that it previously resided in. A False value restores the analysis but does not restore the analysis back to all previously resided folders. Restoring a restricted analysis requires this parameter to be set to True.
+    public var restoreToFolders: Swift.Bool?
 
     public init(
         analysisId: Swift.String? = nil,
-        awsAccountId: Swift.String? = nil
+        awsAccountId: Swift.String? = nil,
+        restoreToFolders: Swift.Bool? = false
     )
     {
         self.analysisId = analysisId
         self.awsAccountId = awsAccountId
+        self.restoreToFolders = restoreToFolders
     }
 }
 
@@ -37519,6 +38704,8 @@ public struct RestoreAnalysisOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
+    /// A list of folder arns thatthe analysis failed to be restored to.
+    public var restorationFailedFolderArns: [Swift.String]?
     /// The HTTP status of the request.
     public var status: Swift.Int
 
@@ -37526,12 +38713,14 @@ public struct RestoreAnalysisOutput: Swift.Sendable {
         analysisId: Swift.String? = nil,
         arn: Swift.String? = nil,
         requestId: Swift.String? = nil,
+        restorationFailedFolderArns: [Swift.String]? = nil,
         status: Swift.Int = 0
     )
     {
         self.analysisId = analysisId
         self.arn = arn
         self.requestId = requestId
+        self.restorationFailedFolderArns = restorationFailedFolderArns
         self.status = status
     }
 }
@@ -38094,6 +39283,45 @@ public struct StartDashboardSnapshotJobOutput: Swift.Sendable {
     }
 }
 
+public struct StartDashboardSnapshotJobScheduleInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the dashboard that you want to start a snapshot job schedule for.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon QuickSight console in the Schedules pane of the dashboard that the schedule is configured for.
+    /// This member is required.
+    public var scheduleId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dashboardId: Swift.String? = nil,
+        scheduleId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dashboardId = dashboardId
+        self.scheduleId = scheduleId
+    }
+}
+
+public struct StartDashboardSnapshotJobScheduleOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource that you want to tag.
     /// This member is required.
@@ -38378,6 +39606,163 @@ public struct UpdateAnalysisPermissionsOutput: Swift.Sendable {
         self.analysisArn = analysisArn
         self.analysisId = analysisId
         self.permissions = permissions
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct UpdateBrandInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that owns the brand.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The definition of the brand.
+    public var brandDefinition: QuickSightClientTypes.BrandDefinition?
+    /// The ID of the Amazon QuickSight brand.
+    /// This member is required.
+    public var brandId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
+        brandId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.brandDefinition = brandDefinition
+        self.brandId = brandId
+    }
+}
+
+public struct UpdateBrandOutput: Swift.Sendable {
+    /// The definition of the brand.
+    public var brandDefinition: QuickSightClientTypes.BrandDefinition?
+    /// The details of the brand.
+    public var brandDetail: QuickSightClientTypes.BrandDetail?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        brandDefinition: QuickSightClientTypes.BrandDefinition? = nil,
+        brandDetail: QuickSightClientTypes.BrandDetail? = nil,
+        requestId: Swift.String? = nil
+    )
+    {
+        self.brandDefinition = brandDefinition
+        self.brandDetail = brandDetail
+        self.requestId = requestId
+    }
+}
+
+public struct UpdateBrandAssignmentInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that owns the brand assignment.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the brand.
+    /// This member is required.
+    public var brandArn: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        brandArn: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.brandArn = brandArn
+    }
+}
+
+public struct UpdateBrandAssignmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the brand.
+    public var brandArn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+
+    public init(
+        brandArn: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    )
+    {
+        self.brandArn = brandArn
+        self.requestId = requestId
+    }
+}
+
+public struct UpdateBrandPublishedVersionInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that owns the brand.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ID of the Amazon QuickSight brand.
+    /// This member is required.
+    public var brandId: Swift.String?
+    /// The ID of the published version.
+    /// This member is required.
+    public var versionId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        brandId: Swift.String? = nil,
+        versionId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.brandId = brandId
+        self.versionId = versionId
+    }
+}
+
+public struct UpdateBrandPublishedVersionOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The ID of the published version.
+    public var versionId: Swift.String?
+
+    public init(
+        requestId: Swift.String? = nil,
+        versionId: Swift.String? = nil
+    )
+    {
+        self.requestId = requestId
+        self.versionId = versionId
+    }
+}
+
+public struct UpdateCustomPermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the custom permissions profile that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// A set of actions to include in the custom permissions profile.
+    public var capabilities: QuickSightClientTypes.Capabilities?
+    /// The name of the custom permissions profile that you want to update.
+    /// This member is required.
+    public var customPermissionsName: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        capabilities: QuickSightClientTypes.Capabilities? = nil,
+        customPermissionsName: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.capabilities = capabilities
+        self.customPermissionsName = customPermissionsName
+    }
+}
+
+public struct UpdateCustomPermissionsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the custom permissions profile.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.arn = arn
         self.requestId = requestId
         self.status = status
     }
@@ -40086,6 +41471,50 @@ public struct UpdateUserOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateUserCustomPermissionInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the custom permission configuration that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The name of the custom permissions that you want to update.
+    /// This member is required.
+    public var customPermissionsName: Swift.String?
+    /// The namespace that the user belongs to.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The username of the user that you want to update custom permissions for.
+    /// This member is required.
+    public var userName: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        customPermissionsName: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        userName: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.customPermissionsName = customPermissionsName
+        self.namespace = namespace
+        self.userName = userName
+    }
+}
+
+public struct UpdateUserCustomPermissionOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct UpdateVPCConnectionInput: Swift.Sendable {
     /// The Amazon Web Services account ID of the account that contains the VPC connection that you want to update.
     /// This member is required.
@@ -40408,6 +41837,29 @@ extension CreateAnalysisInput {
     }
 }
 
+extension CreateBrandInput {
+
+    static func urlPathProvider(_ value: CreateBrandInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let brandId = value.brandId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/brands/\(brandId.urlPercentEncoding())"
+    }
+}
+
+extension CreateCustomPermissionsInput {
+
+    static func urlPathProvider(_ value: CreateCustomPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/custom-permissions"
+    }
+}
+
 extension CreateDashboardInput {
 
     static func urlPathProvider(_ value: CreateDashboardInput) -> Swift.String? {
@@ -40725,6 +42177,42 @@ extension DeleteAnalysisInput {
             items.append(forceDeleteWithoutRecoveryQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteBrandInput {
+
+    static func urlPathProvider(_ value: DeleteBrandInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let brandId = value.brandId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/brands/\(brandId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteBrandAssignmentInput {
+
+    static func urlPathProvider(_ value: DeleteBrandAssignmentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/brandassignments"
+    }
+}
+
+extension DeleteCustomPermissionsInput {
+
+    static func urlPathProvider(_ value: DeleteCustomPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let customPermissionsName = value.customPermissionsName else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/custom-permissions/\(customPermissionsName.urlPercentEncoding())"
     }
 }
 
@@ -41095,6 +42583,22 @@ extension DeleteUserByPrincipalIdInput {
     }
 }
 
+extension DeleteUserCustomPermissionInput {
+
+    static func urlPathProvider(_ value: DeleteUserCustomPermissionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        guard let userName = value.userName else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/users/\(userName.urlPercentEncoding())/custom-permission"
+    }
+}
+
 extension DeleteVPCConnectionInput {
 
     static func urlPathProvider(_ value: DeleteVPCConnectionInput) -> Swift.String? {
@@ -41216,6 +42720,67 @@ extension DescribeAssetBundleImportJobInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/asset-bundle-import-jobs/\(assetBundleImportJobId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeBrandInput {
+
+    static func urlPathProvider(_ value: DescribeBrandInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let brandId = value.brandId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/brands/\(brandId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeBrandInput {
+
+    static func queryItemProvider(_ value: DescribeBrandInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let versionId = value.versionId {
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension DescribeBrandAssignmentInput {
+
+    static func urlPathProvider(_ value: DescribeBrandAssignmentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/brandassignments"
+    }
+}
+
+extension DescribeBrandPublishedVersionInput {
+
+    static func urlPathProvider(_ value: DescribeBrandPublishedVersionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let brandId = value.brandId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/brands/\(brandId.urlPercentEncoding())/publishedversion"
+    }
+}
+
+extension DescribeCustomPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeCustomPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let customPermissionsName = value.customPermissionsName else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/custom-permissions/\(customPermissionsName.urlPercentEncoding())"
     }
 }
 
@@ -42037,6 +43602,58 @@ extension ListAssetBundleImportJobsInput {
     }
 }
 
+extension ListBrandsInput {
+
+    static func urlPathProvider(_ value: ListBrandsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/brands"
+    }
+}
+
+extension ListBrandsInput {
+
+    static func queryItemProvider(_ value: ListBrandsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCustomPermissionsInput {
+
+    static func urlPathProvider(_ value: ListCustomPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/custom-permissions"
+    }
+}
+
+extension ListCustomPermissionsInput {
+
+    static func queryItemProvider(_ value: ListCustomPermissionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListDashboardsInput {
 
     static func urlPathProvider(_ value: ListDashboardsInput) -> Swift.String? {
@@ -42840,6 +44457,18 @@ extension RestoreAnalysisInput {
     }
 }
 
+extension RestoreAnalysisInput {
+
+    static func queryItemProvider(_ value: RestoreAnalysisInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let restoreToFolders = value.restoreToFolders {
+            let restoreToFoldersQueryItem = Smithy.URIQueryItem(name: "restore-to-folders".urlPercentEncoding(), value: Swift.String(restoreToFolders).urlPercentEncoding())
+            items.append(restoreToFoldersQueryItem)
+        }
+        return items
+    }
+}
+
 extension SearchAnalysesInput {
 
     static func urlPathProvider(_ value: SearchAnalysesInput) -> Swift.String? {
@@ -42952,6 +44581,22 @@ extension StartDashboardSnapshotJobInput {
     }
 }
 
+extension StartDashboardSnapshotJobScheduleInput {
+
+    static func urlPathProvider(_ value: StartDashboardSnapshotJobScheduleInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let dashboardId = value.dashboardId else {
+            return nil
+        }
+        guard let scheduleId = value.scheduleId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards/\(dashboardId.urlPercentEncoding())/schedules/\(scheduleId.urlPercentEncoding())"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -43043,6 +44688,55 @@ extension UpdateAnalysisPermissionsInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/analyses/\(analysisId.urlPercentEncoding())/permissions"
+    }
+}
+
+extension UpdateBrandInput {
+
+    static func urlPathProvider(_ value: UpdateBrandInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let brandId = value.brandId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/brands/\(brandId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateBrandAssignmentInput {
+
+    static func urlPathProvider(_ value: UpdateBrandAssignmentInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/brandassignments"
+    }
+}
+
+extension UpdateBrandPublishedVersionInput {
+
+    static func urlPathProvider(_ value: UpdateBrandPublishedVersionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let brandId = value.brandId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/brands/\(brandId.urlPercentEncoding())/publishedversion"
+    }
+}
+
+extension UpdateCustomPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateCustomPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let customPermissionsName = value.customPermissionsName else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/custom-permissions/\(customPermissionsName.urlPercentEncoding())"
     }
 }
 
@@ -43445,6 +45139,22 @@ extension UpdateUserInput {
     }
 }
 
+extension UpdateUserCustomPermissionInput {
+
+    static func urlPathProvider(_ value: UpdateUserCustomPermissionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        guard let userName = value.userName else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/users/\(userName.urlPercentEncoding())/custom-permission"
+    }
+}
+
 extension UpdateVPCConnectionInput {
 
     static func urlPathProvider(_ value: UpdateVPCConnectionInput) -> Swift.String? {
@@ -43521,6 +45231,25 @@ extension CreateAnalysisInput {
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThemeArn"].write(value.themeArn)
         try writer["ValidationStrategy"].write(value.validationStrategy, with: QuickSightClientTypes.ValidationStrategy.write(value:to:))
+    }
+}
+
+extension CreateBrandInput {
+
+    static func write(value: CreateBrandInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BrandDefinition"].write(value.brandDefinition, with: QuickSightClientTypes.BrandDefinition.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateCustomPermissionsInput {
+
+    static func write(value: CreateCustomPermissionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Capabilities"].write(value.capabilities, with: QuickSightClientTypes.Capabilities.write(value:to:))
+        try writer["CustomPermissionsName"].write(value.customPermissionsName)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -43916,6 +45645,38 @@ extension UpdateAnalysisPermissionsInput {
     }
 }
 
+extension UpdateBrandInput {
+
+    static func write(value: UpdateBrandInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BrandDefinition"].write(value.brandDefinition, with: QuickSightClientTypes.BrandDefinition.write(value:to:))
+    }
+}
+
+extension UpdateBrandAssignmentInput {
+
+    static func write(value: UpdateBrandAssignmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BrandArn"].write(value.brandArn)
+    }
+}
+
+extension UpdateBrandPublishedVersionInput {
+
+    static func write(value: UpdateBrandPublishedVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VersionId"].write(value.versionId)
+    }
+}
+
+extension UpdateCustomPermissionsInput {
+
+    static func write(value: UpdateCustomPermissionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Capabilities"].write(value.capabilities, with: QuickSightClientTypes.Capabilities.write(value:to:))
+    }
+}
+
 extension UpdateDashboardInput {
 
     static func write(value: UpdateDashboardInput?, to writer: SmithyJSON.Writer) throws {
@@ -44196,6 +45957,14 @@ extension UpdateUserInput {
     }
 }
 
+extension UpdateUserCustomPermissionInput {
+
+    static func write(value: UpdateUserCustomPermissionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomPermissionsName"].write(value.customPermissionsName)
+    }
+}
+
 extension UpdateVPCConnectionInput {
 
     static func write(value: UpdateVPCConnectionInput?, to writer: SmithyJSON.Writer) throws {
@@ -44300,6 +46069,34 @@ extension CreateAnalysisOutput {
         value.creationStatus = try reader["CreationStatus"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension CreateBrandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBrandOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateBrandOutput()
+        value.brandDefinition = try reader["BrandDefinition"].readIfPresent(with: QuickSightClientTypes.BrandDefinition.read(from:))
+        value.brandDetail = try reader["BrandDetail"].readIfPresent(with: QuickSightClientTypes.BrandDetail.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateCustomPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCustomPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCustomPermissionsOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? 0
         return value
     }
 }
@@ -44644,6 +46441,44 @@ extension DeleteAnalysisOutput {
     }
 }
 
+extension DeleteBrandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBrandOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteBrandOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteBrandAssignmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBrandAssignmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteBrandAssignmentOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteCustomPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCustomPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteCustomPermissionsOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension DeleteDashboardOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDashboardOutput {
@@ -44956,6 +46791,19 @@ extension DeleteUserByPrincipalIdOutput {
     }
 }
 
+extension DeleteUserCustomPermissionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteUserCustomPermissionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteUserCustomPermissionOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DeleteVPCConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVPCConnectionOutput {
@@ -45120,6 +46968,61 @@ extension DescribeAssetBundleImportJobOutput {
         value.rollbackErrors = try reader["RollbackErrors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.warnings = try reader["Warnings"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AssetBundleImportJobWarning.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeBrandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeBrandOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeBrandOutput()
+        value.brandDefinition = try reader["BrandDefinition"].readIfPresent(with: QuickSightClientTypes.BrandDefinition.read(from:))
+        value.brandDetail = try reader["BrandDetail"].readIfPresent(with: QuickSightClientTypes.BrandDetail.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeBrandAssignmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeBrandAssignmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeBrandAssignmentOutput()
+        value.brandArn = try reader["BrandArn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeBrandPublishedVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeBrandPublishedVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeBrandPublishedVersionOutput()
+        value.brandDefinition = try reader["BrandDefinition"].readIfPresent(with: QuickSightClientTypes.BrandDefinition.read(from:))
+        value.brandDetail = try reader["BrandDetail"].readIfPresent(with: QuickSightClientTypes.BrandDetail.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeCustomPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCustomPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeCustomPermissionsOutput()
+        value.customPermissions = try reader["CustomPermissions"].readIfPresent(with: QuickSightClientTypes.CustomPermissions.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? 0
         return value
     }
 }
@@ -45784,6 +47687,34 @@ extension ListAssetBundleImportJobsOutput {
     }
 }
 
+extension ListBrandsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBrandsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBrandsOutput()
+        value.brands = try reader["Brands"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.BrandSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCustomPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCustomPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCustomPermissionsOutput()
+        value.customPermissionsList = try reader["CustomPermissionsList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CustomPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension ListDashboardsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDashboardsOutput {
@@ -46257,6 +48188,7 @@ extension RestoreAnalysisOutput {
         value.analysisId = try reader["AnalysisId"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
+        value.restorationFailedFolderArns = try reader["RestorationFailedFolderArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -46397,6 +48329,19 @@ extension StartDashboardSnapshotJobOutput {
     }
 }
 
+extension StartDashboardSnapshotJobScheduleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDashboardSnapshotJobScheduleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartDashboardSnapshotJobScheduleOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -46481,6 +48426,60 @@ extension UpdateAnalysisPermissionsOutput {
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateBrandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateBrandOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateBrandOutput()
+        value.brandDefinition = try reader["BrandDefinition"].readIfPresent(with: QuickSightClientTypes.BrandDefinition.read(from:))
+        value.brandDetail = try reader["BrandDetail"].readIfPresent(with: QuickSightClientTypes.BrandDetail.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateBrandAssignmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateBrandAssignmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateBrandAssignmentOutput()
+        value.brandArn = try reader["BrandArn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateBrandPublishedVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateBrandPublishedVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateBrandPublishedVersionOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateCustomPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCustomPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCustomPermissionsOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? 0
         return value
     }
 }
@@ -46940,6 +48939,19 @@ extension UpdateUserOutput {
     }
 }
 
+extension UpdateUserCustomPermissionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateUserCustomPermissionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateUserCustomPermissionOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension UpdateVPCConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateVPCConnectionOutput {
@@ -47072,6 +49084,48 @@ enum CreateAnalysisOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateBrandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCustomPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -47539,6 +49593,66 @@ enum DeleteAnalysisOutputError {
     }
 }
 
+enum DeleteBrandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteBrandAssignmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCustomPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteDashboardOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -47968,6 +50082,27 @@ enum DeleteUserByPrincipalIdOutputError {
     }
 }
 
+enum DeleteUserCustomPermissionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteVPCConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -48130,6 +50265,83 @@ enum DescribeAssetBundleImportJobOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeBrandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeBrandAssignmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeBrandPublishedVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeCustomPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -48965,6 +51177,43 @@ enum ListAssetBundleImportJobsOutputError {
     }
 }
 
+enum ListBrandsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCustomPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDashboardsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -49583,6 +51832,8 @@ enum RestoreAnalysisOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
@@ -49771,6 +52022,26 @@ enum StartDashboardSnapshotJobOutputError {
     }
 }
 
+enum StartDashboardSnapshotJobScheduleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -49882,6 +52153,84 @@ enum UpdateAnalysisPermissionsOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateBrandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateBrandAssignmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateBrandPublishedVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCustomPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -50480,6 +52829,27 @@ enum UpdateUserOutputError {
     }
 }
 
+enum UpdateUserCustomPermissionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateVPCConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -50659,6 +53029,33 @@ extension UnsupportedUserEditionException {
     }
 }
 
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequestException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension CustomerManagedKeyUnavailableException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CustomerManagedKeyUnavailableException {
@@ -50771,20 +53168,6 @@ extension DomainNotWhitelistedException {
     }
 }
 
-extension InvalidRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension QuickSightClientTypes.SucceededTopicReviewedAnswer {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SucceededTopicReviewedAnswer {
@@ -50832,6 +53215,279 @@ extension QuickSightClientTypes.SignupResponse {
         value.userLoginName = try reader["userLoginName"].readIfPresent()
         value.accountName = try reader["accountName"].readIfPresent()
         value.directoryType = try reader["directoryType"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BrandDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BrandDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BrandDetail()
+        value.brandId = try reader["BrandId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent()
+        value.brandStatus = try reader["BrandStatus"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.versionStatus = try reader["VersionStatus"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logo = try reader["Logo"].readIfPresent(with: QuickSightClientTypes.Logo.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.Logo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Logo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Logo()
+        value.altText = try reader["AltText"].readIfPresent() ?? ""
+        value.logoSet = try reader["LogoSet"].readIfPresent(with: QuickSightClientTypes.LogoSet.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LogoSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LogoSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LogoSet()
+        value.primary = try reader["Primary"].readIfPresent(with: QuickSightClientTypes.ImageSet.read(from:))
+        value.favicon = try reader["Favicon"].readIfPresent(with: QuickSightClientTypes.ImageSet.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImageSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImageSet()
+        value.original = try reader["Original"].readIfPresent(with: QuickSightClientTypes.Image.read(from:))
+        value.height64 = try reader["Height64"].readIfPresent(with: QuickSightClientTypes.Image.read(from:))
+        value.height32 = try reader["Height32"].readIfPresent(with: QuickSightClientTypes.Image.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.Image {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Image {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Image()
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.ImageSource.read(from:))
+        value.generatedImageUrl = try reader["GeneratedImageUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImageSource {
+
+    static func write(value: QuickSightClientTypes.ImageSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .publicurl(publicurl):
+                try writer["PublicUrl"].write(publicurl)
+            case let .s3uri(s3uri):
+                try writer["S3Uri"].write(s3uri)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "PublicUrl":
+                return .publicurl(try reader["PublicUrl"].read())
+            case "S3Uri":
+                return .s3uri(try reader["S3Uri"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QuickSightClientTypes.BrandDefinition {
+
+    static func write(value: QuickSightClientTypes.BrandDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationTheme"].write(value.applicationTheme, with: QuickSightClientTypes.ApplicationTheme.write(value:to:))
+        try writer["BrandName"].write(value.brandName)
+        try writer["Description"].write(value.description)
+        try writer["LogoConfiguration"].write(value.logoConfiguration, with: QuickSightClientTypes.LogoConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BrandDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BrandDefinition()
+        value.brandName = try reader["BrandName"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.applicationTheme = try reader["ApplicationTheme"].readIfPresent(with: QuickSightClientTypes.ApplicationTheme.read(from:))
+        value.logoConfiguration = try reader["LogoConfiguration"].readIfPresent(with: QuickSightClientTypes.LogoConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LogoConfiguration {
+
+    static func write(value: QuickSightClientTypes.LogoConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AltText"].write(value.altText)
+        try writer["LogoSet"].write(value.logoSet, with: QuickSightClientTypes.LogoSetConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LogoConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LogoConfiguration()
+        value.altText = try reader["AltText"].readIfPresent() ?? ""
+        value.logoSet = try reader["LogoSet"].readIfPresent(with: QuickSightClientTypes.LogoSetConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LogoSetConfiguration {
+
+    static func write(value: QuickSightClientTypes.LogoSetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Favicon"].write(value.favicon, with: QuickSightClientTypes.ImageSetConfiguration.write(value:to:))
+        try writer["Primary"].write(value.primary, with: QuickSightClientTypes.ImageSetConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LogoSetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LogoSetConfiguration()
+        value.primary = try reader["Primary"].readIfPresent(with: QuickSightClientTypes.ImageSetConfiguration.read(from:))
+        value.favicon = try reader["Favicon"].readIfPresent(with: QuickSightClientTypes.ImageSetConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImageSetConfiguration {
+
+    static func write(value: QuickSightClientTypes.ImageSetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Original"].write(value.original, with: QuickSightClientTypes.ImageConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageSetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImageSetConfiguration()
+        value.original = try reader["Original"].readIfPresent(with: QuickSightClientTypes.ImageConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImageConfiguration {
+
+    static func write(value: QuickSightClientTypes.ImageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.ImageSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImageConfiguration()
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.ImageSource.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ApplicationTheme {
+
+    static func write(value: QuickSightClientTypes.ApplicationTheme?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BrandColorPalette"].write(value.brandColorPalette, with: QuickSightClientTypes.BrandColorPalette.write(value:to:))
+        try writer["BrandElementStyle"].write(value.brandElementStyle, with: QuickSightClientTypes.BrandElementStyle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ApplicationTheme {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ApplicationTheme()
+        value.brandColorPalette = try reader["BrandColorPalette"].readIfPresent(with: QuickSightClientTypes.BrandColorPalette.read(from:))
+        value.brandElementStyle = try reader["BrandElementStyle"].readIfPresent(with: QuickSightClientTypes.BrandElementStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BrandElementStyle {
+
+    static func write(value: QuickSightClientTypes.BrandElementStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NavbarStyle"].write(value.navbarStyle, with: QuickSightClientTypes.NavbarStyle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BrandElementStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BrandElementStyle()
+        value.navbarStyle = try reader["NavbarStyle"].readIfPresent(with: QuickSightClientTypes.NavbarStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.NavbarStyle {
+
+    static func write(value: QuickSightClientTypes.NavbarStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContextualNavbar"].write(value.contextualNavbar, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["GlobalNavbar"].write(value.globalNavbar, with: QuickSightClientTypes.Palette.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NavbarStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.NavbarStyle()
+        value.globalNavbar = try reader["GlobalNavbar"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.contextualNavbar = try reader["ContextualNavbar"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.Palette {
+
+    static func write(value: QuickSightClientTypes.Palette?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Background"].write(value.background)
+        try writer["Foreground"].write(value.foreground)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Palette {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Palette()
+        value.foreground = try reader["Foreground"].readIfPresent()
+        value.background = try reader["Background"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BrandColorPalette {
+
+    static func write(value: QuickSightClientTypes.BrandColorPalette?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Accent"].write(value.accent, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Danger"].write(value.danger, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Dimension"].write(value.dimension, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Info"].write(value.info, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Measure"].write(value.measure, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Primary"].write(value.primary, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Secondary"].write(value.secondary, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Success"].write(value.success, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Warning"].write(value.warning, with: QuickSightClientTypes.Palette.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BrandColorPalette {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BrandColorPalette()
+        value.primary = try reader["Primary"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.secondary = try reader["Secondary"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.accent = try reader["Accent"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.measure = try reader["Measure"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.dimension = try reader["Dimension"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.success = try reader["Success"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.info = try reader["Info"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.warning = try reader["Warning"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.danger = try reader["Danger"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
         return value
     }
 }
@@ -61226,8 +63882,11 @@ extension QuickSightClientTypes.StarburstParameters {
 
     static func write(value: QuickSightClientTypes.StarburstParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuthenticationType"].write(value.authenticationType)
         try writer["Catalog"].write(value.catalog)
+        try writer["DatabaseAccessControlRole"].write(value.databaseAccessControlRole)
         try writer["Host"].write(value.host)
+        try writer["OAuthParameters"].write(value.oAuthParameters, with: QuickSightClientTypes.OAuthParameters.write(value:to:))
         try writer["Port"].write(value.port)
         try writer["ProductType"].write(value.productType)
     }
@@ -61239,6 +63898,30 @@ extension QuickSightClientTypes.StarburstParameters {
         value.port = try reader["Port"].readIfPresent() ?? 0
         value.catalog = try reader["Catalog"].readIfPresent() ?? ""
         value.productType = try reader["ProductType"].readIfPresent()
+        value.databaseAccessControlRole = try reader["DatabaseAccessControlRole"].readIfPresent()
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.oAuthParameters = try reader["OAuthParameters"].readIfPresent(with: QuickSightClientTypes.OAuthParameters.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.OAuthParameters {
+
+    static func write(value: QuickSightClientTypes.OAuthParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IdentityProviderResourceUri"].write(value.identityProviderResourceUri)
+        try writer["IdentityProviderVpcConnectionProperties"].write(value.identityProviderVpcConnectionProperties, with: QuickSightClientTypes.VpcConnectionProperties.write(value:to:))
+        try writer["OAuthScope"].write(value.oAuthScope)
+        try writer["TokenProviderUrl"].write(value.tokenProviderUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.OAuthParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.OAuthParameters()
+        value.tokenProviderUrl = try reader["TokenProviderUrl"].readIfPresent() ?? ""
+        value.oAuthScope = try reader["OAuthScope"].readIfPresent()
+        value.identityProviderVpcConnectionProperties = try reader["IdentityProviderVpcConnectionProperties"].readIfPresent(with: QuickSightClientTypes.VpcConnectionProperties.read(from:))
+        value.identityProviderResourceUri = try reader["IdentityProviderResourceUri"].readIfPresent()
         return value
     }
 }
@@ -61370,8 +64053,11 @@ extension QuickSightClientTypes.SnowflakeParameters {
 
     static func write(value: QuickSightClientTypes.SnowflakeParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuthenticationType"].write(value.authenticationType)
         try writer["Database"].write(value.database)
+        try writer["DatabaseAccessControlRole"].write(value.databaseAccessControlRole)
         try writer["Host"].write(value.host)
+        try writer["OAuthParameters"].write(value.oAuthParameters, with: QuickSightClientTypes.OAuthParameters.write(value:to:))
         try writer["Warehouse"].write(value.warehouse)
     }
 
@@ -61381,6 +64067,9 @@ extension QuickSightClientTypes.SnowflakeParameters {
         value.host = try reader["Host"].readIfPresent() ?? ""
         value.database = try reader["Database"].readIfPresent() ?? ""
         value.warehouse = try reader["Warehouse"].readIfPresent() ?? ""
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.databaseAccessControlRole = try reader["DatabaseAccessControlRole"].readIfPresent()
+        value.oAuthParameters = try reader["OAuthParameters"].readIfPresent(with: QuickSightClientTypes.OAuthParameters.read(from:))
         return value
     }
 }
@@ -62112,6 +64801,65 @@ extension QuickSightClientTypes.AssetBundleImportJobWarning {
         var value = QuickSightClientTypes.AssetBundleImportJobWarning()
         value.arn = try reader["Arn"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomPermissions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomPermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomPermissions()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.customPermissionsName = try reader["CustomPermissionsName"].readIfPresent()
+        value.capabilities = try reader["Capabilities"].readIfPresent(with: QuickSightClientTypes.Capabilities.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.Capabilities {
+
+    static func write(value: QuickSightClientTypes.Capabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddOrRunAnomalyDetectionForAnalyses"].write(value.addOrRunAnomalyDetectionForAnalyses)
+        try writer["CreateAndUpdateDashboardEmailReports"].write(value.createAndUpdateDashboardEmailReports)
+        try writer["CreateAndUpdateDataSources"].write(value.createAndUpdateDataSources)
+        try writer["CreateAndUpdateDatasets"].write(value.createAndUpdateDatasets)
+        try writer["CreateAndUpdateThemes"].write(value.createAndUpdateThemes)
+        try writer["CreateAndUpdateThresholdAlerts"].write(value.createAndUpdateThresholdAlerts)
+        try writer["CreateSPICEDataset"].write(value.createSPICEDataset)
+        try writer["CreateSharedFolders"].write(value.createSharedFolders)
+        try writer["ExportToCsv"].write(value.exportToCsv)
+        try writer["ExportToExcel"].write(value.exportToExcel)
+        try writer["RenameSharedFolders"].write(value.renameSharedFolders)
+        try writer["ShareAnalyses"].write(value.shareAnalyses)
+        try writer["ShareDashboards"].write(value.shareDashboards)
+        try writer["ShareDataSources"].write(value.shareDataSources)
+        try writer["ShareDatasets"].write(value.shareDatasets)
+        try writer["SubscribeDashboardEmailReports"].write(value.subscribeDashboardEmailReports)
+        try writer["ViewAccountSPICECapacity"].write(value.viewAccountSPICECapacity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Capabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Capabilities()
+        value.exportToCsv = try reader["ExportToCsv"].readIfPresent()
+        value.exportToExcel = try reader["ExportToExcel"].readIfPresent()
+        value.createAndUpdateThemes = try reader["CreateAndUpdateThemes"].readIfPresent()
+        value.addOrRunAnomalyDetectionForAnalyses = try reader["AddOrRunAnomalyDetectionForAnalyses"].readIfPresent()
+        value.shareAnalyses = try reader["ShareAnalyses"].readIfPresent()
+        value.createAndUpdateDatasets = try reader["CreateAndUpdateDatasets"].readIfPresent()
+        value.shareDatasets = try reader["ShareDatasets"].readIfPresent()
+        value.subscribeDashboardEmailReports = try reader["SubscribeDashboardEmailReports"].readIfPresent()
+        value.createAndUpdateDashboardEmailReports = try reader["CreateAndUpdateDashboardEmailReports"].readIfPresent()
+        value.shareDashboards = try reader["ShareDashboards"].readIfPresent()
+        value.createAndUpdateThresholdAlerts = try reader["CreateAndUpdateThresholdAlerts"].readIfPresent()
+        value.renameSharedFolders = try reader["RenameSharedFolders"].readIfPresent()
+        value.createSharedFolders = try reader["CreateSharedFolders"].readIfPresent()
+        value.createAndUpdateDataSources = try reader["CreateAndUpdateDataSources"].readIfPresent()
+        value.shareDataSources = try reader["ShareDataSources"].readIfPresent()
+        value.viewAccountSPICECapacity = try reader["ViewAccountSPICECapacity"].readIfPresent()
+        value.createSPICEDataset = try reader["CreateSPICEDataset"].readIfPresent()
         return value
     }
 }
@@ -64972,6 +67720,22 @@ extension QuickSightClientTypes.AssetBundleImportJobSummary {
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.assetBundleImportJobId = try reader["AssetBundleImportJobId"].readIfPresent()
         value.failureAction = try reader["FailureAction"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BrandSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BrandSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BrandSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.brandId = try reader["BrandId"].readIfPresent()
+        value.brandName = try reader["BrandName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.brandStatus = try reader["BrandStatus"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

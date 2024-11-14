@@ -29,6 +29,7 @@ Package.resolved
 build/
 codegen/protocol-test-codegen-local/smithy-build.json
 codegen/protocol-test-codegen/smithy-build.json
+SmokeTests/
 
 # vim temporary files
 *.swp
@@ -39,3 +40,6 @@ codegen/protocol-test-codegen/smithy-build.json
 # Allow the AWSSDKSwiftCLI Package.resolved
 # while excluding all other Package.resolved files
 !/AWSSDKSwiftCLI/Package.resolved
+
+# Xcode config that is for the installed copy only
+xcuserdata

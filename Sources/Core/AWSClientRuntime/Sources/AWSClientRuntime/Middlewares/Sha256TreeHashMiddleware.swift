@@ -46,7 +46,7 @@ public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput
             if let treeHash = treeHash, let linearHash = linearHash {
                 builder.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: treeHash)
                 // provide the value but let CRT add the SHA256 header during signing
-                context.attributes.set(key: AttributeKey(name: X_AMZ_CONTENT_SHA256_HEADER_NAME), value: linearHash)
+                context.set(key: AttributeKey(name: X_AMZ_CONTENT_SHA256_HEADER_NAME), value: linearHash)
             }
         case .noStream:
             break

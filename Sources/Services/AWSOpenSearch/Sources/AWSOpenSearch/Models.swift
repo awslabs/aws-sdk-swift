@@ -1282,22 +1282,67 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
+extension OpenSearchClientTypes {
+
+    /// The configuration parameters to enable access to the key store required by the package.
+    public struct KeyStoreAccessOption: Swift.Sendable {
+        /// Role ARN to access the KeyStore Key
+        public var keyAccessRoleArn: Swift.String?
+        /// This indicates whether Key Store access is enabled
+        /// This member is required.
+        public var keyStoreAccessEnabled: Swift.Bool?
+
+        public init(
+            keyAccessRoleArn: Swift.String? = nil,
+            keyStoreAccessEnabled: Swift.Bool? = nil
+        )
+        {
+            self.keyAccessRoleArn = keyAccessRoleArn
+            self.keyStoreAccessEnabled = keyStoreAccessEnabled
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The configuration for associating a package with a domain.
+    public struct PackageAssociationConfiguration: Swift.Sendable {
+        /// The configuration parameters to enable accessing the key store required by the package.
+        public var keyStoreAccessOption: OpenSearchClientTypes.KeyStoreAccessOption?
+
+        public init(
+            keyStoreAccessOption: OpenSearchClientTypes.KeyStoreAccessOption? = nil
+        )
+        {
+            self.keyStoreAccessOption = keyStoreAccessOption
+        }
+    }
+}
+
 /// Container for the request parameters to the AssociatePackage operation.
 public struct AssociatePackageInput: Swift.Sendable {
+    /// The configuration for associating a package with an Amazon OpenSearch Service domain.
+    public var associationConfiguration: OpenSearchClientTypes.PackageAssociationConfiguration?
     /// Name of the domain to associate the package with.
     /// This member is required.
     public var domainName: Swift.String?
     /// Internal ID of the package to associate with a domain. Use DescribePackages to find this value.
     /// This member is required.
     public var packageID: Swift.String?
+    /// A list of package IDs that must be associated with the domain before the package specified in the request can be associated.
+    public var prerequisitePackageIDList: [Swift.String]?
 
     public init(
+        associationConfiguration: OpenSearchClientTypes.PackageAssociationConfiguration? = nil,
         domainName: Swift.String? = nil,
-        packageID: Swift.String? = nil
+        packageID: Swift.String? = nil,
+        prerequisitePackageIDList: [Swift.String]? = nil
     )
     {
+        self.associationConfiguration = associationConfiguration
         self.domainName = domainName
         self.packageID = packageID
+        self.prerequisitePackageIDList = prerequisitePackageIDList
     }
 }
 
@@ -1362,12 +1407,16 @@ extension OpenSearchClientTypes {
 extension OpenSearchClientTypes {
 
     public enum PackageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case packageConfig
+        case packageLicense
         case txtDictionary
         case zipPlugin
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PackageType] {
             return [
+                .packageConfig,
+                .packageLicense,
                 .txtDictionary,
                 .zipPlugin
             ]
@@ -1380,6 +1429,8 @@ extension OpenSearchClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .packageConfig: return "PACKAGE-CONFIG"
+            case .packageLicense: return "PACKAGE-LICENSE"
             case .txtDictionary: return "TXT-DICTIONARY"
             case .zipPlugin: return "ZIP-PLUGIN"
             case let .sdkUnknown(s): return s
@@ -1392,6 +1443,8 @@ extension OpenSearchClientTypes {
 
     /// Information about a package that is associated with a domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     public struct DomainPackageDetails: Swift.Sendable {
+        /// The configuration for associating a package with an Amazon OpenSearch Service domain.
+        public var associationConfiguration: OpenSearchClientTypes.PackageAssociationConfiguration?
         /// Name of the domain that the package is associated with.
         public var domainName: Swift.String?
         /// State of the association.
@@ -1408,10 +1461,13 @@ extension OpenSearchClientTypes {
         public var packageType: OpenSearchClientTypes.PackageType?
         /// The current version of the package.
         public var packageVersion: Swift.String?
+        /// A list of package IDs that must be associated with the domain before or with the package can be associated.
+        public var prerequisitePackageIDList: [Swift.String]?
         /// The relative path of the package on the OpenSearch Service cluster nodes. This is synonym_path when the package is for synonym files.
         public var referencePath: Swift.String?
 
         public init(
+            associationConfiguration: OpenSearchClientTypes.PackageAssociationConfiguration? = nil,
             domainName: Swift.String? = nil,
             domainPackageStatus: OpenSearchClientTypes.DomainPackageStatus? = nil,
             errorDetails: OpenSearchClientTypes.ErrorDetails? = nil,
@@ -1420,9 +1476,11 @@ extension OpenSearchClientTypes {
             packageName: Swift.String? = nil,
             packageType: OpenSearchClientTypes.PackageType? = nil,
             packageVersion: Swift.String? = nil,
+            prerequisitePackageIDList: [Swift.String]? = nil,
             referencePath: Swift.String? = nil
         )
         {
+            self.associationConfiguration = associationConfiguration
             self.domainName = domainName
             self.domainPackageStatus = domainPackageStatus
             self.errorDetails = errorDetails
@@ -1431,6 +1489,7 @@ extension OpenSearchClientTypes {
             self.packageName = packageName
             self.packageType = packageType
             self.packageVersion = packageVersion
+            self.prerequisitePackageIDList = prerequisitePackageIDList
             self.referencePath = referencePath
         }
     }
@@ -1449,21 +1508,105 @@ public struct AssociatePackageOutput: Swift.Sendable {
     }
 }
 
+extension OpenSearchClientTypes {
+
+    /// Details of a package that is associated with a domain.
+    public struct PackageDetailsForAssociation: Swift.Sendable {
+        /// The configuration parameters for associating the package with a domain.
+        public var associationConfiguration: OpenSearchClientTypes.PackageAssociationConfiguration?
+        /// Internal ID of the package that you want to associate with a domain.
+        /// This member is required.
+        public var packageID: Swift.String?
+        /// List of package IDs that must be associated with the domain with or before the package can be associated.
+        public var prerequisitePackageIDList: [Swift.String]?
+
+        public init(
+            associationConfiguration: OpenSearchClientTypes.PackageAssociationConfiguration? = nil,
+            packageID: Swift.String? = nil,
+            prerequisitePackageIDList: [Swift.String]? = nil
+        )
+        {
+            self.associationConfiguration = associationConfiguration
+            self.packageID = packageID
+            self.prerequisitePackageIDList = prerequisitePackageIDList
+        }
+    }
+}
+
+public struct AssociatePackagesInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A list of packages and their prerequisites to be associated with a domain.
+    /// This member is required.
+    public var packageList: [OpenSearchClientTypes.PackageDetailsForAssociation]?
+
+    public init(
+        domainName: Swift.String? = nil,
+        packageList: [OpenSearchClientTypes.PackageDetailsForAssociation]? = nil
+    )
+    {
+        self.domainName = domainName
+        self.packageList = packageList
+    }
+}
+
+public struct AssociatePackagesOutput: Swift.Sendable {
+    /// List of information about packages that are associated with a domain.
+    public var domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]?
+
+    public init(
+        domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]? = nil
+    )
+    {
+        self.domainPackageDetailsList = domainPackageDetailsList
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum AWSServicePrincipal: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicationOpensearchserviceAmazonawsCom
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AWSServicePrincipal] {
+            return [
+                .applicationOpensearchserviceAmazonawsCom
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applicationOpensearchserviceAmazonawsCom: return "application.opensearchservice.amazonaws.com"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct AuthorizeVpcEndpointAccessInput: Swift.Sendable {
     /// The Amazon Web Services account ID to grant access to.
-    /// This member is required.
     public var account: Swift.String?
     /// The name of the OpenSearch Service domain to provide access to.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The Amazon Web Services service SP to grant access to.
+    public var service: OpenSearchClientTypes.AWSServicePrincipal?
 
     public init(
         account: Swift.String? = nil,
-        domainName: Swift.String? = nil
+        domainName: Swift.String? = nil,
+        service: OpenSearchClientTypes.AWSServicePrincipal? = nil
     )
     {
         self.account = account
         self.domainName = domainName
+        self.service = service
     }
 }
 
@@ -1696,6 +1839,200 @@ public struct CancelServiceSoftwareUpdateOutput: Swift.Sendable {
     )
     {
         self.serviceSoftwareOptions = serviceSoftwareOptions
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum AppConfigType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case opensearchdashboardadmingroups
+        case opensearchdashboardadminusers
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppConfigType] {
+            return [
+                .opensearchdashboardadmingroups,
+                .opensearchdashboardadminusers
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .opensearchdashboardadmingroups: return "opensearchDashboards.dashboardAdmin.groups"
+            case .opensearchdashboardadminusers: return "opensearchDashboards.dashboardAdmin.users"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Configurations of the OpenSearch Application.
+    public struct AppConfig: Swift.Sendable {
+        /// Specify the item to configure, such as admin role for the OpenSearch Application.
+        public var key: OpenSearchClientTypes.AppConfigType?
+        /// Specifies the value to configure for the key, such as an IAM user ARN.
+        public var value: Swift.String?
+
+        public init(
+            key: OpenSearchClientTypes.AppConfigType? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Data sources that are associated with an OpenSearch Application.
+    public struct DataSource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+        public var dataSourceArn: Swift.String?
+        /// Detailed description of a data source.
+        public var dataSourceDescription: Swift.String?
+
+        public init(
+            dataSourceArn: Swift.String? = nil,
+            dataSourceDescription: Swift.String? = nil
+        )
+        {
+            self.dataSourceArn = dataSourceArn
+            self.dataSourceDescription = dataSourceDescription
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Settings for IAM Identity Center.
+    public struct IamIdentityCenterOptionsInput: Swift.Sendable {
+        /// Enable/disable settings for IAM Identity Center.
+        public var enabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+        public var iamIdentityCenterInstanceArn: Swift.String?
+        /// Amazon Resource Name of IAM Identity Center's application.
+        public var iamRoleForIdentityCenterApplicationArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            iamIdentityCenterInstanceArn: Swift.String? = nil,
+            iamRoleForIdentityCenterApplicationArn: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArn
+            self.iamRoleForIdentityCenterApplicationArn = iamRoleForIdentityCenterApplicationArn
+        }
+    }
+}
+
+public struct CreateApplicationInput: Swift.Sendable {
+    /// Configurations of the OpenSearch Application, inlcuding admin configuration.
+    public var appConfigs: [OpenSearchClientTypes.AppConfig]?
+    /// A unique client idempotency token. It will be auto generated if not provided.
+    public var clientToken: Swift.String?
+    /// Data sources to be associated with the OpenSearch Application.
+    public var dataSources: [OpenSearchClientTypes.DataSource]?
+    /// Settings of IAM Identity Center for the OpenSearch Application.
+    public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput?
+    /// Name of the OpenSearch Appication to create. Application names are unique across the applications owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of tags attached to a domain.
+    public var tagList: [OpenSearchClientTypes.Tag]?
+
+    public init(
+        appConfigs: [OpenSearchClientTypes.AppConfig]? = nil,
+        clientToken: Swift.String? = nil,
+        dataSources: [OpenSearchClientTypes.DataSource]? = nil,
+        iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput? = nil,
+        name: Swift.String? = nil,
+        tagList: [OpenSearchClientTypes.Tag]? = nil
+    )
+    {
+        self.appConfigs = appConfigs
+        self.clientToken = clientToken
+        self.dataSources = dataSources
+        self.iamIdentityCenterOptions = iamIdentityCenterOptions
+        self.name = name
+        self.tagList = tagList
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Settings for IAM Identity Center for an OpenSearch Application.
+    public struct IamIdentityCenterOptions: Swift.Sendable {
+        /// IAM Identity Center is enabled for the OpenSearch Application.
+        public var enabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+        public var iamIdentityCenterApplicationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+        public var iamIdentityCenterInstanceArn: Swift.String?
+        /// Amazon Resource Name of the IAM Identity Center's Application created for the OpenSearch Application after enabling IAM Identity Center.
+        public var iamRoleForIdentityCenterApplicationArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            iamIdentityCenterApplicationArn: Swift.String? = nil,
+            iamIdentityCenterInstanceArn: Swift.String? = nil,
+            iamRoleForIdentityCenterApplicationArn: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.iamIdentityCenterApplicationArn = iamIdentityCenterApplicationArn
+            self.iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArn
+            self.iamRoleForIdentityCenterApplicationArn = iamRoleForIdentityCenterApplicationArn
+        }
+    }
+}
+
+public struct CreateApplicationOutput: Swift.Sendable {
+    /// Configurations of the OpenSearch Application, inlcuding admin configuration.
+    public var appConfigs: [OpenSearchClientTypes.AppConfig]?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var arn: Swift.String?
+    /// Timestamp when the OpenSearch Application was created.
+    public var createdAt: Foundation.Date?
+    /// Data sources associated with the created OpenSearch Application.
+    public var dataSources: [OpenSearchClientTypes.DataSource]?
+    /// Settings of IAM Identity Center for the created OpenSearch Application.
+    public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions?
+    /// Unique identifier for the created OpenSearch Application.
+    public var id: Swift.String?
+    /// Name of the created OpenSearch Application.
+    public var name: Swift.String?
+    /// A list of tags attached to a domain.
+    public var tagList: [OpenSearchClientTypes.Tag]?
+
+    public init(
+        appConfigs: [OpenSearchClientTypes.AppConfig]? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataSources: [OpenSearchClientTypes.DataSource]? = nil,
+        iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tagList: [OpenSearchClientTypes.Tag]? = nil
+    )
+    {
+        self.appConfigs = appConfigs
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataSources = dataSources
+        self.iamIdentityCenterOptions = iamIdentityCenterOptions
+        self.id = id
+        self.name = name
+        self.tagList = tagList
     }
 }
 
@@ -2225,6 +2562,76 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Container for specifying configuration of any node type.
+    public struct NodeConfig: Swift.Sendable {
+        /// The number of nodes of a particular node type in the cluster.
+        public var count: Swift.Int?
+        /// A boolean that indicates whether a particular node type is enabled or not.
+        public var enabled: Swift.Bool?
+        /// The instance type of a particular node type in the cluster.
+        public var type: OpenSearchClientTypes.OpenSearchPartitionInstanceType?
+
+        public init(
+            count: Swift.Int? = nil,
+            enabled: Swift.Bool? = nil,
+            type: OpenSearchClientTypes.OpenSearchPartitionInstanceType? = nil
+        )
+        {
+            self.count = count
+            self.enabled = enabled
+            self.type = type
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum NodeOptionsNodeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case coordinator
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeOptionsNodeType] {
+            return [
+                .coordinator
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .coordinator: return "coordinator"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Container for specifying node type.
+    public struct NodeOption: Swift.Sendable {
+        /// Container for specifying configuration of any node type.
+        public var nodeConfig: OpenSearchClientTypes.NodeConfig?
+        /// Container for node type like coordinating.
+        public var nodeType: OpenSearchClientTypes.NodeOptionsNodeType?
+
+        public init(
+            nodeConfig: OpenSearchClientTypes.NodeConfig? = nil,
+            nodeType: OpenSearchClientTypes.NodeOptionsNodeType? = nil
+        )
+        {
+            self.nodeConfig = nodeConfig
+            self.nodeType = nodeType
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     public enum OpenSearchWarmPartitionInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ultrawarm1LargeSearch
         case ultrawarm1MediumSearch
@@ -2289,6 +2696,8 @@ extension OpenSearchClientTypes {
         public var instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType?
         /// A boolean that indicates whether a multi-AZ domain is turned on with a standby AZ. For more information, see [Configuring a multi-AZ domain in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-multiaz.html).
         public var multiAZWithStandbyEnabled: Swift.Bool?
+        /// List of node options for the domain.
+        public var nodeOptions: [OpenSearchClientTypes.NodeOption]?
         /// The number of warm nodes in the cluster.
         public var warmCount: Swift.Int?
         /// Whether to enable warm storage for the cluster.
@@ -2308,6 +2717,7 @@ extension OpenSearchClientTypes {
             instanceCount: Swift.Int? = nil,
             instanceType: OpenSearchClientTypes.OpenSearchPartitionInstanceType? = nil,
             multiAZWithStandbyEnabled: Swift.Bool? = nil,
+            nodeOptions: [OpenSearchClientTypes.NodeOption]? = nil,
             warmCount: Swift.Int? = nil,
             warmEnabled: Swift.Bool? = nil,
             warmType: OpenSearchClientTypes.OpenSearchWarmPartitionInstanceType? = nil,
@@ -2322,6 +2732,7 @@ extension OpenSearchClientTypes {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.multiAZWithStandbyEnabled = multiAZWithStandbyEnabled
+            self.nodeOptions = nodeOptions
             self.warmCount = warmCount
             self.warmEnabled = warmEnabled
             self.warmType = warmType
@@ -2513,6 +2924,95 @@ extension OpenSearchClientTypes {
         {
             self.enabled = enabled
             self.kmsKeyId = kmsKeyId
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum RolesKeyIdCOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case groupid
+        case groupname
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RolesKeyIdCOption] {
+            return [
+                .groupid,
+                .groupname
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .groupid: return "GroupId"
+            case .groupname: return "GroupName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum SubjectKeyIdCOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case email
+        case userid
+        case username
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubjectKeyIdCOption] {
+            return [
+                .email,
+                .userid,
+                .username
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .email: return "Email"
+            case .userid: return "UserId"
+            case .username: return "UserName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Container for IAM Identity Center Options settings.
+    public struct IdentityCenterOptionsInput: Swift.Sendable {
+        /// True to enable IAM Identity Center for API access in Amazon OpenSearch Service.
+        public var enabledAPIAccess: Swift.Bool?
+        /// The ARN for IAM Identity Center Instance which will be used for IAM Identity Center Application creation.
+        public var identityCenterInstanceARN: Swift.String?
+        /// Specify the attribute that contains the backend role (groupName, groupID) of IAM Identity Center
+        public var rolesKey: OpenSearchClientTypes.RolesKeyIdCOption?
+        /// Specify the attribute that contains the subject (username, userID, email) of IAM Identity Center.
+        public var subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption?
+
+        public init(
+            enabledAPIAccess: Swift.Bool? = nil,
+            identityCenterInstanceARN: Swift.String? = nil,
+            rolesKey: OpenSearchClientTypes.RolesKeyIdCOption? = nil,
+            subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption? = nil
+        )
+        {
+            self.enabledAPIAccess = enabledAPIAccess
+            self.identityCenterInstanceARN = identityCenterInstanceARN
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
         }
     }
 }
@@ -2773,6 +3273,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
     /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains).
     public var engineVersion: Swift.String?
+    /// Options for IAM Identity Center Option control for the domain.
+    public var identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput?
     /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
     public var ipAddressType: OpenSearchClientTypes.IPAddressType?
     /// Key-value pairs to configure log publishing.
@@ -2803,6 +3305,7 @@ public struct CreateDomainInput: Swift.Sendable {
         ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
         encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
         engineVersion: Swift.String? = nil,
+        identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput? = nil,
         ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
         logPublishingOptions: [Swift.String: OpenSearchClientTypes.LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
@@ -2825,6 +3328,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.ebsOptions = ebsOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
         self.engineVersion = engineVersion
+        self.identityCenterOptions = identityCenterOptions
         self.ipAddressType = ipAddressType
         self.logPublishingOptions = logPublishingOptions
         self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
@@ -3069,6 +3573,42 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Container for IAM Identity Center Options settings.
+    public struct IdentityCenterOptions: Swift.Sendable {
+        /// True to enable IAM Identity Center for API access in Amazon OpenSearch Service.
+        public var enabledAPIAccess: Swift.Bool?
+        /// The ARN for IAM Identity Center Application which will integrate with Amazon OpenSearch Service.
+        public var identityCenterApplicationARN: Swift.String?
+        /// The ARN for IAM Identity Center Instance.
+        public var identityCenterInstanceARN: Swift.String?
+        /// The ID of IAM Identity Store.
+        public var identityStoreId: Swift.String?
+        /// Specify the attribute that contains the backend role (groupName, groupID) of IAM Identity Center
+        public var rolesKey: OpenSearchClientTypes.RolesKeyIdCOption?
+        /// Specify the attribute that contains the subject (username, userID, email) of IAM Identity Center.
+        public var subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption?
+
+        public init(
+            enabledAPIAccess: Swift.Bool? = nil,
+            identityCenterApplicationARN: Swift.String? = nil,
+            identityCenterInstanceARN: Swift.String? = nil,
+            identityStoreId: Swift.String? = nil,
+            rolesKey: OpenSearchClientTypes.RolesKeyIdCOption? = nil,
+            subjectKey: OpenSearchClientTypes.SubjectKeyIdCOption? = nil
+        )
+        {
+            self.enabledAPIAccess = enabledAPIAccess
+            self.identityCenterApplicationARN = identityCenterApplicationARN
+            self.identityCenterInstanceARN = identityCenterInstanceARN
+            self.identityStoreId = identityStoreId
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     public enum PropertyValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case plainText
         case stringifiedJson
@@ -3212,6 +3752,8 @@ extension OpenSearchClientTypes {
         public var endpoints: [Swift.String: Swift.String]?
         /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public var engineVersion: Swift.String?
+        /// Container for IAM Identity Center Option control for the domain.
+        public var identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptions?
         /// The type of IP addresses supported by the endpoint for the domain.
         public var ipAddressType: OpenSearchClientTypes.IPAddressType?
         /// Log publishing options for the domain.
@@ -3258,6 +3800,7 @@ extension OpenSearchClientTypes {
             endpointV2: Swift.String? = nil,
             endpoints: [Swift.String: Swift.String]? = nil,
             engineVersion: Swift.String? = nil,
+            identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptions? = nil,
             ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
             logPublishingOptions: [Swift.String: OpenSearchClientTypes.LogPublishingOption]? = nil,
             modifyingProperties: [OpenSearchClientTypes.ModifyingProperties]? = nil,
@@ -3293,6 +3836,7 @@ extension OpenSearchClientTypes {
             self.endpointV2 = endpointV2
             self.endpoints = endpoints
             self.engineVersion = engineVersion
+            self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
             self.modifyingProperties = modifyingProperties
@@ -3555,6 +4099,89 @@ public struct CreateOutboundConnectionOutput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
+    public enum RequirementLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RequirementLevel] {
+            return [
+                .none,
+                .optional,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .optional: return "OPTIONAL"
+            case .required: return "REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The configuration parameters for a package.
+    public struct PackageConfiguration: Swift.Sendable {
+        /// The configuration requirements for the package.
+        /// This member is required.
+        public var configurationRequirement: OpenSearchClientTypes.RequirementLevel?
+        /// The relative file path for the license associated with the package.
+        public var licenseFilepath: Swift.String?
+        /// The license requirements for the package.
+        /// This member is required.
+        public var licenseRequirement: OpenSearchClientTypes.RequirementLevel?
+        /// This indicates whether a B/G deployment is required for updating the configuration that the plugin is prerequisite for.
+        public var requiresRestartForConfigurationUpdate: Swift.Bool?
+
+        public init(
+            configurationRequirement: OpenSearchClientTypes.RequirementLevel? = nil,
+            licenseFilepath: Swift.String? = nil,
+            licenseRequirement: OpenSearchClientTypes.RequirementLevel? = nil,
+            requiresRestartForConfigurationUpdate: Swift.Bool? = nil
+        )
+        {
+            self.configurationRequirement = configurationRequirement
+            self.licenseFilepath = licenseFilepath
+            self.licenseRequirement = licenseRequirement
+            self.requiresRestartForConfigurationUpdate = requiresRestartForConfigurationUpdate
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Encryption options for a package.
+    public struct PackageEncryptionOptions: Swift.Sendable {
+        /// This indicates whether encryption is enabled for the package.
+        /// This member is required.
+        public var encryptionEnabled: Swift.Bool?
+        /// KMS key ID for encrypting the package.
+        public var kmsKeyIdentifier: Swift.String?
+
+        public init(
+            encryptionEnabled: Swift.Bool? = nil,
+            kmsKeyIdentifier: Swift.String? = nil
+        )
+        {
+            self.encryptionEnabled = encryptionEnabled
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The Amazon S3 location to import the package from.
     public struct PackageSource: Swift.Sendable {
         /// The name of the Amazon S3 bucket containing the package.
@@ -3573,10 +4200,33 @@ extension OpenSearchClientTypes {
     }
 }
 
+extension OpenSearchClientTypes {
+
+    /// The vending options for a package to determine if the package can be used by other users.
+    public struct PackageVendingOptions: Swift.Sendable {
+        /// This indicates whether vending is enabled for the package to determine if package can be used by other users.
+        /// This member is required.
+        public var vendingEnabled: Swift.Bool?
+
+        public init(
+            vendingEnabled: Swift.Bool? = nil
+        )
+        {
+            self.vendingEnabled = vendingEnabled
+        }
+    }
+}
+
 /// Container for request parameters to the CreatePackage operation.
 public struct CreatePackageInput: Swift.Sendable {
+    /// The version of the Amazon OpenSearch Service engine for which is compatible with the package. This can only be specified for package type ZIP-PLUGIN
+    public var engineVersion: Swift.String?
+    /// The configuration parameters for the package being created.
+    public var packageConfiguration: OpenSearchClientTypes.PackageConfiguration?
     /// Description of the package.
     public var packageDescription: Swift.String?
+    /// The encryption parameters for the package being created.
+    public var packageEncryptionOptions: OpenSearchClientTypes.PackageEncryptionOptions?
     /// Unique name for the package.
     /// This member is required.
     public var packageName: Swift.String?
@@ -3586,18 +4236,28 @@ public struct CreatePackageInput: Swift.Sendable {
     /// The type of package.
     /// This member is required.
     public var packageType: OpenSearchClientTypes.PackageType?
+    /// The vending options for the package being created. They determine if the package can be vended to other users.
+    public var packageVendingOptions: OpenSearchClientTypes.PackageVendingOptions?
 
     public init(
+        engineVersion: Swift.String? = nil,
+        packageConfiguration: OpenSearchClientTypes.PackageConfiguration? = nil,
         packageDescription: Swift.String? = nil,
+        packageEncryptionOptions: OpenSearchClientTypes.PackageEncryptionOptions? = nil,
         packageName: Swift.String? = nil,
         packageSource: OpenSearchClientTypes.PackageSource? = nil,
-        packageType: OpenSearchClientTypes.PackageType? = nil
+        packageType: OpenSearchClientTypes.PackageType? = nil,
+        packageVendingOptions: OpenSearchClientTypes.PackageVendingOptions? = nil
     )
     {
+        self.engineVersion = engineVersion
+        self.packageConfiguration = packageConfiguration
         self.packageDescription = packageDescription
+        self.packageEncryptionOptions = packageEncryptionOptions
         self.packageName = packageName
         self.packageSource = packageSource
         self.packageType = packageType
+        self.packageVendingOptions = packageVendingOptions
     }
 }
 
@@ -3684,6 +4344,10 @@ extension OpenSearchClientTypes {
 
     /// Basic information about a package.
     public struct PackageDetails: Swift.Sendable {
+        /// A list of users who are allowed to view and associate the package. This field is only visible to the owner of a package.
+        public var allowListedUserList: [Swift.String]?
+        /// This represents the available configuration parameters for the package.
+        public var availablePackageConfiguration: OpenSearchClientTypes.PackageConfiguration?
         /// The package version.
         public var availablePackageVersion: Swift.String?
         /// If the package is a ZIP-PLUGIN package, additional information about plugin properties.
@@ -3698,16 +4362,24 @@ extension OpenSearchClientTypes {
         public var lastUpdatedAt: Foundation.Date?
         /// User-specified description of the package.
         public var packageDescription: Swift.String?
+        /// Package Encryption Options for a package.
+        public var packageEncryptionOptions: OpenSearchClientTypes.PackageEncryptionOptions?
         /// The unique identifier of the package.
         public var packageID: Swift.String?
         /// The user-specified name of the package.
         public var packageName: Swift.String?
+        /// The owner of the package who is allowed to create/update a package and add users to the package scope.
+        public var packageOwner: Swift.String?
         /// The current status of the package. The available options are AVAILABLE, COPYING, COPY_FAILED, VALIDATNG, VALIDATION_FAILED, DELETING, and DELETE_FAILED.
         public var packageStatus: OpenSearchClientTypes.PackageStatus?
         /// The type of package.
         public var packageType: OpenSearchClientTypes.PackageType?
+        /// Package Vending Options for a package.
+        public var packageVendingOptions: OpenSearchClientTypes.PackageVendingOptions?
 
         public init(
+            allowListedUserList: [Swift.String]? = nil,
+            availablePackageConfiguration: OpenSearchClientTypes.PackageConfiguration? = nil,
             availablePackageVersion: Swift.String? = nil,
             availablePluginProperties: OpenSearchClientTypes.PluginProperties? = nil,
             createdAt: Foundation.Date? = nil,
@@ -3715,12 +4387,17 @@ extension OpenSearchClientTypes {
             errorDetails: OpenSearchClientTypes.ErrorDetails? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             packageDescription: Swift.String? = nil,
+            packageEncryptionOptions: OpenSearchClientTypes.PackageEncryptionOptions? = nil,
             packageID: Swift.String? = nil,
             packageName: Swift.String? = nil,
+            packageOwner: Swift.String? = nil,
             packageStatus: OpenSearchClientTypes.PackageStatus? = nil,
-            packageType: OpenSearchClientTypes.PackageType? = nil
+            packageType: OpenSearchClientTypes.PackageType? = nil,
+            packageVendingOptions: OpenSearchClientTypes.PackageVendingOptions? = nil
         )
         {
+            self.allowListedUserList = allowListedUserList
+            self.availablePackageConfiguration = availablePackageConfiguration
             self.availablePackageVersion = availablePackageVersion
             self.availablePluginProperties = availablePluginProperties
             self.createdAt = createdAt
@@ -3728,10 +4405,13 @@ extension OpenSearchClientTypes {
             self.errorDetails = errorDetails
             self.lastUpdatedAt = lastUpdatedAt
             self.packageDescription = packageDescription
+            self.packageEncryptionOptions = packageEncryptionOptions
             self.packageID = packageID
             self.packageName = packageName
+            self.packageOwner = packageOwner
             self.packageStatus = packageStatus
             self.packageType = packageType
+            self.packageVendingOptions = packageVendingOptions
         }
     }
 }
@@ -3862,6 +4542,24 @@ public struct CreateVpcEndpointOutput: Swift.Sendable {
     {
         self.vpcEndpoint = vpcEndpoint
     }
+}
+
+public struct DeleteApplicationInput: Swift.Sendable {
+    /// Unique identifier for the OpenSearch Application that you want to delete.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+public struct DeleteApplicationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// Container for the parameters to the DeleteDataSource operation.
@@ -4731,6 +5429,28 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The status of IAM Identity Center Options settings for a domain.
+    public struct IdentityCenterOptionsStatus: Swift.Sendable {
+        /// Container for IAM Identity Center Options settings.
+        /// This member is required.
+        public var options: OpenSearchClientTypes.IdentityCenterOptions?
+        /// The status of IAM Identity Center Options settings for a domain.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.IdentityCenterOptions? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        )
+        {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The IP address type status for the domain.
     public struct IPAddressTypeStatus: Swift.Sendable {
         /// The IP address options for the domain.
@@ -4905,6 +5625,8 @@ extension OpenSearchClientTypes {
         public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus?
         /// The OpenSearch or Elasticsearch version that the domain is running.
         public var engineVersion: OpenSearchClientTypes.VersionStatus?
+        /// Container for IAM Identity Center Option control for the domain.
+        public var identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsStatus?
         /// Choose either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
         public var ipAddressType: OpenSearchClientTypes.IPAddressTypeStatus?
         /// Key-value pairs to configure log publishing.
@@ -4935,6 +5657,7 @@ extension OpenSearchClientTypes {
             ebsOptions: OpenSearchClientTypes.EBSOptionsStatus? = nil,
             encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus? = nil,
             engineVersion: OpenSearchClientTypes.VersionStatus? = nil,
+            identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsStatus? = nil,
             ipAddressType: OpenSearchClientTypes.IPAddressTypeStatus? = nil,
             logPublishingOptions: OpenSearchClientTypes.LogPublishingOptionsStatus? = nil,
             modifyingProperties: [OpenSearchClientTypes.ModifyingProperties]? = nil,
@@ -4957,6 +5680,7 @@ extension OpenSearchClientTypes {
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.engineVersion = engineVersion
+            self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
             self.modifyingProperties = modifyingProperties
@@ -5827,6 +6551,7 @@ extension OpenSearchClientTypes {
         case engineversion
         case packageid
         case packagename
+        case packageowner
         case packagestatus
         case packagetype
         case sdkUnknown(Swift.String)
@@ -5836,6 +6561,7 @@ extension OpenSearchClientTypes {
                 .engineversion,
                 .packageid,
                 .packagename,
+                .packageowner,
                 .packagestatus,
                 .packagetype
             ]
@@ -5851,6 +6577,7 @@ extension OpenSearchClientTypes {
             case .engineversion: return "EngineVersion"
             case .packageid: return "PackageID"
             case .packagename: return "PackageName"
+            case .packageowner: return "PackageOwner"
             case .packagestatus: return "PackageStatus"
             case .packagetype: return "PackageType"
             case let .sdkUnknown(s): return s
@@ -6273,6 +7000,135 @@ public struct DissociatePackageOutput: Swift.Sendable {
     }
 }
 
+public struct DissociatePackagesInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A list of package IDs to be dissociated from a domain.
+    /// This member is required.
+    public var packageList: [Swift.String]?
+
+    public init(
+        domainName: Swift.String? = nil,
+        packageList: [Swift.String]? = nil
+    )
+    {
+        self.domainName = domainName
+        self.packageList = packageList
+    }
+}
+
+public struct DissociatePackagesOutput: Swift.Sendable {
+    /// A list of package details for the packages that were dissociated from the domain.
+    public var domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]?
+
+    public init(
+        domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]? = nil
+    )
+    {
+        self.domainPackageDetailsList = domainPackageDetailsList
+    }
+}
+
+public struct GetApplicationInput: Swift.Sendable {
+    /// Unique identifier of the checked OpenSearch Application.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum ApplicationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetApplicationOutput: Swift.Sendable {
+    /// App configurations of the checked OpenSearch Application.
+    public var appConfigs: [OpenSearchClientTypes.AppConfig]?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var arn: Swift.String?
+    /// Timestamp at which the checked OpenSearch Application was created.
+    public var createdAt: Foundation.Date?
+    /// Associated data sources to the checked OpenSearch Application.
+    public var dataSources: [OpenSearchClientTypes.DataSource]?
+    /// Endpoint URL of the checked OpenSearch Application.
+    public var endpoint: Swift.String?
+    /// IAM Identity Center settings for the checked OpenSearch Application.
+    public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions?
+    /// Unique identifier of the checked OpenSearch Application.
+    public var id: Swift.String?
+    /// Timestamp at which the checked OpenSearch Application was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// Name of the checked OpenSearch Application.
+    public var name: Swift.String?
+    /// Current status of the checked OpenSearch Application. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+    public var status: OpenSearchClientTypes.ApplicationStatus?
+
+    public init(
+        appConfigs: [OpenSearchClientTypes.AppConfig]? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataSources: [OpenSearchClientTypes.DataSource]? = nil,
+        endpoint: Swift.String? = nil,
+        iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        status: OpenSearchClientTypes.ApplicationStatus? = nil
+    )
+    {
+        self.appConfigs = appConfigs
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataSources = dataSources
+        self.endpoint = endpoint
+        self.iamIdentityCenterOptions = iamIdentityCenterOptions
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.status = status
+    }
+}
+
 /// Container for the request parameters to GetCompatibleVersions operation.
 public struct GetCompatibleVersionsInput: Swift.Sendable {
     /// The name of an existing domain. Provide this parameter to limit the results to a single domain.
@@ -6544,6 +7400,8 @@ extension OpenSearchClientTypes {
         public var commitMessage: Swift.String?
         /// The date and time when the package was created.
         public var createdAt: Foundation.Date?
+        /// The configuration details for a specific version of a package.
+        public var packageConfiguration: OpenSearchClientTypes.PackageConfiguration?
         /// The package version.
         public var packageVersion: Swift.String?
         /// Additional information about plugin properties if the package is a ZIP-PLUGIN package.
@@ -6552,12 +7410,14 @@ extension OpenSearchClientTypes {
         public init(
             commitMessage: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
+            packageConfiguration: OpenSearchClientTypes.PackageConfiguration? = nil,
             packageVersion: Swift.String? = nil,
             pluginProperties: OpenSearchClientTypes.PluginProperties? = nil
         )
         {
             self.commitMessage = commitMessage
             self.createdAt = createdAt
+            self.packageConfiguration = packageConfiguration
             self.packageVersion = packageVersion
             self.pluginProperties = pluginProperties
         }
@@ -6801,6 +7661,82 @@ public struct GetUpgradeStatusOutput: Swift.Sendable {
         self.stepStatus = stepStatus
         self.upgradeName = upgradeName
         self.upgradeStep = upgradeStep
+    }
+}
+
+public struct ListApplicationsInput: Swift.Sendable {
+    /// An optional parameter that specifies the maximum number of results to return for a given request.
+    public var maxResults: Swift.Int?
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+    /// OpenSearch Application Status can be used as filters for the listing request. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+    public var statuses: [OpenSearchClientTypes.ApplicationStatus]?
+
+    public init(
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil,
+        statuses: [OpenSearchClientTypes.ApplicationStatus]? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.statuses = statuses
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Basic information of the OpenSearch Application.
+    public struct ApplicationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+        public var arn: Swift.String?
+        /// Timestamp at which an OpenSearch Application was created.
+        public var createdAt: Foundation.Date?
+        /// Endpoint URL of an OpenSearch Application.
+        public var endpoint: Swift.String?
+        /// Unique identifier for an OpenSearch application.
+        public var id: Swift.String?
+        /// Timestamp at which an OpenSearch Application was last updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// Name of an OpenSearch Application.
+        public var name: Swift.String?
+        /// Status of an OpenSearch Application. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+        public var status: OpenSearchClientTypes.ApplicationStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            endpoint: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: OpenSearchClientTypes.ApplicationStatus? = nil
+        )
+        {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.endpoint = endpoint
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+public struct ListApplicationsOutput: Swift.Sendable {
+    /// Summary of the OpenSearch Applications, including ID, ARN, name, endpoint, status, create time and last update time.
+    public var applicationSummaries: [OpenSearchClientTypes.ApplicationSummary]?
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationSummaries: [OpenSearchClientTypes.ApplicationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationSummaries = applicationSummaries
+        self.nextToken = nextToken
     }
 }
 
@@ -7563,19 +8499,22 @@ public struct RemoveTagsInput: Swift.Sendable {
 
 public struct RevokeVpcEndpointAccessInput: Swift.Sendable {
     /// The account ID to revoke access from.
-    /// This member is required.
     public var account: Swift.String?
     /// The name of the OpenSearch Service domain.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The service SP to revoke access from.
+    public var service: OpenSearchClientTypes.AWSServicePrincipal?
 
     public init(
         account: Swift.String? = nil,
-        domainName: Swift.String? = nil
+        domainName: Swift.String? = nil,
+        service: OpenSearchClientTypes.AWSServicePrincipal? = nil
     )
     {
         self.account = account
         self.domainName = domainName
+        self.service = service
     }
 }
 
@@ -7696,6 +8635,67 @@ public struct StartServiceSoftwareUpdateOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateApplicationInput: Swift.Sendable {
+    /// Configurations to be changed for the OpenSearch Application.
+    public var appConfigs: [OpenSearchClientTypes.AppConfig]?
+    /// Data sources to be associated with the OpenSearch Application.
+    public var dataSources: [OpenSearchClientTypes.DataSource]?
+    /// Unique identifier of the OpenSearch Application to be updated.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        appConfigs: [OpenSearchClientTypes.AppConfig]? = nil,
+        dataSources: [OpenSearchClientTypes.DataSource]? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.appConfigs = appConfigs
+        self.dataSources = dataSources
+        self.id = id
+    }
+}
+
+public struct UpdateApplicationOutput: Swift.Sendable {
+    /// Configurations for the updated OpenSearch Application.
+    public var appConfigs: [OpenSearchClientTypes.AppConfig]?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var arn: Swift.String?
+    /// Timestamp at which the OpenSearch Application was created.
+    public var createdAt: Foundation.Date?
+    /// Data sources associated with the updated OpenSearch Application.
+    public var dataSources: [OpenSearchClientTypes.DataSource]?
+    /// IAM Identity Center settings for the updated OpenSearch Application.
+    public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions?
+    /// Unique identifier of the updated OpenSearch Application.
+    public var id: Swift.String?
+    /// Timestamp at which the OpenSearch Application was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// Name of the updated OpenSearch Application.
+    public var name: Swift.String?
+
+    public init(
+        appConfigs: [OpenSearchClientTypes.AppConfig]? = nil,
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataSources: [OpenSearchClientTypes.DataSource]? = nil,
+        iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.appConfigs = appConfigs
+        self.arn = arn
+        self.createdAt = createdAt
+        self.dataSources = dataSources
+        self.iamIdentityCenterOptions = iamIdentityCenterOptions
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+    }
+}
+
 /// Container for the parameters to the UpdateDataSource operation.
 public struct UpdateDataSourceInput: Swift.Sendable {
     /// The type of data source.
@@ -7812,6 +8812,8 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var ebsOptions: OpenSearchClientTypes.EBSOptions?
     /// Encryption at rest options for the domain.
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
+    /// Container for IAM Identity Center Options settings.
+    public var identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput?
     /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
     public var ipAddressType: OpenSearchClientTypes.IPAddressType?
     /// Options to publish OpenSearch logs to Amazon CloudWatch Logs.
@@ -7841,6 +8843,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         dryRunMode: OpenSearchClientTypes.DryRunMode? = nil,
         ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
         encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
+        identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput? = nil,
         ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
         logPublishingOptions: [Swift.String: OpenSearchClientTypes.LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
@@ -7863,6 +8866,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         self.dryRunMode = dryRunMode
         self.ebsOptions = ebsOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
+        self.identityCenterOptions = identityCenterOptions
         self.ipAddressType = ipAddressType
         self.logPublishingOptions = logPublishingOptions
         self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
@@ -7899,8 +8903,12 @@ public struct UpdateDomainConfigOutput: Swift.Sendable {
 public struct UpdatePackageInput: Swift.Sendable {
     /// Commit message for the updated file, which is shown as part of GetPackageVersionHistoryResponse.
     public var commitMessage: Swift.String?
+    /// The updated configuration details for a package.
+    public var packageConfiguration: OpenSearchClientTypes.PackageConfiguration?
     /// A new description of the package.
     public var packageDescription: Swift.String?
+    /// Encryption options for a package.
+    public var packageEncryptionOptions: OpenSearchClientTypes.PackageEncryptionOptions?
     /// The unique identifier for the package.
     /// This member is required.
     public var packageID: Swift.String?
@@ -7910,13 +8918,17 @@ public struct UpdatePackageInput: Swift.Sendable {
 
     public init(
         commitMessage: Swift.String? = nil,
+        packageConfiguration: OpenSearchClientTypes.PackageConfiguration? = nil,
         packageDescription: Swift.String? = nil,
+        packageEncryptionOptions: OpenSearchClientTypes.PackageEncryptionOptions? = nil,
         packageID: Swift.String? = nil,
         packageSource: OpenSearchClientTypes.PackageSource? = nil
     )
     {
         self.commitMessage = commitMessage
+        self.packageConfiguration = packageConfiguration
         self.packageDescription = packageDescription
+        self.packageEncryptionOptions = packageEncryptionOptions
         self.packageID = packageID
         self.packageSource = packageSource
     }
@@ -7932,6 +8944,81 @@ public struct UpdatePackageOutput: Swift.Sendable {
     )
     {
         self.packageDetails = packageDetails
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum PackageScopeOperationEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case add
+        case `override`
+        case remove
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageScopeOperationEnum] {
+            return [
+                .add,
+                .override,
+                .remove
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .add: return "ADD"
+            case .override: return "OVERRIDE"
+            case .remove: return "REMOVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdatePackageScopeInput: Swift.Sendable {
+    /// The operation to perform on the package scope (e.g., add/remove/override users).
+    /// This member is required.
+    public var operation: OpenSearchClientTypes.PackageScopeOperationEnum?
+    /// ID of the package whose scope is being updated.
+    /// This member is required.
+    public var packageID: Swift.String?
+    /// List of users to be added or removed from the package scope.
+    /// This member is required.
+    public var packageUserList: [Swift.String]?
+
+    public init(
+        operation: OpenSearchClientTypes.PackageScopeOperationEnum? = nil,
+        packageID: Swift.String? = nil,
+        packageUserList: [Swift.String]? = nil
+    )
+    {
+        self.operation = operation
+        self.packageID = packageID
+        self.packageUserList = packageUserList
+    }
+}
+
+public struct UpdatePackageScopeOutput: Swift.Sendable {
+    /// The operation that was performed on the package scope.
+    public var operation: OpenSearchClientTypes.PackageScopeOperationEnum?
+    /// ID of the package whose scope was updated.
+    public var packageID: Swift.String?
+    /// List of users who have access to the package after the scope update.
+    public var packageUserList: [Swift.String]?
+
+    public init(
+        operation: OpenSearchClientTypes.PackageScopeOperationEnum? = nil,
+        packageID: Swift.String? = nil,
+        packageUserList: [Swift.String]? = nil
+    )
+    {
+        self.operation = operation
+        self.packageID = packageID
+        self.packageUserList = packageUserList
     }
 }
 
@@ -8145,6 +9232,13 @@ extension AssociatePackageInput {
     }
 }
 
+extension AssociatePackagesInput {
+
+    static func urlPathProvider(_ value: AssociatePackagesInput) -> Swift.String? {
+        return "/2021-01-01/packages/associateMultiple"
+    }
+}
+
 extension AuthorizeVpcEndpointAccessInput {
 
     static func urlPathProvider(_ value: AuthorizeVpcEndpointAccessInput) -> Swift.String? {
@@ -8169,6 +9263,13 @@ extension CancelServiceSoftwareUpdateInput {
 
     static func urlPathProvider(_ value: CancelServiceSoftwareUpdateInput) -> Swift.String? {
         return "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel"
+    }
+}
+
+extension CreateApplicationInput {
+
+    static func urlPathProvider(_ value: CreateApplicationInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/application"
     }
 }
 
@@ -8197,6 +9298,16 @@ extension CreateVpcEndpointInput {
 
     static func urlPathProvider(_ value: CreateVpcEndpointInput) -> Swift.String? {
         return "/2021-01-01/opensearch/vpcEndpoints"
+    }
+}
+
+extension DeleteApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteApplicationInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())"
     }
 }
 
@@ -8488,6 +9599,23 @@ extension DissociatePackageInput {
     }
 }
 
+extension DissociatePackagesInput {
+
+    static func urlPathProvider(_ value: DissociatePackagesInput) -> Swift.String? {
+        return "/2021-01-01/packages/dissociateMultiple"
+    }
+}
+
+extension GetApplicationInput {
+
+    static func urlPathProvider(_ value: GetApplicationInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())"
+    }
+}
+
 extension GetCompatibleVersionsInput {
 
     static func urlPathProvider(_ value: GetCompatibleVersionsInput) -> Swift.String? {
@@ -8603,6 +9731,35 @@ extension GetUpgradeStatusInput {
             return nil
         }
         return "/2021-01-01/opensearch/upgradeDomain/\(domainName.urlPercentEncoding())/status"
+    }
+}
+
+extension ListApplicationsInput {
+
+    static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/list-applications"
+    }
+}
+
+extension ListApplicationsInput {
+
+    static func queryItemProvider(_ value: ListApplicationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let statuses = value.statuses {
+            statuses.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "statuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
     }
 }
 
@@ -8943,6 +10100,16 @@ extension StartServiceSoftwareUpdateInput {
     }
 }
 
+extension UpdateApplicationInput {
+
+    static func urlPathProvider(_ value: UpdateApplicationInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())"
+    }
+}
+
 extension UpdateDataSourceInput {
 
     static func urlPathProvider(_ value: UpdateDataSourceInput) -> Swift.String? {
@@ -8970,6 +10137,13 @@ extension UpdatePackageInput {
 
     static func urlPathProvider(_ value: UpdatePackageInput) -> Swift.String? {
         return "/2021-01-01/packages/update"
+    }
+}
+
+extension UpdatePackageScopeInput {
+
+    static func urlPathProvider(_ value: UpdatePackageScopeInput) -> Swift.String? {
+        return "/2021-01-01/packages/updateScope"
     }
 }
 
@@ -9016,11 +10190,30 @@ extension AddTagsInput {
     }
 }
 
+extension AssociatePackageInput {
+
+    static func write(value: AssociatePackageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssociationConfiguration"].write(value.associationConfiguration, with: OpenSearchClientTypes.PackageAssociationConfiguration.write(value:to:))
+        try writer["PrerequisitePackageIDList"].writeList(value.prerequisitePackageIDList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension AssociatePackagesInput {
+
+    static func write(value: AssociatePackagesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DomainName"].write(value.domainName)
+        try writer["PackageList"].writeList(value.packageList, memberWritingClosure: OpenSearchClientTypes.PackageDetailsForAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension AuthorizeVpcEndpointAccessInput {
 
     static func write(value: AuthorizeVpcEndpointAccessInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Account"].write(value.account)
+        try writer["Service"].write(value.service)
     }
 }
 
@@ -9037,6 +10230,19 @@ extension CancelServiceSoftwareUpdateInput {
     static func write(value: CancelServiceSoftwareUpdateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DomainName"].write(value.domainName)
+    }
+}
+
+extension CreateApplicationInput {
+
+    static func write(value: CreateApplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appConfigs"].writeList(value.appConfigs, memberWritingClosure: OpenSearchClientTypes.AppConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: OpenSearchClientTypes.DataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["iamIdentityCenterOptions"].write(value.iamIdentityCenterOptions, with: OpenSearchClientTypes.IamIdentityCenterOptionsInput.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["tagList"].writeList(value.tagList, memberWritingClosure: OpenSearchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9057,6 +10263,7 @@ extension CreateDomainInput {
         try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: OpenSearchClientTypes.EncryptionAtRestOptions.write(value:to:))
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["IPAddressType"].write(value.ipAddressType)
+        try writer["IdentityCenterOptions"].write(value.identityCenterOptions, with: OpenSearchClientTypes.IdentityCenterOptionsInput.write(value:to:))
         try writer["LogPublishingOptions"].writeMap(value.logPublishingOptions, valueWritingClosure: OpenSearchClientTypes.LogPublishingOption.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["NodeToNodeEncryptionOptions"].write(value.nodeToNodeEncryptionOptions, with: OpenSearchClientTypes.NodeToNodeEncryptionOptions.write(value:to:))
         try writer["OffPeakWindowOptions"].write(value.offPeakWindowOptions, with: OpenSearchClientTypes.OffPeakWindowOptions.write(value:to:))
@@ -9083,10 +10290,14 @@ extension CreatePackageInput {
 
     static func write(value: CreatePackageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EngineVersion"].write(value.engineVersion)
+        try writer["PackageConfiguration"].write(value.packageConfiguration, with: OpenSearchClientTypes.PackageConfiguration.write(value:to:))
         try writer["PackageDescription"].write(value.packageDescription)
+        try writer["PackageEncryptionOptions"].write(value.packageEncryptionOptions, with: OpenSearchClientTypes.PackageEncryptionOptions.write(value:to:))
         try writer["PackageName"].write(value.packageName)
         try writer["PackageSource"].write(value.packageSource, with: OpenSearchClientTypes.PackageSource.write(value:to:))
         try writer["PackageType"].write(value.packageType)
+        try writer["PackageVendingOptions"].write(value.packageVendingOptions, with: OpenSearchClientTypes.PackageVendingOptions.write(value:to:))
     }
 }
 
@@ -9155,6 +10366,15 @@ extension DescribeVpcEndpointsInput {
     }
 }
 
+extension DissociatePackagesInput {
+
+    static func write(value: DissociatePackagesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DomainName"].write(value.domainName)
+        try writer["PackageList"].writeList(value.packageList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension PurchaseReservedInstanceOfferingInput {
 
     static func write(value: PurchaseReservedInstanceOfferingInput?, to writer: SmithyJSON.Writer) throws {
@@ -9179,6 +10399,7 @@ extension RevokeVpcEndpointAccessInput {
     static func write(value: RevokeVpcEndpointAccessInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Account"].write(value.account)
+        try writer["Service"].write(value.service)
     }
 }
 
@@ -9198,6 +10419,15 @@ extension StartServiceSoftwareUpdateInput {
         try writer["DesiredStartTime"].write(value.desiredStartTime)
         try writer["DomainName"].write(value.domainName)
         try writer["ScheduleAt"].write(value.scheduleAt)
+    }
+}
+
+extension UpdateApplicationInput {
+
+    static func write(value: UpdateApplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appConfigs"].writeList(value.appConfigs, memberWritingClosure: OpenSearchClientTypes.AppConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: OpenSearchClientTypes.DataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9228,6 +10458,7 @@ extension UpdateDomainConfigInput {
         try writer["EBSOptions"].write(value.ebsOptions, with: OpenSearchClientTypes.EBSOptions.write(value:to:))
         try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: OpenSearchClientTypes.EncryptionAtRestOptions.write(value:to:))
         try writer["IPAddressType"].write(value.ipAddressType)
+        try writer["IdentityCenterOptions"].write(value.identityCenterOptions, with: OpenSearchClientTypes.IdentityCenterOptionsInput.write(value:to:))
         try writer["LogPublishingOptions"].writeMap(value.logPublishingOptions, valueWritingClosure: OpenSearchClientTypes.LogPublishingOption.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["NodeToNodeEncryptionOptions"].write(value.nodeToNodeEncryptionOptions, with: OpenSearchClientTypes.NodeToNodeEncryptionOptions.write(value:to:))
         try writer["OffPeakWindowOptions"].write(value.offPeakWindowOptions, with: OpenSearchClientTypes.OffPeakWindowOptions.write(value:to:))
@@ -9242,9 +10473,21 @@ extension UpdatePackageInput {
     static func write(value: UpdatePackageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CommitMessage"].write(value.commitMessage)
+        try writer["PackageConfiguration"].write(value.packageConfiguration, with: OpenSearchClientTypes.PackageConfiguration.write(value:to:))
         try writer["PackageDescription"].write(value.packageDescription)
+        try writer["PackageEncryptionOptions"].write(value.packageEncryptionOptions, with: OpenSearchClientTypes.PackageEncryptionOptions.write(value:to:))
         try writer["PackageID"].write(value.packageID)
         try writer["PackageSource"].write(value.packageSource, with: OpenSearchClientTypes.PackageSource.write(value:to:))
+    }
+}
+
+extension UpdatePackageScopeInput {
+
+    static func write(value: UpdatePackageScopeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operation"].write(value.operation)
+        try writer["PackageID"].write(value.packageID)
+        try writer["PackageUserList"].writeList(value.packageUserList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9322,6 +10565,18 @@ extension AssociatePackageOutput {
     }
 }
 
+extension AssociatePackagesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociatePackagesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociatePackagesOutput()
+        value.domainPackageDetailsList = try reader["DomainPackageDetailsList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DomainPackageDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension AuthorizeVpcEndpointAccessOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AuthorizeVpcEndpointAccessOutput {
@@ -9356,6 +10611,25 @@ extension CancelServiceSoftwareUpdateOutput {
         let reader = responseReader
         var value = CancelServiceSoftwareUpdateOutput()
         value.serviceSoftwareOptions = try reader["ServiceSoftwareOptions"].readIfPresent(with: OpenSearchClientTypes.ServiceSoftwareOptions.read(from:))
+        return value
+    }
+}
+
+extension CreateApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateApplicationOutput()
+        value.appConfigs = try reader["appConfigs"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.AppConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dataSources = try reader["dataSources"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DataSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchClientTypes.IamIdentityCenterOptions.read(from:))
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.tagList = try reader["tagList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9411,6 +10685,13 @@ extension CreateVpcEndpointOutput {
         var value = CreateVpcEndpointOutput()
         value.vpcEndpoint = try reader["VpcEndpoint"].readIfPresent(with: OpenSearchClientTypes.VpcEndpoint.read(from:))
         return value
+    }
+}
+
+extension DeleteApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteApplicationOutput {
+        return DeleteApplicationOutput()
     }
 }
 
@@ -9699,6 +10980,39 @@ extension DissociatePackageOutput {
     }
 }
 
+extension DissociatePackagesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DissociatePackagesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DissociatePackagesOutput()
+        value.domainPackageDetailsList = try reader["DomainPackageDetailsList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DomainPackageDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetApplicationOutput()
+        value.appConfigs = try reader["appConfigs"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.AppConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dataSources = try reader["dataSources"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DataSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchClientTypes.IamIdentityCenterOptions.read(from:))
+        value.id = try reader["id"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension GetCompatibleVersionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCompatibleVersionsOutput {
@@ -9780,6 +11094,19 @@ extension GetUpgradeStatusOutput {
         value.stepStatus = try reader["StepStatus"].readIfPresent()
         value.upgradeName = try reader["UpgradeName"].readIfPresent()
         value.upgradeStep = try reader["UpgradeStep"].readIfPresent()
+        return value
+    }
+}
+
+extension ListApplicationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListApplicationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListApplicationsOutput()
+        value.applicationSummaries = try reader["ApplicationSummaries"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ApplicationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -10000,6 +11327,25 @@ extension StartServiceSoftwareUpdateOutput {
     }
 }
 
+extension UpdateApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateApplicationOutput()
+        value.appConfigs = try reader["appConfigs"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.AppConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dataSources = try reader["dataSources"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DataSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchClientTypes.IamIdentityCenterOptions.read(from:))
+        value.id = try reader["id"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateDataSourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataSourceOutput {
@@ -10034,6 +11380,20 @@ extension UpdatePackageOutput {
         let reader = responseReader
         var value = UpdatePackageOutput()
         value.packageDetails = try reader["PackageDetails"].readIfPresent(with: OpenSearchClientTypes.PackageDetails.read(from:))
+        return value
+    }
+}
+
+extension UpdatePackageScopeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePackageScopeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePackageScopeOutput()
+        value.operation = try reader["Operation"].readIfPresent()
+        value.packageID = try reader["PackageID"].readIfPresent()
+        value.packageUserList = try reader["PackageUserList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10151,6 +11511,25 @@ enum AssociatePackageOutputError {
     }
 }
 
+enum AssociatePackagesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AuthorizeVpcEndpointAccessOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10199,6 +11578,25 @@ enum CancelServiceSoftwareUpdateOutputError {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10275,6 +11673,26 @@ enum CreateVpcEndpointOutputError {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10659,6 +12077,44 @@ enum DissociatePackageOutputError {
     }
 }
 
+enum DissociatePackagesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetCompatibleVersionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10758,6 +12214,25 @@ enum GetUpgradeStatusOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListApplicationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
@@ -11078,6 +12553,26 @@ enum StartServiceSoftwareUpdateOutputError {
     }
 }
 
+enum UpdateApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateDataSourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11128,6 +12623,24 @@ enum UpdatePackageOutputError {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdatePackageScopeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11434,8 +12947,42 @@ extension OpenSearchClientTypes.DomainPackageDetails {
         value.domainName = try reader["DomainName"].readIfPresent()
         value.domainPackageStatus = try reader["DomainPackageStatus"].readIfPresent()
         value.packageVersion = try reader["PackageVersion"].readIfPresent()
+        value.prerequisitePackageIDList = try reader["PrerequisitePackageIDList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.referencePath = try reader["ReferencePath"].readIfPresent()
         value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: OpenSearchClientTypes.ErrorDetails.read(from:))
+        value.associationConfiguration = try reader["AssociationConfiguration"].readIfPresent(with: OpenSearchClientTypes.PackageAssociationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.PackageAssociationConfiguration {
+
+    static func write(value: OpenSearchClientTypes.PackageAssociationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyStoreAccessOption"].write(value.keyStoreAccessOption, with: OpenSearchClientTypes.KeyStoreAccessOption.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PackageAssociationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.PackageAssociationConfiguration()
+        value.keyStoreAccessOption = try reader["KeyStoreAccessOption"].readIfPresent(with: OpenSearchClientTypes.KeyStoreAccessOption.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.KeyStoreAccessOption {
+
+    static func write(value: OpenSearchClientTypes.KeyStoreAccessOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyAccessRoleArn"].write(value.keyAccessRoleArn)
+        try writer["KeyStoreAccessEnabled"].write(value.keyStoreAccessEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.KeyStoreAccessOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.KeyStoreAccessOption()
+        value.keyAccessRoleArn = try reader["KeyAccessRoleArn"].readIfPresent()
+        value.keyStoreAccessEnabled = try reader["KeyStoreAccessEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -11491,6 +13038,70 @@ extension OpenSearchClientTypes.ServiceSoftwareOptions {
     }
 }
 
+extension OpenSearchClientTypes.DataSource {
+
+    static func write(value: OpenSearchClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataSourceArn"].write(value.dataSourceArn)
+        try writer["dataSourceDescription"].write(value.dataSourceDescription)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DataSource()
+        value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
+        value.dataSourceDescription = try reader["dataSourceDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.IamIdentityCenterOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.IamIdentityCenterOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.IamIdentityCenterOptions()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.iamIdentityCenterInstanceArn = try reader["iamIdentityCenterInstanceArn"].readIfPresent()
+        value.iamRoleForIdentityCenterApplicationArn = try reader["iamRoleForIdentityCenterApplicationArn"].readIfPresent()
+        value.iamIdentityCenterApplicationArn = try reader["iamIdentityCenterApplicationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.AppConfig {
+
+    static func write(value: OpenSearchClientTypes.AppConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.AppConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.AppConfig()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.Tag {
+
+    static func write(value: OpenSearchClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.DomainStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DomainStatus {
@@ -11522,6 +13133,7 @@ extension OpenSearchClientTypes.DomainStatus {
         value.serviceSoftwareOptions = try reader["ServiceSoftwareOptions"].readIfPresent(with: OpenSearchClientTypes.ServiceSoftwareOptions.read(from:))
         value.domainEndpointOptions = try reader["DomainEndpointOptions"].readIfPresent(with: OpenSearchClientTypes.DomainEndpointOptions.read(from:))
         value.advancedSecurityOptions = try reader["AdvancedSecurityOptions"].readIfPresent(with: OpenSearchClientTypes.AdvancedSecurityOptions.read(from:))
+        value.identityCenterOptions = try reader["IdentityCenterOptions"].readIfPresent(with: OpenSearchClientTypes.IdentityCenterOptions.read(from:))
         value.autoTuneOptions = try reader["AutoTuneOptions"].readIfPresent(with: OpenSearchClientTypes.AutoTuneOptionsOutput.read(from:))
         value.changeProgressDetails = try reader["ChangeProgressDetails"].readIfPresent(with: OpenSearchClientTypes.ChangeProgressDetails.read(from:))
         value.offPeakWindowOptions = try reader["OffPeakWindowOptions"].readIfPresent(with: OpenSearchClientTypes.OffPeakWindowOptions.read(from:))
@@ -11654,6 +13266,21 @@ extension OpenSearchClientTypes.AutoTuneOptionsOutput {
         value.state = try reader["State"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         value.useOffPeakWindow = try reader["UseOffPeakWindow"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.IdentityCenterOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.IdentityCenterOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.IdentityCenterOptions()
+        value.enabledAPIAccess = try reader["EnabledAPIAccess"].readIfPresent()
+        value.identityCenterInstanceARN = try reader["IdentityCenterInstanceARN"].readIfPresent()
+        value.subjectKey = try reader["SubjectKey"].readIfPresent()
+        value.rolesKey = try reader["RolesKey"].readIfPresent()
+        value.identityCenterApplicationARN = try reader["IdentityCenterApplicationARN"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent()
         return value
     }
 }
@@ -11872,6 +13499,7 @@ extension OpenSearchClientTypes.ClusterConfig {
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["InstanceType"].write(value.instanceType)
         try writer["MultiAZWithStandbyEnabled"].write(value.multiAZWithStandbyEnabled)
+        try writer["NodeOptions"].writeList(value.nodeOptions, memberWritingClosure: OpenSearchClientTypes.NodeOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WarmCount"].write(value.warmCount)
         try writer["WarmEnabled"].write(value.warmEnabled)
         try writer["WarmType"].write(value.warmType)
@@ -11894,6 +13522,43 @@ extension OpenSearchClientTypes.ClusterConfig {
         value.warmCount = try reader["WarmCount"].readIfPresent()
         value.coldStorageOptions = try reader["ColdStorageOptions"].readIfPresent(with: OpenSearchClientTypes.ColdStorageOptions.read(from:))
         value.multiAZWithStandbyEnabled = try reader["MultiAZWithStandbyEnabled"].readIfPresent()
+        value.nodeOptions = try reader["NodeOptions"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.NodeOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.NodeOption {
+
+    static func write(value: OpenSearchClientTypes.NodeOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NodeConfig"].write(value.nodeConfig, with: OpenSearchClientTypes.NodeConfig.write(value:to:))
+        try writer["NodeType"].write(value.nodeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.NodeOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.NodeOption()
+        value.nodeType = try reader["NodeType"].readIfPresent()
+        value.nodeConfig = try reader["NodeConfig"].readIfPresent(with: OpenSearchClientTypes.NodeConfig.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.NodeConfig {
+
+    static func write(value: OpenSearchClientTypes.NodeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Count"].write(value.count)
+        try writer["Enabled"].write(value.enabled)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.NodeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.NodeConfig()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.count = try reader["Count"].readIfPresent()
         return value
     }
 }
@@ -11987,6 +13652,64 @@ extension OpenSearchClientTypes.PackageDetails {
         value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: OpenSearchClientTypes.ErrorDetails.read(from:))
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.availablePluginProperties = try reader["AvailablePluginProperties"].readIfPresent(with: OpenSearchClientTypes.PluginProperties.read(from:))
+        value.availablePackageConfiguration = try reader["AvailablePackageConfiguration"].readIfPresent(with: OpenSearchClientTypes.PackageConfiguration.read(from:))
+        value.allowListedUserList = try reader["AllowListedUserList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.packageOwner = try reader["PackageOwner"].readIfPresent()
+        value.packageVendingOptions = try reader["PackageVendingOptions"].readIfPresent(with: OpenSearchClientTypes.PackageVendingOptions.read(from:))
+        value.packageEncryptionOptions = try reader["PackageEncryptionOptions"].readIfPresent(with: OpenSearchClientTypes.PackageEncryptionOptions.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.PackageEncryptionOptions {
+
+    static func write(value: OpenSearchClientTypes.PackageEncryptionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionEnabled"].write(value.encryptionEnabled)
+        try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PackageEncryptionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.PackageEncryptionOptions()
+        value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
+        value.encryptionEnabled = try reader["EncryptionEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.PackageVendingOptions {
+
+    static func write(value: OpenSearchClientTypes.PackageVendingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VendingEnabled"].write(value.vendingEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PackageVendingOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.PackageVendingOptions()
+        value.vendingEnabled = try reader["VendingEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.PackageConfiguration {
+
+    static func write(value: OpenSearchClientTypes.PackageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationRequirement"].write(value.configurationRequirement)
+        try writer["LicenseFilepath"].write(value.licenseFilepath)
+        try writer["LicenseRequirement"].write(value.licenseRequirement)
+        try writer["RequiresRestartForConfigurationUpdate"].write(value.requiresRestartForConfigurationUpdate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.PackageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.PackageConfiguration()
+        value.licenseRequirement = try reader["LicenseRequirement"].readIfPresent() ?? .sdkUnknown("")
+        value.licenseFilepath = try reader["LicenseFilepath"].readIfPresent()
+        value.configurationRequirement = try reader["ConfigurationRequirement"].readIfPresent() ?? .sdkUnknown("")
+        value.requiresRestartForConfigurationUpdate = try reader["RequiresRestartForConfigurationUpdate"].readIfPresent()
         return value
     }
 }
@@ -12134,6 +13857,7 @@ extension OpenSearchClientTypes.DomainConfig {
         value.logPublishingOptions = try reader["LogPublishingOptions"].readIfPresent(with: OpenSearchClientTypes.LogPublishingOptionsStatus.read(from:))
         value.domainEndpointOptions = try reader["DomainEndpointOptions"].readIfPresent(with: OpenSearchClientTypes.DomainEndpointOptionsStatus.read(from:))
         value.advancedSecurityOptions = try reader["AdvancedSecurityOptions"].readIfPresent(with: OpenSearchClientTypes.AdvancedSecurityOptionsStatus.read(from:))
+        value.identityCenterOptions = try reader["IdentityCenterOptions"].readIfPresent(with: OpenSearchClientTypes.IdentityCenterOptionsStatus.read(from:))
         value.autoTuneOptions = try reader["AutoTuneOptions"].readIfPresent(with: OpenSearchClientTypes.AutoTuneOptionsStatus.read(from:))
         value.changeProgressDetails = try reader["ChangeProgressDetails"].readIfPresent(with: OpenSearchClientTypes.ChangeProgressDetails.read(from:))
         value.offPeakWindowOptions = try reader["OffPeakWindowOptions"].readIfPresent(with: OpenSearchClientTypes.OffPeakWindowOptionsStatus.read(from:))
@@ -12270,6 +13994,17 @@ extension OpenSearchClientTypes.Duration {
         var value = OpenSearchClientTypes.Duration()
         value.value = try reader["Value"].readIfPresent()
         value.unit = try reader["Unit"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.IdentityCenterOptionsStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.IdentityCenterOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.IdentityCenterOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: OpenSearchClientTypes.IdentityCenterOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
         return value
     }
 }
@@ -12695,6 +14430,7 @@ extension OpenSearchClientTypes.PackageVersionHistory {
         value.commitMessage = try reader["CommitMessage"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.pluginProperties = try reader["PluginProperties"].readIfPresent(with: OpenSearchClientTypes.PluginProperties.read(from:))
+        value.packageConfiguration = try reader["PackageConfiguration"].readIfPresent(with: OpenSearchClientTypes.PackageConfiguration.read(from:))
         return value
     }
 }
@@ -12721,6 +14457,22 @@ extension OpenSearchClientTypes.UpgradeStepItem {
         value.upgradeStepStatus = try reader["UpgradeStepStatus"].readIfPresent()
         value.issues = try reader["Issues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.progressPercent = try reader["ProgressPercent"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.ApplicationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ApplicationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ApplicationSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -12801,20 +14553,23 @@ extension OpenSearchClientTypes.ScheduledAction {
     }
 }
 
-extension OpenSearchClientTypes.Tag {
+extension OpenSearchClientTypes.PackageDetailsForAssociation {
 
-    static func write(value: OpenSearchClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: OpenSearchClientTypes.PackageDetailsForAssociation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+        try writer["AssociationConfiguration"].write(value.associationConfiguration, with: OpenSearchClientTypes.PackageAssociationConfiguration.write(value:to:))
+        try writer["PackageID"].write(value.packageID)
+        try writer["PrerequisitePackageIDList"].writeList(value.prerequisitePackageIDList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
+extension OpenSearchClientTypes.IamIdentityCenterOptionsInput {
+
+    static func write(value: OpenSearchClientTypes.IamIdentityCenterOptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["iamIdentityCenterInstanceArn"].write(value.iamIdentityCenterInstanceArn)
+        try writer["iamRoleForIdentityCenterApplicationArn"].write(value.iamRoleForIdentityCenterApplicationArn)
     }
 }
 
@@ -12872,6 +14627,17 @@ extension OpenSearchClientTypes.MasterUserOptions {
         try writer["MasterUserARN"].write(value.masterUserARN)
         try writer["MasterUserName"].write(value.masterUserName)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
+    }
+}
+
+extension OpenSearchClientTypes.IdentityCenterOptionsInput {
+
+    static func write(value: OpenSearchClientTypes.IdentityCenterOptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnabledAPIAccess"].write(value.enabledAPIAccess)
+        try writer["IdentityCenterInstanceARN"].write(value.identityCenterInstanceARN)
+        try writer["RolesKey"].write(value.rolesKey)
+        try writer["SubjectKey"].write(value.subjectKey)
     }
 }
 

@@ -3504,6 +3504,9 @@ extension BatchDeleteUniqueIdInput {
             items.add(SmithyHTTPAPI.Header(name: "inputSource", value: Swift.String(inputSource)))
         }
         if let uniqueIds = value.uniqueIds {
+            if uniqueIds.isEmpty {
+                items.add(name: "uniqueIds", value: "")
+            }
             uniqueIds.forEach { headerValue in
                 items.add(SmithyHTTPAPI.Header(name: "uniqueIds", value: ClientRuntime.quoteHeaderValue(Swift.String(headerValue))))
             }

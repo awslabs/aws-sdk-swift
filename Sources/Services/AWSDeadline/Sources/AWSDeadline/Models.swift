@@ -39,9 +39,9 @@ extension DeadlineClientTypes {
 
     /// The range for the GPU fleet acceleration.
     public struct AcceleratorCountRange: Swift.Sendable {
-        /// The maximum GPU for the accelerator.
+        /// The maximum number of GPUs for the accelerator.
         public var max: Swift.Int?
-        /// The minimum GPU for the accelerator.
+        /// The minimum number of GPUs for the accelerator. If you set the value to 0, a worker will still have 1 GPU.
         /// This member is required.
         public var min: Swift.Int?
 
@@ -52,6 +52,83 @@ extension DeadlineClientTypes {
         {
             self.max = max
             self.min = min
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    public enum AcceleratorName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case a10g
+        case l4
+        case l40s
+        case t4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcceleratorName] {
+            return [
+                .a10g,
+                .l4,
+                .l40s,
+                .t4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .a10g: return "a10g"
+            case .l4: return "l4"
+            case .l40s: return "l40s"
+            case .t4: return "t4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Values that you can use to select a particular Amazon EC2 instance type.
+    public struct AcceleratorSelection: Swift.Sendable {
+        /// The name of the GPU accelerator.
+        /// This member is required.
+        public var name: DeadlineClientTypes.AcceleratorName?
+        /// The driver version that the GPU accelerator uses.
+        public var runtime: Swift.String?
+
+        public init(
+            name: DeadlineClientTypes.AcceleratorName? = nil,
+            runtime: Swift.String? = "latest"
+        )
+        {
+            self.name = name
+            self.runtime = runtime
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Provides information about the GPU accelerators and drivers for the instance types in a fleet. If you include the acceleratorCapabilities property in the [ServiceManagedEc2InstanceCapabilities](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_ServiceManagedEc2InstanceCapabilities) object, all of the Amazon EC2 instances will have at least one accelerator.
+    public struct AcceleratorCapabilities: Swift.Sendable {
+        /// The number of GPUs on each worker. The default is 1.
+        public var count: DeadlineClientTypes.AcceleratorCountRange?
+        /// A list of objects that contain the GPU name of the accelerator and driver for the instance types that support the accelerator.
+        /// This member is required.
+        public var selections: [DeadlineClientTypes.AcceleratorSelection]?
+
+        public init(
+            count: DeadlineClientTypes.AcceleratorCountRange? = nil,
+            selections: [DeadlineClientTypes.AcceleratorSelection]? = nil
+        )
+        {
+            self.count = count
+            self.selections = selections
         }
     }
 }
@@ -3086,6 +3163,8 @@ extension DeadlineClientTypes {
 
     /// The Amazon EC2 instance capabilities.
     public struct ServiceManagedEc2InstanceCapabilities: Swift.Sendable {
+        /// The GPU accelerator capabilities required for the Amazon EC2 instances. If you include the acceleratorCapabilities property in the [ServiceManagedEc2InstanceCapabilities](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_ServiceManagedEc2InstanceCapabilities) object, all of the Amazon EC2 instances will have at least one accelerator.
+        public var acceleratorCapabilities: DeadlineClientTypes.AcceleratorCapabilities?
         /// The allowable Amazon EC2 instance types.
         public var allowedInstanceTypes: [Swift.String]?
         /// The CPU architecture type.
@@ -3110,6 +3189,7 @@ extension DeadlineClientTypes {
         public var vCpuCount: DeadlineClientTypes.VCpuCountRange?
 
         public init(
+            acceleratorCapabilities: DeadlineClientTypes.AcceleratorCapabilities? = nil,
             allowedInstanceTypes: [Swift.String]? = nil,
             cpuArchitectureType: DeadlineClientTypes.CpuArchitectureType? = nil,
             customAmounts: [DeadlineClientTypes.FleetAmountCapability]? = nil,
@@ -3121,6 +3201,7 @@ extension DeadlineClientTypes {
             vCpuCount: DeadlineClientTypes.VCpuCountRange? = nil
         )
         {
+            self.acceleratorCapabilities = acceleratorCapabilities
             self.allowedInstanceTypes = allowedInstanceTypes
             self.cpuArchitectureType = cpuArchitectureType
             self.customAmounts = customAmounts
@@ -17156,6 +17237,7 @@ extension DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities {
 
     static func write(value: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["acceleratorCapabilities"].write(value.acceleratorCapabilities, with: DeadlineClientTypes.AcceleratorCapabilities.write(value:to:))
         try writer["allowedInstanceTypes"].writeList(value.allowedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["cpuArchitectureType"].write(value.cpuArchitectureType)
         try writer["customAmounts"].writeList(value.customAmounts, memberWritingClosure: DeadlineClientTypes.FleetAmountCapability.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -17175,6 +17257,7 @@ extension DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities {
         value.osFamily = try reader["osFamily"].readIfPresent() ?? .sdkUnknown("")
         value.cpuArchitectureType = try reader["cpuArchitectureType"].readIfPresent() ?? .sdkUnknown("")
         value.rootEbsVolume = try reader["rootEbsVolume"].readIfPresent(with: DeadlineClientTypes.Ec2EbsVolume.read(from:))
+        value.acceleratorCapabilities = try reader["acceleratorCapabilities"].readIfPresent(with: DeadlineClientTypes.AcceleratorCapabilities.read(from:))
         value.allowedInstanceTypes = try reader["allowedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.excludedInstanceTypes = try reader["excludedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.customAmounts = try reader["customAmounts"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.FleetAmountCapability.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -17215,6 +17298,57 @@ extension DeadlineClientTypes.FleetAmountCapability {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.min = try reader["min"].readIfPresent() ?? 0.0
         value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.AcceleratorCapabilities {
+
+    static func write(value: DeadlineClientTypes.AcceleratorCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["count"].write(value.count, with: DeadlineClientTypes.AcceleratorCountRange.write(value:to:))
+        try writer["selections"].writeList(value.selections, memberWritingClosure: DeadlineClientTypes.AcceleratorSelection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.AcceleratorCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.AcceleratorCapabilities()
+        value.selections = try reader["selections"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.AcceleratorSelection.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.count = try reader["count"].readIfPresent(with: DeadlineClientTypes.AcceleratorCountRange.read(from:))
+        return value
+    }
+}
+
+extension DeadlineClientTypes.AcceleratorCountRange {
+
+    static func write(value: DeadlineClientTypes.AcceleratorCountRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.AcceleratorCountRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.AcceleratorCountRange()
+        value.min = try reader["min"].readIfPresent() ?? 0
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.AcceleratorSelection {
+
+    static func write(value: DeadlineClientTypes.AcceleratorSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["runtime"].write(value.runtime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.AcceleratorSelection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.AcceleratorSelection()
+        value.name = try reader["name"].readIfPresent() ?? .sdkUnknown("")
+        value.runtime = try reader["runtime"].readIfPresent() ?? "latest"
         return value
     }
 }
@@ -17333,23 +17467,6 @@ extension DeadlineClientTypes.AcceleratorTotalMemoryMiBRange {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.AcceleratorTotalMemoryMiBRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.AcceleratorTotalMemoryMiBRange()
-        value.min = try reader["min"].readIfPresent() ?? 0
-        value.max = try reader["max"].readIfPresent()
-        return value
-    }
-}
-
-extension DeadlineClientTypes.AcceleratorCountRange {
-
-    static func write(value: DeadlineClientTypes.AcceleratorCountRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["max"].write(value.max)
-        try writer["min"].write(value.min)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.AcceleratorCountRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DeadlineClientTypes.AcceleratorCountRange()
         value.min = try reader["min"].readIfPresent() ?? 0
         value.max = try reader["max"].readIfPresent()
         return value

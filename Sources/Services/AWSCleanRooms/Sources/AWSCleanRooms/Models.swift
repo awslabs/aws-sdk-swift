@@ -286,18 +286,31 @@ extension CleanRoomsClientTypes {
 
     public enum ParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bigint
+        case binary
         case boolean
+        case byte
         case char
+        case character
         case date
         case decimal
+        case double
         case doublePrecision
+        case float
+        case int
         case integer
+        case long
+        case numeric
         case real
+        case short
         case smallint
+        case string
         case time
         case timestamp
         case timestamptz
+        case timestampLtz
+        case timestampNtz
         case timetz
+        case tinyint
         case varbyte
         case varchar
         case sdkUnknown(Swift.String)
@@ -305,18 +318,31 @@ extension CleanRoomsClientTypes {
         public static var allCases: [ParameterType] {
             return [
                 .bigint,
+                .binary,
                 .boolean,
+                .byte,
                 .char,
+                .character,
                 .date,
                 .decimal,
+                .double,
                 .doublePrecision,
+                .float,
+                .int,
                 .integer,
+                .long,
+                .numeric,
                 .real,
+                .short,
                 .smallint,
+                .string,
                 .time,
                 .timestamp,
                 .timestamptz,
+                .timestampLtz,
+                .timestampNtz,
                 .timetz,
+                .tinyint,
                 .varbyte,
                 .varchar
             ]
@@ -330,18 +356,31 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .bigint: return "BIGINT"
+            case .binary: return "BINARY"
             case .boolean: return "BOOLEAN"
+            case .byte: return "BYTE"
             case .char: return "CHAR"
+            case .character: return "CHARACTER"
             case .date: return "DATE"
             case .decimal: return "DECIMAL"
+            case .double: return "DOUBLE"
             case .doublePrecision: return "DOUBLE_PRECISION"
+            case .float: return "FLOAT"
+            case .int: return "INT"
             case .integer: return "INTEGER"
+            case .long: return "LONG"
+            case .numeric: return "NUMERIC"
             case .real: return "REAL"
+            case .short: return "SHORT"
             case .smallint: return "SMALLINT"
+            case .string: return "STRING"
             case .time: return "TIME"
             case .timestamp: return "TIMESTAMP"
             case .timestamptz: return "TIMESTAMPTZ"
+            case .timestampLtz: return "TIMESTAMP_LTZ"
+            case .timestampNtz: return "TIMESTAMP_NTZ"
             case .timetz: return "TIMETZ"
+            case .tinyint: return "TINYINT"
             case .varbyte: return "VARBYTE"
             case .varchar: return "VARCHAR"
             case let .sdkUnknown(s): return s
@@ -1472,12 +1511,12 @@ public struct GetAnalysisTemplateOutput: Swift.Sendable {
 }
 
 public struct ListAnalysisTemplatesInput: Swift.Sendable {
-    /// The maximum size of the results that is returned per call.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
     /// The identifier for a membership resource.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -1557,7 +1596,7 @@ public struct ListAnalysisTemplatesOutput: Swift.Sendable {
     /// Lists analysis template metadata.
     /// This member is required.
     public var analysisTemplateSummaries: [CleanRoomsClientTypes.AnalysisTemplateSummary]?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -1628,6 +1667,35 @@ extension CleanRoomsClientTypes {
             switch self {
             case .additionalAnalysis: return "ADDITIONAL_ANALYSIS"
             case .directAnalysis: return "DIRECT_ANALYSIS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum AnalyticsEngine: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cleanRoomsSql
+        case spark
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsEngine] {
+            return [
+                .cleanRoomsSql,
+                .spark
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cleanRoomsSql: return "CLEAN_ROOMS_SQL"
+            case .spark: return "SPARK"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2128,19 +2196,19 @@ extension CleanRoomsClientTypes {
     public struct Schema: Swift.Sendable {
         /// The analysis method for the schema. The only valid value is currently DIRECT_QUERY.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
-        /// The analysis rule types associated with the schema. Currently, only one entry is present.
+        /// The analysis rule types that are associated with the schema. Currently, only one entry is present.
         /// This member is required.
         public var analysisRuleTypes: [CleanRoomsClientTypes.AnalysisRuleType]?
-        /// The unique ARN for the collaboration that the schema belongs to.
+        /// The unique Amazon Resource Name (ARN) for the collaboration that the schema belongs to.
         /// This member is required.
         public var collaborationArn: Swift.String?
         /// The unique ID for the collaboration that the schema belongs to.
         /// This member is required.
         public var collaborationId: Swift.String?
-        /// The columns for the relation this schema represents.
+        /// The columns for the relation that this schema represents.
         /// This member is required.
         public var columns: [CleanRoomsClientTypes.Column]?
-        /// The time the schema was created.
+        /// The time at which the schema was created.
         /// This member is required.
         public var createTime: Foundation.Date?
         /// The unique account ID for the Amazon Web Services account that owns the schema.
@@ -2160,10 +2228,10 @@ extension CleanRoomsClientTypes {
         public var schemaStatusDetails: [CleanRoomsClientTypes.SchemaStatusDetail]?
         /// The schema type properties.
         public var schemaTypeProperties: CleanRoomsClientTypes.SchemaTypeProperties?
-        /// The type of schema. The only valid value is currently `TABLE`.
+        /// The type of schema.
         /// This member is required.
         public var type: CleanRoomsClientTypes.SchemaType?
-        /// The time the schema was last updated.
+        /// The most recent time at which the schema was updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
 
@@ -2341,6 +2409,106 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum CustomMLMemberAbility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canReceiveInferenceOutput
+        case canReceiveModelOutput
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomMLMemberAbility] {
+            return [
+                .canReceiveInferenceOutput,
+                .canReceiveModelOutput
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canReceiveInferenceOutput: return "CAN_RECEIVE_INFERENCE_OUTPUT"
+            case .canReceiveModelOutput: return "CAN_RECEIVE_MODEL_OUTPUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The ML member abilities for a collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+    public struct MLMemberAbilities: Swift.Sendable {
+        /// The custom ML member abilities for a collaboration member. The inference feature is not available in the custom ML modeling beta. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+        /// This member is required.
+        public var customMLMemberAbilities: [CleanRoomsClientTypes.CustomMLMemberAbility]?
+
+        public init(
+            customMLMemberAbilities: [CleanRoomsClientTypes.CustomMLMemberAbility]? = nil
+        )
+        {
+            self.customMLMemberAbilities = customMLMemberAbilities
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// An object representing the collaboration member's model inference payment responsibilities set by the collaboration creator.
+    public struct ModelInferencePaymentConfig: Swift.Sendable {
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for model inference costs (TRUE) or has not configured the collaboration member to pay for model inference costs (FALSE). Exactly one member can be configured to pay for model inference costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. If the collaboration creator hasn't specified anyone as the member paying for model inference costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
+        /// This member is required.
+        public var isResponsible: Swift.Bool?
+
+        public init(
+            isResponsible: Swift.Bool? = nil
+        )
+        {
+            self.isResponsible = isResponsible
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// An object representing the collaboration member's model training payment responsibilities set by the collaboration creator.
+    public struct ModelTrainingPaymentConfig: Swift.Sendable {
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for model training costs (TRUE) or has not configured the collaboration member to pay for model training costs (FALSE). Exactly one member can be configured to pay for model training costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. If the collaboration creator hasn't specified anyone as the member paying for model training costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
+        /// This member is required.
+        public var isResponsible: Swift.Bool?
+
+        public init(
+            isResponsible: Swift.Bool? = nil
+        )
+        {
+            self.isResponsible = isResponsible
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator.
+    public struct MLPaymentConfig: Swift.Sendable {
+        /// The payment responsibilities accepted by the member for model inference.
+        public var modelInference: CleanRoomsClientTypes.ModelInferencePaymentConfig?
+        /// The payment responsibilities accepted by the member for model training.
+        public var modelTraining: CleanRoomsClientTypes.ModelTrainingPaymentConfig?
+
+        public init(
+            modelInference: CleanRoomsClientTypes.ModelInferencePaymentConfig? = nil,
+            modelTraining: CleanRoomsClientTypes.ModelTrainingPaymentConfig? = nil
+        )
+        {
+            self.modelInference = modelInference
+            self.modelTraining = modelTraining
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// An object representing the collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
     public struct QueryComputePaymentConfig: Swift.Sendable {
         /// Indicates whether the collaboration creator has configured the collaboration member to pay for query compute costs (TRUE) or has not configured the collaboration member to pay for query compute costs (FALSE). Exactly one member can be configured to pay for query compute costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
@@ -2360,14 +2528,18 @@ extension CleanRoomsClientTypes {
 
     /// An object representing the collaboration member's payment responsibilities set by the collaboration creator.
     public struct PaymentConfiguration: Swift.Sendable {
+        /// An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator.
+        public var machineLearning: CleanRoomsClientTypes.MLPaymentConfig?
         /// The collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
         /// This member is required.
         public var queryCompute: CleanRoomsClientTypes.QueryComputePaymentConfig?
 
         public init(
+            machineLearning: CleanRoomsClientTypes.MLPaymentConfig? = nil,
             queryCompute: CleanRoomsClientTypes.QueryComputePaymentConfig? = nil
         )
         {
+            self.machineLearning = machineLearning
             self.queryCompute = queryCompute
         }
     }
@@ -2418,6 +2590,8 @@ extension CleanRoomsClientTypes {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
+        /// The ML abilities granted to the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+        public var mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities?
         /// The collaboration member's payment responsibilities set by the collaboration creator. If the collaboration creator hasn't speciﬁed anyone as the member paying for query compute costs, then the member who can query is the default payer.
         public var paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration?
 
@@ -2425,12 +2599,14 @@ extension CleanRoomsClientTypes {
             accountId: Swift.String? = nil,
             displayName: Swift.String? = nil,
             memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
+            mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities? = nil,
             paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil
         )
         {
             self.accountId = accountId
             self.displayName = displayName
             self.memberAbilities = memberAbilities
+            self.mlMemberAbilities = mlMemberAbilities
             self.paymentConfiguration = paymentConfiguration
         }
     }
@@ -2466,9 +2642,13 @@ extension CleanRoomsClientTypes {
 }
 
 public struct CreateCollaborationInput: Swift.Sendable {
+    /// The analytics engine.
+    public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
     /// The display name of the collaboration creator.
     /// This member is required.
     public var creatorDisplayName: Swift.String?
+    /// The ML abilities granted to the collaboration creator. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+    public var creatorMLMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities?
     /// The abilities granted to the collaboration creator.
     /// This member is required.
     public var creatorMemberAbilities: [CleanRoomsClientTypes.MemberAbility]?
@@ -2492,7 +2672,9 @@ public struct CreateCollaborationInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
         creatorDisplayName: Swift.String? = nil,
+        creatorMLMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities? = nil,
         creatorMemberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
         creatorPaymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil,
         dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata? = nil,
@@ -2503,7 +2685,9 @@ public struct CreateCollaborationInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     )
     {
+        self.analyticsEngine = analyticsEngine
         self.creatorDisplayName = creatorDisplayName
+        self.creatorMLMemberAbilities = creatorMLMemberAbilities
         self.creatorMemberAbilities = creatorMemberAbilities
         self.creatorPaymentConfiguration = creatorPaymentConfiguration
         self.dataEncryptionMetadata = dataEncryptionMetadata
@@ -2554,6 +2738,8 @@ extension CleanRoomsClientTypes {
 
     /// The multi-party data share environment. The collaboration contains metadata about its purpose and participants.
     public struct Collaboration: Swift.Sendable {
+        /// The analytics engine for the collaboration.
+        public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
         /// The unique ARN for the collaboration.
         /// This member is required.
         public var arn: Swift.String?
@@ -2591,6 +2777,7 @@ extension CleanRoomsClientTypes {
         public var updateTime: Foundation.Date?
 
         public init(
+            analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
             arn: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             creatorAccountId: Swift.String? = nil,
@@ -2606,6 +2793,7 @@ extension CleanRoomsClientTypes {
             updateTime: Foundation.Date? = nil
         )
         {
+            self.analyticsEngine = analyticsEngine
             self.arn = arn
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
@@ -2771,7 +2959,7 @@ extension CleanRoomsClientTypes {
         /// The time at which the configured audience model association was created.
         /// This member is required.
         public var createTime: Foundation.Date?
-        /// The identifier used to reference members of the collaboration. Only supports AWS account ID.
+        /// The identifier used to reference members of the collaboration. Only supports Amazon Web Services account ID.
         /// This member is required.
         public var creatorAccountId: Swift.String?
         /// The description of the configured audience model association.
@@ -3239,9 +3427,9 @@ public struct ListCollaborationAnalysisTemplatesInput: Swift.Sendable {
     /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
-    /// The maximum size of the results that is returned per call.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3316,7 +3504,7 @@ public struct ListCollaborationAnalysisTemplatesOutput: Swift.Sendable {
     /// The metadata of the analysis template within a collaboration.
     /// This member is required.
     public var collaborationAnalysisTemplateSummaries: [CleanRoomsClientTypes.CollaborationAnalysisTemplateSummary]?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3333,9 +3521,9 @@ public struct ListCollaborationConfiguredAudienceModelAssociationsInput: Swift.S
     /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
-    /// The maximum size of the results that is returned per call.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3366,7 +3554,7 @@ extension CleanRoomsClientTypes {
         /// The time at which the configured audience model association was created.
         /// This member is required.
         public var createTime: Foundation.Date?
-        /// The identifier used to reference members of the collaboration. Only supports AWS account ID.
+        /// The identifier used to reference members of the collaboration. Only supports Amazon Web Services account ID.
         /// This member is required.
         public var creatorAccountId: Swift.String?
         /// The description of the configured audience model association.
@@ -3410,7 +3598,7 @@ public struct ListCollaborationConfiguredAudienceModelAssociationsOutput: Swift.
     /// The metadata of the configured audience model association within a collaboration.
     /// This member is required.
     public var collaborationConfiguredAudienceModelAssociationSummaries: [CleanRoomsClientTypes.CollaborationConfiguredAudienceModelAssociationSummary]?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3548,9 +3736,9 @@ public struct ListCollaborationPrivacyBudgetsInput: Swift.Sendable {
     /// A unique identifier for one of your collaborations.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
-    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
     /// Specifies the type of the privacy budget.
     /// This member is required.
@@ -3733,7 +3921,7 @@ public struct ListCollaborationPrivacyBudgetsOutput: Swift.Sendable {
     /// Summaries of the collaboration privacy budgets.
     /// This member is required.
     public var collaborationPrivacyBudgetSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetSummary]?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3750,9 +3938,9 @@ public struct ListCollaborationPrivacyBudgetTemplatesInput: Swift.Sendable {
     /// A unique identifier for one of your collaborations.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
-    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3823,7 +4011,7 @@ public struct ListCollaborationPrivacyBudgetTemplatesOutput: Swift.Sendable {
     /// An array that summarizes the collaboration privacy budget templates. The summary includes collaboration information, creation information, the privacy budget type.
     /// This member is required.
     public var collaborationPrivacyBudgetTemplateSummaries: [CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplateSummary]?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3866,11 +4054,11 @@ extension CleanRoomsClientTypes {
 }
 
 public struct ListCollaborationsInput: Swift.Sendable {
-    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
     /// The caller's status in a collaboration.
     public var memberStatus: CleanRoomsClientTypes.FilterableMemberStatus?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3889,6 +4077,8 @@ extension CleanRoomsClientTypes {
 
     /// The metadata of the collaboration.
     public struct CollaborationSummary: Swift.Sendable {
+        /// The analytics engine.
+        public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
         /// The ARN of the collaboration.
         /// This member is required.
         public var arn: Swift.String?
@@ -3919,6 +4109,7 @@ extension CleanRoomsClientTypes {
         public var updateTime: Foundation.Date?
 
         public init(
+            analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
             arn: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             creatorAccountId: Swift.String? = nil,
@@ -3931,6 +4122,7 @@ extension CleanRoomsClientTypes {
             updateTime: Foundation.Date? = nil
         )
         {
+            self.analyticsEngine = analyticsEngine
             self.arn = arn
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
@@ -3949,7 +4141,7 @@ public struct ListCollaborationsOutput: Swift.Sendable {
     /// The list of collaborations.
     /// This member is required.
     public var collaborationList: [CleanRoomsClientTypes.CollaborationSummary]?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -3966,9 +4158,9 @@ public struct ListMembersInput: Swift.Sendable {
     /// The identifier of the collaboration in which the members are listed.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
-    /// The maximum size of the results that is returned per call.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -4003,6 +4195,8 @@ extension CleanRoomsClientTypes {
         public var membershipArn: Swift.String?
         /// The unique ID for the member's associated membership, if present.
         public var membershipId: Swift.String?
+        /// Provides a summary of the ML abilities for the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+        public var mlAbilities: CleanRoomsClientTypes.MLMemberAbilities?
         /// The collaboration member's payment responsibilities set by the collaboration creator.
         /// This member is required.
         public var paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration?
@@ -4020,6 +4214,7 @@ extension CleanRoomsClientTypes {
             displayName: Swift.String? = nil,
             membershipArn: Swift.String? = nil,
             membershipId: Swift.String? = nil,
+            mlAbilities: CleanRoomsClientTypes.MLMemberAbilities? = nil,
             paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil,
             status: CleanRoomsClientTypes.MemberStatus? = nil,
             updateTime: Foundation.Date? = nil
@@ -4031,6 +4226,7 @@ extension CleanRoomsClientTypes {
             self.displayName = displayName
             self.membershipArn = membershipArn
             self.membershipId = membershipId
+            self.mlAbilities = mlAbilities
             self.paymentConfiguration = paymentConfiguration
             self.status = status
             self.updateTime = updateTime
@@ -4042,7 +4238,7 @@ public struct ListMembersOutput: Swift.Sendable {
     /// The list of members returned by the ListMembers operation.
     /// This member is required.
     public var memberSummaries: [CleanRoomsClientTypes.MemberSummary]?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -4059,11 +4255,11 @@ public struct ListSchemasInput: Swift.Sendable {
     /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
-    /// The maximum size of the results that is returned per call.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
-    /// If present, filter schemas by schema type. The only valid schema type is currently `TABLE`.
+    /// If present, filter schemas by schema type.
     public var schemaType: CleanRoomsClientTypes.SchemaType?
 
     public init(
@@ -4104,7 +4300,7 @@ extension CleanRoomsClientTypes {
         /// The name for the schema object.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of schema object. The only valid schema type is currently `TABLE`.
+        /// The type of schema object.
         /// This member is required.
         public var type: CleanRoomsClientTypes.SchemaType?
         /// The time the schema object was last updated.
@@ -4137,7 +4333,7 @@ extension CleanRoomsClientTypes {
 }
 
 public struct ListSchemasOutput: Swift.Sendable {
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
     /// The retrieved list of schemas.
     /// This member is required.
@@ -4362,12 +4558,12 @@ public struct GetConfiguredAudienceModelAssociationOutput: Swift.Sendable {
 }
 
 public struct ListConfiguredAudienceModelAssociationsInput: Swift.Sendable {
-    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for a membership that contains the configured audience model associations that you want to retrieve.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -4946,12 +5142,12 @@ public struct GetConfiguredTableAssociationAnalysisRuleOutput: Swift.Sendable {
 }
 
 public struct ListConfiguredTableAssociationsInput: Swift.Sendable {
-    /// The maximum size of the results that is returned per call.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for the membership to list configured table associations for. Currently accepts the membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -5022,7 +5218,7 @@ public struct ListConfiguredTableAssociationsOutput: Swift.Sendable {
     /// The retrieved list of configured table associations.
     /// This member is required.
     public var configuredTableAssociationSummaries: [CleanRoomsClientTypes.ConfiguredTableAssociationSummary]?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -5492,9 +5688,9 @@ public struct GetConfiguredTableAnalysisRuleOutput: Swift.Sendable {
 }
 
 public struct ListConfiguredTablesInput: Swift.Sendable {
-    /// The maximum size of the results that is returned per call.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -5558,7 +5754,7 @@ public struct ListConfiguredTablesOutput: Swift.Sendable {
     /// The configured tables listed by the request.
     /// This member is required.
     public var configuredTableSummaries: [CleanRoomsClientTypes.ConfiguredTableSummary]?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -6427,16 +6623,20 @@ extension CleanRoomsClientTypes {
         /// Intended file format of the result.
         /// This member is required.
         public var resultFormat: CleanRoomsClientTypes.ResultFormat?
+        /// Indicates whether files should be output as a single file (TRUE) or output as multiple files (FALSE). This parameter is only supported for analyses with the Spark analytics engine.
+        public var singleFileOutput: Swift.Bool?
 
         public init(
             bucket: Swift.String? = nil,
             keyPrefix: Swift.String? = nil,
-            resultFormat: CleanRoomsClientTypes.ResultFormat? = nil
+            resultFormat: CleanRoomsClientTypes.ResultFormat? = nil,
+            singleFileOutput: Swift.Bool? = nil
         )
         {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
             self.resultFormat = resultFormat
+            self.singleFileOutput = singleFileOutput
         }
     }
 }
@@ -6474,6 +6674,68 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// An object representing the collaboration member's model inference payment responsibilities set by the collaboration creator.
+    public struct MembershipModelInferencePaymentConfig: Swift.Sendable {
+        /// Indicates whether the collaboration member has accepted to pay for model inference costs (TRUE) or has not accepted to pay for model inference costs (FALSE). If the collaboration creator has not specified anyone to pay for model inference costs, then the member who can query is the default payer. An error message is returned for the following reasons:
+        ///
+        /// * If you set the value to FALSE but you are responsible to pay for model inference costs.
+        ///
+        /// * If you set the value to TRUE but you are not responsible to pay for model inference costs.
+        /// This member is required.
+        public var isResponsible: Swift.Bool?
+
+        public init(
+            isResponsible: Swift.Bool? = nil
+        )
+        {
+            self.isResponsible = isResponsible
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// An object representing the collaboration member's model training payment responsibilities set by the collaboration creator.
+    public struct MembershipModelTrainingPaymentConfig: Swift.Sendable {
+        /// Indicates whether the collaboration member has accepted to pay for model training costs (TRUE) or has not accepted to pay for model training costs (FALSE). If the collaboration creator has not specified anyone to pay for model training costs, then the member who can query is the default payer. An error message is returned for the following reasons:
+        ///
+        /// * If you set the value to FALSE but you are responsible to pay for model training costs.
+        ///
+        /// * If you set the value to TRUE but you are not responsible to pay for model training costs.
+        /// This member is required.
+        public var isResponsible: Swift.Bool?
+
+        public init(
+            isResponsible: Swift.Bool? = nil
+        )
+        {
+            self.isResponsible = isResponsible
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator.
+    public struct MembershipMLPaymentConfig: Swift.Sendable {
+        /// The payment responsibilities accepted by the member for model inference.
+        public var modelInference: CleanRoomsClientTypes.MembershipModelInferencePaymentConfig?
+        /// The payment responsibilities accepted by the member for model training.
+        public var modelTraining: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig?
+
+        public init(
+            modelInference: CleanRoomsClientTypes.MembershipModelInferencePaymentConfig? = nil,
+            modelTraining: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig? = nil
+        )
+        {
+            self.modelInference = modelInference
+            self.modelTraining = modelTraining
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// An object representing the payment responsibilities accepted by the collaboration member for query compute costs.
     public struct MembershipQueryComputePaymentConfig: Swift.Sendable {
         /// Indicates whether the collaboration member has accepted to pay for query compute costs (TRUE) or has not accepted to pay for query compute costs (FALSE). If the collaboration creator has not specified anyone to pay for query compute costs, then the member who can query is the default payer. An error message is returned for the following reasons:
@@ -6497,14 +6759,18 @@ extension CleanRoomsClientTypes {
 
     /// An object representing the payment responsibilities accepted by the collaboration member.
     public struct MembershipPaymentConfiguration: Swift.Sendable {
+        /// The payment responsibilities accepted by the collaboration member for machine learning costs.
+        public var machineLearning: CleanRoomsClientTypes.MembershipMLPaymentConfig?
         /// The payment responsibilities accepted by the collaboration member for query compute costs.
         /// This member is required.
         public var queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig?
 
         public init(
+            machineLearning: CleanRoomsClientTypes.MembershipMLPaymentConfig? = nil,
             queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig? = nil
         )
         {
+            self.machineLearning = machineLearning
             self.queryCompute = queryCompute
         }
     }
@@ -6634,6 +6900,8 @@ extension CleanRoomsClientTypes {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
+        /// Specifies the ML member abilities that are granted to a collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+        public var mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities?
         /// The payment responsibilities accepted by the collaboration member.
         /// This member is required.
         public var paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration?
@@ -6658,6 +6926,7 @@ extension CleanRoomsClientTypes {
             defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
             id: Swift.String? = nil,
             memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
+            mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities? = nil,
             paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration? = nil,
             queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil,
             status: CleanRoomsClientTypes.MembershipStatus? = nil,
@@ -6674,6 +6943,7 @@ extension CleanRoomsClientTypes {
             self.defaultResultConfiguration = defaultResultConfiguration
             self.id = id
             self.memberAbilities = memberAbilities
+            self.mlMemberAbilities = mlMemberAbilities
             self.paymentConfiguration = paymentConfiguration
             self.queryLogStatus = queryLogStatus
             self.status = status
@@ -6754,6 +7024,65 @@ public struct GetProtectedQueryInput: Swift.Sendable {
     {
         self.membershipIdentifier = membershipIdentifier
         self.protectedQueryIdentifier = protectedQueryIdentifier
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum WorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cr1x
+        case cr4x
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkerComputeType] {
+            return [
+                .cr1x,
+                .cr4x
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cr1x: return "CR.1X"
+            case .cr4x: return "CR.4X"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configuration of the compute resources for workers running an analysis with the Clean Rooms SQL analytics engine.
+    public struct WorkerComputeConfiguration: Swift.Sendable {
+        /// The number of workers.
+        public var number: Swift.Int?
+        /// The worker compute configuration type.
+        public var type: CleanRoomsClientTypes.WorkerComputeType?
+
+        public init(
+            number: Swift.Int? = nil,
+            type: CleanRoomsClientTypes.WorkerComputeType? = nil
+        )
+        {
+            self.number = number
+            self.type = type
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configuration of the compute resources for an analysis with the Spark analytics engine.
+    public enum ComputeConfiguration: Swift.Sendable {
+        /// The worker configuration for the compute environment.
+        case worker(CleanRoomsClientTypes.WorkerComputeConfiguration)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -6972,15 +7301,36 @@ extension CleanRoomsClientTypes.ProtectedQuerySQLParameters: Swift.CustomDebugSt
 
 extension CleanRoomsClientTypes {
 
+    /// Information related to the utilization of resources that have been billed or charged for in a given context, such as a protected query.
+    public struct BilledResourceUtilization: Swift.Sendable {
+        /// The number of Clean Rooms Processing Unit (CRPU) hours that have been billed.
+        /// This member is required.
+        public var units: Swift.Double?
+
+        public init(
+            units: Swift.Double? = nil
+        )
+        {
+            self.units = units
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Contains statistics about the execution of the protected query.
     public struct ProtectedQueryStatistics: Swift.Sendable {
+        /// The billed resource utilization.
+        public var billedResourceUtilization: CleanRoomsClientTypes.BilledResourceUtilization?
         /// The duration of the protected query, from creation until query completion.
         public var totalDurationInMillis: Swift.Int?
 
         public init(
+            billedResourceUtilization: CleanRoomsClientTypes.BilledResourceUtilization? = nil,
             totalDurationInMillis: Swift.Int? = nil
         )
         {
+            self.billedResourceUtilization = billedResourceUtilization
             self.totalDurationInMillis = totalDurationInMillis
         }
     }
@@ -7034,6 +7384,8 @@ extension CleanRoomsClientTypes {
 
     /// The parameters for an Clean Rooms protected query.
     public struct ProtectedQuery: Swift.Sendable {
+        /// The compute configuration for the protected query.
+        public var computeConfiguration: CleanRoomsClientTypes.ComputeConfiguration?
         /// The time at which the protected query was created.
         /// This member is required.
         public var createTime: Foundation.Date?
@@ -7063,6 +7415,7 @@ extension CleanRoomsClientTypes {
         public var status: CleanRoomsClientTypes.ProtectedQueryStatus?
 
         public init(
+            computeConfiguration: CleanRoomsClientTypes.ComputeConfiguration? = nil,
             createTime: Foundation.Date? = nil,
             differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyParameters? = nil,
             error: CleanRoomsClientTypes.ProtectedQueryError? = nil,
@@ -7076,6 +7429,7 @@ extension CleanRoomsClientTypes {
             status: CleanRoomsClientTypes.ProtectedQueryStatus? = nil
         )
         {
+            self.computeConfiguration = computeConfiguration
             self.createTime = createTime
             self.differentialPrivacy = differentialPrivacy
             self.error = error
@@ -7093,7 +7447,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.ProtectedQuery: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProtectedQuery(createTime: \(Swift.String(describing: createTime)), differentialPrivacy: \(Swift.String(describing: differentialPrivacy)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), result: \(Swift.String(describing: result)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), statistics: \(Swift.String(describing: statistics)), status: \(Swift.String(describing: status)), sqlParameters: \"CONTENT_REDACTED\")"}
+        "ProtectedQuery(computeConfiguration: \(Swift.String(describing: computeConfiguration)), createTime: \(Swift.String(describing: createTime)), differentialPrivacy: \(Swift.String(describing: differentialPrivacy)), error: \(Swift.String(describing: error)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), result: \(Swift.String(describing: result)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), statistics: \(Swift.String(describing: statistics)), status: \(Swift.String(describing: status)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetProtectedQueryOutput: Swift.Sendable {
@@ -7110,9 +7464,9 @@ public struct GetProtectedQueryOutput: Swift.Sendable {
 }
 
 public struct ListMembershipsInput: Swift.Sendable {
-    /// The maximum size of the results that is returned per call.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
     /// A filter which will return only memberships in the specified status.
     public var status: CleanRoomsClientTypes.MembershipStatus?
@@ -7160,6 +7514,8 @@ extension CleanRoomsClientTypes {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
+        /// Provides a summary of the ML abilities for the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+        public var mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities?
         /// The payment responsibilities accepted by the collaboration member.
         /// This member is required.
         public var paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration?
@@ -7180,6 +7536,7 @@ extension CleanRoomsClientTypes {
             createTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
+            mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities? = nil,
             paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration? = nil,
             status: CleanRoomsClientTypes.MembershipStatus? = nil,
             updateTime: Foundation.Date? = nil
@@ -7194,6 +7551,7 @@ extension CleanRoomsClientTypes {
             self.createTime = createTime
             self.id = id
             self.memberAbilities = memberAbilities
+            self.mlMemberAbilities = mlMemberAbilities
             self.paymentConfiguration = paymentConfiguration
             self.status = status
             self.updateTime = updateTime
@@ -7205,7 +7563,7 @@ public struct ListMembershipsOutput: Swift.Sendable {
     /// The list of memberships returned from the ListMemberships operation.
     /// This member is required.
     public var membershipSummaries: [CleanRoomsClientTypes.MembershipSummary]?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -7219,12 +7577,12 @@ public struct ListMembershipsOutput: Swift.Sendable {
 }
 
 public struct ListPrivacyBudgetsInput: Swift.Sendable {
-    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
     /// The privacy budget type.
     /// This member is required.
@@ -7312,7 +7670,7 @@ extension CleanRoomsClientTypes {
 }
 
 public struct ListPrivacyBudgetsOutput: Swift.Sendable {
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
     /// An array that summarizes the privacy budgets. The summary includes collaboration information, membership information, privacy budget template information, and privacy budget details.
     /// This member is required.
@@ -7329,12 +7687,12 @@ public struct ListPrivacyBudgetsOutput: Swift.Sendable {
 }
 
 public struct ListProtectedQueriesInput: Swift.Sendable {
-    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service can return a nextToken even if the maximum results has not been met.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
     /// The identifier for the membership in the collaboration.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
     /// A filter on the status of the protected query.
     public var status: CleanRoomsClientTypes.ProtectedQueryStatus?
@@ -7419,7 +7777,7 @@ extension CleanRoomsClientTypes {
         /// The receiver configuration.
         /// This member is required.
         public var receiverConfigurations: [CleanRoomsClientTypes.ReceiverConfiguration]?
-        /// The status of the protected query. Value values are `SUBMITTED`, `STARTED`, `CANCELLED`, `CANCELLING`, `FAILED`, `SUCCESS`, `TIMED_OUT`.
+        /// The status of the protected query.
         /// This member is required.
         public var status: CleanRoomsClientTypes.ProtectedQueryStatus?
 
@@ -7443,7 +7801,7 @@ extension CleanRoomsClientTypes {
 }
 
 public struct ListProtectedQueriesOutput: Swift.Sendable {
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
     /// A list of protected queries.
     /// This member is required.
@@ -7598,6 +7956,8 @@ extension CleanRoomsClientTypes {
 }
 
 public struct StartProtectedQueryInput: Swift.Sendable {
+    /// The compute configuration for the protected query.
+    public var computeConfiguration: CleanRoomsClientTypes.ComputeConfiguration?
     /// A unique identifier for the membership to run this query against. Currently accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -7611,12 +7971,14 @@ public struct StartProtectedQueryInput: Swift.Sendable {
     public var type: CleanRoomsClientTypes.ProtectedQueryType?
 
     public init(
+        computeConfiguration: CleanRoomsClientTypes.ComputeConfiguration? = nil,
         membershipIdentifier: Swift.String? = nil,
         resultConfiguration: CleanRoomsClientTypes.ProtectedQueryResultConfiguration? = nil,
         sqlParameters: CleanRoomsClientTypes.ProtectedQuerySQLParameters? = nil,
         type: CleanRoomsClientTypes.ProtectedQueryType? = nil
     )
     {
+        self.computeConfiguration = computeConfiguration
         self.membershipIdentifier = membershipIdentifier
         self.resultConfiguration = resultConfiguration
         self.sqlParameters = sqlParameters
@@ -7626,7 +7988,7 @@ public struct StartProtectedQueryInput: Swift.Sendable {
 
 extension StartProtectedQueryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartProtectedQueryInput(membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), type: \(Swift.String(describing: type)), sqlParameters: \"CONTENT_REDACTED\")"}
+        "StartProtectedQueryInput(computeConfiguration: \(Swift.String(describing: computeConfiguration)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), resultConfiguration: \(Swift.String(describing: resultConfiguration)), type: \(Swift.String(describing: type)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartProtectedQueryOutput: Swift.Sendable {
@@ -7937,12 +8299,12 @@ public struct GetPrivacyBudgetTemplateOutput: Swift.Sendable {
 }
 
 public struct ListPrivacyBudgetTemplatesInput: Swift.Sendable {
-    /// The maximum size of the results that is returned per call. Service chooses a default if it has not been set. Service may return a nextToken even if the maximum results has not been met.
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget templates are retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -8015,7 +8377,7 @@ extension CleanRoomsClientTypes {
 }
 
 public struct ListPrivacyBudgetTemplatesOutput: Swift.Sendable {
-    /// The token value retrieved from a previous call to access the next page of results.
+    /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
     /// An array that summarizes the privacy budget templates. The summary includes collaboration information, creation information, and privacy budget type.
     /// This member is required.
@@ -9419,7 +9781,9 @@ extension CreateCollaborationInput {
 
     static func write(value: CreateCollaborationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["analyticsEngine"].write(value.analyticsEngine)
         try writer["creatorDisplayName"].write(value.creatorDisplayName)
+        try writer["creatorMLMemberAbilities"].write(value.creatorMLMemberAbilities, with: CleanRoomsClientTypes.MLMemberAbilities.write(value:to:))
         try writer["creatorMemberAbilities"].writeList(value.creatorMemberAbilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.MemberAbility>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["creatorPaymentConfiguration"].write(value.creatorPaymentConfiguration, with: CleanRoomsClientTypes.PaymentConfiguration.write(value:to:))
         try writer["dataEncryptionMetadata"].write(value.dataEncryptionMetadata, with: CleanRoomsClientTypes.DataEncryptionMetadata.write(value:to:))
@@ -9545,6 +9909,7 @@ extension StartProtectedQueryInput {
 
     static func write(value: StartProtectedQueryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["computeConfiguration"].write(value.computeConfiguration, with: CleanRoomsClientTypes.ComputeConfiguration.write(value:to:))
         try writer["resultConfiguration"].write(value.resultConfiguration, with: CleanRoomsClientTypes.ProtectedQueryResultConfiguration.write(value:to:))
         try writer["sqlParameters"].write(value.sqlParameters, with: CleanRoomsClientTypes.ProtectedQuerySQLParameters.write(value:to:))
         try writer["type"].write(value.type)
@@ -11736,6 +12101,7 @@ enum PopulateIdMappingTableOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12628,6 +12994,7 @@ extension CleanRoomsClientTypes.Collaboration {
         value.membershipArn = try reader["membershipArn"].readIfPresent()
         value.dataEncryptionMetadata = try reader["dataEncryptionMetadata"].readIfPresent(with: CleanRoomsClientTypes.DataEncryptionMetadata.read(from:))
         value.queryLogStatus = try reader["queryLogStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.analyticsEngine = try reader["analyticsEngine"].readIfPresent()
         return value
     }
 }
@@ -13079,6 +13446,7 @@ extension CleanRoomsClientTypes.Membership {
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.memberAbilities = try reader["memberAbilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mlMemberAbilities = try reader["mlMemberAbilities"].readIfPresent(with: CleanRoomsClientTypes.MLMemberAbilities.read(from:))
         value.queryLogStatus = try reader["queryLogStatus"].readIfPresent() ?? .sdkUnknown("")
         value.defaultResultConfiguration = try reader["defaultResultConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.read(from:))
         value.paymentConfiguration = try reader["paymentConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipPaymentConfiguration.read(from:))
@@ -13090,6 +13458,7 @@ extension CleanRoomsClientTypes.MembershipPaymentConfiguration {
 
     static func write(value: CleanRoomsClientTypes.MembershipPaymentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["machineLearning"].write(value.machineLearning, with: CleanRoomsClientTypes.MembershipMLPaymentConfig.write(value:to:))
         try writer["queryCompute"].write(value.queryCompute, with: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig.write(value:to:))
     }
 
@@ -13097,6 +13466,54 @@ extension CleanRoomsClientTypes.MembershipPaymentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.MembershipPaymentConfiguration()
         value.queryCompute = try reader["queryCompute"].readIfPresent(with: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig.read(from:))
+        value.machineLearning = try reader["machineLearning"].readIfPresent(with: CleanRoomsClientTypes.MembershipMLPaymentConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.MembershipMLPaymentConfig {
+
+    static func write(value: CleanRoomsClientTypes.MembershipMLPaymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelInference"].write(value.modelInference, with: CleanRoomsClientTypes.MembershipModelInferencePaymentConfig.write(value:to:))
+        try writer["modelTraining"].write(value.modelTraining, with: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MembershipMLPaymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.MembershipMLPaymentConfig()
+        value.modelTraining = try reader["modelTraining"].readIfPresent(with: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig.read(from:))
+        value.modelInference = try reader["modelInference"].readIfPresent(with: CleanRoomsClientTypes.MembershipModelInferencePaymentConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.MembershipModelInferencePaymentConfig {
+
+    static func write(value: CleanRoomsClientTypes.MembershipModelInferencePaymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isResponsible"].write(value.isResponsible)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MembershipModelInferencePaymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.MembershipModelInferencePaymentConfig()
+        value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig {
+
+    static func write(value: CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isResponsible"].write(value.isResponsible)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.MembershipModelTrainingPaymentConfig()
+        value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
         return value
     }
 }
@@ -13164,6 +13581,7 @@ extension CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration {
         try writer["bucket"].write(value.bucket)
         try writer["keyPrefix"].write(value.keyPrefix)
         try writer["resultFormat"].write(value.resultFormat)
+        try writer["singleFileOutput"].write(value.singleFileOutput)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration {
@@ -13172,6 +13590,22 @@ extension CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration {
         value.resultFormat = try reader["resultFormat"].readIfPresent() ?? .sdkUnknown("")
         value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
+        value.singleFileOutput = try reader["singleFileOutput"].readIfPresent()
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.MLMemberAbilities {
+
+    static func write(value: CleanRoomsClientTypes.MLMemberAbilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customMLMemberAbilities"].writeList(value.customMLMemberAbilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.CustomMLMemberAbility>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MLMemberAbilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.MLMemberAbilities()
+        value.customMLMemberAbilities = try reader["customMLMemberAbilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.CustomMLMemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13296,6 +13730,48 @@ extension CleanRoomsClientTypes.ProtectedQuery {
         value.result = try reader["result"].readIfPresent(with: CleanRoomsClientTypes.ProtectedQueryResult.read(from:))
         value.error = try reader["error"].readIfPresent(with: CleanRoomsClientTypes.ProtectedQueryError.read(from:))
         value.differentialPrivacy = try reader["differentialPrivacy"].readIfPresent(with: CleanRoomsClientTypes.DifferentialPrivacyParameters.read(from:))
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ComputeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ComputeConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.ComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .worker(worker):
+                try writer["worker"].write(worker, with: CleanRoomsClientTypes.WorkerComputeConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ComputeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "worker":
+                return .worker(try reader["worker"].read(with: CleanRoomsClientTypes.WorkerComputeConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.WorkerComputeConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.WorkerComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["number"].write(value.number)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.WorkerComputeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.WorkerComputeConfiguration()
+        value.type = try reader["type"].readIfPresent()
+        value.number = try reader["number"].readIfPresent()
         return value
     }
 }
@@ -13387,6 +13863,17 @@ extension CleanRoomsClientTypes.ProtectedQueryStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedQueryStatistics()
         value.totalDurationInMillis = try reader["totalDurationInMillis"].readIfPresent()
+        value.billedResourceUtilization = try reader["billedResourceUtilization"].readIfPresent(with: CleanRoomsClientTypes.BilledResourceUtilization.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.BilledResourceUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.BilledResourceUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.BilledResourceUtilization()
+        value.units = try reader["units"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -13641,6 +14128,7 @@ extension CleanRoomsClientTypes.CollaborationSummary {
         value.memberStatus = try reader["memberStatus"].readIfPresent() ?? .sdkUnknown("")
         value.membershipId = try reader["membershipId"].readIfPresent()
         value.membershipArn = try reader["membershipArn"].readIfPresent()
+        value.analyticsEngine = try reader["analyticsEngine"].readIfPresent()
         return value
     }
 }
@@ -13748,6 +14236,7 @@ extension CleanRoomsClientTypes.MemberSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
         value.abilities = try reader["abilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mlAbilities = try reader["mlAbilities"].readIfPresent(with: CleanRoomsClientTypes.MLMemberAbilities.read(from:))
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.membershipId = try reader["membershipId"].readIfPresent()
@@ -13761,6 +14250,7 @@ extension CleanRoomsClientTypes.PaymentConfiguration {
 
     static func write(value: CleanRoomsClientTypes.PaymentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["machineLearning"].write(value.machineLearning, with: CleanRoomsClientTypes.MLPaymentConfig.write(value:to:))
         try writer["queryCompute"].write(value.queryCompute, with: CleanRoomsClientTypes.QueryComputePaymentConfig.write(value:to:))
     }
 
@@ -13768,6 +14258,54 @@ extension CleanRoomsClientTypes.PaymentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.PaymentConfiguration()
         value.queryCompute = try reader["queryCompute"].readIfPresent(with: CleanRoomsClientTypes.QueryComputePaymentConfig.read(from:))
+        value.machineLearning = try reader["machineLearning"].readIfPresent(with: CleanRoomsClientTypes.MLPaymentConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.MLPaymentConfig {
+
+    static func write(value: CleanRoomsClientTypes.MLPaymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelInference"].write(value.modelInference, with: CleanRoomsClientTypes.ModelInferencePaymentConfig.write(value:to:))
+        try writer["modelTraining"].write(value.modelTraining, with: CleanRoomsClientTypes.ModelTrainingPaymentConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MLPaymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.MLPaymentConfig()
+        value.modelTraining = try reader["modelTraining"].readIfPresent(with: CleanRoomsClientTypes.ModelTrainingPaymentConfig.read(from:))
+        value.modelInference = try reader["modelInference"].readIfPresent(with: CleanRoomsClientTypes.ModelInferencePaymentConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ModelInferencePaymentConfig {
+
+    static func write(value: CleanRoomsClientTypes.ModelInferencePaymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isResponsible"].write(value.isResponsible)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ModelInferencePaymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ModelInferencePaymentConfig()
+        value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ModelTrainingPaymentConfig {
+
+    static func write(value: CleanRoomsClientTypes.ModelTrainingPaymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isResponsible"].write(value.isResponsible)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ModelTrainingPaymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ModelTrainingPaymentConfig()
+        value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
         return value
     }
 }
@@ -13803,6 +14341,7 @@ extension CleanRoomsClientTypes.MembershipSummary {
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.memberAbilities = try reader["memberAbilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mlMemberAbilities = try reader["mlMemberAbilities"].readIfPresent(with: CleanRoomsClientTypes.MLMemberAbilities.read(from:))
         value.paymentConfiguration = try reader["paymentConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipPaymentConfiguration.read(from:))
         return value
     }
@@ -13976,6 +14515,7 @@ extension CleanRoomsClientTypes.MemberSpecification {
         try writer["accountId"].write(value.accountId)
         try writer["displayName"].write(value.displayName)
         try writer["memberAbilities"].writeList(value.memberAbilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.MemberAbility>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["mlMemberAbilities"].write(value.mlMemberAbilities, with: CleanRoomsClientTypes.MLMemberAbilities.write(value:to:))
         try writer["paymentConfiguration"].write(value.paymentConfiguration, with: CleanRoomsClientTypes.PaymentConfiguration.write(value:to:))
     }
 }

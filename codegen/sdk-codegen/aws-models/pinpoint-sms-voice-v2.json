@@ -1568,7 +1568,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted.</p>"
+                "smithy.api#documentation": "<p>Create a new registration attachment to use for uploading a file or a URL to a file.\n            The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For\n            example, many sender ID registrations require a signed “letter of authorization” (LOA)\n            to be submitted.</p>\n         <p>Use either <code>AttachmentUrl</code> or <code>AttachmentBody</code> to upload your attachment. If both are specified then an exception is returned.</p>"
             }
         },
         "com.amazonaws.pinpointsmsvoicev2#CreateRegistrationAttachmentRequest": {
@@ -1577,13 +1577,13 @@
                 "AttachmentBody": {
                     "target": "com.amazonaws.pinpointsmsvoicev2#AttachmentBody",
                     "traits": {
-                        "smithy.api#documentation": "<p>The registration file to upload. The maximum file size is 1MiB and valid file extensions are PDF, JPEG and PNG.</p>"
+                        "smithy.api#documentation": "<p>The registration file to upload. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG.</p>"
                     }
                 },
                 "AttachmentUrl": {
                     "target": "com.amazonaws.pinpointsmsvoicev2#AttachmentUrl",
                     "traits": {
-                        "smithy.api#documentation": "<p>A URL to the required registration file.  For example, you can provide the S3 object URL.</p>"
+                        "smithy.api#documentation": "<p>Registration files have to be stored in an Amazon S3 bucket. The URI to use when sending is in the format <code>s3://BucketName/FileName</code>.</p>"
                     }
                 },
                 "Tags": {
@@ -1701,7 +1701,7 @@
                 "RegistrationStatus": {
                     "target": "com.amazonaws.pinpointsmsvoicev2#RegistrationStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>The status of the registration.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CREATED</code>: Your registration is created but not submitted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted and is awaiting review.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PROVISIONING</code>: Your registration has been approved and your origination identity is being created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COMPLETE</code>: Your registration has been approved and and your origination identity has been created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_UPDATES</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CLOSED</code>: The phone number or sender ID has been deleted and you must also delete the registration for the number.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETED</code>: The registration has been deleted.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The status of the registration.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CLOSED</code>: The phone number or sender ID has been deleted and you must also delete the registration for the number.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CREATED</code>: Your registration is created but not submitted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COMPLETE</code>: Your registration has been approved and your origination identity has been created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETED</code>: The registration has been deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PROVISIONING</code>: Your registration has been approved and your origination identity is being created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_AUTHENTICATION</code>: You need to complete email authentication.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_UPDATES</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted and is awaiting review.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1813,7 +1813,7 @@
                 "RegistrationVersionStatus": {
                     "target": "com.amazonaws.pinpointsmsvoicev2#RegistrationVersionStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>The status of the registration.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DRAFT</code>: The initial status of a registration version after it’s created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>APPROVED</code>: Your registration has been approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DISCARDED</code>: You've abandon this version of their registration to start over with a new version. </p>\n            </li>\n            <li>\n               <p>\n                  <code>DENIED</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVOKED</code>: Your previously approved registration has been revoked.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ARCHIVED</code>: Your previously approved registration version moves into this status when a more recently submitted version is approved.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The status of the registration.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>APPROVED</code>: Your registration has been approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ARCHIVED</code>: Your previously approved registration version moves into this status when a more recently submitted version is approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DENIED</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DISCARDED</code>: You've abandon this version of their registration to start over with a new version. </p>\n            </li>\n            <li>\n               <p>\n                  <code>DRAFT</code>: The initial status of a registration version after it’s created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_AUTHENTICATION</code>: You need to complete email authentication.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVOKED</code>: Your previously approved registration has been revoked.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -3093,7 +3093,7 @@
                 "RegistrationStatus": {
                     "target": "com.amazonaws.pinpointsmsvoicev2#RegistrationStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>The status of the registration.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CREATED</code>: Your registration is created but not submitted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted and is awaiting review.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PROVISIONING</code>: Your registration has been approved and your origination identity is being created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COMPLETE</code>: Your registration has been approved and and your origination identity has been created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_UPDATES</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CLOSED</code>: The phone number or sender ID has been deleted and you must also delete the registration for the number.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETED</code>: The registration has been deleted.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The status of the registration.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CLOSED</code>: The phone number or sender ID has been deleted and you must also delete the registration for the number.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CREATED</code>: Your registration is created but not submitted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COMPLETE</code>: Your registration has been approved and your origination identity has been created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETED</code>: The registration has been deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PROVISIONING</code>: Your registration has been approved and your origination identity is being created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_AUTHENTICATION</code>: You need to complete email authentication.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_UPDATES</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted and is awaiting review.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -3826,7 +3826,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Describes the specified opted out destination numbers or all opted out destination\n            numbers in an opt-out list.</p>\n         <p>If you specify opted out numbers, the output includes information for only the\n            specified opted out numbers. If you specify filters, the output includes information for\n            only those opted out numbers that meet the filter criteria. If you don't specify opted\n            out numbers or filters, the output includes information for all opted out destination\n            numbers in your opt-out list.</p>\n         <p>If you specify an opted out number that isn't valid, an error is returned.</p>",
+                "smithy.api#documentation": "<p>Describes the specified opted out destination numbers or all opted out destination\n            numbers in an opt-out list.</p>\n         <p>If you specify opted out numbers, the output includes information for only the\n            specified opted out numbers. If you specify filters, the output includes information for\n            only those opted out numbers that meet the filter criteria. If you don't specify opted\n            out numbers or filters, the output includes information for all opted out destination\n            numbers in your opt-out list.</p>\n         <p>If you specify an opted out number that isn't valid, an exception is returned.</p>",
                 "smithy.api#paginated": {
                     "items": "OptedOutNumbers"
                 }
@@ -3845,7 +3845,7 @@
                 "OptedOutNumbers": {
                     "target": "com.amazonaws.pinpointsmsvoicev2#OptedOutNumberList",
                     "traits": {
-                        "smithy.api#documentation": "<p>An array of phone numbers to search for in the OptOutList.</p>"
+                        "smithy.api#documentation": "<p>An array of phone numbers to search for in the OptOutList.</p>\n         <p>If you specify an opted out number that isn't valid, an exception is returned.</p>"
                     }
                 },
                 "Filters": {
@@ -5400,7 +5400,7 @@
                 "RegistrationVersionStatus": {
                     "target": "com.amazonaws.pinpointsmsvoicev2#RegistrationVersionStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>The status of the registration version.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DRAFT</code>: The initial status of a registration version after it’s created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>APPROVED</code>: Your registration has been approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DISCARDED</code>: You've abandon this version of their registration to start over with a new version. </p>\n            </li>\n            <li>\n               <p>\n                  <code>DENIED</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVOKED</code>: Your previously approved registration has been revoked.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ARCHIVED</code>: Your previously approved registration version moves into this status when a more recently submitted version is approved.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The status of the registration version.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>APPROVED</code>: Your registration has been approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ARCHIVED</code>: Your previously approved registration version moves into this status when a more recently submitted version is approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DENIED</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DISCARDED</code>: You've abandon this version of their registration to start over with a new version. </p>\n            </li>\n            <li>\n               <p>\n                  <code>DRAFT</code>: The initial status of a registration version after it’s created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_AUTHENTICATION</code>: You need to complete email authentication.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVOKED</code>: Your previously approved registration has been revoked.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -9554,7 +9554,7 @@
                 "RegistrationStatus": {
                     "target": "com.amazonaws.pinpointsmsvoicev2#RegistrationStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>The status of the registration.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CREATED</code>: Your registration is created but not submitted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted and is awaiting review.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PROVISIONING</code>: Your registration has been approved and your origination identity is being created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COMPLETE</code>: Your registration has been approved and and your origination identity has been created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_UPDATES</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CLOSED</code>: The phone number or sender ID has been deleted and you must also delete the registration for the number.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETED</code>: The registration has been deleted.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The status of the registration.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CLOSED</code>: The phone number or sender ID has been deleted and you must also delete the registration for the number.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CREATED</code>: Your registration is created but not submitted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>COMPLETE</code>: Your registration has been approved and your origination identity has been created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETED</code>: The registration has been deleted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>PROVISIONING</code>: Your registration has been approved and your origination identity is being created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_AUTHENTICATION</code>: You need to complete email authentication.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_UPDATES</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted and is awaiting review.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -9684,6 +9684,10 @@
                     {
                         "value": "REVIEWING",
                         "name": "REVIEWING"
+                    },
+                    {
+                        "value": "REQUIRES_AUTHENTICATION",
+                        "name": "REQUIRES_AUTHENTICATION"
                     },
                     {
                         "value": "PROVISIONING",
@@ -9907,7 +9911,7 @@
                 "RegistrationVersionStatus": {
                     "target": "com.amazonaws.pinpointsmsvoicev2#RegistrationVersionStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>The status of the registration.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DRAFT</code>: The initial status of a registration version after it’s created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>APPROVED</code>: Your registration has been approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DISCARDED</code>: You've abandon this version of their registration to start over with a new version. </p>\n            </li>\n            <li>\n               <p>\n                  <code>DENIED</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVOKED</code>: Your previously approved registration has been revoked.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ARCHIVED</code>: Your previously approved registration version moves into this status when a more recently submitted version is approved.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The status of the registration.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>APPROVED</code>: Your registration has been approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ARCHIVED</code>: Your previously approved registration version moves into this status when a more recently submitted version is approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DENIED</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DISCARDED</code>: You've abandon this version of their registration to start over with a new version. </p>\n            </li>\n            <li>\n               <p>\n                  <code>DRAFT</code>: The initial status of a registration version after it’s created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_AUTHENTICATION</code>: You need to complete email authentication.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVOKED</code>: Your previously approved registration has been revoked.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -9972,6 +9976,10 @@
                         "name": "REVIEWING"
                     },
                     {
+                        "value": "REQUIRES_AUTHENTICATION",
+                        "name": "REQUIRES_AUTHENTICATION"
+                    },
+                    {
                         "value": "APPROVED",
                         "name": "APPROVED"
                     },
@@ -10014,6 +10022,12 @@
                     "target": "smithy.api#Timestamp",
                     "traits": {
                         "smithy.api#documentation": "<p>The time when the registration was in the reviewing state, in <a href=\"https://www.epochconverter.com/\">UNIX epoch time</a> format.</p>"
+                    }
+                },
+                "RequiresAuthenticationTimestamp": {
+                    "target": "smithy.api#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time when the registration was in the requires authentication state, in <a href=\"https://www.epochconverter.com/\">UNIX epoch time</a> format.</p>"
                     }
                 },
                 "ApprovedTimestamp": {
@@ -12267,7 +12281,7 @@
                 "RegistrationVersionStatus": {
                     "target": "com.amazonaws.pinpointsmsvoicev2#RegistrationVersionStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>The status of the registration version.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DRAFT</code>: The initial status of a registration version after it’s created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>APPROVED</code>: Your registration has been approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DISCARDED</code>: You've abandon this version of their registration to start over with a new version. </p>\n            </li>\n            <li>\n               <p>\n                  <code>DENIED</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVOKED</code>: Your previously approved registration has been revoked.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ARCHIVED</code>: Your previously approved registration version moves into this status when a more recently submitted version is approved.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The status of the registration version.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>APPROVED</code>: Your registration has been approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ARCHIVED</code>: Your previously approved registration version moves into this status when a more recently submitted version is approved.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DENIED</code>: You must fix your registration and resubmit it.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DISCARDED</code>: You've abandon this version of their registration to start over with a new version. </p>\n            </li>\n            <li>\n               <p>\n                  <code>DRAFT</code>: The initial status of a registration version after it’s created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REQUIRES_AUTHENTICATION</code>: You need to complete email authentication.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVIEWING</code>: Your registration has been accepted and is being reviewed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REVOKED</code>: Your previously approved registration has been revoked.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>: Your registration has been submitted.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -13596,6 +13610,10 @@
                     {
                         "value": "VOICE_CAPABILITY_NOT_AVAILABLE",
                         "name": "VOICE_CAPABILITY_NOT_AVAILABLE"
+                    },
+                    {
+                        "value": "UNSPECIFIED_PARAMETER_NOT_SUPPORTED",
+                        "name": "UNSPECIFIED_PARAMETER_NOT_SUPPORTED"
                     },
                     {
                         "value": "OTHER",

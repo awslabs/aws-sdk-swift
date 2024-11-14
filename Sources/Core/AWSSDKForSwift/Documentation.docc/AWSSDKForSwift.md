@@ -4,8 +4,6 @@ A pure-Swift SDK for accessing all published AWS services.
 
 ## Overview
 
-**The AWS SDK for Swift is currently in developer preview and is intended strictly for feedback purposes only. Do not use this SDK for production workloads. Refer to the SDK [stability guidelines](docs/stability.md) for more detail.**
-
 This SDK is open-source.  Code is available on Github [here](https://github.com/awslabs/aws-sdk-swift).
 
 
@@ -156,6 +154,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSBedrockAgentRuntime](../../../../../swift/api/awsbedrockagentruntime/latest)
 
 [AWSBedrockRuntime](../../../../../swift/api/awsbedrockruntime/latest)
+
+[AWSBilling](../../../../../swift/api/awsbilling/latest)
 
 [AWSBillingconductor](../../../../../swift/api/awsbillingconductor/latest)
 
@@ -377,6 +377,12 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSGameLift](../../../../../swift/api/awsgamelift/latest)
 
+[AWSGeoMaps](../../../../../swift/api/awsgeomaps/latest)
+
+[AWSGeoPlaces](../../../../../swift/api/awsgeoplaces/latest)
+
+[AWSGeoRoutes](../../../../../swift/api/awsgeoroutes/latest)
+
 [AWSGlacier](../../../../../swift/api/awsglacier/latest)
 
 [AWSGlobalAccelerator](../../../../../swift/api/awsglobalaccelerator/latest)
@@ -585,8 +591,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNetworkMonitor](../../../../../swift/api/awsnetworkmonitor/latest)
 
-[AWSNimble](../../../../../swift/api/awsnimble/latest)
-
 [AWSOAM](../../../../../swift/api/awsoam/latest)
 
 [AWSOSIS](../../../../../swift/api/awsosis/latest)
@@ -610,6 +614,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSPI](../../../../../swift/api/awspi/latest)
 
 [AWSPanorama](../../../../../swift/api/awspanorama/latest)
+
+[AWSPartnerCentralSelling](../../../../../swift/api/awspartnercentralselling/latest)
 
 [AWSPaymentCryptography](../../../../../swift/api/awspaymentcryptography/latest)
 

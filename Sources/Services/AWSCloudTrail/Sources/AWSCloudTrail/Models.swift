@@ -617,11 +617,11 @@ extension CloudTrailClientTypes {
         public var endsWith: [Swift.String]?
         /// An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public var equals: [Swift.String]?
-        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For CloudTrail management events, supported fields include eventCategory (required), eventSource, and readOnly. For CloudTrail data events, supported fields include eventCategory (required), resources.type (required), eventName, readOnly, and resources.ARN. For CloudTrail network activity events, supported fields include eventCategory (required), eventSource (required), eventName, errorCode, and vpcEndpointId. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.
+        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For CloudTrail management events, supported fields include eventCategory (required), eventSource, and readOnly. The following additional fields are available for event data stores: eventName, eventType, sessionCredentialFromConsole, and userIdentity.arn. For CloudTrail data events, supported fields include eventCategory (required), resources.type (required), eventName, readOnly, and resources.ARN. The following additional fields are available for event data stores: eventSource, eventType, sessionCredentialFromConsole, and userIdentity.arn. For CloudTrail network activity events, supported fields include eventCategory (required), eventSource (required), eventName, errorCode, and vpcEndpointId. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.
         ///
         /// * readOnly - This is an optional field that is only used for management events and data events. This field can be set to Equals with a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.
         ///
-        /// * eventSource - This field is only used for management events and network activity events. For management events, this is an optional field that can be set to NotEqualskms.amazonaws.com to exclude KMS management events, or NotEqualsrdsdata.amazonaws.com to exclude RDS management events. For network activity events, this is a required field that only uses the Equals operator. Set this field to the event source for which you want to log network activity events. If you want to log network activity events for multiple event sources, you must create a separate field selector for each event source. The following are valid values for network activity events:
+        /// * eventSource - This field is only used for management events, data events (for event data stores only), and network activity events. For management events for trails, this is an optional field that can be set to NotEqualskms.amazonaws.com to exclude KMS management events, or NotEqualsrdsdata.amazonaws.com to exclude RDS management events. For management and data events for event data stores, you can use it to include or exclude any event source and can use any operator. For network activity events, this is a required field that only uses the Equals operator. Set this field to the event source for which you want to log network activity events. If you want to log network activity events for multiple event sources, you must create a separate field selector for each event source. The following are valid values for network activity events:
         ///
         /// * cloudtrail.amazonaws.com
         ///
@@ -634,7 +634,7 @@ extension CloudTrailClientTypes {
         ///
         ///
         ///
-        /// * eventName - This is an optional field that is only used for data events and network activity events. You can use any operator with eventName. You can use it to ﬁlter in or ﬁlter out specific events. You can have multiple values for this ﬁeld, separated by commas.
+        /// * eventName - This is an optional field that is only used for data events, management events (for event data stores only), and network activity events. You can use any operator with eventName. You can use it to ﬁlter in or ﬁlter out specific events. You can have multiple values for this ﬁeld, separated by commas.
         ///
         /// * eventCategory - This field is required and must be set to Equals.
         ///
@@ -653,169 +653,22 @@ extension CloudTrailClientTypes {
         ///
         /// * For Audit Manager evidence, the value must be Evidence.
         ///
-        /// * For non-Amazon Web Services events, the value must be ActivityAuditLog.
+        /// * For events outside of Amazon Web Services, the value must be ActivityAuditLog.
         ///
         ///
         ///
+        ///
+        /// * eventType - This is an optional field available only for event data stores, which is used to filter management and data events on the event type. For information about available event types, see [CloudTrail record contents](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html#ct-event-type) in the CloudTrail user guide.
         ///
         /// * errorCode - This ﬁeld is only used to filter CloudTrail network activity events and is optional. This is the error code to filter on. Currently, the only valid errorCode is VpceAccessDenied. errorCode can only use the Equals operator.
         ///
-        /// * resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator. The value can be one of the following:
+        /// * sessionCredentialFromConsole - This is an optional field available only for event data stores, which is used to filter management and data events based on whether the events originated from an Amazon Web Services Management Console session. sessionCredentialFromConsole can only use the Equals and NotEquals operators.
         ///
-        /// * AWS::AppConfig::Configuration
-        ///
-        /// * AWS::B2BI::Transformer
-        ///
-        /// * AWS::Bedrock::AgentAlias
-        ///
-        /// * AWS::Bedrock::FlowAlias
-        ///
-        /// * AWS::Bedrock::Guardrail
-        ///
-        /// * AWS::Bedrock::KnowledgeBase
-        ///
-        /// * AWS::Cassandra::Table
-        ///
-        /// * AWS::CloudFront::KeyValueStore
-        ///
-        /// * AWS::CloudTrail::Channel
-        ///
-        /// * AWS::CloudWatch::Metric
-        ///
-        /// * AWS::CodeWhisperer::Customization
-        ///
-        /// * AWS::CodeWhisperer::Profile
-        ///
-        /// * AWS::Cognito::IdentityPool
-        ///
-        /// * AWS::DynamoDB::Stream
-        ///
-        /// * AWS::DynamoDB::Table
-        ///
-        /// * AWS::EC2::Snapshot
-        ///
-        /// * AWS::EMRWAL::Workspace
-        ///
-        /// * AWS::FinSpace::Environment
-        ///
-        /// * AWS::Glue::Table
-        ///
-        /// * AWS::GreengrassV2::ComponentVersion
-        ///
-        /// * AWS::GreengrassV2::Deployment
-        ///
-        /// * AWS::GuardDuty::Detector
-        ///
-        /// * AWS::IoT::Certificate
-        ///
-        /// * AWS::IoT::Thing
-        ///
-        /// * AWS::IoTSiteWise::Asset
-        ///
-        /// * AWS::IoTSiteWise::TimeSeries
-        ///
-        /// * AWS::IoTTwinMaker::Entity
-        ///
-        /// * AWS::IoTTwinMaker::Workspace
-        ///
-        /// * AWS::KendraRanking::ExecutionPlan
-        ///
-        /// * AWS::Kinesis::Stream
-        ///
-        /// * AWS::Kinesis::StreamConsumer
-        ///
-        /// * AWS::KinesisVideo::Stream
-        ///
-        /// * AWS::Lambda::Function
-        ///
-        /// * AWS::MachineLearning::MlModel
-        ///
-        /// * AWS::ManagedBlockchain::Network
-        ///
-        /// * AWS::ManagedBlockchain::Node
-        ///
-        /// * AWS::MedicalImaging::Datastore
-        ///
-        /// * AWS::NeptuneGraph::Graph
-        ///
-        /// * AWS::One::UKey
-        ///
-        /// * AWS::One::User
-        ///
-        /// * AWS::PaymentCryptography::Alias
-        ///
-        /// * AWS::PaymentCryptography::Key
-        ///
-        /// * AWS::PCAConnectorAD::Connector
-        ///
-        /// * AWS::PCAConnectorSCEP::Connector
-        ///
-        /// * AWS::QApps:QApp
-        ///
-        /// * AWS::QBusiness::Application
-        ///
-        /// * AWS::QBusiness::DataSource
-        ///
-        /// * AWS::QBusiness::Index
-        ///
-        /// * AWS::QBusiness::WebExperience
-        ///
-        /// * AWS::RDS::DBCluster
-        ///
-        /// * AWS::RUM::AppMonitor
-        ///
-        /// * AWS::S3::AccessPoint
-        ///
-        /// * AWS::S3::Object
-        ///
-        /// * AWS::S3Express::Object
-        ///
-        /// * AWS::S3ObjectLambda::AccessPoint
-        ///
-        /// * AWS::S3Outposts::Object
-        ///
-        /// * AWS::SageMaker::Endpoint
-        ///
-        /// * AWS::SageMaker::ExperimentTrialComponent
-        ///
-        /// * AWS::SageMaker::FeatureGroup
-        ///
-        /// * AWS::ServiceDiscovery::Namespace
-        ///
-        /// * AWS::ServiceDiscovery::Service
-        ///
-        /// * AWS::SCN::Instance
-        ///
-        /// * AWS::SNS::PlatformEndpoint
-        ///
-        /// * AWS::SNS::Topic
-        ///
-        /// * AWS::SQS::Queue
-        ///
-        /// * AWS::SSM::ManagedNode
-        ///
-        /// * AWS::SSMMessages::ControlChannel
-        ///
-        /// * AWS::StepFunctions::StateMachine
-        ///
-        /// * AWS::SWF::Domain
-        ///
-        /// * AWS::ThinClient::Device
-        ///
-        /// * AWS::ThinClient::Environment
-        ///
-        /// * AWS::Timestream::Database
-        ///
-        /// * AWS::Timestream::Table
-        ///
-        /// * AWS::VerifiedPermissions::PolicyStore
-        ///
-        /// * AWS::XRay::Trace
-        ///
-        ///
-        /// You can have only one resources.type ﬁeld per selector. To log events on more than one resource type, add another selector.
+        /// * resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator. For a list of available resource types for data events, see [Data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#logging-data-events) in the CloudTrail User Guide. You can have only one resources.type ﬁeld per selector. To log events on more than one resource type, add another selector.
         ///
         /// * resources.ARN - The resources.ARN is an optional field for data events. You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. For information about filtering data events on the resources.ARN field, see [Filtering data events by resources.ARN](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/filtering-data-events.html#filtering-data-events-resourcearn) in the CloudTrail User Guide. You can't use the resources.ARN field to filter resource types that do not have ARNs.
+        ///
+        /// * userIdentity.arn - This is an optional field available only for event data stores, which is used to filter management and data events on the userIdentity ARN. You can use any operator with userIdentity.arn. For more information on the userIdentity element, see [CloudTrail userIdentity element](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html) in the CloudTrail User Guide.
         ///
         /// * vpcEndpointId - This ﬁeld is only used to filter CloudTrail network activity events and is optional. This field identifies the VPC endpoint that the request passed through. You can use any operator with vpcEndpointId.
         /// This member is required.
@@ -861,6 +714,17 @@ extension CloudTrailClientTypes {
     /// * readOnly
     ///
     ///
+    /// The following additional fields are available for event data stores:
+    ///
+    /// * eventName
+    ///
+    /// * eventType
+    ///
+    /// * sessionCredentialFromConsole
+    ///
+    /// * userIdentity.arn
+    ///
+    ///
     /// Supported CloudTrail event record fields for data events
     ///
     /// * eventCategory (required)
@@ -872,6 +736,17 @@ extension CloudTrailClientTypes {
     /// * eventName
     ///
     /// * resources.ARN
+    ///
+    ///
+    /// The following additional fields are available for event data stores:
+    ///
+    /// * eventSource
+    ///
+    /// * eventType
+    ///
+    /// * sessionCredentialFromConsole
+    ///
+    /// * userIdentity.arn
     ///
     ///
     /// Supported CloudTrail event record fields for network activity events Network activity events is in preview release for CloudTrail and is subject to change.
@@ -2755,6 +2630,8 @@ public struct DescribeQueryOutput: Swift.Sendable {
     public var deliveryStatus: CloudTrailClientTypes.DeliveryStatus?
     /// The error message returned if a query failed.
     public var errorMessage: Swift.String?
+    /// The prompt used for a generated query. For information about generated queries, see [Create CloudTrail Lake queries from natural language prompts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-query-generator.html) in the CloudTrail user guide.
+    public var prompt: Swift.String?
     /// The ID of the query.
     public var queryId: Swift.String?
     /// Metadata about a query, including the number of events that were matched, the total number of events scanned, the query run time in milliseconds, and the query's creation time.
@@ -2768,6 +2645,7 @@ public struct DescribeQueryOutput: Swift.Sendable {
         deliveryS3Uri: Swift.String? = nil,
         deliveryStatus: CloudTrailClientTypes.DeliveryStatus? = nil,
         errorMessage: Swift.String? = nil,
+        prompt: Swift.String? = nil,
         queryId: Swift.String? = nil,
         queryStatistics: CloudTrailClientTypes.QueryStatisticsForDescribeQuery? = nil,
         queryStatus: CloudTrailClientTypes.QueryStatus? = nil,
@@ -2777,6 +2655,7 @@ public struct DescribeQueryOutput: Swift.Sendable {
         self.deliveryS3Uri = deliveryS3Uri
         self.deliveryStatus = deliveryStatus
         self.errorMessage = errorMessage
+        self.prompt = prompt
         self.queryId = queryId
         self.queryStatistics = queryStatistics
         self.queryStatus = queryStatus
@@ -3022,6 +2901,65 @@ public struct EnableFederationOutput: Swift.Sendable {
         self.eventDataStoreArn = eventDataStoreArn
         self.federationRoleArn = federationRoleArn
         self.federationStatus = federationStatus
+    }
+}
+
+/// This exception is thrown when a valid query could not be generated for the provided prompt.
+public struct GenerateResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GenerateResponse" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct GenerateQueryInput: Swift.Sendable {
+    /// The ARN (or ID suffix of the ARN) of the event data store that you want to query. You can only specify one event data store.
+    /// This member is required.
+    public var eventDataStores: [Swift.String]?
+    /// The prompt that you want to use to generate the query. The prompt must be in English. For example prompts, see [Example prompts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-query-generator.html#lake-query-generator-examples) in the CloudTrail user guide.
+    /// This member is required.
+    public var prompt: Swift.String?
+
+    public init(
+        eventDataStores: [Swift.String]? = nil,
+        prompt: Swift.String? = nil
+    )
+    {
+        self.eventDataStores = eventDataStores
+        self.prompt = prompt
+    }
+}
+
+public struct GenerateQueryOutput: Swift.Sendable {
+    /// An alias that identifies the prompt. When you run the StartQuery operation, you can pass in either the QueryAlias or QueryStatement parameter.
+    public var queryAlias: Swift.String?
+    /// The SQL query statement generated from the prompt.
+    public var queryStatement: Swift.String?
+
+    public init(
+        queryAlias: Swift.String? = nil,
+        queryStatement: Swift.String? = nil
+    )
+    {
+        self.queryAlias = queryAlias
+        self.queryStatement = queryStatement
     }
 }
 
@@ -3290,7 +3228,7 @@ extension CloudTrailClientTypes {
         /// * AWS::S3::Object
         ///
         ///
-        /// Additional resource types are available through advanced event selectors. For more information about these additional resource types, see [AdvancedFieldSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html).
+        /// Additional resource types are available through advanced event selectors. For more information, see [AdvancedEventSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html).
         public var type: Swift.String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified resource type.
         ///
@@ -6100,6 +6038,13 @@ extension EnableFederationInput {
     }
 }
 
+extension GenerateQueryInput {
+
+    static func urlPathProvider(_ value: GenerateQueryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetChannelInput {
 
     static func urlPathProvider(_ value: GetChannelInput) -> Swift.String? {
@@ -6483,6 +6428,15 @@ extension EnableFederationInput {
         guard let value else { return }
         try writer["EventDataStore"].write(value.eventDataStore)
         try writer["FederationRoleArn"].write(value.federationRoleArn)
+    }
+}
+
+extension GenerateQueryInput {
+
+    static func write(value: GenerateQueryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventDataStores"].writeList(value.eventDataStores, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Prompt"].write(value.prompt)
     }
 }
 
@@ -6962,6 +6916,7 @@ extension DescribeQueryOutput {
         value.deliveryS3Uri = try reader["DeliveryS3Uri"].readIfPresent()
         value.deliveryStatus = try reader["DeliveryStatus"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.prompt = try reader["Prompt"].readIfPresent()
         value.queryId = try reader["QueryId"].readIfPresent()
         value.queryStatistics = try reader["QueryStatistics"].readIfPresent(with: CloudTrailClientTypes.QueryStatisticsForDescribeQuery.read(from:))
         value.queryStatus = try reader["QueryStatus"].readIfPresent()
@@ -7005,6 +6960,19 @@ extension EnableFederationOutput {
         value.eventDataStoreArn = try reader["EventDataStoreArn"].readIfPresent()
         value.federationRoleArn = try reader["FederationRoleArn"].readIfPresent()
         value.federationStatus = try reader["FederationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension GenerateQueryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateQueryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GenerateQueryOutput()
+        value.queryAlias = try reader["QueryAlias"].readIfPresent()
+        value.queryStatement = try reader["QueryStatement"].readIfPresent()
         return value
     }
 }
@@ -7886,6 +7854,27 @@ enum EnableFederationOutputError {
     }
 }
 
+enum GenerateQueryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "GenerateResponse": return try GenerateResponseException.makeError(baseError: baseError)
+            case "InactiveEventDataStore": return try InactiveEventDataStoreException.makeError(baseError: baseError)
+            case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NoManagementAccountSLRExists": return try NoManagementAccountSLRExistsException.makeError(baseError: baseError)
+            case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetChannelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8356,6 +8345,7 @@ enum RemoveTagsOutputError {
             case "ChannelARNInvalid": return try ChannelARNInvalidException.makeError(baseError: baseError)
             case "ChannelNotFound": return try ChannelNotFoundException.makeError(baseError: baseError)
             case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
             case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
             case "InactiveEventDataStore": return try InactiveEventDataStoreException.makeError(baseError: baseError)
@@ -9474,6 +9464,19 @@ extension ConcurrentModificationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension GenerateResponseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GenerateResponseException {
+        let reader = baseError.errorBodyReader
+        var value = GenerateResponseException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

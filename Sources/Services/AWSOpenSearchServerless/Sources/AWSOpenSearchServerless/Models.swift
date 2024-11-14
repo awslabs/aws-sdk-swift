@@ -1526,6 +1526,97 @@ public struct UpdateCollectionOutput: Swift.Sendable {
     }
 }
 
+extension OpenSearchServerlessClientTypes {
+
+    public enum IamIdentityCenterGroupAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Group ID
+        case groupid
+        /// Group Name
+        case groupname
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IamIdentityCenterGroupAttribute] {
+            return [
+                .groupid,
+                .groupname
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .groupid: return "GroupId"
+            case .groupname: return "GroupName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    public enum IamIdentityCenterUserAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Email
+        case email
+        /// User ID
+        case userid
+        /// User Name
+        case username
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IamIdentityCenterUserAttribute] {
+            return [
+                .email,
+                .userid,
+                .username
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .email: return "Email"
+            case .userid: return "UserId"
+            case .username: return "UserName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Describes IAM Identity Center options for creating an OpenSearch Serverless security configuration in the form of a key-value map.
+    public struct CreateIamIdentityCenterConfigOptions: Swift.Sendable {
+        /// The group attribute for this IAM Identity Center integration. Defaults to GroupId.
+        public var groupAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterGroupAttribute?
+        /// The ARN of the IAM Identity Center instance used to integrate with OpenSearch Serverless.
+        /// This member is required.
+        public var instanceArn: Swift.String?
+        /// The user attribute for this IAM Identity Center integration. Defaults to UserId.
+        public var userAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterUserAttribute?
+
+        public init(
+            groupAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterGroupAttribute? = nil,
+            instanceArn: Swift.String? = nil,
+            userAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterUserAttribute? = nil
+        )
+        {
+            self.groupAttribute = groupAttribute
+            self.instanceArn = instanceArn
+            self.userAttribute = userAttribute
+        }
+    }
+}
+
 public struct CreateLifecyclePolicyInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
@@ -1601,12 +1692,15 @@ extension OpenSearchServerlessClientTypes {
 extension OpenSearchServerlessClientTypes {
 
     public enum SecurityConfigType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// iam identity center
+        case iamidentitycenter
         /// saml provider
         case saml
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SecurityConfigType] {
             return [
+                .iamidentitycenter,
                 .saml
             ]
         }
@@ -1618,6 +1712,7 @@ extension OpenSearchServerlessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .iamidentitycenter: return "iamidentitycenter"
             case .saml: return "saml"
             case let .sdkUnknown(s): return s
             }
@@ -1630,6 +1725,8 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// A description of the security configuration.
     public var description: Swift.String?
+    /// Describes IAM Identity Center options in the form of a key-value map. This field is required if you specify iamidentitycenter for the type parameter.
+    public var iamIdentityCenterOptions: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions?
     /// The name of the security configuration.
     /// This member is required.
     public var name: Swift.String?
@@ -1642,6 +1739,7 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        iamIdentityCenterOptions: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions? = nil,
         name: Swift.String? = nil,
         samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions? = nil,
         type: OpenSearchServerlessClientTypes.SecurityConfigType? = nil
@@ -1649,9 +1747,46 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
     {
         self.clientToken = clientToken
         self.description = description
+        self.iamIdentityCenterOptions = iamIdentityCenterOptions
         self.name = name
         self.samlOptions = samlOptions
         self.type = type
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Describes IAM Identity Center options for an OpenSearch Serverless security configuration in the form of a key-value map.
+    public struct IamIdentityCenterConfigOptions: Swift.Sendable {
+        /// The ARN of the IAM Identity Center application used to integrate with OpenSearch Serverless.
+        public var applicationArn: Swift.String?
+        /// The description of the IAM Identity Center application used to integrate with OpenSearch Serverless.
+        public var applicationDescription: Swift.String?
+        /// The name of the IAM Identity Center application used to integrate with OpenSearch Serverless.
+        public var applicationName: Swift.String?
+        /// The group attribute for this IAM Identity Center integration. Defaults to GroupId.
+        public var groupAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterGroupAttribute?
+        /// The ARN of the IAM Identity Center instance used to integrate with OpenSearch Serverless.
+        public var instanceArn: Swift.String?
+        /// The user attribute for this IAM Identity Center integration. Defaults to UserId
+        public var userAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterUserAttribute?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            applicationDescription: Swift.String? = nil,
+            applicationName: Swift.String? = nil,
+            groupAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterGroupAttribute? = nil,
+            instanceArn: Swift.String? = nil,
+            userAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterUserAttribute? = nil
+        )
+        {
+            self.applicationArn = applicationArn
+            self.applicationDescription = applicationDescription
+            self.applicationName = applicationName
+            self.groupAttribute = groupAttribute
+            self.instanceArn = instanceArn
+            self.userAttribute = userAttribute
+        }
     }
 }
 
@@ -1665,6 +1800,8 @@ extension OpenSearchServerlessClientTypes {
         public var createdDate: Swift.Int?
         /// The description of the security configuration.
         public var description: Swift.String?
+        /// Describes IAM Identity Center options in the form of a key-value map.
+        public var iamIdentityCenterOptions: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions?
         /// The unique identifier of the security configuration.
         public var id: Swift.String?
         /// The timestamp of when the configuration was last modified.
@@ -1678,6 +1815,7 @@ extension OpenSearchServerlessClientTypes {
             configVersion: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
+            iamIdentityCenterOptions: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions? = nil,
             id: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
             samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions? = nil,
@@ -1687,6 +1825,7 @@ extension OpenSearchServerlessClientTypes {
             self.configVersion = configVersion
             self.createdDate = createdDate
             self.description = description
+            self.iamIdentityCenterOptions = iamIdentityCenterOptions
             self.id = id
             self.lastModifiedDate = lastModifiedDate
             self.samlOptions = samlOptions
@@ -2549,6 +2688,26 @@ public struct ListVpcEndpointsOutput: Swift.Sendable {
     }
 }
 
+extension OpenSearchServerlessClientTypes {
+
+    /// Describes IAM Identity Center options for updating an OpenSearch Serverless security configuration in the form of a key-value map.
+    public struct UpdateIamIdentityCenterConfigOptions: Swift.Sendable {
+        /// The group attribute for this IAM Identity Center integration. Defaults to GroupId.
+        public var groupAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterGroupAttribute?
+        /// The user attribute for this IAM Identity Center integration. Defaults to UserId.
+        public var userAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterUserAttribute?
+
+        public init(
+            groupAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterGroupAttribute? = nil,
+            userAttribute: OpenSearchServerlessClientTypes.IamIdentityCenterUserAttribute? = nil
+        )
+        {
+            self.groupAttribute = groupAttribute
+            self.userAttribute = userAttribute
+        }
+    }
+}
+
 public struct UpdateSecurityConfigInput: Swift.Sendable {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
@@ -2557,6 +2716,8 @@ public struct UpdateSecurityConfigInput: Swift.Sendable {
     public var configVersion: Swift.String?
     /// A description of the security configuration.
     public var description: Swift.String?
+    /// Describes IAM Identity Center options in the form of a key-value map.
+    public var iamIdentityCenterOptionsUpdates: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions?
     /// The security configuration identifier. For SAML the ID will be saml/<accountId>/<idpProviderName>. For example, saml/123456789123/OKTADev.
     /// This member is required.
     public var id: Swift.String?
@@ -2567,6 +2728,7 @@ public struct UpdateSecurityConfigInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         configVersion: Swift.String? = nil,
         description: Swift.String? = nil,
+        iamIdentityCenterOptionsUpdates: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions? = nil,
         id: Swift.String? = nil,
         samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions? = nil
     )
@@ -2574,6 +2736,7 @@ public struct UpdateSecurityConfigInput: Swift.Sendable {
         self.clientToken = clientToken
         self.configVersion = configVersion
         self.description = description
+        self.iamIdentityCenterOptionsUpdates = iamIdentityCenterOptionsUpdates
         self.id = id
         self.samlOptions = samlOptions
     }
@@ -3124,6 +3287,7 @@ extension CreateSecurityConfigInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["iamIdentityCenterOptions"].write(value.iamIdentityCenterOptions, with: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions.write(value:to:))
         try writer["name"].write(value.name)
         try writer["samlOptions"].write(value.samlOptions, with: OpenSearchServerlessClientTypes.SamlConfigOptions.write(value:to:))
         try writer["type"].write(value.type)
@@ -3393,6 +3557,7 @@ extension UpdateSecurityConfigInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["configVersion"].write(value.configVersion)
         try writer["description"].write(value.description)
+        try writer["iamIdentityCenterOptionsUpdates"].write(value.iamIdentityCenterOptionsUpdates, with: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions.write(value:to:))
         try writer["id"].write(value.id)
         try writer["samlOptions"].write(value.samlOptions, with: OpenSearchServerlessClientTypes.SamlConfigOptions.write(value:to:))
     }
@@ -4702,8 +4867,24 @@ extension OpenSearchServerlessClientTypes.SecurityConfigDetail {
         value.configVersion = try reader["configVersion"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.samlOptions = try reader["samlOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.SamlConfigOptions.read(from:))
+        value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions.read(from:))
         value.createdDate = try reader["createdDate"].readIfPresent()
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions()
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
+        value.applicationArn = try reader["applicationArn"].readIfPresent()
+        value.applicationName = try reader["applicationName"].readIfPresent()
+        value.applicationDescription = try reader["applicationDescription"].readIfPresent()
+        value.userAttribute = try reader["userAttribute"].readIfPresent()
+        value.groupAttribute = try reader["groupAttribute"].readIfPresent()
         return value
     }
 }
@@ -5001,6 +5182,16 @@ extension OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier {
     }
 }
 
+extension OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions {
+
+    static func write(value: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupAttribute"].write(value.groupAttribute)
+        try writer["instanceArn"].write(value.instanceArn)
+        try writer["userAttribute"].write(value.userAttribute)
+    }
+}
+
 extension OpenSearchServerlessClientTypes.CollectionFilters {
 
     static func write(value: OpenSearchServerlessClientTypes.CollectionFilters?, to writer: SmithyJSON.Writer) throws {
@@ -5015,6 +5206,15 @@ extension OpenSearchServerlessClientTypes.VpcEndpointFilters {
     static func write(value: OpenSearchServerlessClientTypes.VpcEndpointFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["status"].write(value.status)
+    }
+}
+
+extension OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions {
+
+    static func write(value: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupAttribute"].write(value.groupAttribute)
+        try writer["userAttribute"].write(value.userAttribute)
     }
 }
 

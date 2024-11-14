@@ -1718,6 +1718,7 @@ extension InternetMonitorClientTypes {
         case measurements
         case overallTrafficSuggestions
         case overallTrafficSuggestionsDetails
+        case routingSuggestions
         case topLocations
         case topLocationDetails
         case sdkUnknown(Swift.String)
@@ -1727,6 +1728,7 @@ extension InternetMonitorClientTypes {
                 .measurements,
                 .overallTrafficSuggestions,
                 .overallTrafficSuggestionsDetails,
+                .routingSuggestions,
                 .topLocations,
                 .topLocationDetails
             ]
@@ -1742,6 +1744,7 @@ extension InternetMonitorClientTypes {
             case .measurements: return "MEASUREMENTS"
             case .overallTrafficSuggestions: return "OVERALL_TRAFFIC_SUGGESTIONS"
             case .overallTrafficSuggestionsDetails: return "OVERALL_TRAFFIC_SUGGESTIONS_DETAILS"
+            case .routingSuggestions: return "ROUTING_SUGGESTIONS"
             case .topLocations: return "TOP_LOCATIONS"
             case .topLocationDetails: return "TOP_LOCATION_DETAILS"
             case let .sdkUnknown(s): return s
@@ -1771,7 +1774,9 @@ public struct StartQueryInput: Swift.Sendable {
     ///
     /// * OVERALL_TRAFFIC_SUGGESTIONS: Provides TTFB, using a 30-day weighted average, for all traffic in each Amazon Web Services location that is monitored.
     ///
-    /// * OVERALL_TRAFFIC_SUGGESTIONS_DETAILS: Provides TTFB, using a 30-day weighted average, for each top location, for a proposed Amazon Web Services location. Must provide a Amazon Web Services location to search.
+    /// * OVERALL_TRAFFIC_SUGGESTIONS_DETAILS: Provides TTFB, using a 30-day weighted average, for each top location, for a proposed Amazon Web Services location. Must provide an Amazon Web Services location to search.
+    ///
+    /// * ROUTING_SUGGESTIONS: Provides the predicted average round-trip time (RTT) from an IP prefix toward an Amazon Web Services location for a DNS resolver. The RTT is calculated at one hour intervals, over a one hour period.
     ///
     ///
     /// For lists of the fields returned with each query type and more information about how each type of query is performed, see [ Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.

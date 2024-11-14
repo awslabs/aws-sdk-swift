@@ -129,7 +129,7 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
         guard let opName = context.getOperation() else {
             throw Smithy.ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
-        guard let endpointParam = context.attributes.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
+        guard let endpointParam = context.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
         return S3AuthSchemeResolverParameters(operation: opName, accelerate: endpointParam.accelerate, bucket: endpointParam.bucket, copySource: endpointParam.copySource, disableAccessPoints: endpointParam.disableAccessPoints, disableMultiRegionAccessPoints: endpointParam.disableMultiRegionAccessPoints, disableS3ExpressSessionAuth: endpointParam.disableS3ExpressSessionAuth, endpoint: endpointParam.endpoint, forcePathStyle: endpointParam.forcePathStyle, key: endpointParam.key, prefix: endpointParam.prefix, region: endpointParam.region, useArnRegion: endpointParam.useArnRegion, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS, useGlobalEndpoint: endpointParam.useGlobalEndpoint, useObjectLambdaEndpoint: endpointParam.useObjectLambdaEndpoint, useS3ExpressControlEndpoint: endpointParam.useS3ExpressControlEndpoint)

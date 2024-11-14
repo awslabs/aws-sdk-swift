@@ -15,8 +15,8 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.80.0"
-let crtVersion: Version = "0.36.0"
+let clientRuntimeVersion: Version = "0.92.0"
+let crtVersion: Version = "0.37.0"
 
 let excludeRuntimeUnitTests = false
 
@@ -62,6 +62,7 @@ let serviceTargets: [String] = [
     "AWSBedrockAgent",
     "AWSBedrockAgentRuntime",
     "AWSBedrockRuntime",
+    "AWSBilling",
     "AWSBillingconductor",
     "AWSBraket",
     "AWSBudgets",
@@ -172,6 +173,9 @@ let serviceTargets: [String] = [
     "AWSFraudDetector",
     "AWSFreeTier",
     "AWSGameLift",
+    "AWSGeoMaps",
+    "AWSGeoPlaces",
+    "AWSGeoRoutes",
     "AWSGlacier",
     "AWSGlobalAccelerator",
     "AWSGlue",
@@ -276,7 +280,6 @@ let serviceTargets: [String] = [
     "AWSNetworkFirewall",
     "AWSNetworkManager",
     "AWSNetworkMonitor",
-    "AWSNimble",
     "AWSOAM",
     "AWSOSIS",
     "AWSOmics",
@@ -289,6 +292,7 @@ let serviceTargets: [String] = [
     "AWSPCS",
     "AWSPI",
     "AWSPanorama",
+    "AWSPartnerCentralSelling",
     "AWSPaymentCryptography",
     "AWSPaymentCryptographyData",
     "AWSPcaConnectorAd",
@@ -601,8 +605,7 @@ private func target(_ service: String) -> Target {
             .awsSDKEventStreamsAuth,
             .awsSDKChecksums,
         ],
-        path: "Sources/Services/\(service)/Sources/\(service)",
-        resources: [.process("Resources")]
+        path: "Sources/Services/\(service)/Sources/\(service)"
     )
 }
 

@@ -18,6 +18,8 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+@_spi(SmithyReadWrite) import func SmithyReadWrite.mapReadingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.mapWritingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -77,7 +79,7 @@ extension AccessAnalyzerClientTypes {
     public struct Access: Swift.Sendable {
         /// A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check.
         public var actions: [Swift.String]?
-        /// A list of resources for the access permissions. Any strings that can be used as a resource in an IAM policy can be used in the list of resources to check.
+        /// A list of resources for the access permissions. Any strings that can be used as an Amazon Resource Name (ARN) in an IAM policy can be used in the list of resources to check. You can only use a wildcard in the portion of the ARN that specifies the resource ID.
         public var resources: [Swift.String]?
 
         public init(
@@ -473,7 +475,7 @@ public struct GetArchiveRuleInput: Swift.Sendable {
 
 extension AccessAnalyzerClientTypes {
 
-    /// Contains information about an archive rule.
+    /// Contains information about an archive rule. Archive rules automatically archive new findings that meet the criteria you define when you create the rule.
     public struct ArchiveRuleSummary: Swift.Sendable {
         /// The time at which the archive rule was created.
         /// This member is required.
@@ -505,7 +507,7 @@ extension AccessAnalyzerClientTypes {
 
 /// The response to the request.
 public struct GetArchiveRuleOutput: Swift.Sendable {
-    /// Contains information about an archive rule.
+    /// Contains information about an archive rule. Archive rules automatically archive new findings that meet the criteria you define when you create the rule.
     /// This member is required.
     public var archiveRule: AccessAnalyzerClientTypes.ArchiveRuleSummary?
 
@@ -609,15 +611,55 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes {
 
+    /// The criteria for an analysis rule for an analyzer. The criteria determine which entities will generate findings.
+    public struct AnalysisRuleCriteria: Swift.Sendable {
+        /// A list of Amazon Web Services account IDs to apply to the analysis rule criteria. The accounts cannot include the organization analyzer owner account. Account IDs can only be applied to the analysis rule criteria for organization-level analyzers. The list cannot include more than 2,000 account IDs.
+        public var accountIds: [Swift.String]?
+        /// An array of key-value pairs to match for your resources. You can use the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. For the tag key, you can specify a value that is 1 to 128 characters in length and cannot be prefixed with aws:. For the tag value, you can specify a value that is 0 to 256 characters in length. If the specified tag value is 0 characters, the rule is applied to all principals with the specified tag key.
+        public var resourceTags: [[Swift.String: Swift.String]]?
+
+        public init(
+            accountIds: [Swift.String]? = nil,
+            resourceTags: [[Swift.String: Swift.String]]? = nil
+        )
+        {
+            self.accountIds = accountIds
+            self.resourceTags = resourceTags
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
+    /// Contains information about analysis rules for the analyzer. Analysis rules determine which entities will generate findings based on the criteria you define when you create the rule.
+    public struct AnalysisRule: Swift.Sendable {
+        /// A list of rules for the analyzer containing criteria to exclude from analysis. Entities that meet the rule criteria will not generate findings.
+        public var exclusions: [AccessAnalyzerClientTypes.AnalysisRuleCriteria]?
+
+        public init(
+            exclusions: [AccessAnalyzerClientTypes.AnalysisRuleCriteria]? = nil
+        )
+        {
+            self.exclusions = exclusions
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
     /// Contains information about an unused access analyzer.
     public struct UnusedAccessConfiguration: Swift.Sendable {
-        /// The specified access age in days for which to generate findings for unused access. For example, if you specify 90 days, the analyzer will generate findings for IAM entities within the accounts of the selected organization for any access that hasn't been used in 90 or more days since the analyzer's last scan. You can choose a value between 1 and 180 days.
+        /// Contains information about analysis rules for the analyzer. Analysis rules determine which entities will generate findings based on the criteria you define when you create the rule.
+        public var analysisRule: AccessAnalyzerClientTypes.AnalysisRule?
+        /// The specified access age in days for which to generate findings for unused access. For example, if you specify 90 days, the analyzer will generate findings for IAM entities within the accounts of the selected organization for any access that hasn't been used in 90 or more days since the analyzer's last scan. You can choose a value between 1 and 365 days.
         public var unusedAccessAge: Swift.Int?
 
         public init(
+            analysisRule: AccessAnalyzerClientTypes.AnalysisRule? = nil,
             unusedAccessAge: Swift.Int? = nil
         )
         {
+            self.analysisRule = analysisRule
             self.unusedAccessAge = unusedAccessAge
         }
     }
@@ -625,9 +667,9 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes {
 
-    /// Contains information about the configuration of an unused access analyzer for an Amazon Web Services organization or account.
+    /// Contains information about the configuration of an analyzer for an Amazon Web Services organization or account.
     public enum AnalyzerConfiguration: Swift.Sendable {
-        /// Specifies the configuration of an unused access analyzer for an Amazon Web Services organization or account. External access analyzers do not support any configuration.
+        /// Specifies the configuration of an unused access analyzer for an Amazon Web Services organization or account.
         case unusedaccess(AccessAnalyzerClientTypes.UnusedAccessConfiguration)
         case sdkUnknown(Swift.String)
     }
@@ -677,9 +719,9 @@ public struct CreateAnalyzerInput: Swift.Sendable {
     public var archiveRules: [AccessAnalyzerClientTypes.InlineArchiveRule]?
     /// A client token.
     public var clientToken: Swift.String?
-    /// Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration. If the analyzer is an external access analyzer, this field is not used.
+    /// Specifies the configuration of the analyzer. If the analyzer is an unused access analyzer, the specified scope of unused access is used for the configuration.
     public var configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration?
-    /// An array of key-value pairs to apply to the analyzer.
+    /// An array of key-value pairs to apply to the analyzer. You can use the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. For the tag key, you can specify a value that is 1 to 128 characters in length and cannot be prefixed with aws:. For the tag value, you can specify a value that is 0 to 256 characters in length.
     public var tags: [Swift.String: Swift.String]?
     /// The type of analyzer to create. Only ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, and ORGANIZATION_UNUSED_ACCESS analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
     /// This member is required.
@@ -945,6 +987,35 @@ public struct ListAnalyzersOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateAnalyzerInput: Swift.Sendable {
+    /// The name of the analyzer to modify.
+    /// This member is required.
+    public var analyzerName: Swift.String?
+    /// Contains information about the configuration of an analyzer for an Amazon Web Services organization or account.
+    public var configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration?
+
+    public init(
+        analyzerName: Swift.String? = nil,
+        configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration? = nil
+    )
+    {
+        self.analyzerName = analyzerName
+        self.configuration = configuration
+    }
+}
+
+public struct UpdateAnalyzerOutput: Swift.Sendable {
+    /// Contains information about the configuration of an analyzer for an Amazon Web Services organization or account.
+    public var configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration?
+
+    public init(
+        configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration? = nil
+    )
+    {
+        self.configuration = configuration
+    }
+}
+
 /// Retroactively applies an archive rule.
 public struct ApplyArchiveRuleInput: Swift.Sendable {
     /// The Amazon resource name (ARN) of the analyzer.
@@ -1066,13 +1137,13 @@ extension AccessAnalyzerClientTypes {
 }
 
 public struct CheckAccessNotGrantedInput: Swift.Sendable {
-    /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access of the actions on all resources in the policy. If only resources are specified, then IAM Access Analyzer checks which actions have access to the specified resources. If both actions and resources are specified, then IAM Access Analyzer checks which of the specified actions have access to the specified resources.
+    /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access to peform at least one of the actions on any resource in the policy. If only resources are specified, then IAM Access Analyzer checks for access to perform any action on at least one of the resources. If both actions and resources are specified, IAM Access Analyzer checks for access to perform at least one of the specified actions on at least one of the specified resources.
     /// This member is required.
     public var access: [AccessAnalyzerClientTypes.Access]?
     /// The JSON policy document to use as the content for the policy.
     /// This member is required.
     public var policyDocument: Swift.String?
-    /// The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
+    /// The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets.
     /// This member is required.
     public var policyType: AccessAnalyzerClientTypes.AccessCheckPolicyType?
 
@@ -2281,6 +2352,7 @@ extension AccessAnalyzerClientTypes {
         case awsEcrRepository
         case awsEfsFilesystem
         case awsIamRole
+        case awsIamUser
         case awsKmsKey
         case awsLambdaFunction
         case awsLambdaLayerversion
@@ -2301,6 +2373,7 @@ extension AccessAnalyzerClientTypes {
                 .awsEcrRepository,
                 .awsEfsFilesystem,
                 .awsIamRole,
+                .awsIamUser,
                 .awsKmsKey,
                 .awsLambdaFunction,
                 .awsLambdaLayerversion,
@@ -2327,6 +2400,7 @@ extension AccessAnalyzerClientTypes {
             case .awsEcrRepository: return "AWS::ECR::Repository"
             case .awsEfsFilesystem: return "AWS::EFS::FileSystem"
             case .awsIamRole: return "AWS::IAM::Role"
+            case .awsIamUser: return "AWS::IAM::User"
             case .awsKmsKey: return "AWS::KMS::Key"
             case .awsLambdaFunction: return "AWS::Lambda::Function"
             case .awsLambdaLayerversion: return "AWS::Lambda::LayerVersion"
@@ -2472,6 +2546,38 @@ public struct GetFindingInput: Swift.Sendable {
 
 extension AccessAnalyzerClientTypes {
 
+    public enum ResourceControlPolicyRestriction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicable
+        case failedToEvaluateRcp
+        case notApplicable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceControlPolicyRestriction] {
+            return [
+                .applicable,
+                .failedToEvaluateRcp,
+                .notApplicable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applicable: return "APPLICABLE"
+            case .failedToEvaluateRcp: return "FAILED_TO_EVALUATE_RCP"
+            case .notApplicable: return "NOT_APPLICABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+
     /// Includes details about how the access that generated the finding is granted. This is populated for Amazon S3 bucket findings.
     public struct FindingSourceDetail: Swift.Sendable {
         /// The account of the cross-account access point that generated the finding.
@@ -2572,6 +2678,8 @@ extension AccessAnalyzerClientTypes {
         public var principal: [Swift.String: Swift.String]?
         /// The resource that an external principal has access to.
         public var resource: Swift.String?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public var resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction?
         /// The Amazon Web Services account ID that owns the resource.
         /// This member is required.
         public var resourceOwnerAccount: Swift.String?
@@ -2597,6 +2705,7 @@ extension AccessAnalyzerClientTypes {
             isPublic: Swift.Bool? = nil,
             principal: [Swift.String: Swift.String]? = nil,
             resource: Swift.String? = nil,
+            resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction? = nil,
             resourceOwnerAccount: Swift.String? = nil,
             resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil,
@@ -2613,6 +2722,7 @@ extension AccessAnalyzerClientTypes {
             self.isPublic = isPublic
             self.principal = principal
             self.resource = resource
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
             self.sources = sources
@@ -2892,6 +3002,8 @@ extension AccessAnalyzerClientTypes {
         public var isPublic: Swift.Bool?
         /// The external principal that has access to a resource within the zone of trust.
         public var principal: [Swift.String: Swift.String]?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public var resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction?
         /// The sources of the external access finding. This indicates how the access that generated the finding is granted. It is populated for Amazon S3 bucket findings.
         public var sources: [AccessAnalyzerClientTypes.FindingSource]?
 
@@ -2900,6 +3012,7 @@ extension AccessAnalyzerClientTypes {
             condition: [Swift.String: Swift.String]? = nil,
             isPublic: Swift.Bool? = nil,
             principal: [Swift.String: Swift.String]? = nil,
+            resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction? = nil,
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil
         )
         {
@@ -2907,6 +3020,7 @@ extension AccessAnalyzerClientTypes {
             self.condition = condition
             self.isPublic = isPublic
             self.principal = principal
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.sources = sources
         }
     }
@@ -3512,6 +3626,8 @@ extension AccessAnalyzerClientTypes {
         public var principal: [Swift.String: Swift.String]?
         /// The resource that an external principal has access to. This is the resource associated with the access preview.
         public var resource: Swift.String?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public var resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction?
         /// The Amazon Web Services account ID that owns the resource. For most Amazon Web Services resources, the owning account is the account in which the resource was created.
         /// This member is required.
         public var resourceOwnerAccount: Swift.String?
@@ -3536,6 +3652,7 @@ extension AccessAnalyzerClientTypes {
             isPublic: Swift.Bool? = nil,
             principal: [Swift.String: Swift.String]? = nil,
             resource: Swift.String? = nil,
+            resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction? = nil,
             resourceOwnerAccount: Swift.String? = nil,
             resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil,
@@ -3553,6 +3670,7 @@ extension AccessAnalyzerClientTypes {
             self.isPublic = isPublic
             self.principal = principal
             self.resource = resource
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
             self.sources = sources
@@ -3834,6 +3952,8 @@ extension AccessAnalyzerClientTypes {
         public var principal: [Swift.String: Swift.String]?
         /// The resource that the external principal has access to.
         public var resource: Swift.String?
+        /// The type of restriction applied to the finding by the resource owner with an Organizations resource control policy (RCP).
+        public var resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction?
         /// The Amazon Web Services account ID that owns the resource.
         /// This member is required.
         public var resourceOwnerAccount: Swift.String?
@@ -3859,6 +3979,7 @@ extension AccessAnalyzerClientTypes {
             isPublic: Swift.Bool? = nil,
             principal: [Swift.String: Swift.String]? = nil,
             resource: Swift.String? = nil,
+            resourceControlPolicyRestriction: AccessAnalyzerClientTypes.ResourceControlPolicyRestriction? = nil,
             resourceOwnerAccount: Swift.String? = nil,
             resourceType: AccessAnalyzerClientTypes.ResourceType? = nil,
             sources: [AccessAnalyzerClientTypes.FindingSource]? = nil,
@@ -3875,6 +3996,7 @@ extension AccessAnalyzerClientTypes {
             self.isPublic = isPublic
             self.principal = principal
             self.resource = resource
+            self.resourceControlPolicyRestriction = resourceControlPolicyRestriction
             self.resourceOwnerAccount = resourceOwnerAccount
             self.resourceType = resourceType
             self.sources = sources
@@ -4404,6 +4526,7 @@ extension AccessAnalyzerClientTypes {
 
     public enum PolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case identityPolicy
+        case resourceControlPolicy
         case resourcePolicy
         case serviceControlPolicy
         case sdkUnknown(Swift.String)
@@ -4411,6 +4534,7 @@ extension AccessAnalyzerClientTypes {
         public static var allCases: [PolicyType] {
             return [
                 .identityPolicy,
+                .resourceControlPolicy,
                 .resourcePolicy,
                 .serviceControlPolicy
             ]
@@ -4424,6 +4548,7 @@ extension AccessAnalyzerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .identityPolicy: return "IDENTITY_POLICY"
+            case .resourceControlPolicy: return "RESOURCE_CONTROL_POLICY"
             case .resourcePolicy: return "RESOURCE_POLICY"
             case .serviceControlPolicy: return "SERVICE_CONTROL_POLICY"
             case let .sdkUnknown(s): return s
@@ -5226,6 +5351,16 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateAnalyzerInput {
+
+    static func urlPathProvider(_ value: UpdateAnalyzerInput) -> Swift.String? {
+        guard let analyzerName = value.analyzerName else {
+            return nil
+        }
+        return "/analyzer/\(analyzerName.urlPercentEncoding())"
+    }
+}
+
 extension UpdateArchiveRuleInput {
 
     static func urlPathProvider(_ value: UpdateArchiveRuleInput) -> Swift.String? {
@@ -5412,6 +5547,14 @@ extension TagResourceInput {
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateAnalyzerInput {
+
+    static func write(value: UpdateAnalyzerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: AccessAnalyzerClientTypes.AnalyzerConfiguration.write(value:to:))
     }
 }
 
@@ -5816,6 +5959,18 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateAnalyzerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAnalyzerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAnalyzerOutput()
+        value.configuration = try reader["configuration"].readIfPresent(with: AccessAnalyzerClientTypes.AnalyzerConfiguration.read(from:))
+        return value
     }
 }
 
@@ -6417,6 +6572,25 @@ enum UntagResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAnalyzerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -7245,6 +7419,7 @@ extension AccessAnalyzerClientTypes.UnusedAccessConfiguration {
 
     static func write(value: AccessAnalyzerClientTypes.UnusedAccessConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["analysisRule"].write(value.analysisRule, with: AccessAnalyzerClientTypes.AnalysisRule.write(value:to:))
         try writer["unusedAccessAge"].write(value.unusedAccessAge)
     }
 
@@ -7252,6 +7427,39 @@ extension AccessAnalyzerClientTypes.UnusedAccessConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AccessAnalyzerClientTypes.UnusedAccessConfiguration()
         value.unusedAccessAge = try reader["unusedAccessAge"].readIfPresent()
+        value.analysisRule = try reader["analysisRule"].readIfPresent(with: AccessAnalyzerClientTypes.AnalysisRule.read(from:))
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.AnalysisRule {
+
+    static func write(value: AccessAnalyzerClientTypes.AnalysisRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exclusions"].writeList(value.exclusions, memberWritingClosure: AccessAnalyzerClientTypes.AnalysisRuleCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AnalysisRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.AnalysisRule()
+        value.exclusions = try reader["exclusions"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.AnalysisRuleCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AccessAnalyzerClientTypes.AnalysisRuleCriteria {
+
+    static func write(value: AccessAnalyzerClientTypes.AnalysisRuleCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceTags"].writeList(value.resourceTags, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AccessAnalyzerClientTypes.AnalysisRuleCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AccessAnalyzerClientTypes.AnalysisRuleCriteria()
+        value.accountIds = try reader["accountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7319,6 +7527,7 @@ extension AccessAnalyzerClientTypes.Finding {
         value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceControlPolicyRestriction = try reader["resourceControlPolicyRestriction"].readIfPresent()
         return value
     }
 }
@@ -7469,6 +7678,7 @@ extension AccessAnalyzerClientTypes.ExternalAccessDetails {
         value.isPublic = try reader["isPublic"].readIfPresent()
         value.principal = try reader["principal"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceControlPolicyRestriction = try reader["resourceControlPolicyRestriction"].readIfPresent()
         return value
     }
 }
@@ -7575,6 +7785,7 @@ extension AccessAnalyzerClientTypes.AccessPreviewFinding {
         value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceControlPolicyRestriction = try reader["resourceControlPolicyRestriction"].readIfPresent()
         return value
     }
 }
@@ -7624,6 +7835,7 @@ extension AccessAnalyzerClientTypes.FindingSummary {
         value.resourceOwnerAccount = try reader["resourceOwnerAccount"].readIfPresent() ?? ""
         value.error = try reader["error"].readIfPresent()
         value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: AccessAnalyzerClientTypes.FindingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceControlPolicyRestriction = try reader["resourceControlPolicyRestriction"].readIfPresent()
         return value
     }
 }

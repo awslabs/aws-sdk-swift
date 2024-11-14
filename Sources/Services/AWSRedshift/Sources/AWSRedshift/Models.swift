@@ -5632,7 +5632,7 @@ public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWS
     }
 }
 
-/// You can't create any more zero-ETL integrations because the quota has been reached.
+/// You can't create any more zero-ETL or S3 event integrations because the quota has been reached.
 public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -5990,10 +5990,39 @@ extension RedshiftClientTypes {
 
 extension RedshiftClientTypes {
 
+    /// The S3 Access Grants scope.
+    public struct ReadWriteAccess: Swift.Sendable {
+        /// Determines whether the read/write scope is enabled or disabled.
+        /// This member is required.
+        public var authorization: RedshiftClientTypes.ServiceAuthorization?
+
+        public init(
+            authorization: RedshiftClientTypes.ServiceAuthorization? = nil
+        )
+        {
+            self.authorization = authorization
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// A list of scopes set up for S3 Access Grants integration.
+    public enum S3AccessGrantsScopeUnion: Swift.Sendable {
+        /// The S3 Access Grants scope.
+        case readwriteaccess(RedshiftClientTypes.ReadWriteAccess)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension RedshiftClientTypes {
+
     /// A list of service integrations.
     public enum ServiceIntegrationsUnion: Swift.Sendable {
         /// A list of scopes set up for Lake Formation integration.
         case lakeformation([RedshiftClientTypes.LakeFormationScopeUnion])
+        /// A list of scopes set up for S3 Access Grants integration.
+        case s3accessgrants([RedshiftClientTypes.S3AccessGrantsScopeUnion])
         case sdkUnknown(Swift.String)
     }
 }
@@ -10960,7 +10989,7 @@ public struct DescribeTagsInput: Swift.Sendable {
     ///
     /// * Snapshot copy grant
     ///
-    /// * Integration (zero-ETL integration) To describe the tags associated with an integration, don't specify ResourceType, instead specify the ResourceName of the integration.
+    /// * Integration (zero-ETL integration or S3 event integration) To describe the tags associated with an integration, don't specify ResourceType, instead specify the ResourceName of the integration.
     ///
     ///
     /// For more information about Amazon Redshift resource types and constructing ARNs, go to [Specifying Policy Elements: Actions, Effects, Resources, and Principals](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-overview.html#redshift-iam-access-control-specify-actions) in the Amazon Redshift Cluster Management Guide.
@@ -23542,6 +23571,8 @@ extension RedshiftClientTypes.ServiceIntegrationsUnion {
         switch value {
             case let .lakeformation(lakeformation):
                 try writer["LakeFormation"].writeList(lakeformation, memberWritingClosure: RedshiftClientTypes.LakeFormationScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .s3accessgrants(s3accessgrants):
+                try writer["S3AccessGrants"].writeList(s3accessgrants, memberWritingClosure: RedshiftClientTypes.S3AccessGrantsScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -23553,9 +23584,50 @@ extension RedshiftClientTypes.ServiceIntegrationsUnion {
         switch name {
             case "LakeFormation":
                 return .lakeformation(try reader["LakeFormation"].readList(memberReadingClosure: RedshiftClientTypes.LakeFormationScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "S3AccessGrants":
+                return .s3accessgrants(try reader["S3AccessGrants"].readList(memberReadingClosure: RedshiftClientTypes.S3AccessGrantsScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension RedshiftClientTypes.S3AccessGrantsScopeUnion {
+
+    static func write(value: RedshiftClientTypes.S3AccessGrantsScopeUnion?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .readwriteaccess(readwriteaccess):
+                try writer["ReadWriteAccess"].write(readwriteaccess, with: RedshiftClientTypes.ReadWriteAccess.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.S3AccessGrantsScopeUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ReadWriteAccess":
+                return .readwriteaccess(try reader["ReadWriteAccess"].read(with: RedshiftClientTypes.ReadWriteAccess.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension RedshiftClientTypes.ReadWriteAccess {
+
+    static func write(value: RedshiftClientTypes.ReadWriteAccess?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Authorization"].write(value.authorization)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.ReadWriteAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.ReadWriteAccess()
+        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

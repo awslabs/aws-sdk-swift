@@ -23,6 +23,7 @@ rm -rf codegen/sdk-codegen/build/smithyprojections/sdk-codegen/*
 rm -rf ServiceClients/*
 rm -rf Sources/Services/*
 rm -rf Tests/Services/*
+rm -rf SmokeTests/*
 
 # Regenerate code
 ./gradlew -p codegen/sdk-codegen build
@@ -34,6 +35,7 @@ rm -rf Tests/Services/*
 cd AWSSDKSwiftCLI
 unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
 swift run AWSSDKSwiftCLI generate-package-manifest "$@" ..
+swift run AWSSDKSwiftCLI generate-smoke-tests-package-manifest ..
 swift run AWSSDKSwiftCLI generate-doc-index ..
 cd ..
 
