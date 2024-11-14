@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ResourceGroupsTaggingAPIClient: ClientRuntime.Client {
     public static let clientName = "ResourceGroupsTaggingAPIClient"
-    public static let version = "1.0.39"
+    public static let version = "1.0.40"
     let client: ClientRuntime.SdkHttpClient
     let config: ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfiguration
     let serviceName = "Resource Groups Tagging API"

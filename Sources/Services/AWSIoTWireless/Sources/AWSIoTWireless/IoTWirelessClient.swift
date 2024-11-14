@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTWirelessClient: ClientRuntime.Client {
     public static let clientName = "IoTWirelessClient"
-    public static let version = "1.0.39"
+    public static let version = "1.0.40"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTWirelessClient.IoTWirelessClientConfiguration
     let serviceName = "IoT Wireless"
@@ -4021,7 +4021,7 @@ extension IoTWirelessClient {
 
     /// Performs the `GetResourceLogLevel` operation on the `iotwireless` service.
     ///
-    /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
+    /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device, wireless gateway or fuota task.
     ///
     /// - Parameter GetResourceLogLevelInput : [no documentation found]
     ///
@@ -6283,7 +6283,7 @@ extension IoTWirelessClient {
 
     /// Performs the `ResetAllResourceLogLevels` operation on the `iotwireless` service.
     ///
-    /// Removes the log-level overrides for all resources; both wireless devices and wireless gateways.
+    /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and fuota tasks.
     ///
     /// - Parameter ResetAllResourceLogLevelsInput : [no documentation found]
     ///
@@ -6353,7 +6353,7 @@ extension IoTWirelessClient {
 
     /// Performs the `ResetResourceLogLevel` operation on the `iotwireless` service.
     ///
-    /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
+    /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device, a wireless gateway, or a fuota task.
     ///
     /// - Parameter ResetResourceLogLevelInput : [no documentation found]
     ///

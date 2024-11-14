@@ -127,6 +127,7 @@ extension CloudControlClientTypes {
         case serviceLimitExceeded
         case serviceTimeout
         case throttling
+        case unauthorizedTaggingOperation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HandlerErrorCode] {
@@ -145,7 +146,8 @@ extension CloudControlClientTypes {
                 .serviceInternalError,
                 .serviceLimitExceeded,
                 .serviceTimeout,
-                .throttling
+                .throttling,
+                .unauthorizedTaggingOperation
             ]
         }
 
@@ -171,6 +173,7 @@ extension CloudControlClientTypes {
             case .serviceLimitExceeded: return "ServiceLimitExceeded"
             case .serviceTimeout: return "ServiceTimeout"
             case .throttling: return "Throttling"
+            case .unauthorizedTaggingOperation: return "UnauthorizedTaggingOperation"
             case let .sdkUnknown(s): return s
             }
         }
@@ -258,6 +261,8 @@ extension CloudControlClientTypes {
         public var errorCode: CloudControlClientTypes.HandlerErrorCode?
         /// When the resource operation request was initiated.
         public var eventTime: Foundation.Date?
+        /// The unique token representing the Hooks operation for the request.
+        public var hooksRequestToken: Swift.String?
         /// The primary identifier for the resource. In some cases, the resource identifier may be available before the resource operation has reached a status of SUCCESS.
         public var identifier: Swift.String?
         /// The resource operation type.
@@ -290,6 +295,7 @@ extension CloudControlClientTypes {
         public init(
             errorCode: CloudControlClientTypes.HandlerErrorCode? = nil,
             eventTime: Foundation.Date? = nil,
+            hooksRequestToken: Swift.String? = nil,
             identifier: Swift.String? = nil,
             operation: CloudControlClientTypes.Operation? = nil,
             operationStatus: CloudControlClientTypes.OperationStatus? = nil,
@@ -302,6 +308,7 @@ extension CloudControlClientTypes {
         {
             self.errorCode = errorCode
             self.eventTime = eventTime
+            self.hooksRequestToken = hooksRequestToken
             self.identifier = identifier
             self.operation = operation
             self.operationStatus = operationStatus
@@ -316,7 +323,7 @@ extension CloudControlClientTypes {
 
 extension CloudControlClientTypes.ProgressEvent: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProgressEvent(errorCode: \(Swift.String(describing: errorCode)), eventTime: \(Swift.String(describing: eventTime)), identifier: \(Swift.String(describing: identifier)), operation: \(Swift.String(describing: operation)), operationStatus: \(Swift.String(describing: operationStatus)), requestToken: \(Swift.String(describing: requestToken)), retryAfter: \(Swift.String(describing: retryAfter)), statusMessage: \(Swift.String(describing: statusMessage)), typeName: \(Swift.String(describing: typeName)), resourceModel: \"CONTENT_REDACTED\")"}
+        "ProgressEvent(errorCode: \(Swift.String(describing: errorCode)), eventTime: \(Swift.String(describing: eventTime)), hooksRequestToken: \(Swift.String(describing: hooksRequestToken)), identifier: \(Swift.String(describing: identifier)), operation: \(Swift.String(describing: operation)), operationStatus: \(Swift.String(describing: operationStatus)), requestToken: \(Swift.String(describing: requestToken)), retryAfter: \(Swift.String(describing: retryAfter)), statusMessage: \(Swift.String(describing: statusMessage)), typeName: \(Swift.String(describing: typeName)), resourceModel: \"CONTENT_REDACTED\")"}
 }
 
 public struct CancelResourceRequestOutput: Swift.Sendable {
@@ -939,14 +946,76 @@ public struct GetResourceRequestStatusInput: Swift.Sendable {
     }
 }
 
+extension CloudControlClientTypes {
+
+    /// Represents the current status of applicable Hooks for a resource operation request. It contains list of Hook invocation information for the resource specified in the request since the same target can invoke multiple Hooks. For more information, see [Managing resource operation requests with Amazon Web Services Cloud Control API ](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html).
+    public struct HookProgressEvent: Swift.Sendable {
+        /// The failure mode of the invocation. The following are the potential statuses:
+        ///
+        /// * FAIL: This will fail the Hook invocation and the request associated with it.
+        ///
+        /// * WARN: This will fail the Hook invocation, but not the request associated with it.
+        public var failureMode: Swift.String?
+        /// The time that the Hook invocation request initiated.
+        public var hookEventTime: Foundation.Date?
+        /// The status of the Hook invocation. The following are potential statuses:
+        ///
+        /// * HOOK_PENDING: The Hook was added to the invocation plan, but not yet invoked.
+        ///
+        /// * HOOK_IN_PROGRESS: The Hook was invoked, but hasn't completed.
+        ///
+        /// * HOOK_COMPLETE_SUCCEEDED: The Hook invocation is complete with a successful result.
+        ///
+        /// * HOOK_COMPLETE_FAILED: The Hook invocation is complete with a failed result.
+        ///
+        /// * HOOK_FAILED: The Hook invocation didn't complete successfully.
+        public var hookStatus: Swift.String?
+        /// The message explaining the current Hook status.
+        public var hookStatusMessage: Swift.String?
+        /// The ARN of the Hook being invoked.
+        public var hookTypeArn: Swift.String?
+        /// The type name of the Hook being invoked.
+        public var hookTypeName: Swift.String?
+        /// The type version of the Hook being invoked.
+        public var hookTypeVersionId: Swift.String?
+        /// States whether the Hook is invoked before or after resource provisioning.
+        public var invocationPoint: Swift.String?
+
+        public init(
+            failureMode: Swift.String? = nil,
+            hookEventTime: Foundation.Date? = nil,
+            hookStatus: Swift.String? = nil,
+            hookStatusMessage: Swift.String? = nil,
+            hookTypeArn: Swift.String? = nil,
+            hookTypeName: Swift.String? = nil,
+            hookTypeVersionId: Swift.String? = nil,
+            invocationPoint: Swift.String? = nil
+        )
+        {
+            self.failureMode = failureMode
+            self.hookEventTime = hookEventTime
+            self.hookStatus = hookStatus
+            self.hookStatusMessage = hookStatusMessage
+            self.hookTypeArn = hookTypeArn
+            self.hookTypeName = hookTypeName
+            self.hookTypeVersionId = hookTypeVersionId
+            self.invocationPoint = invocationPoint
+        }
+    }
+}
+
 public struct GetResourceRequestStatusOutput: Swift.Sendable {
+    /// Lists Hook invocations for the specified target in the request. This is a list since the same target can invoke multiple Hooks.
+    public var hooksProgressEvent: [CloudControlClientTypes.HookProgressEvent]?
     /// Represents the current status of the resource operation request.
     public var progressEvent: CloudControlClientTypes.ProgressEvent?
 
     public init(
+        hooksProgressEvent: [CloudControlClientTypes.HookProgressEvent]? = nil,
         progressEvent: CloudControlClientTypes.ProgressEvent? = nil
     )
     {
+        self.hooksProgressEvent = hooksProgressEvent
         self.progressEvent = progressEvent
     }
 }
@@ -1328,6 +1397,7 @@ extension GetResourceRequestStatusOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetResourceRequestStatusOutput()
+        value.hooksProgressEvent = try reader["HooksProgressEvent"].readListIfPresent(memberReadingClosure: CloudControlClientTypes.HookProgressEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.progressEvent = try reader["ProgressEvent"].readIfPresent(with: CloudControlClientTypes.ProgressEvent.read(from:))
         return value
     }
@@ -1851,6 +1921,7 @@ extension CloudControlClientTypes.ProgressEvent {
         value.typeName = try reader["TypeName"].readIfPresent()
         value.identifier = try reader["Identifier"].readIfPresent()
         value.requestToken = try reader["RequestToken"].readIfPresent()
+        value.hooksRequestToken = try reader["HooksRequestToken"].readIfPresent()
         value.operation = try reader["Operation"].readIfPresent()
         value.operationStatus = try reader["OperationStatus"].readIfPresent()
         value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -1869,6 +1940,23 @@ extension CloudControlClientTypes.ResourceDescription {
         var value = CloudControlClientTypes.ResourceDescription()
         value.identifier = try reader["Identifier"].readIfPresent()
         value.properties = try reader["Properties"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudControlClientTypes.HookProgressEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudControlClientTypes.HookProgressEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudControlClientTypes.HookProgressEvent()
+        value.hookTypeName = try reader["HookTypeName"].readIfPresent()
+        value.hookTypeVersionId = try reader["HookTypeVersionId"].readIfPresent()
+        value.hookTypeArn = try reader["HookTypeArn"].readIfPresent()
+        value.invocationPoint = try reader["InvocationPoint"].readIfPresent()
+        value.hookStatus = try reader["HookStatus"].readIfPresent()
+        value.hookEventTime = try reader["HookEventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.hookStatusMessage = try reader["HookStatusMessage"].readIfPresent()
+        value.failureMode = try reader["FailureMode"].readIfPresent()
         return value
     }
 }

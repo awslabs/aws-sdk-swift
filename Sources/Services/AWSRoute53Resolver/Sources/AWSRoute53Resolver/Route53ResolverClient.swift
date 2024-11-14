@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53ResolverClient: ClientRuntime.Client {
     public static let clientName = "Route53ResolverClient"
-    public static let version = "1.0.39"
+    public static let version = "1.0.40"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53ResolverClient.Route53ResolverClientConfiguration
     let serviceName = "Route53Resolver"

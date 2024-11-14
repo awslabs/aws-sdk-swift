@@ -615,6 +615,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSPanorama](../../../../../swift/api/awspanorama/latest)
 
+[AWSPartnerCentralSelling](../../../../../swift/api/awspartnercentralselling/latest)
+
 [AWSPaymentCryptography](../../../../../swift/api/awspaymentcryptography/latest)
 
 [AWSPaymentCryptographyData](../../../../../swift/api/awspaymentcryptographydata/latest)
