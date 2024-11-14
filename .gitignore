@@ -40,3 +40,6 @@ SmokeTests/
 # Allow the AWSSDKSwiftCLI Package.resolved
 # while excluding all other Package.resolved files
 !/AWSSDKSwiftCLI/Package.resolved
+
+# Xcode config that is for the installed copy only
+xcuserdata
