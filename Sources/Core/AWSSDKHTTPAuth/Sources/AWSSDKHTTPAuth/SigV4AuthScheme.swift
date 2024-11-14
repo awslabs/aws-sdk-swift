@@ -15,8 +15,13 @@ import struct Smithy.Attributes
 public struct SigV4AuthScheme: AuthScheme {
     public let schemeID: String = "aws.auth#sigv4"
     public let signer: Signer = AWSSigV4Signer()
+    public var requestUnsignedBody: Bool? = nil
 
     public init() {}
+
+    public init(requestUnsignedBody: Bool) {
+        self.requestUnsignedBody = requestUnsignedBody
+    }
 
     public func customizeSigningProperties(signingProperties: Attributes, context: Context) throws -> Attributes {
         var updatedSigningProperties = signingProperties
@@ -68,6 +73,11 @@ public struct SigV4AuthScheme: AuthScheme {
             key: SigningPropertyKeys.isChunkedEligibleStream,
             value: context.isChunkedEligibleStream
         )
+
+        // Optionally toggle unsigned body
+        if (self.requestUnsignedBody == true) {
+            updatedSigningProperties.set(key: SigningPropertyKeys.requestUnsignedBody, value: true)
+        }
 
         // Set service-specific signing properties if needed.
         try CustomSigningPropertiesSetter().setServiceSpecificSigningProperties(
