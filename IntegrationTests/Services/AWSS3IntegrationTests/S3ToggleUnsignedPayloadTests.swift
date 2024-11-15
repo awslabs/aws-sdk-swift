@@ -13,8 +13,8 @@ import AWSClientRuntime
 import SmithyHTTPAPI
 import class SmithyStreams.BufferedStream
 
-/// Tests toggle unsigned request using S3.
-class S3ToggleUnsignedTests: S3XCTestCase {
+/// Tests toggle unsigned payload using S3.
+class S3ToggleUnsignedPayloadTests: S3XCTestCase {
     private var s3Config: S3Client.S3ClientConfiguration!
 
     override func setUp() async throws {
@@ -57,7 +57,7 @@ class S3ToggleUnsignedTests: S3XCTestCase {
         }
     }
 
-    func testS3ToggleUnsignedRequestNonStreaming() async throws {
+    func testS3ToggleUnsignedPayloadNonStreaming() async throws {
         let key = "test.txt"
         let putObjectInput = PutObjectInput(
             body: .noStream,
@@ -80,9 +80,9 @@ class S3ToggleUnsignedTests: S3XCTestCase {
         XCTAssertEqual(metadata["filename"], key)
     }
 
-    func testS3ToggleUnsignedRequestStreaming() async throws {
+    func testS3ToggleUnsignedPayloadStreaming() async throws {
         let key = "test-streaming.txt"
-        let data = Data((0..<(1024 * 1024)).map { _ in UInt8.random(in: UInt8.min...UInt8.max) })
+        let data = S3XCTestCase.generateRandomTextData(ofSizeInMB: 1)
         let bufferedStream = BufferedStream(data: data, isClosed: true)
         let putObjectInput = PutObjectInput(
             body: .stream(bufferedStream),

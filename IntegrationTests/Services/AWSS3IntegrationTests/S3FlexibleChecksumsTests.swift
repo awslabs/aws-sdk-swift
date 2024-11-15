@@ -19,7 +19,7 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
     override func setUp() {
         super.setUp()
         // Fill one MB with random data.  Data is refreshed for each flexible checksums tests below.
-        originalData = Data((0..<(1024 * 1024)).map { _ in UInt8.random(in: UInt8.min...UInt8.max) })
+        originalData = S3XCTestCase.generateRandomTextData(ofSizeInMB: 1)
     }
 
     // MARK: - Data uploads

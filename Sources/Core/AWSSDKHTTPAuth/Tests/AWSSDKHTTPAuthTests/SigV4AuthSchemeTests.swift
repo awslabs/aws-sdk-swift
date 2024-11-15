@@ -294,6 +294,9 @@ class SigV4AuthSchemeTests: XCTestCase {
             .withUnsignedPayloadTrait(value: false)
             .build()
         let updatedProperties = try customSigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
-        XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.requestUnsignedBody)))
+        let unwrappedRequestUnsignedBodyValue = try XCTUnwrap(
+            updatedProperties.get(key: SigningPropertyKeys.requestUnsignedBody)
+        )
+        XCTAssertTrue(unwrappedRequestUnsignedBodyValue)
     }
 }
