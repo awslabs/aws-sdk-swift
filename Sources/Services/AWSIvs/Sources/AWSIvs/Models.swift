@@ -95,6 +95,35 @@ public struct BatchGetChannelInput: Swift.Sendable {
 
 extension IvsClientTypes {
 
+    public enum ContainerFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fragmentedmp4
+        case ts
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerFormat] {
+            return [
+                .fragmentedmp4,
+                .ts
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fragmentedmp4: return "FRAGMENTED_MP4"
+            case .ts: return "TS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IvsClientTypes {
+
     public enum ChannelLatencyMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lowlatency
         case normallatency
@@ -118,6 +147,91 @@ extension IvsClientTypes {
             case .normallatency: return "NORMAL"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension IvsClientTypes {
+
+    public enum MultitrackMaximumResolution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fullHd
+        case hd
+        case sd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultitrackMaximumResolution] {
+            return [
+                .fullHd,
+                .hd,
+                .sd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullHd: return "FULL_HD"
+            case .hd: return "HD"
+            case .sd: return "SD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IvsClientTypes {
+
+    public enum MultitrackPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
+        case require
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultitrackPolicy] {
+            return [
+                .allow,
+                .require
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "ALLOW"
+            case .require: return "REQUIRE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IvsClientTypes {
+
+    /// A complex type that specifies multitrack input configuration.
+    public struct MultitrackInputConfiguration: Swift.Sendable {
+        /// Indicates whether multitrack input is enabled. Can be set to true only if channel type is STANDARD. Setting enabled to true with any other channel type will cause an exception. If true, then policy, maximumResolution, and containerFormat are required, and containerFormat must be set to FRAGMENTED_MP4. Default: false.
+        public var enabled: Swift.Bool
+        /// Maximum resolution for multitrack input. Required if enabled is true.
+        public var maximumResolution: IvsClientTypes.MultitrackMaximumResolution?
+        /// Indicates whether multitrack input is allowed or required. Required if enabled is true.
+        public var policy: IvsClientTypes.MultitrackPolicy?
+
+        public init(
+            enabled: Swift.Bool = false,
+            maximumResolution: IvsClientTypes.MultitrackMaximumResolution? = nil,
+            policy: IvsClientTypes.MultitrackPolicy? = nil
+        )
+        {
+            self.enabled = enabled
+            self.maximumResolution = maximumResolution
+            self.policy = policy
         }
     }
 }
@@ -219,12 +333,16 @@ extension IvsClientTypes {
         public var arn: Swift.String?
         /// Whether the channel is private (enabled for playback authorization). Default: false.
         public var authorized: Swift.Bool
+        /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
+        public var containerFormat: IvsClientTypes.ContainerFormat?
         /// Channel ingest endpoint, part of the definition of an ingest server, used when you set up streaming software.
         public var ingestEndpoint: Swift.String?
         /// Whether the channel allows insecure RTMP ingest. Default: false.
         public var insecureIngest: Swift.Bool
         /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
         public var latencyMode: IvsClientTypes.ChannelLatencyMode?
+        /// Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.
+        public var multitrackInputConfiguration: IvsClientTypes.MultitrackInputConfiguration?
         /// Channel name.
         public var name: Swift.String?
         /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. Default: "" (empty string, no playback restriction policy is applied).
@@ -245,9 +363,11 @@ extension IvsClientTypes {
         public init(
             arn: Swift.String? = nil,
             authorized: Swift.Bool = false,
+            containerFormat: IvsClientTypes.ContainerFormat? = nil,
             ingestEndpoint: Swift.String? = nil,
             insecureIngest: Swift.Bool = false,
             latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
+            multitrackInputConfiguration: IvsClientTypes.MultitrackInputConfiguration? = nil,
             name: Swift.String? = nil,
             playbackRestrictionPolicyArn: Swift.String? = nil,
             playbackUrl: Swift.String? = nil,
@@ -260,9 +380,11 @@ extension IvsClientTypes {
         {
             self.arn = arn
             self.authorized = authorized
+            self.containerFormat = containerFormat
             self.ingestEndpoint = ingestEndpoint
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
+            self.multitrackInputConfiguration = multitrackInputConfiguration
             self.name = name
             self.playbackRestrictionPolicyArn = playbackRestrictionPolicyArn
             self.playbackUrl = playbackUrl
@@ -586,10 +708,14 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 public struct CreateChannelInput: Swift.Sendable {
     /// Whether the channel is private (enabled for playback authorization). Default: false.
     public var authorized: Swift.Bool
+    /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
+    public var containerFormat: IvsClientTypes.ContainerFormat?
     /// Whether the channel allows insecure RTMP and SRT ingest. Default: false.
     public var insecureIngest: Swift.Bool
     /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
+    /// Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.
+    public var multitrackInputConfiguration: IvsClientTypes.MultitrackInputConfiguration?
     /// Channel name.
     public var name: Swift.String?
     /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. Default: "" (empty string, no playback restriction policy is applied).
@@ -605,8 +731,10 @@ public struct CreateChannelInput: Swift.Sendable {
 
     public init(
         authorized: Swift.Bool = false,
+        containerFormat: IvsClientTypes.ContainerFormat? = nil,
         insecureIngest: Swift.Bool = false,
         latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
+        multitrackInputConfiguration: IvsClientTypes.MultitrackInputConfiguration? = nil,
         name: Swift.String? = nil,
         playbackRestrictionPolicyArn: Swift.String? = nil,
         preset: IvsClientTypes.TranscodePreset? = nil,
@@ -616,8 +744,10 @@ public struct CreateChannelInput: Swift.Sendable {
     )
     {
         self.authorized = authorized
+        self.containerFormat = containerFormat
         self.insecureIngest = insecureIngest
         self.latencyMode = latencyMode
+        self.multitrackInputConfiguration = multitrackInputConfiguration
         self.name = name
         self.playbackRestrictionPolicyArn = playbackRestrictionPolicyArn
         self.preset = preset
@@ -995,7 +1125,7 @@ extension IvsClientTypes {
         public var resolution: IvsClientTypes.ThumbnailConfigurationResolution?
         /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails directory. LATEST saves the latest thumbnail in media/latest_thumbnail/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
         public var storage: [IvsClientTypes.ThumbnailConfigurationStorage]?
-        /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60. Important: For the BASIC channel type, setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See [ Amazon IVS Streaming Configuration](https://docs.aws.amazon.com/ivs/latest/userguide/streaming-config.html) for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
+        /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60. Important: For the BASIC channel type, or the STANDARD channel type with multitrack input, setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See [ Amazon IVS Streaming Configuration](https://docs.aws.amazon.com/ivs/latest/userguide/streaming-config.html) for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
         public var targetIntervalSeconds: Swift.Int?
 
         public init(
@@ -1559,7 +1689,7 @@ public struct GetStreamSessionInput: Swift.Sendable {
 
 extension IvsClientTypes {
 
-    /// Object specifying a stream’s audio configuration, as set up by the broadcaster (usually in an encoder). This is part of the [IngestConfiguration] object and used for monitoring stream health.
+    /// Object specifying a stream’s audio configuration, as set up by the broadcaster (usually in an encoder). This is part of the [IngestConfigurations] object and the deprecated [IngestConfiguration] object. It is used for monitoring stream health.
     public struct AudioConfiguration: Swift.Sendable {
         /// Number of audio channels.
         public var channels: Swift.Int
@@ -1569,25 +1699,29 @@ extension IvsClientTypes {
         public var sampleRate: Swift.Int
         /// The expected ingest bitrate (bits per second). This is configured in the encoder.
         public var targetBitrate: Swift.Int
+        /// Name of the audio track (if the stream has an audio track). If multitrack is not enabled, this is track0 (the sole track).
+        public var track: Swift.String?
 
         public init(
             channels: Swift.Int = 0,
             codec: Swift.String? = nil,
             sampleRate: Swift.Int = 0,
-            targetBitrate: Swift.Int = 0
+            targetBitrate: Swift.Int = 0,
+            track: Swift.String? = nil
         )
         {
             self.channels = channels
             self.codec = codec
             self.sampleRate = sampleRate
             self.targetBitrate = targetBitrate
+            self.track = track
         }
     }
 }
 
 extension IvsClientTypes {
 
-    /// Object specifying a stream’s video configuration, as set up by the broadcaster (usually in an encoder). This is part of the [IngestConfiguration] object and used for monitoring stream health.
+    /// Object specifying a stream’s video configuration, as set up by the broadcaster (usually in an encoder). This is part of the [IngestConfigurations] object and the deprecated [IngestConfiguration] object. It is used for monitoring stream health.
     public struct VideoConfiguration: Swift.Sendable {
         /// Indicates the degree of required decoder performance for a profile. Normally this is set automatically by the encoder. For details, see the H.264 specification.
         public var avcLevel: Swift.String?
@@ -1597,10 +1731,16 @@ extension IvsClientTypes {
         public var codec: Swift.String?
         /// Software or hardware used to encode the video.
         public var encoder: Swift.String?
+        /// Indicates the degree of required decoder performance for a profile. Normally this is set automatically by the encoder. When an AVC codec is used, this field has the same value as avcLevel.
+        public var level: Swift.String?
+        /// Indicates to the decoder the requirements for decoding the stream. When an AVC codec is used, this field has the same value as avcProfile.
+        public var profile: Swift.String?
         /// The expected ingest bitrate (bits per second). This is configured in the encoder.
         public var targetBitrate: Swift.Int
         /// The expected ingest framerate. This is configured in the encoder.
         public var targetFramerate: Swift.Int
+        /// Name of the video track. If multitrack is not enabled, this is track0 (the sole track).
+        public var track: Swift.String?
         /// Video-resolution height in pixels.
         public var videoHeight: Swift.Int
         /// Video-resolution width in pixels.
@@ -1611,8 +1751,11 @@ extension IvsClientTypes {
             avcProfile: Swift.String? = nil,
             codec: Swift.String? = nil,
             encoder: Swift.String? = nil,
+            level: Swift.String? = nil,
+            profile: Swift.String? = nil,
             targetBitrate: Swift.Int = 0,
             targetFramerate: Swift.Int = 0,
+            track: Swift.String? = nil,
             videoHeight: Swift.Int = 0,
             videoWidth: Swift.Int = 0
         )
@@ -1621,8 +1764,11 @@ extension IvsClientTypes {
             self.avcProfile = avcProfile
             self.codec = codec
             self.encoder = encoder
+            self.level = level
+            self.profile = profile
             self.targetBitrate = targetBitrate
             self.targetFramerate = targetFramerate
+            self.track = track
             self.videoHeight = videoHeight
             self.videoWidth = videoWidth
         }
@@ -1631,7 +1777,7 @@ extension IvsClientTypes {
 
 extension IvsClientTypes {
 
-    /// Object specifying the ingest configuration set up by the broadcaster, usually in an encoder.
+    /// Object specifying the ingest configuration set up by the broadcaster, usually in an encoder. Note: IngestConfiguration is deprecated in favor of [IngestConfigurations] but retained to ensure backward compatibility. If multitrack is not enabled, IngestConfiguration and IngestConfigurations contain the same data, namely information about track0 (the sole track). If multitrack is enabled, IngestConfiguration contains data for only the first track (track0) and IngestConfigurations contains data for all tracks.
     public struct IngestConfiguration: Swift.Sendable {
         /// Encoder settings for audio.
         public var audio: IvsClientTypes.AudioConfiguration?
@@ -1651,15 +1797,47 @@ extension IvsClientTypes {
 
 extension IvsClientTypes {
 
+    /// Object specifying the ingest configuration set up by the broadcaster, usually in an encoder. Note: Use IngestConfigurations instead of [IngestConfiguration] (which is deprecated). If multitrack is not enabled, IngestConfiguration and IngestConfigurations contain the same data, namely information about track0 (the sole track). If multitrack is enabled, IngestConfiguration contains data for only the first track (track0) and IngestConfigurations contains data for all tracks.
+    public struct IngestConfigurations: Swift.Sendable {
+        /// Encoder settings for audio.
+        /// This member is required.
+        public var audioConfigurations: [IvsClientTypes.AudioConfiguration]?
+        /// Encoder settings for video
+        /// This member is required.
+        public var videoConfigurations: [IvsClientTypes.VideoConfiguration]?
+
+        public init(
+            audioConfigurations: [IvsClientTypes.AudioConfiguration]? = nil,
+            videoConfigurations: [IvsClientTypes.VideoConfiguration]? = nil
+        )
+        {
+            self.audioConfigurations = audioConfigurations
+            self.videoConfigurations = videoConfigurations
+        }
+    }
+}
+
+extension IvsClientTypes {
+
     /// Object specifying a stream’s events. For a list of events, see [Using Amazon EventBridge with Amazon IVS](https://docs.aws.amazon.com/ivs/latest/userguide/eventbridge.html).
     public struct StreamEvent: Swift.Sendable {
-        /// Provides additional details about the stream event. There are several values; note that the long descriptions are provided in the IVS console but not delivered through the IVS API or EventBridge:
+        /// Provides additional details about the stream event. There are several values; the long descriptions are provided in the IVS console but not delivered through the IVS API or EventBridge. Multitrack-related codes are used only for certain Session Ended events.
+        ///
+        /// * MultitrackInputNotAllowed — The broadcast client attempted to connect with multitrack input, but multitrack input was not enabled on the channel. Check your broadcast software settings or set MultitrackInputConfiguration.Policy to ALLOW or REQUIRE.
+        ///
+        /// * MultitrackInputRequired — The broadcast client attempted to connect with single-track video, but multitrack input is required on this channel. Enable multitrack video in your broadcast software or configure the channel’s MultitrackInputConfiguration.Policy to ALLOW.
+        ///
+        /// * InvalidGetClientConfigurationStreamKey — The broadcast client attempted to connect with an invalid, expired, or corrupt stream key.
+        ///
+        /// * GetClientConfigurationStreamKeyRequired — The broadcast client attempted to stream multitrack video without providing an authenticated stream key from GetClientConfiguration.
+        ///
+        /// * InvalidMultitrackInputTrackCount — The multitrack input stream contained an invalid number of tracks.
+        ///
+        /// * InvalidMultitrackInputVideoTrackMediaProperties — The multitrack input stream contained one or more tracks with an invalid codec, resolution, bitrate, or framerate.
         ///
         /// * StreamTakeoverMediaMismatch — The broadcast client attempted to take over with different media properties (e.g., codec, resolution, or video track type) from the original stream.
         ///
-        /// * StreamTakeoverInvalidPriority — The broadcast client attempted a takeover with either a priority integer value equal to or lower than the original stream's value or a value outside the allowed range of 1 to 2,147,483,647.
-        ///
-        /// * StreamTakeoverLimitBreached — The broadcast client reached the maximum allowed takeover attempts for this stream.
+        /// * StreamTakeoverInvalidPriority — The broadcast client attempted a takeover with either a priority integer value equal to or lower than the original stream's value or a value outside the allowed range of 1 to 2,147,483,647. StreamTakeoverLimitBreached — The broadcast client reached the maximum allowed takeover attempts for this stream.
         public var code: Swift.String?
         /// Time when the event occurred. This is an ISO 8601 timestamp; note that this is returned as a string.
         public var eventTime: Foundation.Date?
@@ -1691,8 +1869,10 @@ extension IvsClientTypes {
         public var channel: IvsClientTypes.Channel?
         /// Time when the channel went offline. This is an ISO 8601 timestamp; note that this is returned as a string. For live streams, this is NULL.
         public var endTime: Foundation.Date?
-        /// The properties of the incoming RTMP stream for the stream.
+        /// The properties of the incoming RTMP stream. Note: ingestConfiguration is deprecated in favor of ingestConfigurations but retained to ensure backward compatibility. If multitrack is not enabled, ingestConfiguration and ingestConfigurations contain the same data, namely information about track0 (the sole track). If multitrack is enabled, ingestConfiguration contains data for only the first track (track0) and ingestConfigurations contains data for all tracks.
         public var ingestConfiguration: IvsClientTypes.IngestConfiguration?
+        /// The properties of the incoming RTMP stream. If multitrack is enabled, ingestConfigurations contains data for all tracks; otherwise, it contains data only for track0 (the sole track).
+        public var ingestConfigurations: IvsClientTypes.IngestConfigurations?
         /// The properties of recording the live stream.
         public var recordingConfiguration: IvsClientTypes.RecordingConfiguration?
         /// Time when the channel went live. This is an ISO 8601 timestamp; note that this is returned as a string.
@@ -1706,6 +1886,7 @@ extension IvsClientTypes {
             channel: IvsClientTypes.Channel? = nil,
             endTime: Foundation.Date? = nil,
             ingestConfiguration: IvsClientTypes.IngestConfiguration? = nil,
+            ingestConfigurations: IvsClientTypes.IngestConfigurations? = nil,
             recordingConfiguration: IvsClientTypes.RecordingConfiguration? = nil,
             startTime: Foundation.Date? = nil,
             streamId: Swift.String? = nil,
@@ -1715,6 +1896,7 @@ extension IvsClientTypes {
             self.channel = channel
             self.endTime = endTime
             self.ingestConfiguration = ingestConfiguration
+            self.ingestConfigurations = ingestConfigurations
             self.recordingConfiguration = recordingConfiguration
             self.startTime = startTime
             self.streamId = streamId
@@ -2450,10 +2632,14 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var arn: Swift.String?
     /// Whether the channel is private (enabled for playback authorization).
     public var authorized: Swift.Bool
+    /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
+    public var containerFormat: IvsClientTypes.ContainerFormat?
     /// Whether the channel allows insecure RTMP and SRT ingest. Default: false.
     public var insecureIngest: Swift.Bool
     /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers.
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
+    /// Object specifying multitrack input configuration. Default: no multitrack input configuration is specified.
+    public var multitrackInputConfiguration: IvsClientTypes.MultitrackInputConfiguration?
     /// Channel name.
     public var name: Swift.String?
     /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. If this is set to an empty string, playback restriction policy is disabled.
@@ -2468,8 +2654,10 @@ public struct UpdateChannelInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         authorized: Swift.Bool = false,
+        containerFormat: IvsClientTypes.ContainerFormat? = nil,
         insecureIngest: Swift.Bool = false,
         latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
+        multitrackInputConfiguration: IvsClientTypes.MultitrackInputConfiguration? = nil,
         name: Swift.String? = nil,
         playbackRestrictionPolicyArn: Swift.String? = nil,
         preset: IvsClientTypes.TranscodePreset? = nil,
@@ -2479,8 +2667,10 @@ public struct UpdateChannelInput: Swift.Sendable {
     {
         self.arn = arn
         self.authorized = authorized
+        self.containerFormat = containerFormat
         self.insecureIngest = insecureIngest
         self.latencyMode = latencyMode
+        self.multitrackInputConfiguration = multitrackInputConfiguration
         self.name = name
         self.playbackRestrictionPolicyArn = playbackRestrictionPolicyArn
         self.preset = preset
@@ -2841,8 +3031,10 @@ extension CreateChannelInput {
     static func write(value: CreateChannelInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["authorized"].write(value.authorized)
+        try writer["containerFormat"].write(value.containerFormat)
         try writer["insecureIngest"].write(value.insecureIngest)
         try writer["latencyMode"].write(value.latencyMode)
+        try writer["multitrackInputConfiguration"].write(value.multitrackInputConfiguration, with: IvsClientTypes.MultitrackInputConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["playbackRestrictionPolicyArn"].write(value.playbackRestrictionPolicyArn)
         try writer["preset"].write(value.preset)
@@ -3103,8 +3295,10 @@ extension UpdateChannelInput {
         guard let value else { return }
         try writer["arn"].write(value.arn)
         try writer["authorized"].write(value.authorized)
+        try writer["containerFormat"].write(value.containerFormat)
         try writer["insecureIngest"].write(value.insecureIngest)
         try writer["latencyMode"].write(value.latencyMode)
+        try writer["multitrackInputConfiguration"].write(value.multitrackInputConfiguration, with: IvsClientTypes.MultitrackInputConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["playbackRestrictionPolicyArn"].write(value.playbackRestrictionPolicyArn)
         try writer["preset"].write(value.preset)
@@ -4240,6 +4434,27 @@ extension IvsClientTypes.Channel {
         value.preset = try reader["preset"].readIfPresent()
         value.srt = try reader["srt"].readIfPresent(with: IvsClientTypes.Srt.read(from:))
         value.playbackRestrictionPolicyArn = try reader["playbackRestrictionPolicyArn"].readIfPresent()
+        value.multitrackInputConfiguration = try reader["multitrackInputConfiguration"].readIfPresent(with: IvsClientTypes.MultitrackInputConfiguration.read(from:))
+        value.containerFormat = try reader["containerFormat"].readIfPresent()
+        return value
+    }
+}
+
+extension IvsClientTypes.MultitrackInputConfiguration {
+
+    static func write(value: IvsClientTypes.MultitrackInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["maximumResolution"].write(value.maximumResolution)
+        try writer["policy"].write(value.policy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.MultitrackInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IvsClientTypes.MultitrackInputConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.policy = try reader["policy"].readIfPresent()
+        value.maximumResolution = try reader["maximumResolution"].readIfPresent()
         return value
     }
 }
@@ -4432,6 +4647,7 @@ extension IvsClientTypes.StreamSession {
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.channel = try reader["channel"].readIfPresent(with: IvsClientTypes.Channel.read(from:))
         value.ingestConfiguration = try reader["ingestConfiguration"].readIfPresent(with: IvsClientTypes.IngestConfiguration.read(from:))
+        value.ingestConfigurations = try reader["ingestConfigurations"].readIfPresent(with: IvsClientTypes.IngestConfigurations.read(from:))
         value.recordingConfiguration = try reader["recordingConfiguration"].readIfPresent(with: IvsClientTypes.RecordingConfiguration.read(from:))
         value.truncatedEvents = try reader["truncatedEvents"].readListIfPresent(memberReadingClosure: IvsClientTypes.StreamEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -4451,13 +4667,13 @@ extension IvsClientTypes.StreamEvent {
     }
 }
 
-extension IvsClientTypes.IngestConfiguration {
+extension IvsClientTypes.IngestConfigurations {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.IngestConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.IngestConfigurations {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IvsClientTypes.IngestConfiguration()
-        value.video = try reader["video"].readIfPresent(with: IvsClientTypes.VideoConfiguration.read(from:))
-        value.audio = try reader["audio"].readIfPresent(with: IvsClientTypes.AudioConfiguration.read(from:))
+        var value = IvsClientTypes.IngestConfigurations()
+        value.videoConfigurations = try reader["videoConfigurations"].readListIfPresent(memberReadingClosure: IvsClientTypes.VideoConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.audioConfigurations = try reader["audioConfigurations"].readListIfPresent(memberReadingClosure: IvsClientTypes.AudioConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4471,6 +4687,7 @@ extension IvsClientTypes.AudioConfiguration {
         value.targetBitrate = try reader["targetBitrate"].readIfPresent() ?? 0
         value.sampleRate = try reader["sampleRate"].readIfPresent() ?? 0
         value.channels = try reader["channels"].readIfPresent() ?? 0
+        value.track = try reader["track"].readIfPresent()
         return value
     }
 }
@@ -4488,6 +4705,20 @@ extension IvsClientTypes.VideoConfiguration {
         value.targetFramerate = try reader["targetFramerate"].readIfPresent() ?? 0
         value.videoHeight = try reader["videoHeight"].readIfPresent() ?? 0
         value.videoWidth = try reader["videoWidth"].readIfPresent() ?? 0
+        value.level = try reader["level"].readIfPresent()
+        value.track = try reader["track"].readIfPresent()
+        value.profile = try reader["profile"].readIfPresent()
+        return value
+    }
+}
+
+extension IvsClientTypes.IngestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.IngestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IvsClientTypes.IngestConfiguration()
+        value.video = try reader["video"].readIfPresent(with: IvsClientTypes.VideoConfiguration.read(from:))
+        value.audio = try reader["audio"].readIfPresent(with: IvsClientTypes.AudioConfiguration.read(from:))
         return value
     }
 }
