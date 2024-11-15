@@ -10,11 +10,12 @@ import XCTest
 import AWSS3
 import ClientRuntime
 import AWSClientRuntime
+import SmithyHTTPAPI
+import class SmithyStreams.BufferedStream
 
 /// Tests toggle unsigned request using S3.
 class S3ToggleUnsignedTests: S3XCTestCase {
     private var s3Config: S3Client.S3ClientConfiguration!
-    private let key = "test.txt"
 
     override func setUp() async throws {
         try await super.setUp()
@@ -22,7 +23,42 @@ class S3ToggleUnsignedTests: S3XCTestCase {
         s3Config.authSchemes = [SigV4AuthScheme(requestUnsignedBody: true)]
     }
 
-    func testS3PresignedRequest() async throws {
+    class CheckUnsignedPayloadHeader<InputType, OutputType>: Interceptor {
+        typealias RequestType = HTTPRequest
+        typealias ResponseType = HTTPResponse
+
+        func readBeforeTransmit(context: some AfterSerialization<InputType, RequestType>) async throws {
+            XCTAssertTrue(
+                context.getRequest().headers.value(for: "x-amz-content-sha256") == "UNSIGNED-PAYLOAD"
+            )
+        }
+    }
+
+    class CheckStreamingUnsignedPayloadHeader<InputType, OutputType>: Interceptor {
+        typealias RequestType = HTTPRequest
+        typealias ResponseType = HTTPResponse
+
+        func readBeforeTransmit(context: some AfterSerialization<InputType, RequestType>) async throws {
+            XCTAssertTrue(
+                context.getRequest().headers.value(for: "x-amz-content-sha256") == "STREAMING-UNSIGNED-PAYLOAD-TRAILER"
+            )
+        }
+    }
+
+    class CheckUnsignedPayloadHeaderProvider: HttpInterceptorProvider {
+        func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
+            return CheckUnsignedPayloadHeader()
+        }
+    }
+
+    class CheckStreamingUnsignedPayloadHeaderProvider: HttpInterceptorProvider {
+        func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
+            return CheckStreamingUnsignedPayloadHeader()
+        }
+    }
+
+    func testS3ToggleUnsignedRequestNonStreaming() async throws {
+        let key = "test.txt"
         let putObjectInput = PutObjectInput(
             body: .noStream,
             bucket: bucketName,
@@ -31,6 +67,32 @@ class S3ToggleUnsignedTests: S3XCTestCase {
         )
 
         // Upload
+        s3Config.addInterceptorProvider(CheckUnsignedPayloadHeaderProvider())
+        let s3Client = S3Client(config: s3Config)
+        _ = try await s3Client.putObject(input: putObjectInput)
+
+        // Get
+        let getObjectInput = GetObjectInput(bucket: bucketName, key: key)
+        let fetchedObject = try await client.getObject(input: getObjectInput)
+
+        XCTAssertNotNil(fetchedObject.metadata)
+        let metadata = try XCTUnwrap(fetchedObject.metadata)
+        XCTAssertEqual(metadata["filename"], key)
+    }
+
+    func testS3ToggleUnsignedRequestStreaming() async throws {
+        let key = "test-streaming.txt"
+        let data = Data((0..<(1024 * 1024)).map { _ in UInt8.random(in: UInt8.min...UInt8.max) })
+        let bufferedStream = BufferedStream(data: data, isClosed: true)
+        let putObjectInput = PutObjectInput(
+            body: .stream(bufferedStream),
+            bucket: bucketName,
+            key: key,
+            metadata: ["filename": key]
+        )
+
+        // Upload
+        s3Config.addInterceptorProvider(CheckStreamingUnsignedPayloadHeaderProvider())
         let s3Client = S3Client(config: s3Config)
         _ = try await s3Client.putObject(input: putObjectInput)
 
