@@ -11,6 +11,7 @@ import AWSS3
 import ClientRuntime
 import AWSClientRuntime
 import SmithyHTTPAPI
+import AWSIntegrationTestUtils
 import class SmithyStreams.BufferedStream
 
 /// Tests toggle unsigned payload using S3.
@@ -82,7 +83,7 @@ class S3ToggleUnsignedPayloadTests: S3XCTestCase {
 
     func testS3ToggleUnsignedPayloadStreaming() async throws {
         let key = "test-streaming.txt"
-        let data = S3XCTestCase.generateRandomTextData(ofSizeInMB: 1)
+        let data = generateRandomTextData(ofSizeInMB: 1)
         let bufferedStream = BufferedStream(data: data, isClosed: true)
         let putObjectInput = PutObjectInput(
             body: .stream(bufferedStream),
