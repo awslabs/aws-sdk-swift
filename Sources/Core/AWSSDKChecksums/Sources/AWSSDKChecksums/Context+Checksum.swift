@@ -11,13 +11,13 @@ import struct Smithy.AttributeKey
 
 public extension Context {
     var requestChecksumCalculation: AWSChecksumCalculationMode {
-        get { attributes.get(key: requestChecksumCalculationKey) ?? .whenSupported }
-        set { attributes.set(key: requestChecksumCalculationKey, value: newValue) }
+        get { get(key: requestChecksumCalculationKey) ?? .whenSupported }
+        set { set(key: requestChecksumCalculationKey, value: newValue) }
     }
 
     var responseChecksumValidation: AWSChecksumCalculationMode {
-        get { attributes.get(key: responseChecksumValidationKey) ?? .whenSupported }
-        set { attributes.set(key: responseChecksumValidationKey, value: newValue) }
+        get { get(key: responseChecksumValidationKey) ?? .whenSupported }
+        set { set(key: responseChecksumValidationKey, value: newValue) }
     }
 }
 
