@@ -1518,6 +1518,10 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlInf224xlarge
+        case mlInf248xlarge
+        case mlInf28xlarge
+        case mlInf2Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -1616,6 +1620,10 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlInf224xlarge,
+                .mlInf248xlarge,
+                .mlInf28xlarge,
+                .mlInf2Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -1720,6 +1728,10 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlInf224xlarge: return "ml.inf2.24xlarge"
+            case .mlInf248xlarge: return "ml.inf2.48xlarge"
+            case .mlInf28xlarge: return "ml.inf2.8xlarge"
+            case .mlInf2Xlarge: return "ml.inf2.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -17734,6 +17746,10 @@ extension SageMakerClientTypes {
         case mlInf12xlarge
         case mlInf16xlarge
         case mlInf1Xlarge
+        case mlInf224xlarge
+        case mlInf248xlarge
+        case mlInf28xlarge
+        case mlInf2Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -17832,6 +17848,9 @@ extension SageMakerClientTypes {
         case mlT3Large
         case mlT3Medium
         case mlT3Xlarge
+        case mlTrn1n32xlarge
+        case mlTrn12xlarge
+        case mlTrn132xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InstanceType] {
@@ -17903,6 +17922,10 @@ extension SageMakerClientTypes {
                 .mlInf12xlarge,
                 .mlInf16xlarge,
                 .mlInf1Xlarge,
+                .mlInf224xlarge,
+                .mlInf248xlarge,
+                .mlInf28xlarge,
+                .mlInf2Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -18000,7 +18023,10 @@ extension SageMakerClientTypes {
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
-                .mlT3Xlarge
+                .mlT3Xlarge,
+                .mlTrn1n32xlarge,
+                .mlTrn12xlarge,
+                .mlTrn132xlarge
             ]
         }
 
@@ -18078,6 +18104,10 @@ extension SageMakerClientTypes {
             case .mlInf12xlarge: return "ml.inf1.2xlarge"
             case .mlInf16xlarge: return "ml.inf1.6xlarge"
             case .mlInf1Xlarge: return "ml.inf1.xlarge"
+            case .mlInf224xlarge: return "ml.inf2.24xlarge"
+            case .mlInf248xlarge: return "ml.inf2.48xlarge"
+            case .mlInf28xlarge: return "ml.inf2.8xlarge"
+            case .mlInf2Xlarge: return "ml.inf2.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -18176,6 +18206,9 @@ extension SageMakerClientTypes {
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
             case .mlT3Xlarge: return "ml.t3.xlarge"
+            case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
+            case .mlTrn12xlarge: return "ml.trn1.2xlarge"
+            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
             case let .sdkUnknown(s): return s
             }
         }

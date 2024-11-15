@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.90.0"
+let clientRuntimeVersion: Version = "0.93.0"
 let crtVersion: Version = "0.37.0"
 
 let excludeRuntimeUnitTests = false
@@ -62,6 +62,7 @@ let serviceTargets: [String] = [
     "AWSBedrockAgent",
     "AWSBedrockAgentRuntime",
     "AWSBedrockRuntime",
+    "AWSBilling",
     "AWSBillingconductor",
     "AWSBraket",
     "AWSBudgets",
@@ -291,6 +292,7 @@ let serviceTargets: [String] = [
     "AWSPCS",
     "AWSPI",
     "AWSPanorama",
+    "AWSPartnerCentralSelling",
     "AWSPaymentCryptography",
     "AWSPaymentCryptographyData",
     "AWSPcaConnectorAd",

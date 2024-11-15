@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTFleetWiseClient: ClientRuntime.Client {
     public static let clientName = "IoTFleetWiseClient"
-    public static let version = "1.0.37"
+    public static let version = "1.0.41"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTFleetWiseClient.IoTFleetWiseClientConfiguration
     let serviceName = "IoTFleetWise"

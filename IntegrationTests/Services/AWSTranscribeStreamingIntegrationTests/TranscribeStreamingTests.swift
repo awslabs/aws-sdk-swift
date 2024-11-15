@@ -6,14 +6,39 @@
 //
 
 import XCTest
+import AWSIntegrationTestUtils
 import Foundation
 import AWSTranscribeStreaming
+import protocol AWSClientRuntime.AWSServiceError
 
 final class TranscribeStreamingTests: XCTestCase {
 
-    func testStartStreamTranscription() async throws {
+    // MARK: - Test transcription
 
-        // The heelo-swift.wav resource is an audio file that contains an automated voice
+    func test_single_streamTranscription() async throws {
+        try await attempt()
+    }
+
+    // Concurrent stream transcription frequently fails on the CRT HTTP client with errors
+    // such as:
+    // code: 2058, message: "The connection has closed or is closing."
+    // code: 2087, message: "Stream acquisition failed because stream manager failed to acquire a connection"
+    //
+    // Disable this test on the CRT client until these failures can be investigated & corrected.
+    #if !os(Linux) && !os(Windows)
+    func test_25xConcurrent_streamTranscription() async throws {
+        // By default the TranscribeStreaming service allows 25 concurrent transcriptions.
+        // More than that (which can happen when multiple test runs are being performed) will result
+        // in throttling / resource exceeded errors, which may be retried (see retry logic below.)
+        try await repeatConcurrently(count: 25, test: attempt)
+    }
+    #endif
+
+    // MARK: - Private / implementation methods
+
+    private func performStreamTranscription() async throws {
+
+        // The hello-swift.wav resource is an audio file that contains an automated voice
         // saying the words "Hello transcribed streaming from Swift S. D. K.".
         // It is 2.976 seconds in duration.
         let audioURL = Bundle.module.url(forResource: "hello-swift", withExtension: "wav")!
@@ -81,5 +106,26 @@ final class TranscribeStreamingTests: XCTestCase {
             "Hello transcribes streaming from Swift SDK.",
         ]
         XCTAssertTrue(candidates.contains(where: { $0.lowercased() == fullMessage.lowercased() }))
+    }
+
+    // Performs the stream transcription, with retry for selected errors associated with
+    // rate limiting & throttling.
+    //
+    // Normal retry is not applied to transcribe streaming because the request body is a
+    // non-rewindable stream.
+    private func attempt() async throws {
+        // These throttling / resource limit errors may be returned based on the number of
+        // recent requests made to AWSTranscribeStreaming.
+        let retryableCodes: [String?] = ["ThrottlingException", "LimitExceededException"]
+
+        // Perform the transcribe operation, with special handling for the two retryable errors.
+        do {
+            try await self.performStreamTranscription()
+        } catch let error as AWSServiceError where retryableCodes.contains(error.errorCode) {
+            // Wait randomly between 1-3 sec, then attempt again.
+            try await Task.sleep(nanoseconds: UInt64.random(in: 1_000_000_000...3_000_000_000))
+            try await self.attempt()
+        }
+        // Any other error thrown is not caught and will fail the test.
     }
 }

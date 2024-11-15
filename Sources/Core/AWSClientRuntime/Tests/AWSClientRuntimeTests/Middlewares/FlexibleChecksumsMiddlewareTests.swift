@@ -302,7 +302,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
             "Stream is not 'chunked eligible'",
             file: file, line: line
         )
-        if let validatedChecksum = self.builtContext.attributes.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated")), validatedChecksum == expectedHeader {
+        if let validatedChecksum = self.builtContext.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated")), validatedChecksum == expectedHeader {
             isChecksumValidated = true
         }
         if expectedChecksum != "" {
@@ -339,7 +339,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
             }
         }
 
-        if let validatedChecksum = self.builtContext.attributes.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated")), validatedChecksum == expectedHeader {
+        if let validatedChecksum = self.builtContext.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated")), validatedChecksum == expectedHeader {
             isChecksumValidated = true
         }
         if expectedChecksum != "" {
@@ -364,7 +364,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
             }
         } else {
             try await handleMiddleware()
-            validatedChecksum = self.builtContext.attributes.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated"))
+            validatedChecksum = self.builtContext.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated"))
             if validatedChecksum != nil && validatedChecksum == expectedValidationHeader {
                 isChecksumValidated = true
             }

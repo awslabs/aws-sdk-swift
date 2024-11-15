@@ -27,6 +27,7 @@ extension LicenseManagerUserSubscriptionsClient {
 extension ListIdentityProvidersInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListIdentityProvidersInput {
         return ListIdentityProvidersInput(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )}
@@ -69,6 +70,37 @@ extension PaginatorSequence where OperationStackInput == ListInstancesInput, Ope
     /// - Returns: `[LicenseManagerUserSubscriptionsClientTypes.InstanceSummary]`
     public func instanceSummaries() async throws -> [LicenseManagerUserSubscriptionsClientTypes.InstanceSummary] {
         return try await self.asyncCompactMap { item in item.instanceSummaries }
+    }
+}
+extension LicenseManagerUserSubscriptionsClient {
+    /// Paginate over `[ListLicenseServerEndpointsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLicenseServerEndpointsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLicenseServerEndpointsOutput`
+    public func listLicenseServerEndpointsPaginated(input: ListLicenseServerEndpointsInput) -> ClientRuntime.PaginatorSequence<ListLicenseServerEndpointsInput, ListLicenseServerEndpointsOutput> {
+        return ClientRuntime.PaginatorSequence<ListLicenseServerEndpointsInput, ListLicenseServerEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLicenseServerEndpoints(input:))
+    }
+}
+
+extension ListLicenseServerEndpointsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListLicenseServerEndpointsInput {
+        return ListLicenseServerEndpointsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListLicenseServerEndpointsInput, OperationStackOutput == ListLicenseServerEndpointsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listLicenseServerEndpointsPaginated`
+    /// to access the nested member `[LicenseManagerUserSubscriptionsClientTypes.LicenseServerEndpoint]`
+    /// - Returns: `[LicenseManagerUserSubscriptionsClientTypes.LicenseServerEndpoint]`
+    public func licenseServerEndpoints() async throws -> [LicenseManagerUserSubscriptionsClientTypes.LicenseServerEndpoint] {
+        return try await self.asyncCompactMap { item in item.licenseServerEndpoints }
     }
 }
 extension LicenseManagerUserSubscriptionsClient {

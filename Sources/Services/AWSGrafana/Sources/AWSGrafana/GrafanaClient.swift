@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GrafanaClient: ClientRuntime.Client {
     public static let clientName = "GrafanaClient"
-    public static let version = "1.0.37"
+    public static let version = "1.0.41"
     let client: ClientRuntime.SdkHttpClient
     let config: GrafanaClient.GrafanaClientConfiguration
     let serviceName = "grafana"

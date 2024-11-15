@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ControlCatalogClient: ClientRuntime.Client {
     public static let clientName = "ControlCatalogClient"
-    public static let version = "1.0.37"
+    public static let version = "1.0.41"
     let client: ClientRuntime.SdkHttpClient
     let config: ControlCatalogClient.ControlCatalogClientConfiguration
     let serviceName = "ControlCatalog"

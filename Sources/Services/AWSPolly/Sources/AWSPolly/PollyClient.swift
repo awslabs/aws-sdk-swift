@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PollyClient: ClientRuntime.Client {
     public static let clientName = "PollyClient"
-    public static let version = "1.0.37"
+    public static let version = "1.0.41"
     let client: ClientRuntime.SdkHttpClient
     let config: PollyClient.PollyClientConfiguration
     let serviceName = "Polly"

@@ -631,6 +631,30 @@ extension IAMClientTypes {
     }
 }
 
+/// The request was rejected because the account making the request is not the management account or delegated administrator account for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management).
+public struct AccountNotManagementOrDelegatedAdministratorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccountNotManagementOrDelegatedAdministratorException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 /// The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
 public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1430,13 +1454,11 @@ public struct CreateInstanceProfileOutput: Swift.Sendable {
 }
 
 public struct CreateLoginProfileInput: Swift.Sendable {
-    /// The new password for the user. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Any of these characters are valid in a password. However, many tools, such as the Amazon Web Services Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
-    /// This member is required.
+    /// The new password for the user. This parameter must be omitted when you make the request with an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html) session. It is required in all other cases. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (\u0020) through the end of the ASCII character range (\u00FF). You can also include the tab (\u0009), line feed (\u000A), and carriage return (\u000D) characters. Any of these characters are valid in a password. However, many tools, such as the Amazon Web Services Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
     public var password: Swift.String?
     /// Specifies whether the user is required to set a new password on next sign-in.
     public var passwordResetRequired: Swift.Bool?
-    /// The name of the IAM user to create a password for. The user must already exist. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-    /// This member is required.
+    /// The name of the IAM user to create a password for. The user must already exist. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html) session to omit the user name. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     public var userName: Swift.String?
 
     public init(
@@ -2184,8 +2206,7 @@ public struct DeactivateMFADeviceInput: Swift.Sendable {
     /// The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
     /// This member is required.
     public var serialNumber: Swift.String?
-    /// The name of the user whose MFA device you want to deactivate. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-    /// This member is required.
+    /// The name of the user whose MFA device you want to deactivate. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html) session to omit the user name. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     public var userName: Swift.String?
 
     public init(
@@ -2297,8 +2318,7 @@ public struct DeleteInstanceProfileInput: Swift.Sendable {
 }
 
 public struct DeleteLoginProfileInput: Swift.Sendable {
-    /// The name of the user whose password you want to delete. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-    /// This member is required.
+    /// The name of the user whose password you want to delete. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html) session to omit the user name. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     public var userName: Swift.String?
 
     public init(
@@ -2612,6 +2632,149 @@ public struct DetachUserPolicyInput: Swift.Sendable {
     }
 }
 
+/// The request was rejected because no organization is associated with your account.
+public struct OrganizationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OrganizationNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because your organization does not have All features enabled. For more information, see [Available feature sets](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set) in the Organizations User Guide.
+public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OrganizationNotInAllFeaturesModeException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because trusted access is not enabled for IAM in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+public struct ServiceAccessNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceAccessNotEnabledException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct DisableOrganizationsRootCredentialsManagementInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension IAMClientTypes {
+
+    public enum FeatureType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rootCredentialsManagement
+        case rootSessions
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureType] {
+            return [
+                .rootCredentialsManagement,
+                .rootSessions
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rootCredentialsManagement: return "RootCredentialsManagement"
+            case .rootSessions: return "RootSessions"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DisableOrganizationsRootCredentialsManagementOutput: Swift.Sendable {
+    /// The features enabled for centralized root access for member accounts in your organization.
+    public var enabledFeatures: [IAMClientTypes.FeatureType]?
+    /// The unique identifier (ID) of an organization.
+    public var organizationId: Swift.String?
+
+    public init(
+        enabledFeatures: [IAMClientTypes.FeatureType]? = nil,
+        organizationId: Swift.String? = nil
+    )
+    {
+        self.enabledFeatures = enabledFeatures
+        self.organizationId = organizationId
+    }
+}
+
+public struct DisableOrganizationsRootSessionsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisableOrganizationsRootSessionsOutput: Swift.Sendable {
+    /// The features you have enabled for centralized root access of member accounts in your organization.
+    public var enabledFeatures: [IAMClientTypes.FeatureType]?
+    /// The unique identifier (ID) of an organization.
+    public var organizationId: Swift.String?
+
+    public init(
+        enabledFeatures: [IAMClientTypes.FeatureType]? = nil,
+        organizationId: Swift.String? = nil
+    )
+    {
+        self.enabledFeatures = enabledFeatures
+        self.organizationId = organizationId
+    }
+}
+
 /// The request was rejected because the authentication code was not recognized. The error message describes the specific error.
 public struct InvalidAuthenticationCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -2661,6 +2824,72 @@ public struct EnableMFADeviceInput: Swift.Sendable {
         self.authenticationCode2 = authenticationCode2
         self.serialNumber = serialNumber
         self.userName = userName
+    }
+}
+
+/// The request was rejected because the account making the request is not the management account for the organization.
+public struct CallerIsNotManagementAccountException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CallerIsNotManagementAccountException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct EnableOrganizationsRootCredentialsManagementInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct EnableOrganizationsRootCredentialsManagementOutput: Swift.Sendable {
+    /// The features you have enabled for centralized root access.
+    public var enabledFeatures: [IAMClientTypes.FeatureType]?
+    /// The unique identifier (ID) of an organization.
+    public var organizationId: Swift.String?
+
+    public init(
+        enabledFeatures: [IAMClientTypes.FeatureType]? = nil,
+        organizationId: Swift.String? = nil
+    )
+    {
+        self.enabledFeatures = enabledFeatures
+        self.organizationId = organizationId
+    }
+}
+
+public struct EnableOrganizationsRootSessionsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct EnableOrganizationsRootSessionsOutput: Swift.Sendable {
+    /// The features you have enabled for centralized root access.
+    public var enabledFeatures: [IAMClientTypes.FeatureType]?
+    /// The unique identifier (ID) of an organization.
+    public var organizationId: Swift.String?
+
+    public init(
+        enabledFeatures: [IAMClientTypes.FeatureType]? = nil,
+        organizationId: Swift.String? = nil
+    )
+    {
+        self.enabledFeatures = enabledFeatures
+        self.organizationId = organizationId
     }
 }
 
@@ -3220,6 +3449,7 @@ extension IAMClientTypes {
         case accesskeysperuserquota
         case accountaccesskeyspresent
         case accountmfaenabled
+        case accountpasswordpresent
         case accountsigningcertificatespresent
         case attachedpoliciespergroupquota
         case attachedpoliciesperrolequota
@@ -3250,6 +3480,7 @@ extension IAMClientTypes {
                 .accesskeysperuserquota,
                 .accountaccesskeyspresent,
                 .accountmfaenabled,
+                .accountpasswordpresent,
                 .accountsigningcertificatespresent,
                 .attachedpoliciespergroupquota,
                 .attachedpoliciesperrolequota,
@@ -3286,6 +3517,7 @@ extension IAMClientTypes {
             case .accesskeysperuserquota: return "AccessKeysPerUserQuota"
             case .accountaccesskeyspresent: return "AccountAccessKeysPresent"
             case .accountmfaenabled: return "AccountMFAEnabled"
+            case .accountpasswordpresent: return "AccountPasswordPresent"
             case .accountsigningcertificatespresent: return "AccountSigningCertificatesPresent"
             case .attachedpoliciespergroupquota: return "AttachedPoliciesPerGroupQuota"
             case .attachedpoliciesperrolequota: return "AttachedPoliciesPerRoleQuota"
@@ -3633,8 +3865,7 @@ public struct GetInstanceProfileOutput: Swift.Sendable {
 }
 
 public struct GetLoginProfileInput: Swift.Sendable {
-    /// The name of the user whose login profile you want to retrieve. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-    /// This member is required.
+    /// The name of the user whose login profile you want to retrieve. This parameter is optional. If no user name is included, it defaults to the principal making the request. When you make this request with root user credentials, you must use an [AssumeRoot](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html) session to omit the user name. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     public var userName: Swift.String?
 
     public init(
@@ -5566,6 +5797,27 @@ public struct ListOpenIDConnectProviderTagsOutput: Swift.Sendable {
         self.isTruncated = isTruncated
         self.marker = marker
         self.tags = tags
+    }
+}
+
+public struct ListOrganizationsFeaturesInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct ListOrganizationsFeaturesOutput: Swift.Sendable {
+    /// Specifies the features that are currently available in your organization.
+    public var enabledFeatures: [IAMClientTypes.FeatureType]?
+    /// The unique identifier (ID) of an organization.
+    public var organizationId: Swift.String?
+
+    public init(
+        enabledFeatures: [IAMClientTypes.FeatureType]? = nil,
+        organizationId: Swift.String? = nil
+    )
+    {
+        self.enabledFeatures = enabledFeatures
+        self.organizationId = organizationId
     }
 }
 
@@ -8683,9 +8935,37 @@ extension DetachUserPolicyInput {
     }
 }
 
+extension DisableOrganizationsRootCredentialsManagementInput {
+
+    static func urlPathProvider(_ value: DisableOrganizationsRootCredentialsManagementInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DisableOrganizationsRootSessionsInput {
+
+    static func urlPathProvider(_ value: DisableOrganizationsRootSessionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension EnableMFADeviceInput {
 
     static func urlPathProvider(_ value: EnableMFADeviceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension EnableOrganizationsRootCredentialsManagementInput {
+
+    static func urlPathProvider(_ value: EnableOrganizationsRootCredentialsManagementInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension EnableOrganizationsRootSessionsInput {
+
+    static func urlPathProvider(_ value: EnableOrganizationsRootSessionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9001,6 +9281,13 @@ extension ListOpenIDConnectProvidersInput {
 extension ListOpenIDConnectProviderTagsInput {
 
     static func urlPathProvider(_ value: ListOpenIDConnectProviderTagsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListOrganizationsFeaturesInput {
+
+    static func urlPathProvider(_ value: ListOrganizationsFeaturesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9989,6 +10276,26 @@ extension DetachUserPolicyInput {
     }
 }
 
+extension DisableOrganizationsRootCredentialsManagementInput {
+
+    static func write(value: DisableOrganizationsRootCredentialsManagementInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("DisableOrganizationsRootCredentialsManagement")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension DisableOrganizationsRootSessionsInput {
+
+    static func write(value: DisableOrganizationsRootSessionsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("DisableOrganizationsRootSessions")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
 extension EnableMFADeviceInput {
 
     static func write(value: EnableMFADeviceInput?, to writer: SmithyFormURL.Writer) throws {
@@ -9998,6 +10305,26 @@ extension EnableMFADeviceInput {
         try writer["SerialNumber"].write(value.serialNumber)
         try writer["UserName"].write(value.userName)
         try writer["Action"].write("EnableMFADevice")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension EnableOrganizationsRootCredentialsManagementInput {
+
+    static func write(value: EnableOrganizationsRootCredentialsManagementInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("EnableOrganizationsRootCredentialsManagement")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension EnableOrganizationsRootSessionsInput {
+
+    static func write(value: EnableOrganizationsRootSessionsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("EnableOrganizationsRootSessions")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -10505,6 +10832,16 @@ extension ListOpenIDConnectProviderTagsInput {
         try writer["MaxItems"].write(value.maxItems)
         try writer["OpenIDConnectProviderArn"].write(value.openIDConnectProviderArn)
         try writer["Action"].write("ListOpenIDConnectProviderTags")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension ListOrganizationsFeaturesInput {
+
+    static func write(value: ListOrganizationsFeaturesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+        try writer["Action"].write("ListOrganizationsFeatures")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -11693,10 +12030,62 @@ extension DetachUserPolicyOutput {
     }
 }
 
+extension DisableOrganizationsRootCredentialsManagementOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableOrganizationsRootCredentialsManagementOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DisableOrganizationsRootCredentialsManagementResult"]
+        var value = DisableOrganizationsRootCredentialsManagementOutput()
+        value.enabledFeatures = try reader["EnabledFeatures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.organizationId = try reader["OrganizationId"].readIfPresent()
+        return value
+    }
+}
+
+extension DisableOrganizationsRootSessionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableOrganizationsRootSessionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DisableOrganizationsRootSessionsResult"]
+        var value = DisableOrganizationsRootSessionsOutput()
+        value.enabledFeatures = try reader["EnabledFeatures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.organizationId = try reader["OrganizationId"].readIfPresent()
+        return value
+    }
+}
+
 extension EnableMFADeviceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableMFADeviceOutput {
         return EnableMFADeviceOutput()
+    }
+}
+
+extension EnableOrganizationsRootCredentialsManagementOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableOrganizationsRootCredentialsManagementOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["EnableOrganizationsRootCredentialsManagementResult"]
+        var value = EnableOrganizationsRootCredentialsManagementOutput()
+        value.enabledFeatures = try reader["EnabledFeatures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.organizationId = try reader["OrganizationId"].readIfPresent()
+        return value
+    }
+}
+
+extension EnableOrganizationsRootSessionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableOrganizationsRootSessionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["EnableOrganizationsRootSessionsResult"]
+        var value = EnableOrganizationsRootSessionsOutput()
+        value.enabledFeatures = try reader["EnabledFeatures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.organizationId = try reader["OrganizationId"].readIfPresent()
+        return value
     }
 }
 
@@ -12318,6 +12707,19 @@ extension ListOpenIDConnectProviderTagsOutput {
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.marker = try reader["Marker"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: IAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListOrganizationsFeaturesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListOrganizationsFeaturesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ListOrganizationsFeaturesResult"]
+        var value = ListOrganizationsFeaturesOutput()
+        value.enabledFeatures = try reader["EnabledFeatures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IAMClientTypes.FeatureType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.organizationId = try reader["OrganizationId"].readIfPresent()
         return value
     }
 }
@@ -13770,6 +14172,40 @@ enum DetachUserPolicyOutputError {
     }
 }
 
+enum DisableOrganizationsRootCredentialsManagementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccountNotManagementOrDelegatedAdministratorException": return try AccountNotManagementOrDelegatedAdministratorException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotInAllFeaturesModeException": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
+            case "ServiceAccessNotEnabledException": return try ServiceAccessNotEnabledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisableOrganizationsRootSessionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccountNotManagementOrDelegatedAdministratorException": return try AccountNotManagementOrDelegatedAdministratorException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotInAllFeaturesModeException": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
+            case "ServiceAccessNotEnabledException": return try ServiceAccessNotEnabledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum EnableMFADeviceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13785,6 +14221,42 @@ enum EnableMFADeviceOutputError {
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EnableOrganizationsRootCredentialsManagementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccountNotManagementOrDelegatedAdministratorException": return try AccountNotManagementOrDelegatedAdministratorException.makeError(baseError: baseError)
+            case "CallerIsNotManagementAccountException": return try CallerIsNotManagementAccountException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotInAllFeaturesModeException": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
+            case "ServiceAccessNotEnabledException": return try ServiceAccessNotEnabledException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EnableOrganizationsRootSessionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccountNotManagementOrDelegatedAdministratorException": return try AccountNotManagementOrDelegatedAdministratorException.makeError(baseError: baseError)
+            case "CallerIsNotManagementAccountException": return try CallerIsNotManagementAccountException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotInAllFeaturesModeException": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
+            case "ServiceAccessNotEnabledException": return try ServiceAccessNotEnabledException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14462,6 +14934,23 @@ enum ListOpenIDConnectProviderTagsOutputError {
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListOrganizationsFeaturesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccountNotManagementOrDelegatedAdministratorException": return try AccountNotManagementOrDelegatedAdministratorException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotInAllFeaturesModeException": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
+            case "ServiceAccessNotEnabledException": return try ServiceAccessNotEnabledException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -15725,12 +16214,77 @@ extension DeleteConflictException {
     }
 }
 
+extension OrganizationNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OrganizationNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = OrganizationNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OrganizationNotInAllFeaturesModeException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OrganizationNotInAllFeaturesModeException {
+        let reader = baseError.errorBodyReader
+        var value = OrganizationNotInAllFeaturesModeException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceAccessNotEnabledException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceAccessNotEnabledException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceAccessNotEnabledException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AccountNotManagementOrDelegatedAdministratorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AccountNotManagementOrDelegatedAdministratorException {
+        let reader = baseError.errorBodyReader
+        var value = AccountNotManagementOrDelegatedAdministratorException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidAuthenticationCodeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidAuthenticationCodeException {
         let reader = baseError.errorBodyReader
         var value = InvalidAuthenticationCodeException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CallerIsNotManagementAccountException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CallerIsNotManagementAccountException {
+        let reader = baseError.errorBodyReader
+        var value = CallerIsNotManagementAccountException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

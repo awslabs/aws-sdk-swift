@@ -48,11 +48,11 @@ private extension String {
 
 public extension Context {
     var businessMetrics: Dictionary<String, String> {
-        get { attributes.get(key: businessMetricsKey) ?? [:] }
+        get { get(key: businessMetricsKey) ?? [:] }
         set(newPair) {
             var combined = businessMetrics
             combined.merge(newPair) { (_, new) in new }
-            attributes.set(key: businessMetricsKey, value: combined)
+            set(key: businessMetricsKey, value: combined)
         }
     }
 }

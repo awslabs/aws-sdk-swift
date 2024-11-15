@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFrontKeyValueStoreClient: ClientRuntime.Client {
     public static let clientName = "CloudFrontKeyValueStoreClient"
-    public static let version = "1.0.37"
+    public static let version = "1.0.41"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration
     let serviceName = "CloudFront KeyValueStore"
@@ -250,7 +250,7 @@ extension CloudFrontKeyValueStoreClient {
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
-        context.attributes.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteKeyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteKeyInput, DeleteKeyOutput>(serviceID: serviceName, version: CloudFrontKeyValueStoreClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteKeyOutput>())
@@ -320,7 +320,7 @@ extension CloudFrontKeyValueStoreClient {
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKeyValueStoreOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
-        context.attributes.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeKeyValueStoreOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeKeyValueStoreInput, DescribeKeyValueStoreOutput>(serviceID: serviceName, version: CloudFrontKeyValueStoreClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeKeyValueStoreOutput>())
@@ -390,7 +390,7 @@ extension CloudFrontKeyValueStoreClient {
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
-        context.attributes.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetKeyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetKeyInput, GetKeyOutput>(serviceID: serviceName, version: CloudFrontKeyValueStoreClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetKeyOutput>())
@@ -462,7 +462,7 @@ extension CloudFrontKeyValueStoreClient {
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
-        context.attributes.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListKeysOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListKeysInput, ListKeysOutput>(serviceID: serviceName, version: CloudFrontKeyValueStoreClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListKeysOutput>())
@@ -538,7 +538,7 @@ extension CloudFrontKeyValueStoreClient {
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutKeyOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
-        context.attributes.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutKeyOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutKeyInput, PutKeyOutput>(serviceID: serviceName, version: CloudFrontKeyValueStoreClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutKeyOutput>())
@@ -614,7 +614,7 @@ extension CloudFrontKeyValueStoreClient {
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKeysOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, kvsARN: input.kvsARN, region: config.region, useFIPS: config.useFIPS ?? false)
-        context.attributes.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateKeysOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateKeysInput, UpdateKeysOutput>(serviceID: serviceName, version: CloudFrontKeyValueStoreClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateKeysOutput>())
