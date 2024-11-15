@@ -18,22 +18,21 @@ final class S3ConcurrentTests: S3XCTestCase {
     // Payload just below chunked threshold
     // Tests concurrent upload of simple data payloads
     func test_10x_1MB_getObject() async throws {
-        fileData = S3ConcurrentTests.generateRandomTextData(ofSizeInMB: 1)
+        fileData = generateRandomTextData(ofSizeInMB: 1)
         try await repeatConcurrentlyWithArgs(count: 10, test: getObject, args: fileData!)
     }
 
     // Payload at chunked threshold, just large enough to chunk
     // Tests concurrent upload with aws-chunked encoding & flexible checksums
     func test_10x_1_5MB_getObject() async throws {
-        fileData = S3ConcurrentTests.generateRandomTextData(ofSizeInMB: 1.5)
+        fileData = generateRandomTextData(ofSizeInMB: 1.5)
         try await repeatConcurrentlyWithArgs(count: 10, test: getObject, args: fileData!)
     }
 
     // Payload 256 bytes with 200 concurrent requests, sends as simple data
     // Tests very high concurrency with small data payloads
     func test_200x_256B_getObject() async throws {
-        let bytes_256 = Double(256) / (1024 * 1024)
-        fileData = S3ConcurrentTests.generateRandomTextData(ofSizeInMB: bytes_256)
+        fileData = generateRandomTextData(ofSizeInBytes: 256)
         try await repeatConcurrentlyWithArgs(count: 200, test: getObject, args: fileData!)
     }
 

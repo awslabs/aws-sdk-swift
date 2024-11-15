@@ -116,12 +116,4 @@ class S3XCTestCase: XCTestCase {
         let input = DeleteBucketInput(bucket: bucketName)
         _ = try await client.deleteBucket(input: input)
     }
-
-    static func generateRandomTextData(ofSizeInMB megabytes: Double) -> Data {
-        let byteCount = Int(megabytes * 1024 * 1024) // Convert megabytes to bytes
-        let allowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".utf8
-        let allowedBytes = Array(allowedCharacters)
-        let randomBytes = (0..<byteCount).map { _ in allowedBytes.randomElement()! }
-        return Data(randomBytes)
-    }
 }
