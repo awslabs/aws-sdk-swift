@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTClient: ClientRuntime.Client {
     public static let clientName = "IoTClient"
-    public static let version = "1.0.41"
+    public static let version = "1.0.42"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTClient.IoTClientConfiguration
     let serviceName = "IoT"
@@ -841,6 +841,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<AttachThingPrincipalInput, AttachThingPrincipalOutput>(AttachThingPrincipalInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AttachThingPrincipalInput, AttachThingPrincipalOutput>())
         builder.serialize(ClientRuntime.HeaderMiddleware<AttachThingPrincipalInput, AttachThingPrincipalOutput>(AttachThingPrincipalInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<AttachThingPrincipalInput, AttachThingPrincipalOutput>(AttachThingPrincipalInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachThingPrincipalOutput>(AttachThingPrincipalOutput.httpOutput(from:), AttachThingPrincipalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachThingPrincipalInput, AttachThingPrincipalOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -12992,6 +12993,79 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListPrincipalThingsV2` operation on the `AWSIotService` service.
+    ///
+    /// Lists the things associated with the specified principal. A principal can be an X.509 certificate or an Amazon Cognito ID. Requires permission to access the [ListPrincipalThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListPrincipalThingsV2Input : [no documentation found]
+    ///
+    /// - Returns: `ListPrincipalThingsV2Output` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    public func listPrincipalThingsV2(input: ListPrincipalThingsV2Input) async throws -> ListPrincipalThingsV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPrincipalThingsV2")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iot")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>(ListPrincipalThingsV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>(ListPrincipalThingsV2Input.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>(ListPrincipalThingsV2Input.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrincipalThingsV2Output>(ListPrincipalThingsV2Output.httpOutput(from:), ListPrincipalThingsV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPrincipalThingsV2Output>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListPrincipalThingsV2Output, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>(serviceID: serviceName, version: IoTClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPrincipalThingsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoT")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPrincipalThingsV2")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListProvisioningTemplateVersions` operation on the `AWSIotService` service.
     ///
     /// A list of provisioning template versions. Requires permission to access the [ListProvisioningTemplateVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
@@ -14058,6 +14132,78 @@ extension IoTClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoT")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListThingPrincipals")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListThingPrincipalsV2` operation on the `AWSIotService` service.
+    ///
+    /// Lists the principals associated with the specified thing. A principal can be an X.509 certificate or an Amazon Cognito ID. Requires permission to access the [ListThingPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListThingPrincipalsV2Input : [no documentation found]
+    ///
+    /// - Returns: `ListThingPrincipalsV2Output` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    public func listThingPrincipalsV2(input: ListThingPrincipalsV2Input) async throws -> ListThingPrincipalsV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listThingPrincipalsV2")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iot")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output>(ListThingPrincipalsV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output>(ListThingPrincipalsV2Input.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingPrincipalsV2Output>(ListThingPrincipalsV2Output.httpOutput(from:), ListThingPrincipalsV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListThingPrincipalsV2Output>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListThingPrincipalsV2Output, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output>(serviceID: serviceName, version: IoTClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListThingPrincipalsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoT")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListThingPrincipalsV2")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -18587,6 +18733,80 @@ extension IoTClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoT")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateThingGroupsForThing")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateThingType` operation on the `AWSIotService` service.
+    ///
+    /// Updates a thing type.
+    ///
+    /// - Parameter UpdateThingTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateThingTypeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    public func updateThingType(input: UpdateThingTypeInput) async throws -> UpdateThingTypeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateThingType")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iot")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateThingTypeInput, UpdateThingTypeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput>(UpdateThingTypeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateThingTypeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThingTypeOutput>(UpdateThingTypeOutput.httpOutput(from:), UpdateThingTypeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThingTypeOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateThingTypeOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput>(serviceID: serviceName, version: IoTClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateThingTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoT")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateThingType")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

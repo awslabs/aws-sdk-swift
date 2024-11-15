@@ -111,6 +111,7 @@ let serviceTargets: [String] = [
     "AWSConfigService",
     "AWSConnect",
     "AWSConnectCampaigns",
+    "AWSConnectCampaignsV2",
     "AWSConnectCases",
     "AWSConnectContactLens",
     "AWSConnectParticipant",

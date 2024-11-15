@@ -2812,6 +2812,35 @@ public struct AttachSecurityProfileOutput: Swift.Sendable {
     public init() { }
 }
 
+extension IoTClientTypes {
+
+    public enum ThingPrincipalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclusiveThing
+        case nonExclusiveThing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThingPrincipalType] {
+            return [
+                .exclusiveThing,
+                .nonExclusiveThing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclusiveThing: return "EXCLUSIVE_THING"
+            case .nonExclusiveThing: return "NON_EXCLUSIVE_THING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The input for the AttachThingPrincipal operation.
 public struct AttachThingPrincipalInput: Swift.Sendable {
     /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
@@ -2820,14 +2849,25 @@ public struct AttachThingPrincipalInput: Swift.Sendable {
     /// The name of the thing.
     /// This member is required.
     public var thingName: Swift.String?
+    /// The type of the relation you want to specify when you attach a principal to a thing.
+    ///
+    /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+    ///
+    ///
+    ///
+    ///
+    /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+    public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
 
     public init(
         principal: Swift.String? = nil,
-        thingName: Swift.String? = nil
+        thingName: Swift.String? = nil,
+        thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
     )
     {
         self.principal = principal
         self.thingName = thingName
+        self.thingPrincipalType = thingPrincipalType
     }
 }
 
@@ -4743,14 +4783,22 @@ extension IoTClientTypes {
 
     /// The server certificate configuration.
     public struct ServerCertificateConfig: Swift.Sendable {
-        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [Configuring OCSP server-certificate stapling in domain configuration](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html) from Amazon Web Services IoT Core Developer Guide.
+        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [ Server certificate configuration for OCSP stapling](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html) from Amazon Web Services IoT Core Developer Guide.
         public var enableOCSPCheck: Swift.Bool?
+        /// The Amazon Resource Name (ARN) for an X.509 certificate stored in Amazon Web Services Certificate Manager (ACM). If provided, Amazon Web Services IoT Core will use this certificate to validate the signature of the received OCSP response. The OCSP responder must sign responses using either this authorized responder certificate or the issuing certificate, depending on whether the ARN is provided or not. The certificate must be in the same Amazon Web Services region and account as the domain configuration.
+        public var ocspAuthorizedResponderArn: Swift.String?
+        /// The Amazon Resource Name (ARN) for a Lambda function that acts as a Request for Comments (RFC) 6960-compliant Online Certificate Status Protocol (OCSP) responder, supporting basic OCSP responses. The Lambda function accepts a JSON string that's Base64-encoded. Therefore, you must convert your OCSP response, which is typically in the Distinguished Encoding Rules (DER) format, into a JSON string that's Base64-encoded. The Lambda function's response is also a Base64-encoded JSON string and the response payload must not exceed 8 kilobytes (KiB) in size. The Lambda function must be in the same Amazon Web Services region and account as the domain configuration.
+        public var ocspLambdaArn: Swift.String?
 
         public init(
-            enableOCSPCheck: Swift.Bool? = nil
+            enableOCSPCheck: Swift.Bool? = nil,
+            ocspAuthorizedResponderArn: Swift.String? = nil,
+            ocspLambdaArn: Swift.String? = nil
         )
         {
             self.enableOCSPCheck = enableOCSPCheck
+            self.ocspAuthorizedResponderArn = ocspAuthorizedResponderArn
+            self.ocspLambdaArn = ocspLambdaArn
         }
     }
 }
@@ -7591,18 +7639,62 @@ public struct CreateThingGroupOutput: Swift.Sendable {
 
 extension IoTClientTypes {
 
+    /// An object that represents the connection attribute, thing attribute, and the user property key.
+    public struct PropagatingAttribute: Swift.Sendable {
+        /// The attribute associated with the connection between a device and Amazon Web Services IoT Core.
+        public var connectionAttribute: Swift.String?
+        /// The user-defined thing attribute that is propagating for MQTT 5 message enrichment.
+        public var thingAttribute: Swift.String?
+        /// The key of the user property key-value pair.
+        public var userPropertyKey: Swift.String?
+
+        public init(
+            connectionAttribute: Swift.String? = nil,
+            thingAttribute: Swift.String? = nil,
+            userPropertyKey: Swift.String? = nil
+        )
+        {
+            self.connectionAttribute = connectionAttribute
+            self.thingAttribute = thingAttribute
+            self.userPropertyKey = userPropertyKey
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The configuration to add user-defined properties to enrich MQTT 5 messages.
+    public struct Mqtt5Configuration: Swift.Sendable {
+        /// An object that represents the propagating thing attributes and the connection attributes.
+        public var propagatingAttributes: [IoTClientTypes.PropagatingAttribute]?
+
+        public init(
+            propagatingAttributes: [IoTClientTypes.PropagatingAttribute]? = nil
+        )
+        {
+            self.propagatingAttributes = propagatingAttributes
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// The ThingTypeProperties contains information about the thing type including: a thing type description, and a list of searchable thing attribute names.
     public struct ThingTypeProperties: Swift.Sendable {
+        /// The configuration to add user-defined properties to enrich MQTT 5 messages.
+        public var mqtt5Configuration: IoTClientTypes.Mqtt5Configuration?
         /// A list of searchable thing attribute names.
         public var searchableAttributes: [Swift.String]?
         /// The description of the thing type.
         public var thingTypeDescription: Swift.String?
 
         public init(
+            mqtt5Configuration: IoTClientTypes.Mqtt5Configuration? = nil,
             searchableAttributes: [Swift.String]? = nil,
             thingTypeDescription: Swift.String? = nil
         )
         {
+            self.mqtt5Configuration = mqtt5Configuration
             self.searchableAttributes = searchableAttributes
             self.thingTypeDescription = thingTypeDescription
         }
@@ -11641,7 +11733,7 @@ public struct DescribeThingTypeOutput: Swift.Sendable {
     public var thingTypeMetadata: IoTClientTypes.ThingTypeMetadata?
     /// The name of the thing type.
     public var thingTypeName: Swift.String?
-    /// The ThingTypeProperties contains information about the thing type including description, and a list of searchable thing attribute names.
+    /// The ThingTypeProperties contains information about the thing type including description, a list of searchable thing attribute names, and MQTT5 configuration.
     public var thingTypeProperties: IoTClientTypes.ThingTypeProperties?
 
     public init(
@@ -15341,6 +15433,82 @@ public struct ListPrincipalThingsOutput: Swift.Sendable {
     }
 }
 
+public struct ListPrincipalThingsV2Input: Swift.Sendable {
+    /// The maximum number of results to return in this operation.
+    public var maxResults: Swift.Int?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// The principal. A principal can be an X.509 certificate or an Amazon Cognito ID.
+    /// This member is required.
+    public var principal: Swift.String?
+    /// The type of the relation you want to filter in the response. If no value is provided in this field, the response will list all things, including both the EXCLUSIVE_THING and NON_EXCLUSIVE_THING attachment types.
+    ///
+    /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+    ///
+    ///
+    ///
+    ///
+    /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+    public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        principal: Swift.String? = nil,
+        thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.principal = principal
+        self.thingPrincipalType = thingPrincipalType
+    }
+}
+
+extension IoTClientTypes {
+
+    /// An object that represents the thing and the type of relation it has with the principal.
+    public struct PrincipalThingObject: Swift.Sendable {
+        /// The name of the thing.
+        /// This member is required.
+        public var thingName: Swift.String?
+        /// The type of the relation you want to specify when you attach a principal to a thing. The value defaults to NON_EXCLUSIVE_THING.
+        ///
+        /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+        ///
+        ///
+        ///
+        ///
+        /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+        public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+        public init(
+            thingName: Swift.String? = nil,
+            thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+        )
+        {
+            self.thingName = thingName
+            self.thingPrincipalType = thingPrincipalType
+        }
+    }
+}
+
+public struct ListPrincipalThingsV2Output: Swift.Sendable {
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list of thingPrincipalObject that represents the principal and the type of relation it has with the thing.
+    public var principalThingObjects: [IoTClientTypes.PrincipalThingObject]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        principalThingObjects: [IoTClientTypes.PrincipalThingObject]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.principalThingObjects = principalThingObjects
+    }
+}
+
 public struct ListProvisioningTemplatesInput: Swift.Sendable {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
@@ -16171,6 +16339,82 @@ public struct ListThingPrincipalsOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.principals = principals
+    }
+}
+
+public struct ListThingPrincipalsV2Input: Swift.Sendable {
+    /// The maximum number of results to return in this operation.
+    public var maxResults: Swift.Int?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// The name of the thing.
+    /// This member is required.
+    public var thingName: Swift.String?
+    /// The type of the relation you want to filter in the response. If no value is provided in this field, the response will list all principals, including both the EXCLUSIVE_THING and NON_EXCLUSIVE_THING attachment types.
+    ///
+    /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+    ///
+    ///
+    ///
+    ///
+    /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+    public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        thingName: Swift.String? = nil,
+        thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.thingName = thingName
+        self.thingPrincipalType = thingPrincipalType
+    }
+}
+
+extension IoTClientTypes {
+
+    /// An object that represents the principal and the type of relation it has with the thing.
+    public struct ThingPrincipalObject: Swift.Sendable {
+        /// The principal of the thing principal object.
+        /// This member is required.
+        public var principal: Swift.String?
+        /// The type of the relation you want to specify when you attach a principal to a thing. The value defaults to NON_EXCLUSIVE_THING.
+        ///
+        /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+        ///
+        ///
+        ///
+        ///
+        /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+        public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+        public init(
+            principal: Swift.String? = nil,
+            thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+        )
+        {
+            self.principal = principal
+            self.thingPrincipalType = thingPrincipalType
+        }
+    }
+}
+
+public struct ListThingPrincipalsV2Output: Swift.Sendable {
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list of thingPrincipalObject that represents the principal and the type of relation it has with the thing.
+    public var thingPrincipalObjects: [IoTClientTypes.ThingPrincipalObject]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        thingPrincipalObjects: [IoTClientTypes.ThingPrincipalObject]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.thingPrincipalObjects = thingPrincipalObjects
     }
 }
 
@@ -19214,6 +19458,28 @@ public struct UpdateThingGroupsForThingOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateThingTypeInput: Swift.Sendable {
+    /// The name of a thing type.
+    /// This member is required.
+    public var thingTypeName: Swift.String?
+    /// The ThingTypeProperties contains information about the thing type including: a thing type description, and a list of searchable thing attribute names.
+    public var thingTypeProperties: IoTClientTypes.ThingTypeProperties?
+
+    public init(
+        thingTypeName: Swift.String? = nil,
+        thingTypeProperties: IoTClientTypes.ThingTypeProperties? = nil
+    )
+    {
+        self.thingTypeName = thingTypeName
+        self.thingTypeProperties = thingTypeProperties
+    }
+}
+
+public struct UpdateThingTypeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateTopicRuleDestinationInput: Swift.Sendable {
     /// The ARN of the topic rule destination.
     /// This member is required.
@@ -19436,6 +19702,18 @@ extension AttachThingPrincipalInput {
         var items = SmithyHTTPAPI.Headers()
         if let principal = value.principal {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-principal", value: Swift.String(principal)))
+        }
+        return items
+    }
+}
+
+extension AttachThingPrincipalInput {
+
+    static func queryItemProvider(_ value: AttachThingPrincipalInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let thingPrincipalType = value.thingPrincipalType {
+            let thingPrincipalTypeQueryItem = Smithy.URIQueryItem(name: "thingPrincipalType".urlPercentEncoding(), value: Swift.String(thingPrincipalType.rawValue).urlPercentEncoding())
+            items.append(thingPrincipalTypeQueryItem)
         }
         return items
     }
@@ -22253,6 +22531,44 @@ extension ListPrincipalThingsInput {
     }
 }
 
+extension ListPrincipalThingsV2Input {
+
+    static func urlPathProvider(_ value: ListPrincipalThingsV2Input) -> Swift.String? {
+        return "/principals/things-v2"
+    }
+}
+
+extension ListPrincipalThingsV2Input {
+
+    static func headerProvider(_ value: ListPrincipalThingsV2Input) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let principal = value.principal {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-principal", value: Swift.String(principal)))
+        }
+        return items
+    }
+}
+
+extension ListPrincipalThingsV2Input {
+
+    static func queryItemProvider(_ value: ListPrincipalThingsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let thingPrincipalType = value.thingPrincipalType {
+            let thingPrincipalTypeQueryItem = Smithy.URIQueryItem(name: "thingPrincipalType".urlPercentEncoding(), value: Swift.String(thingPrincipalType.rawValue).urlPercentEncoding())
+            items.append(thingPrincipalTypeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListProvisioningTemplatesInput {
 
     static func urlPathProvider(_ value: ListProvisioningTemplatesInput) -> Swift.String? {
@@ -22657,6 +22973,36 @@ extension ListThingPrincipalsInput {
 
     static func queryItemProvider(_ value: ListThingPrincipalsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListThingPrincipalsV2Input {
+
+    static func urlPathProvider(_ value: ListThingPrincipalsV2Input) -> Swift.String? {
+        guard let thingName = value.thingName else {
+            return nil
+        }
+        return "/things/\(thingName.urlPercentEncoding())/principals-v2"
+    }
+}
+
+extension ListThingPrincipalsV2Input {
+
+    static func queryItemProvider(_ value: ListThingPrincipalsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let thingPrincipalType = value.thingPrincipalType {
+            let thingPrincipalTypeQueryItem = Smithy.URIQueryItem(name: "thingPrincipalType".urlPercentEncoding(), value: Swift.String(thingPrincipalType.rawValue).urlPercentEncoding())
+            items.append(thingPrincipalTypeQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -23587,6 +23933,16 @@ extension UpdateThingGroupsForThingInput {
 
     static func urlPathProvider(_ value: UpdateThingGroupsForThingInput) -> Swift.String? {
         return "/thing-groups/updateThingGroupsForThing"
+    }
+}
+
+extension UpdateThingTypeInput {
+
+    static func urlPathProvider(_ value: UpdateThingTypeInput) -> Swift.String? {
+        guard let thingTypeName = value.thingTypeName else {
+            return nil
+        }
+        return "/thing-types/\(thingTypeName.urlPercentEncoding())"
     }
 }
 
@@ -24636,6 +24992,14 @@ extension UpdateThingGroupsForThingInput {
         try writer["thingGroupsToAdd"].writeList(value.thingGroupsToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["thingGroupsToRemove"].writeList(value.thingGroupsToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["thingName"].write(value.thingName)
+    }
+}
+
+extension UpdateThingTypeInput {
+
+    static func write(value: UpdateThingTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["thingTypeProperties"].write(value.thingTypeProperties, with: IoTClientTypes.ThingTypeProperties.write(value:to:))
     }
 }
 
@@ -26804,6 +27168,19 @@ extension ListPrincipalThingsOutput {
     }
 }
 
+extension ListPrincipalThingsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPrincipalThingsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPrincipalThingsV2Output()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.principalThingObjects = try reader["principalThingObjects"].readListIfPresent(memberReadingClosure: IoTClientTypes.PrincipalThingObject.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListProvisioningTemplatesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProvisioningTemplatesOutput {
@@ -26995,6 +27372,19 @@ extension ListThingPrincipalsOutput {
         var value = ListThingPrincipalsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.principals = try reader["principals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListThingPrincipalsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListThingPrincipalsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListThingPrincipalsV2Output()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.thingPrincipalObjects = try reader["thingPrincipalObjects"].readListIfPresent(memberReadingClosure: IoTClientTypes.ThingPrincipalObject.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -27660,6 +28050,13 @@ extension UpdateThingGroupsForThingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThingGroupsForThingOutput {
         return UpdateThingGroupsForThingOutput()
+    }
+}
+
+extension UpdateThingTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThingTypeOutput {
+        return UpdateThingTypeOutput()
     }
 }
 
@@ -30929,6 +31326,25 @@ enum ListPrincipalThingsOutputError {
     }
 }
 
+enum ListPrincipalThingsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListProvisioningTemplatesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -31173,6 +31589,25 @@ enum ListThingGroupsForThingOutputError {
 }
 
 enum ListThingPrincipalsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListThingPrincipalsV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -32323,6 +32758,25 @@ enum UpdateThingGroupsForThingOutputError {
     }
 }
 
+enum UpdateThingTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateTopicRuleDestinationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33465,12 +33919,16 @@ extension IoTClientTypes.ServerCertificateConfig {
     static func write(value: IoTClientTypes.ServerCertificateConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enableOCSPCheck"].write(value.enableOCSPCheck)
+        try writer["ocspAuthorizedResponderArn"].write(value.ocspAuthorizedResponderArn)
+        try writer["ocspLambdaArn"].write(value.ocspLambdaArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ServerCertificateConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ServerCertificateConfig()
         value.enableOCSPCheck = try reader["enableOCSPCheck"].readIfPresent()
+        value.ocspLambdaArn = try reader["ocspLambdaArn"].readIfPresent()
+        value.ocspAuthorizedResponderArn = try reader["ocspAuthorizedResponderArn"].readIfPresent()
         return value
     }
 }
@@ -34124,6 +34582,7 @@ extension IoTClientTypes.ThingTypeProperties {
 
     static func write(value: IoTClientTypes.ThingTypeProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["mqtt5Configuration"].write(value.mqtt5Configuration, with: IoTClientTypes.Mqtt5Configuration.write(value:to:))
         try writer["searchableAttributes"].writeList(value.searchableAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["thingTypeDescription"].write(value.thingTypeDescription)
     }
@@ -34133,6 +34592,41 @@ extension IoTClientTypes.ThingTypeProperties {
         var value = IoTClientTypes.ThingTypeProperties()
         value.thingTypeDescription = try reader["thingTypeDescription"].readIfPresent()
         value.searchableAttributes = try reader["searchableAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mqtt5Configuration = try reader["mqtt5Configuration"].readIfPresent(with: IoTClientTypes.Mqtt5Configuration.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.Mqtt5Configuration {
+
+    static func write(value: IoTClientTypes.Mqtt5Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["propagatingAttributes"].writeList(value.propagatingAttributes, memberWritingClosure: IoTClientTypes.PropagatingAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Mqtt5Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.Mqtt5Configuration()
+        value.propagatingAttributes = try reader["propagatingAttributes"].readListIfPresent(memberReadingClosure: IoTClientTypes.PropagatingAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTClientTypes.PropagatingAttribute {
+
+    static func write(value: IoTClientTypes.PropagatingAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectionAttribute"].write(value.connectionAttribute)
+        try writer["thingAttribute"].write(value.thingAttribute)
+        try writer["userPropertyKey"].write(value.userPropertyKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PropagatingAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.PropagatingAttribute()
+        value.userPropertyKey = try reader["userPropertyKey"].readIfPresent()
+        value.thingAttribute = try reader["thingAttribute"].readIfPresent()
+        value.connectionAttribute = try reader["connectionAttribute"].readIfPresent()
         return value
     }
 }
@@ -35838,6 +36332,17 @@ extension IoTClientTypes.PolicyVersion {
     }
 }
 
+extension IoTClientTypes.PrincipalThingObject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PrincipalThingObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.PrincipalThingObject()
+        value.thingName = try reader["thingName"].readIfPresent() ?? ""
+        value.thingPrincipalType = try reader["thingPrincipalType"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTClientTypes.ProvisioningTemplateSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ProvisioningTemplateSummary {
@@ -35951,6 +36456,17 @@ extension IoTClientTypes.Tag {
         var value = IoTClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.ThingPrincipalObject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingPrincipalObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.ThingPrincipalObject()
+        value.principal = try reader["principal"].readIfPresent() ?? ""
+        value.thingPrincipalType = try reader["thingPrincipalType"].readIfPresent()
         return value
     }
 }

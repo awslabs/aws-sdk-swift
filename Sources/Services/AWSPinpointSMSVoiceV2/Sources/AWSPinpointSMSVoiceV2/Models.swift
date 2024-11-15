@@ -216,6 +216,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case createRegistrationVersionNotAllowed
         case deletionProtectionEnabled
         case destinationCountryBlockedByProtectConfiguration
+        case destinationPhoneNumberBlockedByProtectNumberOverride
         case destinationPhoneNumberNotVerified
         case destinationPhoneNumberOptedOut
         case disassociateRegistrationNotAllowed
@@ -255,6 +256,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .createRegistrationVersionNotAllowed,
                 .deletionProtectionEnabled,
                 .destinationCountryBlockedByProtectConfiguration,
+                .destinationPhoneNumberBlockedByProtectNumberOverride,
                 .destinationPhoneNumberNotVerified,
                 .destinationPhoneNumberOptedOut,
                 .disassociateRegistrationNotAllowed,
@@ -300,6 +302,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .createRegistrationVersionNotAllowed: return "CREATE_REGISTRATION_VERSION_NOT_ALLOWED"
             case .deletionProtectionEnabled: return "DELETION_PROTECTION_ENABLED"
             case .destinationCountryBlockedByProtectConfiguration: return "DESTINATION_COUNTRY_BLOCKED_BY_PROTECT_CONFIGURATION"
+            case .destinationPhoneNumberBlockedByProtectNumberOverride: return "DESTINATION_PHONE_NUMBER_BLOCKED_BY_PROTECT_NUMBER_OVERRIDE"
             case .destinationPhoneNumberNotVerified: return "DESTINATION_PHONE_NUMBER_NOT_VERIFIED"
             case .destinationPhoneNumberOptedOut: return "DESTINATION_PHONE_NUMBER_OPTED_OUT"
             case .disassociateRegistrationNotAllowed: return "DISASSOCIATE_REGISTRATION_NOT_ALLOWED"
@@ -345,6 +348,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case configurationSet
         case eventDestination
         case keyword
+        case message
         case optedOutNumber
         case optOutList
         case phoneNumber
@@ -363,6 +367,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .configurationSet,
                 .eventDestination,
                 .keyword,
+                .message,
                 .optedOutNumber,
                 .optOutList,
                 .phoneNumber,
@@ -387,6 +392,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .configurationSet: return "configuration-set"
             case .eventDestination: return "event-destination"
             case .keyword: return "keyword"
+            case .message: return "message"
             case .optedOutNumber: return "opted-out-number"
             case .optOutList: return "opt-out-list"
             case .phoneNumber: return "phone-number"
@@ -1027,6 +1033,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 extension PinpointSMSVoiceV2ClientTypes {
 
     public enum ConfigurationSetFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case defaultMessageFeedbackEnabled
         case defaultMessageType
         case defaultSenderId
         case eventDestinationName
@@ -1036,6 +1043,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public static var allCases: [ConfigurationSetFilterName] {
             return [
+                .defaultMessageFeedbackEnabled,
                 .defaultMessageType,
                 .defaultSenderId,
                 .eventDestinationName,
@@ -1051,6 +1059,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .defaultMessageFeedbackEnabled: return "default-message-feedback-enabled"
             case .defaultMessageType: return "default-message-type"
             case .defaultSenderId: return "default-sender-id"
             case .eventDestinationName: return "event-destination-name"
@@ -1164,6 +1173,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case textInvalid
         case textInvalidMessage
         case textPending
+        case textProtectBlocked
         case textQueued
         case textSent
         case textSpam
@@ -1210,6 +1220,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .textInvalid,
                 .textInvalidMessage,
                 .textPending,
+                .textProtectBlocked,
                 .textQueued,
                 .textSent,
                 .textSpam,
@@ -1262,6 +1273,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .textInvalid: return "TEXT_INVALID"
             case .textInvalidMessage: return "TEXT_INVALID_MESSAGE"
             case .textPending: return "TEXT_PENDING"
+            case .textProtectBlocked: return "TEXT_PROTECT_BLOCKED"
             case .textQueued: return "TEXT_QUEUED"
             case .textSent: return "TEXT_SENT"
             case .textSpam: return "TEXT_SPAM"
@@ -1353,6 +1365,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// The time when the ConfigurationSet was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
         /// This member is required.
         public var createdTimestamp: Foundation.Date?
+        /// True if message feedback is enabled.
+        public var defaultMessageFeedbackEnabled: Swift.Bool?
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public var defaultMessageType: PinpointSMSVoiceV2ClientTypes.MessageType?
         /// The default sender ID used by the ConfigurationSet.
@@ -1367,6 +1381,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             configurationSetArn: Swift.String? = nil,
             configurationSetName: Swift.String? = nil,
             createdTimestamp: Foundation.Date? = nil,
+            defaultMessageFeedbackEnabled: Swift.Bool? = nil,
             defaultMessageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
             defaultSenderId: Swift.String? = nil,
             eventDestinations: [PinpointSMSVoiceV2ClientTypes.EventDestination]? = nil,
@@ -1376,6 +1391,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.configurationSetArn = configurationSetArn
             self.configurationSetName = configurationSetName
             self.createdTimestamp = createdTimestamp
+            self.defaultMessageFeedbackEnabled = defaultMessageFeedbackEnabled
             self.defaultMessageType = defaultMessageType
             self.defaultSenderId = defaultSenderId
             self.eventDestinations = eventDestinations
@@ -2305,6 +2321,8 @@ public struct DeleteConfigurationSetOutput: Swift.Sendable {
     public var configurationSetName: Swift.String?
     /// The time that the deleted configuration set was created in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
+    /// True if the configuration set has message feedback enabled. By default this is set to false.
+    public var defaultMessageFeedbackEnabled: Swift.Bool?
     /// The default message type of the configuration set that was deleted.
     public var defaultMessageType: PinpointSMSVoiceV2ClientTypes.MessageType?
     /// The default Sender ID of the configuration set that was deleted.
@@ -2316,6 +2334,7 @@ public struct DeleteConfigurationSetOutput: Swift.Sendable {
         configurationSetArn: Swift.String? = nil,
         configurationSetName: Swift.String? = nil,
         createdTimestamp: Foundation.Date? = nil,
+        defaultMessageFeedbackEnabled: Swift.Bool? = nil,
         defaultMessageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         defaultSenderId: Swift.String? = nil,
         eventDestinations: [PinpointSMSVoiceV2ClientTypes.EventDestination]? = nil
@@ -2324,6 +2343,7 @@ public struct DeleteConfigurationSetOutput: Swift.Sendable {
         self.configurationSetArn = configurationSetArn
         self.configurationSetName = configurationSetName
         self.createdTimestamp = createdTimestamp
+        self.defaultMessageFeedbackEnabled = defaultMessageFeedbackEnabled
         self.defaultMessageType = defaultMessageType
         self.defaultSenderId = defaultSenderId
         self.eventDestinations = eventDestinations
@@ -2720,6 +2740,94 @@ public struct DeleteProtectConfigurationOutput: Swift.Sendable {
         self.accountDefault = accountDefault
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.protectConfigurationArn = protectConfigurationArn
+        self.protectConfigurationId = protectConfigurationId
+    }
+}
+
+public struct DeleteProtectConfigurationRuleSetNumberOverrideInput: Swift.Sendable {
+    /// The destination phone number in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// The unique identifier for the protect configuration.
+    /// This member is required.
+    public var protectConfigurationId: Swift.String?
+
+    public init(
+        destinationPhoneNumber: Swift.String? = nil,
+        protectConfigurationId: Swift.String? = nil
+    )
+    {
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.protectConfigurationId = protectConfigurationId
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    public enum ProtectConfigurationRuleOverrideAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
+        case block
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtectConfigurationRuleOverrideAction] {
+            return [
+                .allow,
+                .block
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "ALLOW"
+            case .block: return "BLOCK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteProtectConfigurationRuleSetNumberOverrideOutput: Swift.Sendable {
+    /// The action associated with the rule.
+    /// This member is required.
+    public var action: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleOverrideAction?
+    /// The time when the rule was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+    /// The destination phone number in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// The time when the resource-based policy was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    public var expirationTimestamp: Foundation.Date?
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+    public var isoCountryCode: Swift.String?
+    /// The Amazon Resource Name (ARN) of the protect configuration.
+    /// This member is required.
+    public var protectConfigurationArn: Swift.String?
+    /// The unique identifier for the protect configuration.
+    /// This member is required.
+    public var protectConfigurationId: Swift.String?
+
+    public init(
+        action: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleOverrideAction? = nil,
+        createdTimestamp: Foundation.Date? = nil,
+        destinationPhoneNumber: Swift.String? = nil,
+        expirationTimestamp: Foundation.Date? = nil,
+        isoCountryCode: Swift.String? = nil,
+        protectConfigurationArn: Swift.String? = nil,
+        protectConfigurationId: Swift.String? = nil
+    )
+    {
+        self.action = action
+        self.createdTimestamp = createdTimestamp
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.expirationTimestamp = expirationTimestamp
+        self.isoCountryCode = isoCountryCode
         self.protectConfigurationArn = protectConfigurationArn
         self.protectConfigurationId = protectConfigurationId
     }
@@ -5674,7 +5782,7 @@ public struct DescribeVerifiedDestinationNumbersInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
-    /// An array of VerifiedDestinationNumberid to retreive.
+    /// An array of VerifiedDestinationNumberid to retrieve.
     public var verifiedDestinationNumberIds: [Swift.String]?
 
     public init(
@@ -6270,6 +6378,158 @@ public struct ListPoolOriginationIdentitiesOutput: Swift.Sendable {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
+    public enum ProtectConfigurationRuleSetNumberOverrideFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case action
+        case createdAfter
+        case createdBefore
+        case destinationPhoneNumberBeginsWith
+        case expiresAfter
+        case expiresBefore
+        case isoCountryCode
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtectConfigurationRuleSetNumberOverrideFilterName] {
+            return [
+                .action,
+                .createdAfter,
+                .createdBefore,
+                .destinationPhoneNumberBeginsWith,
+                .expiresAfter,
+                .expiresBefore,
+                .isoCountryCode
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .action: return "action"
+            case .createdAfter: return "created-after"
+            case .createdBefore: return "created-before"
+            case .destinationPhoneNumberBeginsWith: return "destination-phone-number-begins-with"
+            case .expiresAfter: return "expires-after"
+            case .expiresBefore: return "expires-before"
+            case .isoCountryCode: return "iso-country-code"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The information for a protect configuration rule set number override that meets a specified criteria.
+    public struct ProtectConfigurationRuleSetNumberOverrideFilterItem: Swift.Sendable {
+        /// The name of the attribute to filter on.
+        /// This member is required.
+        public var name: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverrideFilterName?
+        /// An array values to filter for.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverrideFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct ListProtectConfigurationRuleSetNumberOverridesInput: Swift.Sendable {
+    /// An array of ProtectConfigurationRuleSetNumberOverrideFilterItem objects to filter the results.
+    public var filters: [PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverrideFilterItem]?
+    /// The maximum number of results to return per each request.
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The unique identifier for the protect configuration.
+    /// This member is required.
+    public var protectConfigurationId: Swift.String?
+
+    public init(
+        filters: [PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverrideFilterItem]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        protectConfigurationId: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.protectConfigurationId = protectConfigurationId
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// Provides details on a RuleSetNumberOverride.
+    public struct ProtectConfigurationRuleSetNumberOverride: Swift.Sendable {
+        /// The action for the rule to perform of either blocking or allowing messages to the destination phone number.
+        /// This member is required.
+        public var action: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleOverrideAction?
+        /// The time when the rule was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        /// This member is required.
+        public var createdTimestamp: Foundation.Date?
+        /// The destination phone number in E.164 format.
+        /// This member is required.
+        public var destinationPhoneNumber: Swift.String?
+        /// The time the rule will expire at. If ExpirationTimestamp is not set then the rule will not expire.
+        public var expirationTimestamp: Foundation.Date?
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public var isoCountryCode: Swift.String?
+
+        public init(
+            action: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleOverrideAction? = nil,
+            createdTimestamp: Foundation.Date? = nil,
+            destinationPhoneNumber: Swift.String? = nil,
+            expirationTimestamp: Foundation.Date? = nil,
+            isoCountryCode: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.createdTimestamp = createdTimestamp
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.expirationTimestamp = expirationTimestamp
+            self.isoCountryCode = isoCountryCode
+        }
+    }
+}
+
+public struct ListProtectConfigurationRuleSetNumberOverridesOutput: Swift.Sendable {
+    /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the protect configuration.
+    /// This member is required.
+    public var protectConfigurationArn: Swift.String?
+    /// The unique identifier for the protect configuration.
+    /// This member is required.
+    public var protectConfigurationId: Swift.String?
+    /// An array of RuleSetNumberOverrides objects.
+    public var ruleSetNumberOverrides: [PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverride]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        protectConfigurationArn: Swift.String? = nil,
+        protectConfigurationId: Swift.String? = nil,
+        ruleSetNumberOverrides: [PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverride]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.protectConfigurationArn = protectConfigurationArn
+        self.protectConfigurationId = protectConfigurationId
+        self.ruleSetNumberOverrides = ruleSetNumberOverrides
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
     public enum RegistrationAssociationFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case isoCountryCode
         case resourceType
@@ -6440,6 +6700,35 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+extension PinpointSMSVoiceV2ClientTypes {
+
+    public enum MessageFeedbackStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case received
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MessageFeedbackStatus] {
+            return [
+                .failed,
+                .received
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .received: return "RECEIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct PutKeywordInput: Swift.Sendable {
     /// The new keyword to add.
     /// This member is required.
@@ -6501,6 +6790,42 @@ public struct PutKeywordOutput: Swift.Sendable {
     }
 }
 
+public struct PutMessageFeedbackInput: Swift.Sendable {
+    /// Set the message feedback to be either RECEIVED or FAILED.
+    /// This member is required.
+    public var messageFeedbackStatus: PinpointSMSVoiceV2ClientTypes.MessageFeedbackStatus?
+    /// The unique identifier for the message.
+    /// This member is required.
+    public var messageId: Swift.String?
+
+    public init(
+        messageFeedbackStatus: PinpointSMSVoiceV2ClientTypes.MessageFeedbackStatus? = nil,
+        messageId: Swift.String? = nil
+    )
+    {
+        self.messageFeedbackStatus = messageFeedbackStatus
+        self.messageId = messageId
+    }
+}
+
+public struct PutMessageFeedbackOutput: Swift.Sendable {
+    /// The current status of the message.
+    /// This member is required.
+    public var messageFeedbackStatus: PinpointSMSVoiceV2ClientTypes.MessageFeedbackStatus?
+    /// The unique identifier for the message.
+    /// This member is required.
+    public var messageId: Swift.String?
+
+    public init(
+        messageFeedbackStatus: PinpointSMSVoiceV2ClientTypes.MessageFeedbackStatus? = nil,
+        messageId: Swift.String? = nil
+    )
+    {
+        self.messageFeedbackStatus = messageFeedbackStatus
+        self.messageId = messageId
+    }
+}
+
 public struct PutOptedOutNumberInput: Swift.Sendable {
     /// The OptOutListName or OptOutListArn to add the phone number to. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
@@ -6544,6 +6869,78 @@ public struct PutOptedOutNumberOutput: Swift.Sendable {
         self.optOutListName = optOutListName
         self.optedOutNumber = optedOutNumber
         self.optedOutTimestamp = optedOutTimestamp
+    }
+}
+
+public struct PutProtectConfigurationRuleSetNumberOverrideInput: Swift.Sendable {
+    /// The action for the rule to either block or allow messages to the destination phone number.
+    /// This member is required.
+    public var action: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleOverrideAction?
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The destination phone number in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// The time the rule will expire at. If ExpirationTimestamp is not set then the rule does not expire.
+    public var expirationTimestamp: Foundation.Date?
+    /// The unique identifier for the protect configuration.
+    /// This member is required.
+    public var protectConfigurationId: Swift.String?
+
+    public init(
+        action: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleOverrideAction? = nil,
+        clientToken: Swift.String? = nil,
+        destinationPhoneNumber: Swift.String? = nil,
+        expirationTimestamp: Foundation.Date? = nil,
+        protectConfigurationId: Swift.String? = nil
+    )
+    {
+        self.action = action
+        self.clientToken = clientToken
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.expirationTimestamp = expirationTimestamp
+        self.protectConfigurationId = protectConfigurationId
+    }
+}
+
+public struct PutProtectConfigurationRuleSetNumberOverrideOutput: Swift.Sendable {
+    /// The action for the rule to take.
+    /// This member is required.
+    public var action: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleOverrideAction?
+    /// The time when the rule was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
+    /// This member is required.
+    public var createdTimestamp: Foundation.Date?
+    /// The destination phone number in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// The time the rule will expire at.
+    public var expirationTimestamp: Foundation.Date?
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+    public var isoCountryCode: Swift.String?
+    /// The Amazon Resource Name (ARN) of the protect configuration.
+    /// This member is required.
+    public var protectConfigurationArn: Swift.String?
+    /// The unique identifier for the protect configuration.
+    /// This member is required.
+    public var protectConfigurationId: Swift.String?
+
+    public init(
+        action: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleOverrideAction? = nil,
+        createdTimestamp: Foundation.Date? = nil,
+        destinationPhoneNumber: Swift.String? = nil,
+        expirationTimestamp: Foundation.Date? = nil,
+        isoCountryCode: Swift.String? = nil,
+        protectConfigurationArn: Swift.String? = nil,
+        protectConfigurationId: Swift.String? = nil
+    )
+    {
+        self.action = action
+        self.createdTimestamp = createdTimestamp
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.expirationTimestamp = expirationTimestamp
+        self.isoCountryCode = isoCountryCode
+        self.protectConfigurationArn = protectConfigurationArn
+        self.protectConfigurationId = protectConfigurationId
     }
 }
 
@@ -7148,12 +7545,14 @@ public struct SendMediaMessageInput: Swift.Sendable {
     public var mediaUrls: [Swift.String]?
     /// The text body of the message.
     public var messageBody: Swift.String?
+    /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using [PutMessageFeedback].
+    public var messageFeedbackEnabled: Swift.Bool?
     /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var originationIdentity: Swift.String?
     /// The unique identifier of the protect configuration to use.
     public var protectConfigurationId: Swift.String?
-    /// How long the text message is valid for. By default this is 72 hours.
+    /// How long the media message is valid for. By default this is 72 hours.
     public var timeToLive: Swift.Int?
 
     public init(
@@ -7164,6 +7563,7 @@ public struct SendMediaMessageInput: Swift.Sendable {
         maxPrice: Swift.String? = nil,
         mediaUrls: [Swift.String]? = nil,
         messageBody: Swift.String? = nil,
+        messageFeedbackEnabled: Swift.Bool? = nil,
         originationIdentity: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil,
         timeToLive: Swift.Int? = nil
@@ -7176,6 +7576,7 @@ public struct SendMediaMessageInput: Swift.Sendable {
         self.maxPrice = maxPrice
         self.mediaUrls = mediaUrls
         self.messageBody = messageBody
+        self.messageFeedbackEnabled = messageFeedbackEnabled
         self.originationIdentity = originationIdentity
         self.protectConfigurationId = protectConfigurationId
         self.timeToLive = timeToLive
@@ -7216,6 +7617,8 @@ public struct SendTextMessageInput: Swift.Sendable {
     public var maxPrice: Swift.String?
     /// The body of the text message.
     public var messageBody: Swift.String?
+    /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using [PutMessageFeedback].
+    public var messageFeedbackEnabled: Swift.Bool?
     /// The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     public var messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
     /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
@@ -7234,6 +7637,7 @@ public struct SendTextMessageInput: Swift.Sendable {
         keyword: Swift.String? = nil,
         maxPrice: Swift.String? = nil,
         messageBody: Swift.String? = nil,
+        messageFeedbackEnabled: Swift.Bool? = nil,
         messageType: PinpointSMSVoiceV2ClientTypes.MessageType? = nil,
         originationIdentity: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil,
@@ -7248,6 +7652,7 @@ public struct SendTextMessageInput: Swift.Sendable {
         self.keyword = keyword
         self.maxPrice = maxPrice
         self.messageBody = messageBody
+        self.messageFeedbackEnabled = messageFeedbackEnabled
         self.messageType = messageType
         self.originationIdentity = originationIdentity
         self.protectConfigurationId = protectConfigurationId
@@ -7516,6 +7921,8 @@ public struct SendVoiceMessageInput: Swift.Sendable {
     ///
     /// * SSML: When used the maximum character limit is 6000 including SSML tagging.
     public var messageBodyTextType: PinpointSMSVoiceV2ClientTypes.VoiceMessageBodyTextType?
+    /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using [PutMessageFeedback].
+    public var messageFeedbackEnabled: Swift.Bool?
     /// The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var originationIdentity: Swift.String?
@@ -7534,6 +7941,7 @@ public struct SendVoiceMessageInput: Swift.Sendable {
         maxPricePerMinute: Swift.String? = nil,
         messageBody: Swift.String? = nil,
         messageBodyTextType: PinpointSMSVoiceV2ClientTypes.VoiceMessageBodyTextType? = nil,
+        messageFeedbackEnabled: Swift.Bool? = nil,
         originationIdentity: Swift.String? = nil,
         protectConfigurationId: Swift.String? = nil,
         timeToLive: Swift.Int? = nil,
@@ -7547,6 +7955,7 @@ public struct SendVoiceMessageInput: Swift.Sendable {
         self.maxPricePerMinute = maxPricePerMinute
         self.messageBody = messageBody
         self.messageBodyTextType = messageBodyTextType
+        self.messageFeedbackEnabled = messageFeedbackEnabled
         self.originationIdentity = originationIdentity
         self.protectConfigurationId = protectConfigurationId
         self.timeToLive = timeToLive
@@ -7594,6 +8003,44 @@ public struct SetAccountDefaultProtectConfigurationOutput: Swift.Sendable {
     {
         self.defaultProtectConfigurationArn = defaultProtectConfigurationArn
         self.defaultProtectConfigurationId = defaultProtectConfigurationId
+    }
+}
+
+public struct SetDefaultMessageFeedbackEnabledInput: Swift.Sendable {
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+    /// This member is required.
+    public var configurationSetName: Swift.String?
+    /// Set to true to enable message feedback.
+    /// This member is required.
+    public var messageFeedbackEnabled: Swift.Bool?
+
+    public init(
+        configurationSetName: Swift.String? = nil,
+        messageFeedbackEnabled: Swift.Bool? = nil
+    )
+    {
+        self.configurationSetName = configurationSetName
+        self.messageFeedbackEnabled = messageFeedbackEnabled
+    }
+}
+
+public struct SetDefaultMessageFeedbackEnabledOutput: Swift.Sendable {
+    /// The arn of the configuration set.
+    public var configurationSetArn: Swift.String?
+    /// The name of the configuration.
+    public var configurationSetName: Swift.String?
+    /// True if message feedback is enabled.
+    public var messageFeedbackEnabled: Swift.Bool?
+
+    public init(
+        configurationSetArn: Swift.String? = nil,
+        configurationSetName: Swift.String? = nil,
+        messageFeedbackEnabled: Swift.Bool? = nil
+    )
+    {
+        self.configurationSetArn = configurationSetArn
+        self.configurationSetName = configurationSetName
+        self.messageFeedbackEnabled = messageFeedbackEnabled
     }
 }
 
@@ -8508,6 +8955,13 @@ extension DeleteProtectConfigurationInput {
     }
 }
 
+extension DeleteProtectConfigurationRuleSetNumberOverrideInput {
+
+    static func urlPathProvider(_ value: DeleteProtectConfigurationRuleSetNumberOverrideInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteRegistrationInput {
 
     static func urlPathProvider(_ value: DeleteRegistrationInput) -> Swift.String? {
@@ -8732,6 +9186,13 @@ extension ListPoolOriginationIdentitiesInput {
     }
 }
 
+extension ListProtectConfigurationRuleSetNumberOverridesInput {
+
+    static func urlPathProvider(_ value: ListProtectConfigurationRuleSetNumberOverridesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListRegistrationAssociationsInput {
 
     static func urlPathProvider(_ value: ListRegistrationAssociationsInput) -> Swift.String? {
@@ -8753,9 +9214,23 @@ extension PutKeywordInput {
     }
 }
 
+extension PutMessageFeedbackInput {
+
+    static func urlPathProvider(_ value: PutMessageFeedbackInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension PutOptedOutNumberInput {
 
     static func urlPathProvider(_ value: PutOptedOutNumberInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutProtectConfigurationRuleSetNumberOverrideInput {
+
+    static func urlPathProvider(_ value: PutProtectConfigurationRuleSetNumberOverrideInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8833,6 +9308,13 @@ extension SendVoiceMessageInput {
 extension SetAccountDefaultProtectConfigurationInput {
 
     static func urlPathProvider(_ value: SetAccountDefaultProtectConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension SetDefaultMessageFeedbackEnabledInput {
+
+    static func urlPathProvider(_ value: SetDefaultMessageFeedbackEnabledInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9154,6 +9636,15 @@ extension DeleteProtectConfigurationInput {
 
     static func write(value: DeleteProtectConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
+    }
+}
+
+extension DeleteProtectConfigurationRuleSetNumberOverrideInput {
+
+    static func write(value: DeleteProtectConfigurationRuleSetNumberOverrideInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationPhoneNumber"].write(value.destinationPhoneNumber)
         try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
     }
 }
@@ -9484,6 +9975,17 @@ extension ListPoolOriginationIdentitiesInput {
     }
 }
 
+extension ListProtectConfigurationRuleSetNumberOverridesInput {
+
+    static func write(value: ListProtectConfigurationRuleSetNumberOverridesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverrideFilterItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
+    }
+}
+
 extension ListRegistrationAssociationsInput {
 
     static func write(value: ListRegistrationAssociationsInput?, to writer: SmithyJSON.Writer) throws {
@@ -9514,12 +10016,33 @@ extension PutKeywordInput {
     }
 }
 
+extension PutMessageFeedbackInput {
+
+    static func write(value: PutMessageFeedbackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MessageFeedbackStatus"].write(value.messageFeedbackStatus)
+        try writer["MessageId"].write(value.messageId)
+    }
+}
+
 extension PutOptedOutNumberInput {
 
     static func write(value: PutOptedOutNumberInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["OptOutListName"].write(value.optOutListName)
         try writer["OptedOutNumber"].write(value.optedOutNumber)
+    }
+}
+
+extension PutProtectConfigurationRuleSetNumberOverrideInput {
+
+    static func write(value: PutProtectConfigurationRuleSetNumberOverrideInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DestinationPhoneNumber"].write(value.destinationPhoneNumber)
+        try writer["ExpirationTimestamp"].writeTimestamp(value.expirationTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
     }
 }
 
@@ -9616,6 +10139,7 @@ extension SendMediaMessageInput {
         try writer["MaxPrice"].write(value.maxPrice)
         try writer["MediaUrls"].writeList(value.mediaUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MessageBody"].write(value.messageBody)
+        try writer["MessageFeedbackEnabled"].write(value.messageFeedbackEnabled)
         try writer["OriginationIdentity"].write(value.originationIdentity)
         try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
         try writer["TimeToLive"].write(value.timeToLive)
@@ -9634,6 +10158,7 @@ extension SendTextMessageInput {
         try writer["Keyword"].write(value.keyword)
         try writer["MaxPrice"].write(value.maxPrice)
         try writer["MessageBody"].write(value.messageBody)
+        try writer["MessageFeedbackEnabled"].write(value.messageFeedbackEnabled)
         try writer["MessageType"].write(value.messageType)
         try writer["OriginationIdentity"].write(value.originationIdentity)
         try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
@@ -9652,6 +10177,7 @@ extension SendVoiceMessageInput {
         try writer["MaxPricePerMinute"].write(value.maxPricePerMinute)
         try writer["MessageBody"].write(value.messageBody)
         try writer["MessageBodyTextType"].write(value.messageBodyTextType)
+        try writer["MessageFeedbackEnabled"].write(value.messageFeedbackEnabled)
         try writer["OriginationIdentity"].write(value.originationIdentity)
         try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
         try writer["TimeToLive"].write(value.timeToLive)
@@ -9664,6 +10190,15 @@ extension SetAccountDefaultProtectConfigurationInput {
     static func write(value: SetAccountDefaultProtectConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
+    }
+}
+
+extension SetDefaultMessageFeedbackEnabledInput {
+
+    static func write(value: SetDefaultMessageFeedbackEnabledInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationSetName"].write(value.configurationSetName)
+        try writer["MessageFeedbackEnabled"].write(value.messageFeedbackEnabled)
     }
 }
 
@@ -10042,6 +10577,7 @@ extension DeleteConfigurationSetOutput {
         value.configurationSetArn = try reader["ConfigurationSetArn"].readIfPresent()
         value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.defaultMessageFeedbackEnabled = try reader["DefaultMessageFeedbackEnabled"].readIfPresent()
         value.defaultMessageType = try reader["DefaultMessageType"].readIfPresent()
         value.defaultSenderId = try reader["DefaultSenderId"].readIfPresent()
         value.eventDestinations = try reader["EventDestinations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.EventDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -10181,6 +10717,24 @@ extension DeleteProtectConfigurationOutput {
         value.accountDefault = try reader["AccountDefault"].readIfPresent() ?? false
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent() ?? false
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteProtectConfigurationRuleSetNumberOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProtectConfigurationRuleSetNumberOverrideOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteProtectConfigurationRuleSetNumberOverrideOutput()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent() ?? ""
+        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
         value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
         value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
         return value
@@ -10643,6 +11197,21 @@ extension ListPoolOriginationIdentitiesOutput {
     }
 }
 
+extension ListProtectConfigurationRuleSetNumberOverridesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProtectConfigurationRuleSetNumberOverridesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProtectConfigurationRuleSetNumberOverridesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
+        value.ruleSetNumberOverrides = try reader["RuleSetNumberOverrides"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListRegistrationAssociationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRegistrationAssociationsOutput {
@@ -10688,6 +11257,19 @@ extension PutKeywordOutput {
     }
 }
 
+extension PutMessageFeedbackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutMessageFeedbackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutMessageFeedbackOutput()
+        value.messageFeedbackStatus = try reader["MessageFeedbackStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.messageId = try reader["MessageId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension PutOptedOutNumberOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutOptedOutNumberOutput {
@@ -10700,6 +11282,24 @@ extension PutOptedOutNumberOutput {
         value.optOutListName = try reader["OptOutListName"].readIfPresent()
         value.optedOutNumber = try reader["OptedOutNumber"].readIfPresent()
         value.optedOutTimestamp = try reader["OptedOutTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PutProtectConfigurationRuleSetNumberOverrideOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutProtectConfigurationRuleSetNumberOverrideOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutProtectConfigurationRuleSetNumberOverrideOutput()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent() ?? ""
+        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
+        value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
+        value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10887,6 +11487,20 @@ extension SetAccountDefaultProtectConfigurationOutput {
         var value = SetAccountDefaultProtectConfigurationOutput()
         value.defaultProtectConfigurationArn = try reader["DefaultProtectConfigurationArn"].readIfPresent() ?? ""
         value.defaultProtectConfigurationId = try reader["DefaultProtectConfigurationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SetDefaultMessageFeedbackEnabledOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SetDefaultMessageFeedbackEnabledOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SetDefaultMessageFeedbackEnabledOutput()
+        value.configurationSetArn = try reader["ConfigurationSetArn"].readIfPresent()
+        value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
+        value.messageFeedbackEnabled = try reader["MessageFeedbackEnabled"].readIfPresent()
         return value
     }
 }
@@ -11550,6 +12164,24 @@ enum DeleteProtectConfigurationOutputError {
     }
 }
 
+enum DeleteProtectConfigurationRuleSetNumberOverrideOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteRegistrationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12125,6 +12757,24 @@ enum ListPoolOriginationIdentitiesOutputError {
     }
 }
 
+enum ListProtectConfigurationRuleSetNumberOverridesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListRegistrationAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12181,6 +12831,24 @@ enum PutKeywordOutputError {
     }
 }
 
+enum PutMessageFeedbackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutOptedOutNumberOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12192,6 +12860,25 @@ enum PutOptedOutNumberOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutProtectConfigurationRuleSetNumberOverrideOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12394,6 +13081,24 @@ enum SendVoiceMessageOutputError {
 }
 
 enum SetAccountDefaultProtectConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SetDefaultMessageFeedbackEnabledOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12917,6 +13622,7 @@ extension PinpointSMSVoiceV2ClientTypes.ConfigurationSetInformation {
         value.eventDestinations = try reader["EventDestinations"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.EventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.defaultMessageType = try reader["DefaultMessageType"].readIfPresent()
         value.defaultSenderId = try reader["DefaultSenderId"].readIfPresent()
+        value.defaultMessageFeedbackEnabled = try reader["DefaultMessageFeedbackEnabled"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent()
         return value
@@ -13300,6 +14006,20 @@ extension PinpointSMSVoiceV2ClientTypes.OriginationIdentityMetadata {
     }
 }
 
+extension PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverride {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverride()
+        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent() ?? ""
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
+        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PinpointSMSVoiceV2ClientTypes.RegistrationAssociationMetadata {
@@ -13445,6 +14165,15 @@ extension PinpointSMSVoiceV2ClientTypes.VerifiedDestinationNumberFilter {
 extension PinpointSMSVoiceV2ClientTypes.PoolOriginationIdentitiesFilter {
 
     static func write(value: PinpointSMSVoiceV2ClientTypes.PoolOriginationIdentitiesFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverrideFilterItem {
+
+    static func write(value: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverrideFilterItem?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
