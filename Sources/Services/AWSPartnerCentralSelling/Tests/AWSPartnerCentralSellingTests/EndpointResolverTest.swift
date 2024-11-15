@@ -20,11 +20,47 @@ class EndpointResolverTest: XCTestCase {
         SmithyTestUtil.TestInitializer.initialize()
     }
 
-    /// For region us-east-1 with FIPS enabled and DualStack enabled
+    /// For custom endpoint with region not set and fips disabled
     func testResolve1() throws {
         let endpointParams = EndpointParams(
+            endpoint: "https://example.com",
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For custom endpoint with fips enabled
+    func testResolve2() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://example.com",
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// For region us-east-1 with FIPS enabled and DualStack enabled
+    func testResolve3() throws {
+        let endpointParams = EndpointParams(
             region: "us-east-1",
-            useDualStack: true,
             useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
@@ -40,31 +76,10 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with FIPS enabled and DualStack disabled
-    func testResolve2() throws {
-        let endpointParams = EndpointParams(
-            region: "us-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// For region us-east-1 with FIPS disabled and DualStack enabled
-    func testResolve3() throws {
+    func testResolve4() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
-            useDualStack: true,
             useFIPS: false
         )
         let resolver = try DefaultEndpointResolver()
@@ -80,31 +95,10 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with FIPS disabled and DualStack disabled
-    func testResolve4() throws {
-        let endpointParams = EndpointParams(
-            region: "us-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.us-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region cn-north-1 with FIPS enabled and DualStack enabled
+    /// For region cn-northwest-1 with FIPS enabled and DualStack enabled
     func testResolve5() throws {
         let endpointParams = EndpointParams(
-            region: "cn-north-1",
-            useDualStack: true,
+            region: "cn-northwest-1",
             useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
@@ -115,17 +109,16 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region cn-north-1 with FIPS enabled and DualStack disabled
+    /// For region cn-northwest-1 with FIPS disabled and DualStack enabled
     func testResolve6() throws {
         let endpointParams = EndpointParams(
-            region: "cn-north-1",
-            useDualStack: false,
-            useFIPS: true
+            region: "cn-northwest-1",
+            useFIPS: false
         )
         let resolver = try DefaultEndpointResolver()
 
@@ -135,17 +128,16 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region cn-north-1 with FIPS disabled and DualStack enabled
+    /// For region us-gov-west-1 with FIPS enabled and DualStack enabled
     func testResolve7() throws {
         let endpointParams = EndpointParams(
-            region: "cn-north-1",
-            useDualStack: true,
-            useFIPS: false
+            region: "us-gov-west-1",
+            useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
 
@@ -155,16 +147,15 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.us-gov-west-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region cn-north-1 with FIPS disabled and DualStack disabled
+    /// For region us-gov-west-1 with FIPS disabled and DualStack enabled
     func testResolve8() throws {
         let endpointParams = EndpointParams(
-            region: "cn-north-1",
-            useDualStack: false,
+            region: "us-gov-west-1",
             useFIPS: false
         )
         let resolver = try DefaultEndpointResolver()
@@ -175,115 +166,15 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS enabled and DualStack enabled
-    func testResolve9() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS enabled and DualStack disabled
-    func testResolve10() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS disabled and DualStack enabled
-    func testResolve11() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.us-gov-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS disabled and DualStack disabled
-    func testResolve12() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.us-gov-west-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// For region us-iso-east-1 with FIPS enabled and DualStack enabled
-    func testResolve13() throws {
+    func testResolve9() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
-    /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
-    func testResolve14() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useDualStack: false,
             useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
@@ -300,29 +191,9 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-iso-east-1 with FIPS disabled and DualStack enabled
-    func testResolve15() throws {
+    func testResolve10() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
-    /// For region us-iso-east-1 with FIPS disabled and DualStack disabled
-    func testResolve16() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useDualStack: false,
             useFIPS: false
         )
         let resolver = try DefaultEndpointResolver()
@@ -339,29 +210,9 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-isob-east-1 with FIPS enabled and DualStack enabled
-    func testResolve17() throws {
+    func testResolve11() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
-    /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
-    func testResolve18() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: false,
             useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
@@ -378,29 +229,9 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region us-isob-east-1 with FIPS disabled and DualStack enabled
-    func testResolve19() throws {
+    func testResolve12() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
-    /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
-    func testResolve20() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: false,
             useFIPS: false
         )
         let resolver = try DefaultEndpointResolver()
@@ -416,89 +247,84 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For custom endpoint with region set and fips disabled and dualstack disabled
-    func testResolve21() throws {
+    /// For region eu-isoe-west-1 with FIPS enabled and DualStack enabled
+    func testResolve13() throws {
         let endpointParams = EndpointParams(
-            endpoint: "https://example.com",
-            region: "us-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For custom endpoint with region not set and fips disabled and dualstack disabled
-    func testResolve22() throws {
-        let endpointParams = EndpointParams(
-            endpoint: "https://example.com",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For custom endpoint with fips enabled and dualstack disabled
-    func testResolve23() throws {
-        let endpointParams = EndpointParams(
-            endpoint: "https://example.com",
-            region: "us-east-1",
-            useDualStack: false,
+            region: "eu-isoe-west-1",
             useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
 
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid Configuration: FIPS and custom endpoint are not supported", message)
-            default:
-                XCTFail()
-            }
-        }
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
     }
 
-    /// For custom endpoint with fips disabled and dualstack enabled
-    func testResolve24() throws {
+    /// For region eu-isoe-west-1 with FIPS disabled and DualStack enabled
+    func testResolve14() throws {
         let endpointParams = EndpointParams(
-            endpoint: "https://example.com",
-            region: "us-east-1",
-            useDualStack: true,
+            region: "eu-isoe-west-1",
             useFIPS: false
         )
         let resolver = try DefaultEndpointResolver()
 
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
-            default:
-                XCTFail()
-            }
-        }
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-isof-south-1 with FIPS enabled and DualStack enabled
+    func testResolve15() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isof-south-1",
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling-fips.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-isof-south-1 with FIPS disabled and DualStack enabled
+    func testResolve16() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isof-south-1",
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://partnercentral-selling.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
     }
 
     /// Missing region
-    func testResolve25() throws {
+    func testResolve17() throws {
         let endpointParams = EndpointParams(
         )
         let resolver = try DefaultEndpointResolver()
