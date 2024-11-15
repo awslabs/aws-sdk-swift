@@ -15,7 +15,7 @@ import struct Smithy.Attributes
 public struct SigV4AuthScheme: AuthScheme {
     public let schemeID: String = "aws.auth#sigv4"
     public let signer: Signer = AWSSigV4Signer()
-    public var requestUnsignedBody: Bool? = nil
+    public var requestUnsignedBody: Bool?
 
     public init() {}
 
@@ -75,7 +75,7 @@ public struct SigV4AuthScheme: AuthScheme {
         )
 
         // Optionally toggle unsigned body
-        if (self.requestUnsignedBody == true) {
+        if self.requestUnsignedBody == true {
             updatedSigningProperties.set(key: SigningPropertyKeys.requestUnsignedBody, value: true)
         }
 
