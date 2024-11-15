@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PrivateNetworksClient: ClientRuntime.Client {
     public static let clientName = "PrivateNetworksClient"
-    public static let version = "1.0.40"
+    public static let version = "1.0.41"
     let client: ClientRuntime.SdkHttpClient
     let config: PrivateNetworksClient.PrivateNetworksClientConfiguration
     let serviceName = "PrivateNetworks"

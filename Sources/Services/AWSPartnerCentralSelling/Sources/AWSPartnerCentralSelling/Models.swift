@@ -1000,7 +1000,7 @@ extension PartnerCentralSellingClientTypes {
         public var companyName: Swift.String?
         /// Indicates the Customer DUNS number, if available.
         public var duns: Swift.String?
-        /// Specifies the industry the end Customer belongs to that's associated with the Opportunity . It refers to the category or sector where the customer's business operates. This is a required field.
+        /// Specifies the industry the end Customer belongs to that's associated with the Opportunity. It refers to the category or sector where the customer's business operates. This is a required field.
         public var industry: PartnerCentralSellingClientTypes.Industry?
         /// Specifies the end Customer's industry associated with the Opportunity, when the selected value in the Industry field is Other.
         public var otherIndustry: Swift.String?
@@ -1101,7 +1101,7 @@ extension PartnerCentralSellingClientTypes {
         /// Specifies the end Customer's company name associated with the Opportunity.
         /// This member is required.
         public var companyName: Swift.String?
-        /// Specifies which industry the end Customer belongs to associated with the Opportunity . It refers to the category or sector that the customer's business operates in. To submit a value outside the picklist, use Other. Conditionally mandatory if Other is selected for Industry Vertical in LOVs.
+        /// Specifies which industry the end Customer belongs to associated with the Opportunity. It refers to the category or sector that the customer's business operates in. To submit a value outside the picklist, use Other. Conditionally mandatory if Other is selected for Industry Vertical in LOVs.
         public var industry: PartnerCentralSellingClientTypes.Industry?
         /// Specifies the end Customer's industry associated with the  Opportunity, when the selected value in the Industry field is Other. This field is relevant when the customer's industry doesn't fall under the predefined picklist values and requires a custom description.
         public var otherIndustry: Swift.String?
@@ -1132,18 +1132,18 @@ extension PartnerCentralSellingClientTypes.AccountSummary: Swift.CustomDebugStri
 
 extension PartnerCentralSellingClientTypes {
 
-    /// Represents the contact details of the individual assigned to manage the opportunity within the partner organization. This ensures that there is a clear point of contact for the opportunity's progress and updates.
+    /// Represents the contact details of the individual assigned to manage the opportunity within the partner organization. This helps to ensure that there is a point of contact for the opportunity's progress.
     public struct AssigneeContact: Swift.Sendable {
-        /// Specifies the business title of the assignee managing the opportunity. This helps clarify the individual's role and responsibilities within the organization.
+        /// Specifies the business title of the assignee managing the opportunity. This helps clarify the individual's role and responsibilities within the organization. Use the value PartnerAccountManager to update details of the opportunity owner.
         /// This member is required.
         public var businessTitle: Swift.String?
         /// Provides the email address of the assignee. This email is used for communications and notifications related to the opportunity.
         /// This member is required.
         public var email: Swift.String?
-        /// Specifies the first name of the assignee managing the opportunity.
+        /// Specifies the first name of the assignee managing the opportunity. The system automatically retrieves this value from the user profile by referencing the associated email address.
         /// This member is required.
         public var firstName: Swift.String?
-        /// Specifies the last name of the assignee managing the opportunity.
+        /// Specifies the last name of the assignee managing the opportunity. The system automatically retrieves this value from the user profile by referencing the associated email address.
         /// This member is required.
         public var lastName: Swift.String?
 
@@ -1215,7 +1215,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+/// This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1400,7 +1400,7 @@ public struct AssignOpportunityInput: Swift.Sendable {
     /// Specifies the user or team member responsible for managing the assigned opportunity. This field identifies the Assignee based on the partner's internal team structure. Ensure that the email address is associated with a registered user in your Partner Central account.
     /// This member is required.
     public var assignee: PartnerCentralSellingClientTypes.AssigneeContact?
-    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is assigned in. Use AWS to assign real opportunities in the Amazon Web Services catalog, and Sandbox to test in a secure and isolated environment.
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is assigned in. Use AWS to assign real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     /// This member is required.
     public var catalog: Swift.String?
     /// Requires the Opportunity's unique identifier when you want to assign it to another user. Provide the correct identifier so the intended opportunity is reassigned.
@@ -1452,7 +1452,7 @@ extension PartnerCentralSellingClientTypes {
 }
 
 public struct AssociateOpportunityInput: Swift.Sendable {
-    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines whichenvironment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services catalog, and Sandbox to test in a secure and isolated environment.
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity association is made in. Use AWS to associate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     /// This member is required.
     public var catalog: Swift.String?
     /// Requires the Opportunity's unique identifier when you want to associate it with a related entity. Provide the correct identifier so the intended opportunity is updated with the association.
@@ -1461,7 +1461,7 @@ public struct AssociateOpportunityInput: Swift.Sendable {
     /// Requires the related entity's unique identifier when you want to associate it with the  Opportunity. For Amazon Web Services Marketplace entities, provide the Amazon Resource Name (ARN). Use the [ Amazon Web Services Marketplace API](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html) to obtain the ARN.
     /// This member is required.
     public var relatedEntityIdentifier: Swift.String?
-    /// Specifies the type of the related entity you're associating with the  Opportunity. This helps to categorize and properly process the association.
+    /// Specifies the entity type that you're associating with the  Opportunity. This helps to categorize and properly process the association.
     /// This member is required.
     public var relatedEntityType: PartnerCentralSellingClientTypes.RelatedEntityType?
 
@@ -1720,7 +1720,7 @@ extension PartnerCentralSellingClientTypes {
 
     /// An object that contains a Customer Partner's contact details.
     public struct Contact: Swift.Sendable {
-        /// The partner contact's title (job title or role) associated with the Opportunity.
+        /// The partner contact's title (job title or role) associated with the Opportunity. BusinessTitle supports either PartnerAccountManager or OpportunityOwner.
         public var businessTitle: Swift.String?
         /// The contact's email address associated with the Opportunity.
         public var email: Swift.String?
@@ -1757,7 +1757,7 @@ extension PartnerCentralSellingClientTypes {
 
     /// Represents the customer associated with the AWS opportunity. This field captures key details about the customer that are necessary for managing the opportunity.
     public struct AwsOpportunityCustomer: Swift.Sendable {
-        /// Provides a list of customer contacts involved in the opportunity. These contacts may include decision-makers, influencers, and other key stakeholders within the customer's organization.
+        /// Provides a list of customer contacts involved in the opportunity. These contacts may include decision makers, influencers, and other stakeholders within the customer's organization.
         public var contacts: [PartnerCentralSellingClientTypes.Contact]?
 
         public init(
@@ -1944,7 +1944,7 @@ extension PartnerCentralSellingClientTypes {
     public struct AwsOpportunityLifeCycle: Swift.Sendable {
         /// Indicates the reason why an opportunity was marked as Closed Lost. This helps in understanding the context behind the lost opportunity and aids in refining future strategies.
         public var closedLostReason: PartnerCentralSellingClientTypes.AwsClosedLostReason?
-        /// Specifies the immediate next steps required to progress the opportunity. These steps are based on AWS's guidance and the current stage of the opportunity.
+        /// Specifies the immediate next steps required to progress the opportunity. These steps are based on AWS guidance and the current stage of the opportunity.
         public var nextSteps: Swift.String?
         /// Provides a historical log of previous next steps that were taken to move the opportunity forward. This helps in tracking the decision-making process and identifying any delays or obstacles encountered.
         public var nextStepsHistory: [PartnerCentralSellingClientTypes.ProfileNextStepsHistory]?
@@ -2560,6 +2560,11 @@ extension PartnerCentralSellingClientTypes {
     }
 }
 
+extension PartnerCentralSellingClientTypes.ExpectedCustomerSpend: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ExpectedCustomerSpend(amount: \(Swift.String(describing: amount)), frequency: \(Swift.String(describing: frequency)), targetCompany: \(Swift.String(describing: targetCompany)), currencyCode: \"CONTENT_REDACTED\")"}
+}
+
 extension PartnerCentralSellingClientTypes {
 
     /// Captures details about the project associated with the opportunity, including objectives, scope, and customer requirements.
@@ -2653,7 +2658,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [service quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the specific resource, and reduce the usage or request a quota increase through support if necessary.
+/// This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2681,10 +2686,10 @@ public struct StartEngagementByAcceptingInvitationTaskInput: Swift.Sendable {
     /// Specifies the catalog related to the task. Use AWS for production engagements and Sandbox for testing scenarios.
     /// This member is required.
     public var catalog: Swift.String?
-    /// A unique, case-sensitive identifier provided by the client to ensure the idempotency of the request. Can be a random or meaningful string, but must be unique for each request.
+    /// A unique, case-sensitive identifier provided by the client that helps to ensure the idempotency of the request. This can be a random or meaningful string but must be unique for each request.
     /// This member is required.
     public var clientToken: Swift.String?
-    /// Specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier ensures the right engagement invitation is processed.
+    /// Specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier helps ensure that the correct engagement is processed.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -2712,6 +2717,7 @@ extension PartnerCentralSellingClientTypes {
         case opportunityConflict
         case opportunitySubmissionFailed
         case opportunityValidationFailed
+        case resourceSnapshotAccessDenied
         case resourceSnapshotJobAccessDenied
         case sdkUnknown(Swift.String)
 
@@ -2726,6 +2732,7 @@ extension PartnerCentralSellingClientTypes {
                 .opportunityConflict,
                 .opportunitySubmissionFailed,
                 .opportunityValidationFailed,
+                .resourceSnapshotAccessDenied,
                 .resourceSnapshotJobAccessDenied
             ]
         }
@@ -2746,6 +2753,7 @@ extension PartnerCentralSellingClientTypes {
             case .opportunityConflict: return "OpportunityConflict"
             case .opportunitySubmissionFailed: return "OpportunitySubmissionFailed"
             case .opportunityValidationFailed: return "OpportunityValidationFailed"
+            case .resourceSnapshotAccessDenied: return "ResourceSnapshotAccessDenied"
             case .resourceSnapshotJobAccessDenied: return "ResourceSnapshotJobAccessDenied"
             case let .sdkUnknown(s): return s
             }
@@ -2792,15 +2800,15 @@ public struct StartEngagementByAcceptingInvitationTaskOutput: Swift.Sendable {
     public var message: Swift.String?
     /// Returns the original opportunity identifier passed in the request. This is the unique identifier for the opportunity.
     public var opportunityId: Swift.String?
-    /// Indicates the reason for task failure using an enumerated code. Possible values are: ACCEPT_ENGAGEMENT_INVITATION_FAILED, GET_ENGAGEMENT_INVITATION_FAILED, CREATE_OPPORTUNITY_FAILED, CREATE_RESOURCE_VIEW_AUTOMATION_FAILED, SUBMIT_OPPORTUNITY_FAILED.
+    /// Indicates the reason for task failure using an enumerated code.
     public var reasonCode: PartnerCentralSellingClientTypes.ReasonCode?
     /// The timestamp indicating when the task was initiated. The format follows RFC 3339 section 5.6.
     public var startTime: Foundation.Date?
     /// The Amazon Resource Name (ARN) of the task, used for tracking and managing the task within AWS.
     public var taskArn: Swift.String?
-    /// The unique identifier of the task, used to track the task’s progress. This value follows a specific pattern: ^oit-[0-9a-z]{13}$.
+    /// The unique identifier of the task, used to track the task’s progress.
     public var taskId: Swift.String?
-    /// Indicates the current status of the task. Valid values include IN_PROGRESS, COMPLETE, and FAILED.
+    /// Indicates the current status of the task.
     public var taskStatus: PartnerCentralSellingClientTypes.TaskStatus?
 
     public init(
@@ -2885,12 +2893,12 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
-    /// Indicates the level of AWS involvement in the opportunity. This field helps track AWS's role and participation throughout the engagement, such as providing technical support, deal assistance, or sales support.
+    /// Indicates the level of AWS involvement in the opportunity. This field helps track AWS participation throughout the engagement, such as providing technical support, deal assistance, and sales support.
     public struct AwsSubmission: Swift.Sendable {
-        /// Specifies the type of AWS involvement in the opportunity, such as co-selling, deal support, or technical consultation. This helps categorize the nature of AWS's participation.
+        /// Specifies the type of AWS involvement in the opportunity, such as coselling, deal support, or technical consultation. This helps categorize the nature of AWS participation.
         /// This member is required.
         public var involvementType: PartnerCentralSellingClientTypes.SalesInvolvementType?
-        /// Determines who can view AWS's involvement in the opportunity. Typically, this field is set to Full for most cases, but it may be restricted based on special program requirements or confidentiality needs.
+        /// Determines who can view AWS involvement in the opportunity. Typically, this field is set to Full for most cases, but it may be restricted based on special program requirements or confidentiality needs.
         public var visibility: PartnerCentralSellingClientTypes.Visibility?
 
         public init(
@@ -2905,16 +2913,16 @@ extension PartnerCentralSellingClientTypes {
 }
 
 public struct StartEngagementFromOpportunityTaskInput: Swift.Sendable {
-    /// Indicates the level of AWS involvement in the opportunity. This field helps track AWS's role and participation throughout the engagement, such as providing technical support, deal assistance, or sales support.
+    /// Indicates the level of AWS involvement in the opportunity. This field helps track AWS participation throughout the engagement, such as providing technical support, deal assistance, and sales support.
     /// This member is required.
     public var awsSubmission: PartnerCentralSellingClientTypes.AwsSubmission?
     /// Specifies the catalog in which the engagement is tracked. Acceptable values include AWS for production and Sandbox for testing environments.
     /// This member is required.
     public var catalog: Swift.String?
-    /// A unique token provided by the client to ensure the idempotency of the request. It helps prevent the same task from being performed multiple times.
+    /// A unique token provided by the client to help ensure the idempotency of the request. It helps prevent the same task from being performed multiple times.
     /// This member is required.
     public var clientToken: Swift.String?
-    /// The unique identifier of the opportunity from which the engagement task is to be initiated. This ensures the task is applied to the correct opportunity.
+    /// The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -2937,7 +2945,7 @@ public struct StartEngagementFromOpportunityTaskOutput: Swift.Sendable {
     public var message: Swift.String?
     /// Returns the original opportunity identifier passed in the request, which is the unique identifier for the opportunity created in the partner’s system.
     public var opportunityId: Swift.String?
-    /// Indicates the reason for task failure using an enumerated code. Possible values are: ACCEPT_ENGAGEMENT_INVITATION_FAILED, GET_ENGAGEMENT_INVITATION_FAILED, CREATE_OPPORTUNITY_FAILED, CREATE_RESOURCE_VIEW_AUTOMATION_FAILED, SUBMIT_OPPORTUNITY_FAILED.
+    /// Indicates the reason for task failure using an enumerated code.
     public var reasonCode: PartnerCentralSellingClientTypes.ReasonCode?
     /// The timestamp indicating when the task was initiated. The format follows RFC 3339 section 5.6.
     public var startTime: Foundation.Date?
@@ -2972,7 +2980,7 @@ public struct GetEngagementInvitationInput: Swift.Sendable {
     /// Specifies the catalog associated with the request. The field accepts values from the predefined set: AWS for live operations or Sandbox for testing environments.
     /// This member is required.
     public var catalog: Swift.String?
-    /// Specifies the unique identifier for the engagement invitation being retrieved.
+    /// Specifies the unique identifier for the retrieved engagement invitation.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -2988,7 +2996,7 @@ public struct GetEngagementInvitationInput: Swift.Sendable {
 
 extension PartnerCentralSellingClientTypes {
 
-    /// Contains details about the customer associated with the Engagement Invitation, including key company information and industry.
+    /// Contains details about the customer associated with the Engagement Invitation, including company information and industry.
     public struct EngagementCustomer: Swift.Sendable {
         /// Represents the name of the customer’s company associated with the Engagement Invitation. This field is used to identify the customer.
         /// This member is required.
@@ -3161,7 +3169,7 @@ extension PartnerCentralSellingClientTypes {
         /// Outlines the responsibilities or expectations of the receiver in the context of the invitation.
         /// This member is required.
         public var receiverResponsibilities: [PartnerCentralSellingClientTypes.ReceiverResponsibility]?
-        /// Represents the contact details of the AWS representatives involved in sending the Engagement Invitation. These contacts are key stakeholders for the opportunity.
+        /// Represents the contact details of the AWS representatives involved in sending the Engagement Invitation. These contacts are opportunity stakeholders.
         public var senderContacts: [PartnerCentralSellingClientTypes.SenderContact]?
 
         public init(
@@ -3261,12 +3269,12 @@ extension PartnerCentralSellingClientTypes {
 }
 
 public struct GetEngagementInvitationOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that uniquely identifies the engagement invitation.
+    /// The Amazon Resource Name (ARN) that identifies the engagement invitation.
     public var arn: Swift.String?
     /// Indicates the catalog from which the engagement invitation details are retrieved. This field helps in identifying the appropriate catalog (e.g., AWS or Sandbox) used in the request.
     /// This member is required.
     public var catalog: Swift.String?
-    /// The title of the engagement invitation, summarizing the purpose or key objectives of the opportunity shared by AWS.
+    /// The title of the engagement invitation, summarizing the purpose or objectives of the opportunity shared by AWS.
     public var engagementTitle: Swift.String?
     /// Indicates the date on which the engagement invitation will expire if not accepted by the partner.
     public var expirationDate: Foundation.Date?
@@ -3287,7 +3295,7 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
     public var senderAwsAccountId: Swift.String?
     /// The name of the AWS organization or team that sent the engagement invitation.
     public var senderCompanyName: Swift.String?
-    /// The current status of the engagement invitation (e.g., Accepted, Pending, or Rejected).
+    /// The current status of the engagement invitation.
     public var status: PartnerCentralSellingClientTypes.InvitationStatus?
 
     public init(
@@ -3466,7 +3474,7 @@ public struct ListEngagementInvitationsInput: Swift.Sendable {
 
 extension PartnerCentralSellingClientTypes {
 
-    /// Provides a summarized view of the Engagement Invitation, including key details like the identifier, status, and sender information. This summary helps partners track and manage AWS-originated opportunities.
+    /// Provides a summarized view of the Engagement Invitation, including details like the identifier, status, and sender. This summary helps partners track and manage AWS originated opportunities.
     public struct EngagementInvitationSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Engagement Invitation. The ARN is a unique identifier that allows partners to reference the invitation in their system and manage its lifecycle.
         public var arn: Swift.String?
@@ -3475,7 +3483,7 @@ extension PartnerCentralSellingClientTypes {
         public var catalog: Swift.String?
         /// Provides a short title or description of the Engagement Invitation. This title helps partners quickly identify and differentiate between multiple engagement opportunities.
         public var engagementTitle: Swift.String?
-        /// Indicates the date and time when the Engagement Invitation will expire. After this date, the invitation can no longer be accepted, and the opportunity will no longer be available for the partner to engage.
+        /// Indicates the date and time when the Engagement Invitation will expire. After this date, the invitation can no longer be accepted, and the opportunity will be unavailable to the partner.
         public var expirationDate: Foundation.Date?
         /// Represents the unique identifier of the Engagement Invitation. This identifier is used to track the invitation and to manage responses like acceptance or rejection.
         /// This member is required.
@@ -3528,7 +3536,7 @@ extension PartnerCentralSellingClientTypes.EngagementInvitationSummary: Swift.Cu
 }
 
 public struct ListEngagementInvitationsOutput: Swift.Sendable {
-    /// An array containing summaries of engagement invitations. Each summary includes key information such as the invitation title, invitation date, and the current status of the invitation.
+    /// An array containing summaries of engagement invitations. Each summary includes information such as the invitation title, invitation date, and the current status of the invitation.
     public var engagementInvitationSummaries: [PartnerCentralSellingClientTypes.EngagementInvitationSummary]?
     /// A pagination token returned when there are more results available than can be returned in a single call. Use this token to retrieve additional pages of engagement invitation summaries.
     public var nextToken: Swift.String?
@@ -3544,23 +3552,23 @@ public struct ListEngagementInvitationsOutput: Swift.Sendable {
 }
 
 public struct RejectEngagementInvitationInput: Swift.Sendable {
-    /// Specifies the catalog related to the engagement invitation. Accepted values are AWS and Sandbox, which determine the environment in which the opportunity is managed.
+    /// This is the catalog that's associated with the engagement invitation. Acceptable values are AWS or Sandbox, and these values determine the environment in which the opportunity is managed.
     /// This member is required.
     public var catalog: Swift.String?
-    /// Specifies the unique identifier of the EngagementInvitation to be rejected. Providing the correct identifier ensures that the intended invitation is rejected.
+    /// This is the unique identifier of the rejected EngagementInvitation. Providing the correct identifier helps to ensure that the intended invitation is rejected.
     /// This member is required.
     public var identifier: Swift.String?
-    /// Specifies the reason for rejecting the engagement invitation. Providing a reason helps document the rationale behind the rejection and assists AWS in tracking patterns or issues. Possible values include:
+    /// This describes the reason for rejecting the engagement invitation, which helps AWS track usage patterns. Acceptable values include the following:
     ///
-    /// * Customer problem unclear: The customer's problem is not clearly defined.
+    /// * Customer problem unclear: The customer's problem isn't understood.
     ///
-    /// * Next steps unclear: The next steps required to proceed are not clear.
+    /// * Next steps unclear: The next steps required to proceed aren't understood.
     ///
     /// * Unable to support: The partner is unable to provide support due to resource or capability constraints.
     ///
-    /// * Duplicate of Partner Referral: The opportunity is a duplicate of an existing referral.
+    /// * Duplicate of partner referral: The opportunity is a duplicate of an existing referral.
     ///
-    /// * Other: Any other reason not covered by the specified values.
+    /// * Other: Any reason not covered by other values.
     public var rejectionReason: Swift.String?
 
     public init(
@@ -3794,15 +3802,15 @@ extension PartnerCentralSellingClientTypes {
         ///
         /// * Legal/Tax/Regulatory: Legal, tax, or regulatory issues prevented progress.
         ///
-        /// * Lost to Competitor - Google: The opportunity was lost to Google.
+        /// * Lost to Competitor—Google: The opportunity was lost to Google.
         ///
-        /// * Lost to Competitor - Microsoft: The opportunity was lost to Microsoft.
+        /// * Lost to Competitor—Microsoft: The opportunity was lost to Microsoft.
         ///
-        /// * Lost to Competitor - SoftLayer: The opportunity was lost to SoftLayer.
+        /// * Lost to Competitor—SoftLayer: The opportunity was lost to SoftLayer.
         ///
-        /// * Lost to Competitor - VMWare: The opportunity was lost to VMWare.
+        /// * Lost to Competitor—VMWare: The opportunity was lost to VMWare.
         ///
-        /// * Lost to Competitor - Other: The opportunity was lost to a competitor not listed above.
+        /// * Lost to Competitor—Other: The opportunity was lost to a competitor not listed above.
         ///
         /// * No Opportunity: There was no opportunity to pursue.
         ///
@@ -3826,11 +3834,11 @@ extension PartnerCentralSellingClientTypes {
         ///
         /// * Financial/Commercial: Financial or commercial issues impacted the decision.
         public var closedLostReason: PartnerCentralSellingClientTypes.ClosedLostReason?
-        /// Specifies the upcoming actions or tasks for the Opportunity. This field is utilized to communicate to Amazon Web Services the next actions required for the Opportunity.
+        /// Specifies the upcoming actions or tasks for the Opportunity. Use this field to communicate with Amazon Web Services about the next actions required for the Opportunity.
         public var nextSteps: Swift.String?
         /// Captures a chronological record of the next steps or actions planned or taken for the current opportunity, along with the timestamp.
         public var nextStepsHistory: [PartnerCentralSellingClientTypes.NextStepsHistory]?
-        /// Indicates why an opportuntiy was sent back for further details. Partners must take corrective action based on the ReviewComments.
+        /// Indicates why an opportunity was sent back for further details. Partners must take corrective action based on the ReviewComments.
         public var reviewComments: Swift.String?
         /// Indicates the review status of an opportunity referred by a partner. This field is read-only and only applicable for partner referrals. The possible values are:
         ///
@@ -3840,7 +3848,7 @@ extension PartnerCentralSellingClientTypes {
         ///
         /// * In Review: Amazon Web Services is validating (read-only).
         ///
-        /// * Action Required: Issues that Amazon Web Services highlights need to be addressed. Partners should use the UpdateOpportunity API action to update the opportunity, and ensure all required changes are made. Only these fields are editable when the Lifecycle.ReviewStatus is Action Required:
+        /// * Action Required: Issues that Amazon Web Services highlights need to be addressed. Partners should use the UpdateOpportunity API action to update the opportunity and helps to ensure that all required changes are made. Only the following fields are editable when the Lifecycle.ReviewStatus is Action Required:
         ///
         /// * Customer.Account.Address.City
         ///
@@ -3877,7 +3885,7 @@ extension PartnerCentralSellingClientTypes {
         ///
         /// * Prospect: Amazon Web Services identifies the opportunity. It can be active (Comes directly from the end customer through a lead) or latent (Your account team believes it exists based on research, account plans, sales plays).
         ///
-        /// * Qualified: Your account team engaged with the prospect/end customer to discuss viability and understand requirements. The prospect/end customer agreed that the opportunity is real, of interest, and may solve key business/technical needs.
+        /// * Qualified: Your account team engaged with the customer to discuss viability and requirements. The customer agreed that the opportunity is real, of interest, and may solve business/technical needs.
         ///
         /// * Technical Validation: All parties understand the implementation plan.
         ///
@@ -4017,7 +4025,7 @@ extension PartnerCentralSellingClientTypes {
     public struct Marketing: Swift.Sendable {
         /// Indicates if the Opportunity is a marketing development fund (MDF) funded activity.
         public var awsFundingUsed: PartnerCentralSellingClientTypes.AwsFundingUsed?
-        /// Specifies the Opportunity's unique marketing campaign name. The Amazon Web Services campaign name serves as a reference to specific marketing initiatives, promotions, or activities related to the Opportunity. This field captures the identifier used to track and categorize the Opportunity within Amazon Web Services's marketing campaigns. If you don't have a campaign name, reach out to your Amazon Web Services point of contact to obtain one.
+        /// Specifies the Opportunity marketing campaign code. The Amazon Web Services campaign code is a reference to specific marketing initiatives, promotions, or activities. This field captures the identifier used to track and categorize the Opportunity within marketing campaigns. If you don't have a campaign code, contact your Amazon Web Services point of contact to obtain one.
         public var campaignName: Swift.String?
         /// Specifies the Opportunity's channel that the marketing activity is associated with or was contacted through. This field provides information about the specific marketing channel that contributed to the generation of the lead or contact.
         public var channels: [PartnerCentralSellingClientTypes.Channel]?
@@ -4334,9 +4342,9 @@ extension PartnerCentralSellingClientTypes {
         public var apnPrograms: [Swift.String]?
         /// Name of the Opportunity's competitor (if any). Use Other to submit a value not in the picklist.
         public var competitorName: PartnerCentralSellingClientTypes.CompetitorName?
-        /// Describes the problem the end customer has, and how the partner is helping. Utilize this field to provide a clear and concise narrative that outlines the specific business challenge or issue the customer has. Elaborate on how the partner's solution or offerings align to resolve the customer's business problem. Include relevant information about the partner's value proposition, unique selling points, and expertise to tackle the issue. Offer insights on how the proposed solution meets the customer's needs and provides value. Use concise language and precise descriptions to convey the context and significance of the Opportunity. The content in this field helps Amazon Web Services understand the nature of the Opportunity and the strategic fit of the partner's solution.
+        /// Describes the problem the end customer has, and how the partner is helping. Utilize this field to provide a concise narrative that outlines the customer's business challenge or issue. Elaborate on how the partner's solution or offerings align to resolve the customer's business problem. Include relevant information about the partner's value proposition, unique selling points, and expertise to tackle the issue. Offer insights on how the proposed solution meets the customer's needs and provides value. Use concise language and precise descriptions to convey the context and significance of the Opportunity. The content in this field helps Amazon Web Services understand the nature of the Opportunity and the strategic fit of the partner's solution.
         public var customerBusinessProblem: Swift.String?
-        /// Specifies the proposed solution focus or type of workload for the Opportunity. This field captures the primary use case or objective of the proposed solution, and provides context and clarity to the addressed workload. Valid values: AI Machine Learning and Analytics | Archiving | Big Data: Data Warehouse / Data Integration / ETL / Data Lake / BI | Blockchain | Business Applications: Mainframe Modernization | Business Applications & Contact Center | Business Applications & SAP Production | Centralized Operations Management | Cloud Management Tools | Cloud Management Tools & DevOps with Continuous Integration & Continuous Delivery (CICD) | Configuration, Compliance & Auditing | Connected Services | Containers & Serverless | Content Delivery & Edge Services | Database | Edge Computing / End User Computing | Energy | Enterprise Governance & Controls | Enterprise Resource Planning | Financial Services | Healthcare and Life Sciences | High Performance Computing | Hybrid Application Platform | Industrial Software | IOT | Manufacturing, Supply Chain and Operations | Media & High performance computing (HPC) | Migration / Database Migration | Monitoring, logging and performance | Monitoring & Observability | Networking | Outpost | SAP | Security & Compliance | Storage & Backup | Training | VMC | VMWare | Web development & DevOps
+        /// Specifies the proposed solution focus or type of workload for the Opportunity. This field captures the primary use case or objective of the proposed solution, and provides context and clarity to the addressed workload. Valid values: AI Machine Learning and Analytics | Archiving | Big Data: Data Warehouse/Data Integration/ETL/Data Lake/BI | Blockchain | Business Applications: Mainframe Modernization | Business Applications & Contact Center | Business Applications & SAP Production | Centralized Operations Management | Cloud Management Tools | Cloud Management Tools & DevOps with Continuous Integration & Continuous Delivery (CICD) | Configuration, Compliance & Auditing | Connected Services | Containers & Serverless | Content Delivery & Edge Services | Database | Edge Computing/End User Computing | Energy | Enterprise Governance & Controls | Enterprise Resource Planning | Financial Services | Healthcare and Life Sciences | High Performance Computing | Hybrid Application Platform | Industrial Software | IOT | Manufacturing, Supply Chain and Operations | Media & High performance computing (HPC) | Migration/Database Migration | Monitoring, logging and performance | Monitoring & Observability | Networking | Outpost | SAP | Security & Compliance | Storage & Backup | Training | VMC | VMWare | Web development & DevOps
         public var customerUseCase: Swift.String?
         /// Specifies the deployment or consumption model for your solution or service in the Opportunity's context. You can select multiple options. Options' descriptions from the Delivery Model field are:
         ///
@@ -4366,9 +4374,9 @@ extension PartnerCentralSellingClientTypes {
         ///
         /// * Customer has shown interest in solution: After initial discussions, the customer is interested in your solution.
         ///
-        /// * Conducted POC / Demo: You conducted a proof of concept (POC) or demonstration of the solution for the customer.
+        /// * Conducted POC/demo: You conducted a proof of concept (POC) or demonstration of the solution for the customer.
         ///
-        /// * In evaluation / planning stage: The customer is evaluating the solution and planning potential implementation.
+        /// * In evaluation/planning stage: The customer is evaluating the solution and planning potential implementation.
         ///
         /// * Agreed on solution to Business Problem: Both parties agree on how the solution addresses the customer's business problem.
         ///
@@ -4471,6 +4479,11 @@ extension PartnerCentralSellingClientTypes {
     }
 }
 
+extension PartnerCentralSellingClientTypes.MonetaryValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MonetaryValue(amount: \(Swift.String(describing: amount)), currencyCode: \"CONTENT_REDACTED\")"}
+}
+
 extension PartnerCentralSellingClientTypes {
 
     /// Specifies a customer's procurement terms details. Required only for partners in eligible programs.
@@ -4500,10 +4513,10 @@ extension PartnerCentralSellingClientTypes {
 }
 
 public struct CreateOpportunityInput: Swift.Sendable {
-    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is created in. Use AWS to create opportunities in the Amazon Web Services catalog, and Sandbox to test in a secure and isolated environment.
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is created in. Use AWS to create opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     /// This member is required.
     public var catalog: Swift.String?
-    /// Required to be unique, and should be unchanging, it can be randomly generated or a meaningful string. Default: None Best practice: To ensure uniqueness and avoid collisions, we recommend you use a UUID (Universally Unique Identifier) as the ClientToken. You can use standard libraries available in most programming languages to generated this. If you use the same client token, the API throws this error: "Conflicting client token submitted for a new request body".
+    /// Required to be unique, and should be unchanging, it can be randomly generated or a meaningful string. Default: None Best practice: To help ensure uniqueness and avoid conflicts, use a Universally Unique Identifier (UUID) as the ClientToken. You can use standard libraries from most programming languages to generate this. If you use the same client token, the API returns the following error: "Conflicting client token submitted for a new request body."
     /// This member is required.
     public var clientToken: Swift.String?
     /// Specifies customer details associated with the Opportunity.
@@ -4514,7 +4527,7 @@ public struct CreateOpportunityInput: Swift.Sendable {
     public var marketing: PartnerCentralSellingClientTypes.Marketing?
     /// Indicates whether the Opportunity pertains to a national security project. This field must be set to true only when the customer's industry is Government. Additional privacy and security measures apply during the review and management process for opportunities marked as NationalSecurity.
     public var nationalSecurity: PartnerCentralSellingClientTypes.NationalSecurity?
-    /// Represents the internal team handling the opportunity. Specify the members involved in collaborating on this opportunity within the partner's organization.
+    /// Represents the internal team handling the opportunity. Specify collaborating members of this opportunity who are within the partner's organization.
     public var opportunityTeam: [PartnerCentralSellingClientTypes.Contact]?
     /// Specifies the opportunity type as a renewal, new, or expansion. Opportunity types:
     ///
@@ -4526,31 +4539,31 @@ public struct CreateOpportunityInput: Swift.Sendable {
     public var opportunityType: PartnerCentralSellingClientTypes.OpportunityType?
     /// Specifies the origin of the opportunity, indicating if it was sourced from Amazon Web Services or the partner. For all opportunities created with Catalog: AWS, this field must only be Partner Referral. However, when using Catalog: Sandbox, you can set this field to AWS Referral to simulate Amazon Web Services referral creation. This allows Amazon Web Services-originated flows testing in the sandbox catalog.
     public var origin: PartnerCentralSellingClientTypes.OpportunityOrigin?
-    /// Specifies the opportunity's unique identifier in the partner's CRM system. This value is essential to track and reconcile because it's included in the outbound payload sent back to the partner. This field allows partners to link an opportunity to their CRM, to ensure seamless integration and accurate synchronization between the Partner Central API and the partner's internal systems.
+    /// Specifies the opportunity's unique identifier in the partner's CRM system. This value is essential to track and reconcile because it's included in the outbound payload to the partner. This field allows partners to link an opportunity to their CRM, which helps to ensure seamless integration and accurate synchronization between the Partner Central API and the partner's internal systems.
     public var partnerOpportunityIdentifier: Swift.String?
     /// Identifies the type of support the partner needs from Amazon Web Services. Valid values:
     ///
-    /// * Co-Sell - Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.
+    /// * Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.
     ///
-    /// * Co-Sell - Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.
+    /// * Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.
     ///
-    /// * Co-Sell - Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.
+    /// * Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.
     ///
-    /// * Co-Sell - Pricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).
+    /// * Cosell—Pricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).
     ///
-    /// * Co-Sell - Technical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.
+    /// * Cosell—Technical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.
     ///
-    /// * Co-Sell - Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.
+    /// * Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.
     ///
-    /// * Co-Sell - Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).
+    /// * Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).
     ///
-    /// * Co-Sell - Support for Public Tender / RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx support.
+    /// * Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx support.
     ///
-    /// * Do Not Need Support from AWS Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services sales representative, and the partner solely manages the opportunity. It's possible to request co-selling support on these opportunities at any stage during their lifecycle. Also known as, for-visibility-only (FVO) opportunity.
+    /// * Do Not Need Support from AWS Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services sales representative, and the partner solely manages the opportunity. It's possible to request coselling support on these opportunities at any stage during their lifecycles. This is also known as a for-visibility-only (FVO) opportunity.
     public var primaryNeedsFromAws: [PartnerCentralSellingClientTypes.PrimaryNeedFromAws]?
     /// An object that contains project details for the Opportunity.
     public var project: PartnerCentralSellingClientTypes.Project?
-    /// Specifies details of a customer's procurement terms. Required only for partners in eligible programs.
+    /// Specifies details of a customer's procurement terms. This is required only for partners in eligible programs.
     public var softwareRevenue: PartnerCentralSellingClientTypes.SoftwareRevenue?
 
     public init(
@@ -4586,10 +4599,10 @@ public struct CreateOpportunityInput: Swift.Sendable {
 }
 
 public struct CreateOpportunityOutput: Swift.Sendable {
-    /// Read-only, system-generated Opportunity unique identifier. Amazon Web Services creates this identifier, and it's used for all subsequent actions on the opportunity, such as updates, associations, and submissions. It ensures that each opportunity can be accurately tracked and managed within the system.
+    /// Read-only, system-generated Opportunity unique identifier. Amazon Web Services creates this identifier, and it's used for all subsequent opportunity actions, such as updates, associations, and submissions. It helps to ensure that each opportunity is accurately tracked and managed.
     /// This member is required.
     public var id: Swift.String?
-    /// DateTime when the opportunity was last modified. When the Opportunity is created, its value is equal to CreatedDate.
+    /// DateTime when the opportunity was last modified. When the Opportunity is created, its value is CreatedDate.
     public var lastModifiedDate: Foundation.Date?
     /// Specifies the opportunity's unique identifier in the partner's CRM system. This value is essential to track and reconcile because it's included in the outbound payload sent back to the partner.
     public var partnerOpportunityIdentifier: Swift.String?
@@ -4607,16 +4620,16 @@ public struct CreateOpportunityOutput: Swift.Sendable {
 }
 
 public struct DisassociateOpportunityInput: Swift.Sendable {
-    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity disassociation is made in. Use AWS to disassociate opportunities in the Amazon Web Services catalog, and Sandbox to test in a secure and isolated environment.
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity disassociation is made in. Use AWS to disassociate opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     /// This member is required.
     public var catalog: Swift.String?
-    /// The opportunity's unique identifier for when you want to disassociate it from related entities. This identifier is crucial to ensure the correct opportunity is updated, especially in environments with numerous opportunities. Validation: Ensure that the identifier provided corresponds to an existing opportunity in the Amazon Web Services system because incorrect identifiers result in an error and no changes are made.
+    /// The opportunity's unique identifier for when you want to disassociate it from related entities. This identifier helps to ensure that the correct opportunity is updated. Validation: Ensure that the provided identifier corresponds to an existing opportunity in the Amazon Web Services system because incorrect identifiers result in an error and no changes are made.
     /// This member is required.
     public var opportunityIdentifier: Swift.String?
-    /// The related entity's identifier that you want to disassociate from the opportunity. Depending on the type of entity, this could be a simple identifier or an Amazon Resource Name (ARN) for entities managed through Amazon Web Services Marketplace. For Amazon Web Services Marketplace entities, use the Amazon Web Services Marketplace API to obtain the necessary ARNs. For guidance on retrieving these ARNs, refer to [ Amazon Web Services Marketplace Catalog API](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html) . Validation: Ensure the identifier or ARN is valid and corresponds to an existing related entity. An incorrect or invalid identifier results in an error.
+    /// The related entity's identifier that you want to disassociate from the opportunity. Depending on the type of entity, this could be a simple identifier or an Amazon Resource Name (ARN) for entities managed through Amazon Web Services Marketplace. For Amazon Web Services Marketplace entities, use the Amazon Web Services Marketplace API to obtain the necessary ARNs. For guidance on retrieving these ARNs, see [ Amazon Web Services MarketplaceUsing the Amazon Web Services Marketplace Catalog API](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html). Validation: Ensure the identifier or ARN is valid and corresponds to an existing entity. An incorrect or invalid identifier results in an error.
     /// This member is required.
     public var relatedEntityIdentifier: Swift.String?
-    /// The type of the entity that you're disassociating from the opportunity. When you specify the entity type, it helps the system correctly process the disassociation request and ensures that the right connections are removed. Examples of entity types include Partner Solution, Amazon Web Services product, and Amazon Web Services Marketplace offer. Ensure that the value matches one of the expected entity types. Validation: Provide a valid entity type to ensure successful disassociation. Invalid or incorrect entity types result in an error.
+    /// The type of the entity that you're disassociating from the opportunity. When you specify the entity type, it helps the system correctly process the disassociation request to ensure that the right connections are removed. Examples of entity types include Partner Solution, Amazon Web Services product, and Amazon Web Services Marketplaceoffer. Ensure that the value matches one of the expected entity types. Validation: Provide a valid entity type to help ensure successful disassociation. An invalid or incorrect entity type results in an error.
     /// This member is required.
     public var relatedEntityType: PartnerCentralSellingClientTypes.RelatedEntityType?
 
@@ -4638,7 +4651,7 @@ public struct GetAwsOpportunitySummaryInput: Swift.Sendable {
     /// Specifies the catalog in which the AWS Opportunity is located. Accepted values include AWS for production opportunities or Sandbox for testing purposes. The catalog determines which environment the opportunity data is pulled from.
     /// This member is required.
     public var catalog: Swift.String?
-    /// The unique identifier for the related partner opportunity. Use this field to correlate an AWS opportunity with its corresponding partner opportunity in your CRM system.
+    /// The unique identifier for the related partner opportunity. Use this field to correlate an AWS opportunity with its corresponding partner opportunity.
     /// This member is required.
     public var relatedOpportunityIdentifier: Swift.String?
 
@@ -4694,17 +4707,17 @@ public struct GetAwsOpportunitySummaryOutput: Swift.Sendable {
     /// Specifies the catalog in which the AWS Opportunity exists. This is the environment (e.g., AWS or Sandbox) where the opportunity is being managed.
     /// This member is required.
     public var catalog: Swift.String?
-    /// Provides details about the customer associated with the AWS Opportunity, including account information, industry, and other key customer data. These details help partners understand the business context of the opportunity.
+    /// Provides details about the customer associated with the AWS Opportunity, including account information, industry, and other customer data. These details help partners understand the business context of the opportunity.
     public var customer: PartnerCentralSellingClientTypes.AwsOpportunityCustomer?
     /// Provides insights into the AWS Opportunity, including engagement score and recommended actions that AWS suggests for the partner.
     public var insights: PartnerCentralSellingClientTypes.AwsOpportunityInsights?
-    /// Specifies the type of involvement AWS has in the opportunity, such as direct co-sell or advisory support. This field helps partners understand the role AWS will play in advancing the opportunity.
+    /// Specifies the type of involvement AWS has in the opportunity, such as direct cosell or advisory support. This field helps partners understand the role AWS plays in advancing the opportunity.
     public var involvementType: PartnerCentralSellingClientTypes.SalesInvolvementType?
     /// Provides a reason for any changes in the involvement type of AWS in the opportunity. This field is used to track why the level of AWS engagement has changed from For Visibility Only to Co-sell offering transparency into the partnership dynamics.
     public var involvementTypeChangeReason: PartnerCentralSellingClientTypes.InvolvementTypeChangeReason?
     /// Contains lifecycle information for the AWS Opportunity, including review status, stage, and target close date. This field is crucial for partners to monitor the progression of the opportunity.
     public var lifeCycle: PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle?
-    /// Details the AWS Opportunity team, including key members involved in the opportunity. This information helps partners know who from AWS is engaged and their roles in the opportunity.
+    /// Details the AWS opportunity team, including members involved. This information helps partners know who from AWS is engaged and what their role is.
     public var opportunityTeam: [PartnerCentralSellingClientTypes.AwsTeamMember]?
     /// Specifies whether the AWS Opportunity originated from AWS or the partner. This helps distinguish between opportunities that were sourced by AWS and those referred by the partner.
     public var origin: PartnerCentralSellingClientTypes.OpportunityOrigin?
@@ -4748,7 +4761,7 @@ public struct GetAwsOpportunitySummaryOutput: Swift.Sendable {
 }
 
 public struct GetOpportunityInput: Swift.Sendable {
-    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is fetched from. Use AWS to retrieve opportunities in the Amazon Web Services catalog, and Sandbox to retrieve opportunities in a secure and isolated testing environment.
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is fetched from. Use AWS to retrieve opportunities in the Amazon Web Services catalog, and Sandbox to retrieve opportunities in a secure, isolated testing environment.
     /// This member is required.
     public var catalog: Swift.String?
     /// Read-only, system generated Opportunity unique identifier.
@@ -4773,7 +4786,7 @@ extension PartnerCentralSellingClientTypes {
         public var awsMarketplaceOffers: [Swift.String]?
         /// Enables the association of specific Amazon Web Services products with the Opportunity. Partners can indicate the relevant Amazon Web Services products for the Opportunity's solution and align with the customer's needs. Returns multiple values separated by commas. For example, "AWSProducts" : ["AmazonRedshift", "AWSAppFabric", "AWSCleanRooms"]. Use the file with the list of Amazon Web Services products hosted on GitHub: [ Amazon Web Services products](https://github.com/aws-samples/partner-crm-integration-samples/blob/main/resources/aws_products.json).
         public var awsProducts: [Swift.String]?
-        /// Enables partner solutions or offerings' association with an opportunity. To associate a solution, provide the solution's unique identifier, which you can obtain with the ListSolutions operation. If the specific solution identifier is not available, you can use the value Other and provide details about the solution in the otherSolutionOffered field. However, once the opportunity reaches the Committed stage or beyond, the Other value cannot be used, and a valid solution identifier must be provided. By associating the relevant solutions with the opportunity, you can clearly communicate the offerings that are being considered or implemented to address the customer's business problem.
+        /// Enables partner solutions or offerings' association with an opportunity. To associate a solution, provide the solution's unique identifier, which you can obtain with the ListSolutions operation. If the specific solution identifier is not available, you can use the value Other and provide details about the solution in the otherSolutionOffered field. But when the opportunity reaches the Committed stage or beyond, the Other value cannot be used, and a valid solution identifier must be provided. By associating the relevant solutions with the opportunity, you can communicate the offerings that are being considered or implemented to address the customer's business problem.
         public var solutions: [Swift.String]?
 
         public init(
@@ -4816,31 +4829,31 @@ public struct GetOpportunityOutput: Swift.Sendable {
     ///
     /// * New opportunity: Represents a new business opportunity with a potential customer that's not previously engaged with your solutions or services.
     ///
-    /// * Renewal opportunity: Represents an opportunity to renew an existing contract or subscription with a current customer, ensuring continuity of service.
+    /// * Renewal opportunity: Represents an opportunity to renew an existing contract or subscription with a current customer, which helps to ensure service continuity.
     ///
-    /// * Expansion opportunity: Represents an opportunity to expand the scope of an existing contract or subscription, either by adding new services or increasing the volume of existing services for a current customer.
+    /// * Expansion opportunity: Represents an opportunity to expand the scope of a customer's contract or subscription, either by adding new services or increasing the volume of existing services.
     public var opportunityType: PartnerCentralSellingClientTypes.OpportunityType?
     /// Specifies the opportunity's unique identifier in the partner's CRM system. This value is essential to track and reconcile because it's included in the outbound payload sent back to the partner.
     public var partnerOpportunityIdentifier: Swift.String?
     /// Identifies the type of support the partner needs from Amazon Web Services. Valid values:
     ///
-    /// * Co-Sell - Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.
+    /// * Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.
     ///
-    /// * Co-Sell - Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.
+    /// * Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.
     ///
-    /// * Co-Sell - Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.
+    /// * Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.
     ///
-    /// * Co-Sell - Pricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).
+    /// * Cosell—Pricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).
     ///
-    /// * Co-Sell - Technical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.
+    /// * Cosell—Technical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.
     ///
-    /// * Co-Sell - Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.
+    /// * Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.
     ///
-    /// * Co-Sell - Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).
+    /// * Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).
     ///
-    /// * Co-Sell - Support for Public Tender / RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx support.
+    /// * Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx support.
     ///
-    /// * Do Not Need Support from Amazon Web Services Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services sales representative, and the partner solely manages the opportunity. It's possible to request co-selling support on these opportunities at any stage during their lifecycle. Also known as, for-visibility-only (FVO) opportunity.
+    /// * Do Not Need Support from Amazon Web Services Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services sales representative, and the partner solely manages the opportunity. It's possible to request coselling support on these opportunities at any stage during their lifecycle. Also known as, for-visibility-only (FVO) opportunity.
     public var primaryNeedsFromAws: [PartnerCentralSellingClientTypes.PrimaryNeedFromAws]?
     /// An object that contains project details summary for the Opportunity.
     public var project: PartnerCentralSellingClientTypes.Project?
@@ -4961,7 +4974,7 @@ extension PartnerCentralSellingClientTypes {
 }
 
 public struct ListOpportunitiesInput: Swift.Sendable {
-    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for to test in a secure and isolated environment.
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     /// This member is required.
     public var catalog: Swift.String?
     /// Filters the opportunities based on the customer's company name. This allows partners to search for opportunities associated with a specific customer by matching the provided company name string.
@@ -4974,7 +4987,7 @@ public struct ListOpportunitiesInput: Swift.Sendable {
     public var lifeCycleReviewStatus: [PartnerCentralSellingClientTypes.ReviewStatus]?
     /// Filters the opportunities based on their lifecycle stage. This filter allows partners to retrieve opportunities at various stages in the sales cycle, such as Qualified, Technical Validation, Business Validation, or Closed Won.
     public var lifeCycleStage: [PartnerCentralSellingClientTypes.Stage]?
-    /// Specifies the maximum number of results to return in a single call. This limits the number of opportunities returned in the response to avoid overloading with too many results at once. Default: 20
+    /// Specifies the maximum number of results to return in a single call. This limits the number of opportunities returned in the response to avoid providing too many results at once. Default: 20
     public var maxResults: Swift.Int?
     /// A pagination token used to retrieve the next set of results in subsequent calls. This token is included in the response only if there are additional result pages available.
     public var nextToken: Swift.String?
@@ -5029,7 +5042,7 @@ extension PartnerCentralSellingClientTypes {
         public var closedLostReason: PartnerCentralSellingClientTypes.ClosedLostReason?
         /// Specifies the upcoming actions or tasks for the Opportunity. This field is utilized to communicate to Amazon Web Services the next actions required for the Opportunity.
         public var nextSteps: Swift.String?
-        /// Indicates why an opportuntiy was sent back for further details. Partners must take corrective action based on the ReviewComments.
+        /// Indicates why an opportunity was sent back for further details. Partners must take corrective action based on the ReviewComments.
         public var reviewComments: Swift.String?
         /// Indicates the review status of a partner referred opportunity. This field is read-only and only applicable for partner referrals. Valid values:
         ///
@@ -5076,11 +5089,11 @@ extension PartnerCentralSellingClientTypes {
         ///
         /// * Prospect: Amazon Web Services identifies the opportunity. It can be active (Comes directly from the end customer through a lead) or latent (Your account team believes it exists based on research, account plans, sales plays).
         ///
-        /// * Qualified: Your account team engaged with the prospect/end customer to discuss viability and understand requirements. The prospect/end customer agreed that the opportunity is real, of interest, and may solve key business/technical needs.
+        /// * Qualified: Your account team engaged with the customer to discuss viability and understand requirements. The customer agreed that the opportunity is real, of interest, and may solve business/technical needs.
         ///
         /// * Technical Validation: All parties understand the implementation plan.
         ///
-        /// * Business Validation: Pricing has been proposed, Pricing was proposed, and all parties agree to the steps to close.
+        /// * Business Validation: Pricing was proposed, and all parties agree to the steps to close.
         ///
         /// * Committed: The customer signed the contract, but Amazon Web Services hasn't started billing.
         ///
@@ -5222,10 +5235,10 @@ public struct ListOpportunitiesOutput: Swift.Sendable {
 }
 
 public struct UpdateOpportunityInput: Swift.Sendable {
-    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is updated in. Use AWS to update real opportunities in the production environment, and Sandbox to test in a secure and isolated environment. When you use the Sandbox catalog, it allows you to simulate and validate your interactions with Amazon Web Services services without affecting live data or operations.
+    /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is updated in. Use AWS to update real opportunities in the production environment, and Sandbox for testing in secure, isolated environments. When you use the Sandbox catalog, it allows you to simulate and validate your interactions with Amazon Web Services services without affecting live data or operations.
     /// This member is required.
     public var catalog: Swift.String?
-    /// Specifies details of the customer associated with the Opportunity .
+    /// Specifies details of the customer associated with the Opportunity.
     public var customer: PartnerCentralSellingClientTypes.Customer?
     /// Read-only, system generated Opportunity unique identifier.
     /// This member is required.
@@ -5237,7 +5250,7 @@ public struct UpdateOpportunityInput: Swift.Sendable {
     public var lifeCycle: PartnerCentralSellingClientTypes.LifeCycle?
     /// An object that contains marketing details for the Opportunity.
     public var marketing: PartnerCentralSellingClientTypes.Marketing?
-    /// Specifies if the opportunity is associated with national security concerns. This flag is only applicable when the industry is Government. For national security-related opportunities, specific validation and compliance rules may apply, impacting the opportunity's visibility and processing.
+    /// Specifies if the opportunity is associated with national security concerns. This flag is only applicable when the industry is Government. For national-security-related opportunities, validation and compliance rules may apply, impacting the opportunity's visibility and processing.
     public var nationalSecurity: PartnerCentralSellingClientTypes.NationalSecurity?
     /// Specifies the opportunity type as a renewal, new, or expansion. Opportunity types:
     ///
@@ -5251,23 +5264,23 @@ public struct UpdateOpportunityInput: Swift.Sendable {
     public var partnerOpportunityIdentifier: Swift.String?
     /// Identifies the type of support the partner needs from Amazon Web Services. Valid values:
     ///
-    /// * Co-Sell - Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.
+    /// * Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.
     ///
-    /// * Co-Sell - Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.
+    /// * Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.
     ///
-    /// * Co-Sell - Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.
+    /// * Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.
     ///
-    /// * Co-Sell - Pricing Assistance: Connect with an AWS seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).
+    /// * Cosell—Pricing Assistance: Connect with an AWS seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).
     ///
-    /// * Co-Sell - Technical Consultation: Connection with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.
+    /// * Cosell—Technical Consultation: Connection with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.
     ///
-    /// * Co-Sell - Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.
+    /// * Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.
     ///
-    /// * Co-Sell - Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).
+    /// * Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).
     ///
-    /// * Co-Sell - Support for Public Tender / RFx: Opportunity related to the public sector where the partner needs RFx support from Amazon Web Services.
+    /// * Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs RFx support from Amazon Web Services.
     ///
-    /// * Do Not Need Support from AWS Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services Sales representative. The opportunity is managed solely by the partner. It's possible to request co-selling support on these opportunities at any stage during their lifecycle. Also known as, for-visibility-only (FVO) opportunity.
+    /// * Do Not Need Support from AWS Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services Sales representative. The opportunity is managed solely by the partner. It's possible to request coselling support on these opportunities at any stage during their lifecycle. Also known as, for-visibility-only (FVO) opportunity.
     public var primaryNeedsFromAws: [PartnerCentralSellingClientTypes.PrimaryNeedFromAws]?
     /// An object that contains project details summary for the Opportunity.
     public var project: PartnerCentralSellingClientTypes.Project?
@@ -5428,7 +5441,7 @@ public struct ListSolutionsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// Object that configures sorting done on the response. Default Sort.SortBy is Identifier.
     public var sort: PartnerCentralSellingClientTypes.SolutionSort?
-    /// Filters the solutions based on their status. This filter helps retrieve solutions with statuses such as Active, Inactive, or Pending Approval, allowing partners to manage their solution portfolios effectively.
+    /// Filters solutions based on their status. This filter helps partners manage their solution portfolios effectively.
     public var status: [PartnerCentralSellingClientTypes.SolutionStatus]?
 
     public init(
