@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DLMClient: ClientRuntime.Client {
     public static let clientName = "DLMClient"
-    public static let version = "1.0.42"
+    public static let version = "1.0.43"
     let client: ClientRuntime.SdkHttpClient
     let config: DLMClient.DLMClientConfiguration
     let serviceName = "DLM"

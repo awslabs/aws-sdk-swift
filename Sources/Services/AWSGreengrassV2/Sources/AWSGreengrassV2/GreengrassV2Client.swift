@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GreengrassV2Client: ClientRuntime.Client {
     public static let clientName = "GreengrassV2Client"
-    public static let version = "1.0.42"
+    public static let version = "1.0.43"
     let client: ClientRuntime.SdkHttpClient
     let config: GreengrassV2Client.GreengrassV2ClientConfiguration
     let serviceName = "GreengrassV2"

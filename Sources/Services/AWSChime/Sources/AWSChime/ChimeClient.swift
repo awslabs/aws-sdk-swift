@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeClient: ClientRuntime.Client {
     public static let clientName = "ChimeClient"
-    public static let version = "1.0.42"
+    public static let version = "1.0.43"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeClient.ChimeClientConfiguration
     let serviceName = "Chime"

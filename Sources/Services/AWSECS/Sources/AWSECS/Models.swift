@@ -286,7 +286,7 @@ extension ECSClientTypes {
         public var instanceWarmupPeriod: Swift.Int?
         /// The maximum number of Amazon EC2 instances that Amazon ECS will scale out at one time. If this parameter is omitted, the default value of 10000 is used.
         public var maximumScalingStepSize: Swift.Int?
-        /// The minimum number of Amazon EC2 instances that Amazon ECS will scale out at one time. If this parameter is omitted, the default value of 1 is used. When additional capacity is required, Amazon ECS will scale up the minimum scaling step size even if the actual demand is less than the minimum scaling step size. If you use a capacity provider with an Auto Scaling group configured with more than one Amazon EC2 instance type or Availability Zone, Amazon ECS will scale up by the exact minimum scaling step size value and will ignore both the maximum scaling step size as well as the capacity demand.
+        /// The minimum number of Amazon EC2 instances that Amazon ECS will scale out at one time. The scale in process is not affected by this parameter If this parameter is omitted, the default value of 1 is used. When additional capacity is required, Amazon ECS will scale up the minimum scaling step size even if the actual demand is less than the minimum scaling step size. If you use a capacity provider with an Auto Scaling group configured with more than one Amazon EC2 instance type or Availability Zone, Amazon ECS will scale up by the exact minimum scaling step size value and will ignore both the maximum scaling step size as well as the capacity demand.
         public var minimumScalingStepSize: Swift.Int?
         /// Determines whether to use managed scaling for the capacity provider.
         public var status: ECSClientTypes.ManagedScalingStatus?
@@ -699,7 +699,7 @@ extension ECSClientTypes {
     public struct ManagedStorageConfiguration: Swift.Sendable {
         /// Specify the Key Management Service key ID for the Fargate ephemeral storage.
         public var fargateEphemeralStorageKmsKeyId: Swift.String?
-        /// Specify a Amazon Web Services Key Management Service key ID to encrypt the managed storage.
+        /// Specify a Key Management Service key ID to encrypt the managed storage.
         public var kmsKeyId: Swift.String?
 
         public init(
@@ -1204,7 +1204,7 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// Optional deployment parameters that control how many tasks run during the deployment and the failure detection methods.
+    /// Optional deployment parameters that control how many tasks run during a deployment and the ordering of stopping and starting tasks.
     public struct DeploymentConfiguration: Swift.Sendable {
         /// Information about the CloudWatch alarms.
         public var alarms: ECSClientTypes.DeploymentAlarms?
@@ -1335,7 +1335,7 @@ extension ECSClientTypes {
         public var containerName: Swift.String?
         /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the task definition the tasks in the service are using. For tasks that use the EC2 launch type, the container instance they're launched on must allow ingress traffic on the hostPort of the port mapping.
         public var containerPort: Swift.Int?
-        /// The name of the load balancer to associate with the service or task set. If you are using an Application Load Balancer or a Network Load Balancer the load balancer name parameter should be omitted.
+        /// The name of the load balancer to associate with the Amazon ECS service or task set. If you are using an Application Load Balancer or a Network Load Balancer the load balancer name parameter should be omitted.
         public var loadBalancerName: Swift.String?
         /// The full Amazon Resource Name (ARN) of the Elastic Load Balancing target group or groups associated with a service or task set. A target group ARN is only specified when using an Application Load Balancer or Network Load Balancer. For services using the ECS deployment controller, you can specify one or multiple target groups. For more information, see [Registering multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services using the CODE_DEPLOY deployment controller, you're required to define two target groups for the load balancer. For more information, see [Blue/green deployment with CodeDeploy](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-bluegreen.html) in the Amazon Elastic Container Service Developer Guide. If your service's task definition uses the awsvpc network mode, you must choose ip as the target type, not instance. Do this when creating your target groups because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance. This network mode is required for the Fargate launch type.
         public var targetGroupArn: Swift.String?
@@ -2067,6 +2067,33 @@ extension ECSClientTypes {
     }
 }
 
+extension ECSClientTypes {
+
+    /// The VPC Lattice configuration for your service that holds the information for the target group(s) Amazon ECS tasks will be registered to.
+    public struct VpcLatticeConfiguration: Swift.Sendable {
+        /// The name of the port mapping to register in the VPC Lattice target group. This is the name of the portMapping you defined in your task definition.
+        /// This member is required.
+        public var portName: Swift.String?
+        /// The ARN of the IAM role to associate with this VPC Lattice configuration. This is the Amazon ECS  infrastructure IAM role that is used to manage your VPC Lattice infrastructure.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The full Amazon Resource Name (ARN) of the target group or groups associated with the VPC Lattice configuration that the Amazon ECS tasks will be registered to.
+        /// This member is required.
+        public var targetGroupArn: Swift.String?
+
+        public init(
+            portName: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            targetGroupArn: Swift.String? = nil
+        )
+        {
+            self.portName = portName
+            self.roleArn = roleArn
+            self.targetGroupArn = targetGroupArn
+        }
+    }
+}
+
 public struct CreateServiceInput: Swift.Sendable {
     /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy may contain a maximum of 6 capacity providers.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
@@ -2074,7 +2101,7 @@ public struct CreateServiceInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The short name or full Amazon Resource Name (ARN) of the cluster that you run your service on. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
-    /// Optional deployment parameters that control how many tasks run during the deployment and the failure detection methods.
+    /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
     public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
     /// The deployment controller to use for the service. If no deployment controller is specified, the default value of ECS is used.
     public var deploymentController: ECSClientTypes.DeploymentController?
@@ -2084,7 +2111,7 @@ public struct CreateServiceInput: Swift.Sendable {
     public var enableECSManagedTags: Swift.Bool?
     /// Determines whether the execute command functionality is turned on for the service. If true, this enables execute command functionality on all containers in the service tasks.
     public var enableExecuteCommand: Swift.Bool?
-    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks after a task has first started. This is only used when your service is configured to use a load balancer. If your service has a load balancer defined and you don't specify a health check grace period value, the default value of 0 is used. If you do not use an Elastic Load Balancing, we recommend that you use the startPeriod in the task definition health check parameters. For more information, see [Health check](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html). If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
+    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
     public var healthCheckGracePeriodSeconds: Swift.Int?
     /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
     public var launchType: ECSClientTypes.LaunchType?
@@ -2135,6 +2162,8 @@ public struct CreateServiceInput: Swift.Sendable {
     public var taskDefinition: Swift.String?
     /// The configuration for a volume specified in the task definition as a volume that is configured at launch time. Currently, the only supported volume type is an Amazon EBS volume.
     public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
+    /// The VPC Lattice configuration for the service being created.
+    public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
 
     public init(
         capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
@@ -2160,7 +2189,8 @@ public struct CreateServiceInput: Swift.Sendable {
         serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
         taskDefinition: Swift.String? = nil,
-        volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil
+        volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
+        vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
     )
     {
         self.capacityProviderStrategy = capacityProviderStrategy
@@ -2187,6 +2217,7 @@ public struct CreateServiceInput: Swift.Sendable {
         self.tags = tags
         self.taskDefinition = taskDefinition
         self.volumeConfigurations = volumeConfigurations
+        self.vpcLatticeConfigurations = vpcLatticeConfigurations
     }
 }
 
@@ -2194,7 +2225,7 @@ extension ECSClientTypes {
 
     /// The amount of ephemeral storage to allocate for the deployment.
     public struct DeploymentEphemeralStorage: Swift.Sendable {
-        /// Specify an Amazon Web Services Key Management Service key ID to encrypt the ephemeral storage for deployment.
+        /// Specify an Key Management Service key ID to encrypt the ephemeral storage for deployment.
         public var kmsKeyId: Swift.String?
 
         public init(
@@ -2302,6 +2333,8 @@ extension ECSClientTypes {
         public var updatedAt: Foundation.Date?
         /// The details of the volume that was configuredAtLaunch. You can configure different settings like the size, throughput, volumeType, and ecryption in [ServiceManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition.
         public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
+        /// The VPC Lattice configuration for the service deployment.
+        public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
 
         public init(
             capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
@@ -2323,7 +2356,8 @@ extension ECSClientTypes {
             status: Swift.String? = nil,
             taskDefinition: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
-            volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil
+            volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
+            vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
         )
         {
             self.capacityProviderStrategy = capacityProviderStrategy
@@ -2346,6 +2380,7 @@ extension ECSClientTypes {
             self.taskDefinition = taskDefinition
             self.updatedAt = updatedAt
             self.volumeConfigurations = volumeConfigurations
+            self.vpcLatticeConfigurations = vpcLatticeConfigurations
         }
     }
 }
@@ -2590,7 +2625,7 @@ extension ECSClientTypes {
 
     /// Details on a service within a cluster.
     public struct Service: Swift.Sendable {
-        /// The capacity provider strategy the service uses. When using DescribeServices, this field is omitted if the service was created using a launch type.
+        /// The capacity provider strategy the service uses. When using the DescribeServices API, this field is omitted if the service was created using a launch type.
         public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
         /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
         public var clusterArn: Swift.String?
@@ -2650,7 +2685,7 @@ extension ECSClientTypes {
         public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
         /// The status of the service. The valid values are ACTIVE, DRAINING, or INACTIVE.
         public var status: Swift.String?
-        /// The metadata that you apply to the service to help you categorize and organize them. Each tag consists of a key and an optional value. You define both the key and value. The following basic restrictions apply to tags:
+        /// The metadata that you apply to the service to help you categorize and organize them. Each tag consists of a key and an optional value. You define bot the key and value. The following basic restrictions apply to tags:
         ///
         /// * Maximum number of tags per resource - 50
         ///
@@ -3883,11 +3918,11 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// Port mappings expose your container's network ports to the outside world. this allows clients to access your application. It's also used for inter-container communication within the same task. For task definitions (both the Fargate and EC2 launch type) that use the awsvpc network mode, only specify the containerPort. The hostPort is always ignored, and the container port is automatically mapped to a random high-numbered port on the host. Most fields of this parameter (containerPort, hostPort, protocol) maps to PortBindings in the docker container create command and the --publish option to docker run. If the network mode of a task definition is set to host, host ports must either be undefined or match the container port in the port mapping. You can't expose the same container port for multiple protocols. If you attempt this, an error is returned. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the networkBindings section of [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) API responses.
+    /// Port mappings allow containers to access ports on the host container instance to send or receive traffic. Port mappings are specified as part of the container definition. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. The hostPort can be left blank or it must be the same value as the containerPort. Most fields of this parameter (containerPort, hostPort, protocol) maps to PortBindings in the docker container create command and the --publish option to docker run. If the network mode of a task definition is set to host, host ports must either be undefined or match the container port in the port mapping. You can't expose the same container port for multiple protocols. If you attempt this, an error is returned. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the networkBindings section of [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) API responses.
     public struct PortMapping: Swift.Sendable {
         /// The application protocol that's used for the port mapping. This parameter only applies to Service Connect. We recommend that you set this parameter to be consistent with the protocol that your application uses. If you set this parameter, Amazon ECS adds protocol-specific connection handling to the Service Connect proxy. If you set this parameter, Amazon ECS adds protocol-specific telemetry in the Amazon ECS console and CloudWatch. If you don't set a value for this parameter, then TCP is used. However, Amazon ECS doesn't add protocol-specific telemetry for TCP. appProtocol is immutable in a Service Connect service. Updating this field requires a service deletion and redeployment. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
         public var appProtocol: ECSClientTypes.ApplicationProtocol?
-        /// The port number on the container that's bound to the user-specified or automatically assigned host port. For tasks that use the Fargate launch type or EC2 tasks that use the awsvpc network mode, you use containerPort to specify the exposed ports. For Windows containers on Fargate, you can't use port 3150 for the containerPort. This is because it's reserved. Suppose that you're using containers in a task with the EC2 launch type and you specify a container port and not a host port. Then, your container automatically receives a host port in the ephemeral port range. For more information, see hostPort. Port mappings that are automatically assigned in this way don't count toward the 100 reserved ports quota of a container instance.
+        /// The port number on the container that's bound to the user-specified or automatically assigned host port. If you use containers in a task with the awsvpc or host network mode, specify the exposed ports using containerPort. If you use containers in a task with the bridge network mode and you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range. For more information, see hostPort. Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
         public var containerPort: Swift.Int?
         /// The port number range on the container that's bound to the dynamically mapped host port range. The following rules apply when you specify a containerPortRange:
         ///
@@ -3932,7 +3967,7 @@ extension ECSClientTypes {
         ///
         /// If you use containers in a task with the awsvpc or host network mode, the hostPort can either be left blank or set to the same value as the containerPort. If you use containers in a task with the bridge network mode, you can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version. The default ephemeral port range for Docker version 1.6.0 and later is listed on the instance under /proc/sys/net/ipv4/ip_local_port_range. If this kernel parameter is unavailable, the default ephemeral port range from 49153 through 65535 (Linux) or 49152 through 65535 (Windows) is used. Do not attempt to specify a host port in the ephemeral port range as these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range. The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678-51680. Any host port that was previously specified in a running task is also reserved while the task is running. That is, after a task stops, the host port is released. The current reserved ports are displayed in the remainingResources of [DescribeContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeContainerInstances.html) output. A container instance can have up to 100 reserved ports at a time. This number includes the default reserved ports. Automatically assigned ports aren't included in the 100 reserved ports quota.
         public var hostPort: Swift.Int?
-        /// The name that's used for the port mapping. This parameter only applies to Service Connect. This parameter is the name that you use in the serviceConnectConfiguration of a service. The name can include up to 64 characters. The characters can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The name that's used for the port mapping. This parameter is the name that you use in the serviceConnectConfiguration and the vpcLatticeConfigurations of a service. The name can include up to 64 characters. The characters can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen.
         public var name: Swift.String?
         /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp. protocol is immutable in a Service Connect service. Updating this field requires a service deletion and redeployment.
         public var `protocol`: ECSClientTypes.TransportProtocol?
@@ -4756,9 +4791,9 @@ extension ECSClientTypes {
 
     /// Information about the platform for the Amazon ECS service or task. For more information about RuntimePlatform, see [RuntimePlatform](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#runtime-platform) in the Amazon Elastic Container Service Developer Guide.
     public struct RuntimePlatform: Swift.Sendable {
-        /// The CPU architecture. You can run your Linux tasks on an ARM-based platform by setting the value to ARM64. This option is available for tasks that run on Linux Amazon EC2 instance or Linux containers on Fargate. The default is X86_64.
+        /// The CPU architecture. You can run your Linux tasks on an ARM-based platform by setting the value to ARM64. This option is available for tasks that run on Linux Amazon EC2 instance or Linux containers on Fargate.
         public var cpuArchitecture: ECSClientTypes.CPUArchitecture?
-        /// The operating system. The default is Linux.
+        /// The operating system.
         public var operatingSystemFamily: ECSClientTypes.OSFamily?
 
         public init(
@@ -5111,7 +5146,7 @@ extension ECSClientTypes {
         public var family: Swift.String?
         /// The Elastic Inference accelerator that's associated with the task.
         public var inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]?
-        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see [IPC settings](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc) in the Docker run reference. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. For more information, see [Docker security](https://docs.docker.com/engine/security/security/). If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see [System Controls](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see [System Controls](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) in the Amazon Elastic Container Service Developer Guide.
         ///
         /// * For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.
         ///
@@ -5136,9 +5171,9 @@ extension ECSClientTypes {
         ///
         /// * Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
         public var memory: Swift.String?
-        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration] value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. For more information, see [Network settings](https://docs.docker.com/engine/reference/run/#network-settings) in the Docker run reference.
+        /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
         public var networkMode: ECSClientTypes.NetworkMode?
-        /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. For more information, see [PID settings](https://docs.docker.com/engine/reference/run/#pid-settings---pid) in the Docker run reference. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. For more information, see [Docker security](https://docs.docker.com/engine/security/security/). This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+        /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
         public var pidMode: ECSClientTypes.PidMode?
         /// An array of placement constraint objects to use for tasks. This parameter isn't supported for tasks run on Fargate.
         public var placementConstraints: [ECSClientTypes.TaskDefinitionPlacementConstraint]?
@@ -6038,7 +6073,7 @@ extension ECSClientTypes {
         public var createdAt: Foundation.Date?
         /// The circuit breaker configuration that determines a service deployment failed.
         public var deploymentCircuitBreaker: ECSClientTypes.ServiceDeploymentCircuitBreaker?
-        /// Optional deployment parameters that control how many tasks run during the deployment and the failure detection methods.
+        /// Optional deployment parameters that control how many tasks run during a deployment and the ordering of stopping and starting tasks.
         public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
         /// The time the service deployment finished. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
         public var finishedAt: Foundation.Date?
@@ -6197,6 +6232,8 @@ extension ECSClientTypes {
         public var taskDefinition: Swift.String?
         /// The volumes that are configured at deployment that the service revision uses.
         public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
+        /// The VPC Lattice configuration for the service revision.
+        public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
 
         public init(
             capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
@@ -6215,7 +6252,8 @@ extension ECSClientTypes {
             serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
             serviceRevisionArn: Swift.String? = nil,
             taskDefinition: Swift.String? = nil,
-            volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil
+            volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
+            vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
         )
         {
             self.capacityProviderStrategy = capacityProviderStrategy
@@ -6235,6 +6273,7 @@ extension ECSClientTypes {
             self.serviceRevisionArn = serviceRevisionArn
             self.taskDefinition = taskDefinition
             self.volumeConfigurations = volumeConfigurations
+            self.vpcLatticeConfigurations = vpcLatticeConfigurations
         }
     }
 }
@@ -6729,7 +6768,7 @@ extension ECSClientTypes {
 
     /// The amount of ephemeral storage to allocate for the task.
     public struct TaskEphemeralStorage: Swift.Sendable {
-        /// Specify an Amazon Web Services Key Management Service key ID to encrypt the ephemeral storage for the task.
+        /// Specify an Key Management Service key ID to encrypt the ephemeral storage for the task.
         public var kmsKeyId: Swift.String?
         /// The total amount, in GiB, of the ephemeral storage to set for the task. The minimum supported value is 20 GiB and the maximum supported value is  200 GiB.
         public var sizeInGiB: Swift.Int
@@ -8496,7 +8535,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     public var family: Swift.String?
     /// The Elastic Inference accelerators to use for the containers in the task.
     public var inferenceAccelerators: [ECSClientTypes.InferenceAccelerator]?
-    /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see [IPC settings](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc) in the Docker run reference. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. For more information, see [Docker security](https://docs.docker.com/engine/security/security/). If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see [System Controls](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) in the Amazon Elastic Container Service Developer Guide.
+    /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, then all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, then IPC resources within the containers of a task are private and not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. If the host IPC mode is used, be aware that there is a heightened risk of undesired IPC namespace expose. If you are setting namespaced kernel parameters using systemControls for the containers in the task, the following will apply to your IPC resource namespace. For more information, see [System Controls](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// * For tasks that use the host IPC mode, IPC namespace related systemControls are not supported.
     ///
@@ -8521,9 +8560,9 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     ///
     /// * Between 32GB and 120 GB in 8 GB increments - Available cpu values: 16384 (16 vCPU) This option requires Linux platform 1.4.0 or later.
     public var memory: Swift.String?
-    /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration] value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used. For more information, see [Network settings](https://docs.docker.com/engine/reference/run/#network-settings) in the Docker run reference.
+    /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
     public var networkMode: ECSClientTypes.NetworkMode?
-    /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. For more information, see [PID settings](https://docs.docker.com/engine/reference/run/#pid-settings---pid) in the Docker run reference. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. For more information, see [Docker security](https://docs.docker.com/engine/security/security/). This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+    /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
     public var pidMode: ECSClientTypes.PidMode?
     /// An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
     public var placementConstraints: [ECSClientTypes.TaskDefinitionPlacementConstraint]?
@@ -9567,7 +9606,7 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
-    /// Optional deployment parameters that control how many tasks run during the deployment and the failure detection methods.
+    /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
     public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
     /// The number of instantiations of the task to place and keep running in your service.
     public var desiredCount: Swift.Int?
@@ -9577,7 +9616,7 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var enableExecuteCommand: Swift.Bool?
     /// Determines whether to force a new deployment of the service. By default, deployments aren't forced. You can use this option to start a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
     public var forceNewDeployment: Swift.Bool?
-    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks after a task has first started. This is only valid if your service is configured to use a load balancer. If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 2,147,483,647 seconds. During that time, the Amazon ECS service scheduler ignores the Elastic Load Balancing health check status. This grace period can prevent the ECS service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
+    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
     public var healthCheckGracePeriodSeconds: Swift.Int?
     /// A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
@@ -9602,6 +9641,8 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var taskDefinition: Swift.String?
     /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in [ServiceManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition. If set to null, no new deployment is triggered. Otherwise, if this configuration differs from the existing one, it triggers a new deployment.
     public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
+    /// An object representing the VPC Lattice configuration for the service being updated.
+    public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
 
     public init(
         capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
@@ -9622,7 +9663,8 @@ public struct UpdateServiceInput: Swift.Sendable {
         serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
         serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
         taskDefinition: Swift.String? = nil,
-        volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil
+        volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]? = nil,
+        vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
     )
     {
         self.capacityProviderStrategy = capacityProviderStrategy
@@ -9644,6 +9686,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         self.serviceRegistries = serviceRegistries
         self.taskDefinition = taskDefinition
         self.volumeConfigurations = volumeConfigurations
+        self.vpcLatticeConfigurations = vpcLatticeConfigurations
     }
 }
 
@@ -10248,6 +10291,7 @@ extension CreateServiceInput {
         try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["taskDefinition"].write(value.taskDefinition)
         try writer["volumeConfigurations"].writeList(value.volumeConfigurations, memberWritingClosure: ECSClientTypes.ServiceVolumeConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcLatticeConfigurations"].writeList(value.vpcLatticeConfigurations, memberWritingClosure: ECSClientTypes.VpcLatticeConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -10861,6 +10905,7 @@ extension UpdateServiceInput {
         try writer["serviceRegistries"].writeList(value.serviceRegistries, memberWritingClosure: ECSClientTypes.ServiceRegistry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["taskDefinition"].write(value.taskDefinition)
         try writer["volumeConfigurations"].writeList(value.volumeConfigurations, memberWritingClosure: ECSClientTypes.ServiceVolumeConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcLatticeConfigurations"].writeList(value.vpcLatticeConfigurations, memberWritingClosure: ECSClientTypes.VpcLatticeConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -13439,6 +13484,26 @@ extension ECSClientTypes.Deployment {
         value.serviceConnectResources = try reader["serviceConnectResources"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceConnectServiceResource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.volumeConfigurations = try reader["volumeConfigurations"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceVolumeConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.fargateEphemeralStorage = try reader["fargateEphemeralStorage"].readIfPresent(with: ECSClientTypes.DeploymentEphemeralStorage.read(from:))
+        value.vpcLatticeConfigurations = try reader["vpcLatticeConfigurations"].readListIfPresent(memberReadingClosure: ECSClientTypes.VpcLatticeConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.VpcLatticeConfiguration {
+
+    static func write(value: ECSClientTypes.VpcLatticeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["portName"].write(value.portName)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["targetGroupArn"].write(value.targetGroupArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.VpcLatticeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.VpcLatticeConfiguration()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.targetGroupArn = try reader["targetGroupArn"].readIfPresent() ?? ""
+        value.portName = try reader["portName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14743,6 +14808,7 @@ extension ECSClientTypes.ServiceRevision {
         value.volumeConfigurations = try reader["volumeConfigurations"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceVolumeConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.fargateEphemeralStorage = try reader["fargateEphemeralStorage"].readIfPresent(with: ECSClientTypes.DeploymentEphemeralStorage.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vpcLatticeConfigurations = try reader["vpcLatticeConfigurations"].readListIfPresent(memberReadingClosure: ECSClientTypes.VpcLatticeConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

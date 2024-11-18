@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudDirectoryClient: ClientRuntime.Client {
     public static let clientName = "CloudDirectoryClient"
-    public static let version = "1.0.42"
+    public static let version = "1.0.43"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudDirectoryClient.CloudDirectoryClientConfiguration
     let serviceName = "CloudDirectory"

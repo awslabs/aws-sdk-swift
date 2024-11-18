@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectoryClient: ClientRuntime.Client {
     public static let clientName = "DirectoryClient"
-    public static let version = "1.0.42"
+    public static let version = "1.0.43"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectoryClient.DirectoryClientConfiguration
     let serviceName = "Directory"
