@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SyntheticsClient: ClientRuntime.Client {
     public static let clientName = "SyntheticsClient"
-    public static let version = "1.0.41"
+    public static let version = "1.0.42"
     let client: ClientRuntime.SdkHttpClient
     let config: SyntheticsClient.SyntheticsClientConfiguration
     let serviceName = "synthetics"

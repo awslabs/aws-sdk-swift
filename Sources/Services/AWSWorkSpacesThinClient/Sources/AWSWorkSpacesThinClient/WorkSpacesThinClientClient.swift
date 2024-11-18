@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkSpacesThinClientClient: ClientRuntime.Client {
     public static let clientName = "WorkSpacesThinClientClient"
-    public static let version = "1.0.41"
+    public static let version = "1.0.42"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkSpacesThinClientClient.WorkSpacesThinClientClientConfiguration
     let serviceName = "WorkSpaces Thin Client"
