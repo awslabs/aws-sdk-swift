@@ -49,62 +49,95 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
 
     func testNormalPayloadSha256() async throws {
         let checksumAlgorithm = "sha256"
-        let testData = ByteStream.data(Data("Hello, world!".utf8))
+        let testData = ByteStream.data(Data("Hello world".utf8))
         setNormalPayload(payload: testData)
         addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
         addFlexibleChecksumsResponseMiddleware("ENABLED")
         try await AssertHeaderIsPresentAndValidationOccurs(
             expectedHeader: "x-amz-checksum-sha256",
             responseBody: testData,
-            expectedChecksum: "MV9b23bQeMQ7isAGTkoBZGErH853yGk0W/yUx1iU7dM="
+            expectedChecksum: "ZOyIygCyaOW6GjVnihtTFtIS9PNmskdyMlNKiuyjfzw="
         )
     }
 
     func testNormalPayloadSha1() async throws {
         let checksumAlgorithm = "sha1"
-        let testData = ByteStream.data(Data("Hello, world!".utf8))
+        let testData = ByteStream.data(Data("Hello world".utf8))
         setNormalPayload(payload: testData)
         addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
         addFlexibleChecksumsResponseMiddleware("ENABLED")
         try await AssertHeaderIsPresentAndValidationOccurs(
             expectedHeader: "x-amz-checksum-sha1",
             responseBody: testData,
-            expectedChecksum: "lDpwLQbzRZmu4fjajvn3KWAx1pk="
+            expectedChecksum: "e1AsOh9IyGCa4hLN+2Od7jlnP14="
         )
     }
 
     func testNormalPayloadCRC32() async throws {
         let checksumAlgorithm = "crc32"
-        let testData = ByteStream.data(Data("Hello, world!".utf8))
+        let testData = ByteStream.data(Data("Hello world".utf8))
         setNormalPayload(payload: testData)
         addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
         addFlexibleChecksumsResponseMiddleware("ENABLED")
         try await AssertHeaderIsPresentAndValidationOccurs(
             expectedHeader: "x-amz-checksum-crc32",
             responseBody: testData,
-            expectedChecksum: "6+bG5g=="
+            expectedChecksum: "i9aeUg=="
         )
     }
 
     func testNormalPayloadCRC32C() async throws {
         let checksumAlgorithm = "crc32c"
-        let testData = ByteStream.data(Data("Hello, world!".utf8))
+        let testData = ByteStream.data(Data("Hello world".utf8))
         setNormalPayload(payload: testData)
         addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
         addFlexibleChecksumsResponseMiddleware("ENABLED")
         try await AssertHeaderIsPresentAndValidationOccurs(
             expectedHeader: "x-amz-checksum-crc32c",
             responseBody: testData,
-            expectedChecksum: "yKEG5Q=="
+            expectedChecksum: "crUfeA=="
         )
     }
 
-    func testUseDefaultChecksumAlgorithm() async throws {
-        let testData = ByteStream.data(Data("Hello, world!".utf8))
+    func testNormalPayloadCRC64NVME() async throws {
+        let checksumAlgorithm = "crc64nvme"
+        let testData = ByteStream.data(Data("Hello world".utf8))
         setNormalPayload(payload: testData)
+        addFlexibleChecksumsRequestMiddleware(true, checksumAlgorithm)
+        addFlexibleChecksumsResponseMiddleware("ENABLED")
+        try await AssertHeaderIsPresentAndValidationOccurs(
+            expectedHeader: "x-amz-checksum-crc64nvme",
+            responseBody: testData,
+            expectedChecksum: "OOJZ0D8xKts="
+        )
+    }
+
+    func testUseDefaultChecksumAlgorithm1() async throws {
+        let testData = ByteStream.data(Data("Hello world".utf8))
+        setNormalPayload(payload: testData)
+        builder.attributes.responseChecksumValidation = .whenRequired
         addFlexibleChecksumsRequestMiddleware(false, nil)
         addFlexibleChecksumsResponseMiddleware("unset")
         try await AssertHeaderIsPresentAndValidationOccurs(
+            expectedHeader: "x-amz-checksum-crc32",
+            checkLogs: [
+                "No algorithm chosen by user. Defaulting to CRC32 checksum algorithm.",
+                "Checksum validation should not be performed! Skipping workflow..."
+            ]
+        )
+    }
+
+    func testUseDefaultChecksumAlgorithm2() async throws {
+        let testData = ByteStream.data(Data("Hello world".utf8))
+        setNormalPayload(payload: testData)
+        builder.attributes.requestChecksumCalculation = .whenRequired
+        builder.attributes.responseChecksumValidation = .whenRequired
+        addFlexibleChecksumsRequestMiddleware(true, nil)
+        addFlexibleChecksumsResponseMiddleware("ENABLED")
+        try await AssertHeaderIsPresentAndValidationOccurs(
+            expectedHeader: "x-amz-checksum-crc32",
+            responseBody: testData,
+            expectedChecksum: "i9aeUg==",
             checkLogs: [
                 "No algorithm chosen by user. Defaulting to CRC32 checksum algorithm."
             ]
@@ -114,7 +147,6 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
     func testNoRequestChecksumCalculation() async throws {
         let testData = ByteStream.data(Data("Hello, world!".utf8))
         setNormalPayload(payload: testData)
-        // Change requestChecksumCalculation config to .whenRequired
         builder.attributes.requestChecksumCalculation = .whenRequired
         addFlexibleChecksumsRequestMiddleware(false, nil)
         addFlexibleChecksumsResponseMiddleware("unset")
@@ -128,7 +160,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
     }
 
     private func addFlexibleChecksumsRequestMiddleware(_ requestChecksumRequired: Bool, _ checksumAlgorithm: String?) {
-        builder.interceptors.add(FlexibleChecksumsRequestMiddleware<MockInput, MockOutput>(requestChecksumRequired: requestChecksumRequired, checksumAlgorithm: checksumAlgorithm))
+        builder.interceptors.add(FlexibleChecksumsRequestMiddleware<MockInput, MockOutput>(requestChecksumRequired: requestChecksumRequired, checksumAlgorithm: checksumAlgorithm, checksumAlgoHeaderName: "x-amz-checksum-algorithm"))
     }
 
     private func addFlexibleChecksumsResponseMiddleware(_ validationMode: String, _ priorityList: [String] = []) {
