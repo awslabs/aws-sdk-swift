@@ -68,13 +68,15 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
-        val algorithmMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()?.let {
+        val algorithmMemberName = httpChecksumTrait?.requestAlgorithmMember?.getOrNull()?.lowercaseFirstLetter()?.let {
             "input.$it?.rawValue"
         } ?: "nil"
         val requestChecksumIsRequired = httpChecksumTrait?.isRequestChecksumRequired
-        val algoHeaderName = ctx.model.expectShape(op.inputShape).getMember(algorithmMemberName)?.getOrNull()?.getTrait<HttpHeaderTrait>()?.value?.let {
-            "\"$it\""
-        } ?: "nil"
+        val algoHeaderName = if (httpChecksumTrait?.requestAlgorithmMember?.getOrNull() != null) {
+            ctx.model.expectShape(op.inputShape).getMember(httpChecksumTrait.requestAlgorithmMember.get())?.getOrNull()?.getTrait<HttpHeaderTrait>()?.value?.let {
+                "\"$it\""
+            } ?: "nil"
+        } else { "nil" }
 
         writer.write(
             "\$N<\$L, \$L>(requestChecksumRequired: \$L, checksumAlgorithm: \$L, checksumAlgoHeaderName: \$L)",
