@@ -73,9 +73,10 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 logger.info("No algorithm chosen by user. Defaulting to CRC32 checksum algorithm.")
                 // If the member specified by `requestAlgorithmMember` has `httpHeader` property set in model,
                 //   set the header specified in `httpHeader` with SDK's default algorithm: crc32
-                if let checksumAlgoHeaderName {
-                    builder.updateHeader(name: checksumAlgoHeaderName, value: "crc32")
-                }
+                // TODO: UNCOMMENT AFTER FEATURE RELEASE
+//                if let checksumAlgoHeaderName {
+//                    builder.updateHeader(name: checksumAlgoHeaderName, value: "crc32")
+//                }
             } else {
                 // If requestChecksumRequired == false AND RequestChecksumCalculation == when_required, skip calculation.
                 logger.info("Checksum not required for the operation.")
