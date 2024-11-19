@@ -1021,12 +1021,14 @@ extension OutpostsClientTypes {
 extension OutpostsClientTypes {
 
     public enum PaymentTerm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fiveYears
         case oneYear
         case threeYears
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PaymentTerm] {
             return [
+                .fiveYears,
                 .oneYear,
                 .threeYears
             ]
@@ -1039,6 +1041,7 @@ extension OutpostsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .fiveYears: return "FIVE_YEARS"
             case .oneYear: return "ONE_YEAR"
             case .threeYears: return "THREE_YEARS"
             case let .sdkUnknown(s): return s

@@ -1136,6 +1136,38 @@ extension PaginatorSequence where OperationStackInput == ListPrincipalThingsInpu
     }
 }
 extension IoTClient {
+    /// Paginate over `[ListPrincipalThingsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPrincipalThingsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPrincipalThingsV2Output`
+    public func listPrincipalThingsV2Paginated(input: ListPrincipalThingsV2Input) -> ClientRuntime.PaginatorSequence<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output> {
+        return ClientRuntime.PaginatorSequence<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPrincipalThingsV2(input:))
+    }
+}
+
+extension ListPrincipalThingsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPrincipalThingsV2Input {
+        return ListPrincipalThingsV2Input(
+            maxResults: self.maxResults,
+            nextToken: token,
+            principal: self.principal,
+            thingPrincipalType: self.thingPrincipalType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPrincipalThingsV2Input, OperationStackOutput == ListPrincipalThingsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listPrincipalThingsV2Paginated`
+    /// to access the nested member `[IoTClientTypes.PrincipalThingObject]`
+    /// - Returns: `[IoTClientTypes.PrincipalThingObject]`
+    public func principalThingObjects() async throws -> [IoTClientTypes.PrincipalThingObject] {
+        return try await self.asyncCompactMap { item in item.principalThingObjects }
+    }
+}
+extension IoTClient {
     /// Paginate over `[ListProvisioningTemplatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1601,6 +1633,38 @@ extension PaginatorSequence where OperationStackInput == ListThingPrincipalsInpu
     /// - Returns: `[Swift.String]`
     public func principals() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.principals }
+    }
+}
+extension IoTClient {
+    /// Paginate over `[ListThingPrincipalsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListThingPrincipalsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThingPrincipalsV2Output`
+    public func listThingPrincipalsV2Paginated(input: ListThingPrincipalsV2Input) -> ClientRuntime.PaginatorSequence<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output> {
+        return ClientRuntime.PaginatorSequence<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThingPrincipalsV2(input:))
+    }
+}
+
+extension ListThingPrincipalsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListThingPrincipalsV2Input {
+        return ListThingPrincipalsV2Input(
+            maxResults: self.maxResults,
+            nextToken: token,
+            thingName: self.thingName,
+            thingPrincipalType: self.thingPrincipalType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListThingPrincipalsV2Input, OperationStackOutput == ListThingPrincipalsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listThingPrincipalsV2Paginated`
+    /// to access the nested member `[IoTClientTypes.ThingPrincipalObject]`
+    /// - Returns: `[IoTClientTypes.ThingPrincipalObject]`
+    public func thingPrincipalObjects() async throws -> [IoTClientTypes.ThingPrincipalObject] {
+        return try await self.asyncCompactMap { item in item.thingPrincipalObjects }
     }
 }
 extension IoTClient {

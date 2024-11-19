@@ -7949,6 +7949,16 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// An object that describes the VPC configuration for a table optimizer. This configuration is necessary to perform optimization on tables that are in a customer VPC.
+    public enum TableOptimizerVpcConfiguration: Swift.Sendable {
+        /// The name of the Glue connection used for the VPC for the table optimizer.
+        case glueconnectionname(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GlueClientTypes {
+
     /// Contains details on the configuration of a table optimizer. You pass this configuration when creating or updating a table optimizer.
     public struct TableOptimizerConfiguration: Swift.Sendable {
         /// Whether table optimization is enabled.
@@ -7959,18 +7969,22 @@ extension GlueClientTypes {
         public var retentionConfiguration: GlueClientTypes.RetentionConfiguration?
         /// A role passed by the caller which gives the service permission to update the resources associated with the optimizer on the caller's behalf.
         public var roleArn: Swift.String?
+        /// A TableOptimizerVpcConfiguration object representing the VPC configuration for a table optimizer. This configuration is necessary to perform optimization on tables that are in a customer VPC.
+        public var vpcConfiguration: GlueClientTypes.TableOptimizerVpcConfiguration?
 
         public init(
             enabled: Swift.Bool? = nil,
             orphanFileDeletionConfiguration: GlueClientTypes.OrphanFileDeletionConfiguration? = nil,
             retentionConfiguration: GlueClientTypes.RetentionConfiguration? = nil,
-            roleArn: Swift.String? = nil
+            roleArn: Swift.String? = nil,
+            vpcConfiguration: GlueClientTypes.TableOptimizerVpcConfiguration? = nil
         )
         {
             self.enabled = enabled
             self.orphanFileDeletionConfiguration = orphanFileDeletionConfiguration
             self.retentionConfiguration = retentionConfiguration
             self.roleArn = roleArn
+            self.vpcConfiguration = vpcConfiguration
         }
     }
 }
@@ -12726,7 +12740,7 @@ public struct CreateTableOptimizerInput: Swift.Sendable {
     /// A TableOptimizerConfiguration object representing the configuration of a table optimizer.
     /// This member is required.
     public var tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration?
-    /// The type of table optimizer. Currently, the only valid value is compaction.
+    /// The type of table optimizer.
     /// This member is required.
     public var type: GlueClientTypes.TableOptimizerType?
 
@@ -21550,7 +21564,7 @@ public struct ListTableOptimizerRunsInput: Swift.Sendable {
     /// The name of the table.
     /// This member is required.
     public var tableName: Swift.String?
-    /// The type of table optimizer. Currently, the only valid value is compaction.
+    /// The type of table optimizer.
     /// This member is required.
     public var type: GlueClientTypes.TableOptimizerType?
 
@@ -24538,7 +24552,7 @@ public struct UpdateTableOptimizerInput: Swift.Sendable {
     /// A TableOptimizerConfiguration object representing the configuration of a table optimizer.
     /// This member is required.
     public var tableOptimizerConfiguration: GlueClientTypes.TableOptimizerConfiguration?
-    /// The type of table optimizer. Currently, the only valid value is compaction.
+    /// The type of table optimizer.
     /// This member is required.
     public var type: GlueClientTypes.TableOptimizerType?
 
@@ -40821,6 +40835,7 @@ extension GlueClientTypes.TableOptimizerConfiguration {
         try writer["orphanFileDeletionConfiguration"].write(value.orphanFileDeletionConfiguration, with: GlueClientTypes.OrphanFileDeletionConfiguration.write(value:to:))
         try writer["retentionConfiguration"].write(value.retentionConfiguration, with: GlueClientTypes.RetentionConfiguration.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
+        try writer["vpcConfiguration"].write(value.vpcConfiguration, with: GlueClientTypes.TableOptimizerVpcConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerConfiguration {
@@ -40828,6 +40843,7 @@ extension GlueClientTypes.TableOptimizerConfiguration {
         var value = GlueClientTypes.TableOptimizerConfiguration()
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.enabled = try reader["enabled"].readIfPresent()
+        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GlueClientTypes.TableOptimizerVpcConfiguration.read(from:))
         value.retentionConfiguration = try reader["retentionConfiguration"].readIfPresent(with: GlueClientTypes.RetentionConfiguration.read(from:))
         value.orphanFileDeletionConfiguration = try reader["orphanFileDeletionConfiguration"].readIfPresent(with: GlueClientTypes.OrphanFileDeletionConfiguration.read(from:))
         return value
@@ -40897,6 +40913,30 @@ extension GlueClientTypes.IcebergRetentionConfiguration {
         value.numberOfSnapshotsToRetain = try reader["numberOfSnapshotsToRetain"].readIfPresent()
         value.cleanExpiredFiles = try reader["cleanExpiredFiles"].readIfPresent()
         return value
+    }
+}
+
+extension GlueClientTypes.TableOptimizerVpcConfiguration {
+
+    static func write(value: GlueClientTypes.TableOptimizerVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .glueconnectionname(glueconnectionname):
+                try writer["glueConnectionName"].write(glueconnectionname)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerVpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "glueConnectionName":
+                return .glueconnectionname(try reader["glueConnectionName"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

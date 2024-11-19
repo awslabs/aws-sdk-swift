@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointSMSVoiceV2Client: ClientRuntime.Client {
     public static let clientName = "PinpointSMSVoiceV2Client"
-    public static let version = "1.0.41"
+    public static let version = "1.0.44"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointSMSVoiceV2Client.PinpointSMSVoiceV2ClientConfiguration
     let serviceName = "Pinpoint SMS Voice V2"
@@ -1927,6 +1927,80 @@ extension PinpointSMSVoiceV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteProtectConfigurationRuleSetNumberOverride` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Permanently delete the protect configuration rule set number override.
+    ///
+    /// - Parameter DeleteProtectConfigurationRuleSetNumberOverrideInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProtectConfigurationRuleSetNumberOverrideOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func deleteProtectConfigurationRuleSetNumberOverride(input: DeleteProtectConfigurationRuleSetNumberOverrideInput) async throws -> DeleteProtectConfigurationRuleSetNumberOverrideOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProtectConfigurationRuleSetNumberOverride")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(DeleteProtectConfigurationRuleSetNumberOverrideInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput>(DeleteProtectConfigurationRuleSetNumberOverrideOutput.httpOutput(from:), DeleteProtectConfigurationRuleSetNumberOverrideOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.DeleteProtectConfigurationRuleSetNumberOverride"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProtectConfigurationRuleSetNumberOverrideInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProtectConfigurationRuleSetNumberOverrideInput, DeleteProtectConfigurationRuleSetNumberOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProtectConfigurationRuleSetNumberOverride")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteRegistration` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Permanently delete an existing registration from your account.
@@ -3775,7 +3849,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `DescribeVerifiedDestinationNumbers` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Retrieves the specified verified destiona numbers.
+    /// Retrieves the specified verified destination numbers.
     ///
     /// - Parameter DescribeVerifiedDestinationNumbersInput : [no documentation found]
     ///
@@ -4295,9 +4369,83 @@ extension PinpointSMSVoiceV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListProtectConfigurationRuleSetNumberOverrides` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Retrieve all of the protect configuration rule set number overrides that match the filters.
+    ///
+    /// - Parameter ListProtectConfigurationRuleSetNumberOverridesInput : [no documentation found]
+    ///
+    /// - Returns: `ListProtectConfigurationRuleSetNumberOverridesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func listProtectConfigurationRuleSetNumberOverrides(input: ListProtectConfigurationRuleSetNumberOverridesInput) async throws -> ListProtectConfigurationRuleSetNumberOverridesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listProtectConfigurationRuleSetNumberOverrides")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(ListProtectConfigurationRuleSetNumberOverridesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput>(ListProtectConfigurationRuleSetNumberOverridesOutput.httpOutput(from:), ListProtectConfigurationRuleSetNumberOverridesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(xAmzTarget: "PinpointSMSVoiceV2.ListProtectConfigurationRuleSetNumberOverrides"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProtectConfigurationRuleSetNumberOverridesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProtectConfigurationRuleSetNumberOverridesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProtectConfigurationRuleSetNumberOverrides")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListRegistrationAssociations` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Retreive all of the origination identies that are associated with a registration.
+    /// Retrieve all of the origination identities that are associated with a registration.
     ///
     /// - Parameter ListRegistrationAssociationsInput : [no documentation found]
     ///
@@ -4519,6 +4667,80 @@ extension PinpointSMSVoiceV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutMessageFeedback` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId. If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED; Otherwise, an hour after the message feedback record is set to FAILED.
+    ///
+    /// - Parameter PutMessageFeedbackInput : [no documentation found]
+    ///
+    /// - Returns: `PutMessageFeedbackOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func putMessageFeedback(input: PutMessageFeedbackInput) async throws -> PutMessageFeedbackOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putMessageFeedback")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutMessageFeedbackInput, PutMessageFeedbackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(PutMessageFeedbackInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMessageFeedbackOutput>(PutMessageFeedbackOutput.httpOutput(from:), PutMessageFeedbackOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutMessageFeedbackOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutMessageFeedbackOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutMessageFeedback"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutMessageFeedbackInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMessageFeedbackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutMessageFeedbackInput, PutMessageFeedbackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutMessageFeedback")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutOptedOutNumber` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Creates an opted out destination phone number in the opt-out list. If the destination phone number isn't valid or if the specified opt-out list doesn't exist, an error is returned.
@@ -4581,6 +4803,82 @@ extension PinpointSMSVoiceV2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutOptedOutNumber")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutProtectConfigurationRuleSetNumberOverride` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Create or update a RuleSetNumberOverride and associate it with a protect configuration.
+    ///
+    /// - Parameter PutProtectConfigurationRuleSetNumberOverrideInput : [no documentation found]
+    ///
+    /// - Returns: `PutProtectConfigurationRuleSetNumberOverrideOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn't valid for the current state or configuration of the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func putProtectConfigurationRuleSetNumberOverride(input: PutProtectConfigurationRuleSetNumberOverrideInput) async throws -> PutProtectConfigurationRuleSetNumberOverrideOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putProtectConfigurationRuleSetNumberOverride")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(PutProtectConfigurationRuleSetNumberOverrideInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput>(PutProtectConfigurationRuleSetNumberOverrideOutput.httpOutput(from:), PutProtectConfigurationRuleSetNumberOverrideOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(xAmzTarget: "PinpointSMSVoiceV2.PutProtectConfigurationRuleSetNumberOverride"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutProtectConfigurationRuleSetNumberOverrideInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutProtectConfigurationRuleSetNumberOverrideInput, PutProtectConfigurationRuleSetNumberOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutProtectConfigurationRuleSetNumberOverride")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5411,6 +5709,80 @@ extension PinpointSMSVoiceV2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetAccountDefaultProtectConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SetDefaultMessageFeedbackEnabled` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Sets a configuration set's default for message feedback.
+    ///
+    /// - Parameter SetDefaultMessageFeedbackEnabledInput : [no documentation found]
+    ///
+    /// - Returns: `SetDefaultMessageFeedbackEnabledOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func setDefaultMessageFeedbackEnabled(input: SetDefaultMessageFeedbackEnabledInput) async throws -> SetDefaultMessageFeedbackEnabledOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "setDefaultMessageFeedbackEnabled")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(SetDefaultMessageFeedbackEnabledInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SetDefaultMessageFeedbackEnabledOutput>(SetDefaultMessageFeedbackEnabledOutput.httpOutput(from:), SetDefaultMessageFeedbackEnabledOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SetDefaultMessageFeedbackEnabledOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<SetDefaultMessageFeedbackEnabledOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(xAmzTarget: "PinpointSMSVoiceV2.SetDefaultMessageFeedbackEnabled"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SetDefaultMessageFeedbackEnabledInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetDefaultMessageFeedbackEnabledOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetDefaultMessageFeedbackEnabledInput, SetDefaultMessageFeedbackEnabledOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetDefaultMessageFeedbackEnabled")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -18,37 +18,25 @@ final class S3ConcurrentTests: S3XCTestCase {
     // Payload just below chunked threshold
     // Tests concurrent upload of simple data payloads
     func test_10x_1MB_getObject() async throws {
-        fileData = try generateDummyTextData(count: CHUNKED_THRESHOLD - 1)
+        fileData = generateRandomTextData(ofSizeInMB: 1)
         try await repeatConcurrentlyWithArgs(count: 10, test: getObject, args: fileData!)
     }
 
     // Payload at chunked threshold, just large enough to chunk
     // Tests concurrent upload with aws-chunked encoding & flexible checksums
     func test_10x_1_5MB_getObject() async throws {
-        fileData = try generateDummyTextData(count: CHUNKED_THRESHOLD)
+        fileData = generateRandomTextData(ofSizeInMB: 1.5)
         try await repeatConcurrentlyWithArgs(count: 10, test: getObject, args: fileData!)
     }
 
     // Payload 256 bytes with 200 concurrent requests, sends as simple data
     // Tests very high concurrency with small data payloads
     func test_200x_256B_getObject() async throws {
-        fileData = try generateDummyTextData(count: 256)
+        fileData = generateRandomTextData(ofSizeInBytes: 256)
         try await repeatConcurrentlyWithArgs(count: 200, test: getObject, args: fileData!)
     }
 
     // MARK: - Private methods
-
-    // Generates text data of the exact length requested
-    private func generateDummyTextData(count: Int) throws -> Data {
-        let segment = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-        let segmentData = Data(segment.utf8)
-        var wholeData = Data()
-        for _ in 0..<(count / segmentData.count + 1) {
-            wholeData.append(contentsOf: segmentData.shuffled())
-        }
-        // Truncate data to exactly the required length
-        return wholeData.subdata(in: 0..<count)
-    }
 
     // Puts data to S3, gets the uploaded file, asserts retrieved data == original data, deletes S3 object
     private func getObject(args: Any...) async throws {

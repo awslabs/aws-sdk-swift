@@ -253,6 +253,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSConnectCampaigns](../../../../../swift/api/awsconnectcampaigns/latest)
 
+[AWSConnectCampaignsV2](../../../../../swift/api/awsconnectcampaignsv2/latest)
+
 [AWSConnectCases](../../../../../swift/api/awsconnectcases/latest)
 
 [AWSConnectContactLens](../../../../../swift/api/awsconnectcontactlens/latest)

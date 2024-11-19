@@ -699,16 +699,20 @@ public struct AttachTrafficSourcesInput: Swift.Sendable {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
+    /// If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html) in the Amazon EC2 Auto Scaling User Guide.
+    public var skipZonalShiftValidation: Swift.Bool?
     /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources.
     /// This member is required.
     public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
 
     public init(
         autoScalingGroupName: Swift.String? = nil,
+        skipZonalShiftValidation: Swift.Bool? = nil,
         trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]? = nil
     )
     {
         self.autoScalingGroupName = autoScalingGroupName
+        self.skipZonalShiftValidation = skipZonalShiftValidation
         self.trafficSources = trafficSources
     }
 }
@@ -979,6 +983,55 @@ extension AutoScalingClientTypes {
         )
         {
             self.capacityDistributionStrategy = capacityDistributionStrategy
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    public enum ImpairedZoneHealthCheckBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ignoreunhealthy
+        case replaceunhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImpairedZoneHealthCheckBehavior] {
+            return [
+                .ignoreunhealthy,
+                .replaceunhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ignoreunhealthy: return "IgnoreUnhealthy"
+            case .replaceunhealthy: return "ReplaceUnhealthy"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Describes an Availability Zone impairment policy.
+    public struct AvailabilityZoneImpairmentPolicy: Swift.Sendable {
+        /// Specifies the health check behavior for the impaired Availability Zone in an active zonal shift. If you select Replace unhealthy, instances that appear unhealthy will be replaced in all Availability Zones. If you select Ignore unhealthy, instances will not be replaced in the Availability Zone with the active zonal shift. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html) in the Amazon EC2 Auto Scaling User Guide.
+        public var impairedZoneHealthCheckBehavior: AutoScalingClientTypes.ImpairedZoneHealthCheckBehavior?
+        /// If true, enable zonal shift for your Auto Scaling group.
+        public var zonalShiftEnabled: Swift.Bool?
+
+        public init(
+            impairedZoneHealthCheckBehavior: AutoScalingClientTypes.ImpairedZoneHealthCheckBehavior? = nil,
+            zonalShiftEnabled: Swift.Bool? = nil
+        )
+        {
+            self.impairedZoneHealthCheckBehavior = impairedZoneHealthCheckBehavior
+            self.zonalShiftEnabled = zonalShiftEnabled
         }
     }
 }
@@ -1728,6 +1781,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The instance capacity distribution across Availability Zones.
     public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+    /// The policy for Availability Zone impairment.
+    public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// A list of Availability Zones where instances in the Auto Scaling group can be created. Used for launching into the default VPC subnet in each Availability Zone when not using the VPCZoneIdentifier property, or for attaching a network interface when an existing network interface ID is specified in a launch template.
     public var availabilityZones: [Swift.String]?
     /// Indicates whether Capacity Rebalancing is enabled. Otherwise, Capacity Rebalancing is disabled. When you turn on Capacity Rebalancing, Amazon EC2 Auto Scaling attempts to launch a Spot Instance whenever Amazon EC2 notifies that a Spot Instance is at an elevated risk of interruption. After launching a new instance, it then terminates an old instance. For more information, see [Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html) in the in the Amazon EC2 Auto Scaling User Guide.
@@ -1774,6 +1829,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var placementGroup: Swift.String?
     /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see [Service-linked roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html) in the Amazon EC2 Auto Scaling User Guide.
     public var serviceLinkedRoleARN: Swift.String?
+    /// If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html) in the Amazon EC2 Auto Scaling User Guide.
+    public var skipZonalShiftValidation: Swift.Bool?
     /// One or more tags. You can tag your Auto Scaling group and propagate the tags to the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the launch template specifies an instance tag with a key that is also specified for the Auto Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the value specified by the Auto Scaling group. For more information, see [Tag Auto Scaling groups and instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html) in the Amazon EC2 Auto Scaling User Guide.
     public var tags: [AutoScalingClientTypes.Tag]?
     /// The Amazon Resource Names (ARN) of the Elastic Load Balancing target groups to associate with the Auto Scaling group. Instances are registered as targets with the target groups. The target groups receive incoming traffic and route requests to one or more registered targets. For more information, see [Use Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -1788,6 +1845,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+        availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
         context: Swift.String? = nil,
@@ -1810,6 +1868,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         newInstancesProtectedFromScaleIn: Swift.Bool? = nil,
         placementGroup: Swift.String? = nil,
         serviceLinkedRoleARN: Swift.String? = nil,
+        skipZonalShiftValidation: Swift.Bool? = nil,
         tags: [AutoScalingClientTypes.Tag]? = nil,
         targetGroupARNs: [Swift.String]? = nil,
         terminationPolicies: [Swift.String]? = nil,
@@ -1819,6 +1878,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     {
         self.autoScalingGroupName = autoScalingGroupName
         self.availabilityZoneDistribution = availabilityZoneDistribution
+        self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
         self.context = context
@@ -1841,6 +1901,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
         self.placementGroup = placementGroup
         self.serviceLinkedRoleARN = serviceLinkedRoleARN
+        self.skipZonalShiftValidation = skipZonalShiftValidation
         self.tags = tags
         self.targetGroupARNs = targetGroupARNs
         self.terminationPolicies = terminationPolicies
@@ -2822,6 +2883,8 @@ extension AutoScalingClientTypes {
         public var autoScalingGroupName: Swift.String?
         /// The instance capacity distribution across Availability Zones.
         public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+        /// The Availability Zone impairment policy.
+        public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
         /// One or more Availability Zones for the group.
         /// This member is required.
         public var availabilityZones: [Swift.String]?
@@ -2900,6 +2963,7 @@ extension AutoScalingClientTypes {
             autoScalingGroupARN: Swift.String? = nil,
             autoScalingGroupName: Swift.String? = nil,
             availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+            availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
             availabilityZones: [Swift.String]? = nil,
             capacityRebalance: Swift.Bool? = nil,
             context: Swift.String? = nil,
@@ -2938,6 +3002,7 @@ extension AutoScalingClientTypes {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
+            self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
             self.context = context
@@ -6367,6 +6432,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The instance capacity distribution across Availability Zones.
     public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
+    /// The policy for Availability Zone impairment.
+    public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// One or more Availability Zones for the group.
     public var availabilityZones: [Swift.String]?
     /// Enables or disables Capacity Rebalancing. For more information, see [Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -6405,6 +6472,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var placementGroup: Swift.String?
     /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see [Service-linked roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html) in the Amazon EC2 Auto Scaling User Guide.
     public var serviceLinkedRoleARN: Swift.String?
+    /// If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see [Auto Scaling group zonal shift](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html) in the Amazon EC2 Auto Scaling User Guide.
+    public var skipZonalShiftValidation: Swift.Bool?
     /// A policy or a list of policies that are used to select the instances to terminate. The policies are executed in the order that you list them. For more information, see [Configure termination policies for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html) in the Amazon EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy | ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration | OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
     public var terminationPolicies: [Swift.String]?
     /// A comma-separated list of subnet IDs for a virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those Availability Zones.
@@ -6413,6 +6482,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution? = nil,
+        availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
         context: Swift.String? = nil,
@@ -6432,12 +6502,14 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         newInstancesProtectedFromScaleIn: Swift.Bool? = nil,
         placementGroup: Swift.String? = nil,
         serviceLinkedRoleARN: Swift.String? = nil,
+        skipZonalShiftValidation: Swift.Bool? = nil,
         terminationPolicies: [Swift.String]? = nil,
         vpcZoneIdentifier: Swift.String? = nil
     )
     {
         self.autoScalingGroupName = autoScalingGroupName
         self.availabilityZoneDistribution = availabilityZoneDistribution
+        self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
         self.context = context
@@ -6457,6 +6529,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
         self.placementGroup = placementGroup
         self.serviceLinkedRoleARN = serviceLinkedRoleARN
+        self.skipZonalShiftValidation = skipZonalShiftValidation
         self.terminationPolicies = terminationPolicies
         self.vpcZoneIdentifier = vpcZoneIdentifier
     }
@@ -6955,6 +7028,7 @@ extension AttachTrafficSourcesInput {
     static func write(value: AttachTrafficSourcesInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
+        try writer["SkipZonalShiftValidation"].write(value.skipZonalShiftValidation)
         try writer["TrafficSources"].writeList(value.trafficSources, memberWritingClosure: AutoScalingClientTypes.TrafficSourceIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("AttachTrafficSources")
         try writer["Version"].write("2011-01-01")
@@ -7013,6 +7087,7 @@ extension CreateAutoScalingGroupInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["AvailabilityZoneDistribution"].write(value.availabilityZoneDistribution, with: AutoScalingClientTypes.AvailabilityZoneDistribution.write(value:to:))
+        try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
         try writer["Context"].write(value.context)
@@ -7035,6 +7110,7 @@ extension CreateAutoScalingGroupInput {
         try writer["NewInstancesProtectedFromScaleIn"].write(value.newInstancesProtectedFromScaleIn)
         try writer["PlacementGroup"].write(value.placementGroup)
         try writer["ServiceLinkedRoleARN"].write(value.serviceLinkedRoleARN)
+        try writer["SkipZonalShiftValidation"].write(value.skipZonalShiftValidation)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: AutoScalingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TargetGroupARNs"].writeList(value.targetGroupARNs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TerminationPolicies"].writeList(value.terminationPolicies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7730,6 +7806,7 @@ extension UpdateAutoScalingGroupInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["AvailabilityZoneDistribution"].write(value.availabilityZoneDistribution, with: AutoScalingClientTypes.AvailabilityZoneDistribution.write(value:to:))
+        try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
         try writer["Context"].write(value.context)
@@ -7749,6 +7826,7 @@ extension UpdateAutoScalingGroupInput {
         try writer["NewInstancesProtectedFromScaleIn"].write(value.newInstancesProtectedFromScaleIn)
         try writer["PlacementGroup"].write(value.placementGroup)
         try writer["ServiceLinkedRoleARN"].write(value.serviceLinkedRoleARN)
+        try writer["SkipZonalShiftValidation"].write(value.skipZonalShiftValidation)
         try writer["TerminationPolicies"].writeList(value.terminationPolicies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VPCZoneIdentifier"].write(value.vpcZoneIdentifier)
         try writer["Action"].write("UpdateAutoScalingGroup")
@@ -9555,6 +9633,24 @@ extension AutoScalingClientTypes.AutoScalingGroup {
         value.trafficSources = try reader["TrafficSources"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.TrafficSourceIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceMaintenancePolicy = try reader["InstanceMaintenancePolicy"].readIfPresent(with: AutoScalingClientTypes.InstanceMaintenancePolicy.read(from:))
         value.availabilityZoneDistribution = try reader["AvailabilityZoneDistribution"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneDistribution.read(from:))
+        value.availabilityZoneImpairmentPolicy = try reader["AvailabilityZoneImpairmentPolicy"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy {
+
+    static func write(value: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ImpairedZoneHealthCheckBehavior"].write(value.impairedZoneHealthCheckBehavior)
+        try writer["ZonalShiftEnabled"].write(value.zonalShiftEnabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy()
+        value.zonalShiftEnabled = try reader["ZonalShiftEnabled"].readIfPresent()
+        value.impairedZoneHealthCheckBehavior = try reader["ImpairedZoneHealthCheckBehavior"].readIfPresent()
         return value
     }
 }
