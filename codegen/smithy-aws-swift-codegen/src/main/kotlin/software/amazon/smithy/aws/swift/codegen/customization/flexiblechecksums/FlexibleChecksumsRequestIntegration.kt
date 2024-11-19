@@ -5,6 +5,7 @@ import software.amazon.smithy.aws.traits.HttpChecksumTrait
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
+import software.amazon.smithy.model.traits.HttpHeaderTrait
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -13,7 +14,10 @@ import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.Mid
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
+import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.model.hasTrait
 import software.amazon.smithy.swift.codegen.model.shapes
+import kotlin.jvm.optionals.getOrNull
 
 class FlexibleChecksumsRequestIntegration : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean = model
@@ -28,9 +32,21 @@ class FlexibleChecksumsRequestIntegration : SwiftIntegration {
         val httpChecksumTrait = operationShape.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val input = operationShape.input.orElse(null)?.let { ctx.model.expectShape<StructureShape>(it) }
 
-        val useFlexibleChecksum = (httpChecksumTrait != null) &&
-            (httpChecksumTrait.requestAlgorithmMember?.orElse(null) != null) &&
-            (input?.memberNames?.any { it == httpChecksumTrait.requestAlgorithmMember.get() } == true)
+        /*
+            Flexible checksum request middleware must be added only if:
+              - The operation has @httpChecksum trait
+              - (The `requestChecksumRequired` of @httpChecksum trait is set to `true`) ||
+                  (the `requestAlgorithmMember` is modeled)
+              - Of course, add the middleware if both are true as well.
+            In the case that `requestAlgorithmMember` is not modeled but `requestChecksumRequired` is `true`,
+              SDK clients use default checksum algorithm: CRC32.
+         */
+        val useFlexibleChecksum = httpChecksumTrait != null && (
+            (
+                (httpChecksumTrait.requestAlgorithmMember?.orElse(null) != null) &&
+                    (input?.memberNames?.any { it == httpChecksumTrait.requestAlgorithmMember.get() } == true)
+                ) || (httpChecksumTrait.isRequestChecksumRequired)
+            )
 
         if (useFlexibleChecksum) {
             operationMiddleware.appendMiddleware(operationShape, FlexibleChecksumRequestMiddleware)
@@ -52,16 +68,22 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
-        val algorithmMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()
+        val algorithmMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()?.let {
+            "input.$it?.rawValue"
+        } ?: "nil"
         val requestChecksumIsRequired = httpChecksumTrait?.isRequestChecksumRequired
+        val algoHeaderName = ctx.model.expectShape(op.inputShape).getMember(algorithmMemberName)?.getOrNull()?.getTrait<HttpHeaderTrait>()?.value?.let {
+            "\"$it\""
+        } ?: "nil"
 
         writer.write(
-            "\$N<\$L, \$L>(requestChecksumRequired: \$L, checksumAlgorithm: input.\$L?.rawValue)",
+            "\$N<\$L, \$L>(requestChecksumRequired: \$L, checksumAlgorithm: \$L, checksumAlgoHeaderName: \$L)",
             AWSClientRuntimeTypes.Core.FlexibleChecksumsRequestMiddleware,
             inputShapeName,
             outputShapeName,
             requestChecksumIsRequired,
             algorithmMemberName,
+            algoHeaderName
         )
     }
 }

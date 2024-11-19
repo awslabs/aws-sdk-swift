@@ -21,10 +21,16 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
 
     let requestChecksumRequired: Bool
     let checksumAlgorithm: String?
+    let checksumAlgoHeaderName: String?
 
-    public init(requestChecksumRequired: Bool, checksumAlgorithm: String?) {
+    public init(
+        requestChecksumRequired: Bool,
+        checksumAlgorithm: String?,
+        checksumAlgoHeaderName: String?
+    ) {
         self.requestChecksumRequired = requestChecksumRequired
         self.checksumAlgorithm = checksumAlgorithm
+        self.checksumAlgoHeaderName = checksumAlgoHeaderName
     }
 
     private func addHeaders(builder: HTTPRequestBuilder, attributes: Context) async throws {
@@ -44,7 +50,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         let checksumHeaderPrefix = "x-amz-checksum-"
         if builder.headers.headers.contains(where: {
             $0.name.lowercased().starts(with: checksumHeaderPrefix) &&
-            $0.name.lowercased() != "x-amz-checksum-algorithm"
+            $0.name.lowercased() != checksumAlgoHeaderName
         }) {
             logger.debug("Checksum header already provided by the user. Skipping calculation.")
             return
@@ -65,6 +71,11 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 // If requestChecksumRequired == true OR RequestChecksumCalculation == when_supported, use CRC32 as default algorithm.
                 checksumHashFunction = ChecksumAlgorithm.from(string: "crc32")!
                 logger.info("No algorithm chosen by user. Defaulting to CRC32 checksum algorithm.")
+                // If the member specified by `requestAlgorithmMember` has `httpHeader` property set in model,
+                //   set the header specified in `httpHeader` with SDK's default algorithm: crc32
+                if let checksumAlgoHeaderName {
+                    builder.updateHeader(name: checksumAlgoHeaderName, value: "crc32")
+                }
             } else {
                 // If requestChecksumRequired == false AND RequestChecksumCalculation == when_required, skip calculation.
                 logger.info("Checksum not required for the operation.")
@@ -77,9 +88,9 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         // Save resolved ChecksumAlgorithm to interceptor context.
         attributes.checksum = checksumHashFunction
 
-        // Determine the header name
-        let headerName = "x-amz-checksum-\(checksumHashFunction)"
-        logger.debug("Resolved checksum header name: \(headerName)")
+        // Determine the checksum header name
+        let checksumHashHeaderName = "x-amz-checksum-\(checksumHashFunction)"
+        logger.debug("Resolved checksum header name: \(checksumHashHeaderName)")
 
         // Handle body vs handle stream
         switch builder.body {
@@ -88,7 +99,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         case .stream(let stream):
             if stream.isEligibleForChunkedStreaming {
                 // Handle calculating and adding checksum header in ChunkedStream
-                builder.updateHeader(name: "x-amz-trailer", value: [headerName])
+                builder.updateHeader(name: "x-amz-trailer", value: [checksumHashHeaderName])
             } else {
                 // If not eligible for chunked streaming, calculate and add checksum to request header now
                 //   instead of in a trailing header.
@@ -114,7 +125,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 logger.info("Request body is empty. Skipping request checksum calculation...")
                 return
             }
-            if builder.headers.value(for: headerName) == nil {
+            if builder.headers.value(for: checksumHashHeaderName) == nil {
                 logger.debug("Calculating checksum")
             }
             // Create checksum instance
@@ -123,7 +134,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             try checksum.update(chunk: data)
             // Retrieve the hash
             let hash = try checksum.digest().toBase64String()
-            builder.updateHeader(name: headerName, value: [hash])
+            builder.updateHeader(name: checksumHashHeaderName, value: [hash])
         }
     }
 }
