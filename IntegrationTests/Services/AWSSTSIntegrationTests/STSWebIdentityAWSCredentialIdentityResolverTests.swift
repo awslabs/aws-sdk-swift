@@ -42,13 +42,33 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
     private let roleName = "aws-sts-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
     private let roleSessionName = "aws-sts-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
     private var roleArn: String!
+
     // JSON assume role policy
-    private let assumeRolePolicy = """
-    {"Version": "2012-10-17","Statement": [{"Sid": "","Effect": "Allow",
-    "Principal": {"Federated": "cognito-identity.amazonaws.com"},"Action": [
-    "sts:AssumeRoleWithWebIdentity"],"Condition": {"ForAnyValue:StringLike": {
-    "cognito-identity.amazonaws.com:amr": "unauthenticated"}}}]}
-    """
+    private var assumeRolePolicy: String {
+        return """
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Sid": "",
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Federated": "cognito-identity.amazonaws.com"
+                    },
+                    "Action": [
+                        "sts:AssumeRoleWithWebIdentity"
+                    ],
+                    "Condition": {
+                        "ForAnyValue:StringLike": {
+                            "cognito-identity.amazonaws.com:aud": "\(identityPoolId!)"
+                        }
+                    }
+                }
+            ]
+        }
+        """
+    }
+
     private let identityPolicyName = "allow-STS-getCallerIdentity"
     // JSON identity policy
     private let roleIdentityPolicy = """
@@ -61,14 +81,14 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
     override func setUp() async throws {
         try await super.setUp()
 
+        // Create the Cognito identity pool that allows unauthenticated identities
+        try await createCognitoIdentityPool()
+
         // Create the role to be assumed in exchange for web identity token
         try await createRoleToBeAssumed()
 
         // Attach identity policy to role
         try await attachIdentityPolicyToRole()
-
-        // Create the Cognito identity pool that allows unauthenticated identities
-        try await createCognitoIdentityPool()
 
         // Get OIDC token from Cognito
         try await getAndCacheOIDCTokenFromCognito()
@@ -82,24 +102,26 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
 
     override func tearDown() async throws {
         // Delete inline identity policy of the role
-        try await deleteInlineRolePolicy()
+        try? await deleteInlineRolePolicy()
 
         // Delete role
-        _ = try await iamClient.deleteRole(input: DeleteRoleInput(roleName: roleName))
+        _ = try? await iamClient.deleteRole(input: DeleteRoleInput(roleName: roleName))
 
         // Delete Cognito identity pool
-        _ = try await cognitoIdentityClient.deleteIdentityPool(
+        _ = try? await cognitoIdentityClient.deleteIdentityPool(
             input: DeleteIdentityPoolInput(identityPoolId: identityPoolId)
         )
 
         // Delete token file
-        try deleteTokenFile()
+        try? deleteTokenFile()
+
+        try await super.tearDown()
     }
 
     // MARK: - TEST CASE
 
     // Confirm STS web identity credentials provider works by validating response.
-    func xtestGetCallerIdentity() async throws {
+    func testGetCallerIdentity() async throws {
         let response = try await webIdentityStsClient.getCallerIdentity(
             input: GetCallerIdentityInput()
         )

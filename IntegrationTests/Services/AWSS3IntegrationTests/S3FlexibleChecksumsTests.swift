@@ -10,6 +10,7 @@ import XCTest
 import AWSS3
 import SmithyHTTPAPI
 @testable import ClientRuntime
+import AWSIntegrationTestUtils
 import class SmithyStreams.BufferedStream
 import class SmithyChecksums.ValidatingBufferedStream
 
@@ -19,7 +20,7 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
     override func setUp() {
         super.setUp()
         // Fill one MB with random data.  Data is refreshed for each flexible checksums tests below.
-        originalData = Data((0..<(1024 * 1024)).map { _ in UInt8.random(in: UInt8.min...UInt8.max) })
+        originalData = generateRandomTextData(ofSizeInMB: 1)
     }
 
     // MARK: - Data uploads

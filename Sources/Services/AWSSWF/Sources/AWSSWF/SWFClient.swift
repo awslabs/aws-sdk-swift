@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SWFClient: ClientRuntime.Client {
     public static let clientName = "SWFClient"
-    public static let version = "1.0.36"
+    public static let version = "1.0.43"
     let client: ClientRuntime.SdkHttpClient
     let config: SWFClient.SWFClientConfiguration
     let serviceName = "SWF"

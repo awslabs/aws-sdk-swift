@@ -1948,6 +1948,127 @@ public struct EnableInsightRulesOutput: Swift.Sendable {
     }
 }
 
+extension CloudWatchClientTypes {
+
+    /// An entity associated with metrics, to allow for finding related telemetry. An entity is typically a resource or service within your system. For example, metrics from an Amazon EC2 instance could be associated with that instance as the entity. Similarly, metrics from a service that you own could be associated with that service as the entity.
+    public struct Entity: Swift.Sendable {
+        /// Additional attributes of the entity that are not used to specify the identity of the entity. A list of key-value pairs. For details about how to use the attributes, see [How to add related information to telemetry](https://docs.aws.amazon.com/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+        public var attributes: [Swift.String: Swift.String]?
+        /// The attributes of the entity which identify the specific entity, as a list of key-value pairs. Entities with the same KeyAttributes are considered to be the same entity. For an entity to be valid, the KeyAttributes must exist and be formatted correctly. There are five allowed attributes (key names): Type, ResourceType, Identifier, Name, and Environment. For details about how to use the key attributes to specify an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+        public var keyAttributes: [Swift.String: Swift.String]?
+
+        public init(
+            attributes: [Swift.String: Swift.String]? = nil,
+            keyAttributes: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.attributes = attributes
+            self.keyAttributes = keyAttributes
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Represents a set of statistics that describes a specific metric.
+    public struct StatisticSet: Swift.Sendable {
+        /// The maximum value of the sample set.
+        /// This member is required.
+        public var maximum: Swift.Double?
+        /// The minimum value of the sample set.
+        /// This member is required.
+        public var minimum: Swift.Double?
+        /// The number of samples used for the statistic set.
+        /// This member is required.
+        public var sampleCount: Swift.Double?
+        /// The sum of values for the sample set.
+        /// This member is required.
+        public var sum: Swift.Double?
+
+        public init(
+            maximum: Swift.Double? = nil,
+            minimum: Swift.Double? = nil,
+            sampleCount: Swift.Double? = nil,
+            sum: Swift.Double? = nil
+        )
+        {
+            self.maximum = maximum
+            self.minimum = minimum
+            self.sampleCount = sampleCount
+            self.sum = sum
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Encapsulates the information sent to either create a metric or add new values to be aggregated into an existing metric.
+    public struct MetricDatum: Swift.Sendable {
+        /// Array of numbers that is used along with the Values array. Each number in the Count array is the number of times the corresponding value in the Values array occurred during the period. If you omit the Counts array, the default of 1 is used as the value for each count. If you include a Counts array, it must include the same amount of values as the Values array.
+        public var counts: [Swift.Double]?
+        /// The dimensions associated with the metric.
+        public var dimensions: [CloudWatchClientTypes.Dimension]?
+        /// The name of the metric.
+        /// This member is required.
+        public var metricName: Swift.String?
+        /// The statistical values for the metric.
+        public var statisticValues: CloudWatchClientTypes.StatisticSet?
+        /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a high-resolution metric, so that CloudWatch stores the metric with sub-minute resolution down to one second. Setting this to 60 specifies this metric as a regular-resolution metric, which CloudWatch stores at 1-minute resolution. Currently, high resolution is available only for custom metrics. For more information about high-resolution metrics, see [High-Resolution Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#high-resolution-metrics) in the Amazon CloudWatch User Guide. This field is optional, if you do not specify it the default of 60 is used.
+        public var storageResolution: Swift.Int?
+        /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
+        public var timestamp: Foundation.Date?
+        /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, this displays the unit that is used for the metric.
+        public var unit: CloudWatchClientTypes.StandardUnit?
+        /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
+        public var value: Swift.Double?
+        /// Array of numbers representing the values for the metric during the period. Each unique value is listed just once in this array, and the corresponding number in the Counts array specifies the number of times that value occurred during the period. You can include up to 150 unique values in each PutMetricData action that specifies a Values array. Although the Values array accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
+        public var values: [Swift.Double]?
+
+        public init(
+            counts: [Swift.Double]? = nil,
+            dimensions: [CloudWatchClientTypes.Dimension]? = nil,
+            metricName: Swift.String? = nil,
+            statisticValues: CloudWatchClientTypes.StatisticSet? = nil,
+            storageResolution: Swift.Int? = nil,
+            timestamp: Foundation.Date? = nil,
+            unit: CloudWatchClientTypes.StandardUnit? = nil,
+            value: Swift.Double? = nil,
+            values: [Swift.Double]? = nil
+        )
+        {
+            self.counts = counts
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.statisticValues = statisticValues
+            self.storageResolution = storageResolution
+            self.timestamp = timestamp
+            self.unit = unit
+            self.value = value
+            self.values = values
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// A set of metrics that are associated with an entity, such as a specific service or resource. Contains the entity and the list of metric data associated with it.
+    public struct EntityMetricData: Swift.Sendable {
+        /// The entity associated with the metrics.
+        public var entity: CloudWatchClientTypes.Entity?
+        /// The metric data.
+        public var metricData: [CloudWatchClientTypes.MetricDatum]?
+
+        public init(
+            entity: CloudWatchClientTypes.Entity? = nil,
+            metricData: [CloudWatchClientTypes.MetricDatum]? = nil
+        )
+        {
+            self.entity = entity
+            self.metricData = metricData
+        }
+    }
+}
+
 public struct GetDashboardInput: Swift.Sendable {
     /// The name of the dashboard to be described.
     /// This member is required.
@@ -2788,7 +2909,7 @@ public struct ListMetricsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// When you use this operation in a monitoring account, use this field to return metrics only from one source account. To do so, specify that source account ID in this field, and also specify true for IncludeLinkedAccounts.
     public var owningAccount: Swift.String?
-    /// To filter the results to show only metrics that have had data points published in the past three hours, specify this parameter with a value of PT3H. This is the only valid value for this parameter. The results that are returned are an approximation of the value you specify. There is a low probability that the returned results include metrics with last published data as much as 40 minutes more than the specified time interval.
+    /// To filter the results to show only metrics that have had data points published in the past three hours, specify this parameter with a value of PT3H. This is the only valid value for this parameter. The results that are returned are an approximation of the value you specify. There is a low probability that the returned results include metrics with last published data as much as 50 minutes more than the specified time interval.
     public var recentlyActive: CloudWatchClientTypes.RecentlyActive?
 
     public init(
@@ -3448,7 +3569,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     public var period: Swift.Int?
     /// The statistic for the metric specified in MetricName, other than percentile. For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
     public var statistic: CloudWatchClientTypes.Statistic?
-    /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. To be able to associate tags with the alarm when you create the alarm, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. If you are using this operation to update an existing alarm, any tags you specify in this parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html) or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
+    /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. To be able to associate tags with the alarm when you create the alarm, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. If you are using this operation to update an existing alarm, any tags you specify in this parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html) or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html). To use this field to set tags for an alarm when you create it, you must be signed on with both the cloudwatch:PutMetricAlarm and cloudwatch:TagResource permissions.
     public var tags: [CloudWatchClientTypes.Tag]?
     /// The value against which the specified statistic is compared. This parameter is required for alarms based on static thresholds, but should not be used for alarms based on anomaly detection models.
     public var threshold: Swift.Double?
@@ -3509,102 +3630,50 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     }
 }
 
-extension CloudWatchClientTypes {
-
-    /// Represents a set of statistics that describes a specific metric.
-    public struct StatisticSet: Swift.Sendable {
-        /// The maximum value of the sample set.
-        /// This member is required.
-        public var maximum: Swift.Double?
-        /// The minimum value of the sample set.
-        /// This member is required.
-        public var minimum: Swift.Double?
-        /// The number of samples used for the statistic set.
-        /// This member is required.
-        public var sampleCount: Swift.Double?
-        /// The sum of values for the sample set.
-        /// This member is required.
-        public var sum: Swift.Double?
-
-        public init(
-            maximum: Swift.Double? = nil,
-            minimum: Swift.Double? = nil,
-            sampleCount: Swift.Double? = nil,
-            sum: Swift.Double? = nil
-        )
-        {
-            self.maximum = maximum
-            self.minimum = minimum
-            self.sampleCount = sampleCount
-            self.sum = sum
-        }
-    }
-}
-
-extension CloudWatchClientTypes {
-
-    /// Encapsulates the information sent to either create a metric or add new values to be aggregated into an existing metric.
-    public struct MetricDatum: Swift.Sendable {
-        /// Array of numbers that is used along with the Values array. Each number in the Count array is the number of times the corresponding value in the Values array occurred during the period. If you omit the Counts array, the default of 1 is used as the value for each count. If you include a Counts array, it must include the same amount of values as the Values array.
-        public var counts: [Swift.Double]?
-        /// The dimensions associated with the metric.
-        public var dimensions: [CloudWatchClientTypes.Dimension]?
-        /// The name of the metric.
-        /// This member is required.
-        public var metricName: Swift.String?
-        /// The statistical values for the metric.
-        public var statisticValues: CloudWatchClientTypes.StatisticSet?
-        /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a high-resolution metric, so that CloudWatch stores the metric with sub-minute resolution down to one second. Setting this to 60 specifies this metric as a regular-resolution metric, which CloudWatch stores at 1-minute resolution. Currently, high resolution is available only for custom metrics. For more information about high-resolution metrics, see [High-Resolution Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#high-resolution-metrics) in the Amazon CloudWatch User Guide. This field is optional, if you do not specify it the default of 60 is used.
-        public var storageResolution: Swift.Int?
-        /// The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
-        public var timestamp: Foundation.Date?
-        /// When you are using a Put operation, this defines what unit you want to use when storing the metric. In a Get operation, this displays the unit that is used for the metric.
-        public var unit: CloudWatchClientTypes.StandardUnit?
-        /// The value for the metric. Although the parameter accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
-        public var value: Swift.Double?
-        /// Array of numbers representing the values for the metric during the period. Each unique value is listed just once in this array, and the corresponding number in the Counts array specifies the number of times that value occurred during the period. You can include up to 150 unique values in each PutMetricData action that specifies a Values array. Although the Values array accepts numbers of type Double, CloudWatch rejects values that are either too small or too large. Values must be in the range of -2^360 to 2^360. In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
-        public var values: [Swift.Double]?
-
-        public init(
-            counts: [Swift.Double]? = nil,
-            dimensions: [CloudWatchClientTypes.Dimension]? = nil,
-            metricName: Swift.String? = nil,
-            statisticValues: CloudWatchClientTypes.StatisticSet? = nil,
-            storageResolution: Swift.Int? = nil,
-            timestamp: Foundation.Date? = nil,
-            unit: CloudWatchClientTypes.StandardUnit? = nil,
-            value: Swift.Double? = nil,
-            values: [Swift.Double]? = nil
-        )
-        {
-            self.counts = counts
-            self.dimensions = dimensions
-            self.metricName = metricName
-            self.statisticValues = statisticValues
-            self.storageResolution = storageResolution
-            self.timestamp = timestamp
-            self.unit = unit
-            self.value = value
-            self.values = values
-        }
-    }
-}
-
 public struct PutMetricDataInput: Swift.Sendable {
-    /// The data for the metric. The array can include no more than 1000 metrics per call.
-    /// This member is required.
+    /// Data for metrics that contain associated entity information. You can include up to two EntityMetricData objects, each of which can contain a single Entity and associated metrics. The limit of metrics allowed, 1000, is the sum of both EntityMetricData and MetricData metrics.
+    public var entityMetricData: [CloudWatchClientTypes.EntityMetricData]?
+    /// The data for the metrics. Use this parameter if your metrics do not contain associated entities. The array can include no more than 1000 metrics per call. The limit of metrics allowed, 1000, is the sum of both EntityMetricData and MetricData metrics.
     public var metricData: [CloudWatchClientTypes.MetricDatum]?
     /// The namespace for the metric data. You can use ASCII characters for the namespace, except for control characters which are not supported. To avoid conflicts with Amazon Web Services service namespaces, you should not specify a namespace that begins with AWS/
     /// This member is required.
     public var namespace: Swift.String?
+    /// Whether to accept valid metric data when an invalid entity is sent.
+    ///
+    /// * When set to true: Any validation error (for entity or metric data) will fail the entire request, and no data will be ingested. The failed operation will return a 400 result with the error.
+    ///
+    /// * When set to false: Validation errors in the entity will not associate the metric with the entity, but the metric data will still be accepted and ingested. Validation errors in the metric data will fail the entire request, and no data will be ingested. In the case of an invalid entity, the operation will return a 200 status, but an additional response header will contain information about the validation errors. The new header, X-Amzn-Failure-Message is an enumeration of the following values:
+    ///
+    /// * InvalidEntity - The provided entity is invalid.
+    ///
+    /// * InvalidKeyAttributes - The provided KeyAttributes of an entity is invalid.
+    ///
+    /// * InvalidAttributes - The provided Attributes of an entity is invalid.
+    ///
+    /// * InvalidTypeValue - The provided Type in the KeyAttributes of an entity is invalid.
+    ///
+    /// * EntitySizeTooLarge - The number of EntityMetricData objects allowed is 2.
+    ///
+    /// * MissingRequiredFields - There are missing required fields in the KeyAttributes for the provided Type.
+    ///
+    ///
+    /// For details of the requirements for specifying an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+    ///
+    ///
+    /// This parameter is required when EntityMetricData is included.
+    public var strictEntityValidation: Swift.Bool?
 
     public init(
+        entityMetricData: [CloudWatchClientTypes.EntityMetricData]? = nil,
         metricData: [CloudWatchClientTypes.MetricDatum]? = nil,
-        namespace: Swift.String? = nil
+        namespace: Swift.String? = nil,
+        strictEntityValidation: Swift.Bool? = nil
     )
     {
+        self.entityMetricData = entityMetricData
         self.metricData = metricData
         self.namespace = namespace
+        self.strictEntityValidation = strictEntityValidation
     }
 }
 
@@ -4491,8 +4560,10 @@ extension PutMetricDataInput {
 
     static func write(value: PutMetricDataInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["EntityMetricData"].writeList(value.entityMetricData, memberWritingClosure: CloudWatchClientTypes.EntityMetricData.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MetricData"].writeList(value.metricData, memberWritingClosure: CloudWatchClientTypes.MetricDatum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Namespace"].write(value.namespace)
+        try writer["StrictEntityValidation"].write(value.strictEntityValidation)
         try writer["Action"].write("PutMetricData")
         try writer["Version"].write("2010-08-01")
     }
@@ -6301,6 +6372,24 @@ extension CloudWatchClientTypes.StatisticSet {
         try writer["Minimum"].write(value.minimum)
         try writer["SampleCount"].write(value.sampleCount)
         try writer["Sum"].write(value.sum)
+    }
+}
+
+extension CloudWatchClientTypes.EntityMetricData {
+
+    static func write(value: CloudWatchClientTypes.EntityMetricData?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Entity"].write(value.entity, with: CloudWatchClientTypes.Entity.write(value:to:))
+        try writer["MetricData"].writeList(value.metricData, memberWritingClosure: CloudWatchClientTypes.MetricDatum.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CloudWatchClientTypes.Entity {
+
+    static func write(value: CloudWatchClientTypes.Entity?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

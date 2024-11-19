@@ -155,6 +155,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSBedrockRuntime](../../../../../swift/api/awsbedrockruntime/latest)
 
+[AWSBilling](../../../../../swift/api/awsbilling/latest)
+
 [AWSBillingconductor](../../../../../swift/api/awsbillingconductor/latest)
 
 [AWSBraket](../../../../../swift/api/awsbraket/latest)
@@ -250,6 +252,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSConnect](../../../../../swift/api/awsconnect/latest)
 
 [AWSConnectCampaigns](../../../../../swift/api/awsconnectcampaigns/latest)
+
+[AWSConnectCampaignsV2](../../../../../swift/api/awsconnectcampaignsv2/latest)
 
 [AWSConnectCases](../../../../../swift/api/awsconnectcases/latest)
 
@@ -612,6 +616,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSPI](../../../../../swift/api/awspi/latest)
 
 [AWSPanorama](../../../../../swift/api/awspanorama/latest)
+
+[AWSPartnerCentralSelling](../../../../../swift/api/awspartnercentralselling/latest)
 
 [AWSPaymentCryptography](../../../../../swift/api/awspaymentcryptography/latest)
 

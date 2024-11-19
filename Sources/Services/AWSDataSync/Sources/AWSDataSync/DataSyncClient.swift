@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataSyncClient: ClientRuntime.Client {
     public static let clientName = "DataSyncClient"
-    public static let version = "1.0.36"
+    public static let version = "1.0.43"
     let client: ClientRuntime.SdkHttpClient
     let config: DataSyncClient.DataSyncClientConfiguration
     let serviceName = "DataSync"
@@ -2691,7 +2691,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeTaskExecution` operation on the `FmrsService` service.
     ///
-    /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing data transfer or check the results of the transfer. Some DescribeTaskExecution response elements are only relevant to a specific task mode. For information, see [Understanding task mode differences](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences) and [Understanding data transfer performance metrics](https://docs.aws.amazon.com/datasync/latest/userguide/transfer-performance-metrics.html).
+    /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing data transfer or check the results of the transfer. Some DescribeTaskExecution response elements are only relevant to a specific task mode. For information, see [Understanding task mode differences](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences) and [Understanding data transfer performance counters](https://docs.aws.amazon.com/datasync/latest/userguide/transfer-performance-counters.html).
     ///
     /// - Parameter DescribeTaskExecutionInput : DescribeTaskExecutionRequest
     ///

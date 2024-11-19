@@ -123,6 +123,30 @@ public struct DatabaseNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+/// A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
+public struct DatabaseResumingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DatabaseResumingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 /// The writer instance in the DB cluster isn't available.
 public struct DatabaseUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
     public static var typeName: Swift.String { "DatabaseUnavailableException" }
@@ -1114,6 +1138,7 @@ enum BatchExecuteStatementOutputError {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "DatabaseErrorException": return try DatabaseErrorException.makeError(baseError: baseError)
             case "DatabaseNotFoundException": return try DatabaseNotFoundException.makeError(baseError: baseError)
+            case "DatabaseResumingException": return try DatabaseResumingException.makeError(baseError: baseError)
             case "DatabaseUnavailableException": return try DatabaseUnavailableException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
@@ -1140,6 +1165,7 @@ enum BeginTransactionOutputError {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "DatabaseErrorException": return try DatabaseErrorException.makeError(baseError: baseError)
             case "DatabaseNotFoundException": return try DatabaseNotFoundException.makeError(baseError: baseError)
+            case "DatabaseResumingException": return try DatabaseResumingException.makeError(baseError: baseError)
             case "DatabaseUnavailableException": return try DatabaseUnavailableException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
@@ -1193,6 +1219,7 @@ enum ExecuteStatementOutputError {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "DatabaseErrorException": return try DatabaseErrorException.makeError(baseError: baseError)
             case "DatabaseNotFoundException": return try DatabaseNotFoundException.makeError(baseError: baseError)
+            case "DatabaseResumingException": return try DatabaseResumingException.makeError(baseError: baseError)
             case "DatabaseUnavailableException": return try DatabaseUnavailableException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
@@ -1340,6 +1367,19 @@ extension ServiceUnavailableError {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableError {
         var value = ServiceUnavailableError()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DatabaseResumingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseResumingException {
+        let reader = baseError.errorBodyReader
+        var value = DatabaseResumingException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

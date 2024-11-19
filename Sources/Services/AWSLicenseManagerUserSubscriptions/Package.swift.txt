@@ -73,6 +73,10 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
+                    name: "SmithyTimestamps",
+                    package: "smithy-swift"
+                ),
+                .product(
                     name: "SmithyTestUtil",
                     package: "smithy-swift"
                 ),

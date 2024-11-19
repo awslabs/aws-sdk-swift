@@ -655,6 +655,38 @@ extension PaginatorSequence where OperationStackInput == ListPoolOriginationIden
     }
 }
 extension PinpointSMSVoiceV2Client {
+    /// Paginate over `[ListProtectConfigurationRuleSetNumberOverridesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProtectConfigurationRuleSetNumberOverridesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProtectConfigurationRuleSetNumberOverridesOutput`
+    public func listProtectConfigurationRuleSetNumberOverridesPaginated(input: ListProtectConfigurationRuleSetNumberOverridesInput) -> ClientRuntime.PaginatorSequence<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput> {
+        return ClientRuntime.PaginatorSequence<ListProtectConfigurationRuleSetNumberOverridesInput, ListProtectConfigurationRuleSetNumberOverridesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProtectConfigurationRuleSetNumberOverrides(input:))
+    }
+}
+
+extension ListProtectConfigurationRuleSetNumberOverridesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProtectConfigurationRuleSetNumberOverridesInput {
+        return ListProtectConfigurationRuleSetNumberOverridesInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            protectConfigurationId: self.protectConfigurationId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProtectConfigurationRuleSetNumberOverridesInput, OperationStackOutput == ListProtectConfigurationRuleSetNumberOverridesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProtectConfigurationRuleSetNumberOverridesPaginated`
+    /// to access the nested member `[PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverride]`
+    /// - Returns: `[PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverride]`
+    public func ruleSetNumberOverrides() async throws -> [PinpointSMSVoiceV2ClientTypes.ProtectConfigurationRuleSetNumberOverride] {
+        return try await self.asyncCompactMap { item in item.ruleSetNumberOverrides }
+    }
+}
+extension PinpointSMSVoiceV2Client {
     /// Paginate over `[ListRegistrationAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

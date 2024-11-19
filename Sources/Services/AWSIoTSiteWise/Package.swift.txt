@@ -77,6 +77,14 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
+                    name: "SmithyEventStreams",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyEventStreamsAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
                     name: "SmithyWaitersAPI",
                     package: "smithy-swift"
                 ),

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSClient: ClientRuntime.Client {
     public static let clientName = "RDSClient"
-    public static let version = "1.0.36"
+    public static let version = "1.0.43"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSClient.RDSClientConfiguration
     let serviceName = "RDS"
@@ -2080,7 +2080,7 @@ extension RDSClient {
     ///
     /// - Parameter CreateDBShardGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateDBShardGroupOutput` : [no documentation found]
+    /// - Returns: `CreateDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3610,7 +3610,7 @@ extension RDSClient {
     ///
     /// - Parameter DeleteDBShardGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDBShardGroupOutput` : [no documentation found]
+    /// - Returns: `DeleteDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5209,6 +5209,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBInstanceNotReadyFault` : An attempt to download or examine log files didn't succeed because an Aurora Serverless v2 instance was paused.
     public func describeDBLogFiles(input: DescribeDBLogFilesInput) async throws -> DescribeDBLogFilesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7386,6 +7387,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBInstanceNotReadyFault` : An attempt to download or examine log files didn't succeed because an Aurora Serverless v2 instance was paused.
     /// - `DBLogFileNotFoundFault` : LogFileName doesn't refer to an existing DB log file.
     public func downloadDBLogFilePortion(input: DownloadDBLogFilePortionInput) async throws -> DownloadDBLogFilePortionOutput {
         let context = Smithy.ContextBuilder()
@@ -8784,7 +8786,7 @@ extension RDSClient {
     ///
     /// - Parameter ModifyDBShardGroupInput : [no documentation found]
     ///
-    /// - Returns: `ModifyDBShardGroupOutput` : [no documentation found]
+    /// - Returns: `ModifyDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9787,7 +9789,7 @@ extension RDSClient {
     ///
     /// - Parameter RebootDBShardGroupInput : [no documentation found]
     ///
-    /// - Returns: `RebootDBShardGroupOutput` : [no documentation found]
+    /// - Returns: `RebootDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.89.0"
+let clientRuntimeVersion: Version = "0.94.0"
 let crtVersion: Version = "0.37.0"
 
 let excludeRuntimeUnitTests = false
@@ -62,6 +62,7 @@ let serviceTargets: [String] = [
     "AWSBedrockAgent",
     "AWSBedrockAgentRuntime",
     "AWSBedrockRuntime",
+    "AWSBilling",
     "AWSBillingconductor",
     "AWSBraket",
     "AWSBudgets",
@@ -110,6 +111,7 @@ let serviceTargets: [String] = [
     "AWSConfigService",
     "AWSConnect",
     "AWSConnectCampaigns",
+    "AWSConnectCampaignsV2",
     "AWSConnectCases",
     "AWSConnectContactLens",
     "AWSConnectParticipant",
@@ -291,6 +293,7 @@ let serviceTargets: [String] = [
     "AWSPCS",
     "AWSPI",
     "AWSPanorama",
+    "AWSPartnerCentralSelling",
     "AWSPaymentCryptography",
     "AWSPaymentCryptographyData",
     "AWSPcaConnectorAd",

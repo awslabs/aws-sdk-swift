@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OrganizationsClient: ClientRuntime.Client {
     public static let clientName = "OrganizationsClient"
-    public static let version = "1.0.36"
+    public static let version = "1.0.43"
     let client: ClientRuntime.SdkHttpClient
     let config: OrganizationsClient.OrganizationsClientConfiguration
     let serviceName = "Organizations"
@@ -264,6 +264,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -283,6 +285,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -352,6 +356,8 @@ extension OrganizationsClient {
     /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type:
     ///
     /// * [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+    ///
+    /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
     ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
@@ -470,6 +476,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -489,6 +497,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -600,6 +610,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -619,6 +631,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -808,6 +822,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -827,6 +843,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1020,6 +1038,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1039,6 +1059,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1250,6 +1272,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1269,6 +1293,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1444,6 +1470,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1463,6 +1491,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1637,6 +1667,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1656,6 +1688,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1831,6 +1865,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1850,6 +1886,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -1959,6 +1997,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -1978,6 +2018,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2082,6 +2124,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2101,6 +2145,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2206,6 +2252,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2225,6 +2273,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2331,6 +2381,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2350,6 +2402,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2673,6 +2727,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2692,6 +2748,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2797,6 +2855,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2816,6 +2876,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -2920,6 +2982,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -2939,6 +3003,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -3113,6 +3179,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -3132,6 +3200,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -3238,6 +3308,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -3257,6 +3329,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -3434,6 +3508,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -3453,6 +3529,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -3557,6 +3635,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -3576,6 +3656,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -3895,6 +3977,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -3914,6 +3998,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -4101,6 +4187,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -4120,6 +4208,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -4294,6 +4384,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -4313,6 +4405,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -4490,6 +4584,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -4509,6 +4605,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -4633,6 +4731,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -4652,6 +4752,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -4825,6 +4927,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -4844,6 +4948,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5051,6 +5157,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5070,6 +5178,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5267,6 +5377,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5286,6 +5398,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5459,6 +5573,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5478,6 +5594,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5582,6 +5700,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5601,6 +5721,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5704,6 +5826,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5723,6 +5847,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5827,6 +5953,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5846,6 +5974,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -5950,6 +6080,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -5969,6 +6101,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6142,6 +6276,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6161,6 +6297,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6336,6 +6474,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6355,6 +6495,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6459,6 +6601,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6478,6 +6622,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6582,6 +6728,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6601,6 +6749,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6704,6 +6854,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6723,6 +6875,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6828,6 +6982,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6847,6 +7003,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -6950,6 +7108,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -6969,6 +7129,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7073,6 +7235,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7092,6 +7256,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7197,6 +7363,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7216,6 +7384,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7330,6 +7500,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7349,6 +7521,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7453,6 +7627,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7472,6 +7648,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7581,6 +7759,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7600,6 +7780,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7774,6 +7956,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7793,6 +7977,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -7969,6 +8155,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -7988,6 +8176,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8169,6 +8359,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -8188,6 +8380,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8373,6 +8567,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -8392,6 +8588,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8577,6 +8775,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -8596,6 +8796,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8702,6 +8904,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -8721,6 +8925,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///
@@ -8896,6 +9102,8 @@ extension OrganizationsClient {
     ///
     /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
     ///
+    /// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+    ///
     /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
     ///
     /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -8915,6 +9123,8 @@ extension OrganizationsClient {
     /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
     ///
     /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+    ///
+    /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
     ///
     /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
     ///

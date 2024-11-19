@@ -131,7 +131,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 }
 
                 // Get endpoint param from middleware context
-                openBlock("guard let endpointParam = context.attributes.get(key: \$N<EndpointParams>(name: \"EndpointParams\")) else {", "}", SmithyTypes.AttributeKey) {
+                openBlock("guard let endpointParam = context.get(key: \$N<EndpointParams>(name: \"EndpointParams\")) else {", "}", SmithyTypes.AttributeKey) {
                     write("throw \$N.dataNotFound(\"Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.\")", SmithyTypes.ClientError)
                 }
 

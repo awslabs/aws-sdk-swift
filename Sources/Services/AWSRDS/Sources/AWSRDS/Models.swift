@@ -3252,6 +3252,26 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    public struct ServerlessV2FeaturesSupport: Swift.Sendable {
+        /// Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version. Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be 256 or 128.
+        public var maxCapacity: Swift.Double?
+        /// If the minimum capacity is 0 ACUs, the engine version supports the automatic pause/resume feature of Aurora Serverless v2.
+        public var minCapacity: Swift.Double?
+
+        public init(
+            maxCapacity: Swift.Double? = nil,
+            minCapacity: Swift.Double? = nil
+        )
+        {
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     /// A time zone associated with a DBInstance or a DBSnapshot. This data type is an element in the response to the DescribeDBInstances, the DescribeDBSnapshots, and the DescribeDBEngineVersions actions.
     public struct Timezone: Swift.Sendable {
         /// The name of the time zone.
@@ -3360,6 +3380,8 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The major engine version of the CEV.
     public var majorEngineVersion: Swift.String?
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    public var serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport?
     /// The status of the DB engine version, either available or deprecated.
     public var status: Swift.String?
     /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -3414,6 +3436,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
+        serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport? = nil,
         status: Swift.String? = nil,
         supportedCACertificateIdentifiers: [Swift.String]? = nil,
         supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
@@ -3450,6 +3473,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
+        self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
         self.status = status
         self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
         self.supportedCharacterSets = supportedCharacterSets
@@ -3905,18 +3929,22 @@ extension RDSClientTypes {
 
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public struct ServerlessV2ScalingConfiguration: Swift.Sendable {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 40, 40.5, 41, and so on. The largest value that you can use is 128.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
         public var maxCapacity: Swift.Double?
-        /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. The smallest value that you can use is 0.5.
+        /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public var minCapacity: Swift.Double?
+        /// Specifies the number of seconds an Aurora Serverless v2 DB instance must be idle before Aurora attempts to automatically pause it. Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds.
+        public var secondsUntilAutoPause: Swift.Int?
 
         public init(
             maxCapacity: Swift.Double? = nil,
-            minCapacity: Swift.Double? = nil
+            minCapacity: Swift.Double? = nil,
+            secondsUntilAutoPause: Swift.Int? = nil
         )
         {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
+            self.secondsUntilAutoPause = secondsUntilAutoPause
         }
     }
 }
@@ -4029,7 +4057,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var engine: Swift.String?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, creating the DB cluster will fail if the DB major version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora (PostgreSQL only) - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
     /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
@@ -4742,18 +4770,22 @@ extension RDSClientTypes {
 
     /// The scaling configuration for an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public struct ServerlessV2ScalingConfigurationInfo: Swift.Sendable {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 40, 40.5, 41, and so on. The largest value that you can use is 128.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
         public var maxCapacity: Swift.Double?
-        /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. The smallest value that you can use is 0.5.
+        /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public var minCapacity: Swift.Double?
+        /// The number of seconds an Aurora Serverless v2 DB instance must be idle before Aurora attempts to automatically pause it. This property is only shown when the minimum capacity for the cluster is set to 0 ACUs. Changing the minimum capacity to a nonzero value removes this property. If you later change the minimum capacity back to 0 ACUs, this property is reset to its default value unless you specify it again. This value ranges between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds.
+        public var secondsUntilAutoPause: Swift.Int?
 
         public init(
             maxCapacity: Swift.Double? = nil,
-            minCapacity: Swift.Double? = nil
+            minCapacity: Swift.Double? = nil,
+            secondsUntilAutoPause: Swift.Int? = nil
         )
         {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
+            self.secondsUntilAutoPause = secondsUntilAutoPause
         }
     }
 }
@@ -5727,6 +5759,8 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     /// The meaning of this parameter differs according to the database engine you use. Amazon Aurora MySQL The name of the database to create when the primary DB instance of the Aurora MySQL DB cluster is created. If this parameter isn't specified for an Aurora MySQL DB cluster, no database is created in the DB cluster. Constraints:
     ///
     /// * Must contain 1 to 64 alphanumeric characters.
+    ///
+    /// * Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).
     ///
     /// * Can't be a word reserved by the database engine.
     ///
@@ -8352,6 +8386,7 @@ public struct CreateDBShardGroupInput: Swift.Sendable {
     }
 }
 
+/// Contains the details for an Amazon RDS DB shard group.
 public struct CreateDBShardGroupOutput: Swift.Sendable {
     /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
@@ -9767,6 +9802,8 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The major engine version of the CEV.
     public var majorEngineVersion: Swift.String?
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    public var serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport?
     /// The status of the DB engine version, either available or deprecated.
     public var status: Swift.String?
     /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -9821,6 +9858,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
+        serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport? = nil,
         status: Swift.String? = nil,
         supportedCACertificateIdentifiers: [Swift.String]? = nil,
         supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
@@ -9857,6 +9895,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
+        self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
         self.status = status
         self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
         self.supportedCharacterSets = supportedCharacterSets
@@ -10838,6 +10877,7 @@ public struct DeleteDBShardGroupInput: Swift.Sendable {
     }
 }
 
+/// Contains the details for an Amazon RDS DB shard group.
 public struct DeleteDBShardGroupOutput: Swift.Sendable {
     /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
@@ -12315,6 +12355,8 @@ extension RDSClientTypes {
         public var kmsKeyId: Swift.String?
         /// The major engine version of the CEV.
         public var majorEngineVersion: Swift.String?
+        /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+        public var serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport?
         /// The status of the DB engine version, either available or deprecated.
         public var status: Swift.String?
         /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -12369,6 +12411,7 @@ extension RDSClientTypes {
             image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
             kmsKeyId: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
+            serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport? = nil,
             status: Swift.String? = nil,
             supportedCACertificateIdentifiers: [Swift.String]? = nil,
             supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
@@ -12405,6 +12448,7 @@ extension RDSClientTypes {
             self.image = image
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
+            self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
             self.status = status
             self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
             self.supportedCharacterSets = supportedCharacterSets
@@ -12563,6 +12607,30 @@ public struct DescribeDBInstancesOutput: Swift.Sendable {
     {
         self.dbInstances = dbInstances
         self.marker = marker
+    }
+}
+
+/// An attempt to download or examine log files didn't succeed because an Aurora Serverless v2 instance was paused.
+public struct DBInstanceNotReadyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBInstanceNotReady" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
     }
 }
 
@@ -13819,6 +13887,7 @@ public struct DescribeDBShardGroupsInput: Swift.Sendable {
 
 extension RDSClientTypes {
 
+    /// Contains the details for an Amazon RDS DB shard group.
     public struct DBShardGroup: Swift.Sendable {
         /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
         ///
@@ -16782,6 +16851,8 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The major engine version of the CEV.
     public var majorEngineVersion: Swift.String?
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    public var serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport?
     /// The status of the DB engine version, either available or deprecated.
     public var status: Swift.String?
     /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -16836,6 +16907,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
+        serverlessV2FeaturesSupport: RDSClientTypes.ServerlessV2FeaturesSupport? = nil,
         status: Swift.String? = nil,
         supportedCACertificateIdentifiers: [Swift.String]? = nil,
         supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
@@ -16872,6 +16944,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
+        self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
         self.status = status
         self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
         self.supportedCharacterSets = supportedCharacterSets
@@ -16949,7 +17022,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     ///
     /// * You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
     public var allowMajorVersionUpgrade: Swift.Bool?
-    /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var applyImmediately: Swift.Bool?
     /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -18192,6 +18265,7 @@ public struct ModifyDBShardGroupInput: Swift.Sendable {
     }
 }
 
+/// Contains the details for an Amazon RDS DB shard group.
 public struct ModifyDBShardGroupOutput: Swift.Sendable {
     /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
@@ -18942,6 +19016,7 @@ public struct RebootDBShardGroupInput: Swift.Sendable {
     }
 }
 
+/// Contains the details for an Amazon RDS DB shard group.
 public struct RebootDBShardGroupOutput: Swift.Sendable {
     /// Specifies whether to create standby DB shard groups for the DB shard group. Valid values are the following:
     ///
@@ -19411,7 +19486,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
     public var engine: Swift.String?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora (PostgreSQL only) - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
     /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
@@ -19694,7 +19769,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var engine: Swift.String?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora (PostgreSQL only) - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
     /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
@@ -19925,7 +20000,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var enablePerformanceInsights: Swift.Bool?
     /// The life cycle type for this DB cluster. By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:
     ///
-    /// * Amazon Aurora (PostgreSQL only) - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
+    /// * Amazon Aurora - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html) in the Amazon Aurora User Guide
     ///
     /// * Amazon RDS - [Using Amazon RDS Extended Support](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html) in the Amazon RDS User Guide
     ///
@@ -25696,6 +25771,7 @@ extension CreateCustomDBEngineVersionOutput {
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
         value.status = try reader["Status"].readIfPresent()
         value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
@@ -25999,6 +26075,7 @@ extension DeleteCustomDBEngineVersionOutput {
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
         value.status = try reader["Status"].readIfPresent()
         value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
@@ -26984,6 +27061,7 @@ extension ModifyCustomDBEngineVersionOutput {
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
         value.status = try reader["Status"].readIfPresent()
         value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
@@ -28854,6 +28932,7 @@ enum DescribeDBLogFilesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
+            case "DBInstanceNotReady": return try DBInstanceNotReadyFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29303,6 +29382,7 @@ enum DownloadDBLogFilePortionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
+            case "DBInstanceNotReady": return try DBInstanceNotReadyFault.makeError(baseError: baseError)
             case "DBLogFileNotFoundFault": return try DBLogFileNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -31997,6 +32077,19 @@ extension DBClusterBacktrackNotFoundFault {
     }
 }
 
+extension DBInstanceNotReadyFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBInstanceNotReadyFault {
+        let reader = baseError.errorBodyReader
+        var value = DBInstanceNotReadyFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ReservedDBInstanceNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ReservedDBInstanceNotFoundFault {
@@ -32721,6 +32814,17 @@ extension RDSClientTypes.Timezone {
     }
 }
 
+extension RDSClientTypes.ServerlessV2FeaturesSupport {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ServerlessV2FeaturesSupport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ServerlessV2FeaturesSupport()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.DBCluster {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBCluster {
@@ -32852,6 +32956,7 @@ extension RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
         var value = RDSClientTypes.ServerlessV2ScalingConfigurationInfo()
         value.minCapacity = try reader["MinCapacity"].readIfPresent()
         value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
         return value
     }
 }
@@ -33627,6 +33732,7 @@ extension RDSClientTypes.DBEngineVersion {
         value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportsLocalWriteForwarding = try reader["SupportsLocalWriteForwarding"].readIfPresent()
         value.supportsIntegrations = try reader["SupportsIntegrations"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: RDSClientTypes.ServerlessV2FeaturesSupport.read(from:))
         return value
     }
 }
@@ -34291,6 +34397,7 @@ extension RDSClientTypes.ServerlessV2ScalingConfiguration {
         guard let value else { return }
         try writer["MaxCapacity"].write(value.maxCapacity)
         try writer["MinCapacity"].write(value.minCapacity)
+        try writer["SecondsUntilAutoPause"].write(value.secondsUntilAutoPause)
     }
 }
 
