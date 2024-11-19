@@ -313,21 +313,126 @@ extension B2biClientTypes {
 extension B2biClientTypes {
 
     public enum X12TransactionSet: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case x12100
+        case x12101
+        case x12102
+        case x12103
+        case x12104
+        case x12105
+        case x12106
+        case x12107
+        case x12108
+        case x12109
         case x12110
+        case x12111
+        case x12112
+        case x12113
+        case x12120
+        case x12121
+        case x12124
+        case x12125
+        case x12126
+        case x12127
+        case x12128
+        case x12129
+        case x12130
+        case x12131
+        case x12132
+        case x12133
+        case x12135
+        case x12138
+        case x12139
+        case x12140
+        case x12141
+        case x12142
+        case x12143
+        case x12144
+        case x12146
+        case x12147
+        case x12148
+        case x12149
+        case x12150
+        case x12151
+        case x12152
+        case x12153
+        case x12154
+        case x12155
+        case x12157
+        case x12158
+        case x12159
+        case x12160
+        case x12161
+        case x12163
+        case x12170
+        case x12175
+        case x12176
+        case x12179
         case x12180
+        case x12185
+        case x12186
+        case x12187
+        case x12188
+        case x12189
+        case x12190
+        case x12191
+        case x12194
+        case x12195
+        case x12196
+        case x12197
+        case x12198
+        case x12199
+        case x12200
+        case x12201
+        case x12202
+        case x12203
         case x12204
+        case x12205
+        case x12206
         case x12210
         case x12211
+        case x12212
+        case x12213
         case x12214
         case x12215
+        case x12216
+        case x12217
+        case x12218
+        case x12219
+        case x12220
+        case x12222
+        case x12223
+        case x12224
+        case x12225
+        case x12227
+        case x12228
+        case x12240
+        case x12242
+        case x12244
+        case x12245
+        case x12248
+        case x12249
+        case x12250
+        case x12251
+        case x12252
+        case x12255
+        case x12256
         case x12259
         case x12260
+        case x12261
+        case x12262
+        case x12263
+        case x12264
+        case x12265
         case x12266
+        case x12267
+        case x12268
         case x12269
         case x12270
         case x12270X279
         case x12271
         case x12271X279
+        case x12272
+        case x12273
         case x12274
         case x12275
         case x12275X210
@@ -340,28 +445,134 @@ extension B2biClientTypes {
         case x12277X364
         case x12278
         case x12278X217
+        case x12280
+        case x12283
+        case x12284
+        case x12285
+        case x12286
+        case x12288
+        case x12290
+        case x12300
+        case x12301
+        case x12303
+        case x12304
+        case x12309
         case x12310
+        case x12311
+        case x12312
+        case x12313
         case x12315
+        case x12317
+        case x12319
         case x12322
+        case x12323
+        case x12324
+        case x12325
+        case x12326
+        case x12350
+        case x12352
+        case x12353
+        case x12354
+        case x12355
+        case x12356
+        case x12357
+        case x12358
+        case x12361
+        case x12362
         case x12404
         case x12410
+        case x12412
+        case x12414
         case x12417
+        case x12418
+        case x12419
+        case x12420
         case x12421
+        case x12422
+        case x12423
+        case x12424
+        case x12425
         case x12426
+        case x12429
+        case x12431
+        case x12432
+        case x12433
+        case x12434
+        case x12435
+        case x12436
+        case x12437
+        case x12440
+        case x12451
+        case x12452
+        case x12453
+        case x12455
+        case x12456
+        case x12460
+        case x12463
+        case x12466
+        case x12468
+        case x12470
+        case x12475
+        case x12485
+        case x12486
+        case x12490
+        case x12492
+        case x12494
+        case x12500
+        case x12501
+        case x12503
+        case x12504
+        case x12511
+        case x12517
+        case x12521
+        case x12527
+        case x12536
+        case x12540
+        case x12561
+        case x12567
+        case x12568
+        case x12601
+        case x12602
+        case x12620
+        case x12625
+        case x12650
+        case x12715
+        case x12753
+        case x12754
+        case x12805
+        case x12806
         case x12810
+        case x12811
+        case x12812
+        case x12813
+        case x12814
+        case x12815
+        case x12816
+        case x12818
+        case x12819
         case x12820
         case x12820X218
         case x12820X306
+        case x12821
+        case x12822
+        case x12823
         case x12824
         case x12824X186
+        case x12826
+        case x12827
+        case x12828
+        case x12829
         case x12830
+        case x12831
         case x12832
+        case x12833
         case x12834
         case x12834X220
         case x12834X307
         case x12834X318
         case x12835
         case x12835X221
+        case x12836
         case x12837
         case x12837X222
         case x12837X223
@@ -369,44 +580,205 @@ extension B2biClientTypes {
         case x12837X291
         case x12837X292
         case x12837X298
+        case x12838
+        case x12839
+        case x12840
+        case x12841
+        case x12842
+        case x12843
         case x12844
+        case x12845
         case x12846
+        case x12847
+        case x12848
         case x12849
         case x12850
+        case x12851
         case x12852
+        case x12853
+        case x12854
         case x12855
         case x12856
+        case x12857
+        case x12858
+        case x12859
         case x12860
         case x12861
+        case x12862
+        case x12863
         case x12864
         case x12865
+        case x12866
+        case x12867
+        case x12868
         case x12869
         case x12870
+        case x12871
+        case x12872
+        case x12873
+        case x12874
+        case x12875
+        case x12876
+        case x12877
+        case x12878
+        case x12879
+        case x12880
+        case x12881
+        case x12882
+        case x12883
+        case x12884
+        case x12885
+        case x12886
+        case x12887
+        case x12888
+        case x12889
+        case x12891
+        case x12893
+        case x12894
+        case x12895
+        case x12896
+        case x12920
+        case x12924
+        case x12925
+        case x12926
+        case x12928
         case x12940
+        case x12943
+        case x12944
         case x12945
+        case x12947
+        case x12980
         case x12990
+        case x12993
+        case x12996
         case x12997
+        case x12998
         case x12999
         case x12999X231
         case sdkUnknown(Swift.String)
 
         public static var allCases: [X12TransactionSet] {
             return [
+                .x12100,
+                .x12101,
+                .x12102,
+                .x12103,
+                .x12104,
+                .x12105,
+                .x12106,
+                .x12107,
+                .x12108,
+                .x12109,
                 .x12110,
+                .x12111,
+                .x12112,
+                .x12113,
+                .x12120,
+                .x12121,
+                .x12124,
+                .x12125,
+                .x12126,
+                .x12127,
+                .x12128,
+                .x12129,
+                .x12130,
+                .x12131,
+                .x12132,
+                .x12133,
+                .x12135,
+                .x12138,
+                .x12139,
+                .x12140,
+                .x12141,
+                .x12142,
+                .x12143,
+                .x12144,
+                .x12146,
+                .x12147,
+                .x12148,
+                .x12149,
+                .x12150,
+                .x12151,
+                .x12152,
+                .x12153,
+                .x12154,
+                .x12155,
+                .x12157,
+                .x12158,
+                .x12159,
+                .x12160,
+                .x12161,
+                .x12163,
+                .x12170,
+                .x12175,
+                .x12176,
+                .x12179,
                 .x12180,
+                .x12185,
+                .x12186,
+                .x12187,
+                .x12188,
+                .x12189,
+                .x12190,
+                .x12191,
+                .x12194,
+                .x12195,
+                .x12196,
+                .x12197,
+                .x12198,
+                .x12199,
+                .x12200,
+                .x12201,
+                .x12202,
+                .x12203,
                 .x12204,
+                .x12205,
+                .x12206,
                 .x12210,
                 .x12211,
+                .x12212,
+                .x12213,
                 .x12214,
                 .x12215,
+                .x12216,
+                .x12217,
+                .x12218,
+                .x12219,
+                .x12220,
+                .x12222,
+                .x12223,
+                .x12224,
+                .x12225,
+                .x12227,
+                .x12228,
+                .x12240,
+                .x12242,
+                .x12244,
+                .x12245,
+                .x12248,
+                .x12249,
+                .x12250,
+                .x12251,
+                .x12252,
+                .x12255,
+                .x12256,
                 .x12259,
                 .x12260,
+                .x12261,
+                .x12262,
+                .x12263,
+                .x12264,
+                .x12265,
                 .x12266,
+                .x12267,
+                .x12268,
                 .x12269,
                 .x12270,
                 .x12270X279,
                 .x12271,
                 .x12271X279,
+                .x12272,
+                .x12273,
                 .x12274,
                 .x12275,
                 .x12275X210,
@@ -419,28 +791,134 @@ extension B2biClientTypes {
                 .x12277X364,
                 .x12278,
                 .x12278X217,
+                .x12280,
+                .x12283,
+                .x12284,
+                .x12285,
+                .x12286,
+                .x12288,
+                .x12290,
+                .x12300,
+                .x12301,
+                .x12303,
+                .x12304,
+                .x12309,
                 .x12310,
+                .x12311,
+                .x12312,
+                .x12313,
                 .x12315,
+                .x12317,
+                .x12319,
                 .x12322,
+                .x12323,
+                .x12324,
+                .x12325,
+                .x12326,
+                .x12350,
+                .x12352,
+                .x12353,
+                .x12354,
+                .x12355,
+                .x12356,
+                .x12357,
+                .x12358,
+                .x12361,
+                .x12362,
                 .x12404,
                 .x12410,
+                .x12412,
+                .x12414,
                 .x12417,
+                .x12418,
+                .x12419,
+                .x12420,
                 .x12421,
+                .x12422,
+                .x12423,
+                .x12424,
+                .x12425,
                 .x12426,
+                .x12429,
+                .x12431,
+                .x12432,
+                .x12433,
+                .x12434,
+                .x12435,
+                .x12436,
+                .x12437,
+                .x12440,
+                .x12451,
+                .x12452,
+                .x12453,
+                .x12455,
+                .x12456,
+                .x12460,
+                .x12463,
+                .x12466,
+                .x12468,
+                .x12470,
+                .x12475,
+                .x12485,
+                .x12486,
+                .x12490,
+                .x12492,
+                .x12494,
+                .x12500,
+                .x12501,
+                .x12503,
+                .x12504,
+                .x12511,
+                .x12517,
+                .x12521,
+                .x12527,
+                .x12536,
+                .x12540,
+                .x12561,
+                .x12567,
+                .x12568,
+                .x12601,
+                .x12602,
+                .x12620,
+                .x12625,
+                .x12650,
+                .x12715,
+                .x12753,
+                .x12754,
+                .x12805,
+                .x12806,
                 .x12810,
+                .x12811,
+                .x12812,
+                .x12813,
+                .x12814,
+                .x12815,
+                .x12816,
+                .x12818,
+                .x12819,
                 .x12820,
                 .x12820X218,
                 .x12820X306,
+                .x12821,
+                .x12822,
+                .x12823,
                 .x12824,
                 .x12824X186,
+                .x12826,
+                .x12827,
+                .x12828,
+                .x12829,
                 .x12830,
+                .x12831,
                 .x12832,
+                .x12833,
                 .x12834,
                 .x12834X220,
                 .x12834X307,
                 .x12834X318,
                 .x12835,
                 .x12835X221,
+                .x12836,
                 .x12837,
                 .x12837X222,
                 .x12837X223,
@@ -448,23 +926,79 @@ extension B2biClientTypes {
                 .x12837X291,
                 .x12837X292,
                 .x12837X298,
+                .x12838,
+                .x12839,
+                .x12840,
+                .x12841,
+                .x12842,
+                .x12843,
                 .x12844,
+                .x12845,
                 .x12846,
+                .x12847,
+                .x12848,
                 .x12849,
                 .x12850,
+                .x12851,
                 .x12852,
+                .x12853,
+                .x12854,
                 .x12855,
                 .x12856,
+                .x12857,
+                .x12858,
+                .x12859,
                 .x12860,
                 .x12861,
+                .x12862,
+                .x12863,
                 .x12864,
                 .x12865,
+                .x12866,
+                .x12867,
+                .x12868,
                 .x12869,
                 .x12870,
+                .x12871,
+                .x12872,
+                .x12873,
+                .x12874,
+                .x12875,
+                .x12876,
+                .x12877,
+                .x12878,
+                .x12879,
+                .x12880,
+                .x12881,
+                .x12882,
+                .x12883,
+                .x12884,
+                .x12885,
+                .x12886,
+                .x12887,
+                .x12888,
+                .x12889,
+                .x12891,
+                .x12893,
+                .x12894,
+                .x12895,
+                .x12896,
+                .x12920,
+                .x12924,
+                .x12925,
+                .x12926,
+                .x12928,
                 .x12940,
+                .x12943,
+                .x12944,
                 .x12945,
+                .x12947,
+                .x12980,
                 .x12990,
+                .x12993,
+                .x12996,
                 .x12997,
+                .x12998,
                 .x12999,
                 .x12999X231
             ]
@@ -477,21 +1011,126 @@ extension B2biClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .x12100: return "X12_100"
+            case .x12101: return "X12_101"
+            case .x12102: return "X12_102"
+            case .x12103: return "X12_103"
+            case .x12104: return "X12_104"
+            case .x12105: return "X12_105"
+            case .x12106: return "X12_106"
+            case .x12107: return "X12_107"
+            case .x12108: return "X12_108"
+            case .x12109: return "X12_109"
             case .x12110: return "X12_110"
+            case .x12111: return "X12_111"
+            case .x12112: return "X12_112"
+            case .x12113: return "X12_113"
+            case .x12120: return "X12_120"
+            case .x12121: return "X12_121"
+            case .x12124: return "X12_124"
+            case .x12125: return "X12_125"
+            case .x12126: return "X12_126"
+            case .x12127: return "X12_127"
+            case .x12128: return "X12_128"
+            case .x12129: return "X12_129"
+            case .x12130: return "X12_130"
+            case .x12131: return "X12_131"
+            case .x12132: return "X12_132"
+            case .x12133: return "X12_133"
+            case .x12135: return "X12_135"
+            case .x12138: return "X12_138"
+            case .x12139: return "X12_139"
+            case .x12140: return "X12_140"
+            case .x12141: return "X12_141"
+            case .x12142: return "X12_142"
+            case .x12143: return "X12_143"
+            case .x12144: return "X12_144"
+            case .x12146: return "X12_146"
+            case .x12147: return "X12_147"
+            case .x12148: return "X12_148"
+            case .x12149: return "X12_149"
+            case .x12150: return "X12_150"
+            case .x12151: return "X12_151"
+            case .x12152: return "X12_152"
+            case .x12153: return "X12_153"
+            case .x12154: return "X12_154"
+            case .x12155: return "X12_155"
+            case .x12157: return "X12_157"
+            case .x12158: return "X12_158"
+            case .x12159: return "X12_159"
+            case .x12160: return "X12_160"
+            case .x12161: return "X12_161"
+            case .x12163: return "X12_163"
+            case .x12170: return "X12_170"
+            case .x12175: return "X12_175"
+            case .x12176: return "X12_176"
+            case .x12179: return "X12_179"
             case .x12180: return "X12_180"
+            case .x12185: return "X12_185"
+            case .x12186: return "X12_186"
+            case .x12187: return "X12_187"
+            case .x12188: return "X12_188"
+            case .x12189: return "X12_189"
+            case .x12190: return "X12_190"
+            case .x12191: return "X12_191"
+            case .x12194: return "X12_194"
+            case .x12195: return "X12_195"
+            case .x12196: return "X12_196"
+            case .x12197: return "X12_197"
+            case .x12198: return "X12_198"
+            case .x12199: return "X12_199"
+            case .x12200: return "X12_200"
+            case .x12201: return "X12_201"
+            case .x12202: return "X12_202"
+            case .x12203: return "X12_203"
             case .x12204: return "X12_204"
+            case .x12205: return "X12_205"
+            case .x12206: return "X12_206"
             case .x12210: return "X12_210"
             case .x12211: return "X12_211"
+            case .x12212: return "X12_212"
+            case .x12213: return "X12_213"
             case .x12214: return "X12_214"
             case .x12215: return "X12_215"
+            case .x12216: return "X12_216"
+            case .x12217: return "X12_217"
+            case .x12218: return "X12_218"
+            case .x12219: return "X12_219"
+            case .x12220: return "X12_220"
+            case .x12222: return "X12_222"
+            case .x12223: return "X12_223"
+            case .x12224: return "X12_224"
+            case .x12225: return "X12_225"
+            case .x12227: return "X12_227"
+            case .x12228: return "X12_228"
+            case .x12240: return "X12_240"
+            case .x12242: return "X12_242"
+            case .x12244: return "X12_244"
+            case .x12245: return "X12_245"
+            case .x12248: return "X12_248"
+            case .x12249: return "X12_249"
+            case .x12250: return "X12_250"
+            case .x12251: return "X12_251"
+            case .x12252: return "X12_252"
+            case .x12255: return "X12_255"
+            case .x12256: return "X12_256"
             case .x12259: return "X12_259"
             case .x12260: return "X12_260"
+            case .x12261: return "X12_261"
+            case .x12262: return "X12_262"
+            case .x12263: return "X12_263"
+            case .x12264: return "X12_264"
+            case .x12265: return "X12_265"
             case .x12266: return "X12_266"
+            case .x12267: return "X12_267"
+            case .x12268: return "X12_268"
             case .x12269: return "X12_269"
             case .x12270: return "X12_270"
             case .x12270X279: return "X12_270_X279"
             case .x12271: return "X12_271"
             case .x12271X279: return "X12_271_X279"
+            case .x12272: return "X12_272"
+            case .x12273: return "X12_273"
             case .x12274: return "X12_274"
             case .x12275: return "X12_275"
             case .x12275X210: return "X12_275_X210"
@@ -504,28 +1143,134 @@ extension B2biClientTypes {
             case .x12277X364: return "X12_277_X364"
             case .x12278: return "X12_278"
             case .x12278X217: return "X12_278_X217"
+            case .x12280: return "X12_280"
+            case .x12283: return "X12_283"
+            case .x12284: return "X12_284"
+            case .x12285: return "X12_285"
+            case .x12286: return "X12_286"
+            case .x12288: return "X12_288"
+            case .x12290: return "X12_290"
+            case .x12300: return "X12_300"
+            case .x12301: return "X12_301"
+            case .x12303: return "X12_303"
+            case .x12304: return "X12_304"
+            case .x12309: return "X12_309"
             case .x12310: return "X12_310"
+            case .x12311: return "X12_311"
+            case .x12312: return "X12_312"
+            case .x12313: return "X12_313"
             case .x12315: return "X12_315"
+            case .x12317: return "X12_317"
+            case .x12319: return "X12_319"
             case .x12322: return "X12_322"
+            case .x12323: return "X12_323"
+            case .x12324: return "X12_324"
+            case .x12325: return "X12_325"
+            case .x12326: return "X12_326"
+            case .x12350: return "X12_350"
+            case .x12352: return "X12_352"
+            case .x12353: return "X12_353"
+            case .x12354: return "X12_354"
+            case .x12355: return "X12_355"
+            case .x12356: return "X12_356"
+            case .x12357: return "X12_357"
+            case .x12358: return "X12_358"
+            case .x12361: return "X12_361"
+            case .x12362: return "X12_362"
             case .x12404: return "X12_404"
             case .x12410: return "X12_410"
+            case .x12412: return "X12_412"
+            case .x12414: return "X12_414"
             case .x12417: return "X12_417"
+            case .x12418: return "X12_418"
+            case .x12419: return "X12_419"
+            case .x12420: return "X12_420"
             case .x12421: return "X12_421"
+            case .x12422: return "X12_422"
+            case .x12423: return "X12_423"
+            case .x12424: return "X12_424"
+            case .x12425: return "X12_425"
             case .x12426: return "X12_426"
+            case .x12429: return "X12_429"
+            case .x12431: return "X12_431"
+            case .x12432: return "X12_432"
+            case .x12433: return "X12_433"
+            case .x12434: return "X12_434"
+            case .x12435: return "X12_435"
+            case .x12436: return "X12_436"
+            case .x12437: return "X12_437"
+            case .x12440: return "X12_440"
+            case .x12451: return "X12_451"
+            case .x12452: return "X12_452"
+            case .x12453: return "X12_453"
+            case .x12455: return "X12_455"
+            case .x12456: return "X12_456"
+            case .x12460: return "X12_460"
+            case .x12463: return "X12_463"
+            case .x12466: return "X12_466"
+            case .x12468: return "X12_468"
+            case .x12470: return "X12_470"
+            case .x12475: return "X12_475"
+            case .x12485: return "X12_485"
+            case .x12486: return "X12_486"
+            case .x12490: return "X12_490"
+            case .x12492: return "X12_492"
+            case .x12494: return "X12_494"
+            case .x12500: return "X12_500"
+            case .x12501: return "X12_501"
+            case .x12503: return "X12_503"
+            case .x12504: return "X12_504"
+            case .x12511: return "X12_511"
+            case .x12517: return "X12_517"
+            case .x12521: return "X12_521"
+            case .x12527: return "X12_527"
+            case .x12536: return "X12_536"
+            case .x12540: return "X12_540"
+            case .x12561: return "X12_561"
+            case .x12567: return "X12_567"
+            case .x12568: return "X12_568"
+            case .x12601: return "X12_601"
+            case .x12602: return "X12_602"
+            case .x12620: return "X12_620"
+            case .x12625: return "X12_625"
+            case .x12650: return "X12_650"
+            case .x12715: return "X12_715"
+            case .x12753: return "X12_753"
+            case .x12754: return "X12_754"
+            case .x12805: return "X12_805"
+            case .x12806: return "X12_806"
             case .x12810: return "X12_810"
+            case .x12811: return "X12_811"
+            case .x12812: return "X12_812"
+            case .x12813: return "X12_813"
+            case .x12814: return "X12_814"
+            case .x12815: return "X12_815"
+            case .x12816: return "X12_816"
+            case .x12818: return "X12_818"
+            case .x12819: return "X12_819"
             case .x12820: return "X12_820"
             case .x12820X218: return "X12_820_X218"
             case .x12820X306: return "X12_820_X306"
+            case .x12821: return "X12_821"
+            case .x12822: return "X12_822"
+            case .x12823: return "X12_823"
             case .x12824: return "X12_824"
             case .x12824X186: return "X12_824_X186"
+            case .x12826: return "X12_826"
+            case .x12827: return "X12_827"
+            case .x12828: return "X12_828"
+            case .x12829: return "X12_829"
             case .x12830: return "X12_830"
+            case .x12831: return "X12_831"
             case .x12832: return "X12_832"
+            case .x12833: return "X12_833"
             case .x12834: return "X12_834"
             case .x12834X220: return "X12_834_X220"
             case .x12834X307: return "X12_834_X307"
             case .x12834X318: return "X12_834_X318"
             case .x12835: return "X12_835"
             case .x12835X221: return "X12_835_X221"
+            case .x12836: return "X12_836"
             case .x12837: return "X12_837"
             case .x12837X222: return "X12_837_X222"
             case .x12837X223: return "X12_837_X223"
@@ -533,23 +1278,79 @@ extension B2biClientTypes {
             case .x12837X291: return "X12_837_X291"
             case .x12837X292: return "X12_837_X292"
             case .x12837X298: return "X12_837_X298"
+            case .x12838: return "X12_838"
+            case .x12839: return "X12_839"
+            case .x12840: return "X12_840"
+            case .x12841: return "X12_841"
+            case .x12842: return "X12_842"
+            case .x12843: return "X12_843"
             case .x12844: return "X12_844"
+            case .x12845: return "X12_845"
             case .x12846: return "X12_846"
+            case .x12847: return "X12_847"
+            case .x12848: return "X12_848"
             case .x12849: return "X12_849"
             case .x12850: return "X12_850"
+            case .x12851: return "X12_851"
             case .x12852: return "X12_852"
+            case .x12853: return "X12_853"
+            case .x12854: return "X12_854"
             case .x12855: return "X12_855"
             case .x12856: return "X12_856"
+            case .x12857: return "X12_857"
+            case .x12858: return "X12_858"
+            case .x12859: return "X12_859"
             case .x12860: return "X12_860"
             case .x12861: return "X12_861"
+            case .x12862: return "X12_862"
+            case .x12863: return "X12_863"
             case .x12864: return "X12_864"
             case .x12865: return "X12_865"
+            case .x12866: return "X12_866"
+            case .x12867: return "X12_867"
+            case .x12868: return "X12_868"
             case .x12869: return "X12_869"
             case .x12870: return "X12_870"
+            case .x12871: return "X12_871"
+            case .x12872: return "X12_872"
+            case .x12873: return "X12_873"
+            case .x12874: return "X12_874"
+            case .x12875: return "X12_875"
+            case .x12876: return "X12_876"
+            case .x12877: return "X12_877"
+            case .x12878: return "X12_878"
+            case .x12879: return "X12_879"
+            case .x12880: return "X12_880"
+            case .x12881: return "X12_881"
+            case .x12882: return "X12_882"
+            case .x12883: return "X12_883"
+            case .x12884: return "X12_884"
+            case .x12885: return "X12_885"
+            case .x12886: return "X12_886"
+            case .x12887: return "X12_887"
+            case .x12888: return "X12_888"
+            case .x12889: return "X12_889"
+            case .x12891: return "X12_891"
+            case .x12893: return "X12_893"
+            case .x12894: return "X12_894"
+            case .x12895: return "X12_895"
+            case .x12896: return "X12_896"
+            case .x12920: return "X12_920"
+            case .x12924: return "X12_924"
+            case .x12925: return "X12_925"
+            case .x12926: return "X12_926"
+            case .x12928: return "X12_928"
             case .x12940: return "X12_940"
+            case .x12943: return "X12_943"
+            case .x12944: return "X12_944"
             case .x12945: return "X12_945"
+            case .x12947: return "X12_947"
+            case .x12980: return "X12_980"
             case .x12990: return "X12_990"
+            case .x12993: return "X12_993"
+            case .x12996: return "X12_996"
             case .x12997: return "X12_997"
+            case .x12998: return "X12_998"
             case .x12999: return "X12_999"
             case .x12999X231: return "X12_999_X231"
             case let .sdkUnknown(s): return s
@@ -563,6 +1364,8 @@ extension B2biClientTypes {
     public enum X12Version: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case version4010
         case version4030
+        case version4050
+        case version4060
         case version5010
         case version5010Hipaa
         case sdkUnknown(Swift.String)
@@ -571,6 +1374,8 @@ extension B2biClientTypes {
             return [
                 .version4010,
                 .version4030,
+                .version4050,
+                .version4060,
                 .version5010,
                 .version5010Hipaa
             ]
@@ -585,6 +1390,8 @@ extension B2biClientTypes {
             switch self {
             case .version4010: return "VERSION_4010"
             case .version4030: return "VERSION_4030"
+            case .version4050: return "VERSION_4050"
+            case .version4060: return "VERSION_4060"
             case .version5010: return "VERSION_5010"
             case .version5010Hipaa: return "VERSION_5010_HIPAA"
             case let .sdkUnknown(s): return s
