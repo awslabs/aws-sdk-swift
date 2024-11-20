@@ -1953,6 +1953,7 @@ extension LambdaClientTypes {
         case nodejs16x
         case nodejs18x
         case nodejs20x
+        case nodejs22x
         case nodejs43
         case nodejs43edge
         case nodejs610
@@ -1996,6 +1997,7 @@ extension LambdaClientTypes {
                 .nodejs16x,
                 .nodejs18x,
                 .nodejs20x,
+                .nodejs22x,
                 .nodejs43,
                 .nodejs43edge,
                 .nodejs610,
@@ -2045,6 +2047,7 @@ extension LambdaClientTypes {
             case .nodejs16x: return "nodejs16.x"
             case .nodejs18x: return "nodejs18.x"
             case .nodejs20x: return "nodejs20.x"
+            case .nodejs22x: return "nodejs22.x"
             case .nodejs43: return "nodejs4.3"
             case .nodejs43edge: return "nodejs4.3-edge"
             case .nodejs610: return "nodejs6.10"

@@ -1038,6 +1038,89 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
+    public enum CapacityReservationPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityreservationsfirst
+        case capacityreservationsonly
+        case `default`
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationPreference] {
+            return [
+                .capacityreservationsfirst,
+                .capacityreservationsonly,
+                .default,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityreservationsfirst: return "capacity-reservations-first"
+            case .capacityreservationsonly: return "capacity-reservations-only"
+            case .default: return "default"
+            case .none: return "none"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// The target for the Capacity Reservation. Specify Capacity Reservations IDs or Capacity Reservation resource group ARNs.
+    public struct CapacityReservationTarget: Swift.Sendable {
+        /// The Capacity Reservation IDs to launch instances into.
+        public var capacityReservationIds: [Swift.String]?
+        /// The resource group ARNs of the Capacity Reservation to launch instances into.
+        public var capacityReservationResourceGroupArns: [Swift.String]?
+
+        public init(
+            capacityReservationIds: [Swift.String]? = nil,
+            capacityReservationResourceGroupArns: [Swift.String]? = nil
+        )
+        {
+            self.capacityReservationIds = capacityReservationIds
+            self.capacityReservationResourceGroupArns = capacityReservationResourceGroupArns
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Describes the Capacity Reservation preference and targeting options. If you specify open or none for CapacityReservationPreference, do not specify a CapacityReservationTarget.
+    public struct CapacityReservationSpecification: Swift.Sendable {
+        /// The capacity reservation preference. The following options are available:
+        ///
+        /// * capacity-reservations-only - Auto Scaling will only launch instances into a Capacity Reservation or Capacity Reservation resource group. If capacity isn't available, instances will fail to launch.
+        ///
+        /// * capacity-reservations-first - Auto Scaling will try to launch instances into a Capacity Reservation or Capacity Reservation resource group first. If capacity isn't available, instances will run in On-Demand capacity.
+        ///
+        /// * none - Auto Scaling will not launch instances into a Capacity Reservation. Instances will run in On-Demand capacity.
+        ///
+        /// * default - Auto Scaling uses the Capacity Reservation preference from your launch template or an open Capacity Reservation.
+        public var capacityReservationPreference: AutoScalingClientTypes.CapacityReservationPreference?
+        /// Describes a target Capacity Reservation or Capacity Reservation resource group.
+        public var capacityReservationTarget: AutoScalingClientTypes.CapacityReservationTarget?
+
+        public init(
+            capacityReservationPreference: AutoScalingClientTypes.CapacityReservationPreference? = nil,
+            capacityReservationTarget: AutoScalingClientTypes.CapacityReservationTarget? = nil
+        )
+        {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.capacityReservationTarget = capacityReservationTarget
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
     /// Describes an instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public struct InstanceMaintenancePolicy: Swift.Sendable {
         /// Specifies the upper threshold as a percentage of the desired capacity of the Auto Scaling group. It represents the maximum percentage of the group that can be in service and healthy, or pending, to support your workload when replacing instances. Value range is 100 to 200. To clear a previously set value, specify a value of -1. Both MinHealthyPercentage and MaxHealthyPercentage must be specified, and the difference between them cannot be greater than 100. A large range increases the number of instances that can be replaced at the same time.
@@ -1210,6 +1293,73 @@ extension AutoScalingClientTypes {
         {
             self.max = max
             self.min = min
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture differences. Currently only one instance family can be specified in the list.
+    public struct PerformanceFactorReferenceRequest: Swift.Sendable {
+        /// The instance family to use as a baseline reference. Make sure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance c6i.large, the instance family is c6i, not c6. For more information, see [Amazon EC2 instance type naming conventions](https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-type-names.html) in Amazon EC2 Instance Types. The following instance types are not supported for performance protection.
+        ///
+        /// * c1
+        ///
+        /// * g3| g3s
+        ///
+        /// * hpc7g
+        ///
+        /// * m1| m2
+        ///
+        /// * mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro
+        ///
+        /// * p3dn | p4d | p5
+        ///
+        /// * t1
+        ///
+        /// * u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb
+        ///
+        ///
+        /// If you performance protection by specifying a supported instance family, the returned instance types will exclude the preceding unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response.
+        public var instanceFamily: Swift.String?
+
+        public init(
+            instanceFamily: Swift.String? = nil
+        )
+        {
+            self.instanceFamily = instanceFamily
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// The CPU performance to consider, using an instance family as the baseline reference.
+    public struct CpuPerformanceFactorRequest: Swift.Sendable {
+        /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture differences. Currently only one instance family can be specified in the list.
+        public var references: [AutoScalingClientTypes.PerformanceFactorReferenceRequest]?
+
+        public init(
+            references: [AutoScalingClientTypes.PerformanceFactorReferenceRequest]? = nil
+        )
+        {
+            self.references = references
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// The baseline performance to consider, using an instance family as a baseline reference. The instance family establishes the lowest acceptable level of performance. Auto Scaling uses this baseline to guide instance type selection, but there is no guarantee that the selected instance types will always exceed the baseline for every application. Currently, this parameter only supports CPU performance as a baseline performance factor. For example, specifying c6i uses the CPU performance of the c6i family as the baseline reference.
+    public struct BaselinePerformanceFactorsRequest: Swift.Sendable {
+        /// The CPU performance to consider, using an instance family as the baseline reference.
+        public var cpu: AutoScalingClientTypes.CpuPerformanceFactorRequest?
+
+        public init(
+            cpu: AutoScalingClientTypes.CpuPerformanceFactorRequest? = nil
+        )
+        {
+            self.cpu = cpu
         }
     }
 }
@@ -1554,6 +1704,8 @@ extension AutoScalingClientTypes {
         public var bareMetal: AutoScalingClientTypes.BareMetal?
         /// The minimum and maximum baseline bandwidth performance for an instance type, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide for Linux Instances. Default: No minimum or maximum limits
         public var baselineEbsBandwidthMbps: AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest?
+        /// The baseline performance factors for the instance requirements.
+        public var baselinePerformanceFactors: AutoScalingClientTypes.BaselinePerformanceFactorsRequest?
         /// Indicates whether burstable performance instance types are included, excluded, or required. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide for Linux Instances. Default: excluded
         public var burstablePerformance: AutoScalingClientTypes.BurstablePerformance?
         /// Lists which specific CPU manufacturers to include.
@@ -1621,6 +1773,7 @@ extension AutoScalingClientTypes {
             allowedInstanceTypes: [Swift.String]? = nil,
             bareMetal: AutoScalingClientTypes.BareMetal? = nil,
             baselineEbsBandwidthMbps: AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest? = nil,
+            baselinePerformanceFactors: AutoScalingClientTypes.BaselinePerformanceFactorsRequest? = nil,
             burstablePerformance: AutoScalingClientTypes.BurstablePerformance? = nil,
             cpuManufacturers: [AutoScalingClientTypes.CpuManufacturer]? = nil,
             excludedInstanceTypes: [Swift.String]? = nil,
@@ -1647,6 +1800,7 @@ extension AutoScalingClientTypes {
             self.allowedInstanceTypes = allowedInstanceTypes
             self.bareMetal = bareMetal
             self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.baselinePerformanceFactors = baselinePerformanceFactors
             self.burstablePerformance = burstablePerformance
             self.cpuManufacturers = cpuManufacturers
             self.excludedInstanceTypes = excludedInstanceTypes
@@ -1787,6 +1941,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var availabilityZones: [Swift.String]?
     /// Indicates whether Capacity Rebalancing is enabled. Otherwise, Capacity Rebalancing is disabled. When you turn on Capacity Rebalancing, Amazon EC2 Auto Scaling attempts to launch a Spot Instance whenever Amazon EC2 notifies that a Spot Instance is at an elevated risk of interruption. After launching a new instance, it then terminates an old instance. For more information, see [Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html) in the in the Amazon EC2 Auto Scaling User Guide.
     public var capacityRebalance: Swift.Bool?
+    /// The capacity reservation specification for the Auto Scaling group.
+    public var capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification?
     /// Reserved.
     public var context: Swift.String?
     /// Only needed if you use simple scaling policies. The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html) in the Amazon EC2 Auto Scaling User Guide. Default: 300 seconds
@@ -1848,6 +2004,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
+        capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification? = nil,
         context: Swift.String? = nil,
         defaultCooldown: Swift.Int? = nil,
         defaultInstanceWarmup: Swift.Int? = nil,
@@ -1881,6 +2038,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
+        self.capacityReservationSpecification = capacityReservationSpecification
         self.context = context
         self.defaultCooldown = defaultCooldown
         self.defaultInstanceWarmup = defaultInstanceWarmup
@@ -2890,6 +3048,8 @@ extension AutoScalingClientTypes {
         public var availabilityZones: [Swift.String]?
         /// Indicates whether Capacity Rebalancing is enabled.
         public var capacityRebalance: Swift.Bool?
+        /// The capacity reservation specification.
+        public var capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification?
         /// Reserved.
         public var context: Swift.String?
         /// The date and time the group was created.
@@ -2966,6 +3126,7 @@ extension AutoScalingClientTypes {
             availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
             availabilityZones: [Swift.String]? = nil,
             capacityRebalance: Swift.Bool? = nil,
+            capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification? = nil,
             context: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             defaultCooldown: Swift.Int? = nil,
@@ -3005,6 +3166,7 @@ extension AutoScalingClientTypes {
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
+            self.capacityReservationSpecification = capacityReservationSpecification
             self.context = context
             self.createdTime = createdTime
             self.defaultCooldown = defaultCooldown
@@ -6438,6 +6600,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var availabilityZones: [Swift.String]?
     /// Enables or disables Capacity Rebalancing. For more information, see [Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html) in the Amazon EC2 Auto Scaling User Guide.
     public var capacityRebalance: Swift.Bool?
+    /// The capacity reservation specification for the Auto Scaling group.
+    public var capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification?
     /// Reserved.
     public var context: Swift.String?
     /// Only needed if you use simple scaling policies. The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -6485,6 +6649,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy? = nil,
         availabilityZones: [Swift.String]? = nil,
         capacityRebalance: Swift.Bool? = nil,
+        capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification? = nil,
         context: Swift.String? = nil,
         defaultCooldown: Swift.Int? = nil,
         defaultInstanceWarmup: Swift.Int? = nil,
@@ -6512,6 +6677,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
         self.availabilityZones = availabilityZones
         self.capacityRebalance = capacityRebalance
+        self.capacityReservationSpecification = capacityReservationSpecification
         self.context = context
         self.defaultCooldown = defaultCooldown
         self.defaultInstanceWarmup = defaultInstanceWarmup
@@ -7090,6 +7256,7 @@ extension CreateAutoScalingGroupInput {
         try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
+        try writer["CapacityReservationSpecification"].write(value.capacityReservationSpecification, with: AutoScalingClientTypes.CapacityReservationSpecification.write(value:to:))
         try writer["Context"].write(value.context)
         try writer["DefaultCooldown"].write(value.defaultCooldown)
         try writer["DefaultInstanceWarmup"].write(value.defaultInstanceWarmup)
@@ -7809,6 +7976,7 @@ extension UpdateAutoScalingGroupInput {
         try writer["AvailabilityZoneImpairmentPolicy"].write(value.availabilityZoneImpairmentPolicy, with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.write(value:to:))
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityRebalance"].write(value.capacityRebalance)
+        try writer["CapacityReservationSpecification"].write(value.capacityReservationSpecification, with: AutoScalingClientTypes.CapacityReservationSpecification.write(value:to:))
         try writer["Context"].write(value.context)
         try writer["DefaultCooldown"].write(value.defaultCooldown)
         try writer["DefaultInstanceWarmup"].write(value.defaultInstanceWarmup)
@@ -9634,6 +9802,41 @@ extension AutoScalingClientTypes.AutoScalingGroup {
         value.instanceMaintenancePolicy = try reader["InstanceMaintenancePolicy"].readIfPresent(with: AutoScalingClientTypes.InstanceMaintenancePolicy.read(from:))
         value.availabilityZoneDistribution = try reader["AvailabilityZoneDistribution"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneDistribution.read(from:))
         value.availabilityZoneImpairmentPolicy = try reader["AvailabilityZoneImpairmentPolicy"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.read(from:))
+        value.capacityReservationSpecification = try reader["CapacityReservationSpecification"].readIfPresent(with: AutoScalingClientTypes.CapacityReservationSpecification.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.CapacityReservationSpecification {
+
+    static func write(value: AutoScalingClientTypes.CapacityReservationSpecification?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationPreference"].write(value.capacityReservationPreference)
+        try writer["CapacityReservationTarget"].write(value.capacityReservationTarget, with: AutoScalingClientTypes.CapacityReservationTarget.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CapacityReservationSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.CapacityReservationSpecification()
+        value.capacityReservationPreference = try reader["CapacityReservationPreference"].readIfPresent()
+        value.capacityReservationTarget = try reader["CapacityReservationTarget"].readIfPresent(with: AutoScalingClientTypes.CapacityReservationTarget.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.CapacityReservationTarget {
+
+    static func write(value: AutoScalingClientTypes.CapacityReservationTarget?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationIds"].writeList(value.capacityReservationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CapacityReservationResourceGroupArns"].writeList(value.capacityReservationResourceGroupArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CapacityReservationTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.CapacityReservationTarget()
+        value.capacityReservationIds = try reader["CapacityReservationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityReservationResourceGroupArns = try reader["CapacityReservationResourceGroupArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9898,6 +10101,7 @@ extension AutoScalingClientTypes.InstanceRequirements {
         try writer["AllowedInstanceTypes"].writeList(value.allowedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["BareMetal"].write(value.bareMetal)
         try writer["BaselineEbsBandwidthMbps"].write(value.baselineEbsBandwidthMbps, with: AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest.write(value:to:))
+        try writer["BaselinePerformanceFactors"].write(value.baselinePerformanceFactors, with: AutoScalingClientTypes.BaselinePerformanceFactorsRequest.write(value:to:))
         try writer["BurstablePerformance"].write(value.burstablePerformance)
         try writer["CpuManufacturers"].writeList(value.cpuManufacturers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AutoScalingClientTypes.CpuManufacturer>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ExcludedInstanceTypes"].writeList(value.excludedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9943,6 +10147,52 @@ extension AutoScalingClientTypes.InstanceRequirements {
         value.acceleratorTotalMemoryMiB = try reader["AcceleratorTotalMemoryMiB"].readIfPresent(with: AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest.read(from:))
         value.networkBandwidthGbps = try reader["NetworkBandwidthGbps"].readIfPresent(with: AutoScalingClientTypes.NetworkBandwidthGbpsRequest.read(from:))
         value.allowedInstanceTypes = try reader["AllowedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.baselinePerformanceFactors = try reader["BaselinePerformanceFactors"].readIfPresent(with: AutoScalingClientTypes.BaselinePerformanceFactorsRequest.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.BaselinePerformanceFactorsRequest {
+
+    static func write(value: AutoScalingClientTypes.BaselinePerformanceFactorsRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Cpu"].write(value.cpu, with: AutoScalingClientTypes.CpuPerformanceFactorRequest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.BaselinePerformanceFactorsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.BaselinePerformanceFactorsRequest()
+        value.cpu = try reader["Cpu"].readIfPresent(with: AutoScalingClientTypes.CpuPerformanceFactorRequest.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.CpuPerformanceFactorRequest {
+
+    static func write(value: AutoScalingClientTypes.CpuPerformanceFactorRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Reference"].writeList(value.references, memberWritingClosure: AutoScalingClientTypes.PerformanceFactorReferenceRequest.write(value:to:), memberNodeInfo: "item", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.CpuPerformanceFactorRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.CpuPerformanceFactorRequest()
+        value.references = try reader["Reference"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.PerformanceFactorReferenceRequest.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.PerformanceFactorReferenceRequest {
+
+    static func write(value: AutoScalingClientTypes.PerformanceFactorReferenceRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceFamily"].write(value.instanceFamily)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.PerformanceFactorReferenceRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.PerformanceFactorReferenceRequest()
+        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
         return value
     }
 }
