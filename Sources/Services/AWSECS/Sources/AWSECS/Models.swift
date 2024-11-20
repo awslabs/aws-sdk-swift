@@ -4215,6 +4215,35 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    public enum VersionConsistency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VersionConsistency] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// Details on a data volume from another container in the same task definition.
     public struct VolumeFrom: Swift.Sendable {
         /// If this value is true, the container has read-only access to the volume. If this value is false, then the container can write to the volume. The default value is false.
@@ -4367,6 +4396,8 @@ extension ECSClientTypes {
         ///
         /// This parameter is not supported for Windows containers.
         public var user: Swift.String?
+        /// Specifies whether Amazon ECS will resolve the container image tag provided in the container definition to an image digest. By default, the value is enabled. If you set the value for a container as disabled, Amazon ECS will not resolve the provided container image tag to a digest and will use the original image URI specified in the container definition for deployment. For more information about container image resolution, see [Container image resolution](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html#deployment-container-image-stability) in the Amazon ECS Developer Guide.
+        public var versionConsistency: ECSClientTypes.VersionConsistency?
         /// Data volumes to mount from another container. This parameter maps to VolumesFrom in the docker container create command and the --volumes-from option to docker run.
         public var volumesFrom: [ECSClientTypes.VolumeFrom]?
         /// The working directory to run commands inside the container in. This parameter maps to WorkingDir in the docker container create command and the --workdir option to docker run.
@@ -4412,6 +4443,7 @@ extension ECSClientTypes {
             systemControls: [ECSClientTypes.SystemControl]? = nil,
             ulimits: [ECSClientTypes.Ulimit]? = nil,
             user: Swift.String? = nil,
+            versionConsistency: ECSClientTypes.VersionConsistency? = nil,
             volumesFrom: [ECSClientTypes.VolumeFrom]? = nil,
             workingDirectory: Swift.String? = nil
         )
@@ -4455,6 +4487,7 @@ extension ECSClientTypes {
             self.systemControls = systemControls
             self.ulimits = ulimits
             self.user = user
+            self.versionConsistency = versionConsistency
             self.volumesFrom = volumesFrom
             self.workingDirectory = workingDirectory
         }
@@ -14232,6 +14265,7 @@ extension ECSClientTypes.ContainerDefinition {
         try writer["systemControls"].writeList(value.systemControls, memberWritingClosure: ECSClientTypes.SystemControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ulimits"].writeList(value.ulimits, memberWritingClosure: ECSClientTypes.Ulimit.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["user"].write(value.user)
+        try writer["versionConsistency"].write(value.versionConsistency)
         try writer["volumesFrom"].writeList(value.volumesFrom, memberWritingClosure: ECSClientTypes.VolumeFrom.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["workingDirectory"].write(value.workingDirectory)
     }
@@ -14260,6 +14294,7 @@ extension ECSClientTypes.ContainerDefinition {
         value.dependsOn = try reader["dependsOn"].readListIfPresent(memberReadingClosure: ECSClientTypes.ContainerDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.startTimeout = try reader["startTimeout"].readIfPresent()
         value.stopTimeout = try reader["stopTimeout"].readIfPresent()
+        value.versionConsistency = try reader["versionConsistency"].readIfPresent()
         value.hostname = try reader["hostname"].readIfPresent()
         value.user = try reader["user"].readIfPresent()
         value.workingDirectory = try reader["workingDirectory"].readIfPresent()

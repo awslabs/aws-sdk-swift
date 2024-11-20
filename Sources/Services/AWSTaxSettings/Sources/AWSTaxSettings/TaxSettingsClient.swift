@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TaxSettingsClient: ClientRuntime.Client {
     public static let clientName = "TaxSettingsClient"
-    public static let version = "1.0.43"
+    public static let version = "1.0.44"
     let client: ClientRuntime.SdkHttpClient
     let config: TaxSettingsClient.TaxSettingsClientConfiguration
     let serviceName = "TaxSettings"
@@ -252,6 +252,77 @@ extension TaxSettingsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteTaxRegistration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetTaxExemptions` operation on the `TaxSettings` service.
+    ///
+    /// Get the active tax exemptions for a given list of accounts.
+    ///
+    /// - Parameter BatchGetTaxExemptionsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetTaxExemptionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The exception thrown when an unexpected error occurs when processing a request.
+    /// - `ResourceNotFoundException` : The exception thrown when the input doesn't have a resource associated to it.
+    /// - `ValidationException` : The exception when the input doesn't pass validation for at least one of the input parameters.
+    public func batchGetTaxExemptions(input: BatchGetTaxExemptionsInput) async throws -> BatchGetTaxExemptionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetTaxExemptions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "tax")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>(BatchGetTaxExemptionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetTaxExemptionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetTaxExemptionsOutput>(BatchGetTaxExemptionsOutput.httpOutput(from:), BatchGetTaxExemptionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTaxExemptionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<BatchGetTaxExemptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetTaxExemptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetTaxExemptions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -572,6 +643,142 @@ extension TaxSettingsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetTaxExemptionTypes` operation on the `TaxSettings` service.
+    ///
+    /// Get supported tax exemption types.
+    ///
+    /// - Parameter GetTaxExemptionTypesInput : [no documentation found]
+    ///
+    /// - Returns: `GetTaxExemptionTypesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The exception thrown when an unexpected error occurs when processing a request.
+    /// - `ResourceNotFoundException` : The exception thrown when the input doesn't have a resource associated to it.
+    /// - `ValidationException` : The exception when the input doesn't pass validation for at least one of the input parameters.
+    public func getTaxExemptionTypes(input: GetTaxExemptionTypesInput) async throws -> GetTaxExemptionTypesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTaxExemptionTypes")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "tax")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>(GetTaxExemptionTypesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxExemptionTypesOutput>(GetTaxExemptionTypesOutput.httpOutput(from:), GetTaxExemptionTypesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxExemptionTypesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetTaxExemptionTypesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTaxExemptionTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTaxExemptionTypes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTaxInheritance` operation on the `TaxSettings` service.
+    ///
+    /// The get account tax inheritance status.
+    ///
+    /// - Parameter GetTaxInheritanceInput : [no documentation found]
+    ///
+    /// - Returns: `GetTaxInheritanceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The exception thrown when an unexpected error occurs when processing a request.
+    /// - `ResourceNotFoundException` : The exception thrown when the input doesn't have a resource associated to it.
+    /// - `ValidationException` : The exception when the input doesn't pass validation for at least one of the input parameters.
+    public func getTaxInheritance(input: GetTaxInheritanceInput) async throws -> GetTaxInheritanceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTaxInheritance")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "tax")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTaxInheritanceInput, GetTaxInheritanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>(GetTaxInheritanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxInheritanceOutput>(GetTaxInheritanceOutput.httpOutput(from:), GetTaxInheritanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxInheritanceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetTaxInheritanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTaxInheritanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTaxInheritance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTaxRegistration` operation on the `TaxSettings` service.
     ///
     /// Retrieves tax registration for a single account.
@@ -784,6 +991,77 @@ extension TaxSettingsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListTaxExemptions` operation on the `TaxSettings` service.
+    ///
+    /// Retrieves the tax exemption of accounts listed in a consolidated billing family.
+    ///
+    /// - Parameter ListTaxExemptionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTaxExemptionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The exception thrown when an unexpected error occurs when processing a request.
+    /// - `ResourceNotFoundException` : The exception thrown when the input doesn't have a resource associated to it.
+    /// - `ValidationException` : The exception when the input doesn't pass validation for at least one of the input parameters.
+    public func listTaxExemptions(input: ListTaxExemptionsInput) async throws -> ListTaxExemptionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTaxExemptions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "tax")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTaxExemptionsInput, ListTaxExemptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>(ListTaxExemptionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTaxExemptionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaxExemptionsOutput>(ListTaxExemptionsOutput.httpOutput(from:), ListTaxExemptionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTaxExemptionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListTaxExemptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTaxExemptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTaxExemptions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTaxRegistrations` operation on the `TaxSettings` service.
     ///
     /// Retrieves the tax registration of accounts listed in a consolidated billing family. This can be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
@@ -914,6 +1192,152 @@ extension TaxSettingsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutSupplementalTaxRegistration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutTaxExemption` operation on the `TaxSettings` service.
+    ///
+    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family.
+    ///
+    /// - Parameter PutTaxExemptionInput : [no documentation found]
+    ///
+    /// - Returns: `PutTaxExemptionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The access is denied for the Amazon Web Services Support API.
+    /// - `AttachmentUploadException` : Failed to upload the tax exemption document to Amazon Web Services Support case.
+    /// - `CaseCreationLimitExceededException` : You've exceeded the Amazon Web Services Support case creation limit for your account.
+    /// - `InternalServerException` : The exception thrown when an unexpected error occurs when processing a request.
+    /// - `ResourceNotFoundException` : The exception thrown when the input doesn't have a resource associated to it.
+    /// - `ValidationException` : The exception when the input doesn't pass validation for at least one of the input parameters.
+    public func putTaxExemption(input: PutTaxExemptionInput) async throws -> PutTaxExemptionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putTaxExemption")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "tax")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutTaxExemptionInput, PutTaxExemptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>(PutTaxExemptionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutTaxExemptionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxExemptionOutput>(PutTaxExemptionOutput.httpOutput(from:), PutTaxExemptionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxExemptionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutTaxExemptionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTaxExemptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutTaxExemption")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutTaxInheritance` operation on the `TaxSettings` service.
+    ///
+    /// The updated tax inheritance status.
+    ///
+    /// - Parameter PutTaxInheritanceInput : [no documentation found]
+    ///
+    /// - Returns: `PutTaxInheritanceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The exception when the input is creating conflict with the given state.
+    /// - `InternalServerException` : The exception thrown when an unexpected error occurs when processing a request.
+    /// - `ResourceNotFoundException` : The exception thrown when the input doesn't have a resource associated to it.
+    /// - `ValidationException` : The exception when the input doesn't pass validation for at least one of the input parameters.
+    public func putTaxInheritance(input: PutTaxInheritanceInput) async throws -> PutTaxInheritanceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putTaxInheritance")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "tax")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutTaxInheritanceInput, PutTaxInheritanceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>(PutTaxInheritanceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutTaxInheritanceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxInheritanceOutput>(PutTaxInheritanceOutput.httpOutput(from:), PutTaxInheritanceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxInheritanceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutTaxInheritanceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>(serviceID: serviceName, version: TaxSettingsClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutTaxInheritanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "TaxSettings")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutTaxInheritance")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
