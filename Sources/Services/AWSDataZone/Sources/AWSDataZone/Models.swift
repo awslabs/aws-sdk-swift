@@ -403,6 +403,40 @@ extension AcceptSubscriptionRequestInput: Swift.CustomDebugStringConvertible {
 
 extension DataZoneClientTypes {
 
+    /// The details of a metadata form.
+    public struct FormOutput: Swift.Sendable {
+        /// The content of the metadata form.
+        public var content: Swift.String?
+        /// The name of the metadata form.
+        /// This member is required.
+        public var formName: Swift.String?
+        /// The name of the metadata form type.
+        public var typeName: Swift.String?
+        /// The revision of the metadata form type.
+        public var typeRevision: Swift.String?
+
+        public init(
+            content: Swift.String? = nil,
+            formName: Swift.String? = nil,
+            typeName: Swift.String? = nil,
+            typeRevision: Swift.String? = nil
+        )
+        {
+            self.content = content
+            self.formName = formName
+            self.typeName = typeName
+            self.typeRevision = typeRevision
+        }
+    }
+}
+
+extension DataZoneClientTypes.FormOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FormOutput(content: \(Swift.String(describing: content)), formName: \(Swift.String(describing: formName)), typeRevision: \(Swift.String(describing: typeRevision)), typeName: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
     public enum SubscriptionRequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accepted
         case pending
@@ -694,9 +728,13 @@ public struct AcceptSubscriptionRequestOutput: Swift.Sendable {
     /// The unique identifier of the Amazon DataZone domain where the specified subscription request was accepted.
     /// This member is required.
     public var domainId: Swift.String?
+    /// The ID of the existing subscription.
+    public var existingSubscriptionId: Swift.String?
     /// The identifier of the subscription request.
     /// This member is required.
     public var id: Swift.String?
+    /// The metadata form in the subscription request.
+    public var metadataForms: [DataZoneClientTypes.FormOutput]?
     /// Specifies the reason for requesting a subscription to the asset.
     /// This member is required.
     public var requestReason: Swift.String?
@@ -722,7 +760,9 @@ public struct AcceptSubscriptionRequestOutput: Swift.Sendable {
         createdBy: Swift.String? = nil,
         decisionComment: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        existingSubscriptionId: Swift.String? = nil,
         id: Swift.String? = nil,
+        metadataForms: [DataZoneClientTypes.FormOutput]? = nil,
         requestReason: Swift.String? = nil,
         reviewerId: Swift.String? = nil,
         status: DataZoneClientTypes.SubscriptionRequestStatus? = nil,
@@ -736,7 +776,9 @@ public struct AcceptSubscriptionRequestOutput: Swift.Sendable {
         self.createdBy = createdBy
         self.decisionComment = decisionComment
         self.domainId = domainId
+        self.existingSubscriptionId = existingSubscriptionId
         self.id = id
+        self.metadataForms = metadataForms
         self.requestReason = requestReason
         self.reviewerId = reviewerId
         self.status = status
@@ -749,7 +791,7 @@ public struct AcceptSubscriptionRequestOutput: Swift.Sendable {
 
 extension AcceptSubscriptionRequestOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AcceptSubscriptionRequestOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
+        "AcceptSubscriptionRequestOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), existingSubscriptionId: \(Swift.String(describing: existingSubscriptionId)), id: \(Swift.String(describing: id)), metadataForms: \(Swift.String(describing: metadataForms)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -1615,40 +1657,6 @@ public struct CreateAssetInput: Swift.Sendable {
 extension CreateAssetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateAssetInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", formsInput: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
-}
-
-extension DataZoneClientTypes {
-
-    /// The details of a metadata form.
-    public struct FormOutput: Swift.Sendable {
-        /// The content of the metadata form.
-        public var content: Swift.String?
-        /// The name of the metadata form.
-        /// This member is required.
-        public var formName: Swift.String?
-        /// The name of the metadata form type.
-        public var typeName: Swift.String?
-        /// The revision of the metadata form type.
-        public var typeRevision: Swift.String?
-
-        public init(
-            content: Swift.String? = nil,
-            formName: Swift.String? = nil,
-            typeName: Swift.String? = nil,
-            typeRevision: Swift.String? = nil
-        )
-        {
-            self.content = content
-            self.formName = formName
-            self.typeName = typeName
-            self.typeRevision = typeRevision
-        }
-    }
-}
-
-extension DataZoneClientTypes.FormOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "FormOutput(content: \(Swift.String(describing: content)), formName: \(Swift.String(describing: formName)), typeRevision: \(Swift.String(describing: typeRevision)), typeName: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -3094,6 +3102,56 @@ extension DataZoneClientTypes {
 extension DataZoneClientTypes.AssetTypeItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "AssetTypeItem(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), formsOutput: \(Swift.String(describing: formsOutput)), name: \(Swift.String(describing: name)), originDomainId: \(Swift.String(describing: originDomainId)), originProjectId: \(Swift.String(describing: originProjectId)), owningProjectId: \(Swift.String(describing: owningProjectId)), revision: \(Swift.String(describing: revision)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    public enum RuleScopeSelectionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case specific
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleScopeSelectionMode] {
+            return [
+                .all,
+                .specific
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .specific: return "SPECIFIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The asset type for the rule details.
+    public struct AssetTypesForRule: Swift.Sendable {
+        /// The selection mode for the rule.
+        /// This member is required.
+        public var selectionMode: DataZoneClientTypes.RuleScopeSelectionMode?
+        /// The specific asset types that are included in the rule.
+        public var specificAssetTypes: [Swift.String]?
+
+        public init(
+            selectionMode: DataZoneClientTypes.RuleScopeSelectionMode? = nil,
+            specificAssetTypes: [Swift.String]? = nil
+        )
+        {
+            self.selectionMode = selectionMode
+            self.specificAssetTypes = specificAssetTypes
+        }
+    }
 }
 
 public struct AssociateEnvironmentRoleInput: Swift.Sendable {
@@ -6380,6 +6438,325 @@ public struct CreateProjectMembershipOutput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
+    public enum RuleAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createSubscriptionRequest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleAction] {
+            return [
+                .createSubscriptionRequest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createSubscriptionRequest: return "CREATE_SUBSCRIPTION_REQUEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The reference of a metadata form.
+    public struct MetadataFormReference: Swift.Sendable {
+        /// The type ID of the metadata form reference.
+        /// This member is required.
+        public var typeIdentifier: Swift.String?
+        /// The type revision of the metadata form reference.
+        /// This member is required.
+        public var typeRevision: Swift.String?
+
+        public init(
+            typeIdentifier: Swift.String? = nil,
+            typeRevision: Swift.String? = nil
+        )
+        {
+            self.typeIdentifier = typeIdentifier
+            self.typeRevision = typeRevision
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The enforcement details of a metadata form.
+    public struct MetadataFormEnforcementDetail: Swift.Sendable {
+        /// The required metadata forms.
+        public var requiredMetadataForms: [DataZoneClientTypes.MetadataFormReference]?
+
+        public init(
+            requiredMetadataForms: [DataZoneClientTypes.MetadataFormReference]? = nil
+        )
+        {
+            self.requiredMetadataForms = requiredMetadataForms
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The details of a rule.
+    public enum RuleDetail: Swift.Sendable {
+        /// The enforcement detail of the metadata form.
+        case metadataformenforcementdetail(DataZoneClientTypes.MetadataFormEnforcementDetail)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Specifies projects in which the rule is created.
+    public struct ProjectsForRule: Swift.Sendable {
+        /// The selection mode of the rule.
+        /// This member is required.
+        public var selectionMode: DataZoneClientTypes.RuleScopeSelectionMode?
+        /// The specific projects in which the rule is created.
+        public var specificProjects: [Swift.String]?
+
+        public init(
+            selectionMode: DataZoneClientTypes.RuleScopeSelectionMode? = nil,
+            specificProjects: [Swift.String]? = nil
+        )
+        {
+            self.selectionMode = selectionMode
+            self.specificProjects = specificProjects
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The scope of a rule.
+    public struct RuleScope: Swift.Sendable {
+        /// The asset type included in the rule scope.
+        public var assetType: DataZoneClientTypes.AssetTypesForRule?
+        /// The data product included in the rule scope.
+        public var dataProduct: Swift.Bool?
+        /// The project included in the rule scope.
+        public var project: DataZoneClientTypes.ProjectsForRule?
+
+        public init(
+            assetType: DataZoneClientTypes.AssetTypesForRule? = nil,
+            dataProduct: Swift.Bool? = nil,
+            project: DataZoneClientTypes.ProjectsForRule? = nil
+        )
+        {
+            self.assetType = assetType
+            self.dataProduct = dataProduct
+            self.project = project
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The target for the domain unit.
+    public struct DomainUnitTarget: Swift.Sendable {
+        /// The ID of the domain unit.
+        /// This member is required.
+        public var domainUnitId: Swift.String?
+        /// Specifies whether to apply a rule to the child domain units.
+        public var includeChildDomainUnits: Swift.Bool?
+
+        public init(
+            domainUnitId: Swift.String? = nil,
+            includeChildDomainUnits: Swift.Bool? = nil
+        )
+        {
+            self.domainUnitId = domainUnitId
+            self.includeChildDomainUnits = includeChildDomainUnits
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The target of the rule.
+    public enum RuleTarget: Swift.Sendable {
+        /// The ID of the domain unit.
+        case domainunittarget(DataZoneClientTypes.DomainUnitTarget)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateRuleInput: Swift.Sendable {
+    /// The action of the rule.
+    /// This member is required.
+    public var action: DataZoneClientTypes.RuleAction?
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The description of the rule.
+    public var description: Swift.String?
+    /// The detail of the rule.
+    /// This member is required.
+    public var detail: DataZoneClientTypes.RuleDetail?
+    /// The ID of the domain where the rule is created.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The name of the rule.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The scope of the rule.
+    /// This member is required.
+    public var scope: DataZoneClientTypes.RuleScope?
+    /// The target of the rule.
+    /// This member is required.
+    public var target: DataZoneClientTypes.RuleTarget?
+
+    public init(
+        action: DataZoneClientTypes.RuleAction? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        detail: DataZoneClientTypes.RuleDetail? = nil,
+        domainIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        scope: DataZoneClientTypes.RuleScope? = nil,
+        target: DataZoneClientTypes.RuleTarget? = nil
+    )
+    {
+        self.action = action
+        self.clientToken = clientToken
+        self.description = description
+        self.detail = detail
+        self.domainIdentifier = domainIdentifier
+        self.name = name
+        self.scope = scope
+        self.target = target
+    }
+}
+
+extension CreateRuleInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRuleInput(action: \(Swift.String(describing: action)), clientToken: \(Swift.String(describing: clientToken)), detail: \(Swift.String(describing: detail)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), scope: \(Swift.String(describing: scope)), target: \(Swift.String(describing: target)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    public enum RuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case metadataFormEnforcement
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleType] {
+            return [
+                .metadataFormEnforcement
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .metadataFormEnforcement: return "METADATA_FORM_ENFORCEMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum RuleTargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domainUnit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleTargetType] {
+            return [
+                .domainUnit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domainUnit: return "DOMAIN_UNIT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateRuleOutput: Swift.Sendable {
+    /// The action of the rule.
+    /// This member is required.
+    public var action: DataZoneClientTypes.RuleAction?
+    /// The timestamp at which the rule is created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user who creates the rule.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the rule.
+    public var description: Swift.String?
+    /// The detail of the rule.
+    /// This member is required.
+    public var detail: DataZoneClientTypes.RuleDetail?
+    /// The ID of the rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the rule.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The type of the rule.
+    /// This member is required.
+    public var ruleType: DataZoneClientTypes.RuleType?
+    /// The scope of the rule.
+    /// This member is required.
+    public var scope: DataZoneClientTypes.RuleScope?
+    /// The target of the rule.
+    /// This member is required.
+    public var target: DataZoneClientTypes.RuleTarget?
+    /// The target type of the rule.
+    public var targetType: DataZoneClientTypes.RuleTargetType?
+
+    public init(
+        action: DataZoneClientTypes.RuleAction? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        detail: DataZoneClientTypes.RuleDetail? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        ruleType: DataZoneClientTypes.RuleType? = nil,
+        scope: DataZoneClientTypes.RuleScope? = nil,
+        target: DataZoneClientTypes.RuleTarget? = nil,
+        targetType: DataZoneClientTypes.RuleTargetType? = nil
+    )
+    {
+        self.action = action
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.detail = detail
+        self.identifier = identifier
+        self.name = name
+        self.ruleType = ruleType
+        self.scope = scope
+        self.target = target
+        self.targetType = targetType
+    }
+}
+
+extension CreateRuleOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRuleOutput(action: \(Swift.String(describing: action)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), detail: \(Swift.String(describing: detail)), identifier: \(Swift.String(describing: identifier)), ruleType: \(Swift.String(describing: ruleType)), scope: \(Swift.String(describing: scope)), target: \(Swift.String(describing: target)), targetType: \(Swift.String(describing: targetType)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
     /// A revision to be made to an asset published in a Amazon DataZone catalog.
     public struct ListingRevisionInput: Swift.Sendable {
         /// An identifier of revision to be made to an asset published in a Amazon DataZone catalog.
@@ -6742,6 +7119,8 @@ public struct CreateSubscriptionRequestInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain in which the subscription request is created.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The metadata form included in the subscription request.
+    public var metadataForms: [DataZoneClientTypes.FormInput]?
     /// The reason for the subscription request.
     /// This member is required.
     public var requestReason: Swift.String?
@@ -6755,6 +7134,7 @@ public struct CreateSubscriptionRequestInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
+        metadataForms: [DataZoneClientTypes.FormInput]? = nil,
         requestReason: Swift.String? = nil,
         subscribedListings: [DataZoneClientTypes.SubscribedListingInput]? = nil,
         subscribedPrincipals: [DataZoneClientTypes.SubscribedPrincipalInput]? = nil
@@ -6762,6 +7142,7 @@ public struct CreateSubscriptionRequestInput: Swift.Sendable {
     {
         self.clientToken = clientToken
         self.domainIdentifier = domainIdentifier
+        self.metadataForms = metadataForms
         self.requestReason = requestReason
         self.subscribedListings = subscribedListings
         self.subscribedPrincipals = subscribedPrincipals
@@ -6770,7 +7151,7 @@ public struct CreateSubscriptionRequestInput: Swift.Sendable {
 
 extension CreateSubscriptionRequestInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSubscriptionRequestInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), requestReason: \"CONTENT_REDACTED\")"}
+        "CreateSubscriptionRequestInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), metadataForms: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateSubscriptionRequestOutput: Swift.Sendable {
@@ -6785,9 +7166,13 @@ public struct CreateSubscriptionRequestOutput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain in whcih the subscription request is created.
     /// This member is required.
     public var domainId: Swift.String?
+    /// The ID of the existing subscription.
+    public var existingSubscriptionId: Swift.String?
     /// The ID of the subscription request.
     /// This member is required.
     public var id: Swift.String?
+    /// The metadata form included in the subscription request.
+    public var metadataForms: [DataZoneClientTypes.FormOutput]?
     /// The reason for the subscription request.
     /// This member is required.
     public var requestReason: Swift.String?
@@ -6813,7 +7198,9 @@ public struct CreateSubscriptionRequestOutput: Swift.Sendable {
         createdBy: Swift.String? = nil,
         decisionComment: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        existingSubscriptionId: Swift.String? = nil,
         id: Swift.String? = nil,
+        metadataForms: [DataZoneClientTypes.FormOutput]? = nil,
         requestReason: Swift.String? = nil,
         reviewerId: Swift.String? = nil,
         status: DataZoneClientTypes.SubscriptionRequestStatus? = nil,
@@ -6827,7 +7214,9 @@ public struct CreateSubscriptionRequestOutput: Swift.Sendable {
         self.createdBy = createdBy
         self.decisionComment = decisionComment
         self.domainId = domainId
+        self.existingSubscriptionId = existingSubscriptionId
         self.id = id
+        self.metadataForms = metadataForms
         self.requestReason = requestReason
         self.reviewerId = reviewerId
         self.status = status
@@ -6840,7 +7229,7 @@ public struct CreateSubscriptionRequestOutput: Swift.Sendable {
 
 extension CreateSubscriptionRequestOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateSubscriptionRequestOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
+        "CreateSubscriptionRequestOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), existingSubscriptionId: \(Swift.String(describing: existingSubscriptionId)), id: \(Swift.String(describing: id)), metadataForms: \(Swift.String(describing: metadataForms)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -10913,9 +11302,13 @@ public struct GetSubscriptionRequestDetailsOutput: Swift.Sendable {
     /// The Amazon DataZone domain of the subscription request.
     /// This member is required.
     public var domainId: Swift.String?
+    /// The ID of the existing subscription.
+    public var existingSubscriptionId: Swift.String?
     /// The identifier of the subscription request.
     /// This member is required.
     public var id: Swift.String?
+    /// The metadata forms included in the subscription request.
+    public var metadataForms: [DataZoneClientTypes.FormOutput]?
     /// The reason for the subscription request.
     /// This member is required.
     public var requestReason: Swift.String?
@@ -10941,7 +11334,9 @@ public struct GetSubscriptionRequestDetailsOutput: Swift.Sendable {
         createdBy: Swift.String? = nil,
         decisionComment: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        existingSubscriptionId: Swift.String? = nil,
         id: Swift.String? = nil,
+        metadataForms: [DataZoneClientTypes.FormOutput]? = nil,
         requestReason: Swift.String? = nil,
         reviewerId: Swift.String? = nil,
         status: DataZoneClientTypes.SubscriptionRequestStatus? = nil,
@@ -10955,7 +11350,9 @@ public struct GetSubscriptionRequestDetailsOutput: Swift.Sendable {
         self.createdBy = createdBy
         self.decisionComment = decisionComment
         self.domainId = domainId
+        self.existingSubscriptionId = existingSubscriptionId
         self.id = id
+        self.metadataForms = metadataForms
         self.requestReason = requestReason
         self.reviewerId = reviewerId
         self.status = status
@@ -10968,7 +11365,7 @@ public struct GetSubscriptionRequestDetailsOutput: Swift.Sendable {
 
 extension GetSubscriptionRequestDetailsOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSubscriptionRequestDetailsOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
+        "GetSubscriptionRequestDetailsOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), existingSubscriptionId: \(Swift.String(describing: existingSubscriptionId)), id: \(Swift.String(describing: id)), metadataForms: \(Swift.String(describing: metadataForms)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSubscriptionTargetInput: Swift.Sendable {
@@ -13483,6 +13880,37 @@ public struct ListSubscriptionRequestsInput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
+    /// The summary of the metadata form.
+    public struct MetadataFormSummary: Swift.Sendable {
+        /// The form name of the metadata form.
+        public var formName: Swift.String?
+        /// The type name of the metadata form.
+        /// This member is required.
+        public var typeName: Swift.String?
+        /// The type revision of the metadata form.
+        /// This member is required.
+        public var typeRevision: Swift.String?
+
+        public init(
+            formName: Swift.String? = nil,
+            typeName: Swift.String? = nil,
+            typeRevision: Swift.String? = nil
+        )
+        {
+            self.formName = formName
+            self.typeName = typeName
+            self.typeRevision = typeRevision
+        }
+    }
+}
+
+extension DataZoneClientTypes.MetadataFormSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MetadataFormSummary(formName: \(Swift.String(describing: formName)), typeRevision: \(Swift.String(describing: typeRevision)), typeName: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
     /// The details of the subscription request.
     public struct SubscriptionRequestSummary: Swift.Sendable {
         /// The timestamp of when a subscription request was created.
@@ -13496,9 +13924,13 @@ extension DataZoneClientTypes {
         /// The identifier of the Amazon DataZone domain in which a subscription request exists.
         /// This member is required.
         public var domainId: Swift.String?
+        /// The ID of the existing subscription.
+        public var existingSubscriptionId: Swift.String?
         /// The identifier of the subscription request.
         /// This member is required.
         public var id: Swift.String?
+        /// The summary of the metadata forms.
+        public var metadataFormsSummary: [DataZoneClientTypes.MetadataFormSummary]?
         /// The reason for the subscription request.
         /// This member is required.
         public var requestReason: Swift.String?
@@ -13524,7 +13956,9 @@ extension DataZoneClientTypes {
             createdBy: Swift.String? = nil,
             decisionComment: Swift.String? = nil,
             domainId: Swift.String? = nil,
+            existingSubscriptionId: Swift.String? = nil,
             id: Swift.String? = nil,
+            metadataFormsSummary: [DataZoneClientTypes.MetadataFormSummary]? = nil,
             requestReason: Swift.String? = nil,
             reviewerId: Swift.String? = nil,
             status: DataZoneClientTypes.SubscriptionRequestStatus? = nil,
@@ -13538,7 +13972,9 @@ extension DataZoneClientTypes {
             self.createdBy = createdBy
             self.decisionComment = decisionComment
             self.domainId = domainId
+            self.existingSubscriptionId = existingSubscriptionId
             self.id = id
+            self.metadataFormsSummary = metadataFormsSummary
             self.requestReason = requestReason
             self.reviewerId = reviewerId
             self.status = status
@@ -13552,7 +13988,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.SubscriptionRequestSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SubscriptionRequestSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
+        "SubscriptionRequestSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), existingSubscriptionId: \(Swift.String(describing: existingSubscriptionId)), id: \(Swift.String(describing: id)), metadataFormsSummary: \(Swift.String(describing: metadataFormsSummary)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListSubscriptionRequestsOutput: Swift.Sendable {
@@ -14556,9 +14992,13 @@ public struct RejectSubscriptionRequestOutput: Swift.Sendable {
     /// The identifier of the Amazon DataZone domain in which the subscription request was rejected.
     /// This member is required.
     public var domainId: Swift.String?
+    /// The ID of the existing subscription.
+    public var existingSubscriptionId: Swift.String?
     /// The identifier of the subscription request that was rejected.
     /// This member is required.
     public var id: Swift.String?
+    /// Metadata forms included in the subscription request.
+    public var metadataForms: [DataZoneClientTypes.FormOutput]?
     /// The reason for the subscription request.
     /// This member is required.
     public var requestReason: Swift.String?
@@ -14584,7 +15024,9 @@ public struct RejectSubscriptionRequestOutput: Swift.Sendable {
         createdBy: Swift.String? = nil,
         decisionComment: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        existingSubscriptionId: Swift.String? = nil,
         id: Swift.String? = nil,
+        metadataForms: [DataZoneClientTypes.FormOutput]? = nil,
         requestReason: Swift.String? = nil,
         reviewerId: Swift.String? = nil,
         status: DataZoneClientTypes.SubscriptionRequestStatus? = nil,
@@ -14598,7 +15040,9 @@ public struct RejectSubscriptionRequestOutput: Swift.Sendable {
         self.createdBy = createdBy
         self.decisionComment = decisionComment
         self.domainId = domainId
+        self.existingSubscriptionId = existingSubscriptionId
         self.id = id
+        self.metadataForms = metadataForms
         self.requestReason = requestReason
         self.reviewerId = reviewerId
         self.status = status
@@ -14611,7 +15055,7 @@ public struct RejectSubscriptionRequestOutput: Swift.Sendable {
 
 extension RejectSubscriptionRequestOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RejectSubscriptionRequestOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
+        "RejectSubscriptionRequestOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), existingSubscriptionId: \(Swift.String(describing: existingSubscriptionId)), id: \(Swift.String(describing: id)), metadataForms: \(Swift.String(describing: metadataForms)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
 }
 
 public struct RemoveEntityOwnerInput: Swift.Sendable {
@@ -14773,6 +15217,381 @@ public struct RevokeSubscriptionOutput: Swift.Sendable {
         self.updatedAt = updatedAt
         self.updatedBy = updatedBy
     }
+}
+
+public struct DeleteRuleInput: Swift.Sendable {
+    /// The ID of the domain that where the rule is to be deleted.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the rule that is to be deleted.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteRuleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetRuleInput: Swift.Sendable {
+    /// The ID of the domain where the GetRule action is to be invoked.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The revision of the rule.
+    public var revision: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        revision: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+        self.revision = revision
+    }
+}
+
+public struct GetRuleOutput: Swift.Sendable {
+    /// The action of the rule.
+    /// This member is required.
+    public var action: DataZoneClientTypes.RuleAction?
+    /// The timestamp at which the rule was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user who created the rule.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the rule.
+    public var description: Swift.String?
+    /// The detail of the rule.
+    /// This member is required.
+    public var detail: DataZoneClientTypes.RuleDetail?
+    /// The ID of the rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The timestamp at which the rule was last updated.
+    /// This member is required.
+    public var lastUpdatedBy: Swift.String?
+    /// The name of the rule.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The revision of the rule.
+    /// This member is required.
+    public var revision: Swift.String?
+    /// The type of the rule.
+    /// This member is required.
+    public var ruleType: DataZoneClientTypes.RuleType?
+    /// The scope of the rule.
+    /// This member is required.
+    public var scope: DataZoneClientTypes.RuleScope?
+    /// The target of the rule.
+    /// This member is required.
+    public var target: DataZoneClientTypes.RuleTarget?
+    /// The target type of the rule.
+    public var targetType: DataZoneClientTypes.RuleTargetType?
+    /// The timestamp at which the rule was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        action: DataZoneClientTypes.RuleAction? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        detail: DataZoneClientTypes.RuleDetail? = nil,
+        identifier: Swift.String? = nil,
+        lastUpdatedBy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        revision: Swift.String? = nil,
+        ruleType: DataZoneClientTypes.RuleType? = nil,
+        scope: DataZoneClientTypes.RuleScope? = nil,
+        target: DataZoneClientTypes.RuleTarget? = nil,
+        targetType: DataZoneClientTypes.RuleTargetType? = nil,
+        updatedAt: Foundation.Date? = nil
+    )
+    {
+        self.action = action
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.detail = detail
+        self.identifier = identifier
+        self.lastUpdatedBy = lastUpdatedBy
+        self.name = name
+        self.revision = revision
+        self.ruleType = ruleType
+        self.scope = scope
+        self.target = target
+        self.targetType = targetType
+        self.updatedAt = updatedAt
+    }
+}
+
+extension GetRuleOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetRuleOutput(action: \(Swift.String(describing: action)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), detail: \(Swift.String(describing: detail)), identifier: \(Swift.String(describing: identifier)), lastUpdatedBy: \(Swift.String(describing: lastUpdatedBy)), revision: \(Swift.String(describing: revision)), ruleType: \(Swift.String(describing: ruleType)), scope: \(Swift.String(describing: scope)), target: \(Swift.String(describing: target)), targetType: \(Swift.String(describing: targetType)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRulesInput: Swift.Sendable {
+    /// The action of the rule.
+    public var action: DataZoneClientTypes.RuleAction?
+    /// The asset types of the rule.
+    public var assetTypes: [Swift.String]?
+    /// The data product of the rule.
+    public var dataProduct: Swift.Bool?
+    /// The ID of the domain in which the rules are to be listed.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// Specifies whether to include cascading rules in the results.
+    public var includeCascaded: Swift.Bool?
+    /// The maximum number of rules to return in a single call to ListRules. When the number of rules to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListRules to list the next set of rules.
+    public var maxResults: Swift.Int?
+    /// When the number of rules is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of rules, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListRules to list the next set of rules.
+    public var nextToken: Swift.String?
+    /// The IDs of projects in which rules are to be listed.
+    public var projectIds: [Swift.String]?
+    /// The type of the rule.
+    public var ruleType: DataZoneClientTypes.RuleType?
+    /// The target ID of the rule.
+    /// This member is required.
+    public var targetIdentifier: Swift.String?
+    /// The target type of the rule.
+    /// This member is required.
+    public var targetType: DataZoneClientTypes.RuleTargetType?
+
+    public init(
+        action: DataZoneClientTypes.RuleAction? = nil,
+        assetTypes: [Swift.String]? = nil,
+        dataProduct: Swift.Bool? = nil,
+        domainIdentifier: Swift.String? = nil,
+        includeCascaded: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        projectIds: [Swift.String]? = nil,
+        ruleType: DataZoneClientTypes.RuleType? = nil,
+        targetIdentifier: Swift.String? = nil,
+        targetType: DataZoneClientTypes.RuleTargetType? = nil
+    )
+    {
+        self.action = action
+        self.assetTypes = assetTypes
+        self.dataProduct = dataProduct
+        self.domainIdentifier = domainIdentifier
+        self.includeCascaded = includeCascaded
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.projectIds = projectIds
+        self.ruleType = ruleType
+        self.targetIdentifier = targetIdentifier
+        self.targetType = targetType
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The summary of the rule.
+    public struct RuleSummary: Swift.Sendable {
+        /// The action of the rule.
+        public var action: DataZoneClientTypes.RuleAction?
+        /// The ID of the rule.
+        public var identifier: Swift.String?
+        /// The timestamp at which the rule was last updated.
+        public var lastUpdatedBy: Swift.String?
+        /// The name of the rule.
+        public var name: Swift.String?
+        /// The revision of the rule.
+        public var revision: Swift.String?
+        /// The type of the rule.
+        public var ruleType: DataZoneClientTypes.RuleType?
+        /// The scope of the rule.
+        public var scope: DataZoneClientTypes.RuleScope?
+        /// The target of the rule.
+        public var target: DataZoneClientTypes.RuleTarget?
+        /// The target type of the rule.
+        public var targetType: DataZoneClientTypes.RuleTargetType?
+        /// The timestamp at which the rule was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            action: DataZoneClientTypes.RuleAction? = nil,
+            identifier: Swift.String? = nil,
+            lastUpdatedBy: Swift.String? = nil,
+            name: Swift.String? = nil,
+            revision: Swift.String? = nil,
+            ruleType: DataZoneClientTypes.RuleType? = nil,
+            scope: DataZoneClientTypes.RuleScope? = nil,
+            target: DataZoneClientTypes.RuleTarget? = nil,
+            targetType: DataZoneClientTypes.RuleTargetType? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.action = action
+            self.identifier = identifier
+            self.lastUpdatedBy = lastUpdatedBy
+            self.name = name
+            self.revision = revision
+            self.ruleType = ruleType
+            self.scope = scope
+            self.target = target
+            self.targetType = targetType
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension DataZoneClientTypes.RuleSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RuleSummary(action: \(Swift.String(describing: action)), identifier: \(Swift.String(describing: identifier)), lastUpdatedBy: \(Swift.String(describing: lastUpdatedBy)), revision: \(Swift.String(describing: revision)), ruleType: \(Swift.String(describing: ruleType)), scope: \(Swift.String(describing: scope)), target: \(Swift.String(describing: target)), targetType: \(Swift.String(describing: targetType)), updatedAt: \(Swift.String(describing: updatedAt)), name: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRulesOutput: Swift.Sendable {
+    /// The results of the ListRules action.
+    /// This member is required.
+    public var items: [DataZoneClientTypes.RuleSummary]?
+    /// When the number of rules is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of rules, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListRules to list the next set of rules.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.RuleSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateRuleInput: Swift.Sendable {
+    /// The description of the rule.
+    public var description: Swift.String?
+    /// The detail of the rule.
+    public var detail: DataZoneClientTypes.RuleDetail?
+    /// The ID of the domain in which a rule is to be updated.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the rule that is to be updated
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// Specifies whether to update this rule in the child domain units.
+    public var includeChildDomainUnits: Swift.Bool?
+    /// The name of the rule.
+    public var name: Swift.String?
+    /// The scrope of the rule.
+    public var scope: DataZoneClientTypes.RuleScope?
+
+    public init(
+        description: Swift.String? = nil,
+        detail: DataZoneClientTypes.RuleDetail? = nil,
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        includeChildDomainUnits: Swift.Bool? = nil,
+        name: Swift.String? = nil,
+        scope: DataZoneClientTypes.RuleScope? = nil
+    )
+    {
+        self.description = description
+        self.detail = detail
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+        self.includeChildDomainUnits = includeChildDomainUnits
+        self.name = name
+        self.scope = scope
+    }
+}
+
+extension UpdateRuleInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateRuleInput(detail: \(Swift.String(describing: detail)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), identifier: \(Swift.String(describing: identifier)), includeChildDomainUnits: \(Swift.String(describing: includeChildDomainUnits)), scope: \(Swift.String(describing: scope)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateRuleOutput: Swift.Sendable {
+    /// The action of the rule.
+    /// This member is required.
+    public var action: DataZoneClientTypes.RuleAction?
+    /// The timestamp at which the rule was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The user who created the rule.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the rule.
+    public var description: Swift.String?
+    /// The detail of the rule.
+    /// This member is required.
+    public var detail: DataZoneClientTypes.RuleDetail?
+    /// The ID of the rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The timestamp at which the rule was last updated.
+    /// This member is required.
+    public var lastUpdatedBy: Swift.String?
+    /// The name of the rule.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The revision of the rule.
+    /// This member is required.
+    public var revision: Swift.String?
+    /// The type of the rule.
+    /// This member is required.
+    public var ruleType: DataZoneClientTypes.RuleType?
+    /// The scope of the rule.
+    /// This member is required.
+    public var scope: DataZoneClientTypes.RuleScope?
+    /// The target of the rule.
+    /// This member is required.
+    public var target: DataZoneClientTypes.RuleTarget?
+    /// The timestamp at which the rule was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        action: DataZoneClientTypes.RuleAction? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        detail: DataZoneClientTypes.RuleDetail? = nil,
+        identifier: Swift.String? = nil,
+        lastUpdatedBy: Swift.String? = nil,
+        name: Swift.String? = nil,
+        revision: Swift.String? = nil,
+        ruleType: DataZoneClientTypes.RuleType? = nil,
+        scope: DataZoneClientTypes.RuleScope? = nil,
+        target: DataZoneClientTypes.RuleTarget? = nil,
+        updatedAt: Foundation.Date? = nil
+    )
+    {
+        self.action = action
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.detail = detail
+        self.identifier = identifier
+        self.lastUpdatedBy = lastUpdatedBy
+        self.name = name
+        self.revision = revision
+        self.ruleType = ruleType
+        self.scope = scope
+        self.target = target
+        self.updatedAt = updatedAt
+    }
+}
+
+extension UpdateRuleOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateRuleOutput(action: \(Swift.String(describing: action)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), detail: \(Swift.String(describing: detail)), identifier: \(Swift.String(describing: identifier)), lastUpdatedBy: \(Swift.String(describing: lastUpdatedBy)), revision: \(Swift.String(describing: revision)), ruleType: \(Swift.String(describing: ruleType)), scope: \(Swift.String(describing: scope)), target: \(Swift.String(describing: target)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -16184,9 +17003,13 @@ public struct UpdateSubscriptionRequestOutput: Swift.Sendable {
     /// The identifier of the Amazon DataZone domain in which a subscription request is to be updated.
     /// This member is required.
     public var domainId: Swift.String?
+    /// The ID of the existing subscription.
+    public var existingSubscriptionId: Swift.String?
     /// The identifier of the subscription request that is to be updated.
     /// This member is required.
     public var id: Swift.String?
+    /// Metadata forms included in the subscription request.
+    public var metadataForms: [DataZoneClientTypes.FormOutput]?
     /// The reason for the UpdateSubscriptionRequest action.
     /// This member is required.
     public var requestReason: Swift.String?
@@ -16212,7 +17035,9 @@ public struct UpdateSubscriptionRequestOutput: Swift.Sendable {
         createdBy: Swift.String? = nil,
         decisionComment: Swift.String? = nil,
         domainId: Swift.String? = nil,
+        existingSubscriptionId: Swift.String? = nil,
         id: Swift.String? = nil,
+        metadataForms: [DataZoneClientTypes.FormOutput]? = nil,
         requestReason: Swift.String? = nil,
         reviewerId: Swift.String? = nil,
         status: DataZoneClientTypes.SubscriptionRequestStatus? = nil,
@@ -16226,7 +17051,9 @@ public struct UpdateSubscriptionRequestOutput: Swift.Sendable {
         self.createdBy = createdBy
         self.decisionComment = decisionComment
         self.domainId = domainId
+        self.existingSubscriptionId = existingSubscriptionId
         self.id = id
+        self.metadataForms = metadataForms
         self.requestReason = requestReason
         self.reviewerId = reviewerId
         self.status = status
@@ -16239,7 +17066,7 @@ public struct UpdateSubscriptionRequestOutput: Swift.Sendable {
 
 extension UpdateSubscriptionRequestOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateSubscriptionRequestOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
+        "UpdateSubscriptionRequestOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), existingSubscriptionId: \(Swift.String(describing: existingSubscriptionId)), id: \(Swift.String(describing: id)), metadataForms: \(Swift.String(describing: metadataForms)), reviewerId: \(Swift.String(describing: reviewerId)), status: \(Swift.String(describing: status)), subscribedListings: \(Swift.String(describing: subscribedListings)), subscribedPrincipals: \(Swift.String(describing: subscribedPrincipals)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), decisionComment: \"CONTENT_REDACTED\", requestReason: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSubscriptionTargetInput: Swift.Sendable {
@@ -17215,6 +18042,16 @@ extension CreateProjectMembershipInput {
     }
 }
 
+extension CreateRuleInput {
+
+    static func urlPathProvider(_ value: CreateRuleInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/rules"
+    }
+}
+
 extension CreateSubscriptionGrantInput {
 
     static func urlPathProvider(_ value: CreateSubscriptionGrantInput) -> Swift.String? {
@@ -17523,6 +18360,19 @@ extension DeleteProjectMembershipInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/projects/\(projectIdentifier.urlPercentEncoding())/deleteMembership"
+    }
+}
+
+extension DeleteRuleInput {
+
+    static func urlPathProvider(_ value: DeleteRuleInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/rules/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -17986,6 +18836,31 @@ extension GetProjectInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/projects/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetRuleInput {
+
+    static func urlPathProvider(_ value: GetRuleInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/rules/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetRuleInput {
+
+    static func queryItemProvider(_ value: GetRuleInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let revision = value.revision {
+            let revisionQueryItem = Smithy.URIQueryItem(name: "revision".urlPercentEncoding(), value: Swift.String(revision).urlPercentEncoding())
+            items.append(revisionQueryItem)
+        }
+        return items
     }
 }
 
@@ -18835,6 +19710,66 @@ extension ListProjectsInput {
     }
 }
 
+extension ListRulesInput {
+
+    static func urlPathProvider(_ value: ListRulesInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let targetType = value.targetType else {
+            return nil
+        }
+        guard let targetIdentifier = value.targetIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/list-rules/\(targetType.rawValue.urlPercentEncoding())/\(targetIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension ListRulesInput {
+
+    static func queryItemProvider(_ value: ListRulesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let assetTypes = value.assetTypes {
+            assetTypes.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "assetTypes".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let dataProduct = value.dataProduct {
+            let dataProductQueryItem = Smithy.URIQueryItem(name: "dataProduct".urlPercentEncoding(), value: Swift.String(dataProduct).urlPercentEncoding())
+            items.append(dataProductQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let ruleType = value.ruleType {
+            let ruleTypeQueryItem = Smithy.URIQueryItem(name: "ruleType".urlPercentEncoding(), value: Swift.String(ruleType.rawValue).urlPercentEncoding())
+            items.append(ruleTypeQueryItem)
+        }
+        if let action = value.action {
+            let actionQueryItem = Smithy.URIQueryItem(name: "ruleAction".urlPercentEncoding(), value: Swift.String(action.rawValue).urlPercentEncoding())
+            items.append(actionQueryItem)
+        }
+        if let projectIds = value.projectIds {
+            projectIds.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "projectIds".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let includeCascaded = value.includeCascaded {
+            let includeCascadedQueryItem = Smithy.URIQueryItem(name: "includeCascaded".urlPercentEncoding(), value: Swift.String(includeCascaded).urlPercentEncoding())
+            items.append(includeCascadedQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListSubscriptionGrantsInput {
 
     static func urlPathProvider(_ value: ListSubscriptionGrantsInput) -> Swift.String? {
@@ -19487,6 +20422,19 @@ extension UpdateProjectInput {
     }
 }
 
+extension UpdateRuleInput {
+
+    static func urlPathProvider(_ value: UpdateRuleInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/rules/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateSubscriptionGrantStatusInput {
 
     static func urlPathProvider(_ value: UpdateSubscriptionGrantStatusInput) -> Swift.String? {
@@ -19827,6 +20775,20 @@ extension CreateProjectMembershipInput {
     }
 }
 
+extension CreateRuleInput {
+
+    static func write(value: CreateRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["detail"].write(value.detail, with: DataZoneClientTypes.RuleDetail.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["scope"].write(value.scope, with: DataZoneClientTypes.RuleScope.write(value:to:))
+        try writer["target"].write(value.target, with: DataZoneClientTypes.RuleTarget.write(value:to:))
+    }
+}
+
 extension CreateSubscriptionGrantInput {
 
     static func write(value: CreateSubscriptionGrantInput?, to writer: SmithyJSON.Writer) throws {
@@ -19844,6 +20806,7 @@ extension CreateSubscriptionRequestInput {
     static func write(value: CreateSubscriptionRequestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["metadataForms"].writeList(value.metadataForms, memberWritingClosure: DataZoneClientTypes.FormInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["requestReason"].write(value.requestReason)
         try writer["subscribedListings"].writeList(value.subscribedListings, memberWritingClosure: DataZoneClientTypes.SubscribedListingInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subscribedPrincipals"].writeList(value.subscribedPrincipals, memberWritingClosure: DataZoneClientTypes.SubscribedPrincipalInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -20171,6 +21134,18 @@ extension UpdateProjectInput {
     }
 }
 
+extension UpdateRuleInput {
+
+    static func write(value: UpdateRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["detail"].write(value.detail, with: DataZoneClientTypes.RuleDetail.write(value:to:))
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+        try writer["name"].write(value.name)
+        try writer["scope"].write(value.scope, with: DataZoneClientTypes.RuleScope.write(value:to:))
+    }
+}
+
 extension UpdateSubscriptionGrantStatusInput {
 
     static func write(value: UpdateSubscriptionGrantStatusInput?, to writer: SmithyJSON.Writer) throws {
@@ -20236,7 +21211,9 @@ extension AcceptSubscriptionRequestOutput {
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.decisionComment = try reader["decisionComment"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.existingSubscriptionId = try reader["existingSubscriptionId"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
+        value.metadataForms = try reader["metadataForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
         value.reviewerId = try reader["reviewerId"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -20710,6 +21687,28 @@ extension CreateProjectMembershipOutput {
     }
 }
 
+extension CreateRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRuleOutput()
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.detail = try reader["detail"].readIfPresent(with: DataZoneClientTypes.RuleDetail.read(from:))
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.ruleType = try reader["ruleType"].readIfPresent() ?? .sdkUnknown("")
+        value.scope = try reader["scope"].readIfPresent(with: DataZoneClientTypes.RuleScope.read(from:))
+        value.target = try reader["target"].readIfPresent(with: DataZoneClientTypes.RuleTarget.read(from:))
+        value.targetType = try reader["targetType"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateSubscriptionGrantOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSubscriptionGrantOutput {
@@ -20743,7 +21742,9 @@ extension CreateSubscriptionRequestOutput {
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.decisionComment = try reader["decisionComment"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.existingSubscriptionId = try reader["existingSubscriptionId"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
+        value.metadataForms = try reader["metadataForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
         value.reviewerId = try reader["reviewerId"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -20943,6 +21944,13 @@ extension DeleteProjectMembershipOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProjectMembershipOutput {
         return DeleteProjectMembershipOutput()
+    }
+}
+
+extension DeleteRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRuleOutput {
+        return DeleteRuleOutput()
     }
 }
 
@@ -21509,6 +22517,31 @@ extension GetProjectOutput {
     }
 }
 
+extension GetRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRuleOutput()
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.detail = try reader["detail"].readIfPresent(with: DataZoneClientTypes.RuleDetail.read(from:))
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        value.ruleType = try reader["ruleType"].readIfPresent() ?? .sdkUnknown("")
+        value.scope = try reader["scope"].readIfPresent(with: DataZoneClientTypes.RuleScope.read(from:))
+        value.target = try reader["target"].readIfPresent(with: DataZoneClientTypes.RuleTarget.read(from:))
+        value.targetType = try reader["targetType"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension GetSubscriptionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSubscriptionOutput {
@@ -21564,7 +22597,9 @@ extension GetSubscriptionRequestDetailsOutput {
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.decisionComment = try reader["decisionComment"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.existingSubscriptionId = try reader["existingSubscriptionId"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
+        value.metadataForms = try reader["metadataForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
         value.reviewerId = try reader["reviewerId"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -21894,6 +22929,19 @@ extension ListProjectsOutput {
     }
 }
 
+extension ListRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRulesOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListSubscriptionGrantsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSubscriptionGrantsOutput {
@@ -22038,7 +23086,9 @@ extension RejectSubscriptionRequestOutput {
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.decisionComment = try reader["decisionComment"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.existingSubscriptionId = try reader["existingSubscriptionId"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
+        value.metadataForms = try reader["metadataForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
         value.reviewerId = try reader["reviewerId"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -22449,6 +23499,30 @@ extension UpdateProjectOutput {
     }
 }
 
+extension UpdateRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRuleOutput()
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.detail = try reader["detail"].readIfPresent(with: DataZoneClientTypes.RuleDetail.read(from:))
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? ""
+        value.ruleType = try reader["ruleType"].readIfPresent() ?? .sdkUnknown("")
+        value.scope = try reader["scope"].readIfPresent(with: DataZoneClientTypes.RuleScope.read(from:))
+        value.target = try reader["target"].readIfPresent(with: DataZoneClientTypes.RuleTarget.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension UpdateSubscriptionGrantStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSubscriptionGrantStatusOutput {
@@ -22482,7 +23556,9 @@ extension UpdateSubscriptionRequestOutput {
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.decisionComment = try reader["decisionComment"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.existingSubscriptionId = try reader["existingSubscriptionId"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
+        value.metadataForms = try reader["metadataForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestReason = try reader["requestReason"].readIfPresent() ?? ""
         value.reviewerId = try reader["reviewerId"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -23071,6 +24147,27 @@ enum CreateProjectMembershipOutputError {
     }
 }
 
+enum CreateRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateSubscriptionGrantOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -23477,6 +24574,26 @@ enum DeleteProjectMembershipOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -24024,6 +25141,25 @@ enum GetProjectOutputError {
     }
 }
 
+enum GetRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetSubscriptionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -24509,6 +25645,25 @@ enum ListProjectsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -25173,6 +26328,27 @@ enum UpdateProjectOutputError {
     }
 }
 
+enum UpdateRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateSubscriptionGrantStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -25478,17 +26654,6 @@ extension DataZoneClientTypes.AssetScope {
     }
 }
 
-extension DataZoneClientTypes.AssetListingDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListingDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataZoneClientTypes.AssetListingDetails()
-        value.listingId = try reader["listingId"].readIfPresent() ?? ""
-        value.listingStatus = try reader["listingStatus"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension DataZoneClientTypes.FormOutput {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.FormOutput {
@@ -25498,6 +26663,17 @@ extension DataZoneClientTypes.FormOutput {
         value.typeName = try reader["typeName"].readIfPresent()
         value.typeRevision = try reader["typeRevision"].readIfPresent()
         value.content = try reader["content"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetListingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetListingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetListingDetails()
+        value.listingId = try reader["listingId"].readIfPresent() ?? ""
+        value.listingStatus = try reader["listingStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -26365,6 +27541,156 @@ extension DataZoneClientTypes.ProjectDeletionError {
         var value = DataZoneClientTypes.ProjectDeletionError()
         value.code = try reader["code"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RuleTarget {
+
+    static func write(value: DataZoneClientTypes.RuleTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .domainunittarget(domainunittarget):
+                try writer["domainUnitTarget"].write(domainunittarget, with: DataZoneClientTypes.DomainUnitTarget.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RuleTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "domainUnitTarget":
+                return .domainunittarget(try reader["domainUnitTarget"].read(with: DataZoneClientTypes.DomainUnitTarget.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.DomainUnitTarget {
+
+    static func write(value: DataZoneClientTypes.DomainUnitTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainUnitId"].write(value.domainUnitId)
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DomainUnitTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DomainUnitTarget()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent() ?? ""
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RuleScope {
+
+    static func write(value: DataZoneClientTypes.RuleScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetType"].write(value.assetType, with: DataZoneClientTypes.AssetTypesForRule.write(value:to:))
+        try writer["dataProduct"].write(value.dataProduct)
+        try writer["project"].write(value.project, with: DataZoneClientTypes.ProjectsForRule.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RuleScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RuleScope()
+        value.assetType = try reader["assetType"].readIfPresent(with: DataZoneClientTypes.AssetTypesForRule.read(from:))
+        value.dataProduct = try reader["dataProduct"].readIfPresent()
+        value.project = try reader["project"].readIfPresent(with: DataZoneClientTypes.ProjectsForRule.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ProjectsForRule {
+
+    static func write(value: DataZoneClientTypes.ProjectsForRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["selectionMode"].write(value.selectionMode)
+        try writer["specificProjects"].writeList(value.specificProjects, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectsForRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ProjectsForRule()
+        value.selectionMode = try reader["selectionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.specificProjects = try reader["specificProjects"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AssetTypesForRule {
+
+    static func write(value: DataZoneClientTypes.AssetTypesForRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["selectionMode"].write(value.selectionMode)
+        try writer["specificAssetTypes"].writeList(value.specificAssetTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AssetTypesForRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AssetTypesForRule()
+        value.selectionMode = try reader["selectionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.specificAssetTypes = try reader["specificAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RuleDetail {
+
+    static func write(value: DataZoneClientTypes.RuleDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .metadataformenforcementdetail(metadataformenforcementdetail):
+                try writer["metadataFormEnforcementDetail"].write(metadataformenforcementdetail, with: DataZoneClientTypes.MetadataFormEnforcementDetail.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RuleDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "metadataFormEnforcementDetail":
+                return .metadataformenforcementdetail(try reader["metadataFormEnforcementDetail"].read(with: DataZoneClientTypes.MetadataFormEnforcementDetail.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.MetadataFormEnforcementDetail {
+
+    static func write(value: DataZoneClientTypes.MetadataFormEnforcementDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["requiredMetadataForms"].writeList(value.requiredMetadataForms, memberWritingClosure: DataZoneClientTypes.MetadataFormReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataFormEnforcementDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MetadataFormEnforcementDetail()
+        value.requiredMetadataForms = try reader["requiredMetadataForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MetadataFormReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MetadataFormReference {
+
+    static func write(value: DataZoneClientTypes.MetadataFormReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["typeIdentifier"].write(value.typeIdentifier)
+        try writer["typeRevision"].write(value.typeRevision)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataFormReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MetadataFormReference()
+        value.typeIdentifier = try reader["typeIdentifier"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
         return value
     }
 }
@@ -27581,6 +28907,25 @@ extension DataZoneClientTypes.ProjectSummary {
     }
 }
 
+extension DataZoneClientTypes.RuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RuleSummary()
+        value.identifier = try reader["identifier"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent()
+        value.ruleType = try reader["ruleType"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.targetType = try reader["targetType"].readIfPresent()
+        value.target = try reader["target"].readIfPresent(with: DataZoneClientTypes.RuleTarget.read(from:))
+        value.action = try reader["action"].readIfPresent()
+        value.scope = try reader["scope"].readIfPresent(with: DataZoneClientTypes.RuleScope.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.SubscriptionGrantSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SubscriptionGrantSummary {
@@ -27618,6 +28963,20 @@ extension DataZoneClientTypes.SubscriptionRequestSummary {
         value.subscribedListings = try reader["subscribedListings"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscribedListing.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.reviewerId = try reader["reviewerId"].readIfPresent()
         value.decisionComment = try reader["decisionComment"].readIfPresent()
+        value.existingSubscriptionId = try reader["existingSubscriptionId"].readIfPresent()
+        value.metadataFormsSummary = try reader["metadataFormsSummary"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MetadataFormSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MetadataFormSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MetadataFormSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MetadataFormSummary()
+        value.formName = try reader["formName"].readIfPresent()
+        value.typeName = try reader["typeName"].readIfPresent() ?? ""
+        value.typeRevision = try reader["typeRevision"].readIfPresent() ?? ""
         return value
     }
 }

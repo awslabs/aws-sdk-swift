@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.0.44"
+    public static let version = "1.0.45"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -33484,7 +33484,7 @@ extension EC2Client {
 
     /// Performs the `ModifyInstanceCapacityReservationAttributes` operation on the `AmazonEC2` service.
     ///
-    /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attributes, or run On-Demand Instance capacity.
+    /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attributes, run in On-Demand Instance capacity, or only run in a Capacity Reservation.
     ///
     /// - Parameter ModifyInstanceCapacityReservationAttributesInput : [no documentation found]
     ///

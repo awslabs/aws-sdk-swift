@@ -42,7 +42,7 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
     public init() { }
 }
 
-/// You are not authorized to perform this action.
+/// You do not have the necessary permissions to access the account settings.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -66,7 +66,45 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// The service was unable to fully process this request because of an internal server error.
+extension TimestreamQueryClientTypes {
+
+    /// Details on SNS that are required to send the notification.
+    public struct SnsConfiguration: Swift.Sendable {
+        /// SNS topic ARN that the scheduled query status notifications will be sent to.
+        /// This member is required.
+        public var topicArn: Swift.String?
+
+        public init(
+            topicArn: Swift.String? = nil
+        )
+        {
+            self.topicArn = topicArn
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// Configuration settings for notifications related to account settings.
+    public struct AccountSettingsNotificationConfiguration: Swift.Sendable {
+        /// An Amazon Resource Name (ARN) that grants Timestream permission to publish notifications. This field is only visible if SNS Topic is provided when updating the account settings.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// Details on SNS that are required to send the notification.
+        public var snsConfiguration: TimestreamQueryClientTypes.SnsConfiguration?
+
+        public init(
+            roleArn: Swift.String? = nil,
+            snsConfiguration: TimestreamQueryClientTypes.SnsConfiguration? = nil
+        )
+        {
+            self.roleArn = roleArn
+            self.snsConfiguration = snsConfiguration
+        }
+    }
+}
+
+/// An internal server error occurred while processing the request.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -90,7 +128,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The requested endpoint was not valid.
+/// The requested endpoint is invalid.
 public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -114,7 +152,7 @@ public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// The request was denied due to request throttling.
+/// The request was throttled due to excessive requests.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -243,6 +281,35 @@ extension TimestreamQueryClientTypes {
     }
 }
 
+extension TimestreamQueryClientTypes {
+
+    public enum ComputeMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemand
+        case provisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeMode] {
+            return [
+                .onDemand,
+                .provisioned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "ON_DEMAND"
+            case .provisioned: return "PROVISIONED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Unable to poll results for a cancelled query.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -364,26 +431,9 @@ extension TimestreamQueryClientTypes {
 
 extension TimestreamQueryClientTypes {
 
-    /// Details on SNS that are required to send the notification.
-    public struct SnsConfiguration: Swift.Sendable {
-        /// SNS topic ARN that the scheduled query status notifications will be sent to.
-        /// This member is required.
-        public var topicArn: Swift.String?
-
-        public init(
-            topicArn: Swift.String? = nil
-        )
-        {
-            self.topicArn = topicArn
-        }
-    }
-}
-
-extension TimestreamQueryClientTypes {
-
     /// Notification configuration for a scheduled query. A notification is sent by Timestream when a scheduled query is created, its state is updated or when it is deleted.
     public struct NotificationConfiguration: Swift.Sendable {
-        /// Details on SNS configuration.
+        /// Details about the Amazon Simple Notification Service (SNS) configuration. This field is visible only when SNS Topic is provided when updating the account settings.
         /// This member is required.
         public var snsConfiguration: TimestreamQueryClientTypes.SnsConfiguration?
 
@@ -824,6 +874,106 @@ public struct DescribeAccountSettingsInput: Swift.Sendable {
 
 extension TimestreamQueryClientTypes {
 
+    public enum LastUpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case pending
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LastUpdateStatus] {
+            return [
+                .failed,
+                .pending,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// Configuration object that contains the most recent account settings update, visible only if settings have been updated previously.
+    public struct LastUpdate: Swift.Sendable {
+        /// The status of the last update. Can be either PENDING, FAILED, or SUCCEEDED.
+        public var status: TimestreamQueryClientTypes.LastUpdateStatus?
+        /// Error message describing the last account settings update status, visible only if an error occurred.
+        public var statusMessage: Swift.String?
+        /// The number of TimeStream Compute Units (TCUs) requested in the last account settings update.
+        public var targetQueryTCU: Swift.Int?
+
+        public init(
+            status: TimestreamQueryClientTypes.LastUpdateStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            targetQueryTCU: Swift.Int? = nil
+        )
+        {
+            self.status = status
+            self.statusMessage = statusMessage
+            self.targetQueryTCU = targetQueryTCU
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// The response to a request to update the provisioned capacity settings for querying data.
+    public struct ProvisionedCapacityResponse: Swift.Sendable {
+        /// The number of Timestream Compute Units (TCUs) provisioned in the account. This field is only visible when the compute mode is PROVISIONED.
+        public var activeQueryTCU: Swift.Int?
+        /// Information about the last update to the provisioned capacity settings.
+        public var lastUpdate: TimestreamQueryClientTypes.LastUpdate?
+        /// An object that contains settings for notifications that are sent whenever the provisioned capacity settings are modified. This field is only visible when the compute mode is PROVISIONED.
+        public var notificationConfiguration: TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration?
+
+        public init(
+            activeQueryTCU: Swift.Int? = nil,
+            lastUpdate: TimestreamQueryClientTypes.LastUpdate? = nil,
+            notificationConfiguration: TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration? = nil
+        )
+        {
+            self.activeQueryTCU = activeQueryTCU
+            self.lastUpdate = lastUpdate
+            self.notificationConfiguration = notificationConfiguration
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
+    /// The response to a request to retrieve or update the compute capacity settings for querying data.
+    public struct QueryComputeResponse: Swift.Sendable {
+        /// The mode in which Timestream Compute Units (TCUs) are allocated and utilized within an account. Note that in the Asia Pacific (Mumbai) region, the API operation only recognizes the value PROVISIONED.
+        public var computeMode: TimestreamQueryClientTypes.ComputeMode?
+        /// Configuration object that contains settings for provisioned Timestream Compute Units (TCUs) in your account.
+        public var provisionedCapacity: TimestreamQueryClientTypes.ProvisionedCapacityResponse?
+
+        public init(
+            computeMode: TimestreamQueryClientTypes.ComputeMode? = nil,
+            provisionedCapacity: TimestreamQueryClientTypes.ProvisionedCapacityResponse? = nil
+        )
+        {
+            self.computeMode = computeMode
+            self.provisionedCapacity = provisionedCapacity
+        }
+    }
+}
+
+extension TimestreamQueryClientTypes {
+
     public enum QueryPricingModel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bytesScanned
         case computeUnits
@@ -852,17 +1002,21 @@ extension TimestreamQueryClientTypes {
 }
 
 public struct DescribeAccountSettingsOutput: Swift.Sendable {
-    /// The maximum number of [Timestream compute units](https://docs.aws.amazon.com/timestream/latest/developerguide/tcu.html) (TCUs) the service will use at any point in time to serve your queries.
+    /// The maximum number of [Timestream compute units](https://docs.aws.amazon.com/timestream/latest/developerguide/tcu.html) (TCUs) the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. This configuration is applicable only for on-demand usage of (TCUs).
     public var maxQueryTCU: Swift.Int?
-    /// The pricing model for queries in your account.
+    /// An object that contains the usage settings for Timestream Compute Units (TCUs) in your account for the query workload.
+    public var queryCompute: TimestreamQueryClientTypes.QueryComputeResponse?
+    /// The pricing model for queries in your account. The QueryPricingModel parameter is used by several Timestream operations; however, the UpdateAccountSettings API operation doesn't recognize any values other than COMPUTE_UNITS.
     public var queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel?
 
     public init(
         maxQueryTCU: Swift.Int? = nil,
+        queryCompute: TimestreamQueryClientTypes.QueryComputeResponse? = nil,
         queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel? = nil
     )
     {
         self.maxQueryTCU = maxQueryTCU
+        self.queryCompute = queryCompute
         self.queryPricingModel = queryPricingModel
     }
 }
@@ -1581,6 +1735,27 @@ extension PrepareQueryInput: Swift.CustomDebugStringConvertible {
         "PrepareQueryInput(validateOnly: \(Swift.String(describing: validateOnly)), queryString: \"CONTENT_REDACTED\")"}
 }
 
+extension TimestreamQueryClientTypes {
+
+    /// A request to update the provisioned capacity settings for querying data.
+    public struct ProvisionedCapacityRequest: Swift.Sendable {
+        /// Configuration settings for notifications related to the provisioned capacity update.
+        public var notificationConfiguration: TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration?
+        /// The target compute capacity for querying data, specified in Timestream Compute Units (TCUs).
+        /// This member is required.
+        public var targetQueryTCU: Swift.Int?
+
+        public init(
+            notificationConfiguration: TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration? = nil,
+            targetQueryTCU: Swift.Int? = nil
+        )
+        {
+            self.notificationConfiguration = notificationConfiguration
+            self.targetQueryTCU = targetQueryTCU
+        }
+    }
+}
+
 /// Timestream was unable to run the query successfully.
 public struct QueryExecutionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1799,6 +1974,26 @@ extension TimestreamQueryClientTypes {
     }
 }
 
+extension TimestreamQueryClientTypes {
+
+    /// A request to retrieve or update the compute capacity settings for querying data.
+    public struct QueryComputeRequest: Swift.Sendable {
+        /// The mode in which Timestream Compute Units (TCUs) are allocated and utilized within an account. Note that in the Asia Pacific (Mumbai) region, the API operation only recognizes the value PROVISIONED.
+        public var computeMode: TimestreamQueryClientTypes.ComputeMode?
+        /// Configuration object that contains settings for provisioned Timestream Compute Units (TCUs) in your account.
+        public var provisionedCapacity: TimestreamQueryClientTypes.ProvisionedCapacityRequest?
+
+        public init(
+            computeMode: TimestreamQueryClientTypes.ComputeMode? = nil,
+            provisionedCapacity: TimestreamQueryClientTypes.ProvisionedCapacityRequest? = nil
+        )
+        {
+            self.computeMode = computeMode
+            self.provisionedCapacity = provisionedCapacity
+        }
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// Identifies the Timestream resource to which tags should be added. This value is an Amazon Resource Name (ARN).
     /// This member is required.
@@ -1846,17 +2041,21 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateAccountSettingsInput: Swift.Sendable {
-    /// The maximum number of compute units the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft limit, contact Amazon Web Services Support. For information about the default quota for maxQueryTCU, see [Default quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default).
+    /// The maximum number of compute units the service will use at any point in time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on. The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft limit, contact Amazon Web Services Support. For information about the default quota for maxQueryTCU, see Default quotas. This configuration is applicable only for on-demand usage of Timestream Compute Units (TCUs). The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft limit, contact Amazon Web Services Support. For information about the default quota for maxQueryTCU, see [Default quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default).
     public var maxQueryTCU: Swift.Int?
+    /// Modifies the query compute settings configured in your account, including the query pricing model and provisioned Timestream Compute Units (TCUs) in your account. This API is idempotent, meaning that making the same request multiple times will have the same effect as making the request once.
+    public var queryCompute: TimestreamQueryClientTypes.QueryComputeRequest?
     /// The pricing model for queries in an account. The QueryPricingModel parameter is used by several Timestream operations; however, the UpdateAccountSettings API operation doesn't recognize any values other than COMPUTE_UNITS.
     public var queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel?
 
     public init(
         maxQueryTCU: Swift.Int? = nil,
+        queryCompute: TimestreamQueryClientTypes.QueryComputeRequest? = nil,
         queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel? = nil
     )
     {
         self.maxQueryTCU = maxQueryTCU
+        self.queryCompute = queryCompute
         self.queryPricingModel = queryPricingModel
     }
 }
@@ -1864,15 +2063,19 @@ public struct UpdateAccountSettingsInput: Swift.Sendable {
 public struct UpdateAccountSettingsOutput: Swift.Sendable {
     /// The configured maximum number of compute units the service will use at any point in time to serve your queries.
     public var maxQueryTCU: Swift.Int?
+    /// Confirms the updated account settings for querying data in your account.
+    public var queryCompute: TimestreamQueryClientTypes.QueryComputeResponse?
     /// The pricing model for an account.
     public var queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel?
 
     public init(
         maxQueryTCU: Swift.Int? = nil,
+        queryCompute: TimestreamQueryClientTypes.QueryComputeResponse? = nil,
         queryPricingModel: TimestreamQueryClientTypes.QueryPricingModel? = nil
     )
     {
         self.maxQueryTCU = maxQueryTCU
+        self.queryCompute = queryCompute
         self.queryPricingModel = queryPricingModel
     }
 }
@@ -2368,6 +2571,7 @@ extension UpdateAccountSettingsInput {
     static func write(value: UpdateAccountSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["MaxQueryTCU"].write(value.maxQueryTCU)
+        try writer["QueryCompute"].write(value.queryCompute, with: TimestreamQueryClientTypes.QueryComputeRequest.write(value:to:))
         try writer["QueryPricingModel"].write(value.queryPricingModel)
     }
 }
@@ -2420,6 +2624,7 @@ extension DescribeAccountSettingsOutput {
         let reader = responseReader
         var value = DescribeAccountSettingsOutput()
         value.maxQueryTCU = try reader["MaxQueryTCU"].readIfPresent()
+        value.queryCompute = try reader["QueryCompute"].readIfPresent(with: TimestreamQueryClientTypes.QueryComputeResponse.read(from:))
         value.queryPricingModel = try reader["QueryPricingModel"].readIfPresent()
         return value
     }
@@ -2535,6 +2740,7 @@ extension UpdateAccountSettingsOutput {
         let reader = responseReader
         var value = UpdateAccountSettingsOutput()
         value.maxQueryTCU = try reader["MaxQueryTCU"].readIfPresent()
+        value.queryCompute = try reader["QueryCompute"].readIfPresent(with: TimestreamQueryClientTypes.QueryComputeResponse.read(from:))
         value.queryPricingModel = try reader["QueryPricingModel"].readIfPresent()
         return value
     }
@@ -2938,6 +3144,73 @@ extension QueryExecutionException {
     }
 }
 
+extension TimestreamQueryClientTypes.QueryComputeResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.QueryComputeResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.QueryComputeResponse()
+        value.computeMode = try reader["ComputeMode"].readIfPresent()
+        value.provisionedCapacity = try reader["ProvisionedCapacity"].readIfPresent(with: TimestreamQueryClientTypes.ProvisionedCapacityResponse.read(from:))
+        return value
+    }
+}
+
+extension TimestreamQueryClientTypes.ProvisionedCapacityResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.ProvisionedCapacityResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.ProvisionedCapacityResponse()
+        value.activeQueryTCU = try reader["ActiveQueryTCU"].readIfPresent()
+        value.notificationConfiguration = try reader["NotificationConfiguration"].readIfPresent(with: TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration.read(from:))
+        value.lastUpdate = try reader["LastUpdate"].readIfPresent(with: TimestreamQueryClientTypes.LastUpdate.read(from:))
+        return value
+    }
+}
+
+extension TimestreamQueryClientTypes.LastUpdate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.LastUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.LastUpdate()
+        value.targetQueryTCU = try reader["TargetQueryTCU"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration {
+
+    static func write(value: TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["SnsConfiguration"].write(value.snsConfiguration, with: TimestreamQueryClientTypes.SnsConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration()
+        value.snsConfiguration = try reader["SnsConfiguration"].readIfPresent(with: TimestreamQueryClientTypes.SnsConfiguration.read(from:))
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TimestreamQueryClientTypes.SnsConfiguration {
+
+    static func write(value: TimestreamQueryClientTypes.SnsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.SnsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamQueryClientTypes.SnsConfiguration()
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension TimestreamQueryClientTypes.Endpoint {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.Endpoint {
@@ -3249,21 +3522,6 @@ extension TimestreamQueryClientTypes.NotificationConfiguration {
     }
 }
 
-extension TimestreamQueryClientTypes.SnsConfiguration {
-
-    static func write(value: TimestreamQueryClientTypes.SnsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TopicArn"].write(value.topicArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamQueryClientTypes.SnsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamQueryClientTypes.SnsConfiguration()
-        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension TimestreamQueryClientTypes.ScheduleConfiguration {
 
     static func write(value: TimestreamQueryClientTypes.ScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -3461,6 +3719,24 @@ extension TimestreamQueryClientTypes.QueryInsights {
     static func write(value: TimestreamQueryClientTypes.QueryInsights?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Mode"].write(value.mode)
+    }
+}
+
+extension TimestreamQueryClientTypes.QueryComputeRequest {
+
+    static func write(value: TimestreamQueryClientTypes.QueryComputeRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComputeMode"].write(value.computeMode)
+        try writer["ProvisionedCapacity"].write(value.provisionedCapacity, with: TimestreamQueryClientTypes.ProvisionedCapacityRequest.write(value:to:))
+    }
+}
+
+extension TimestreamQueryClientTypes.ProvisionedCapacityRequest {
+
+    static func write(value: TimestreamQueryClientTypes.ProvisionedCapacityRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NotificationConfiguration"].write(value.notificationConfiguration, with: TimestreamQueryClientTypes.AccountSettingsNotificationConfiguration.write(value:to:))
+        try writer["TargetQueryTCU"].write(value.targetQueryTCU)
     }
 }
 

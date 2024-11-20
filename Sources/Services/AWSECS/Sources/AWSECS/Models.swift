@@ -1155,6 +1155,35 @@ public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClient
 
 extension ECSClientTypes {
 
+    public enum AvailabilityZoneRebalancing: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AvailabilityZoneRebalancing] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// One of the methods which provide a way for you to quickly identify when a deployment has failed, and then to optionally roll back the failure to the last working deployment. When the alarms are generated, Amazon ECS sets the service deployment to failed. Set the rollback parameter to have Amazon ECS to roll back your service to the last completed deployment after a failure. You can only use the DeploymentAlarms method to detect failures when the DeploymentController is set to ECS (rolling update). For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide .
     public struct DeploymentAlarms: Swift.Sendable {
         /// One or more CloudWatch alarm names. Use a "," to separate the alarms.
@@ -1280,9 +1309,9 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// The deployment controller to use for the service. For more information, see [Amazon ECS deployment types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html) in the Amazon Elastic Container Service Developer Guide.
+    /// The deployment controller to use for the service.
     public struct DeploymentController: Swift.Sendable {
-        /// The deployment controller type to use. There are three deployment controller types available: ECS The rolling update (ECS) deployment type involves replacing the current running version of the container with the latest version. The number of containers Amazon ECS adds or removes from the service during a rolling update is controlled by adjusting the minimum and maximum number of healthy tasks allowed during a service deployment, as specified in the [DeploymentConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeploymentConfiguration.html). CODE_DEPLOY The blue/green (CODE_DEPLOY) deployment type uses the blue/green deployment model powered by CodeDeploy, which allows you to verify a new deployment of a service before sending production traffic to it. EXTERNAL The external (EXTERNAL) deployment type enables you to use any third-party deployment controller for full control over the deployment process for an Amazon ECS service.
+        /// The deployment controller type to use. There are three deployment controller types available: ECS The rolling update (ECS) deployment type involves replacing the current running version of the container with the latest version. The number of containers Amazon ECS adds or removes from the service during a rolling update is controlled by adjusting the minimum and maximum number of healthy tasks allowed during a service deployment, as specified in the [DeploymentConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeploymentConfiguration.html). For more information about rolling deployments, see [Deploy Amazon ECS services by replacing tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide. CODE_DEPLOY The blue/green (CODE_DEPLOY) deployment type uses the blue/green deployment model powered by CodeDeploy, which allows you to verify a new deployment of a service before sending production traffic to it. For more information about blue/green deployments, see [Validate the state of an Amazon ECS service before deployment ](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-bluegreen.html) in the Amazon Elastic Container Service Developer Guide. EXTERNAL The external (EXTERNAL) deployment type enables you to use any third-party deployment controller for full control over the deployment process for an Amazon ECS service. For more information about external deployments, see [Deploy Amazon ECS services using a third-party controller ](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-external.html) in the Amazon Elastic Container Service Developer Guide.
         /// This member is required.
         public var type: ECSClientTypes.DeploymentControllerType?
 
@@ -2095,6 +2124,8 @@ extension ECSClientTypes {
 }
 
 public struct CreateServiceInput: Swift.Sendable {
+    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide.
+    public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
     /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy may contain a maximum of 6 capacity providers.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
@@ -2166,6 +2197,7 @@ public struct CreateServiceInput: Swift.Sendable {
     public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
 
     public init(
+        availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing? = nil,
         capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
         clientToken: Swift.String? = nil,
         cluster: Swift.String? = nil,
@@ -2193,6 +2225,7 @@ public struct CreateServiceInput: Swift.Sendable {
         vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
     )
     {
+        self.availabilityZoneRebalancing = availabilityZoneRebalancing
         self.capacityProviderStrategy = capacityProviderStrategy
         self.clientToken = clientToken
         self.cluster = cluster
@@ -2625,6 +2658,8 @@ extension ECSClientTypes {
 
     /// Details on a service within a cluster.
     public struct Service: Swift.Sendable {
+        /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide.
+        public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
         /// The capacity provider strategy the service uses. When using the DescribeServices API, this field is omitted if the service was created using a launch type.
         public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
         /// The Amazon Resource Name (ARN) of the cluster that hosts the service.
@@ -2707,6 +2742,7 @@ extension ECSClientTypes {
         public var taskSets: [ECSClientTypes.TaskSet]?
 
         public init(
+            availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing? = nil,
             capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
             clusterArn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
@@ -2740,6 +2776,7 @@ extension ECSClientTypes {
             taskSets: [ECSClientTypes.TaskSet]? = nil
         )
         {
+            self.availabilityZoneRebalancing = availabilityZoneRebalancing
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
             self.createdAt = createdAt
@@ -9635,6 +9672,8 @@ public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
 }
 
 public struct UpdateServiceInput: Swift.Sendable {
+    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide.
+    public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
     /// The capacity provider strategy to update the service to use. if the service uses the default capacity provider strategy for the cluster, the service can be updated to use one or more capacity providers as opposed to the default capacity provider strategy. However, when a service is using a capacity provider strategy that's not the default capacity provider strategy, the service can't be updated to use the cluster's default capacity provider strategy. A capacity provider strategy consists of one or more capacity providers along with the base and weight to assign to them. A capacity provider must be associated with the cluster to be used in a capacity provider strategy. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API is used to associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New capacity providers can be created with the [CreateClusterCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateClusterCapacityProvider.html) API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html)API operation is used to update the list of available capacity providers for a cluster after the cluster is created.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on. If you do not specify a cluster, the default cluster is assumed.
@@ -9678,6 +9717,7 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
 
     public init(
+        availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing? = nil,
         capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
         cluster: Swift.String? = nil,
         deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
@@ -9700,6 +9740,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]? = nil
     )
     {
+        self.availabilityZoneRebalancing = availabilityZoneRebalancing
         self.capacityProviderStrategy = capacityProviderStrategy
         self.cluster = cluster
         self.deploymentConfiguration = deploymentConfiguration
@@ -10300,6 +10341,7 @@ extension CreateServiceInput {
 
     static func write(value: CreateServiceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["availabilityZoneRebalancing"].write(value.availabilityZoneRebalancing)
         try writer["capacityProviderStrategy"].writeList(value.capacityProviderStrategy, memberWritingClosure: ECSClientTypes.CapacityProviderStrategyItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["cluster"].write(value.cluster)
@@ -10919,6 +10961,7 @@ extension UpdateServiceInput {
 
     static func write(value: UpdateServiceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["availabilityZoneRebalancing"].write(value.availabilityZoneRebalancing)
         try writer["capacityProviderStrategy"].writeList(value.capacityProviderStrategy, memberWritingClosure: ECSClientTypes.CapacityProviderStrategyItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["cluster"].write(value.cluster)
         try writer["deploymentConfiguration"].write(value.deploymentConfiguration, with: ECSClientTypes.DeploymentConfiguration.write(value:to:))
@@ -13393,6 +13436,7 @@ extension ECSClientTypes.Service {
         value.enableECSManagedTags = try reader["enableECSManagedTags"].readIfPresent() ?? false
         value.propagateTags = try reader["propagateTags"].readIfPresent()
         value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent() ?? false
+        value.availabilityZoneRebalancing = try reader["availabilityZoneRebalancing"].readIfPresent()
         return value
     }
 }

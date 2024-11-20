@@ -516,24 +516,28 @@ public struct BatchDeleteImportDataOutput: Swift.Sendable {
 }
 
 public struct CreateApplicationInput: Swift.Sendable {
-    /// Description of the application to be created.
+    /// The description of the application to be created.
     public var description: Swift.String?
-    /// Name of the application to be created.
+    /// The name of the application to be created.
     /// This member is required.
     public var name: Swift.String?
+    /// The name of the migration wave of the application to be created.
+    public var wave: Swift.String?
 
     public init(
         description: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        wave: Swift.String? = nil
     )
     {
         self.description = description
         self.name = name
+        self.wave = wave
     }
 }
 
 public struct CreateApplicationOutput: Swift.Sendable {
-    /// Configuration ID of an application to be created.
+    /// The configuration ID of an application to be created.
     public var configurationId: Swift.String?
 
     public init(
@@ -1338,6 +1342,7 @@ public struct DescribeExportTasksOutput: Swift.Sendable {
 extension ApplicationDiscoveryClientTypes {
 
     public enum ImportTaskFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fileClassification
         case importTaskId
         case name
         case status
@@ -1345,6 +1350,7 @@ extension ApplicationDiscoveryClientTypes {
 
         public static var allCases: [ImportTaskFilterName] {
             return [
+                .fileClassification,
                 .importTaskId,
                 .name,
                 .status
@@ -1358,6 +1364,7 @@ extension ApplicationDiscoveryClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .fileClassification: return "FILE_CLASSIFICATION"
             case .importTaskId: return "IMPORT_TASK_ID"
             case .name: return "NAME"
             case .status: return "STATUS"
@@ -1409,6 +1416,41 @@ public struct DescribeImportTasksInput: Swift.Sendable {
 
 extension ApplicationDiscoveryClientTypes {
 
+    public enum FileClassification: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case importTemplate
+        case modelizeitExport
+        case rvtoolsExport
+        case vmwareNsxExport
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FileClassification] {
+            return [
+                .importTemplate,
+                .modelizeitExport,
+                .rvtoolsExport,
+                .vmwareNsxExport
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .importTemplate: return "IMPORT_TEMPLATE"
+            case .modelizeitExport: return "MODELIZEIT_EXPORT"
+            case .rvtoolsExport: return "RVTOOLS_EXPORT"
+            case .vmwareNsxExport: return "VMWARE_NSX_EXPORT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationDiscoveryClientTypes {
+
     public enum ImportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deleteComplete
         case deleteFailed
@@ -1419,6 +1461,7 @@ extension ApplicationDiscoveryClientTypes {
         case importFailed
         case importFailedRecordLimitExceeded
         case importFailedServerLimitExceeded
+        case importFailedUnsupportedFileType
         case importInProgress
         case internalError
         case sdkUnknown(Swift.String)
@@ -1434,6 +1477,7 @@ extension ApplicationDiscoveryClientTypes {
                 .importFailed,
                 .importFailedRecordLimitExceeded,
                 .importFailedServerLimitExceeded,
+                .importFailedUnsupportedFileType,
                 .importInProgress,
                 .internalError
             ]
@@ -1455,6 +1499,7 @@ extension ApplicationDiscoveryClientTypes {
             case .importFailed: return "IMPORT_FAILED"
             case .importFailedRecordLimitExceeded: return "IMPORT_FAILED_RECORD_LIMIT_EXCEEDED"
             case .importFailedServerLimitExceeded: return "IMPORT_FAILED_SERVER_LIMIT_EXCEEDED"
+            case .importFailedUnsupportedFileType: return "IMPORT_FAILED_UNSUPPORTED_FILE_TYPE"
             case .importInProgress: return "IMPORT_IN_PROGRESS"
             case .internalError: return "INTERNAL_ERROR"
             case let .sdkUnknown(s): return s
@@ -1475,6 +1520,8 @@ extension ApplicationDiscoveryClientTypes {
         public var clientRequestToken: Swift.String?
         /// A link to a compressed archive folder (in the ZIP format) that contains an error log and a file of failed records. You can use these two files to quickly identify records that failed, why they failed, and correct those records. Afterward, you can upload the corrected file to your Amazon S3 bucket and create another import task request. This field also includes authorization information so you can confirm the authenticity of the compressed archive before you download it. If some records failed to be imported we recommend that you correct the records in the failed entries file and then imports that failed entries file. This prevents you from having to correct and update the larger original file and attempt importing it again.
         public var errorsAndFailedEntriesZip: Swift.String?
+        /// The type of file detected by the import task.
+        public var fileClassification: ApplicationDiscoveryClientTypes.FileClassification?
         /// The time that the import task request finished, presented in the Unix time stamp format.
         public var importCompletionTime: Foundation.Date?
         /// The time that the import task request was deleted, presented in the Unix time stamp format.
@@ -1499,6 +1546,7 @@ extension ApplicationDiscoveryClientTypes {
             applicationImportSuccess: Swift.Int = 0,
             clientRequestToken: Swift.String? = nil,
             errorsAndFailedEntriesZip: Swift.String? = nil,
+            fileClassification: ApplicationDiscoveryClientTypes.FileClassification? = nil,
             importCompletionTime: Foundation.Date? = nil,
             importDeletedTime: Foundation.Date? = nil,
             importRequestTime: Foundation.Date? = nil,
@@ -1514,6 +1562,7 @@ extension ApplicationDiscoveryClientTypes {
             self.applicationImportSuccess = applicationImportSuccess
             self.clientRequestToken = clientRequestToken
             self.errorsAndFailedEntriesZip = errorsAndFailedEntriesZip
+            self.fileClassification = fileClassification
             self.importCompletionTime = importCompletionTime
             self.importDeletedTime = importDeletedTime
             self.importRequestTime = importRequestTime
@@ -2656,16 +2705,20 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public var description: Swift.String?
     /// New name of the application to be updated.
     public var name: Swift.String?
+    /// The new migration wave of the application that you want to update.
+    public var wave: Swift.String?
 
     public init(
         configurationId: Swift.String? = nil,
         description: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        wave: Swift.String? = nil
     )
     {
         self.configurationId = configurationId
         self.description = description
         self.name = name
+        self.wave = wave
     }
 }
 
@@ -2902,6 +2955,7 @@ extension CreateApplicationInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["wave"].write(value.wave)
     }
 }
 
@@ -3128,6 +3182,7 @@ extension UpdateApplicationInput {
         try writer["configurationId"].write(value.configurationId)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["wave"].write(value.wave)
     }
 }
 
@@ -3834,6 +3889,7 @@ enum StartBatchDeleteConfigurationTaskOutputError {
         switch baseError.code {
             case "AuthorizationErrorException": return try AuthorizationErrorException.makeError(baseError: baseError)
             case "HomeRegionNotSetException": return try HomeRegionNotSetException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
@@ -4250,6 +4306,7 @@ extension ApplicationDiscoveryClientTypes.ImportTask {
         value.importRequestTime = try reader["importRequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.importCompletionTime = try reader["importCompletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.importDeletedTime = try reader["importDeletedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fileClassification = try reader["fileClassification"].readIfPresent()
         value.serverImportSuccess = try reader["serverImportSuccess"].readIfPresent() ?? 0
         value.serverImportFailure = try reader["serverImportFailure"].readIfPresent() ?? 0
         value.applicationImportSuccess = try reader["applicationImportSuccess"].readIfPresent() ?? 0

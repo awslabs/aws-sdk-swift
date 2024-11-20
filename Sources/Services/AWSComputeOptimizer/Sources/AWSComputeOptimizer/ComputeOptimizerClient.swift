@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ComputeOptimizerClient: ClientRuntime.Client {
     public static let clientName = "ComputeOptimizerClient"
-    public static let version = "1.0.44"
+    public static let version = "1.0.45"
     let client: ClientRuntime.SdkHttpClient
     let config: ComputeOptimizerClient.ComputeOptimizerClientConfiguration
     let serviceName = "Compute Optimizer"
@@ -645,6 +645,83 @@ extension ComputeOptimizerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizer")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExportECSServiceRecommendations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ExportIdleRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
+    /// Export optimization recommendations for your idle resources. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one idle resource export job in progress per Amazon Web Services Region.
+    ///
+    /// - Parameter ExportIdleRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `ExportIdleRecommendationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred. Try your call again.
+    /// - `InvalidParameterValueException` : The value supplied for the input parameter is out of range or not valid.
+    /// - `LimitExceededException` : The request exceeds a limit of the service.
+    /// - `MissingAuthenticationToken` : The request must contain either a valid (registered) Amazon Web Services access key ID or X.509 certificate.
+    /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func exportIdleRecommendations(input: ExportIdleRecommendationsInput) async throws -> ExportIdleRecommendationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "exportIdleRecommendations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "compute-optimizer")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>(ExportIdleRecommendationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportIdleRecommendationsOutput>(ExportIdleRecommendationsOutput.httpOutput(from:), ExportIdleRecommendationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ExportIdleRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ExportIdleRecommendationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>(serviceID: serviceName, version: ComputeOptimizerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.ExportIdleRecommendations"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ExportIdleRecommendationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportIdleRecommendationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExportIdleRecommendationsInput, ExportIdleRecommendationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizer")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExportIdleRecommendations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1565,6 +1642,83 @@ extension ComputeOptimizerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizer")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEnrollmentStatusesForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIdleRecommendations` operation on the `ComputeOptimizerService` service.
+    ///
+    /// Returns idle resource recommendations. Compute Optimizer generates recommendations for idle resources that meet a specific set of requirements. For more information, see [Resource requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide
+    ///
+    /// - Parameter GetIdleRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetIdleRecommendationsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred. Try your call again.
+    /// - `InvalidParameterValueException` : The value supplied for the input parameter is out of range or not valid.
+    /// - `MissingAuthenticationToken` : The request must contain either a valid (registered) Amazon Web Services access key ID or X.509 certificate.
+    /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func getIdleRecommendations(input: GetIdleRecommendationsInput) async throws -> GetIdleRecommendationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIdleRecommendations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "compute-optimizer")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIdleRecommendationsInput, GetIdleRecommendationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>(GetIdleRecommendationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdleRecommendationsOutput>(GetIdleRecommendationsOutput.httpOutput(from:), GetIdleRecommendationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIdleRecommendationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetIdleRecommendationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>(serviceID: serviceName, version: ComputeOptimizerClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>(xAmzTarget: "ComputeOptimizerService.GetIdleRecommendations"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIdleRecommendationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdleRecommendationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIdleRecommendationsInput, GetIdleRecommendationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ComputeOptimizer")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIdleRecommendations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

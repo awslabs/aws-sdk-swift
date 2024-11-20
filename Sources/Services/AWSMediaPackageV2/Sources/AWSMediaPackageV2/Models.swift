@@ -337,6 +337,8 @@ extension MediaPackageV2ClientTypes {
         case numManifestsHigh
         case numManifestsLow
         case onlyCmafInputTypeAllowForceEndpointErrorConfiguration
+        case onlyCmafInputTypeAllowMqcsInputSwitching
+        case onlyCmafInputTypeAllowMqcsOutputConfiguration
         case periodTriggersNoneSpecifiedWithAdditionalValues
         case roleArnInvalidFormat
         case roleArnLengthOutOfRange
@@ -398,6 +400,8 @@ extension MediaPackageV2ClientTypes {
                 .numManifestsHigh,
                 .numManifestsLow,
                 .onlyCmafInputTypeAllowForceEndpointErrorConfiguration,
+                .onlyCmafInputTypeAllowMqcsInputSwitching,
+                .onlyCmafInputTypeAllowMqcsOutputConfiguration,
                 .periodTriggersNoneSpecifiedWithAdditionalValues,
                 .roleArnInvalidFormat,
                 .roleArnLengthOutOfRange,
@@ -465,6 +469,8 @@ extension MediaPackageV2ClientTypes {
             case .numManifestsHigh: return "NUM_MANIFESTS_HIGH"
             case .numManifestsLow: return "NUM_MANIFESTS_LOW"
             case .onlyCmafInputTypeAllowForceEndpointErrorConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_FORCE_ENDPOINT_ERROR_CONFIGURATION"
+            case .onlyCmafInputTypeAllowMqcsInputSwitching: return "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_INPUT_SWITCHING"
+            case .onlyCmafInputTypeAllowMqcsOutputConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
             case .periodTriggersNoneSpecifiedWithAdditionalValues: return "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
             case .roleArnInvalidFormat: return "ROLE_ARN_INVALID_FORMAT"
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
@@ -709,6 +715,22 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension MediaPackageV2ClientTypes {
 
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive.
+    public struct InputSwitchConfiguration: Swift.Sendable {
+        /// When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is true. This setting is valid only when InputType is CMAF.
+        public var mqcsInputSwitching: Swift.Bool?
+
+        public init(
+            mqcsInputSwitching: Swift.Bool? = nil
+        )
+        {
+            self.mqcsInputSwitching = mqcsInputSwitching
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     public enum InputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cmaf
         case hls
@@ -736,6 +758,22 @@ extension MediaPackageV2ClientTypes {
     }
 }
 
+extension MediaPackageV2ClientTypes {
+
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN.
+    public struct OutputHeaderConfiguration: Swift.Sendable {
+        /// When true, AWS Elemental MediaPackage includes the MQCS in responses to the CDN. This setting is valid only when InputType is CMAF.
+        public var publishMQCS: Swift.Bool?
+
+        public init(
+            publishMQCS: Swift.Bool? = nil
+        )
+        {
+            self.publishMQCS = publishMQCS
+        }
+    }
+}
+
 public struct CreateChannelInput: Swift.Sendable {
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
@@ -747,12 +785,16 @@ public struct CreateChannelInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// Enter any descriptive text that helps you to identify the channel.
     public var description: Swift.String?
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
     /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
     ///
     /// * CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
     public var inputType: MediaPackageV2ClientTypes.InputType?
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// A comma-separated list of tag key:value pairs that you define. For example: "Key1": "Value1",
     ///     "Key2": "Value2"
     public var tags: [Swift.String: Swift.String]?
@@ -762,7 +804,9 @@ public struct CreateChannelInput: Swift.Sendable {
         channelName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
+        outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
     {
@@ -770,7 +814,9 @@ public struct CreateChannelInput: Swift.Sendable {
         self.channelName = channelName
         self.clientToken = clientToken
         self.description = description
+        self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
+        self.outputHeaderConfiguration = outputHeaderConfiguration
         self.tags = tags
     }
 }
@@ -814,6 +860,8 @@ public struct CreateChannelOutput: Swift.Sendable {
     public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
     /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
@@ -823,6 +871,8 @@ public struct CreateChannelOutput: Swift.Sendable {
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String: Swift.String]?
 
@@ -834,8 +884,10 @@ public struct CreateChannelOutput: Swift.Sendable {
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
+        inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
+        outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
     {
@@ -846,8 +898,10 @@ public struct CreateChannelOutput: Swift.Sendable {
         self.description = description
         self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
+        self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
         self.modifiedAt = modifiedAt
+        self.outputHeaderConfiguration = outputHeaderConfiguration
         self.tags = tags
     }
 }
@@ -912,6 +966,8 @@ public struct GetChannelOutput: Swift.Sendable {
     public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
     /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
@@ -921,6 +977,8 @@ public struct GetChannelOutput: Swift.Sendable {
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String: Swift.String]?
 
@@ -932,8 +990,10 @@ public struct GetChannelOutput: Swift.Sendable {
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
+        inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
+        outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
     {
@@ -944,8 +1004,10 @@ public struct GetChannelOutput: Swift.Sendable {
         self.description = description
         self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
+        self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
         self.modifiedAt = modifiedAt
+        self.outputHeaderConfiguration = outputHeaderConfiguration
         self.tags = tags
     }
 }
@@ -1435,7 +1497,7 @@ extension MediaPackageV2ClientTypes {
         public var manifestName: Swift.String?
         /// The total duration (in seconds) of the manifest's content.
         public var manifestWindowSeconds: Swift.Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
@@ -1476,7 +1538,7 @@ extension MediaPackageV2ClientTypes {
         public var manifestName: Swift.String?
         /// The total duration (in seconds) of the manifest's content.
         public var manifestWindowSeconds: Swift.Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
@@ -2078,7 +2140,7 @@ extension MediaPackageV2ClientTypes {
         public var manifestName: Swift.String?
         /// The total duration (in seconds) of the manifest's content.
         public var manifestWindowSeconds: Swift.Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
@@ -2124,7 +2186,7 @@ extension MediaPackageV2ClientTypes {
         public var manifestName: Swift.String?
         /// The total duration (in seconds) of the manifest's content.
         public var manifestWindowSeconds: Swift.Int?
-        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. ID3Timed metadata messages generate every 5 seconds whenever the content is ingested. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
+        /// Inserts EXT-X-PROGRAM-DATE-TIME tags in the output manifest at the interval that you specify. If you don't enter an interval, EXT-X-PROGRAM-DATE-TIME tags aren't included in the manifest. The tags sync the stream to the wall clock so that viewers can seek to a specific time in the playback timeline on the player. Irrespective of this parameter, if any ID3Timed metadata is in the HLS input, it is passed through to the HLS output.
         public var programDateTimeIntervalSeconds: Swift.Int?
         /// The SCTE configuration.
         public var scteHls: MediaPackageV2ClientTypes.ScteHls?
@@ -2809,18 +2871,26 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var description: Swift.String?
     /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
     public var eTag: Swift.String?
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
 
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         description: Swift.String? = nil,
-        eTag: Swift.String? = nil
+        eTag: Swift.String? = nil,
+        inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
+        outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil
     )
     {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.description = description
         self.eTag = eTag
+        self.inputSwitchConfiguration = inputSwitchConfiguration
+        self.outputHeaderConfiguration = outputHeaderConfiguration
     }
 }
 
@@ -2843,6 +2913,8 @@ public struct UpdateChannelOutput: Swift.Sendable {
     public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    public var inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration?
     /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:
     ///
     /// * HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).
@@ -2852,6 +2924,8 @@ public struct UpdateChannelOutput: Swift.Sendable {
     /// The date and time the channel was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    public var outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration?
     /// The comma-separated list of tag key:value pairs assigned to the channel.
     public var tags: [Swift.String: Swift.String]?
 
@@ -2863,8 +2937,10 @@ public struct UpdateChannelOutput: Swift.Sendable {
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
+        inputSwitchConfiguration: MediaPackageV2ClientTypes.InputSwitchConfiguration? = nil,
         inputType: MediaPackageV2ClientTypes.InputType? = nil,
         modifiedAt: Foundation.Date? = nil,
+        outputHeaderConfiguration: MediaPackageV2ClientTypes.OutputHeaderConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
     {
@@ -2875,8 +2951,10 @@ public struct UpdateChannelOutput: Swift.Sendable {
         self.description = description
         self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
+        self.inputSwitchConfiguration = inputSwitchConfiguration
         self.inputType = inputType
         self.modifiedAt = modifiedAt
+        self.outputHeaderConfiguration = outputHeaderConfiguration
         self.tags = tags
     }
 }
@@ -4279,7 +4357,9 @@ extension CreateChannelInput {
         guard let value else { return }
         try writer["ChannelName"].write(value.channelName)
         try writer["Description"].write(value.description)
+        try writer["InputSwitchConfiguration"].write(value.inputSwitchConfiguration, with: MediaPackageV2ClientTypes.InputSwitchConfiguration.write(value:to:))
         try writer["InputType"].write(value.inputType)
+        try writer["OutputHeaderConfiguration"].write(value.outputHeaderConfiguration, with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -4353,6 +4433,8 @@ extension UpdateChannelInput {
     static func write(value: UpdateChannelInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Description"].write(value.description)
+        try writer["InputSwitchConfiguration"].write(value.inputSwitchConfiguration, with: MediaPackageV2ClientTypes.InputSwitchConfiguration.write(value:to:))
+        try writer["OutputHeaderConfiguration"].write(value.outputHeaderConfiguration, with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.write(value:to:))
     }
 }
 
@@ -4400,8 +4482,10 @@ extension CreateChannelOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSwitchConfiguration = try reader["InputSwitchConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.InputSwitchConfiguration.read(from:))
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -4528,8 +4612,10 @@ extension GetChannelOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSwitchConfiguration = try reader["InputSwitchConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.InputSwitchConfiguration.read(from:))
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -4742,8 +4828,10 @@ extension UpdateChannelOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eTag = try reader["ETag"].readIfPresent()
         value.ingestEndpoints = try reader["IngestEndpoints"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.IngestEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputSwitchConfiguration = try reader["InputSwitchConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.InputSwitchConfiguration.read(from:))
         value.inputType = try reader["InputType"].readIfPresent()
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.outputHeaderConfiguration = try reader["OutputHeaderConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.OutputHeaderConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -5401,6 +5489,36 @@ extension MediaPackageV2ClientTypes.IngestEndpoint {
         var value = MediaPackageV2ClientTypes.IngestEndpoint()
         value.id = try reader["Id"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.InputSwitchConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.InputSwitchConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MQCSInputSwitching"].write(value.mqcsInputSwitching)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.InputSwitchConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.InputSwitchConfiguration()
+        value.mqcsInputSwitching = try reader["MQCSInputSwitching"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.OutputHeaderConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.OutputHeaderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PublishMQCS"].write(value.publishMQCS)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.OutputHeaderConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.OutputHeaderConfiguration()
+        value.publishMQCS = try reader["PublishMQCS"].readIfPresent()
         return value
     }
 }
