@@ -304,6 +304,42 @@ public struct AssociateBrowserSettingsOutput: Swift.Sendable {
     }
 }
 
+public struct AssociateDataProtectionSettingsInput: Swift.Sendable {
+    /// The ARN of the data protection settings.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+    /// The ARN of the web portal.
+    /// This member is required.
+    public var portalArn: Swift.String?
+
+    public init(
+        dataProtectionSettingsArn: Swift.String? = nil,
+        portalArn: Swift.String? = nil
+    )
+    {
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+        self.portalArn = portalArn
+    }
+}
+
+public struct AssociateDataProtectionSettingsOutput: Swift.Sendable {
+    /// The ARN of the data protection settings resource.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+    /// The ARN of the web portal.
+    /// This member is required.
+    public var portalArn: Swift.String?
+
+    public init(
+        dataProtectionSettingsArn: Swift.String? = nil,
+        portalArn: Swift.String? = nil
+    )
+    {
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+        self.portalArn = portalArn
+    }
+}
+
 public struct AssociateIpAccessSettingsInput: Swift.Sendable {
     /// The ARN of the IP access settings.
     /// This member is required.
@@ -794,6 +830,429 @@ public struct UpdateBrowserSettingsOutput: Swift.Sendable {
     )
     {
         self.browserSettings = browserSettings
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The pattern configuration for redacting custom data types in session.
+    public struct CustomPattern: Swift.Sendable {
+        /// The keyword regex for the customer pattern. After there is a match to the pattern regex, the keyword regex is used to search within the proximity of the match. If there is a keyword match, then the match is confirmed. If no keyword regex is provided, the pattern regex match will automatically be confirmed. The format must follow JavaScript regex format. The pattern must be enclosed between slashes, and can have flags behind the second slash. For example, “/ab+c/gi”
+        public var keywordRegex: Swift.String?
+        /// The pattern description for the customer pattern.
+        public var patternDescription: Swift.String?
+        /// The pattern name for the custom pattern.
+        /// This member is required.
+        public var patternName: Swift.String?
+        /// The pattern regex for the customer pattern. The format must follow JavaScript regex format. The pattern must be enclosed between slashes, and can have flags behind the second slash. For example: “/ab+c/gi”.
+        /// This member is required.
+        public var patternRegex: Swift.String?
+
+        public init(
+            keywordRegex: Swift.String? = nil,
+            patternDescription: Swift.String? = nil,
+            patternName: Swift.String? = nil,
+            patternRegex: Swift.String? = nil
+        )
+        {
+            self.keywordRegex = keywordRegex
+            self.patternDescription = patternDescription
+            self.patternName = patternName
+            self.patternRegex = patternRegex
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.CustomPattern: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CustomPattern(keywordRegex: \"CONTENT_REDACTED\", patternDescription: \"CONTENT_REDACTED\", patternName: \"CONTENT_REDACTED\", patternRegex: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum RedactionPlaceHolderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customText
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RedactionPlaceHolderType] {
+            return [
+                .customText
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customText: return "CustomText"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The redaction placeholder that will replace the redacted text in session.
+    public struct RedactionPlaceHolder: Swift.Sendable {
+        /// The redaction placeholder text that will replace the redacted text in session for the custom text redaction placeholder type.
+        public var redactionPlaceHolderText: Swift.String?
+        /// The redaction placeholder type that will replace the redacted text in session.
+        /// This member is required.
+        public var redactionPlaceHolderType: WorkSpacesWebClientTypes.RedactionPlaceHolderType?
+
+        public init(
+            redactionPlaceHolderText: Swift.String? = nil,
+            redactionPlaceHolderType: WorkSpacesWebClientTypes.RedactionPlaceHolderType? = nil
+        )
+        {
+            self.redactionPlaceHolderText = redactionPlaceHolderText
+            self.redactionPlaceHolderType = redactionPlaceHolderType
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.RedactionPlaceHolder: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RedactionPlaceHolder(redactionPlaceHolderType: \(Swift.String(describing: redactionPlaceHolderType)), redactionPlaceHolderText: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The set of patterns that determine the data types redacted in session.
+    public struct InlineRedactionPattern: Swift.Sendable {
+        /// The built-in pattern from the list of preconfigured patterns. Either a customPattern or builtInPatternId is required.
+        public var builtInPatternId: Swift.String?
+        /// The confidence level for inline redaction pattern. This indicates the certainty of data type matches in the redaction process. Confidence level 3 means high confidence, and requires a formatted text pattern match in order for content to be redacted. Confidence level 2 means medium confidence, and redaction considers both formatted and unformatted text, and adds keyword associate to the logic. Confidence level 1 means low confidence, and redaction is enforced for both formatted pattern + unformatted pattern without keyword. This overrides the global confidence level.
+        public var confidenceLevel: Swift.Int?
+        /// >The configuration for a custom pattern. Either a customPattern or builtInPatternId is required.
+        public var customPattern: WorkSpacesWebClientTypes.CustomPattern?
+        /// The enforced URL configuration for the inline redaction pattern. This will override the global enforced URL configuration.
+        public var enforcedUrls: [Swift.String]?
+        /// The exempt URL configuration for the inline redaction pattern. This will override the global exempt URL configuration for the inline redaction pattern.
+        public var exemptUrls: [Swift.String]?
+        /// The redaction placeholder that will replace the redacted text in session for the inline redaction pattern.
+        /// This member is required.
+        public var redactionPlaceHolder: WorkSpacesWebClientTypes.RedactionPlaceHolder?
+
+        public init(
+            builtInPatternId: Swift.String? = nil,
+            confidenceLevel: Swift.Int? = nil,
+            customPattern: WorkSpacesWebClientTypes.CustomPattern? = nil,
+            enforcedUrls: [Swift.String]? = nil,
+            exemptUrls: [Swift.String]? = nil,
+            redactionPlaceHolder: WorkSpacesWebClientTypes.RedactionPlaceHolder? = nil
+        )
+        {
+            self.builtInPatternId = builtInPatternId
+            self.confidenceLevel = confidenceLevel
+            self.customPattern = customPattern
+            self.enforcedUrls = enforcedUrls
+            self.exemptUrls = exemptUrls
+            self.redactionPlaceHolder = redactionPlaceHolder
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.InlineRedactionPattern: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InlineRedactionPattern(confidenceLevel: \(Swift.String(describing: confidenceLevel)), customPattern: \(Swift.String(describing: customPattern)), redactionPlaceHolder: \(Swift.String(describing: redactionPlaceHolder)), builtInPatternId: \"CONTENT_REDACTED\", enforcedUrls: \"CONTENT_REDACTED\", exemptUrls: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The configuration for in-session inline redaction.
+    public struct InlineRedactionConfiguration: Swift.Sendable {
+        /// The global confidence level for the inline redaction configuration. This indicates the certainty of data type matches in the redaction process. Confidence level 3 means high confidence, and requires a formatted text pattern match in order for content to be redacted. Confidence level 2 means medium confidence, and redaction considers both formatted and unformatted text, and adds keyword associate to the logic. Confidence level 1 means low confidence, and redaction is enforced for both formatted pattern + unformatted pattern without keyword. This is applied to patterns that do not have a pattern-level confidence level. Defaults to confidence level 2.
+        public var globalConfidenceLevel: Swift.Int?
+        /// The global enforced URL configuration for the inline redaction configuration. This is applied to patterns that do not have a pattern-level enforced URL list.
+        public var globalEnforcedUrls: [Swift.String]?
+        /// The global exempt URL configuration for the inline redaction configuration. This is applied to patterns that do not have a pattern-level exempt URL list.
+        public var globalExemptUrls: [Swift.String]?
+        /// The inline redaction patterns to be enabled for the inline redaction configuration.
+        /// This member is required.
+        public var inlineRedactionPatterns: [WorkSpacesWebClientTypes.InlineRedactionPattern]?
+
+        public init(
+            globalConfidenceLevel: Swift.Int? = nil,
+            globalEnforcedUrls: [Swift.String]? = nil,
+            globalExemptUrls: [Swift.String]? = nil,
+            inlineRedactionPatterns: [WorkSpacesWebClientTypes.InlineRedactionPattern]? = nil
+        )
+        {
+            self.globalConfidenceLevel = globalConfidenceLevel
+            self.globalEnforcedUrls = globalEnforcedUrls
+            self.globalExemptUrls = globalExemptUrls
+            self.inlineRedactionPatterns = inlineRedactionPatterns
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.InlineRedactionConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InlineRedactionConfiguration(globalConfidenceLevel: \(Swift.String(describing: globalConfidenceLevel)), inlineRedactionPatterns: \(Swift.String(describing: inlineRedactionPatterns)), globalEnforcedUrls: \"CONTENT_REDACTED\", globalExemptUrls: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateDataProtectionSettingsInput: Swift.Sendable {
+    /// Additional encryption context of the data protection settings.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
+    public var clientToken: Swift.String?
+    /// The custom managed key of the data protection settings.
+    public var customerManagedKey: Swift.String?
+    /// The description of the data protection settings.
+    public var description: Swift.String?
+    /// The display name of the data protection settings.
+    public var displayName: Swift.String?
+    /// The inline redaction configuration of the data protection settings that will be applied to all sessions.
+    public var inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration?
+    /// The tags to add to the data protection settings resource. A tag is a key-value pair.
+    public var tags: [WorkSpacesWebClientTypes.Tag]?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        customerManagedKey: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration? = nil,
+        tags: [WorkSpacesWebClientTypes.Tag]? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.clientToken = clientToken
+        self.customerManagedKey = customerManagedKey
+        self.description = description
+        self.displayName = displayName
+        self.inlineRedactionConfiguration = inlineRedactionConfiguration
+        self.tags = tags
+    }
+}
+
+extension CreateDataProtectionSettingsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDataProtectionSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), inlineRedactionConfiguration: \(Swift.String(describing: inlineRedactionConfiguration)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateDataProtectionSettingsOutput: Swift.Sendable {
+    /// The ARN of the data protection settings resource.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+
+    public init(
+        dataProtectionSettingsArn: Swift.String? = nil
+    )
+    {
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+    }
+}
+
+public struct DeleteDataProtectionSettingsInput: Swift.Sendable {
+    /// The ARN of the data protection settings.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+
+    public init(
+        dataProtectionSettingsArn: Swift.String? = nil
+    )
+    {
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+    }
+}
+
+public struct DeleteDataProtectionSettingsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetDataProtectionSettingsInput: Swift.Sendable {
+    /// The ARN of the data protection settings.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+
+    public init(
+        dataProtectionSettingsArn: Swift.String? = nil
+    )
+    {
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The data protection settings resource that can be associated with a web portal.
+    public struct DataProtectionSettings: Swift.Sendable {
+        /// The additional encryption context of the data protection settings.
+        public var additionalEncryptionContext: [Swift.String: Swift.String]?
+        /// A list of web portal ARNs that this data protection settings resource is associated with.
+        public var associatedPortalArns: [Swift.String]?
+        /// The creation date timestamp of the data protection settings.
+        public var creationDate: Foundation.Date?
+        /// The customer managed key used to encrypt sensitive information in the data protection settings.
+        public var customerManagedKey: Swift.String?
+        /// The ARN of the data protection settings resource.
+        /// This member is required.
+        public var dataProtectionSettingsArn: Swift.String?
+        /// The description of the data protection settings.
+        public var description: Swift.String?
+        /// The display name of the data protection settings.
+        public var displayName: Swift.String?
+        /// The inline redaction configuration for the data protection settings.
+        public var inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration?
+
+        public init(
+            additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+            associatedPortalArns: [Swift.String]? = nil,
+            creationDate: Foundation.Date? = nil,
+            customerManagedKey: Swift.String? = nil,
+            dataProtectionSettingsArn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration? = nil
+        )
+        {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.associatedPortalArns = associatedPortalArns
+            self.creationDate = creationDate
+            self.customerManagedKey = customerManagedKey
+            self.dataProtectionSettingsArn = dataProtectionSettingsArn
+            self.description = description
+            self.displayName = displayName
+            self.inlineRedactionConfiguration = inlineRedactionConfiguration
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.DataProtectionSettings: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataProtectionSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), inlineRedactionConfiguration: \(Swift.String(describing: inlineRedactionConfiguration)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetDataProtectionSettingsOutput: Swift.Sendable {
+    /// The data protection settings.
+    public var dataProtectionSettings: WorkSpacesWebClientTypes.DataProtectionSettings?
+
+    public init(
+        dataProtectionSettings: WorkSpacesWebClientTypes.DataProtectionSettings? = nil
+    )
+    {
+        self.dataProtectionSettings = dataProtectionSettings
+    }
+}
+
+public struct ListDataProtectionSettingsInput: Swift.Sendable {
+    /// The maximum number of results to be included in the next page.
+    public var maxResults: Swift.Int?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The summary of the data protection settings.
+    public struct DataProtectionSettingsSummary: Swift.Sendable {
+        /// The creation date timestamp of the data protection settings.
+        public var creationDate: Foundation.Date?
+        /// The ARN of the data protection settings.
+        /// This member is required.
+        public var dataProtectionSettingsArn: Swift.String?
+        /// The description of the data protection settings.
+        public var description: Swift.String?
+        /// The display name of the data protection settings.
+        public var displayName: Swift.String?
+
+        public init(
+            creationDate: Foundation.Date? = nil,
+            dataProtectionSettingsArn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil
+        )
+        {
+            self.creationDate = creationDate
+            self.dataProtectionSettingsArn = dataProtectionSettingsArn
+            self.description = description
+            self.displayName = displayName
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.DataProtectionSettingsSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataProtectionSettingsSummary(creationDate: \(Swift.String(describing: creationDate)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListDataProtectionSettingsOutput: Swift.Sendable {
+    /// The data protection settings.
+    public var dataProtectionSettings: [WorkSpacesWebClientTypes.DataProtectionSettingsSummary]?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataProtectionSettings: [WorkSpacesWebClientTypes.DataProtectionSettingsSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.dataProtectionSettings = dataProtectionSettings
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateDataProtectionSettingsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
+    public var clientToken: Swift.String?
+    /// The ARN of the data protection settings.
+    /// This member is required.
+    public var dataProtectionSettingsArn: Swift.String?
+    /// The description of the data protection settings.
+    public var description: Swift.String?
+    /// The display name of the data protection settings.
+    public var displayName: Swift.String?
+    /// The inline redaction configuration of the data protection settings that will be applied to all sessions.
+    public var inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dataProtectionSettingsArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        inlineRedactionConfiguration: WorkSpacesWebClientTypes.InlineRedactionConfiguration? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.dataProtectionSettingsArn = dataProtectionSettingsArn
+        self.description = description
+        self.displayName = displayName
+        self.inlineRedactionConfiguration = inlineRedactionConfiguration
+    }
+}
+
+extension UpdateDataProtectionSettingsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDataProtectionSettingsInput(clientToken: \(Swift.String(describing: clientToken)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), inlineRedactionConfiguration: \(Swift.String(describing: inlineRedactionConfiguration)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateDataProtectionSettingsOutput: Swift.Sendable {
+    /// The data protection settings.
+    /// This member is required.
+    public var dataProtectionSettings: WorkSpacesWebClientTypes.DataProtectionSettings?
+
+    public init(
+        dataProtectionSettings: WorkSpacesWebClientTypes.DataProtectionSettings? = nil
+    )
+    {
+        self.dataProtectionSettings = dataProtectionSettings
     }
 }
 
@@ -2255,6 +2714,24 @@ public struct DisassociateBrowserSettingsOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisassociateDataProtectionSettingsInput: Swift.Sendable {
+    /// The ARN of the web portal.
+    /// This member is required.
+    public var portalArn: Swift.String?
+
+    public init(
+        portalArn: Swift.String? = nil
+    )
+    {
+        self.portalArn = portalArn
+    }
+}
+
+public struct DisassociateDataProtectionSettingsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DisassociateIpAccessSettingsInput: Swift.Sendable {
     /// The ARN of the web portal.
     /// This member is required.
@@ -2432,6 +2909,8 @@ extension WorkSpacesWebClientTypes {
         public var creationDate: Foundation.Date?
         /// The customer managed key used to encrypt sensitive information in the portal.
         public var customerManagedKey: Swift.String?
+        /// The ARN of the data protection settings.
+        public var dataProtectionSettingsArn: Swift.String?
         /// The name of the web portal.
         public var displayName: Swift.String?
         /// The type and resources of the underlying instance.
@@ -2467,6 +2946,7 @@ extension WorkSpacesWebClientTypes {
             browserType: WorkSpacesWebClientTypes.BrowserType? = nil,
             creationDate: Foundation.Date? = nil,
             customerManagedKey: Swift.String? = nil,
+            dataProtectionSettingsArn: Swift.String? = nil,
             displayName: Swift.String? = nil,
             instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
             ipAccessSettingsArn: Swift.String? = nil,
@@ -2488,6 +2968,7 @@ extension WorkSpacesWebClientTypes {
             self.browserType = browserType
             self.creationDate = creationDate
             self.customerManagedKey = customerManagedKey
+            self.dataProtectionSettingsArn = dataProtectionSettingsArn
             self.displayName = displayName
             self.instanceType = instanceType
             self.ipAccessSettingsArn = ipAccessSettingsArn
@@ -2507,7 +2988,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.Portal: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Portal(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "Portal(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPortalOutput: Swift.Sendable {
@@ -2580,6 +3061,8 @@ extension WorkSpacesWebClientTypes {
         public var browserType: WorkSpacesWebClientTypes.BrowserType?
         /// The creation date of the web portal.
         public var creationDate: Foundation.Date?
+        /// The ARN of the data protection settings.
+        public var dataProtectionSettingsArn: Swift.String?
         /// The name of the web portal.
         public var displayName: Swift.String?
         /// The type and resources of the underlying instance.
@@ -2611,6 +3094,7 @@ extension WorkSpacesWebClientTypes {
             browserSettingsArn: Swift.String? = nil,
             browserType: WorkSpacesWebClientTypes.BrowserType? = nil,
             creationDate: Foundation.Date? = nil,
+            dataProtectionSettingsArn: Swift.String? = nil,
             displayName: Swift.String? = nil,
             instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
             ipAccessSettingsArn: Swift.String? = nil,
@@ -2629,6 +3113,7 @@ extension WorkSpacesWebClientTypes {
             self.browserSettingsArn = browserSettingsArn
             self.browserType = browserType
             self.creationDate = creationDate
+            self.dataProtectionSettingsArn = dataProtectionSettingsArn
             self.displayName = displayName
             self.instanceType = instanceType
             self.ipAccessSettingsArn = ipAccessSettingsArn
@@ -2647,7 +3132,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.PortalSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListPortalsOutput: Swift.Sendable {
@@ -3795,6 +4280,30 @@ extension AssociateBrowserSettingsInput {
     }
 }
 
+extension AssociateDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: AssociateDataProtectionSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
+            return nil
+        }
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/dataProtectionSettings"
+    }
+}
+
+extension AssociateDataProtectionSettingsInput {
+
+    static func queryItemProvider(_ value: AssociateDataProtectionSettingsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let dataProtectionSettingsArn = value.dataProtectionSettingsArn else {
+            let message = "Creating a URL Query Item failed. dataProtectionSettingsArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let dataProtectionSettingsArnQueryItem = Smithy.URIQueryItem(name: "dataProtectionSettingsArn".urlPercentEncoding(), value: Swift.String(dataProtectionSettingsArn).urlPercentEncoding())
+        items.append(dataProtectionSettingsArnQueryItem)
+        return items
+    }
+}
+
 extension AssociateIpAccessSettingsInput {
 
     static func urlPathProvider(_ value: AssociateIpAccessSettingsInput) -> Swift.String? {
@@ -3922,6 +4431,13 @@ extension CreateBrowserSettingsInput {
     }
 }
 
+extension CreateDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: CreateDataProtectionSettingsInput) -> Swift.String? {
+        return "/dataProtectionSettings"
+    }
+}
+
 extension CreateIdentityProviderInput {
 
     static func urlPathProvider(_ value: CreateIdentityProviderInput) -> Swift.String? {
@@ -3978,6 +4494,16 @@ extension DeleteBrowserSettingsInput {
             return nil
         }
         return "/browserSettings/\(browserSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension DeleteDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: DeleteDataProtectionSettingsInput) -> Swift.String? {
+        guard let dataProtectionSettingsArn = value.dataProtectionSettingsArn else {
+            return nil
+        }
+        return "/dataProtectionSettings/\(dataProtectionSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -4061,6 +4587,16 @@ extension DisassociateBrowserSettingsInput {
     }
 }
 
+extension DisassociateDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: DisassociateDataProtectionSettingsInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
+            return nil
+        }
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/dataProtectionSettings"
+    }
+}
+
 extension DisassociateIpAccessSettingsInput {
 
     static func urlPathProvider(_ value: DisassociateIpAccessSettingsInput) -> Swift.String? {
@@ -4131,6 +4667,16 @@ extension GetBrowserSettingsInput {
             return nil
         }
         return "/browserSettings/\(browserSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension GetDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: GetDataProtectionSettingsInput) -> Swift.String? {
+        guard let dataProtectionSettingsArn = value.dataProtectionSettingsArn else {
+            return nil
+        }
+        return "/dataProtectionSettings/\(dataProtectionSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -4261,6 +4807,29 @@ extension ListBrowserSettingsInput {
 extension ListBrowserSettingsInput {
 
     static func queryItemProvider(_ value: ListBrowserSettingsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: ListDataProtectionSettingsInput) -> Swift.String? {
+        return "/dataProtectionSettings"
+    }
+}
+
+extension ListDataProtectionSettingsInput {
+
+    static func queryItemProvider(_ value: ListDataProtectionSettingsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -4562,6 +5131,16 @@ extension UpdateBrowserSettingsInput {
     }
 }
 
+extension UpdateDataProtectionSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateDataProtectionSettingsInput) -> Swift.String? {
+        guard let dataProtectionSettingsArn = value.dataProtectionSettingsArn else {
+            return nil
+        }
+        return "/dataProtectionSettings/\(dataProtectionSettingsArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
 extension UpdateIdentityProviderInput {
 
     static func urlPathProvider(_ value: UpdateIdentityProviderInput) -> Swift.String? {
@@ -4640,6 +5219,20 @@ extension CreateBrowserSettingsInput {
         try writer["browserPolicy"].write(value.browserPolicy)
         try writer["clientToken"].write(value.clientToken)
         try writer["customerManagedKey"].write(value.customerManagedKey)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateDataProtectionSettingsInput {
+
+    static func write(value: CreateDataProtectionSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["customerManagedKey"].write(value.customerManagedKey)
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["inlineRedactionConfiguration"].write(value.inlineRedactionConfiguration, with: WorkSpacesWebClientTypes.InlineRedactionConfiguration.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4756,6 +5349,17 @@ extension UpdateBrowserSettingsInput {
     }
 }
 
+extension UpdateDataProtectionSettingsInput {
+
+    static func write(value: UpdateDataProtectionSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["inlineRedactionConfiguration"].write(value.inlineRedactionConfiguration, with: WorkSpacesWebClientTypes.InlineRedactionConfiguration.write(value:to:))
+    }
+}
+
 extension UpdateIdentityProviderInput {
 
     static func write(value: UpdateIdentityProviderInput?, to writer: SmithyJSON.Writer) throws {
@@ -4849,6 +5453,19 @@ extension AssociateBrowserSettingsOutput {
     }
 }
 
+extension AssociateDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateDataProtectionSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateDataProtectionSettingsOutput()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent() ?? ""
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension AssociateIpAccessSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateIpAccessSettingsOutput {
@@ -4922,6 +5539,18 @@ extension CreateBrowserSettingsOutput {
         let reader = responseReader
         var value = CreateBrowserSettingsOutput()
         value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataProtectionSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataProtectionSettingsOutput()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5018,6 +5647,13 @@ extension DeleteBrowserSettingsOutput {
     }
 }
 
+extension DeleteDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataProtectionSettingsOutput {
+        return DeleteDataProtectionSettingsOutput()
+    }
+}
+
 extension DeleteIdentityProviderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIdentityProviderOutput {
@@ -5074,6 +5710,13 @@ extension DisassociateBrowserSettingsOutput {
     }
 }
 
+extension DisassociateDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateDataProtectionSettingsOutput {
+        return DisassociateDataProtectionSettingsOutput()
+    }
+}
+
 extension DisassociateIpAccessSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateIpAccessSettingsOutput {
@@ -5124,6 +5767,18 @@ extension GetBrowserSettingsOutput {
         let reader = responseReader
         var value = GetBrowserSettingsOutput()
         value.browserSettings = try reader["browserSettings"].readIfPresent(with: WorkSpacesWebClientTypes.BrowserSettings.read(from:))
+        return value
+    }
+}
+
+extension GetDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataProtectionSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataProtectionSettingsOutput()
+        value.dataProtectionSettings = try reader["dataProtectionSettings"].readIfPresent(with: WorkSpacesWebClientTypes.DataProtectionSettings.read(from:))
         return value
     }
 }
@@ -5258,6 +5913,19 @@ extension ListBrowserSettingsOutput {
         let reader = responseReader
         var value = ListBrowserSettingsOutput()
         value.browserSettings = try reader["browserSettings"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.BrowserSettingsSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataProtectionSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataProtectionSettingsOutput()
+        value.dataProtectionSettings = try reader["dataProtectionSettings"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.DataProtectionSettingsSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -5419,6 +6087,18 @@ extension UpdateBrowserSettingsOutput {
     }
 }
 
+extension UpdateDataProtectionSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataProtectionSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDataProtectionSettingsOutput()
+        value.dataProtectionSettings = try reader["dataProtectionSettings"].readIfPresent(with: WorkSpacesWebClientTypes.DataProtectionSettings.read(from:))
+        return value
+    }
+}
+
 extension UpdateIdentityProviderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIdentityProviderOutput {
@@ -5504,6 +6184,25 @@ extension UpdateUserSettingsOutput {
 }
 
 enum AssociateBrowserSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateDataProtectionSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5618,6 +6317,26 @@ enum AssociateUserSettingsOutputError {
 }
 
 enum CreateBrowserSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDataProtectionSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5790,6 +6509,24 @@ enum DeleteBrowserSettingsOutputError {
     }
 }
 
+enum DeleteDataProtectionSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteIdentityProviderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5935,6 +6672,25 @@ enum DisassociateBrowserSettingsOutputError {
     }
 }
 
+enum DisassociateDataProtectionSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateIpAccessSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6049,6 +6805,24 @@ enum ExpireSessionOutputError {
 }
 
 enum GetBrowserSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDataProtectionSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6247,6 +7021,23 @@ enum GetUserSettingsOutputError {
 }
 
 enum ListBrowserSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataProtectionSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6474,6 +7265,24 @@ enum UntagResourceOutputError {
 }
 
 enum UpdateBrowserSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDataProtectionSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6759,6 +7568,107 @@ extension WorkSpacesWebClientTypes.BrowserSettings {
     }
 }
 
+extension WorkSpacesWebClientTypes.DataProtectionSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.DataProtectionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.DataProtectionSettings()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent() ?? ""
+        value.inlineRedactionConfiguration = try reader["inlineRedactionConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.InlineRedactionConfiguration.read(from:))
+        value.associatedPortalArns = try reader["associatedPortalArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.customerManagedKey = try reader["customerManagedKey"].readIfPresent()
+        value.additionalEncryptionContext = try reader["additionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.InlineRedactionConfiguration {
+
+    static func write(value: WorkSpacesWebClientTypes.InlineRedactionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["globalConfidenceLevel"].write(value.globalConfidenceLevel)
+        try writer["globalEnforcedUrls"].writeList(value.globalEnforcedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["globalExemptUrls"].writeList(value.globalExemptUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inlineRedactionPatterns"].writeList(value.inlineRedactionPatterns, memberWritingClosure: WorkSpacesWebClientTypes.InlineRedactionPattern.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.InlineRedactionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.InlineRedactionConfiguration()
+        value.inlineRedactionPatterns = try reader["inlineRedactionPatterns"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.InlineRedactionPattern.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.globalEnforcedUrls = try reader["globalEnforcedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalExemptUrls = try reader["globalExemptUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalConfidenceLevel = try reader["globalConfidenceLevel"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.InlineRedactionPattern {
+
+    static func write(value: WorkSpacesWebClientTypes.InlineRedactionPattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["builtInPatternId"].write(value.builtInPatternId)
+        try writer["confidenceLevel"].write(value.confidenceLevel)
+        try writer["customPattern"].write(value.customPattern, with: WorkSpacesWebClientTypes.CustomPattern.write(value:to:))
+        try writer["enforcedUrls"].writeList(value.enforcedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["exemptUrls"].writeList(value.exemptUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["redactionPlaceHolder"].write(value.redactionPlaceHolder, with: WorkSpacesWebClientTypes.RedactionPlaceHolder.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.InlineRedactionPattern {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.InlineRedactionPattern()
+        value.builtInPatternId = try reader["builtInPatternId"].readIfPresent()
+        value.customPattern = try reader["customPattern"].readIfPresent(with: WorkSpacesWebClientTypes.CustomPattern.read(from:))
+        value.redactionPlaceHolder = try reader["redactionPlaceHolder"].readIfPresent(with: WorkSpacesWebClientTypes.RedactionPlaceHolder.read(from:))
+        value.enforcedUrls = try reader["enforcedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exemptUrls = try reader["exemptUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.confidenceLevel = try reader["confidenceLevel"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.RedactionPlaceHolder {
+
+    static func write(value: WorkSpacesWebClientTypes.RedactionPlaceHolder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["redactionPlaceHolderText"].write(value.redactionPlaceHolderText)
+        try writer["redactionPlaceHolderType"].write(value.redactionPlaceHolderType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.RedactionPlaceHolder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.RedactionPlaceHolder()
+        value.redactionPlaceHolderType = try reader["redactionPlaceHolderType"].readIfPresent() ?? .sdkUnknown("")
+        value.redactionPlaceHolderText = try reader["redactionPlaceHolderText"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.CustomPattern {
+
+    static func write(value: WorkSpacesWebClientTypes.CustomPattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["keywordRegex"].write(value.keywordRegex)
+        try writer["patternDescription"].write(value.patternDescription)
+        try writer["patternName"].write(value.patternName)
+        try writer["patternRegex"].write(value.patternRegex)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.CustomPattern {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.CustomPattern()
+        value.patternName = try reader["patternName"].readIfPresent() ?? ""
+        value.patternRegex = try reader["patternRegex"].readIfPresent() ?? ""
+        value.patternDescription = try reader["patternDescription"].readIfPresent()
+        value.keywordRegex = try reader["keywordRegex"].readIfPresent()
+        return value
+    }
+}
+
 extension WorkSpacesWebClientTypes.IdentityProvider {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IdentityProvider {
@@ -6833,6 +7743,7 @@ extension WorkSpacesWebClientTypes.Portal {
         value.displayName = try reader["displayName"].readIfPresent()
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent()
         value.userSettingsArn = try reader["userSettingsArn"].readIfPresent()
         value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent()
         value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()
@@ -6970,6 +7881,19 @@ extension WorkSpacesWebClientTypes.BrowserSettingsSummary {
     }
 }
 
+extension WorkSpacesWebClientTypes.DataProtectionSettingsSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.DataProtectionSettingsSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.DataProtectionSettingsSummary()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension WorkSpacesWebClientTypes.IdentityProviderSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.IdentityProviderSummary {
@@ -7019,6 +7943,7 @@ extension WorkSpacesWebClientTypes.PortalSummary {
         value.displayName = try reader["displayName"].readIfPresent()
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.browserSettingsArn = try reader["browserSettingsArn"].readIfPresent()
+        value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent()
         value.userSettingsArn = try reader["userSettingsArn"].readIfPresent()
         value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent()
         value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()

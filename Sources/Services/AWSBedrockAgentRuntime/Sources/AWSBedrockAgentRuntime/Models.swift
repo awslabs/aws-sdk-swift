@@ -130,7 +130,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains information about the action group being invoked. For more information about the possible structures, see the InvocationInput tab in [OrchestrationTrace](https://docs.aws.amazon.com/bedrock/latest/userguide/trace-orchestration.html) in the Amazon Bedrock User Guide.
+    /// Contains information about the action group being invoked. For more information about the possible structures, see the InvocationInput tab in [OrchestrationTrace](https://docs.aws.amazon.com/bedrock/latest/userguide/trace-orchestration.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     public struct ActionGroupInvocationInput: Swift.Sendable {
         /// The name of the action group.
         public var actionGroupName: Swift.String?
@@ -3693,6 +3693,136 @@ public struct GetAgentMemoryOutput: Swift.Sendable {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// Contains information about the text prompt to optimize.
+    public struct TextPrompt: Swift.Sendable {
+        /// The text in the text prompt to optimize.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.TextPrompt: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about the prompt to optimize.
+    public enum InputPrompt: Swift.Sendable {
+        /// Contains information about the text prompt to optimize.
+        case textprompt(BedrockAgentRuntimeClientTypes.TextPrompt)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct OptimizePromptInput: Swift.Sendable {
+    /// Contains the prompt to optimize.
+    /// This member is required.
+    public var input: BedrockAgentRuntimeClientTypes.InputPrompt?
+    /// The unique identifier of the model that you want to optimize the prompt for.
+    /// This member is required.
+    public var targetModelId: Swift.String?
+
+    public init(
+        input: BedrockAgentRuntimeClientTypes.InputPrompt? = nil,
+        targetModelId: Swift.String? = nil
+    )
+    {
+        self.input = input
+        self.targetModelId = targetModelId
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// An event in which the prompt was analyzed in preparation for optimization.
+    public struct AnalyzePromptEvent: Swift.Sendable {
+        /// A message describing the analysis of the prompt.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        )
+        {
+            self.message = message
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AnalyzePromptEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about the optimized prompt.
+    public enum OptimizedPrompt: Swift.Sendable {
+        /// Contains information about the text in the prompt that was optimized.
+        case textprompt(BedrockAgentRuntimeClientTypes.TextPrompt)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// An event in which the prompt was optimized.
+    public struct OptimizedPromptEvent: Swift.Sendable {
+        /// Contains information about the optimized prompt.
+        public var optimizedPrompt: BedrockAgentRuntimeClientTypes.OptimizedPrompt?
+
+        public init(
+            optimizedPrompt: BedrockAgentRuntimeClientTypes.OptimizedPrompt? = nil
+        )
+        {
+            self.optimizedPrompt = optimizedPrompt
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.OptimizedPromptEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The stream containing events in the prompt optimization process.
+    public enum OptimizedPromptStream: Swift.Sendable {
+        /// An event in which the prompt was optimized.
+        case optimizedpromptevent(BedrockAgentRuntimeClientTypes.OptimizedPromptEvent)
+        /// An event in which the prompt was analyzed in preparation for optimization.
+        case analyzepromptevent(BedrockAgentRuntimeClientTypes.AnalyzePromptEvent)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct OptimizePromptOutput: Swift.Sendable {
+    /// The prompt after being optimized for the task.
+    /// This member is required.
+    public var optimizedPrompt: AsyncThrowingStream<BedrockAgentRuntimeClientTypes.OptimizedPromptStream, Swift.Error>?
+
+    public init(
+        optimizedPrompt: AsyncThrowingStream<BedrockAgentRuntimeClientTypes.OptimizedPromptStream, Swift.Error>? = nil
+    )
+    {
+        self.optimizedPrompt = optimizedPrompt
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Contains the query made to the knowledge base. This data type is used in the following API operations:
     ///
     /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the input field
@@ -4706,6 +4836,13 @@ extension InvokeFlowInput {
     }
 }
 
+extension OptimizePromptInput {
+
+    static func urlPathProvider(_ value: OptimizePromptInput) -> Swift.String? {
+        return "/optimize-prompt"
+    }
+}
+
 extension RetrieveInput {
 
     static func urlPathProvider(_ value: RetrieveInput) -> Swift.String? {
@@ -4741,6 +4878,15 @@ extension InvokeFlowInput {
         guard let value else { return }
         try writer["enableTrace"].write(value.enableTrace)
         try writer["inputs"].writeList(value.inputs, memberWritingClosure: BedrockAgentRuntimeClientTypes.FlowInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension OptimizePromptInput {
+
+    static func write(value: OptimizePromptInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["input"].write(value.input, with: BedrockAgentRuntimeClientTypes.InputPrompt.write(value:to:))
+        try writer["targetModelId"].write(value.targetModelId)
     }
 }
 
@@ -4815,6 +4961,19 @@ extension InvokeFlowOutput {
             let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
             let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentRuntimeClientTypes.FlowResponseStream.unmarshal)
             value.responseStream = decoderStream.toAsyncStream()
+        }
+        return value
+    }
+}
+
+extension OptimizePromptOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> OptimizePromptOutput {
+        var value = OptimizePromptOutput()
+        if case .stream(let stream) = httpResponse.body {
+            let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
+            let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentRuntimeClientTypes.OptimizedPromptStream.unmarshal)
+            value.optimizedPrompt = decoderStream.toAsyncStream()
         }
         return value
     }
@@ -4929,6 +5088,25 @@ enum InvokeFlowOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum OptimizePromptOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "DependencyFailedException": return try DependencyFailedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5211,6 +5389,59 @@ extension BedrockAgentRuntimeClientTypes.FlowResponseStream {
                         return value
                     case "dependencyFailedException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: DependencyFailedException.read(from:))
+                        return value
+                    case "badGatewayException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: BadGatewayException.read(from:))
+                        return value
+                    default:
+                        let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
+                        return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
+                    }
+                }
+                let error = try makeError(message, params)
+                throw error
+            case .error(let params):
+                let httpResponse = SmithyHTTPAPI.HTTPResponse(body: .data(message.payload), statusCode: .ok)
+                throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
+            case .unknown(messageType: let messageType):
+                throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.OptimizedPromptStream {
+    static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<BedrockAgentRuntimeClientTypes.OptimizedPromptStream> {
+        { message in
+            switch try message.type() {
+            case .event(let params):
+                switch params.eventType {
+                case "optimizedPromptEvent":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentRuntimeClientTypes.OptimizedPromptEvent.read(from:))
+                    return .optimizedpromptevent(value)
+                case "analyzePromptEvent":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: BedrockAgentRuntimeClientTypes.AnalyzePromptEvent.read(from:))
+                    return .analyzepromptevent(value)
+                default:
+                    return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+                }
+            case .exception(let params):
+                let makeError: (SmithyEventStreamsAPI.Message, SmithyEventStreamsAPI.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                    switch params.exceptionType {
+                    case "internalServerException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: InternalServerException.read(from:))
+                        return value
+                    case "throttlingException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ThrottlingException.read(from:))
+                        return value
+                    case "validationException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: ValidationException.read(from:))
+                        return value
+                    case "dependencyFailedException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: DependencyFailedException.read(from:))
+                        return value
+                    case "accessDeniedException":
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: AccessDeniedException.read(from:))
                         return value
                     case "badGatewayException":
                         let value = try SmithyJSON.Reader.readFrom(message.payload, with: BadGatewayException.read(from:))
@@ -6301,6 +6532,55 @@ extension BedrockAgentRuntimeClientTypes.FlowOutputContent {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.AnalyzePromptEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.AnalyzePromptEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.AnalyzePromptEvent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.OptimizedPromptEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.OptimizedPromptEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.OptimizedPromptEvent()
+        value.optimizedPrompt = try reader["optimizedPrompt"].readIfPresent(with: BedrockAgentRuntimeClientTypes.OptimizedPrompt.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.OptimizedPrompt {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.OptimizedPrompt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "textPrompt":
+                return .textprompt(try reader["textPrompt"].read(with: BedrockAgentRuntimeClientTypes.TextPrompt.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.TextPrompt {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.TextPrompt?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["text"].write(value.text)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.TextPrompt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.TextPrompt()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult {
@@ -6513,6 +6793,19 @@ extension BedrockAgentRuntimeClientTypes.FlowInputContent {
         switch value {
             case let .document(document):
                 try writer["document"].write(document)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.InputPrompt {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.InputPrompt?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .textprompt(textprompt):
+                try writer["textPrompt"].write(textprompt, with: BedrockAgentRuntimeClientTypes.TextPrompt.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }

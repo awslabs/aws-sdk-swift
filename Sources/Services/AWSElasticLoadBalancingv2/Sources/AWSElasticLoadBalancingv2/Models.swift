@@ -1282,6 +1282,133 @@ public struct CaCertificatesBundleNotFoundException: ClientRuntime.ModeledError,
     }
 }
 
+/// You've exceeded the daily capacity decrease limit for this reservation.
+public struct CapacityDecreaseRequestsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CapacityDecreaseRequestLimitExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// There is a pending capacity reservation.
+public struct CapacityReservationPendingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CapacityReservationPending" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum CapacityReservationStateEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case pending
+        case provisioned
+        case rebalancing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationStateEnum] {
+            return [
+                .failed,
+                .pending,
+                .provisioned,
+                .rebalancing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "failed"
+            case .pending: return "pending"
+            case .provisioned: return "provisioned"
+            case .rebalancing: return "rebalancing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    /// The status of a capacity reservation.
+    public struct CapacityReservationStatus: Swift.Sendable {
+        /// The status code.
+        public var code: ElasticLoadBalancingv2ClientTypes.CapacityReservationStateEnum?
+        /// The reason code for the status.
+        public var reason: Swift.String?
+
+        public init(
+            code: ElasticLoadBalancingv2ClientTypes.CapacityReservationStateEnum? = nil,
+            reason: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.reason = reason
+        }
+    }
+}
+
+/// You've exceeded the capacity units limit.
+public struct CapacityUnitsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CapacityUnitsLimitExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about a cipher used in a policy.
@@ -3529,6 +3656,83 @@ public struct DescribeAccountLimitsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeCapacityReservationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the load balancer.
+    /// This member is required.
+    public var loadBalancerArn: Swift.String?
+
+    public init(
+        loadBalancerArn: Swift.String? = nil
+    )
+    {
+        self.loadBalancerArn = loadBalancerArn
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    /// The capacity reservation status for each availability zone.
+    public struct ZonalCapacityReservationState: Swift.Sendable {
+        /// Information about the availability zone.
+        public var availabilityZone: Swift.String?
+        /// The number of effective capacity units.
+        public var effectiveCapacityUnits: Swift.Double?
+        /// The state of the capacity reservation.
+        public var state: ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            effectiveCapacityUnits: Swift.Double? = nil,
+            state: ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.effectiveCapacityUnits = effectiveCapacityUnits
+            self.state = state
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    /// The minimum capacity for a load balancer.
+    public struct MinimumLoadBalancerCapacity: Swift.Sendable {
+        /// The number of capacity units.
+        public var capacityUnits: Swift.Int?
+
+        public init(
+            capacityUnits: Swift.Int? = nil
+        )
+        {
+            self.capacityUnits = capacityUnits
+        }
+    }
+}
+
+public struct DescribeCapacityReservationOutput: Swift.Sendable {
+    /// The state of the capacity reservation.
+    public var capacityReservationState: [ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState]?
+    /// The amount of daily capacity decreases remaining.
+    public var decreaseRequestsRemaining: Swift.Int?
+    /// The last time the capacity reservation was modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The requested minimum capacity reservation for the load balancer
+    public var minimumLoadBalancerCapacity: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity?
+
+    public init(
+        capacityReservationState: [ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState]? = nil,
+        decreaseRequestsRemaining: Swift.Int? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        minimumLoadBalancerCapacity: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity? = nil
+    )
+    {
+        self.capacityReservationState = capacityReservationState
+        self.decreaseRequestsRemaining = decreaseRequestsRemaining
+        self.lastModifiedTime = lastModifiedTime
+        self.minimumLoadBalancerCapacity = minimumLoadBalancerCapacity
+    }
+}
+
 public struct DescribeListenerAttributesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the listener.
     /// This member is required.
@@ -4681,6 +4885,99 @@ public struct GetTrustStoreRevocationContentOutput: Swift.Sendable {
     }
 }
 
+/// There is insufficient capacity to reserve.
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientCapacity" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// This operation is not allowed while a prior request has not been completed.
+public struct PriorRequestNotCompleteException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PriorRequestNotComplete" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct ModifyCapacityReservationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the load balancer.
+    /// This member is required.
+    public var loadBalancerArn: Swift.String?
+    /// The minimum load balancer capacity reserved.
+    public var minimumLoadBalancerCapacity: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity?
+    /// Resets the capacity reservation.
+    public var resetCapacityReservation: Swift.Bool?
+
+    public init(
+        loadBalancerArn: Swift.String? = nil,
+        minimumLoadBalancerCapacity: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity? = nil,
+        resetCapacityReservation: Swift.Bool? = nil
+    )
+    {
+        self.loadBalancerArn = loadBalancerArn
+        self.minimumLoadBalancerCapacity = minimumLoadBalancerCapacity
+        self.resetCapacityReservation = resetCapacityReservation
+    }
+}
+
+public struct ModifyCapacityReservationOutput: Swift.Sendable {
+    /// The state of the capacity reservation.
+    public var capacityReservationState: [ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState]?
+    /// The amount of daily capacity decreases remaining.
+    public var decreaseRequestsRemaining: Swift.Int?
+    /// The last time the capacity reservation was modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The requested minimum capacity reservation for the load balancer
+    public var minimumLoadBalancerCapacity: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity?
+
+    public init(
+        capacityReservationState: [ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState]? = nil,
+        decreaseRequestsRemaining: Swift.Int? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        minimumLoadBalancerCapacity: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity? = nil
+    )
+    {
+        self.capacityReservationState = capacityReservationState
+        self.decreaseRequestsRemaining = decreaseRequestsRemaining
+        self.lastModifiedTime = lastModifiedTime
+        self.minimumLoadBalancerCapacity = minimumLoadBalancerCapacity
+    }
+}
+
 public struct ModifyListenerInput: Swift.Sendable {
     /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:
     ///
@@ -5365,6 +5662,13 @@ extension DescribeAccountLimitsInput {
     }
 }
 
+extension DescribeCapacityReservationInput {
+
+    static func urlPathProvider(_ value: DescribeCapacityReservationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeListenerAttributesInput {
 
     static func urlPathProvider(_ value: DescribeListenerAttributesInput) -> Swift.String? {
@@ -5480,6 +5784,13 @@ extension GetTrustStoreCaCertificatesBundleInput {
 extension GetTrustStoreRevocationContentInput {
 
     static func urlPathProvider(_ value: GetTrustStoreRevocationContentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyCapacityReservationInput {
+
+    static func urlPathProvider(_ value: ModifyCapacityReservationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5796,6 +6107,16 @@ extension DescribeAccountLimitsInput {
     }
 }
 
+extension DescribeCapacityReservationInput {
+
+    static func write(value: DescribeCapacityReservationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["LoadBalancerArn"].write(value.loadBalancerArn)
+        try writer["Action"].write("DescribeCapacityReservation")
+        try writer["Version"].write("2015-12-01")
+    }
+}
+
 extension DescribeListenerAttributesInput {
 
     static func write(value: DescribeListenerAttributesInput?, to writer: SmithyFormURL.Writer) throws {
@@ -5991,6 +6312,18 @@ extension GetTrustStoreRevocationContentInput {
         try writer["RevocationId"].write(value.revocationId)
         try writer["TrustStoreArn"].write(value.trustStoreArn)
         try writer["Action"].write("GetTrustStoreRevocationContent")
+        try writer["Version"].write("2015-12-01")
+    }
+}
+
+extension ModifyCapacityReservationInput {
+
+    static func write(value: ModifyCapacityReservationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["LoadBalancerArn"].write(value.loadBalancerArn)
+        try writer["MinimumLoadBalancerCapacity"].write(value.minimumLoadBalancerCapacity, with: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity.write(value:to:))
+        try writer["ResetCapacityReservation"].write(value.resetCapacityReservation)
+        try writer["Action"].write("ModifyCapacityReservation")
         try writer["Version"].write("2015-12-01")
     }
 }
@@ -6333,6 +6666,21 @@ extension DescribeAccountLimitsOutput {
     }
 }
 
+extension DescribeCapacityReservationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCapacityReservationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeCapacityReservationResult"]
+        var value = DescribeCapacityReservationOutput()
+        value.capacityReservationState = try reader["CapacityReservationState"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.decreaseRequestsRemaining = try reader["DecreaseRequestsRemaining"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.minimumLoadBalancerCapacity = try reader["MinimumLoadBalancerCapacity"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity.read(from:))
+        return value
+    }
+}
+
 extension DescribeListenerAttributesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeListenerAttributesOutput {
@@ -6542,6 +6890,21 @@ extension GetTrustStoreRevocationContentOutput {
         let reader = responseReader["GetTrustStoreRevocationContentResult"]
         var value = GetTrustStoreRevocationContentOutput()
         value.location = try reader["Location"].readIfPresent()
+        return value
+    }
+}
+
+extension ModifyCapacityReservationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyCapacityReservationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ModifyCapacityReservationResult"]
+        var value = ModifyCapacityReservationOutput()
+        value.capacityReservationState = try reader["CapacityReservationState"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.decreaseRequestsRemaining = try reader["DecreaseRequestsRemaining"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.minimumLoadBalancerCapacity = try reader["MinimumLoadBalancerCapacity"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity.read(from:))
         return value
     }
 }
@@ -7004,6 +7367,20 @@ enum DescribeAccountLimitsOutputError {
     }
 }
 
+enum DescribeCapacityReservationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeListenerAttributesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7250,6 +7627,27 @@ enum GetTrustStoreRevocationContentOutputError {
         switch baseError.code {
             case "RevocationIdNotFound": return try RevocationIdNotFoundException.makeError(baseError: baseError)
             case "TrustStoreNotFound": return try TrustStoreNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyCapacityReservationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CapacityDecreaseRequestLimitExceeded": return try CapacityDecreaseRequestsLimitExceededException.makeError(baseError: baseError)
+            case "CapacityReservationPending": return try CapacityReservationPendingException.makeError(baseError: baseError)
+            case "CapacityUnitsLimitExceeded": return try CapacityUnitsLimitExceededException.makeError(baseError: baseError)
+            case "InsufficientCapacity": return try InsufficientCapacityException.makeError(baseError: baseError)
+            case "InvalidConfigurationRequest": return try InvalidConfigurationRequestException.makeError(baseError: baseError)
+            case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
+            case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotCompleteException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7511,6 +7909,7 @@ enum SetSubnetsOutputError {
         switch baseError.code {
             case "AllocationIdNotFound": return try AllocationIdNotFoundException.makeError(baseError: baseError)
             case "AvailabilityZoneNotSupported": return try AvailabilityZoneNotSupportedException.makeError(baseError: baseError)
+            case "CapacityReservationPending": return try CapacityReservationPendingException.makeError(baseError: baseError)
             case "InvalidConfigurationRequest": return try InvalidConfigurationRequestException.makeError(baseError: baseError)
             case "InvalidSubnet": return try InvalidSubnetException.makeError(baseError: baseError)
             case "LoadBalancerNotFound": return try LoadBalancerNotFoundException.makeError(baseError: baseError)
@@ -8183,6 +8582,71 @@ extension ResourceNotFoundException {
     }
 }
 
+extension PriorRequestNotCompleteException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PriorRequestNotCompleteException {
+        let reader = baseError.errorBodyReader
+        var value = PriorRequestNotCompleteException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CapacityReservationPendingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityReservationPendingException {
+        let reader = baseError.errorBodyReader
+        var value = CapacityReservationPendingException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InsufficientCapacityException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InsufficientCapacityException {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientCapacityException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CapacityUnitsLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityUnitsLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = CapacityUnitsLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CapacityDecreaseRequestsLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CapacityDecreaseRequestsLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = CapacityDecreaseRequestsLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ElasticLoadBalancingv2ClientTypes.Certificate {
 
     static func write(value: ElasticLoadBalancingv2ClientTypes.Certificate?, to writer: SmithyFormURL.Writer) throws {
@@ -8721,6 +9185,44 @@ extension ElasticLoadBalancingv2ClientTypes.Limit {
         var value = ElasticLoadBalancingv2ClientTypes.Limit()
         value.name = try reader["Name"].readIfPresent()
         value.max = try reader["Max"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityUnits"].write(value.capacityUnits)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.MinimumLoadBalancerCapacity()
+        value.capacityUnits = try reader["CapacityUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.ZonalCapacityReservationState()
+        value.state = try reader["State"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus.read(from:))
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.effectiveCapacityUnits = try reader["EffectiveCapacityUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.CapacityReservationStatus()
+        value.code = try reader["Code"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
         return value
     }
 }

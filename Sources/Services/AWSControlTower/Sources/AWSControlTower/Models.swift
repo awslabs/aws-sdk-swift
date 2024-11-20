@@ -933,6 +933,8 @@ extension ControlTowerClientTypes {
         public var baselineVersion: Swift.String?
         /// Shows the parameters that are applied when enabling this Baseline.
         public var parameters: [ControlTowerClientTypes.EnabledBaselineParameterSummary]?
+        /// An ARN that represents the parent EnabledBaseline at the Organizational Unit (OU) level, from which the child EnabledBaseline inherits its configuration. The value is returned by GetEnabledBaseline.
+        public var parentIdentifier: Swift.String?
         /// The deployment summary of an EnabledControl or EnabledBaseline resource.
         /// This member is required.
         public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
@@ -945,6 +947,7 @@ extension ControlTowerClientTypes {
             baselineIdentifier: Swift.String? = nil,
             baselineVersion: Swift.String? = nil,
             parameters: [ControlTowerClientTypes.EnabledBaselineParameterSummary]? = nil,
+            parentIdentifier: Swift.String? = nil,
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
             targetIdentifier: Swift.String? = nil
         )
@@ -953,6 +956,7 @@ extension ControlTowerClientTypes {
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
             self.parameters = parameters
+            self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
         }
@@ -977,15 +981,19 @@ extension ControlTowerClientTypes {
     public struct EnabledBaselineFilter: Swift.Sendable {
         /// Identifiers for the Baseline objects returned as part of the filter operation.
         public var baselineIdentifiers: [Swift.String]?
+        /// An optional filter that sets up a list of parentIdentifiers to filter the results of the ListEnabledBaseline output.
+        public var parentIdentifiers: [Swift.String]?
         /// Identifiers for the targets of the Baseline filter operation.
         public var targetIdentifiers: [Swift.String]?
 
         public init(
             baselineIdentifiers: [Swift.String]? = nil,
+            parentIdentifiers: [Swift.String]? = nil,
             targetIdentifiers: [Swift.String]? = nil
         )
         {
             self.baselineIdentifiers = baselineIdentifiers
+            self.parentIdentifiers = parentIdentifiers
             self.targetIdentifiers = targetIdentifiers
         }
     }
@@ -994,6 +1002,8 @@ extension ControlTowerClientTypes {
 public struct ListEnabledBaselinesInput: Swift.Sendable {
     /// A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
     public var filter: ControlTowerClientTypes.EnabledBaselineFilter?
+    /// A value that can be set to include the child enabled baselines in responses. The default value is false.
+    public var includeChildren: Swift.Bool?
     /// The maximum number of results to be shown.
     public var maxResults: Swift.Int?
     /// A pagination token.
@@ -1001,11 +1011,13 @@ public struct ListEnabledBaselinesInput: Swift.Sendable {
 
     public init(
         filter: ControlTowerClientTypes.EnabledBaselineFilter? = nil,
+        includeChildren: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.filter = filter
+        self.includeChildren = includeChildren
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -1023,6 +1035,8 @@ extension ControlTowerClientTypes {
         public var baselineIdentifier: Swift.String?
         /// The enabled version of the baseline.
         public var baselineVersion: Swift.String?
+        /// An ARN that represents an object returned by ListEnabledBaseline, to describe an enabled baseline.
+        public var parentIdentifier: Swift.String?
         /// The deployment summary of an EnabledControl or EnabledBaseline resource.
         /// This member is required.
         public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
@@ -1034,6 +1048,7 @@ extension ControlTowerClientTypes {
             arn: Swift.String? = nil,
             baselineIdentifier: Swift.String? = nil,
             baselineVersion: Swift.String? = nil,
+            parentIdentifier: Swift.String? = nil,
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
             targetIdentifier: Swift.String? = nil
         )
@@ -1041,6 +1056,7 @@ extension ControlTowerClientTypes {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
+            self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
         }
@@ -2484,6 +2500,7 @@ extension ListEnabledBaselinesInput {
     static func write(value: ListEnabledBaselinesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filter"].write(value.filter, with: ControlTowerClientTypes.EnabledBaselineFilter.write(value:to:))
+        try writer["includeChildren"].write(value.includeChildren)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -3568,6 +3585,7 @@ extension ControlTowerClientTypes.EnabledBaselineDetails {
         value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent() ?? ""
         value.baselineVersion = try reader["baselineVersion"].readIfPresent()
         value.targetIdentifier = try reader["targetIdentifier"].readIfPresent() ?? ""
+        value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.EnabledBaselineParameterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -3722,6 +3740,7 @@ extension ControlTowerClientTypes.EnabledBaselineSummary {
         value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent() ?? ""
         value.baselineVersion = try reader["baselineVersion"].readIfPresent()
         value.targetIdentifier = try reader["targetIdentifier"].readIfPresent() ?? ""
+        value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
         return value
     }
@@ -3798,6 +3817,7 @@ extension ControlTowerClientTypes.EnabledBaselineFilter {
     static func write(value: ControlTowerClientTypes.EnabledBaselineFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["baselineIdentifiers"].writeList(value.baselineIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["parentIdentifiers"].writeList(value.parentIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetIdentifiers"].writeList(value.targetIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }

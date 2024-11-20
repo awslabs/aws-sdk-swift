@@ -110,6 +110,7 @@ extension CostOptimizationHubClientTypes {
 extension CostOptimizationHubClientTypes {
 
     public enum ActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delete
         case migrateToGraviton
         case purchaseReservedInstances
         case purchaseSavingsPlans
@@ -120,6 +121,7 @@ extension CostOptimizationHubClientTypes {
 
         public static var allCases: [ActionType] {
             return [
+                .delete,
                 .migrateToGraviton,
                 .purchaseReservedInstances,
                 .purchaseSavingsPlans,
@@ -136,6 +138,7 @@ extension CostOptimizationHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .delete: return "Delete"
             case .migrateToGraviton: return "MigrateToGraviton"
             case .purchaseReservedInstances: return "PurchaseReservedInstances"
             case .purchaseSavingsPlans: return "PurchaseSavingsPlans"

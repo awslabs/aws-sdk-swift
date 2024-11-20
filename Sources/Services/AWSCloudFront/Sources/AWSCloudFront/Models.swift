@@ -38,6 +38,11 @@ public struct AssociateAliasOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteAnycastIpListOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteCachePolicyOutput: Swift.Sendable {
 
     public init() { }
@@ -501,6 +506,135 @@ extension CloudFrontClientTypes {
     }
 }
 
+extension CloudFrontClientTypes {
+
+    /// An Anycast static IP list.
+    public struct AnycastIpList: Swift.Sendable {
+        /// The static IP addresses that are allocated to the Anycast static IP list.
+        /// This member is required.
+        public var anycastIps: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the Anycast static IP list.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The ID of the Anycast static IP list.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The number of IP addresses in the Anycast static IP list.
+        /// This member is required.
+        public var ipCount: Swift.Int?
+        /// The last time the Anycast static IP list was modified.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the Anycast static IP list.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the Anycast static IP list. Valid values: Deployed, Deploying, or Failed.
+        /// This member is required.
+        public var status: Swift.String?
+
+        public init(
+            anycastIps: [Swift.String]? = nil,
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            ipCount: Swift.Int? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.anycastIps = anycastIps
+            self.arn = arn
+            self.id = id
+            self.ipCount = ipCount
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// An abbreviated version of the [AnycastIpList] structure. Omits the allocated static IP addresses ([AnycastIpList$AnycastIps]).
+    public struct AnycastIpListSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Anycast static IP list.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The ID of the Anycast static IP list.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The number of IP addresses in the Anycast static IP list.
+        /// This member is required.
+        public var ipCount: Swift.Int?
+        /// The last time the Anycast static IP list was modified.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the Anycast static IP list.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The deployment status of the Anycast static IP list. Valid values: Deployed, Deploying, or Failed.
+        /// This member is required.
+        public var status: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            ipCount: Swift.Int? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.id = id
+            self.ipCount = ipCount
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The Anycast static IP list collection.
+    public struct AnycastIpListCollection: Swift.Sendable {
+        /// If there are more items in the list collection than are in this response, this value is true.
+        /// This member is required.
+        public var isTruncated: Swift.Bool?
+        /// Items in the Anycast static IP list collection. Each item is of the [AnycastIpListSummary] structure type.
+        public var items: [CloudFrontClientTypes.AnycastIpListSummary]?
+        /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+        /// This member is required.
+        public var marker: Swift.String?
+        /// The maximum number of Anycast static IP list collections that you want returned in the response.
+        /// This member is required.
+        public var maxItems: Swift.Int?
+        /// Indicates the next page of the Anycast static IP list collection. To get the next page of the list, use this value in the Marker field of your request.
+        public var nextMarker: Swift.String?
+        /// The quantity of Anycast static IP lists in the collection.
+        /// This member is required.
+        public var quantity: Swift.Int?
+
+        public init(
+            isTruncated: Swift.Bool? = nil,
+            items: [CloudFrontClientTypes.AnycastIpListSummary]? = nil,
+            marker: Swift.String? = nil,
+            maxItems: Swift.Int? = nil,
+            nextMarker: Swift.String? = nil,
+            quantity: Swift.Int? = nil
+        )
+        {
+            self.isTruncated = isTruncated
+            self.items = items
+            self.marker = marker
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+    }
+}
+
 /// The update contains modifications that are not allowed.
 public struct IllegalUpdate: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -865,6 +999,23 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    /// Amazon CloudFront supports gRPC, an open-source remote procedure call (RPC) framework built on HTTP/2. gRPC offers bi-directional streaming and binary protocol that buffers payloads, making it suitable for applications that require low latency communications. To enable your distribution to handle gRPC requests, you must include HTTP/2 as one of the supported HTTP versions and allow HTTP methods, including POST. For more information, see [Using gRPC with CloudFront distributions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-using-grpc.html) in the Amazon CloudFront Developer Guide.
+    public struct GrpcConfig: Swift.Sendable, Swift.Equatable {
+        /// Enables your CloudFront distribution to receive gRPC requests and to proxy them directly to your origins.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// A complex type that contains a Lambda@Edge function association.
     public struct LambdaFunctionAssociation: Swift.Sendable, Swift.Equatable {
         /// Specifies the event type that triggers a Lambda@Edge function invocation. You can specify the following values:
@@ -1031,6 +1182,8 @@ extension CloudFrontClientTypes {
         public var forwardedValues: CloudFrontClientTypes.ForwardedValues?
         /// A list of CloudFront functions that are associated with this cache behavior. CloudFront functions must be published to the LIVE stage to associate them with a cache behavior.
         public var functionAssociations: CloudFrontClientTypes.FunctionAssociations?
+        /// The gRPC configuration for your cache behavior.
+        public var grpcConfig: CloudFrontClientTypes.GrpcConfig?
         /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public var lambdaFunctionAssociations: CloudFrontClientTypes.LambdaFunctionAssociations?
         /// This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
@@ -1078,6 +1231,7 @@ extension CloudFrontClientTypes {
             fieldLevelEncryptionId: Swift.String? = nil,
             forwardedValues: CloudFrontClientTypes.ForwardedValues? = nil,
             functionAssociations: CloudFrontClientTypes.FunctionAssociations? = nil,
+            grpcConfig: CloudFrontClientTypes.GrpcConfig? = nil,
             lambdaFunctionAssociations: CloudFrontClientTypes.LambdaFunctionAssociations? = nil,
             maxTTL: Swift.Int? = nil,
             minTTL: Swift.Int? = nil,
@@ -1099,6 +1253,7 @@ extension CloudFrontClientTypes {
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
             self.forwardedValues = forwardedValues
             self.functionAssociations = functionAssociations
+            self.grpcConfig = grpcConfig
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.maxTTL = maxTTL
             self.minTTL = minTTL
@@ -1625,7 +1780,7 @@ public struct CannotChangeImmutablePublicKeyFields: ClientRuntime.ModeledError, 
     }
 }
 
-/// The key value store entity cannot be deleted while it is in use.
+/// The entity cannot be deleted while it is in use.
 public struct CannotDeleteEntityWhileInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1634,6 +1789,30 @@ public struct CannotDeleteEntityWhileInUse: ClientRuntime.ModeledError, AWSClien
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "CannotDeleteEntityWhileInUse" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The entity cannot be updated while it is in use.
+public struct CannotUpdateEntityWhileInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CannotUpdateEntityWhileInUse" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3260,6 +3439,8 @@ extension CloudFrontClientTypes {
         public var forwardedValues: CloudFrontClientTypes.ForwardedValues?
         /// A list of CloudFront functions that are associated with this cache behavior. Your functions must be published to the LIVE stage to associate them with a cache behavior.
         public var functionAssociations: CloudFrontClientTypes.FunctionAssociations?
+        /// The gRPC configuration for your cache behavior.
+        public var grpcConfig: CloudFrontClientTypes.GrpcConfig?
         /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public var lambdaFunctionAssociations: CloudFrontClientTypes.LambdaFunctionAssociations?
         /// This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
@@ -3304,6 +3485,7 @@ extension CloudFrontClientTypes {
             fieldLevelEncryptionId: Swift.String? = nil,
             forwardedValues: CloudFrontClientTypes.ForwardedValues? = nil,
             functionAssociations: CloudFrontClientTypes.FunctionAssociations? = nil,
+            grpcConfig: CloudFrontClientTypes.GrpcConfig? = nil,
             lambdaFunctionAssociations: CloudFrontClientTypes.LambdaFunctionAssociations? = nil,
             maxTTL: Swift.Int? = nil,
             minTTL: Swift.Int? = nil,
@@ -3324,6 +3506,7 @@ extension CloudFrontClientTypes {
             self.fieldLevelEncryptionId = fieldLevelEncryptionId
             self.forwardedValues = forwardedValues
             self.functionAssociations = functionAssociations
+            self.grpcConfig = grpcConfig
             self.lambdaFunctionAssociations = lambdaFunctionAssociations
             self.maxTTL = maxTTL
             self.minTTL = minTTL
@@ -3376,26 +3559,22 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// A complex type that controls whether access logs are written for the distribution.
+    /// A complex type that specifies whether access logs are written for the distribution. If you already enabled standard logging (legacy) and you want to enable standard logging (v2) to send your access logs to Amazon S3, we recommend that you specify a different Amazon S3 bucket or use a separate path in the same bucket (for example, use a log prefix or partitioning). This helps you keep track of which log files are associated with which logging subscription and prevents log files from overwriting each other. For more information, see [Standard logging (access logs)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html) in the Amazon CloudFront Developer Guide.
     public struct LoggingConfig: Swift.Sendable {
-        /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
-        /// This member is required.
+        /// The Amazon S3 bucket to store the access logs in, for example, amzn-s3-demo-bucket.s3.amazonaws.com.
         public var bucket: Swift.String?
-        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket, prefix, and IncludeCookies, the values are automatically deleted.
-        /// This member is required.
+        /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and prefix, the values are automatically deleted.
         public var enabled: Swift.Bool?
         /// Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies. If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you don't want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies.
-        /// This member is required.
         public var includeCookies: Swift.Bool?
         /// An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/. If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
-        /// This member is required.
         public var `prefix`: Swift.String?
 
         public init(
-            bucket: Swift.String? = nil,
-            enabled: Swift.Bool? = nil,
-            includeCookies: Swift.Bool? = nil,
-            `prefix`: Swift.String? = nil
+            bucket: Swift.String? = "",
+            enabled: Swift.Bool? = false,
+            includeCookies: Swift.Bool? = false,
+            `prefix`: Swift.String? = ""
         )
         {
             self.bucket = bucket
@@ -3754,6 +3933,23 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    /// An Amazon CloudFront VPC origin configuration.
+    public struct VpcOriginConfig: Swift.Sendable, Swift.Equatable {
+        /// The VPC origin ID.
+        /// This member is required.
+        public var vpcOriginId: Swift.String?
+
+        public init(
+            vpcOriginId: Swift.String? = nil
+        )
+        {
+            self.vpcOriginId = vpcOriginId
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// An origin. An origin is the location where content is stored, and from which CloudFront gets content to serve to viewers. To specify an origin:
     ///
     /// * Use S3OriginConfig to specify an Amazon S3 bucket that is not configured with static website hosting.
@@ -3798,6 +3994,8 @@ extension CloudFrontClientTypes {
         public var originShield: CloudFrontClientTypes.OriginShield?
         /// Use this type to specify an origin that is an Amazon S3 bucket that is not configured with static website hosting. To specify any other type of origin, including an Amazon S3 bucket that is configured with static website hosting, use the CustomOriginConfig type instead.
         public var s3OriginConfig: CloudFrontClientTypes.S3OriginConfig?
+        /// The VPC origin configuration.
+        public var vpcOriginConfig: CloudFrontClientTypes.VpcOriginConfig?
 
         public init(
             connectionAttempts: Swift.Int? = nil,
@@ -3809,7 +4007,8 @@ extension CloudFrontClientTypes {
             originAccessControlId: Swift.String? = nil,
             originPath: Swift.String? = nil,
             originShield: CloudFrontClientTypes.OriginShield? = nil,
-            s3OriginConfig: CloudFrontClientTypes.S3OriginConfig? = nil
+            s3OriginConfig: CloudFrontClientTypes.S3OriginConfig? = nil,
+            vpcOriginConfig: CloudFrontClientTypes.VpcOriginConfig? = nil
         )
         {
             self.connectionAttempts = connectionAttempts
@@ -3822,6 +4021,7 @@ extension CloudFrontClientTypes {
             self.originPath = originPath
             self.originShield = originShield
             self.s3OriginConfig = s3OriginConfig
+            self.vpcOriginConfig = vpcOriginConfig
         }
     }
 }
@@ -4142,6 +4342,8 @@ extension CloudFrontClientTypes {
     public struct DistributionConfig: Swift.Sendable {
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public var aliases: CloudFrontClientTypes.Aliases?
+        /// ID of the Anycast static IP list that is associated with the distribution.
+        public var anycastIpListId: Swift.String?
         /// A complex type that contains zero or more CacheBehavior elements.
         public var cacheBehaviors: CloudFrontClientTypes.CacheBehaviors?
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
@@ -4200,6 +4402,7 @@ extension CloudFrontClientTypes {
 
         public init(
             aliases: CloudFrontClientTypes.Aliases? = nil,
+            anycastIpListId: Swift.String? = nil,
             cacheBehaviors: CloudFrontClientTypes.CacheBehaviors? = nil,
             callerReference: Swift.String? = nil,
             comment: Swift.String? = nil,
@@ -4221,6 +4424,7 @@ extension CloudFrontClientTypes {
         )
         {
             self.aliases = aliases
+            self.anycastIpListId = anycastIpListId
             self.cacheBehaviors = cacheBehaviors
             self.callerReference = callerReference
             self.comment = comment
@@ -4245,7 +4449,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.DistributionConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DistributionConfig(aliases: \(Swift.String(describing: aliases)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), callerReference: \(Swift.String(describing: callerReference)), continuousDeploymentPolicyId: \(Swift.String(describing: continuousDeploymentPolicyId)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), defaultRootObject: \(Swift.String(describing: defaultRootObject)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), logging: \(Swift.String(describing: logging)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
+        "DistributionConfig(aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), callerReference: \(Swift.String(describing: callerReference)), continuousDeploymentPolicyId: \(Swift.String(describing: continuousDeploymentPolicyId)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), defaultRootObject: \(Swift.String(describing: defaultRootObject)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), logging: \(Swift.String(describing: logging)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudFrontClientTypes {
@@ -4324,6 +4528,177 @@ public struct CopyDistributionOutput: Swift.Sendable {
         self.distribution = distribution
         self.eTag = eTag
         self.location = location
+    }
+}
+
+/// The entity already exists. You must provide a unique entity.
+public struct EntityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EntityAlreadyExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The entity limit has been exceeded.
+public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EntityLimitExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The tagging specified is not valid.
+public struct InvalidTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTagging" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// This operation is not supported in this region.
+public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedOperation" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A complex type that contains Tag key and Tag value.
+    public struct Tag: Swift.Sendable {
+        /// A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
+        /// This member is required.
+        public var key: Swift.String?
+        /// A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A complex type that contains zero or more Tag elements.
+    public struct Tags: Swift.Sendable {
+        /// A complex type that contains Tag elements.
+        public var items: [CloudFrontClientTypes.Tag]?
+
+        public init(
+            items: [CloudFrontClientTypes.Tag]? = nil
+        )
+        {
+            self.items = items
+        }
+    }
+}
+
+public struct CreateAnycastIpListInput: Swift.Sendable {
+    /// The number of static IP addresses that are allocated to the Anycast static IP list.
+    /// This member is required.
+    public var ipCount: Swift.Int?
+    /// Name of the Anycast static IP list.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A complex type that contains zero or more Tag elements.
+    public var tags: CloudFrontClientTypes.Tags?
+
+    public init(
+        ipCount: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        tags: CloudFrontClientTypes.Tags? = nil
+    )
+    {
+        self.ipCount = ipCount
+        self.name = name
+        self.tags = tags
+    }
+}
+
+public struct CreateAnycastIpListOutput: Swift.Sendable {
+    /// A response structure that includes the version identifier (ETag) and the created [AnycastIpList] structure.
+    public var anycastIpList: CloudFrontClientTypes.AnycastIpList?
+    /// The version identifier for the current version of the Anycast static IP list.
+    public var eTag: Swift.String?
+
+    public init(
+        anycastIpList: CloudFrontClientTypes.AnycastIpList? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.anycastIpList = anycastIpList
+        self.eTag = eTag
     }
 }
 
@@ -4909,6 +5284,30 @@ public struct ContinuousDeploymentPolicyInUse: ClientRuntime.ModeledError, AWSCl
     }
 }
 
+/// The entity was not found.
+public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EntityNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 /// An origin cannot contain both an origin access control (OAC) and an origin access identity (OAI).
 public struct IllegalOriginAccessConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -5013,67 +5412,6 @@ public struct CreateDistributionOutput: Swift.Sendable {
         self.distribution = distribution
         self.eTag = eTag
         self.location = location
-    }
-}
-
-/// The tagging specified is not valid.
-public struct InvalidTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidTagging" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-extension CloudFrontClientTypes {
-
-    /// A complex type that contains Tag key and Tag value.
-    public struct Tag: Swift.Sendable {
-        /// A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
-        /// This member is required.
-        public var key: Swift.String?
-        /// A string that contains an optional Tag value. The string length should be between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        )
-        {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
-extension CloudFrontClientTypes {
-
-    /// A complex type that contains zero or more Tag elements.
-    public struct Tags: Swift.Sendable {
-        /// A complex type that contains Tag elements.
-        public var items: [CloudFrontClientTypes.Tag]?
-
-        public init(
-            items: [CloudFrontClientTypes.Tag]? = nil
-        )
-        {
-            self.items = items
-        }
     }
 }
 
@@ -5901,30 +6239,6 @@ public struct TooManyFunctions: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-/// This operation is not supported in this region.
-public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "UnsupportedOperation" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 extension CloudFrontClientTypes {
 
     /// The key value store association.
@@ -6449,55 +6763,7 @@ public struct CreateKeyGroupOutput: Swift.Sendable {
     }
 }
 
-/// The key value store entity already exists. You must provide a unique key value store entity.
-public struct EntityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EntityAlreadyExists" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// The key value store entity limit has been exceeded.
-public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EntityLimitExceeded" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// The key value store entity size limit was exceeded.
+/// The entity size limit was exceeded.
 public struct EntitySizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8571,7 +8837,7 @@ extension CloudFrontClientTypes {
 
     /// A complex type that controls whether access logs are written for this streaming distribution.
     public struct StreamingLoggingConfig: Swift.Sendable {
-        /// The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com.
+        /// The Amazon S3 bucket to store the access logs in, for example, amzn-s3-demo-bucket.s3.amazonaws.com.
         /// This member is required.
         public var bucket: Swift.String?
         /// Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled, and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix, the values are automatically deleted.
@@ -8803,7 +9069,127 @@ public struct CreateStreamingDistributionWithTagsOutput: Swift.Sendable {
     }
 }
 
-/// You cannot delete a managed policy.
+extension CloudFrontClientTypes {
+
+    /// An Amazon CloudFront VPC origin endpoint configuration.
+    public struct VpcOriginEndpointConfig: Swift.Sendable {
+        /// The ARN of the CloudFront VPC origin endpoint configuration.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The HTTP port for the CloudFront VPC origin endpoint configuration.
+        /// This member is required.
+        public var httpPort: Swift.Int?
+        /// The HTTPS port of the CloudFront VPC origin endpoint configuration.
+        /// This member is required.
+        public var httpsPort: Swift.Int?
+        /// The name of the CloudFront VPC origin endpoint configuration.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The origin protocol policy for the CloudFront VPC origin endpoint configuration.
+        /// This member is required.
+        public var originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy?
+        /// A complex type that contains information about the SSL/TLS protocols that CloudFront can use when establishing an HTTPS connection with your origin.
+        public var originSslProtocols: CloudFrontClientTypes.OriginSslProtocols?
+
+        public init(
+            arn: Swift.String? = nil,
+            httpPort: Swift.Int? = nil,
+            httpsPort: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy? = nil,
+            originSslProtocols: CloudFrontClientTypes.OriginSslProtocols? = nil
+        )
+        {
+            self.arn = arn
+            self.httpPort = httpPort
+            self.httpsPort = httpsPort
+            self.name = name
+            self.originProtocolPolicy = originProtocolPolicy
+            self.originSslProtocols = originSslProtocols
+        }
+    }
+}
+
+public struct CreateVpcOriginInput: Swift.Sendable {
+    /// A complex type that contains zero or more Tag elements.
+    public var tags: CloudFrontClientTypes.Tags?
+    /// The VPC origin endpoint configuration.
+    /// This member is required.
+    public var vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig?
+
+    public init(
+        tags: CloudFrontClientTypes.Tags? = nil,
+        vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig? = nil
+    )
+    {
+        self.tags = tags
+        self.vpcOriginEndpointConfig = vpcOriginEndpointConfig
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// An Amazon CloudFront VPC origin.
+    public struct VpcOrigin: Swift.Sendable {
+        /// The VPC origin ARN.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The VPC origin created time.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The VPC origin ID.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The VPC origin last modified time.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The VPC origin status.
+        /// This member is required.
+        public var status: Swift.String?
+        /// The VPC origin endpoint configuration.
+        /// This member is required.
+        public var vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            status: Swift.String? = nil,
+            vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig? = nil
+        )
+        {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+            self.vpcOriginEndpointConfig = vpcOriginEndpointConfig
+        }
+    }
+}
+
+public struct CreateVpcOriginOutput: Swift.Sendable {
+    /// The VPC origin ETag.
+    public var eTag: Swift.String?
+    /// The VPC origin location.
+    public var location: Swift.String?
+    /// The VPC origin.
+    public var vpcOrigin: CloudFrontClientTypes.VpcOrigin?
+
+    public init(
+        eTag: Swift.String? = nil,
+        location: Swift.String? = nil,
+        vpcOrigin: CloudFrontClientTypes.VpcOrigin? = nil
+    )
+    {
+        self.eTag = eTag
+        self.location = location
+        self.vpcOrigin = vpcOrigin
+    }
+}
+
+/// Deletion is not allowed for this entity.
 public struct IllegalDelete: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8824,6 +9210,24 @@ public struct IllegalDelete: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     )
     {
         self.properties.message = message
+    }
+}
+
+public struct DeleteAnycastIpListInput: Swift.Sendable {
+    /// The ID of the Anycast static IP list.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the Anycast static IP list that you are deleting.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    )
+    {
+        self.id = id
+        self.ifMatch = ifMatch
     }
 }
 
@@ -9201,30 +9605,6 @@ public struct DeleteKeyGroupInput: Swift.Sendable {
     }
 }
 
-/// The key value store entity was not found.
-public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EntityNotFound" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 public struct DeleteKeyValueStoreInput: Swift.Sendable {
     /// The key value store to delete, if a match occurs.
     /// This member is required.
@@ -9579,6 +9959,40 @@ public struct DeleteStreamingDistributionInput: Swift.Sendable {
     }
 }
 
+public struct DeleteVpcOriginInput: Swift.Sendable {
+    /// The VPC origin ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The VPC origin to delete, if a match occurs.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    )
+    {
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
+public struct DeleteVpcOriginOutput: Swift.Sendable {
+    /// The VPC origin ETag.
+    public var eTag: Swift.String?
+    /// The VPC origin.
+    public var vpcOrigin: CloudFrontClientTypes.VpcOrigin?
+
+    public init(
+        eTag: Swift.String? = nil,
+        vpcOrigin: CloudFrontClientTypes.VpcOrigin? = nil
+    )
+    {
+        self.eTag = eTag
+        self.vpcOrigin = vpcOrigin
+    }
+}
+
 public struct DescribeFunctionInput: Swift.Sendable {
     /// The name of the function that you are getting information about.
     /// This member is required.
@@ -9638,6 +10052,35 @@ public struct DescribeKeyValueStoreOutput: Swift.Sendable {
     {
         self.eTag = eTag
         self.keyValueStore = keyValueStore
+    }
+}
+
+public struct GetAnycastIpListInput: Swift.Sendable {
+    /// The ID of the Anycast static IP list.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+public struct GetAnycastIpListOutput: Swift.Sendable {
+    /// The Anycast static IP list details.
+    public var anycastIpList: CloudFrontClientTypes.AnycastIpList?
+    /// The version identifier for the current version of the Anycast static IP list.
+    public var eTag: Swift.String?
+
+    public init(
+        anycastIpList: CloudFrontClientTypes.AnycastIpList? = nil,
+        eTag: Swift.String? = nil
+    )
+    {
+        self.anycastIpList = anycastIpList
+        self.eTag = eTag
     }
 }
 
@@ -10500,6 +10943,63 @@ public struct GetStreamingDistributionConfigOutput: Swift.Sendable {
     }
 }
 
+public struct GetVpcOriginInput: Swift.Sendable {
+    /// The VPC origin ID.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+public struct GetVpcOriginOutput: Swift.Sendable {
+    /// The VPC origin ETag.
+    public var eTag: Swift.String?
+    /// The VPC origin.
+    public var vpcOrigin: CloudFrontClientTypes.VpcOrigin?
+
+    public init(
+        eTag: Swift.String? = nil,
+        vpcOrigin: CloudFrontClientTypes.VpcOrigin? = nil
+    )
+    {
+        self.eTag = eTag
+        self.vpcOrigin = vpcOrigin
+    }
+}
+
+public struct ListAnycastIpListsInput: Swift.Sendable {
+    /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    public var marker: Swift.String?
+    /// The maximum number of Anycast static IP lists that you want returned in the response.
+    public var maxItems: Swift.Int?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    )
+    {
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListAnycastIpListsOutput: Swift.Sendable {
+    /// Root level tag for the AnycastIpLists parameters.
+    public var anycastIpLists: CloudFrontClientTypes.AnycastIpListCollection?
+
+    public init(
+        anycastIpLists: CloudFrontClientTypes.AnycastIpListCollection? = nil
+    )
+    {
+        self.anycastIpLists = anycastIpLists
+    }
+}
+
 public struct ListCachePoliciesInput: Swift.Sendable {
     /// Use this field when paginating results to indicate where to begin in your list of cache policies. The response includes cache policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
@@ -10824,6 +11324,8 @@ extension CloudFrontClientTypes {
         /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         /// This member is required.
         public var aliases: CloudFrontClientTypes.Aliases?
+        /// ID of the Anycast static IP list that is associated with the distribution.
+        public var anycastIpListId: Swift.String?
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your Amazon Web Services account ID.
         /// This member is required.
         public var arn: Swift.String?
@@ -10884,6 +11386,7 @@ extension CloudFrontClientTypes {
         public init(
             aliasICPRecordals: [CloudFrontClientTypes.AliasICPRecordal]? = nil,
             aliases: CloudFrontClientTypes.Aliases? = nil,
+            anycastIpListId: Swift.String? = nil,
             arn: Swift.String? = nil,
             cacheBehaviors: CloudFrontClientTypes.CacheBehaviors? = nil,
             comment: Swift.String? = nil,
@@ -10907,6 +11410,7 @@ extension CloudFrontClientTypes {
         {
             self.aliasICPRecordals = aliasICPRecordals
             self.aliases = aliases
+            self.anycastIpListId = anycastIpListId
             self.arn = arn
             self.cacheBehaviors = cacheBehaviors
             self.comment = comment
@@ -10973,6 +11477,39 @@ extension CloudFrontClientTypes {
 /// The returned result of the corresponding request.
 public struct ListDistributionsOutput: Swift.Sendable {
     /// The DistributionList type.
+    public var distributionList: CloudFrontClientTypes.DistributionList?
+
+    public init(
+        distributionList: CloudFrontClientTypes.DistributionList? = nil
+    )
+    {
+        self.distributionList = distributionList
+    }
+}
+
+public struct ListDistributionsByAnycastIpListIdInput: Swift.Sendable {
+    /// The ID of the Anycast static IP list.
+    /// This member is required.
+    public var anycastIpListId: Swift.String?
+    /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    public var marker: Swift.String?
+    /// The maximum number of distributions that you want returned in the response.
+    public var maxItems: Swift.Int?
+
+    public init(
+        anycastIpListId: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    )
+    {
+        self.anycastIpListId = anycastIpListId
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListDistributionsByAnycastIpListIdOutput: Swift.Sendable {
+    /// A distribution list.
     public var distributionList: CloudFrontClientTypes.DistributionList?
 
     public init(
@@ -11180,6 +11717,39 @@ public struct ListDistributionsByResponseHeadersPolicyIdInput: Swift.Sendable {
 }
 
 public struct ListDistributionsByResponseHeadersPolicyIdOutput: Swift.Sendable {
+    /// A list of distribution IDs.
+    public var distributionIdList: CloudFrontClientTypes.DistributionIdList?
+
+    public init(
+        distributionIdList: CloudFrontClientTypes.DistributionIdList? = nil
+    )
+    {
+        self.distributionIdList = distributionIdList
+    }
+}
+
+public struct ListDistributionsByVpcOriginIdInput: Swift.Sendable {
+    /// The marker associated with the VPC origin distributions list.
+    public var marker: Swift.String?
+    /// The maximum number of items included in the list.
+    public var maxItems: Swift.Int?
+    /// The VPC origin ID.
+    /// This member is required.
+    public var vpcOriginId: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        vpcOriginId: Swift.String? = nil
+    )
+    {
+        self.marker = marker
+        self.maxItems = maxItems
+        self.vpcOriginId = vpcOriginId
+    }
+}
+
+public struct ListDistributionsByVpcOriginIdOutput: Swift.Sendable {
     /// A list of distribution IDs.
     public var distributionIdList: CloudFrontClientTypes.DistributionIdList?
 
@@ -12385,6 +12955,121 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct ListVpcOriginsInput: Swift.Sendable {
+    /// The marker associated with the VPC origins list.
+    public var marker: Swift.String?
+    /// The maximum number of items included in the list.
+    public var maxItems: Swift.Int?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    )
+    {
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A summary of the CloudFront VPC origin.
+    public struct VpcOriginSummary: Swift.Sendable {
+        /// The VPC origin summary ARN.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The VPC origin summary created time.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The VPC origin summary ID.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The VPC origin summary last modified time.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The VPC origin summary name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The VPC origin summary origin endpoint ARN.
+        /// This member is required.
+        public var originEndpointArn: Swift.String?
+        /// The VPC origin summary status.
+        /// This member is required.
+        public var status: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            originEndpointArn: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.originEndpointArn = originEndpointArn
+            self.status = status
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A list of CloudFront VPC origins.
+    public struct VpcOriginList: Swift.Sendable {
+        /// A flag that indicates whether more VPC origins remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more VPC origins in the list.
+        /// This member is required.
+        public var isTruncated: Swift.Bool?
+        /// The items of the VPC origins list.
+        public var items: [CloudFrontClientTypes.VpcOriginSummary]?
+        /// The marker associated with the VPC origins list.
+        /// This member is required.
+        public var marker: Swift.String?
+        /// The maximum number of items included in the list.
+        /// This member is required.
+        public var maxItems: Swift.Int?
+        /// The next marker associated with the VPC origins list.
+        public var nextMarker: Swift.String?
+        /// The number of VPC origins in the list.
+        /// This member is required.
+        public var quantity: Swift.Int?
+
+        public init(
+            isTruncated: Swift.Bool? = nil,
+            items: [CloudFrontClientTypes.VpcOriginSummary]? = nil,
+            marker: Swift.String? = nil,
+            maxItems: Swift.Int? = nil,
+            nextMarker: Swift.String? = nil,
+            quantity: Swift.Int? = nil
+        )
+        {
+            self.isTruncated = isTruncated
+            self.items = items
+            self.marker = marker
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+    }
+}
+
+public struct ListVpcOriginsOutput: Swift.Sendable {
+    /// List of VPC origins.
+    public var vpcOriginList: CloudFrontClientTypes.VpcOriginList?
+
+    public init(
+        vpcOriginList: CloudFrontClientTypes.VpcOriginList? = nil
+    )
+    {
+        self.vpcOriginList = vpcOriginList
+    }
+}
+
 public struct PublishFunctionInput: Swift.Sendable {
     /// The current version (ETag value) of the function that you are publishing, which you can get using DescribeFunction.
     /// This member is required.
@@ -13201,6 +13886,45 @@ public struct UpdateStreamingDistributionOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateVpcOriginInput: Swift.Sendable {
+    /// The VPC origin ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The VPC origin to update, if a match occurs.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+    /// The VPC origin endpoint configuration.
+    /// This member is required.
+    public var vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig? = nil
+    )
+    {
+        self.id = id
+        self.ifMatch = ifMatch
+        self.vpcOriginEndpointConfig = vpcOriginEndpointConfig
+    }
+}
+
+public struct UpdateVpcOriginOutput: Swift.Sendable {
+    /// The VPC origin ETag.
+    public var eTag: Swift.String?
+    /// The VPC origin.
+    public var vpcOrigin: CloudFrontClientTypes.VpcOrigin?
+
+    public init(
+        eTag: Swift.String? = nil,
+        vpcOrigin: CloudFrontClientTypes.VpcOrigin? = nil
+    )
+    {
+        self.eTag = eTag
+        self.vpcOrigin = vpcOrigin
+    }
+}
+
 extension AssociateAliasInput {
 
     static func urlPathProvider(_ value: AssociateAliasInput) -> Swift.String? {
@@ -13246,6 +13970,13 @@ extension CopyDistributionInput {
             items.add(SmithyHTTPAPI.Header(name: "Staging", value: Swift.String(staging)))
         }
         return items
+    }
+}
+
+extension CreateAnycastIpListInput {
+
+    static func urlPathProvider(_ value: CreateAnycastIpListInput) -> Swift.String? {
+        return "/2020-05-31/anycast-ip-list"
     }
 }
 
@@ -13402,6 +14133,34 @@ extension CreateStreamingDistributionWithTagsInput {
     static func queryItemProvider(_ value: CreateStreamingDistributionWithTagsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "WithTags", value: nil))
+        return items
+    }
+}
+
+extension CreateVpcOriginInput {
+
+    static func urlPathProvider(_ value: CreateVpcOriginInput) -> Swift.String? {
+        return "/2020-05-31/vpc-origin"
+    }
+}
+
+extension DeleteAnycastIpListInput {
+
+    static func urlPathProvider(_ value: DeleteAnycastIpListInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/anycast-ip-list/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAnycastIpListInput {
+
+    static func headerProvider(_ value: DeleteAnycastIpListInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
         return items
     }
 }
@@ -13717,6 +14476,27 @@ extension DeleteStreamingDistributionInput {
     }
 }
 
+extension DeleteVpcOriginInput {
+
+    static func urlPathProvider(_ value: DeleteVpcOriginInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/vpc-origin/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteVpcOriginInput {
+
+    static func headerProvider(_ value: DeleteVpcOriginInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
 extension DescribeFunctionInput {
 
     static func urlPathProvider(_ value: DescribeFunctionInput) -> Swift.String? {
@@ -13746,6 +14526,16 @@ extension DescribeKeyValueStoreInput {
             return nil
         }
         return "/2020-05-31/key-value-store/\(name.urlPercentEncoding())"
+    }
+}
+
+extension GetAnycastIpListInput {
+
+    static func urlPathProvider(_ value: GetAnycastIpListInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/anycast-ip-list/\(id.urlPercentEncoding())"
     }
 }
 
@@ -14041,6 +14831,39 @@ extension GetStreamingDistributionConfigInput {
     }
 }
 
+extension GetVpcOriginInput {
+
+    static func urlPathProvider(_ value: GetVpcOriginInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/vpc-origin/\(id.urlPercentEncoding())"
+    }
+}
+
+extension ListAnycastIpListsInput {
+
+    static func urlPathProvider(_ value: ListAnycastIpListsInput) -> Swift.String? {
+        return "/2020-05-31/anycast-ip-list"
+    }
+}
+
+extension ListAnycastIpListsInput {
+
+    static func queryItemProvider(_ value: ListAnycastIpListsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListCachePoliciesInput {
 
     static func urlPathProvider(_ value: ListCachePoliciesInput) -> Swift.String? {
@@ -14172,6 +14995,32 @@ extension ListDistributionsInput {
     }
 }
 
+extension ListDistributionsByAnycastIpListIdInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByAnycastIpListIdInput) -> Swift.String? {
+        guard let anycastIpListId = value.anycastIpListId else {
+            return nil
+        }
+        return "/2020-05-31/distributionsByAnycastIpListId/\(anycastIpListId.urlPercentEncoding())"
+    }
+}
+
+extension ListDistributionsByAnycastIpListIdInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByAnycastIpListIdInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListDistributionsByCachePolicyIdInput {
 
     static func urlPathProvider(_ value: ListDistributionsByCachePolicyIdInput) -> Swift.String? {
@@ -14270,6 +15119,32 @@ extension ListDistributionsByResponseHeadersPolicyIdInput {
 extension ListDistributionsByResponseHeadersPolicyIdInput {
 
     static func queryItemProvider(_ value: ListDistributionsByResponseHeadersPolicyIdInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDistributionsByVpcOriginIdInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByVpcOriginIdInput) -> Swift.String? {
+        guard let vpcOriginId = value.vpcOriginId else {
+            return nil
+        }
+        return "/2020-05-31/distributionsByVpcOriginId/\(vpcOriginId.urlPercentEncoding())"
+    }
+}
+
+extension ListDistributionsByVpcOriginIdInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByVpcOriginIdInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
             let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
@@ -14621,6 +15496,29 @@ extension ListTagsForResourceInput {
         }
         let resourceQueryItem = Smithy.URIQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
         items.append(resourceQueryItem)
+        return items
+    }
+}
+
+extension ListVpcOriginsInput {
+
+    static func urlPathProvider(_ value: ListVpcOriginsInput) -> Swift.String? {
+        return "/2020-05-31/vpc-origin"
+    }
+}
+
+extension ListVpcOriginsInput {
+
+    static func queryItemProvider(_ value: ListVpcOriginsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
         return items
     }
 }
@@ -15045,12 +15943,43 @@ extension UpdateStreamingDistributionInput {
     }
 }
 
+extension UpdateVpcOriginInput {
+
+    static func urlPathProvider(_ value: UpdateVpcOriginInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/vpc-origin/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateVpcOriginInput {
+
+    static func headerProvider(_ value: UpdateVpcOriginInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
 extension CopyDistributionInput {
 
     static func write(value: CopyDistributionInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["CallerReference"].write(value.callerReference)
         try writer["Enabled"].write(value.enabled)
+    }
+}
+
+extension CreateAnycastIpListInput {
+
+    static func write(value: CreateAnycastIpListInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IpCount"].write(value.ipCount)
+        try writer["Name"].write(value.name)
+        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
 }
 
@@ -15210,6 +16139,15 @@ extension CreateStreamingDistributionWithTagsInput {
     static func write(value: CreateStreamingDistributionWithTagsInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["StreamingDistributionConfigWithTags"].write(value.streamingDistributionConfigWithTags, with: CloudFrontClientTypes.StreamingDistributionConfigWithTags.write(value:to:))
+    }
+}
+
+extension CreateVpcOriginInput {
+
+    static func write(value: CreateVpcOriginInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
+        try writer["VpcOriginEndpointConfig"].write(value.vpcOriginEndpointConfig, with: CloudFrontClientTypes.VpcOriginEndpointConfig.write(value:to:))
     }
 }
 
@@ -15392,6 +16330,14 @@ extension UpdateStreamingDistributionInput {
     }
 }
 
+extension UpdateVpcOriginInput {
+
+    static func write(value: UpdateVpcOriginInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["VpcOriginEndpointConfig"].write(value.vpcOriginEndpointConfig, with: CloudFrontClientTypes.VpcOriginEndpointConfig.write(value:to:))
+    }
+}
+
 extension AssociateAliasOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateAliasOutput {
@@ -15413,6 +16359,21 @@ extension CopyDistributionOutput {
             value.location = locationHeaderValue
         }
         value.distribution = try reader.readIfPresent(with: CloudFrontClientTypes.Distribution.read(from:))
+        return value
+    }
+}
+
+extension CreateAnycastIpListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAnycastIpListOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAnycastIpListOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.anycastIpList = try reader.readIfPresent(with: CloudFrontClientTypes.AnycastIpList.read(from:))
         return value
     }
 }
@@ -15744,6 +16705,31 @@ extension CreateStreamingDistributionWithTagsOutput {
     }
 }
 
+extension CreateVpcOriginOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVpcOriginOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateVpcOriginOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
+        }
+        value.vpcOrigin = try reader.readIfPresent(with: CloudFrontClientTypes.VpcOrigin.read(from:))
+        return value
+    }
+}
+
+extension DeleteAnycastIpListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAnycastIpListOutput {
+        return DeleteAnycastIpListOutput()
+    }
+}
+
 extension DeleteCachePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCachePolicyOutput {
@@ -15856,6 +16842,21 @@ extension DeleteStreamingDistributionOutput {
     }
 }
 
+extension DeleteVpcOriginOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVpcOriginOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteVpcOriginOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.vpcOrigin = try reader.readIfPresent(with: CloudFrontClientTypes.VpcOrigin.read(from:))
+        return value
+    }
+}
+
 extension DescribeFunctionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFunctionOutput {
@@ -15882,6 +16883,21 @@ extension DescribeKeyValueStoreOutput {
             value.eTag = eTagHeaderValue
         }
         value.keyValueStore = try reader.readIfPresent(with: CloudFrontClientTypes.KeyValueStore.read(from:))
+        return value
+    }
+}
+
+extension GetAnycastIpListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAnycastIpListOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAnycastIpListOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.anycastIpList = try reader.readIfPresent(with: CloudFrontClientTypes.AnycastIpList.read(from:))
         return value
     }
 }
@@ -16304,6 +17320,33 @@ extension GetStreamingDistributionConfigOutput {
     }
 }
 
+extension GetVpcOriginOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVpcOriginOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetVpcOriginOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.vpcOrigin = try reader.readIfPresent(with: CloudFrontClientTypes.VpcOrigin.read(from:))
+        return value
+    }
+}
+
+extension ListAnycastIpListsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAnycastIpListsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAnycastIpListsOutput()
+        value.anycastIpLists = try reader.readIfPresent(with: CloudFrontClientTypes.AnycastIpListCollection.read(from:))
+        return value
+    }
+}
+
 extension ListCachePoliciesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCachePoliciesOutput {
@@ -16364,6 +17407,18 @@ extension ListDistributionsOutput {
     }
 }
 
+extension ListDistributionsByAnycastIpListIdOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionsByAnycastIpListIdOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDistributionsByAnycastIpListIdOutput()
+        value.distributionList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionList.read(from:))
+        return value
+    }
+}
+
 extension ListDistributionsByCachePolicyIdOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionsByCachePolicyIdOutput {
@@ -16419,6 +17474,18 @@ extension ListDistributionsByResponseHeadersPolicyIdOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
         var value = ListDistributionsByResponseHeadersPolicyIdOutput()
+        value.distributionIdList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionIdList.read(from:))
+        return value
+    }
+}
+
+extension ListDistributionsByVpcOriginIdOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionsByVpcOriginIdOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDistributionsByVpcOriginIdOutput()
         value.distributionIdList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionIdList.read(from:))
         return value
     }
@@ -16588,6 +17655,18 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader.readIfPresent(with: CloudFrontClientTypes.Tags.read(from:))
+        return value
+    }
+}
+
+extension ListVpcOriginsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVpcOriginsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListVpcOriginsOutput()
+        value.vpcOriginList = try reader.readIfPresent(with: CloudFrontClientTypes.VpcOriginList.read(from:))
         return value
     }
 }
@@ -16867,6 +17946,21 @@ extension UpdateStreamingDistributionOutput {
     }
 }
 
+extension UpdateVpcOriginOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateVpcOriginOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateVpcOriginOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.vpcOrigin = try reader.readIfPresent(with: CloudFrontClientTypes.VpcOrigin.read(from:))
+        return value
+    }
+}
+
 enum AssociateAliasOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16962,6 +18056,25 @@ enum CopyDistributionOutputError {
     }
 }
 
+enum CreateAnycastIpListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidTagging": return try InvalidTagging.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateCachePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17032,6 +18145,7 @@ enum CreateDistributionOutputError {
             case "CNAMEAlreadyExists": return try CNAMEAlreadyExists.makeError(baseError: baseError)
             case "ContinuousDeploymentPolicyInUse": return try ContinuousDeploymentPolicyInUse.makeError(baseError: baseError)
             case "DistributionAlreadyExists": return try DistributionAlreadyExists.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior": return try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior.makeError(baseError: baseError)
             case "IllegalOriginAccessConfiguration": return try IllegalOriginAccessConfiguration.makeError(baseError: baseError)
             case "InconsistentQuantities": return try InconsistentQuantities.makeError(baseError: baseError)
@@ -17110,6 +18224,7 @@ enum CreateDistributionWithTagsOutputError {
             case "CNAMEAlreadyExists": return try CNAMEAlreadyExists.makeError(baseError: baseError)
             case "ContinuousDeploymentPolicyInUse": return try ContinuousDeploymentPolicyInUse.makeError(baseError: baseError)
             case "DistributionAlreadyExists": return try DistributionAlreadyExists.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior": return try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior.makeError(baseError: baseError)
             case "IllegalOriginAccessConfiguration": return try IllegalOriginAccessConfiguration.makeError(baseError: baseError)
             case "InconsistentQuantities": return try InconsistentQuantities.makeError(baseError: baseError)
@@ -17454,6 +18569,47 @@ enum CreateStreamingDistributionWithTagsOutputError {
     }
 }
 
+enum CreateVpcOriginOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
+            case "InconsistentQuantities": return try InconsistentQuantities.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidTagging": return try InvalidTagging.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAnycastIpListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "CannotDeleteEntityWhileInUse": return try CannotDeleteEntityWhileInUse.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "IllegalDelete": return try IllegalDelete.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteCachePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17744,6 +18900,27 @@ enum DeleteStreamingDistributionOutputError {
     }
 }
 
+enum DeleteVpcOriginOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "CannotDeleteEntityWhileInUse": return try CannotDeleteEntityWhileInUse.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "IllegalDelete": return try IllegalDelete.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeFunctionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17760,6 +18937,23 @@ enum DescribeFunctionOutputError {
 }
 
 enum DescribeKeyValueStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAnycastIpListOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -18198,6 +19392,40 @@ enum GetStreamingDistributionConfigOutputError {
     }
 }
 
+enum GetVpcOriginOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAnycastIpListsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCachePoliciesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18268,6 +19496,23 @@ enum ListDistributionsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDistributionsByAnycastIpListIdOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -18345,6 +19590,23 @@ enum ListDistributionsByResponseHeadersPolicyIdOutputError {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "NoSuchResponseHeadersPolicy": return try NoSuchResponseHeadersPolicy.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDistributionsByVpcOriginIdOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -18561,6 +19823,23 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListVpcOriginsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PublishFunctionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18707,6 +19986,7 @@ enum UpdateDistributionOutputError {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "CNAMEAlreadyExists": return try CNAMEAlreadyExists.makeError(baseError: baseError)
             case "ContinuousDeploymentPolicyInUse": return try ContinuousDeploymentPolicyInUse.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior": return try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior.makeError(baseError: baseError)
             case "IllegalOriginAccessConfiguration": return try IllegalOriginAccessConfiguration.makeError(baseError: baseError)
             case "IllegalUpdate": return try IllegalUpdate.makeError(baseError: baseError)
@@ -18785,6 +20065,7 @@ enum UpdateDistributionWithStagingConfigOutputError {
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "CNAMEAlreadyExists": return try CNAMEAlreadyExists.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior": return try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior.makeError(baseError: baseError)
             case "IllegalUpdate": return try IllegalUpdate.makeError(baseError: baseError)
             case "InconsistentQuantities": return try InconsistentQuantities.makeError(baseError: baseError)
@@ -19081,6 +20362,30 @@ enum UpdateStreamingDistributionOutputError {
             case "TooManyStreamingDistributionCNAMEs": return try TooManyStreamingDistributionCNAMEs.makeError(baseError: baseError)
             case "TooManyTrustedSigners": return try TooManyTrustedSigners.makeError(baseError: baseError)
             case "TrustedSignerDoesNotExist": return try TrustedSignerDoesNotExist.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateVpcOriginOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "CannotUpdateEntityWhileInUse": return try CannotUpdateEntityWhileInUse.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "IllegalUpdate": return try IllegalUpdate.makeError(baseError: baseError)
+            case "InconsistentQuantities": return try InconsistentQuantities.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -19931,6 +21236,58 @@ extension TooManyFunctionAssociations {
     }
 }
 
+extension UnsupportedOperation {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> UnsupportedOperation {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedOperation()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EntityLimitExceeded {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityLimitExceeded {
+        let reader = baseError.errorBodyReader
+        var value = EntityLimitExceeded()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTagging {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTagging {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTagging()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EntityAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = EntityAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyCookiesInCachePolicy {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookiesInCachePolicy {
@@ -20113,11 +21470,11 @@ extension InvalidDomainNameForOriginAccessControl {
     }
 }
 
-extension InvalidTagging {
+extension EntityNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTagging {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityNotFound {
         let reader = baseError.errorBodyReader
-        var value = InvalidTagging()
+        var value = EntityNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20282,19 +21639,6 @@ extension FieldLevelEncryptionProfileSizeExceeded {
     }
 }
 
-extension UnsupportedOperation {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> UnsupportedOperation {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedOperation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TooManyFunctions {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFunctions {
@@ -20399,37 +21743,11 @@ extension TooManyPublicKeysInKeyGroup {
     }
 }
 
-extension EntityLimitExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityLimitExceeded {
-        let reader = baseError.errorBodyReader
-        var value = EntityLimitExceeded()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension EntitySizeLimitExceeded {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntitySizeLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = EntitySizeLimitExceeded()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EntityAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = EntityAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20698,6 +22016,19 @@ extension TooManyStreamingDistributionCNAMEs {
     }
 }
 
+extension CannotDeleteEntityWhileInUse {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CannotDeleteEntityWhileInUse {
+        let reader = baseError.errorBodyReader
+        var value = CannotDeleteEntityWhileInUse()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension IllegalDelete {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalDelete {
@@ -20833,32 +22164,6 @@ extension ResourceInUse {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResourceInUse {
         let reader = baseError.errorBodyReader
         var value = ResourceInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CannotDeleteEntityWhileInUse {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CannotDeleteEntityWhileInUse {
-        let reader = baseError.errorBodyReader
-        var value = CannotDeleteEntityWhileInUse()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EntityNotFound {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityNotFound {
-        let reader = baseError.errorBodyReader
-        var value = EntityNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21023,6 +22328,19 @@ extension CannotChangeImmutablePublicKeyFields {
     }
 }
 
+extension CannotUpdateEntityWhileInUse {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CannotUpdateEntityWhileInUse {
+        let reader = baseError.errorBodyReader
+        var value = CannotUpdateEntityWhileInUse()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension CloudFrontClientTypes.Distribution {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Distribution {
@@ -21058,6 +22376,7 @@ extension CloudFrontClientTypes.DistributionConfig {
     static func write(value: CloudFrontClientTypes.DistributionConfig?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Aliases"].write(value.aliases, with: CloudFrontClientTypes.Aliases.write(value:to:))
+        try writer["AnycastIpListId"].write(value.anycastIpListId)
         try writer["CacheBehaviors"].write(value.cacheBehaviors, with: CloudFrontClientTypes.CacheBehaviors.write(value:to:))
         try writer["CallerReference"].write(value.callerReference)
         try writer["Comment"].write(value.comment)
@@ -21100,6 +22419,7 @@ extension CloudFrontClientTypes.DistributionConfig {
         value.isIPV6Enabled = try reader["IsIPV6Enabled"].readIfPresent()
         value.continuousDeploymentPolicyId = try reader["ContinuousDeploymentPolicyId"].readIfPresent()
         value.staging = try reader["Staging"].readIfPresent()
+        value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
         return value
     }
 }
@@ -21252,6 +22572,7 @@ extension CloudFrontClientTypes.CacheBehavior {
         try writer["FieldLevelEncryptionId"].write(value.fieldLevelEncryptionId)
         try writer["ForwardedValues"].write(value.forwardedValues, with: CloudFrontClientTypes.ForwardedValues.write(value:to:))
         try writer["FunctionAssociations"].write(value.functionAssociations, with: CloudFrontClientTypes.FunctionAssociations.write(value:to:))
+        try writer["GrpcConfig"].write(value.grpcConfig, with: CloudFrontClientTypes.GrpcConfig.write(value:to:))
         try writer["LambdaFunctionAssociations"].write(value.lambdaFunctionAssociations, with: CloudFrontClientTypes.LambdaFunctionAssociations.write(value:to:))
         try writer["MaxTTL"].write(value.maxTTL)
         try writer["MinTTL"].write(value.minTTL)
@@ -21284,6 +22605,7 @@ extension CloudFrontClientTypes.CacheBehavior {
         value.cachePolicyId = try reader["CachePolicyId"].readIfPresent()
         value.originRequestPolicyId = try reader["OriginRequestPolicyId"].readIfPresent()
         value.responseHeadersPolicyId = try reader["ResponseHeadersPolicyId"].readIfPresent()
+        value.grpcConfig = try reader["GrpcConfig"].readIfPresent(with: CloudFrontClientTypes.GrpcConfig.read(from:))
         value.forwardedValues = try reader["ForwardedValues"].readIfPresent(with: CloudFrontClientTypes.ForwardedValues.read(from:))
         value.minTTL = try reader["MinTTL"].readIfPresent()
         value.defaultTTL = try reader["DefaultTTL"].readIfPresent()
@@ -21377,6 +22699,21 @@ extension CloudFrontClientTypes.CookieNames {
         var value = CloudFrontClientTypes.CookieNames()
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Name", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.GrpcConfig {
+
+    static func write(value: CloudFrontClientTypes.GrpcConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.GrpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.GrpcConfig()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -21536,6 +22873,7 @@ extension CloudFrontClientTypes.DefaultCacheBehavior {
         try writer["FieldLevelEncryptionId"].write(value.fieldLevelEncryptionId)
         try writer["ForwardedValues"].write(value.forwardedValues, with: CloudFrontClientTypes.ForwardedValues.write(value:to:))
         try writer["FunctionAssociations"].write(value.functionAssociations, with: CloudFrontClientTypes.FunctionAssociations.write(value:to:))
+        try writer["GrpcConfig"].write(value.grpcConfig, with: CloudFrontClientTypes.GrpcConfig.write(value:to:))
         try writer["LambdaFunctionAssociations"].write(value.lambdaFunctionAssociations, with: CloudFrontClientTypes.LambdaFunctionAssociations.write(value:to:))
         try writer["MaxTTL"].write(value.maxTTL)
         try writer["MinTTL"].write(value.minTTL)
@@ -21566,6 +22904,7 @@ extension CloudFrontClientTypes.DefaultCacheBehavior {
         value.cachePolicyId = try reader["CachePolicyId"].readIfPresent()
         value.originRequestPolicyId = try reader["OriginRequestPolicyId"].readIfPresent()
         value.responseHeadersPolicyId = try reader["ResponseHeadersPolicyId"].readIfPresent()
+        value.grpcConfig = try reader["GrpcConfig"].readIfPresent(with: CloudFrontClientTypes.GrpcConfig.read(from:))
         value.forwardedValues = try reader["ForwardedValues"].readIfPresent(with: CloudFrontClientTypes.ForwardedValues.read(from:))
         value.minTTL = try reader["MinTTL"].readIfPresent()
         value.defaultTTL = try reader["DefaultTTL"].readIfPresent()
@@ -21705,6 +23044,7 @@ extension CloudFrontClientTypes.Origin {
         try writer["OriginPath"].write(value.originPath)
         try writer["OriginShield"].write(value.originShield, with: CloudFrontClientTypes.OriginShield.write(value:to:))
         try writer["S3OriginConfig"].write(value.s3OriginConfig, with: CloudFrontClientTypes.S3OriginConfig.write(value:to:))
+        try writer["VpcOriginConfig"].write(value.vpcOriginConfig, with: CloudFrontClientTypes.VpcOriginConfig.write(value:to:))
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Origin {
@@ -21716,6 +23056,7 @@ extension CloudFrontClientTypes.Origin {
         value.customHeaders = try reader["CustomHeaders"].readIfPresent(with: CloudFrontClientTypes.CustomHeaders.read(from:))
         value.s3OriginConfig = try reader["S3OriginConfig"].readIfPresent(with: CloudFrontClientTypes.S3OriginConfig.read(from:))
         value.customOriginConfig = try reader["CustomOriginConfig"].readIfPresent(with: CloudFrontClientTypes.CustomOriginConfig.read(from:))
+        value.vpcOriginConfig = try reader["VpcOriginConfig"].readIfPresent(with: CloudFrontClientTypes.VpcOriginConfig.read(from:))
         value.connectionAttempts = try reader["ConnectionAttempts"].readIfPresent()
         value.connectionTimeout = try reader["ConnectionTimeout"].readIfPresent()
         value.originShield = try reader["OriginShield"].readIfPresent(with: CloudFrontClientTypes.OriginShield.read(from:))
@@ -21737,6 +23078,21 @@ extension CloudFrontClientTypes.OriginShield {
         var value = CloudFrontClientTypes.OriginShield()
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.originShieldRegion = try reader["OriginShieldRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.VpcOriginConfig {
+
+    static func write(value: CloudFrontClientTypes.VpcOriginConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["VpcOriginId"].write(value.vpcOriginId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOriginConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.VpcOriginConfig()
+        value.vpcOriginId = try reader["VpcOriginId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -21902,6 +23258,22 @@ extension CloudFrontClientTypes.Signer {
         var value = CloudFrontClientTypes.Signer()
         value.awsAccountNumber = try reader["AwsAccountNumber"].readIfPresent()
         value.keyPairIds = try reader["KeyPairIds"].readIfPresent(with: CloudFrontClientTypes.KeyPairIds.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.AnycastIpList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AnycastIpList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.AnycastIpList()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.anycastIps = try reader["AnycastIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AnycastIp", isFlattened: false) ?? []
+        value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -23238,6 +24610,76 @@ extension CloudFrontClientTypes.S3Origin {
     }
 }
 
+extension CloudFrontClientTypes.VpcOrigin {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOrigin {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.VpcOrigin()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.vpcOriginEndpointConfig = try reader["VpcOriginEndpointConfig"].readIfPresent(with: CloudFrontClientTypes.VpcOriginEndpointConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.VpcOriginEndpointConfig {
+
+    static func write(value: CloudFrontClientTypes.VpcOriginEndpointConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["HTTPPort"].write(value.httpPort)
+        try writer["HTTPSPort"].write(value.httpsPort)
+        try writer["Name"].write(value.name)
+        try writer["OriginProtocolPolicy"].write(value.originProtocolPolicy)
+        try writer["OriginSslProtocols"].write(value.originSslProtocols, with: CloudFrontClientTypes.OriginSslProtocols.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOriginEndpointConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.VpcOriginEndpointConfig()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.httpPort = try reader["HTTPPort"].readIfPresent() ?? 0
+        value.httpsPort = try reader["HTTPSPort"].readIfPresent() ?? 0
+        value.originProtocolPolicy = try reader["OriginProtocolPolicy"].readIfPresent() ?? .sdkUnknown("")
+        value.originSslProtocols = try reader["OriginSslProtocols"].readIfPresent(with: CloudFrontClientTypes.OriginSslProtocols.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.AnycastIpListCollection {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AnycastIpListCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.AnycastIpListCollection()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.AnycastIpListSummary.read(from:), memberNodeInfo: "AnycastIpListSummary", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.AnycastIpListSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AnycastIpListSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.AnycastIpListSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension CloudFrontClientTypes.CachePolicyList {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.CachePolicyList {
@@ -23378,6 +24820,7 @@ extension CloudFrontClientTypes.DistributionSummary {
         value.isIPV6Enabled = try reader["IsIPV6Enabled"].readIfPresent() ?? false
         value.aliasICPRecordals = try reader["AliasICPRecordals"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.AliasICPRecordal.read(from:), memberNodeInfo: "AliasICPRecordal", isFlattened: false)
         value.staging = try reader["Staging"].readIfPresent() ?? false
+        value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
         return value
     }
 }
@@ -23709,6 +25152,37 @@ extension CloudFrontClientTypes.Tag {
         var value = CloudFrontClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.VpcOriginList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOriginList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.VpcOriginList()
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.VpcOriginSummary.read(from:), memberNodeInfo: "VpcOriginSummary", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.VpcOriginSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOriginSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.VpcOriginSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.originEndpointArn = try reader["OriginEndpointArn"].readIfPresent() ?? ""
         return value
     }
 }
