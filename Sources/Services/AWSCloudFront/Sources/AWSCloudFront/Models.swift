@@ -3665,7 +3665,36 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// An origin group includes two origins (a primary origin and a second origin to failover to) and a failover criteria that you specify. You create an origin group to support origin failover in CloudFront. When you create or update a distribution, you can specify the origin group instead of a single origin, and CloudFront will failover from the primary origin to the second origin under the failover conditions that you've chosen.
+    public enum OriginGroupSelectionCriteria: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case mediaqualitybased
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OriginGroupSelectionCriteria] {
+            return [
+                .default,
+                .mediaqualitybased
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "default"
+            case .mediaqualitybased: return "media-quality-based"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// An origin group includes two origins (a primary origin and a secondary origin to failover to) and a failover criteria that you specify. You create an origin group to support origin failover in CloudFront. When you create or update a distribution, you can specify the origin group instead of a single origin, and CloudFront will failover from the primary origin to the secondary origin under the failover conditions that you've chosen. Optionally, you can choose selection criteria for your origin group to specify how your origins are selected when your distribution routes viewer requests.
     public struct OriginGroup: Swift.Sendable, Swift.Equatable {
         /// A complex type that contains information about the failover criteria for an origin group.
         /// This member is required.
@@ -3676,16 +3705,20 @@ extension CloudFrontClientTypes {
         /// A complex type that contains information about the origins in an origin group.
         /// This member is required.
         public var members: CloudFrontClientTypes.OriginGroupMembers?
+        /// The selection criteria for the origin group. For more information, see [Create an origin group](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/high_availability_origin_failover.html#concept_origin_groups.creating) in the Amazon CloudFront Developer Guide.
+        public var selectionCriteria: CloudFrontClientTypes.OriginGroupSelectionCriteria?
 
         public init(
             failoverCriteria: CloudFrontClientTypes.OriginGroupFailoverCriteria? = nil,
             id: Swift.String? = nil,
-            members: CloudFrontClientTypes.OriginGroupMembers? = nil
+            members: CloudFrontClientTypes.OriginGroupMembers? = nil,
+            selectionCriteria: CloudFrontClientTypes.OriginGroupSelectionCriteria? = nil
         )
         {
             self.failoverCriteria = failoverCriteria
             self.id = id
             self.members = members
+            self.selectionCriteria = selectionCriteria
         }
     }
 }
@@ -22937,6 +22970,7 @@ extension CloudFrontClientTypes.OriginGroup {
         try writer["FailoverCriteria"].write(value.failoverCriteria, with: CloudFrontClientTypes.OriginGroupFailoverCriteria.write(value:to:))
         try writer["Id"].write(value.id)
         try writer["Members"].write(value.members, with: CloudFrontClientTypes.OriginGroupMembers.write(value:to:))
+        try writer["SelectionCriteria"].write(value.selectionCriteria)
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginGroup {
@@ -22945,6 +22979,7 @@ extension CloudFrontClientTypes.OriginGroup {
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.failoverCriteria = try reader["FailoverCriteria"].readIfPresent(with: CloudFrontClientTypes.OriginGroupFailoverCriteria.read(from:))
         value.members = try reader["Members"].readIfPresent(with: CloudFrontClientTypes.OriginGroupMembers.read(from:))
+        value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent()
         return value
     }
 }
