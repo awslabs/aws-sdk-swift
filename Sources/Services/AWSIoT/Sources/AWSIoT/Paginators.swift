@@ -439,6 +439,76 @@ extension PaginatorSequence where OperationStackInput == ListCertificatesByCAInp
     }
 }
 extension IoTClient {
+    /// Paginate over `[ListCommandExecutionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCommandExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCommandExecutionsOutput`
+    public func listCommandExecutionsPaginated(input: ListCommandExecutionsInput) -> ClientRuntime.PaginatorSequence<ListCommandExecutionsInput, ListCommandExecutionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCommandExecutionsInput, ListCommandExecutionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCommandExecutions(input:))
+    }
+}
+
+extension ListCommandExecutionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCommandExecutionsInput {
+        return ListCommandExecutionsInput(
+            commandArn: self.commandArn,
+            completedTimeFilter: self.completedTimeFilter,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token,
+            sortOrder: self.sortOrder,
+            startedTimeFilter: self.startedTimeFilter,
+            status: self.status,
+            targetArn: self.targetArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCommandExecutionsInput, OperationStackOutput == ListCommandExecutionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCommandExecutionsPaginated`
+    /// to access the nested member `[IoTClientTypes.CommandExecutionSummary]`
+    /// - Returns: `[IoTClientTypes.CommandExecutionSummary]`
+    public func commandExecutions() async throws -> [IoTClientTypes.CommandExecutionSummary] {
+        return try await self.asyncCompactMap { item in item.commandExecutions }
+    }
+}
+extension IoTClient {
+    /// Paginate over `[ListCommandsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCommandsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCommandsOutput`
+    public func listCommandsPaginated(input: ListCommandsInput) -> ClientRuntime.PaginatorSequence<ListCommandsInput, ListCommandsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCommandsInput, ListCommandsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCommands(input:))
+    }
+}
+
+extension ListCommandsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCommandsInput {
+        return ListCommandsInput(
+            commandParameterName: self.commandParameterName,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCommandsInput, OperationStackOutput == ListCommandsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCommandsPaginated`
+    /// to access the nested member `[IoTClientTypes.CommandSummary]`
+    /// - Returns: `[IoTClientTypes.CommandSummary]`
+    public func commands() async throws -> [IoTClientTypes.CommandSummary] {
+        return try await self.asyncCompactMap { item in item.commands }
+    }
+}
+extension IoTClient {
     /// Paginate over `[ListCustomMetricsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
