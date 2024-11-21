@@ -17,6 +17,7 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+@_spi(SmithyReadWrite) import func SmithyReadWrite.timestampReadingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -856,6 +857,8 @@ extension ApplicationAutoScalingClientTypes {
         /// The minimum value to scale to in response to a scale-in activity.
         /// This member is required.
         public var minCapacity: Swift.Int?
+        /// The predicted capacity of the scalable target.
+        public var predictedCapacity: Swift.Int?
         /// The identifier of the resource associated with the scalable target. This string consists of the resource type and unique identifier.
         ///
         /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
@@ -961,6 +964,7 @@ extension ApplicationAutoScalingClientTypes {
             creationTime: Foundation.Date? = nil,
             maxCapacity: Swift.Int? = nil,
             minCapacity: Swift.Int? = nil,
+            predictedCapacity: Swift.Int? = nil,
             resourceId: Swift.String? = nil,
             roleARN: Swift.String? = nil,
             scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
@@ -972,6 +976,7 @@ extension ApplicationAutoScalingClientTypes {
             self.creationTime = creationTime
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
+            self.predictedCapacity = predictedCapacity
             self.resourceId = resourceId
             self.roleARN = roleARN
             self.scalableDimension = scalableDimension
@@ -1507,12 +1512,14 @@ public struct DescribeScalingPoliciesInput: Swift.Sendable {
 extension ApplicationAutoScalingClientTypes {
 
     public enum PolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case predictivescaling
         case stepscaling
         case targettrackingscaling
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PolicyType] {
             return [
+                .predictivescaling,
                 .stepscaling,
                 .targettrackingscaling
             ]
@@ -1525,10 +1532,328 @@ extension ApplicationAutoScalingClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .predictivescaling: return "PredictiveScaling"
             case .stepscaling: return "StepScaling"
             case .targettrackingscaling: return "TargetTrackingScaling"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    public enum PredictiveScalingMaxCapacityBreachBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case honormaxcapacity
+        case increasemaxcapacity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PredictiveScalingMaxCapacityBreachBehavior] {
+            return [
+                .honormaxcapacity,
+                .increasemaxcapacity
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .honormaxcapacity: return "HonorMaxCapacity"
+            case .increasemaxcapacity: return "IncreaseMaxCapacity"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// Describes the dimension of a metric.
+    public struct PredictiveScalingMetricDimension: Swift.Sendable {
+        /// The name of the dimension.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value of the dimension.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// Describes the scaling metric.
+    public struct PredictiveScalingMetric: Swift.Sendable {
+        /// Describes the dimensions of the metric.
+        public var dimensions: [ApplicationAutoScalingClientTypes.PredictiveScalingMetricDimension]?
+        /// The name of the metric.
+        public var metricName: Swift.String?
+        /// The namespace of the metric.
+        public var namespace: Swift.String?
+
+        public init(
+            dimensions: [ApplicationAutoScalingClientTypes.PredictiveScalingMetricDimension]? = nil,
+            metricName: Swift.String? = nil,
+            namespace: Swift.String? = nil
+        )
+        {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// This structure defines the CloudWatch metric to return, along with the statistic and unit.
+    public struct PredictiveScalingMetricStat: Swift.Sendable {
+        /// The CloudWatch metric to return, including the metric name, namespace, and dimensions. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
+        /// This member is required.
+        public var metric: ApplicationAutoScalingClientTypes.PredictiveScalingMetric?
+        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in [Statistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic) in the Amazon CloudWatch User Guide. The most commonly used metrics for predictive scaling are Average and Sum.
+        /// This member is required.
+        public var stat: Swift.String?
+        /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
+        public var unit: Swift.String?
+
+        public init(
+            metric: ApplicationAutoScalingClientTypes.PredictiveScalingMetric? = nil,
+            stat: Swift.String? = nil,
+            unit: Swift.String? = nil
+        )
+        {
+            self.metric = metric
+            self.stat = stat
+            self.unit = unit
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// The metric data to return. Also defines whether this call is returning data for one metric only, or whether it is performing a math expression on the values of returned metric statistics to create a new time series. A time series is a series of data points, each of which is associated with a timestamp.
+    public struct PredictiveScalingMetricDataQuery: Swift.Sendable {
+        /// The math expression to perform on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. Conditional: Within each MetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public var expression: Swift.String?
+        /// A short name that identifies the object's results in the response. This name must be unique among all MetricDataQuery objects specified for a single scaling policy. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscores. The first character must be a lowercase letter.
+        /// This member is required.
+        public var id: Swift.String?
+        /// A human-readable label for this metric or expression. This is especially useful if this is a math expression, so that you know what the value represents.
+        public var label: Swift.String?
+        /// Information about the metric data to return. Conditional: Within each MetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public var metricStat: ApplicationAutoScalingClientTypes.PredictiveScalingMetricStat?
+        /// Indicates whether to return the timestamps and raw data values of this metric. If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
+        public var returnData: Swift.Bool?
+
+        public init(
+            expression: Swift.String? = nil,
+            id: Swift.String? = nil,
+            label: Swift.String? = nil,
+            metricStat: ApplicationAutoScalingClientTypes.PredictiveScalingMetricStat? = nil,
+            returnData: Swift.Bool? = nil
+        )
+        {
+            self.expression = expression
+            self.id = id
+            self.label = label
+            self.metricStat = metricStat
+            self.returnData = returnData
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// Represents a CloudWatch metric of your choosing for a predictive scaling policy.
+    public struct PredictiveScalingCustomizedMetricSpecification: Swift.Sendable {
+        /// One or more metric data queries to provide data points for a metric specification.
+        /// This member is required.
+        public var metricDataQueries: [ApplicationAutoScalingClientTypes.PredictiveScalingMetricDataQuery]?
+
+        public init(
+            metricDataQueries: [ApplicationAutoScalingClientTypes.PredictiveScalingMetricDataQuery]? = nil
+        )
+        {
+            self.metricDataQueries = metricDataQueries
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// Describes a load metric for a predictive scaling policy. When returned in the output of DescribePolicies, it indicates that a predictive scaling policy uses individually specified load and scaling metrics instead of a metric pair.
+    public struct PredictiveScalingPredefinedLoadMetricSpecification: Swift.Sendable {
+        /// The metric type.
+        /// This member is required.
+        public var predefinedMetricType: Swift.String?
+        /// A label that uniquely identifies a target group.
+        public var resourceLabel: Swift.String?
+
+        public init(
+            predefinedMetricType: Swift.String? = nil,
+            resourceLabel: Swift.String? = nil
+        )
+        {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// Represents a metric pair for a predictive scaling policy.
+    public struct PredictiveScalingPredefinedMetricPairSpecification: Swift.Sendable {
+        /// Indicates which metrics to use. There are two different types of metrics for each metric type: one is a load metric and one is a scaling metric.
+        /// This member is required.
+        public var predefinedMetricType: Swift.String?
+        /// A label that uniquely identifies a specific target group from which to determine the total and average request count.
+        public var resourceLabel: Swift.String?
+
+        public init(
+            predefinedMetricType: Swift.String? = nil,
+            resourceLabel: Swift.String? = nil
+        )
+        {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// Describes a scaling metric for a predictive scaling policy. When returned in the output of DescribePolicies, it indicates that a predictive scaling policy uses individually specified load and scaling metrics instead of a metric pair.
+    public struct PredictiveScalingPredefinedScalingMetricSpecification: Swift.Sendable {
+        /// The metric type.
+        /// This member is required.
+        public var predefinedMetricType: Swift.String?
+        /// A label that uniquely identifies a specific target group from which to determine the average request count.
+        public var resourceLabel: Swift.String?
+
+        public init(
+            predefinedMetricType: Swift.String? = nil,
+            resourceLabel: Swift.String? = nil
+        )
+        {
+            self.predefinedMetricType = predefinedMetricType
+            self.resourceLabel = resourceLabel
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// This structure specifies the metrics and target utilization settings for a predictive scaling policy. You must specify either a metric pair, or a load metric and a scaling metric individually. Specifying a metric pair instead of individual metrics provides a simpler way to configure metrics for a scaling policy. You choose the metric pair, and the policy automatically knows the correct sum and average statistics to use for the load metric and the scaling metric.
+    public struct PredictiveScalingMetricSpecification: Swift.Sendable {
+        /// The customized capacity metric specification.
+        public var customizedCapacityMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification?
+        /// The customized load metric specification.
+        public var customizedLoadMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification?
+        /// The customized scaling metric specification.
+        public var customizedScalingMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification?
+        /// The predefined load metric specification.
+        public var predefinedLoadMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedLoadMetricSpecification?
+        /// The predefined metric pair specification that determines the appropriate scaling metric and load metric to use.
+        public var predefinedMetricPairSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedMetricPairSpecification?
+        /// The predefined scaling metric specification.
+        public var predefinedScalingMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedScalingMetricSpecification?
+        /// Specifies the target utilization.
+        /// This member is required.
+        public var targetValue: Swift.Double?
+
+        public init(
+            customizedCapacityMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification? = nil,
+            customizedLoadMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification? = nil,
+            customizedScalingMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification? = nil,
+            predefinedLoadMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedLoadMetricSpecification? = nil,
+            predefinedMetricPairSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedMetricPairSpecification? = nil,
+            predefinedScalingMetricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedScalingMetricSpecification? = nil,
+            targetValue: Swift.Double? = nil
+        )
+        {
+            self.customizedCapacityMetricSpecification = customizedCapacityMetricSpecification
+            self.customizedLoadMetricSpecification = customizedLoadMetricSpecification
+            self.customizedScalingMetricSpecification = customizedScalingMetricSpecification
+            self.predefinedLoadMetricSpecification = predefinedLoadMetricSpecification
+            self.predefinedMetricPairSpecification = predefinedMetricPairSpecification
+            self.predefinedScalingMetricSpecification = predefinedScalingMetricSpecification
+            self.targetValue = targetValue
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    public enum PredictiveScalingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case forecastandscale
+        case forecastonly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PredictiveScalingMode] {
+            return [
+                .forecastandscale,
+                .forecastonly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .forecastandscale: return "ForecastAndScale"
+            case .forecastonly: return "ForecastOnly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// Represents a predictive scaling policy configuration.
+    public struct PredictiveScalingPolicyConfiguration: Swift.Sendable {
+        /// Defines the behavior that should be applied if the forecast capacity approaches or exceeds the maximum capacity. Defaults to HonorMaxCapacity if not specified.
+        public var maxCapacityBreachBehavior: ApplicationAutoScalingClientTypes.PredictiveScalingMaxCapacityBreachBehavior?
+        /// The size of the capacity buffer to use when the forecast capacity is close to or exceeds the maximum capacity. The value is specified as a percentage relative to the forecast capacity. For example, if the buffer is 10, this means a 10 percent buffer, such that if the forecast capacity is 50, and the maximum capacity is 40, then the effective maximum capacity is 55. Required if the MaxCapacityBreachBehavior property is set to IncreaseMaxCapacity, and cannot be used otherwise.
+        public var maxCapacityBuffer: Swift.Int?
+        /// This structure includes the metrics and target utilization to use for predictive scaling. This is an array, but we currently only support a single metric specification. That is, you can specify a target value and a single metric pair, or a target value and one scaling metric and one load metric.
+        /// This member is required.
+        public var metricSpecifications: [ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification]?
+        /// The predictive scaling mode. Defaults to ForecastOnly if not specified.
+        public var mode: ApplicationAutoScalingClientTypes.PredictiveScalingMode?
+        /// The amount of time, in seconds, that the start time can be advanced. The value must be less than the forecast interval duration of 3600 seconds (60 minutes). Defaults to 300 seconds if not specified.
+        public var schedulingBufferTime: Swift.Int?
+
+        public init(
+            maxCapacityBreachBehavior: ApplicationAutoScalingClientTypes.PredictiveScalingMaxCapacityBreachBehavior? = nil,
+            maxCapacityBuffer: Swift.Int? = nil,
+            metricSpecifications: [ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification]? = nil,
+            mode: ApplicationAutoScalingClientTypes.PredictiveScalingMode? = nil,
+            schedulingBufferTime: Swift.Int? = nil
+        )
+        {
+            self.maxCapacityBreachBehavior = maxCapacityBreachBehavior
+            self.maxCapacityBuffer = maxCapacityBuffer
+            self.metricSpecifications = metricSpecifications
+            self.mode = mode
+            self.schedulingBufferTime = schedulingBufferTime
         }
     }
 }
@@ -1951,7 +2276,7 @@ extension ApplicationAutoScalingClientTypes {
 
 extension ApplicationAutoScalingClientTypes {
 
-    /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. For more information, [Predefined metrics for target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/monitor-cloudwatch-metrics.html#predefined-metrics) in the Application Auto Scaling User Guide.
+    /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. For more information, [Predefined metrics for target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html#predefined-metrics) in the Application Auto Scaling User Guide.
     public struct PredefinedMetricSpecification: Swift.Sendable {
         /// The metric type. The ALBRequestCountPerTarget metric type applies only to Spot Fleets and ECS services.
         /// This member is required.
@@ -2032,6 +2357,8 @@ extension ApplicationAutoScalingClientTypes {
         /// The scaling policy type. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune.
         /// This member is required.
         public var policyType: ApplicationAutoScalingClientTypes.PolicyType?
+        /// The predictive scaling policy configuration.
+        public var predictiveScalingPolicyConfiguration: ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration?
         /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
         ///
         /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
@@ -2136,6 +2463,7 @@ extension ApplicationAutoScalingClientTypes {
             policyARN: Swift.String? = nil,
             policyName: Swift.String? = nil,
             policyType: ApplicationAutoScalingClientTypes.PolicyType? = nil,
+            predictiveScalingPolicyConfiguration: ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration? = nil,
             resourceId: Swift.String? = nil,
             scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
             serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
@@ -2148,6 +2476,7 @@ extension ApplicationAutoScalingClientTypes {
             self.policyARN = policyARN
             self.policyName = policyName
             self.policyType = policyType
+            self.predictiveScalingPolicyConfiguration = predictiveScalingPolicyConfiguration
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
@@ -2481,6 +2810,113 @@ public struct DescribeScheduledActionsOutput: Swift.Sendable {
     }
 }
 
+public struct GetPredictiveScalingForecastInput: Swift.Sendable {
+    /// The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is 30 days.
+    /// This member is required.
+    public var endTime: Foundation.Date?
+    /// The name of the policy.
+    /// This member is required.
+    public var policyName: Swift.String?
+    /// The identifier of the resource.
+    /// This member is required.
+    public var resourceId: Swift.String?
+    /// The scalable dimension.
+    /// This member is required.
+    public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
+    /// The namespace of the Amazon Web Services service that provides the resource. For a resource provided by your own application or service, use custom-resource instead.
+    /// This member is required.
+    public var serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
+    /// The inclusive start time of the time range for the forecast data to get. At most, the date and time can be one year before the current date and time
+    /// This member is required.
+    public var startTime: Foundation.Date?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        policyName: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
+        serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
+        startTime: Foundation.Date? = nil
+    )
+    {
+        self.endTime = endTime
+        self.policyName = policyName
+        self.resourceId = resourceId
+        self.scalableDimension = scalableDimension
+        self.serviceNamespace = serviceNamespace
+        self.startTime = startTime
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// A GetPredictiveScalingForecast call returns the capacity forecast for a predictive scaling policy. This structure includes the data points for that capacity forecast, along with the timestamps of those data points.
+    public struct CapacityForecast: Swift.Sendable {
+        /// The timestamps for the data points, in UTC format.
+        /// This member is required.
+        public var timestamps: [Foundation.Date]?
+        /// The values of the data points.
+        /// This member is required.
+        public var values: [Swift.Double]?
+
+        public init(
+            timestamps: [Foundation.Date]? = nil,
+            values: [Swift.Double]? = nil
+        )
+        {
+            self.timestamps = timestamps
+            self.values = values
+        }
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+
+    /// A GetPredictiveScalingForecast call returns the load forecast for a predictive scaling policy. This structure includes the data points for that load forecast, along with the timestamps of those data points and the metric specification.
+    public struct LoadForecast: Swift.Sendable {
+        /// The metric specification for the load forecast.
+        /// This member is required.
+        public var metricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification?
+        /// The timestamps for the data points, in UTC format.
+        /// This member is required.
+        public var timestamps: [Foundation.Date]?
+        /// The values of the data points.
+        /// This member is required.
+        public var values: [Swift.Double]?
+
+        public init(
+            metricSpecification: ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification? = nil,
+            timestamps: [Foundation.Date]? = nil,
+            values: [Swift.Double]? = nil
+        )
+        {
+            self.metricSpecification = metricSpecification
+            self.timestamps = timestamps
+            self.values = values
+        }
+    }
+}
+
+public struct GetPredictiveScalingForecastOutput: Swift.Sendable {
+    /// The capacity forecast.
+    public var capacityForecast: ApplicationAutoScalingClientTypes.CapacityForecast?
+    /// The load forecast.
+    public var loadForecast: [ApplicationAutoScalingClientTypes.LoadForecast]?
+    /// The time the forecast was made.
+    public var updateTime: Foundation.Date?
+
+    public init(
+        capacityForecast: ApplicationAutoScalingClientTypes.CapacityForecast? = nil,
+        loadForecast: [ApplicationAutoScalingClientTypes.LoadForecast]? = nil,
+        updateTime: Foundation.Date? = nil
+    )
+    {
+        self.capacityForecast = capacityForecast
+        self.loadForecast = loadForecast
+        self.updateTime = updateTime
+    }
+}
+
 /// The specified resource doesn't exist.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -2564,6 +3000,8 @@ public struct PutScalingPolicyInput: Swift.Sendable {
     public var policyName: Swift.String?
     /// The scaling policy type. This parameter is required if you are creating a scaling policy. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR. StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
     public var policyType: ApplicationAutoScalingClientTypes.PolicyType?
+    /// The configuration of the predictive scaling policy.
+    public var predictiveScalingPolicyConfiguration: ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration?
     /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
     ///
     /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/my-cluster/my-service.
@@ -2665,6 +3103,7 @@ public struct PutScalingPolicyInput: Swift.Sendable {
     public init(
         policyName: Swift.String? = nil,
         policyType: ApplicationAutoScalingClientTypes.PolicyType? = nil,
+        predictiveScalingPolicyConfiguration: ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration? = nil,
         resourceId: Swift.String? = nil,
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
@@ -2674,6 +3113,7 @@ public struct PutScalingPolicyInput: Swift.Sendable {
     {
         self.policyName = policyName
         self.policyType = policyType
+        self.predictiveScalingPolicyConfiguration = predictiveScalingPolicyConfiguration
         self.resourceId = resourceId
         self.scalableDimension = scalableDimension
         self.serviceNamespace = serviceNamespace
@@ -3139,6 +3579,13 @@ extension DescribeScheduledActionsInput {
     }
 }
 
+extension GetPredictiveScalingForecastInput {
+
+    static func urlPathProvider(_ value: GetPredictiveScalingForecastInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -3264,6 +3711,19 @@ extension DescribeScheduledActionsInput {
     }
 }
 
+extension GetPredictiveScalingForecastInput {
+
+    static func write(value: GetPredictiveScalingForecastInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["PolicyName"].write(value.policyName)
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["ScalableDimension"].write(value.scalableDimension)
+        try writer["ServiceNamespace"].write(value.serviceNamespace)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -3278,6 +3738,7 @@ extension PutScalingPolicyInput {
         guard let value else { return }
         try writer["PolicyName"].write(value.policyName)
         try writer["PolicyType"].write(value.policyType)
+        try writer["PredictiveScalingPolicyConfiguration"].write(value.predictiveScalingPolicyConfiguration, with: ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration.write(value:to:))
         try writer["ResourceId"].write(value.resourceId)
         try writer["ScalableDimension"].write(value.scalableDimension)
         try writer["ServiceNamespace"].write(value.serviceNamespace)
@@ -3404,6 +3865,20 @@ extension DescribeScheduledActionsOutput {
         var value = DescribeScheduledActionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.scheduledActions = try reader["ScheduledActions"].readListIfPresent(memberReadingClosure: ApplicationAutoScalingClientTypes.ScheduledAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetPredictiveScalingForecastOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPredictiveScalingForecastOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPredictiveScalingForecastOutput()
+        value.capacityForecast = try reader["CapacityForecast"].readIfPresent(with: ApplicationAutoScalingClientTypes.CapacityForecast.read(from:))
+        value.loadForecast = try reader["LoadForecast"].readListIfPresent(memberReadingClosure: ApplicationAutoScalingClientTypes.LoadForecast.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3580,6 +4055,21 @@ enum DescribeScheduledActionsOutputError {
             case "ConcurrentUpdateException": return try ConcurrentUpdateException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPredictiveScalingForecastOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3814,6 +4304,7 @@ extension ApplicationAutoScalingClientTypes.ScalableTarget {
         value.scalableDimension = try reader["ScalableDimension"].readIfPresent() ?? .sdkUnknown("")
         value.minCapacity = try reader["MinCapacity"].readIfPresent() ?? 0
         value.maxCapacity = try reader["MaxCapacity"].readIfPresent() ?? 0
+        value.predictedCapacity = try reader["PredictedCapacity"].readIfPresent()
         value.roleARN = try reader["RoleARN"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.suspendedState = try reader["SuspendedState"].readIfPresent(with: ApplicationAutoScalingClientTypes.SuspendedState.read(from:))
@@ -3888,6 +4379,7 @@ extension ApplicationAutoScalingClientTypes.ScalingPolicy {
         value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
         value.stepScalingPolicyConfiguration = try reader["StepScalingPolicyConfiguration"].readIfPresent(with: ApplicationAutoScalingClientTypes.StepScalingPolicyConfiguration.read(from:))
         value.targetTrackingScalingPolicyConfiguration = try reader["TargetTrackingScalingPolicyConfiguration"].readIfPresent(with: ApplicationAutoScalingClientTypes.TargetTrackingScalingPolicyConfiguration.read(from:))
+        value.predictiveScalingPolicyConfiguration = try reader["PredictiveScalingPolicyConfiguration"].readIfPresent(with: ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration.read(from:))
         value.alarms = try reader["Alarms"].readListIfPresent(memberReadingClosure: ApplicationAutoScalingClientTypes.Alarm.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -3901,6 +4393,200 @@ extension ApplicationAutoScalingClientTypes.Alarm {
         var value = ApplicationAutoScalingClientTypes.Alarm()
         value.alarmName = try reader["AlarmName"].readIfPresent() ?? ""
         value.alarmARN = try reader["AlarmARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration {
+
+    static func write(value: ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxCapacityBreachBehavior"].write(value.maxCapacityBreachBehavior)
+        try writer["MaxCapacityBuffer"].write(value.maxCapacityBuffer)
+        try writer["MetricSpecifications"].writeList(value.metricSpecifications, memberWritingClosure: ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Mode"].write(value.mode)
+        try writer["SchedulingBufferTime"].write(value.schedulingBufferTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration()
+        value.metricSpecifications = try reader["MetricSpecifications"].readListIfPresent(memberReadingClosure: ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mode = try reader["Mode"].readIfPresent()
+        value.schedulingBufferTime = try reader["SchedulingBufferTime"].readIfPresent()
+        value.maxCapacityBreachBehavior = try reader["MaxCapacityBreachBehavior"].readIfPresent()
+        value.maxCapacityBuffer = try reader["MaxCapacityBuffer"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification {
+
+    static func write(value: ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomizedCapacityMetricSpecification"].write(value.customizedCapacityMetricSpecification, with: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification.write(value:to:))
+        try writer["CustomizedLoadMetricSpecification"].write(value.customizedLoadMetricSpecification, with: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification.write(value:to:))
+        try writer["CustomizedScalingMetricSpecification"].write(value.customizedScalingMetricSpecification, with: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification.write(value:to:))
+        try writer["PredefinedLoadMetricSpecification"].write(value.predefinedLoadMetricSpecification, with: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedLoadMetricSpecification.write(value:to:))
+        try writer["PredefinedMetricPairSpecification"].write(value.predefinedMetricPairSpecification, with: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedMetricPairSpecification.write(value:to:))
+        try writer["PredefinedScalingMetricSpecification"].write(value.predefinedScalingMetricSpecification, with: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedScalingMetricSpecification.write(value:to:))
+        try writer["TargetValue"].write(value.targetValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification()
+        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
+        value.predefinedMetricPairSpecification = try reader["PredefinedMetricPairSpecification"].readIfPresent(with: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedMetricPairSpecification.read(from:))
+        value.predefinedScalingMetricSpecification = try reader["PredefinedScalingMetricSpecification"].readIfPresent(with: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedScalingMetricSpecification.read(from:))
+        value.predefinedLoadMetricSpecification = try reader["PredefinedLoadMetricSpecification"].readIfPresent(with: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedLoadMetricSpecification.read(from:))
+        value.customizedScalingMetricSpecification = try reader["CustomizedScalingMetricSpecification"].readIfPresent(with: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification.read(from:))
+        value.customizedLoadMetricSpecification = try reader["CustomizedLoadMetricSpecification"].readIfPresent(with: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification.read(from:))
+        value.customizedCapacityMetricSpecification = try reader["CustomizedCapacityMetricSpecification"].readIfPresent(with: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification.read(from:))
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification {
+
+    static func write(value: ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: ApplicationAutoScalingClientTypes.PredictiveScalingMetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.PredictiveScalingCustomizedMetricSpecification()
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationAutoScalingClientTypes.PredictiveScalingMetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.PredictiveScalingMetricDataQuery {
+
+    static func write(value: ApplicationAutoScalingClientTypes.PredictiveScalingMetricDataQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Expression"].write(value.expression)
+        try writer["Id"].write(value.id)
+        try writer["Label"].write(value.label)
+        try writer["MetricStat"].write(value.metricStat, with: ApplicationAutoScalingClientTypes.PredictiveScalingMetricStat.write(value:to:))
+        try writer["ReturnData"].write(value.returnData)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.PredictiveScalingMetricDataQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.PredictiveScalingMetricDataQuery()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.expression = try reader["Expression"].readIfPresent()
+        value.metricStat = try reader["MetricStat"].readIfPresent(with: ApplicationAutoScalingClientTypes.PredictiveScalingMetricStat.read(from:))
+        value.label = try reader["Label"].readIfPresent()
+        value.returnData = try reader["ReturnData"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.PredictiveScalingMetricStat {
+
+    static func write(value: ApplicationAutoScalingClientTypes.PredictiveScalingMetricStat?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Metric"].write(value.metric, with: ApplicationAutoScalingClientTypes.PredictiveScalingMetric.write(value:to:))
+        try writer["Stat"].write(value.stat)
+        try writer["Unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.PredictiveScalingMetricStat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.PredictiveScalingMetricStat()
+        value.metric = try reader["Metric"].readIfPresent(with: ApplicationAutoScalingClientTypes.PredictiveScalingMetric.read(from:))
+        value.stat = try reader["Stat"].readIfPresent() ?? ""
+        value.unit = try reader["Unit"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.PredictiveScalingMetric {
+
+    static func write(value: ApplicationAutoScalingClientTypes.PredictiveScalingMetric?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: ApplicationAutoScalingClientTypes.PredictiveScalingMetricDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["Namespace"].write(value.namespace)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.PredictiveScalingMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.PredictiveScalingMetric()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: ApplicationAutoScalingClientTypes.PredictiveScalingMetricDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.PredictiveScalingMetricDimension {
+
+    static func write(value: ApplicationAutoScalingClientTypes.PredictiveScalingMetricDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.PredictiveScalingMetricDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.PredictiveScalingMetricDimension()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedLoadMetricSpecification {
+
+    static func write(value: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedLoadMetricSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
+        try writer["ResourceLabel"].write(value.resourceLabel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedLoadMetricSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedLoadMetricSpecification()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? ""
+        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedScalingMetricSpecification {
+
+    static func write(value: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedScalingMetricSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
+        try writer["ResourceLabel"].write(value.resourceLabel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedScalingMetricSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedScalingMetricSpecification()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? ""
+        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedMetricPairSpecification {
+
+    static func write(value: ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedMetricPairSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
+        try writer["ResourceLabel"].write(value.resourceLabel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedMetricPairSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.PredictiveScalingPredefinedMetricPairSpecification()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? ""
+        value.resourceLabel = try reader["ResourceLabel"].readIfPresent()
         return value
     }
 }
@@ -4142,6 +4828,29 @@ extension ApplicationAutoScalingClientTypes.ScalableTargetAction {
         var value = ApplicationAutoScalingClientTypes.ScalableTargetAction()
         value.minCapacity = try reader["MinCapacity"].readIfPresent()
         value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.LoadForecast {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.LoadForecast {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.LoadForecast()
+        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.metricSpecification = try reader["MetricSpecification"].readIfPresent(with: ApplicationAutoScalingClientTypes.PredictiveScalingMetricSpecification.read(from:))
+        return value
+    }
+}
+
+extension ApplicationAutoScalingClientTypes.CapacityForecast {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationAutoScalingClientTypes.CapacityForecast {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationAutoScalingClientTypes.CapacityForecast()
+        value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

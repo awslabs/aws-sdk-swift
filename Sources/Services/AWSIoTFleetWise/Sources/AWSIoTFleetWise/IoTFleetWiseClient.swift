@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTFleetWiseClient: ClientRuntime.Client {
     public static let clientName = "IoTFleetWiseClient"
-    public static let version = "1.0.45"
+    public static let version = "1.0.46"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTFleetWiseClient.IoTFleetWiseClientConfiguration
     let serviceName = "IoTFleetWise"
@@ -421,7 +421,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `CreateCampaign` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see [Collect and transfer data with campaigns](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see [Collect and transfer data with campaigns](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html) in the Amazon Web Services IoT FleetWise Developer Guide. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter CreateCampaignInput : [no documentation found]
     ///
@@ -810,6 +810,83 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateStateTemplate` operation on the `IoTAutobahnControlPlane` service.
+    ///
+    /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter CreateStateTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateStateTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func createStateTemplate(input: CreateStateTemplateInput) async throws -> CreateStateTemplateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createStateTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iotfleetwise")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateStateTemplateInput, CreateStateTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>(CreateStateTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStateTemplateOutput>(CreateStateTemplateOutput.httpOutput(from:), CreateStateTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateStateTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateStateTemplateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>(serviceID: serviceName, version: IoTFleetWiseClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>(xAmzTarget: "IoTAutobahnControlPlane.CreateStateTemplate"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateStateTemplateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateStateTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTFleetWise")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateStateTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateVehicle` operation on the `IoTAutobahnControlPlane` service.
     ///
     /// Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see [Create a vehicle (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicle-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
@@ -962,7 +1039,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `DeleteDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it. If the decoder manifest is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    /// Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it.
     ///
     /// - Parameter DeleteDecoderManifestInput : [no documentation found]
     ///
@@ -1036,7 +1113,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `DeleteFleet` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see [Delete a fleet (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide. If the fleet is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    /// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see [Delete a fleet (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter DeleteFleetInput : [no documentation found]
     ///
@@ -1109,7 +1186,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `DeleteModelManifest` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Deletes a vehicle model (model manifest). If the vehicle model is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    /// Deletes a vehicle model (model manifest).
     ///
     /// - Parameter DeleteModelManifestInput : [no documentation found]
     ///
@@ -1183,7 +1260,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `DeleteSignalCatalog` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Deletes a signal catalog. If the signal catalog is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    /// Deletes a signal catalog.
     ///
     /// - Parameter DeleteSignalCatalogInput : [no documentation found]
     ///
@@ -1255,9 +1332,82 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteStateTemplate` operation on the `IoTAutobahnControlPlane` service.
+    ///
+    /// Deletes a state template.
+    ///
+    /// - Parameter DeleteStateTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteStateTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func deleteStateTemplate(input: DeleteStateTemplateInput) async throws -> DeleteStateTemplateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteStateTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iotfleetwise")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteStateTemplateInput, DeleteStateTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>(DeleteStateTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStateTemplateOutput>(DeleteStateTemplateOutput.httpOutput(from:), DeleteStateTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStateTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteStateTemplateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>(serviceID: serviceName, version: IoTFleetWiseClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>(xAmzTarget: "IoTAutobahnControlPlane.DeleteStateTemplate"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteStateTemplateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteStateTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTFleetWise")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteStateTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteVehicle` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Deletes a vehicle and removes it from any campaigns. If the vehicle is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    /// Deletes a vehicle and removes it from any campaigns.
     ///
     /// - Parameter DeleteVehicleInput : [no documentation found]
     ///
@@ -1330,7 +1480,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `DisassociateVehicleFleet` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle. If the vehicle is successfully dissociated from a fleet, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle.
     ///
     /// - Parameter DisassociateVehicleFleetInput : [no documentation found]
     ///
@@ -1404,7 +1554,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `GetCampaign` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Retrieves information about a campaign.
+    /// Retrieves information about a campaign. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// - Parameter GetCampaignInput : [no documentation found]
     ///
@@ -1992,6 +2142,80 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetStateTemplate` operation on the `IoTAutobahnControlPlane` service.
+    ///
+    /// Retrieves information about a state template. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter GetStateTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetStateTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func getStateTemplate(input: GetStateTemplateInput) async throws -> GetStateTemplateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getStateTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iotfleetwise")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetStateTemplateInput, GetStateTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetStateTemplateInput, GetStateTemplateOutput>(GetStateTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStateTemplateInput, GetStateTemplateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStateTemplateInput, GetStateTemplateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStateTemplateOutput>(GetStateTemplateOutput.httpOutput(from:), GetStateTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStateTemplateInput, GetStateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetStateTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetStateTemplateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStateTemplateInput, GetStateTemplateOutput>(serviceID: serviceName, version: IoTFleetWiseClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetStateTemplateInput, GetStateTemplateOutput>(xAmzTarget: "IoTAutobahnControlPlane.GetStateTemplate"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetStateTemplateInput, GetStateTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetStateTemplateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStateTemplateInput, GetStateTemplateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStateTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetStateTemplateInput, GetStateTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetStateTemplateInput, GetStateTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTFleetWise")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetStateTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetVehicle` operation on the `IoTAutobahnControlPlane` service.
     ///
     /// Retrieves information about a vehicle.
@@ -2068,7 +2292,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `GetVehicleStatus` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Retrieves information about the status of a vehicle with any associated campaigns.
+    /// Retrieves information about the status of campaigns, decoder manifests, or state templates associated with a vehicle.
     ///
     /// - Parameter GetVehicleStatusInput : [no documentation found]
     ///
@@ -2143,7 +2367,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `ImportDecoderManifest` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Creates a decoder manifest using your existing CAN DBC file from your local device.
+    /// Creates a decoder manifest using your existing CAN DBC file from your local device. The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file.
     ///
     /// - Parameter ImportDecoderManifestInput : [no documentation found]
     ///
@@ -3043,6 +3267,80 @@ extension IoTFleetWiseClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListStateTemplates` operation on the `IoTAutobahnControlPlane` service.
+    ///
+    /// Lists information about created state templates. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter ListStateTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListStateTemplatesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func listStateTemplates(input: ListStateTemplatesInput) async throws -> ListStateTemplatesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listStateTemplates")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iotfleetwise")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListStateTemplatesInput, ListStateTemplatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(ListStateTemplatesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(ListStateTemplatesInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStateTemplatesOutput>(ListStateTemplatesOutput.httpOutput(from:), ListStateTemplatesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListStateTemplatesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListStateTemplatesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(serviceID: serviceName, version: IoTFleetWiseClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(xAmzTarget: "IoTAutobahnControlPlane.ListStateTemplates"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStateTemplatesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStateTemplatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTFleetWise")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListStateTemplates")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `IoTAutobahnControlPlane` service.
     ///
     /// Lists the tags (metadata) you have assigned to the resource.
@@ -3796,7 +4094,7 @@ extension IoTFleetWiseClient {
 
     /// Performs the `UpdateFleet` operation on the `IoTAutobahnControlPlane` service.
     ///
-    /// Updates the description of an existing fleet. If the fleet is successfully updated, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty HTTP body.
+    /// Updates the description of an existing fleet.
     ///
     /// - Parameter UpdateFleetInput : [no documentation found]
     ///
@@ -4011,6 +4309,82 @@ extension IoTFleetWiseClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTFleetWise")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSignalCatalog")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateStateTemplate` operation on the `IoTAutobahnControlPlane` service.
+    ///
+    /// Updates a state template. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter UpdateStateTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateStateTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func updateStateTemplate(input: UpdateStateTemplateInput) async throws -> UpdateStateTemplateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateStateTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iotfleetwise")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateStateTemplateInput, UpdateStateTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>(UpdateStateTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStateTemplateOutput>(UpdateStateTemplateOutput.httpOutput(from:), UpdateStateTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStateTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateStateTemplateOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>(serviceID: serviceName, version: IoTFleetWiseClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>(xAmzTarget: "IoTAutobahnControlPlane.UpdateStateTemplate"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStateTemplateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStateTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTFleetWise")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStateTemplate")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

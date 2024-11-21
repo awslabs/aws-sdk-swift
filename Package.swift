@@ -281,6 +281,8 @@ let serviceTargets: [String] = [
     "AWSNetworkFirewall",
     "AWSNetworkManager",
     "AWSNetworkMonitor",
+    "AWSNotifications",
+    "AWSNotificationsContacts",
     "AWSOAM",
     "AWSOSIS",
     "AWSOmics",

@@ -2059,6 +2059,7 @@ extension AppSyncClientTypes {
 extension AppSyncClientTypes {
 
     public enum DataSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonBedrockRuntime
         case amazonDynamodb
         case amazonElasticsearch
         case amazonEventbridge
@@ -2071,6 +2072,7 @@ extension AppSyncClientTypes {
 
         public static var allCases: [DataSourceType] {
             return [
+                .amazonBedrockRuntime,
                 .amazonDynamodb,
                 .amazonElasticsearch,
                 .amazonEventbridge,
@@ -2089,6 +2091,7 @@ extension AppSyncClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .amazonBedrockRuntime: return "AMAZON_BEDROCK_RUNTIME"
             case .amazonDynamodb: return "AMAZON_DYNAMODB"
             case .amazonElasticsearch: return "AMAZON_ELASTICSEARCH"
             case .amazonEventbridge: return "AMAZON_EVENTBRIDGE"
