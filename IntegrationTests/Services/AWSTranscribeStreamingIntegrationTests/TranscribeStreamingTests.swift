@@ -10,7 +10,6 @@ import AWSIntegrationTestUtils
 import Foundation
 import AWSTranscribeStreaming
 import protocol AWSClientRuntime.AWSServiceError
-import AwsCommonRuntimeKit
 
 final class TranscribeStreamingTests: XCTestCase {
 
