@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticsearchClient: ClientRuntime.Client {
     public static let clientName = "ElasticsearchClient"
-    public static let version = "1.0.45"
+    public static let version = "1.0.46"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticsearchClient.ElasticsearchClientConfiguration
     let serviceName = "Elasticsearch"

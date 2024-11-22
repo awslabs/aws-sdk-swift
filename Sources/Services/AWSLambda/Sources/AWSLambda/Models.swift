@@ -918,7 +918,7 @@ extension LambdaClientTypes {
 
     /// A destination for events that failed processing.
     public struct OnFailure: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from [Kinesis and DynamoDB event sources](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#event-source-mapping-destinations), you can configure an Amazon SNS topic or Amazon SQS queue as the destination. To retain records of failed invocations from [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
+        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of unsuccessful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from [Kinesis](https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html), [DynamoDB](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html), [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
         public var destination: Swift.String?
 
         public init(
@@ -932,7 +932,7 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// A destination for events that were processed successfully.
+    /// A destination for events that were processed successfully. To retain records of successful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination.
     public struct OnSuccess: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the destination resource.
         public var destination: Swift.String?
@@ -1073,6 +1073,48 @@ extension LambdaClientTypes {
             case .reportbatchitemfailures: return "ReportBatchItemFailures"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum EventSourceMappingMetric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eventcount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventSourceMappingMetric] {
+            return [
+                .eventcount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eventcount: return "EventCount"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The metrics configuration for your event source. Use this configuration object to define which metrics you want your event source mapping to produce.
+    public struct EventSourceMappingMetricsConfig: Swift.Sendable {
+        /// The metrics you want your event source mapping to produce. Include EventCount to receive event source mapping metrics related to the number of events processed by your event source mapping. For more information about these metrics, see [ Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+        public var metrics: [LambdaClientTypes.EventSourceMappingMetric]?
+
+        public init(
+            metrics: [LambdaClientTypes.EventSourceMappingMetric]? = nil
+        )
+        {
+            self.metrics = metrics
         }
     }
 }
@@ -1335,6 +1377,8 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
     /// (MQ) The name of the Amazon MQ broker destination queue to consume.
@@ -1373,6 +1417,7 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
@@ -1400,6 +1445,7 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
         self.queues = queues
         self.scalingConfig = scalingConfig
@@ -1470,6 +1516,8 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
@@ -1515,6 +1563,7 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
@@ -1547,6 +1596,7 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
         self.queues = queues
         self.scalingConfig = scalingConfig
@@ -3257,6 +3307,8 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
@@ -3302,6 +3354,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
@@ -3334,6 +3387,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
         self.queues = queues
         self.scalingConfig = scalingConfig
@@ -3673,6 +3727,8 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
@@ -3718,6 +3774,7 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
@@ -3750,6 +3807,7 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
         self.queues = queues
         self.scalingConfig = scalingConfig
@@ -4362,9 +4420,14 @@ public struct GetFunctionEventInvokeConfigOutput: Swift.Sendable {
     ///
     /// * Queue - The ARN of a standard SQS queue.
     ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
     /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// The Amazon Resource Name (ARN) of the function.
     public var functionArn: Swift.String?
@@ -6140,6 +6203,8 @@ extension LambdaClientTypes {
         public var maximumRecordAgeInSeconds: Swift.Int?
         /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
         public var maximumRetryAttempts: Swift.Int?
+        /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+        public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public var parallelizationFactor: Swift.Int?
         /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
@@ -6185,6 +6250,7 @@ extension LambdaClientTypes {
             maximumBatchingWindowInSeconds: Swift.Int? = nil,
             maximumRecordAgeInSeconds: Swift.Int? = nil,
             maximumRetryAttempts: Swift.Int? = nil,
+            metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
             parallelizationFactor: Swift.Int? = nil,
             queues: [Swift.String]? = nil,
             scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
@@ -6217,6 +6283,7 @@ extension LambdaClientTypes {
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
+            self.metricsConfig = metricsConfig
             self.parallelizationFactor = parallelizationFactor
             self.queues = queues
             self.scalingConfig = scalingConfig
@@ -6289,9 +6356,14 @@ extension LambdaClientTypes {
         ///
         /// * Queue - The ARN of a standard SQS queue.
         ///
+        /// * Bucket - The ARN of an Amazon S3 bucket.
+        ///
         /// * Topic - The ARN of a standard SNS topic.
         ///
         /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+        ///
+        ///
+        /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
         public var destinationConfig: LambdaClientTypes.DestinationConfig?
         /// The Amazon Resource Name (ARN) of the function.
         public var functionArn: Swift.String?
@@ -7256,9 +7328,14 @@ public struct PutFunctionEventInvokeConfigInput: Swift.Sendable {
     ///
     /// * Queue - The ARN of a standard SQS queue.
     ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
     /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
@@ -7302,9 +7379,14 @@ public struct PutFunctionEventInvokeConfigOutput: Swift.Sendable {
     ///
     /// * Queue - The ARN of a standard SQS queue.
     ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
     /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// The Amazon Resource Name (ARN) of the function.
     public var functionArn: Swift.String?
@@ -7759,6 +7841,8 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -7784,6 +7868,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
@@ -7803,6 +7888,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
         self.scalingConfig = scalingConfig
         self.sourceAccessConfigurations = sourceAccessConfigurations
@@ -7847,6 +7933,8 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
@@ -7892,6 +7980,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
@@ -7924,6 +8013,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
         self.queues = queues
         self.scalingConfig = scalingConfig
@@ -8447,9 +8537,14 @@ public struct UpdateFunctionEventInvokeConfigInput: Swift.Sendable {
     ///
     /// * Queue - The ARN of a standard SQS queue.
     ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
     /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
@@ -8493,9 +8588,14 @@ public struct UpdateFunctionEventInvokeConfigOutput: Swift.Sendable {
     ///
     /// * Queue - The ARN of a standard SQS queue.
     ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
     /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// The Amazon Resource Name (ARN) of the function.
     public var functionArn: Swift.String?
@@ -9923,6 +10023,7 @@ extension CreateEventSourceMappingInput {
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["MaximumRecordAgeInSeconds"].write(value.maximumRecordAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
+        try writer["MetricsConfig"].write(value.metricsConfig, with: LambdaClientTypes.EventSourceMappingMetricsConfig.write(value:to:))
         try writer["ParallelizationFactor"].write(value.parallelizationFactor)
         try writer["Queues"].writeList(value.queues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ScalingConfig"].write(value.scalingConfig, with: LambdaClientTypes.ScalingConfig.write(value:to:))
@@ -10120,6 +10221,7 @@ extension UpdateEventSourceMappingInput {
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["MaximumRecordAgeInSeconds"].write(value.maximumRecordAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
+        try writer["MetricsConfig"].write(value.metricsConfig, with: LambdaClientTypes.EventSourceMappingMetricsConfig.write(value:to:))
         try writer["ParallelizationFactor"].write(value.parallelizationFactor)
         try writer["ScalingConfig"].write(value.scalingConfig, with: LambdaClientTypes.ScalingConfig.write(value:to:))
         try writer["SourceAccessConfigurations"].writeList(value.sourceAccessConfigurations, memberWritingClosure: LambdaClientTypes.SourceAccessConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10267,6 +10369,7 @@ extension CreateEventSourceMappingOutput {
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
@@ -10386,6 +10489,7 @@ extension DeleteEventSourceMappingOutput {
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
@@ -10518,6 +10622,7 @@ extension GetEventSourceMappingOutput {
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
@@ -11208,6 +11313,7 @@ extension UpdateEventSourceMappingOutput {
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
@@ -13422,6 +13528,21 @@ extension LambdaClientTypes.FilterCriteriaError {
     }
 }
 
+extension LambdaClientTypes.EventSourceMappingMetricsConfig {
+
+    static func write(value: LambdaClientTypes.EventSourceMappingMetricsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.EventSourceMappingMetric>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventSourceMappingMetricsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EventSourceMappingMetricsConfig()
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.EventSourceMappingMetric>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension LambdaClientTypes.VpcConfigResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.VpcConfigResponse {
@@ -13838,6 +13959,7 @@ extension LambdaClientTypes.EventSourceMappingConfiguration {
         value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         return value
     }
 }

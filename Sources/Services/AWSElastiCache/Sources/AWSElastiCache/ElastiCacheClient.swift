@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElastiCacheClient: ClientRuntime.Client {
     public static let clientName = "ElastiCacheClient"
-    public static let version = "1.0.45"
+    public static let version = "1.0.46"
     let client: ClientRuntime.SdkHttpClient
     let config: ElastiCacheClient.ElastiCacheClientConfiguration
     let serviceName = "ElastiCache"
@@ -196,7 +196,7 @@ extension ElastiCacheClient {
 extension ElastiCacheClient {
     /// Performs the `AddTagsToResource` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html). For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Tagging.html) in the ElastiCache User Guide.
+    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html). For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Tagging.html) in the ElastiCache User Guide.
     ///
     /// - Parameter AddTagsToResourceInput : Represents the input of an AddTagsToResource operation.
     ///
@@ -353,7 +353,7 @@ extension ElastiCacheClient {
 
     /// Performs the `BatchApplyUpdateAction` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// Apply the service update. For more information on service updates and applying them, see [Applying Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/applying-updates.html).
+    /// Apply the service update. For more information on service updates and applying them, see [Applying Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/applying-updates.html).
     ///
     /// - Parameter BatchApplyUpdateActionInput : [no documentation found]
     ///
@@ -423,7 +423,7 @@ extension ElastiCacheClient {
 
     /// Performs the `BatchStopUpdateAction` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// Stop the service update. For more information on service updates and stopping them, see [Stopping Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/stopping-self-service-updates.html).
+    /// Stop the service update. For more information on service updates and stopping them, see [Stopping Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/stopping-self-service-updates.html).
     ///
     /// - Parameter BatchStopUpdateActionInput : [no documentation found]
     ///
@@ -640,23 +640,23 @@ extension ElastiCacheClient {
 
     /// Performs the `CopySnapshot` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// Makes a copy of an existing snapshot. This operation is valid for Valkey or Redis OSS only. Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see [Exporting Snapshots](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html) and [Authentication & Access Control](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.html). You could receive the following error messages. Error Messages
+    /// Makes a copy of an existing snapshot. This operation is valid for Valkey or Redis OSS only. Users or groups that have permissions to use the CopySnapshot operation can create their own Amazon S3 buckets and copy snapshots to it. To control access to your snapshots, use an IAM policy to control who has the ability to use the CopySnapshot operation. For more information about using IAM to control the use of ElastiCache operations, see [Exporting Snapshots](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html) and [Authentication & Access Control](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.html). You could receive the following error messages. Error Messages
     ///
-    /// * Error Message: The S3 bucket %s is outside of the region. Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket) in the ElastiCache User Guide.
+    /// * Error Message: The S3 bucket %s is outside of the region. Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-create-s3-bucket) in the ElastiCache User Guide.
     ///
-    /// * Error Message: The S3 bucket %s does not exist. Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket) in the ElastiCache User Guide.
+    /// * Error Message: The S3 bucket %s does not exist. Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-create-s3-bucket) in the ElastiCache User Guide.
     ///
-    /// * Error Message: The S3 bucket %s is not owned by the authenticated user. Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-create-s3-bucket) in the ElastiCache User Guide.
+    /// * Error Message: The S3 bucket %s is not owned by the authenticated user. Solution: Create an Amazon S3 bucket in the same region as your snapshot. For more information, see [Step 1: Create an Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-create-s3-bucket) in the ElastiCache User Guide.
     ///
     /// * Error Message: The authenticated user does not have sufficient permissions to perform the desired activity. Solution: Contact your system administrator to get the needed permissions.
     ///
     /// * Error Message: The S3 bucket %s already contains an object with key %s. Solution: Give the TargetSnapshotName a new and unique value. If exporting a snapshot, you could alternatively create a new Amazon S3 bucket and use this same value for TargetSnapshotName.
     ///
-    /// * Error Message: ElastiCache has not been granted READ permissions %s on the S3 Bucket. Solution: Add List and Read permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access) in the ElastiCache User Guide.
+    /// * Error Message: ElastiCache has not been granted READ permissions %s on the S3 Bucket. Solution: Add List and Read permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access) in the ElastiCache User Guide.
     ///
-    /// * Error Message: ElastiCache has not been granted WRITE permissions %s on the S3 Bucket. Solution: Add Upload/Delete permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access) in the ElastiCache User Guide.
+    /// * Error Message: ElastiCache has not been granted WRITE permissions %s on the S3 Bucket. Solution: Add Upload/Delete permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access) in the ElastiCache User Guide.
     ///
-    /// * Error Message: ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket. Solution: Add View Permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/backups-exporting.html#backups-exporting-grant-access) in the ElastiCache User Guide.
+    /// * Error Message: ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket. Solution: Add View Permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access) in the ElastiCache User Guide.
     ///
     /// - Parameter CopySnapshotInput : Represents the input of a CopySnapshotMessage operation.
     ///
@@ -745,7 +745,7 @@ extension ElastiCacheClient {
     /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
     /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of clusters per customer.
-    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
@@ -817,7 +817,7 @@ extension ElastiCacheClient {
     ///
     /// * [ModifyCacheParameterGroup](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyCacheParameterGroup.html) in the ElastiCache API Reference.
     ///
-    /// * [Parameters and Parameter Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ParameterGroups.html) in the ElastiCache User Guide.
+    /// * [Parameters and Parameter Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ParameterGroups.html) in the ElastiCache User Guide.
     ///
     /// - Parameter CreateCacheParameterGroupInput : Represents the input of a CreateCacheParameterGroup operation.
     ///
@@ -1038,7 +1038,7 @@ extension ElastiCacheClient {
 
     /// Performs the `CreateGlobalReplicationGroup` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see [Replication Across Regions Using Global Datastore](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Redis-Global-Datastore.html).
+    /// Global Datastore offers fully managed, fast, reliable and secure cross-region replication. Using Global Datastore with Valkey or Redis OSS, you can create cross-region read replica clusters for ElastiCache to enable low-latency reads and disaster recovery across regions. For more information, see [Replication Across Regions Using Global Datastore](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Redis-Global-Datastore.html).
     ///
     /// * The GlobalReplicationGroupIdSuffix is the name of the Global datastore.
     ///
@@ -1115,7 +1115,7 @@ extension ElastiCacheClient {
 
     /// Performs the `CreateReplicationGroup` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed. The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or Redis OSS engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see [Creating a Subnet Group](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SubnetGroups.Creating.html). For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see [Amazon Service Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) and choose the limit type Nodes per cluster per instance type. When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use scaling. For more information, see [Scaling self-designed clusters](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Scaling.html) in the ElastiCache User Guide. This operation is valid for Valkey and Redis OSS only.
+    /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed. The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or Redis OSS engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see [Creating a Subnet Group](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SubnetGroups.Creating.html). For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see [Amazon Service Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) and choose the limit type Nodes per cluster per instance type. When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use scaling. For more information, see [Scaling self-designed clusters](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Scaling.html) in the ElastiCache User Guide. This operation is valid for Valkey and Redis OSS only.
     ///
     /// - Parameter CreateReplicationGroupInput : Represents the input of a CreateReplicationGroup operation.
     ///
@@ -1130,7 +1130,7 @@ extension ElastiCacheClient {
     /// - `CacheSubnetGroupNotFoundFault` : The requested cache subnet group name does not refer to an existing cache subnet group.
     /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of clusters per customer.
     /// - `GlobalReplicationGroupNotFoundFault` : The Global datastore does not exist
-    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
     /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
     /// - `InvalidGlobalReplicationGroupStateFault` : The Global datastore is not available or in primary-only state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
@@ -1442,7 +1442,7 @@ extension ElastiCacheClient {
 
     /// Performs the `CreateUser` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 and onwards: Creates a user. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 and onwards: Creates a user. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
@@ -1517,7 +1517,7 @@ extension ElastiCacheClient {
 
     /// Performs the `CreateUserGroup` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Creates a user group. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html)
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Creates a user group. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html)
     ///
     /// - Parameter CreateUserGroupInput : [no documentation found]
     ///
@@ -1675,7 +1675,7 @@ extension ElastiCacheClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of clusters per customer.
-    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
     /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
@@ -2438,7 +2438,7 @@ extension ElastiCacheClient {
 
     /// Performs the `DeleteUser` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
@@ -2511,7 +2511,7 @@ extension ElastiCacheClient {
 
     /// Performs the `DeleteUserGroup` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.RBAC.html).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
     ///
     /// - Parameter DeleteUserGroupInput : [no documentation found]
     ///
@@ -4219,7 +4219,7 @@ extension ElastiCacheClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the allowed number of clusters per customer.
-    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
     /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
     /// - `InvalidKMSKeyFault` : The KMS key supplied is not valid.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
@@ -4361,7 +4361,7 @@ extension ElastiCacheClient {
 
     /// Performs the `ListTagsForResource` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html). If the cluster is not in the available state, ListTagsForResource returns an error.
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html). If the cluster is not in the available state, ListTagsForResource returns an error.
     ///
     /// - Parameter ListTagsForResourceInput : The input parameters for the ListTagsForResource operation.
     ///
@@ -4456,7 +4456,7 @@ extension ElastiCacheClient {
     /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
     /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
     /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
-    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
     /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
     /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
@@ -4746,7 +4746,7 @@ extension ElastiCacheClient {
     ///
     /// Modifies the settings for a replication group. This is limited to Valkey and Redis OSS 7 and above.
     ///
-    /// * [Scaling for Valkey or Redis OSS (cluster mode enabled)](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/scaling-redis-cluster-mode-enabled.html) in the ElastiCache User Guide
+    /// * [Scaling for Valkey or Redis OSS (cluster mode enabled)](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/scaling-redis-cluster-mode-enabled.html) in the ElastiCache User Guide
     ///
     /// * [ModifyReplicationGroupShardConfiguration](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_ModifyReplicationGroupShardConfiguration.html) in the ElastiCache API Reference
     ///
@@ -4763,7 +4763,7 @@ extension ElastiCacheClient {
     /// - `CacheClusterNotFoundFault` : The requested cluster ID does not refer to an existing cluster.
     /// - `CacheParameterGroupNotFoundFault` : The requested cache parameter group name does not refer to an existing cache parameter group.
     /// - `CacheSecurityGroupNotFoundFault` : The requested cache security group name does not refer to an existing cache security group.
-    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
     /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
     /// - `InvalidCacheSecurityGroupStateFault` : The current state of the cache security group does not allow deletion.
     /// - `InvalidKMSKeyFault` : The KMS key supplied is not valid.
@@ -4844,7 +4844,7 @@ extension ElastiCacheClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
+    /// - `InsufficientCacheClusterCapacityFault` : The requested cache node type is not available in the specified Availability Zone. For more information, see [InsufficientCacheClusterCapacity](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ErrorMessages.html#ErrorMessages.INSUFFICIENT_CACHE_CLUSTER_CAPACITY) in the ElastiCache User Guide.
     /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
     /// - `InvalidKMSKeyFault` : The KMS key supplied is not valid.
     /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
@@ -5138,7 +5138,7 @@ extension ElastiCacheClient {
 
     /// Performs the `PurchaseReservedCacheNodesOffering` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/reserved-nodes.html).
+    /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/reserved-nodes.html).
     ///
     /// - Parameter PurchaseReservedCacheNodesOfferingInput : Represents the input of a PurchaseReservedCacheNodesOffering operation.
     ///
@@ -5283,7 +5283,7 @@ extension ElastiCacheClient {
 
     /// Performs the `RebootCacheCluster` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached, Valkey and Redis OSS (cluster mode disabled) clusters. Rebooting is not supported on Valkey or Redis OSS (cluster mode enabled) clusters. If you make changes to parameters that require a Valkey or Redis OSS (cluster mode enabled) cluster reboot for the changes to be applied, see [Rebooting a Cluster](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/nodes.rebooting.html) for an alternate process.
+    /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached, Valkey and Redis OSS (cluster mode disabled) clusters. Rebooting is not supported on Valkey or Redis OSS (cluster mode enabled) clusters. If you make changes to parameters that require a Valkey or Redis OSS (cluster mode enabled) cluster reboot for the changes to be applied, see [Rebooting a Cluster](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/nodes.rebooting.html) for an alternate process.
     ///
     /// - Parameter RebootCacheClusterInput : Represents the input of a RebootCacheCluster operation.
     ///
@@ -5353,7 +5353,7 @@ extension ElastiCacheClient {
 
     /// Performs the `RemoveTagsFromResource` operation on the `AmazonElastiCacheV9` service.
     ///
-    /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/IAM.ResourceLevelPermissions.html).
+    /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html).
     ///
     /// - Parameter RemoveTagsFromResourceInput : Represents the input of a RemoveTagsFromResource operation.
     ///
@@ -5682,7 +5682,7 @@ extension ElastiCacheClient {
     ///
     /// For more information see:
     ///
-    /// * [Viewing ElastiCache Events](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/ECEvents.Viewing.html) in the ElastiCache User Guide
+    /// * [Viewing ElastiCache Events](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ECEvents.Viewing.html) in the ElastiCache User Guide
     ///
     /// * [DescribeEvents](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_DescribeEvents.html) in the ElastiCache API Reference
     ///
@@ -5690,7 +5690,7 @@ extension ElastiCacheClient {
     ///
     ///
     ///
-    /// Also see, [Testing Multi-AZ ](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/AutoFailover.html#auto-failover-test) in the ElastiCache User Guide.
+    /// Also see, [Testing Multi-AZ ](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/AutoFailover.html#auto-failover-test) in the ElastiCache User Guide.
     ///
     /// - Parameter TestFailoverInput : [no documentation found]
     ///

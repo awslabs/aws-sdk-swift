@@ -57,6 +57,536 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes {
 
+    /// Contains the hourly metrics for the given recommendation over the lookback period.
+    public struct RecommendationDetailHourlyMetrics: Swift.Sendable {
+        /// The current amount of Savings Plans eligible usage that the Savings Plan covered.
+        public var currentCoverage: Swift.String?
+        /// The estimated coverage amount based on the recommended Savings Plan.
+        public var estimatedCoverage: Swift.String?
+        /// The estimated utilization for the recommended Savings Plan.
+        public var estimatedNewCommitmentUtilization: Swift.String?
+        /// The remaining On-Demand cost estimated to not be covered by the recommended Savings Plan, over the length of the lookback period.
+        public var estimatedOnDemandCost: Swift.String?
+        /// The period of time that you want the usage and costs for.
+        public var startTime: Swift.String?
+
+        public init(
+            currentCoverage: Swift.String? = nil,
+            estimatedCoverage: Swift.String? = nil,
+            estimatedNewCommitmentUtilization: Swift.String? = nil,
+            estimatedOnDemandCost: Swift.String? = nil,
+            startTime: Swift.String? = nil
+        )
+        {
+            self.currentCoverage = currentCoverage
+            self.estimatedCoverage = estimatedCoverage
+            self.estimatedNewCommitmentUtilization = estimatedNewCommitmentUtilization
+            self.estimatedOnDemandCost = estimatedOnDemandCost
+            self.startTime = startTime
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// Details about the Savings Plans purchase analysis.
+    public struct SavingsPlansPurchaseAnalysisDetails: Swift.Sendable {
+        /// Additional metadata that might be applicable to the commitment.
+        public var additionalMetadata: Swift.String?
+        /// The currency code used for the analysis.
+        public var currencyCode: Swift.String?
+        /// The average value of hourly coverage over the lookback period.
+        public var currentAverageCoverage: Swift.String?
+        /// The average value of hourly On-Demand spend over the lookback period.
+        public var currentAverageHourlyOnDemandSpend: Swift.String?
+        /// The highest value of hourly On-Demand spend over the lookback period.
+        public var currentMaximumHourlyOnDemandSpend: Swift.String?
+        /// The lowest value of hourly On-Demand spend over the lookback period.
+        public var currentMinimumHourlyOnDemandSpend: Swift.String?
+        /// The current total On-Demand spend over the lookback period.
+        public var currentOnDemandSpend: Swift.String?
+        /// The estimated coverage of the Savings Plan.
+        public var estimatedAverageCoverage: Swift.String?
+        /// The estimated utilization of the Savings Plan.
+        public var estimatedAverageUtilization: Swift.String?
+        /// The estimated cost of the purchase commitment over the length of the lookback period.
+        public var estimatedCommitmentCost: Swift.String?
+        /// The estimated monthly savings amount based on the Savings Plan.
+        public var estimatedMonthlySavingsAmount: Swift.String?
+        /// The remaining On-Demand cost estimated to not be covered by the commitment, over the length of the lookback period.
+        public var estimatedOnDemandCost: Swift.String?
+        /// The estimated On-Demand cost you expect with no additional commitment, based on your usage of the selected time period and the Savings Plan you own.
+        public var estimatedOnDemandCostWithCurrentCommitment: Swift.String?
+        /// The estimated return on investment that's based on the purchase commitment and estimated savings. This is calculated as estimatedSavingsAmount/estimatedSPCost*100.
+        public var estimatedROI: Swift.String?
+        /// The estimated savings amount that's based on the purchase commitment over the length of the lookback period.
+        public var estimatedSavingsAmount: Swift.String?
+        /// The estimated savings percentage relative to the total cost over the cost calculation lookback period.
+        public var estimatedSavingsPercentage: Swift.String?
+        /// The existing hourly commitment for the Savings Plan type.
+        public var existingHourlyCommitment: Swift.String?
+        /// The recommended or custom hourly commitment.
+        public var hourlyCommitmentToPurchase: Swift.String?
+        /// The date and time of the last hour that went into the analysis.
+        public var latestUsageTimestamp: Swift.String?
+        /// The lookback period in hours that's used to generate the analysis.
+        public var lookbackPeriodInHours: Swift.String?
+        /// The related hourly cost, coverage, and utilization metrics over the lookback period.
+        public var metricsOverLookbackPeriod: [CostExplorerClientTypes.RecommendationDetailHourlyMetrics]?
+        /// The upfront cost of the Savings Plan, based on the selected payment option.
+        public var upfrontCost: Swift.String?
+
+        public init(
+            additionalMetadata: Swift.String? = nil,
+            currencyCode: Swift.String? = nil,
+            currentAverageCoverage: Swift.String? = nil,
+            currentAverageHourlyOnDemandSpend: Swift.String? = nil,
+            currentMaximumHourlyOnDemandSpend: Swift.String? = nil,
+            currentMinimumHourlyOnDemandSpend: Swift.String? = nil,
+            currentOnDemandSpend: Swift.String? = nil,
+            estimatedAverageCoverage: Swift.String? = nil,
+            estimatedAverageUtilization: Swift.String? = nil,
+            estimatedCommitmentCost: Swift.String? = nil,
+            estimatedMonthlySavingsAmount: Swift.String? = nil,
+            estimatedOnDemandCost: Swift.String? = nil,
+            estimatedOnDemandCostWithCurrentCommitment: Swift.String? = nil,
+            estimatedROI: Swift.String? = nil,
+            estimatedSavingsAmount: Swift.String? = nil,
+            estimatedSavingsPercentage: Swift.String? = nil,
+            existingHourlyCommitment: Swift.String? = nil,
+            hourlyCommitmentToPurchase: Swift.String? = nil,
+            latestUsageTimestamp: Swift.String? = nil,
+            lookbackPeriodInHours: Swift.String? = nil,
+            metricsOverLookbackPeriod: [CostExplorerClientTypes.RecommendationDetailHourlyMetrics]? = nil,
+            upfrontCost: Swift.String? = nil
+        )
+        {
+            self.additionalMetadata = additionalMetadata
+            self.currencyCode = currencyCode
+            self.currentAverageCoverage = currentAverageCoverage
+            self.currentAverageHourlyOnDemandSpend = currentAverageHourlyOnDemandSpend
+            self.currentMaximumHourlyOnDemandSpend = currentMaximumHourlyOnDemandSpend
+            self.currentMinimumHourlyOnDemandSpend = currentMinimumHourlyOnDemandSpend
+            self.currentOnDemandSpend = currentOnDemandSpend
+            self.estimatedAverageCoverage = estimatedAverageCoverage
+            self.estimatedAverageUtilization = estimatedAverageUtilization
+            self.estimatedCommitmentCost = estimatedCommitmentCost
+            self.estimatedMonthlySavingsAmount = estimatedMonthlySavingsAmount
+            self.estimatedOnDemandCost = estimatedOnDemandCost
+            self.estimatedOnDemandCostWithCurrentCommitment = estimatedOnDemandCostWithCurrentCommitment
+            self.estimatedROI = estimatedROI
+            self.estimatedSavingsAmount = estimatedSavingsAmount
+            self.estimatedSavingsPercentage = estimatedSavingsPercentage
+            self.existingHourlyCommitment = existingHourlyCommitment
+            self.hourlyCommitmentToPurchase = hourlyCommitmentToPurchase
+            self.latestUsageTimestamp = latestUsageTimestamp
+            self.lookbackPeriodInHours = lookbackPeriodInHours
+            self.metricsOverLookbackPeriod = metricsOverLookbackPeriod
+            self.upfrontCost = upfrontCost
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// Details about the analysis.
+    public struct AnalysisDetails: Swift.Sendable {
+        /// Details about the Savings Plans purchase analysis.
+        public var savingsPlansPurchaseAnalysisDetails: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails?
+
+        public init(
+            savingsPlansPurchaseAnalysisDetails: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails? = nil
+        )
+        {
+            self.savingsPlansPurchaseAnalysisDetails = savingsPlansPurchaseAnalysisDetails
+        }
+    }
+}
+
+/// The requested analysis can't be found.
+public struct AnalysisNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AnalysisNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    public enum AnalysisStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case processing
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisStatus] {
+            return [
+                .failed,
+                .processing,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    public enum AnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customCommitment
+        case maxSavings
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisType] {
+            return [
+                .customCommitment,
+                .maxSavings
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customCommitment: return "CUSTOM_COMMITMENT"
+            case .maxSavings: return "MAX_SAVINGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// The time period of the request.
+    public struct DateInterval: Swift.Sendable {
+        /// The end of the time period. The end date is exclusive. For example, if end is 2017-05-01, Amazon Web Services retrieves cost and usage data from the start date up to, but not including, 2017-05-01.
+        /// This member is required.
+        public var end: Swift.String?
+        /// The beginning of the time period. The start date is inclusive. For example, if start is 2017-01-01, Amazon Web Services retrieves cost and usage data starting at 2017-01-01 up to the end date. The start date must be equal to or no later than the current date to avoid a validation error.
+        /// This member is required.
+        public var start: Swift.String?
+
+        public init(
+            end: Swift.String? = nil,
+            start: Swift.String? = nil
+        )
+        {
+            self.end = end
+            self.start = start
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    public enum PaymentOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allUpfront
+        case heavyUtilization
+        case lightUtilization
+        case mediumUtilization
+        case noUpfront
+        case partialUpfront
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentOption] {
+            return [
+                .allUpfront,
+                .heavyUtilization,
+                .lightUtilization,
+                .mediumUtilization,
+                .noUpfront,
+                .partialUpfront
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allUpfront: return "ALL_UPFRONT"
+            case .heavyUtilization: return "HEAVY_UTILIZATION"
+            case .lightUtilization: return "LIGHT_UTILIZATION"
+            case .mediumUtilization: return "MEDIUM_UTILIZATION"
+            case .noUpfront: return "NO_UPFRONT"
+            case .partialUpfront: return "PARTIAL_UPFRONT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    public enum SupportedSavingsPlansType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case computeSp
+        case ec2InstanceSp
+        case sagemakerSp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportedSavingsPlansType] {
+            return [
+                .computeSp,
+                .ec2InstanceSp,
+                .sagemakerSp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .computeSp: return "COMPUTE_SP"
+            case .ec2InstanceSp: return "EC2_INSTANCE_SP"
+            case .sagemakerSp: return "SAGEMAKER_SP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    public enum TermInYears: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case oneYear
+        case threeYears
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TermInYears] {
+            return [
+                .oneYear,
+                .threeYears
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .oneYear: return "ONE_YEAR"
+            case .threeYears: return "THREE_YEARS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// The Savings Plans commitment details.
+    public struct SavingsPlans: Swift.Sendable {
+        /// The instance family of the Savings Plans commitment.
+        public var instanceFamily: Swift.String?
+        /// The unique ID that's used to distinguish commitments from one another.
+        public var offeringId: Swift.String?
+        /// The payment option for the Savings Plans commitment.
+        public var paymentOption: CostExplorerClientTypes.PaymentOption?
+        /// The Region associated with the Savings Plans commitment.
+        public var region: Swift.String?
+        /// The Savings Plans commitment.
+        public var savingsPlansCommitment: Swift.Double?
+        /// The Savings Plans type.
+        public var savingsPlansType: CostExplorerClientTypes.SupportedSavingsPlansType?
+        /// The term that you want the Savings Plans commitment for.
+        public var termInYears: CostExplorerClientTypes.TermInYears?
+
+        public init(
+            instanceFamily: Swift.String? = nil,
+            offeringId: Swift.String? = nil,
+            paymentOption: CostExplorerClientTypes.PaymentOption? = nil,
+            region: Swift.String? = nil,
+            savingsPlansCommitment: Swift.Double? = nil,
+            savingsPlansType: CostExplorerClientTypes.SupportedSavingsPlansType? = nil,
+            termInYears: CostExplorerClientTypes.TermInYears? = nil
+        )
+        {
+            self.instanceFamily = instanceFamily
+            self.offeringId = offeringId
+            self.paymentOption = paymentOption
+            self.region = region
+            self.savingsPlansCommitment = savingsPlansCommitment
+            self.savingsPlansType = savingsPlansType
+            self.termInYears = termInYears
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// The configuration for the Savings Plans purchase analysis.
+    public struct SavingsPlansPurchaseAnalysisConfiguration: Swift.Sendable {
+        /// The account that the analysis is for.
+        public var accountId: Swift.String?
+        /// The account scope that you want your analysis for.
+        public var accountScope: CostExplorerClientTypes.AccountScope?
+        /// The type of analysis.
+        /// This member is required.
+        public var analysisType: CostExplorerClientTypes.AnalysisType?
+        /// The time period associated with the analysis.
+        /// This member is required.
+        public var lookBackTimePeriod: CostExplorerClientTypes.DateInterval?
+        /// Savings Plans to include in the analysis.
+        /// This member is required.
+        public var savingsPlansToAdd: [CostExplorerClientTypes.SavingsPlans]?
+        /// Savings Plans to exclude from the analysis.
+        public var savingsPlansToExclude: [Swift.String]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            accountScope: CostExplorerClientTypes.AccountScope? = nil,
+            analysisType: CostExplorerClientTypes.AnalysisType? = nil,
+            lookBackTimePeriod: CostExplorerClientTypes.DateInterval? = nil,
+            savingsPlansToAdd: [CostExplorerClientTypes.SavingsPlans]? = nil,
+            savingsPlansToExclude: [Swift.String]? = nil
+        )
+        {
+            self.accountId = accountId
+            self.accountScope = accountScope
+            self.analysisType = analysisType
+            self.lookBackTimePeriod = lookBackTimePeriod
+            self.savingsPlansToAdd = savingsPlansToAdd
+            self.savingsPlansToExclude = savingsPlansToExclude
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// The configuration for the commitment purchase analysis.
+    public struct CommitmentPurchaseAnalysisConfiguration: Swift.Sendable {
+        /// The configuration for the Savings Plans purchase analysis.
+        public var savingsPlansPurchaseAnalysisConfiguration: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration?
+
+        public init(
+            savingsPlansPurchaseAnalysisConfiguration: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration? = nil
+        )
+        {
+            self.savingsPlansPurchaseAnalysisConfiguration = savingsPlansPurchaseAnalysisConfiguration
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    public enum ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalFailure
+        case invalidAccountId
+        case invalidSavingsPlansToAdd
+        case invalidSavingsPlansToExclude
+        case noUsageFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ErrorCode] {
+            return [
+                .internalFailure,
+                .invalidAccountId,
+                .invalidSavingsPlansToAdd,
+                .invalidSavingsPlansToExclude,
+                .noUsageFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case .invalidAccountId: return "INVALID_ACCOUNT_ID"
+            case .invalidSavingsPlansToAdd: return "INVALID_SAVINGS_PLANS_TO_ADD"
+            case .invalidSavingsPlansToExclude: return "INVALID_SAVINGS_PLANS_TO_EXCLUDE"
+            case .noUsageFound: return "NO_USAGE_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// A summary of the analysis.
+    public struct AnalysisSummary: Swift.Sendable {
+        /// The completion time of the analysis.
+        public var analysisCompletionTime: Swift.String?
+        /// The analysis ID that's associated with the commitment purchase.
+        public var analysisId: Swift.String?
+        /// The start time of the analysis.
+        public var analysisStartedTime: Swift.String?
+        /// The status of the analysis.
+        public var analysisStatus: CostExplorerClientTypes.AnalysisStatus?
+        /// The analysis configuration for the commitment purchase analysis.
+        public var commitmentPurchaseAnalysisConfiguration: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration?
+        /// The error code used for the analysis.
+        public var errorCode: CostExplorerClientTypes.ErrorCode?
+        /// The estimated time for when the analysis will complete.
+        public var estimatedCompletionTime: Swift.String?
+
+        public init(
+            analysisCompletionTime: Swift.String? = nil,
+            analysisId: Swift.String? = nil,
+            analysisStartedTime: Swift.String? = nil,
+            analysisStatus: CostExplorerClientTypes.AnalysisStatus? = nil,
+            commitmentPurchaseAnalysisConfiguration: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration? = nil,
+            errorCode: CostExplorerClientTypes.ErrorCode? = nil,
+            estimatedCompletionTime: Swift.String? = nil
+        )
+        {
+            self.analysisCompletionTime = analysisCompletionTime
+            self.analysisId = analysisId
+            self.analysisStartedTime = analysisStartedTime
+            self.analysisStatus = analysisStatus
+            self.commitmentPurchaseAnalysisConfiguration = commitmentPurchaseAnalysisConfiguration
+            self.errorCode = errorCode
+            self.estimatedCompletionTime = estimatedCompletionTime
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
     /// Quantifies the anomaly. The higher score means that it's more anomalous.
     public struct AnomalyScore: Swift.Sendable {
         /// The last observed score.
@@ -144,7 +674,7 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes {
 
-    /// The combination of Amazon Web Servicesservice, linked account, linked account name, Region, and usage type where a cost anomaly is observed. The linked account name will only be available when the account name can be identified.
+    /// The combination of Amazon Web Services service, linked account, linked account name, Region, and usage type where a cost anomaly is observed. The linked account name will only be available when the account name can be identified.
     public struct RootCause: Swift.Sendable {
         /// The member account value that's associated with the cost anomaly.
         public var linkedAccount: Swift.String?
@@ -152,7 +682,7 @@ extension CostExplorerClientTypes {
         public var linkedAccountName: Swift.String?
         /// The Amazon Web Services Region that's associated with the cost anomaly.
         public var region: Swift.String?
-        /// The Amazon Web Servicesservice name that's associated with the cost anomaly.
+        /// The Amazon Web Services service name that's associated with the cost anomaly.
         public var service: Swift.String?
         /// The UsageType value that's associated with the cost anomaly.
         public var usageType: Swift.String?
@@ -188,7 +718,7 @@ extension CostExplorerClientTypes {
         public var anomalyScore: CostExplorerClientTypes.AnomalyScore?
         /// The first day the anomaly is detected.
         public var anomalyStartDate: Swift.String?
-        /// The dimension for the anomaly (for example, an Amazon Web Servicesservice in a service monitor).
+        /// The dimension for the anomaly (for example, an Amazon Web Services service in a service monitor).
         public var dimensionValue: Swift.String?
         /// The feedback value.
         public var feedback: CostExplorerClientTypes.AnomalyFeedbackType?
@@ -1512,28 +2042,6 @@ public struct GetApproximateUsageRecordsInput: Swift.Sendable {
     }
 }
 
-extension CostExplorerClientTypes {
-
-    /// The time period of the request.
-    public struct DateInterval: Swift.Sendable {
-        /// The end of the time period. The end date is exclusive. For example, if end is 2017-05-01, Amazon Web Services retrieves cost and usage data from the start date up to, but not including, 2017-05-01.
-        /// This member is required.
-        public var end: Swift.String?
-        /// The beginning of the time period. The start date is inclusive. For example, if start is 2017-01-01, Amazon Web Services retrieves cost and usage data starting at 2017-01-01 up to the end date. The start date must be equal to or no later than the current date to avoid a validation error.
-        /// This member is required.
-        public var start: Swift.String?
-
-        public init(
-            end: Swift.String? = nil,
-            start: Swift.String? = nil
-        )
-        {
-            self.end = end
-            self.start = start
-        }
-    }
-}
-
 public struct GetApproximateUsageRecordsOutput: Swift.Sendable {
     /// The lookback period that's used for the estimation.
     public var lookbackPeriod: CostExplorerClientTypes.DateInterval?
@@ -1551,6 +2059,64 @@ public struct GetApproximateUsageRecordsOutput: Swift.Sendable {
         self.lookbackPeriod = lookbackPeriod
         self.services = services
         self.totalRecords = totalRecords
+    }
+}
+
+public struct GetCommitmentPurchaseAnalysisInput: Swift.Sendable {
+    /// The analysis ID that's associated with the commitment purchase analysis.
+    /// This member is required.
+    public var analysisId: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil
+    )
+    {
+        self.analysisId = analysisId
+    }
+}
+
+public struct GetCommitmentPurchaseAnalysisOutput: Swift.Sendable {
+    /// The completion time of the analysis.
+    public var analysisCompletionTime: Swift.String?
+    /// Details about the analysis.
+    public var analysisDetails: CostExplorerClientTypes.AnalysisDetails?
+    /// The analysis ID that's associated with the commitment purchase analysis.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The start time of the analysis.
+    /// This member is required.
+    public var analysisStartedTime: Swift.String?
+    /// The status of the analysis.
+    /// This member is required.
+    public var analysisStatus: CostExplorerClientTypes.AnalysisStatus?
+    /// The configuration for the commitment purchase analysis.
+    /// This member is required.
+    public var commitmentPurchaseAnalysisConfiguration: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration?
+    /// The error code used for the analysis.
+    public var errorCode: CostExplorerClientTypes.ErrorCode?
+    /// The estimated time for when the analysis will complete.
+    /// This member is required.
+    public var estimatedCompletionTime: Swift.String?
+
+    public init(
+        analysisCompletionTime: Swift.String? = nil,
+        analysisDetails: CostExplorerClientTypes.AnalysisDetails? = nil,
+        analysisId: Swift.String? = nil,
+        analysisStartedTime: Swift.String? = nil,
+        analysisStatus: CostExplorerClientTypes.AnalysisStatus? = nil,
+        commitmentPurchaseAnalysisConfiguration: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration? = nil,
+        errorCode: CostExplorerClientTypes.ErrorCode? = nil,
+        estimatedCompletionTime: Swift.String? = nil
+    )
+    {
+        self.analysisCompletionTime = analysisCompletionTime
+        self.analysisDetails = analysisDetails
+        self.analysisId = analysisId
+        self.analysisStartedTime = analysisStartedTime
+        self.analysisStatus = analysisStatus
+        self.commitmentPurchaseAnalysisConfiguration = commitmentPurchaseAnalysisConfiguration
+        self.errorCode = errorCode
+        self.estimatedCompletionTime = estimatedCompletionTime
     }
 }
 
@@ -2278,47 +2844,6 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes {
 
-    public enum PaymentOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case allUpfront
-        case heavyUtilization
-        case lightUtilization
-        case mediumUtilization
-        case noUpfront
-        case partialUpfront
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [PaymentOption] {
-            return [
-                .allUpfront,
-                .heavyUtilization,
-                .lightUtilization,
-                .mediumUtilization,
-                .noUpfront,
-                .partialUpfront
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .allUpfront: return "ALL_UPFRONT"
-            case .heavyUtilization: return "HEAVY_UTILIZATION"
-            case .lightUtilization: return "LIGHT_UTILIZATION"
-            case .mediumUtilization: return "MEDIUM_UTILIZATION"
-            case .noUpfront: return "NO_UPFRONT"
-            case .partialUpfront: return "PARTIAL_UPFRONT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CostExplorerClientTypes {
-
     public enum OfferingClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case convertible
         case standard
@@ -2374,35 +2899,6 @@ extension CostExplorerClientTypes {
         )
         {
             self.ec2Specification = ec2Specification
-        }
-    }
-}
-
-extension CostExplorerClientTypes {
-
-    public enum TermInYears: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case oneYear
-        case threeYears
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TermInYears] {
-            return [
-                .oneYear,
-                .threeYears
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .oneYear: return "ONE_YEAR"
-            case .threeYears: return "THREE_YEARS"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -3728,70 +4224,6 @@ public struct GetSavingsPlanPurchaseRecommendationDetailsInput: Swift.Sendable {
 
 extension CostExplorerClientTypes {
 
-    /// Contains the hourly metrics for the given recommendation over the lookback period.
-    public struct RecommendationDetailHourlyMetrics: Swift.Sendable {
-        /// The current amount of Savings Plans eligible usage that the Savings Plan covered.
-        public var currentCoverage: Swift.String?
-        /// The estimated coverage amount based on the recommended Savings Plan.
-        public var estimatedCoverage: Swift.String?
-        /// The estimated utilization for the recommended Savings Plan.
-        public var estimatedNewCommitmentUtilization: Swift.String?
-        /// The remaining On-Demand cost estimated to not be covered by the recommended Savings Plan, over the length of the lookback period.
-        public var estimatedOnDemandCost: Swift.String?
-        /// The period of time that you want the usage and costs for.
-        public var startTime: Swift.String?
-
-        public init(
-            currentCoverage: Swift.String? = nil,
-            estimatedCoverage: Swift.String? = nil,
-            estimatedNewCommitmentUtilization: Swift.String? = nil,
-            estimatedOnDemandCost: Swift.String? = nil,
-            startTime: Swift.String? = nil
-        )
-        {
-            self.currentCoverage = currentCoverage
-            self.estimatedCoverage = estimatedCoverage
-            self.estimatedNewCommitmentUtilization = estimatedNewCommitmentUtilization
-            self.estimatedOnDemandCost = estimatedOnDemandCost
-            self.startTime = startTime
-        }
-    }
-}
-
-extension CostExplorerClientTypes {
-
-    public enum SupportedSavingsPlansType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case computeSp
-        case ec2InstanceSp
-        case sagemakerSp
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SupportedSavingsPlansType] {
-            return [
-                .computeSp,
-                .ec2InstanceSp,
-                .sagemakerSp
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .computeSp: return "COMPUTE_SP"
-            case .ec2InstanceSp: return "EC2_INSTANCE_SP"
-            case .sagemakerSp: return "SAGEMAKER_SP"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CostExplorerClientTypes {
-
     /// The details and metrics for the given recommendation.
     public struct RecommendationDetailData: Swift.Sendable {
         /// The AccountID that the recommendation is generated for.
@@ -4551,6 +4983,46 @@ public struct GetUsageForecastOutput: Swift.Sendable {
     }
 }
 
+public struct ListCommitmentPurchaseAnalysesInput: Swift.Sendable {
+    /// The analysis IDs associated with the commitment purchase analyses.
+    public var analysisIds: [Swift.String]?
+    /// The status of the analysis.
+    public var analysisStatus: CostExplorerClientTypes.AnalysisStatus?
+    /// The token to retrieve the next set of results.
+    public var nextPageToken: Swift.String?
+    /// The number of analyses that you want returned in a single response object.
+    public var pageSize: Swift.Int?
+
+    public init(
+        analysisIds: [Swift.String]? = nil,
+        analysisStatus: CostExplorerClientTypes.AnalysisStatus? = nil,
+        nextPageToken: Swift.String? = nil,
+        pageSize: Swift.Int? = 0
+    )
+    {
+        self.analysisIds = analysisIds
+        self.analysisStatus = analysisStatus
+        self.nextPageToken = nextPageToken
+        self.pageSize = pageSize
+    }
+}
+
+public struct ListCommitmentPurchaseAnalysesOutput: Swift.Sendable {
+    /// The list of analyses.
+    public var analysisSummaryList: [CostExplorerClientTypes.AnalysisSummary]?
+    /// The token to retrieve the next set of results.
+    public var nextPageToken: Swift.String?
+
+    public init(
+        analysisSummaryList: [CostExplorerClientTypes.AnalysisSummary]? = nil,
+        nextPageToken: Swift.String? = nil
+    )
+    {
+        self.analysisSummaryList = analysisSummaryList
+        self.nextPageToken = nextPageToken
+    }
+}
+
 public struct ListCostAllocationTagBackfillHistoryInput: Swift.Sendable {
     /// The maximum number of objects that are returned for this request.
     public var maxResults: Swift.Int?
@@ -5024,6 +5496,66 @@ public struct ProvideAnomalyFeedbackOutput: Swift.Sendable {
     }
 }
 
+/// A request to generate a recommendation is already in progress.
+public struct GenerationExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GenerationExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct StartCommitmentPurchaseAnalysisInput: Swift.Sendable {
+    /// The configuration for the commitment purchase analysis.
+    /// This member is required.
+    public var commitmentPurchaseAnalysisConfiguration: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration?
+
+    public init(
+        commitmentPurchaseAnalysisConfiguration: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration? = nil
+    )
+    {
+        self.commitmentPurchaseAnalysisConfiguration = commitmentPurchaseAnalysisConfiguration
+    }
+}
+
+public struct StartCommitmentPurchaseAnalysisOutput: Swift.Sendable {
+    /// The analysis ID that's associated with the commitment purchase analysis.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The start time of the analysis.
+    /// This member is required.
+    public var analysisStartedTime: Swift.String?
+    /// The estimated time for when the analysis will complete.
+    /// This member is required.
+    public var estimatedCompletionTime: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        analysisStartedTime: Swift.String? = nil,
+        estimatedCompletionTime: Swift.String? = nil
+    )
+    {
+        self.analysisId = analysisId
+        self.analysisStartedTime = analysisStartedTime
+        self.estimatedCompletionTime = estimatedCompletionTime
+    }
+}
+
 /// A request to backfill is already in progress. Once the previous request is complete, you can create another request.
 public struct BackfillLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -5070,30 +5602,6 @@ public struct StartCostAllocationTagBackfillOutput: Swift.Sendable {
     )
     {
         self.backfillRequest = backfillRequest
-    }
-}
-
-/// A request to generate a recommendation is already in progress.
-public struct GenerationExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "GenerationExistsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
     }
 }
 
@@ -5588,7 +6096,7 @@ extension CostExplorerClientTypes {
     public struct CostCategoryRule: Swift.Sendable {
         /// The value the line item is categorized as if the line item contains the matched dimension.
         public var inheritedValue: CostExplorerClientTypes.CostCategoryInheritedValueDimension?
-        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, LINKED_ACCOUNT_NAME, REGION, and USAGE_TYPE. RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see [Term Comparisons](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms) in the Billing and Cost Management User Guide.
+        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, LINKED_ACCOUNT_NAME, REGION, USAGE_TYPE, and BILLING_ENTITY. RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see [Term Comparisons](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms) in the Billing and Cost Management User Guide.
         public var rule: CostExplorerClientTypes.Expression?
         /// You can define the CostCategoryRule rule type as either REGULAR or INHERITED_VALUE. The INHERITED_VALUE rule type adds the flexibility to define a rule that dynamically inherits the cost category value. This value is from the dimension value that's defined by CostCategoryInheritedValueDimension. For example, suppose that you want to costs to be dynamically grouped based on the value of a specific tag key. First, choose an inherited value rule type, and then choose the tag dimension and specify the tag key to use.
         public var type: CostExplorerClientTypes.CostCategoryRuleType?
@@ -5876,7 +6384,7 @@ public struct GetDimensionValuesInput: Swift.Sendable {
     ///
     /// * AZ - The Availability Zone. An example is us-east-1a.
     ///
-    /// * BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Servicesservices. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Servicesservices in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.
+    /// * BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.
     ///
     /// * CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.
     ///
@@ -6298,7 +6806,7 @@ public struct GetReservationUtilizationInput: Swift.Sendable {
     ///
     /// * REGION
     ///
-    /// * SERVICE
+    /// * SERVICE If not specified, the SERVICE filter defaults to Amazon Elastic Compute Cloud - Compute. Supported values for SERVICE are Amazon Elastic Compute Cloud - Compute, Amazon Relational Database Service, Amazon ElastiCache, Amazon Redshift, and Amazon Elasticsearch Service. The value for the SERVICE filter should not exceed "1".
     ///
     /// * SCOPE
     ///
@@ -7243,6 +7751,13 @@ extension GetApproximateUsageRecordsInput {
     }
 }
 
+extension GetCommitmentPurchaseAnalysisInput {
+
+    static func urlPathProvider(_ value: GetCommitmentPurchaseAnalysisInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetCostAndUsageInput {
 
     static func urlPathProvider(_ value: GetCostAndUsageInput) -> Swift.String? {
@@ -7355,6 +7870,13 @@ extension GetUsageForecastInput {
     }
 }
 
+extension ListCommitmentPurchaseAnalysesInput {
+
+    static func urlPathProvider(_ value: ListCommitmentPurchaseAnalysesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListCostAllocationTagBackfillHistoryInput {
 
     static func urlPathProvider(_ value: ListCostAllocationTagBackfillHistoryInput) -> Swift.String? {
@@ -7393,6 +7915,13 @@ extension ListTagsForResourceInput {
 extension ProvideAnomalyFeedbackInput {
 
     static func urlPathProvider(_ value: ProvideAnomalyFeedbackInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartCommitmentPurchaseAnalysisInput {
+
+    static func urlPathProvider(_ value: StartCommitmentPurchaseAnalysisInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7559,6 +8088,14 @@ extension GetApproximateUsageRecordsInput {
         try writer["ApproximationDimension"].write(value.approximationDimension)
         try writer["Granularity"].write(value.granularity)
         try writer["Services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetCommitmentPurchaseAnalysisInput {
+
+    static func write(value: GetCommitmentPurchaseAnalysisInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnalysisId"].write(value.analysisId)
     }
 }
 
@@ -7775,6 +8312,17 @@ extension GetUsageForecastInput {
     }
 }
 
+extension ListCommitmentPurchaseAnalysesInput {
+
+    static func write(value: ListCommitmentPurchaseAnalysesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnalysisIds"].writeList(value.analysisIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AnalysisStatus"].write(value.analysisStatus)
+        try writer["NextPageToken"].write(value.nextPageToken)
+        try writer["PageSize"].write(value.pageSize)
+    }
+}
+
 extension ListCostAllocationTagBackfillHistoryInput {
 
     static func write(value: ListCostAllocationTagBackfillHistoryInput?, to writer: SmithyJSON.Writer) throws {
@@ -7831,6 +8379,14 @@ extension ProvideAnomalyFeedbackInput {
         guard let value else { return }
         try writer["AnomalyId"].write(value.anomalyId)
         try writer["Feedback"].write(value.feedback)
+    }
+}
+
+extension StartCommitmentPurchaseAnalysisInput {
+
+    static func write(value: StartCommitmentPurchaseAnalysisInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommitmentPurchaseAnalysisConfiguration"].write(value.commitmentPurchaseAnalysisConfiguration, with: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration.write(value:to:))
     }
 }
 
@@ -8037,6 +8593,25 @@ extension GetApproximateUsageRecordsOutput {
         value.lookbackPeriod = try reader["LookbackPeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
         value.services = try reader["Services"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.totalRecords = try reader["TotalRecords"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GetCommitmentPurchaseAnalysisOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCommitmentPurchaseAnalysisOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCommitmentPurchaseAnalysisOutput()
+        value.analysisCompletionTime = try reader["AnalysisCompletionTime"].readIfPresent()
+        value.analysisDetails = try reader["AnalysisDetails"].readIfPresent(with: CostExplorerClientTypes.AnalysisDetails.read(from:))
+        value.analysisId = try reader["AnalysisId"].readIfPresent() ?? ""
+        value.analysisStartedTime = try reader["AnalysisStartedTime"].readIfPresent() ?? ""
+        value.analysisStatus = try reader["AnalysisStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.commitmentPurchaseAnalysisConfiguration = try reader["CommitmentPurchaseAnalysisConfiguration"].readIfPresent(with: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration.read(from:))
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.estimatedCompletionTime = try reader["EstimatedCompletionTime"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8269,6 +8844,19 @@ extension GetUsageForecastOutput {
     }
 }
 
+extension ListCommitmentPurchaseAnalysesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCommitmentPurchaseAnalysesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCommitmentPurchaseAnalysesOutput()
+        value.analysisSummaryList = try reader["AnalysisSummaryList"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.AnalysisSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextPageToken = try reader["NextPageToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCostAllocationTagBackfillHistoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCostAllocationTagBackfillHistoryOutput {
@@ -8341,6 +8929,20 @@ extension ProvideAnomalyFeedbackOutput {
         let reader = responseReader
         var value = ProvideAnomalyFeedbackOutput()
         value.anomalyId = try reader["AnomalyId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension StartCommitmentPurchaseAnalysisOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartCommitmentPurchaseAnalysisOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartCommitmentPurchaseAnalysisOutput()
+        value.analysisId = try reader["AnalysisId"].readIfPresent() ?? ""
+        value.analysisStartedTime = try reader["AnalysisStartedTime"].readIfPresent() ?? ""
+        value.estimatedCompletionTime = try reader["EstimatedCompletionTime"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8593,6 +9195,22 @@ enum GetApproximateUsageRecordsOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCommitmentPurchaseAnalysisOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AnalysisNotFoundException": return try AnalysisNotFoundException.makeError(baseError: baseError)
             case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8861,6 +9479,22 @@ enum GetUsageForecastOutputError {
     }
 }
 
+enum ListCommitmentPurchaseAnalysesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCostAllocationTagBackfillHistoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8945,6 +9579,23 @@ enum ProvideAnomalyFeedbackOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartCommitmentPurchaseAnalysisOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
+            case "GenerationExistsException": return try GenerationExistsException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9166,6 +9817,19 @@ extension DataUnavailableException {
     }
 }
 
+extension AnalysisNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AnalysisNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = AnalysisNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension BillExpirationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BillExpirationException {
@@ -9205,11 +9869,11 @@ extension UnresolvableUsageUnitException {
     }
 }
 
-extension BackfillLimitExceededException {
+extension GenerationExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackfillLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GenerationExistsException {
         let reader = baseError.errorBodyReader
-        var value = BackfillLimitExceededException()
+        var value = GenerationExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9218,11 +9882,11 @@ extension BackfillLimitExceededException {
     }
 }
 
-extension GenerationExistsException {
+extension BackfillLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GenerationExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BackfillLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = GenerationExistsException()
+        var value = BackfillLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9581,6 +10245,128 @@ extension CostExplorerClientTypes.DateInterval {
         var value = CostExplorerClientTypes.DateInterval()
         value.start = try reader["Start"].readIfPresent() ?? ""
         value.end = try reader["End"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.AnalysisDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnalysisDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.AnalysisDetails()
+        value.savingsPlansPurchaseAnalysisDetails = try reader["SavingsPlansPurchaseAnalysisDetails"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.SavingsPlansPurchaseAnalysisDetails()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.lookbackPeriodInHours = try reader["LookbackPeriodInHours"].readIfPresent()
+        value.currentAverageCoverage = try reader["CurrentAverageCoverage"].readIfPresent()
+        value.currentAverageHourlyOnDemandSpend = try reader["CurrentAverageHourlyOnDemandSpend"].readIfPresent()
+        value.currentMaximumHourlyOnDemandSpend = try reader["CurrentMaximumHourlyOnDemandSpend"].readIfPresent()
+        value.currentMinimumHourlyOnDemandSpend = try reader["CurrentMinimumHourlyOnDemandSpend"].readIfPresent()
+        value.currentOnDemandSpend = try reader["CurrentOnDemandSpend"].readIfPresent()
+        value.existingHourlyCommitment = try reader["ExistingHourlyCommitment"].readIfPresent()
+        value.hourlyCommitmentToPurchase = try reader["HourlyCommitmentToPurchase"].readIfPresent()
+        value.estimatedAverageCoverage = try reader["EstimatedAverageCoverage"].readIfPresent()
+        value.estimatedAverageUtilization = try reader["EstimatedAverageUtilization"].readIfPresent()
+        value.estimatedMonthlySavingsAmount = try reader["EstimatedMonthlySavingsAmount"].readIfPresent()
+        value.estimatedOnDemandCost = try reader["EstimatedOnDemandCost"].readIfPresent()
+        value.estimatedOnDemandCostWithCurrentCommitment = try reader["EstimatedOnDemandCostWithCurrentCommitment"].readIfPresent()
+        value.estimatedROI = try reader["EstimatedROI"].readIfPresent()
+        value.estimatedSavingsAmount = try reader["EstimatedSavingsAmount"].readIfPresent()
+        value.estimatedSavingsPercentage = try reader["EstimatedSavingsPercentage"].readIfPresent()
+        value.estimatedCommitmentCost = try reader["EstimatedCommitmentCost"].readIfPresent()
+        value.latestUsageTimestamp = try reader["LatestUsageTimestamp"].readIfPresent()
+        value.upfrontCost = try reader["UpfrontCost"].readIfPresent()
+        value.additionalMetadata = try reader["AdditionalMetadata"].readIfPresent()
+        value.metricsOverLookbackPeriod = try reader["MetricsOverLookbackPeriod"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.RecommendationDetailHourlyMetrics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.RecommendationDetailHourlyMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RecommendationDetailHourlyMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.RecommendationDetailHourlyMetrics()
+        value.startTime = try reader["StartTime"].readIfPresent()
+        value.estimatedOnDemandCost = try reader["EstimatedOnDemandCost"].readIfPresent()
+        value.currentCoverage = try reader["CurrentCoverage"].readIfPresent()
+        value.estimatedCoverage = try reader["EstimatedCoverage"].readIfPresent()
+        value.estimatedNewCommitmentUtilization = try reader["EstimatedNewCommitmentUtilization"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration {
+
+    static func write(value: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SavingsPlansPurchaseAnalysisConfiguration"].write(value.savingsPlansPurchaseAnalysisConfiguration, with: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration()
+        value.savingsPlansPurchaseAnalysisConfiguration = try reader["SavingsPlansPurchaseAnalysisConfiguration"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration {
+
+    static func write(value: CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["AccountScope"].write(value.accountScope)
+        try writer["AnalysisType"].write(value.analysisType)
+        try writer["LookBackTimePeriod"].write(value.lookBackTimePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
+        try writer["SavingsPlansToAdd"].writeList(value.savingsPlansToAdd, memberWritingClosure: CostExplorerClientTypes.SavingsPlans.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SavingsPlansToExclude"].writeList(value.savingsPlansToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.SavingsPlansPurchaseAnalysisConfiguration()
+        value.accountScope = try reader["AccountScope"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.analysisType = try reader["AnalysisType"].readIfPresent() ?? .sdkUnknown("")
+        value.savingsPlansToAdd = try reader["SavingsPlansToAdd"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.SavingsPlans.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.savingsPlansToExclude = try reader["SavingsPlansToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lookBackTimePeriod = try reader["LookBackTimePeriod"].readIfPresent(with: CostExplorerClientTypes.DateInterval.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.SavingsPlans {
+
+    static func write(value: CostExplorerClientTypes.SavingsPlans?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceFamily"].write(value.instanceFamily)
+        try writer["OfferingId"].write(value.offeringId)
+        try writer["PaymentOption"].write(value.paymentOption)
+        try writer["Region"].write(value.region)
+        try writer["SavingsPlansCommitment"].write(value.savingsPlansCommitment)
+        try writer["SavingsPlansType"].write(value.savingsPlansType)
+        try writer["TermInYears"].write(value.termInYears)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlans {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.SavingsPlans()
+        value.paymentOption = try reader["PaymentOption"].readIfPresent()
+        value.savingsPlansType = try reader["SavingsPlansType"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
+        value.termInYears = try reader["TermInYears"].readIfPresent()
+        value.savingsPlansCommitment = try reader["SavingsPlansCommitment"].readIfPresent()
+        value.offeringId = try reader["OfferingId"].readIfPresent()
         return value
     }
 }
@@ -10259,20 +11045,6 @@ extension CostExplorerClientTypes.RecommendationDetailData {
     }
 }
 
-extension CostExplorerClientTypes.RecommendationDetailHourlyMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RecommendationDetailHourlyMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostExplorerClientTypes.RecommendationDetailHourlyMetrics()
-        value.startTime = try reader["StartTime"].readIfPresent()
-        value.estimatedOnDemandCost = try reader["EstimatedOnDemandCost"].readIfPresent()
-        value.currentCoverage = try reader["CurrentCoverage"].readIfPresent()
-        value.estimatedCoverage = try reader["EstimatedCoverage"].readIfPresent()
-        value.estimatedNewCommitmentUtilization = try reader["EstimatedNewCommitmentUtilization"].readIfPresent()
-        return value
-    }
-}
-
 extension CostExplorerClientTypes.SavingsPlansCoverage {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.SavingsPlansCoverage {
@@ -10455,6 +11227,22 @@ extension CostExplorerClientTypes.SavingsPlansUtilizationDetail {
         value.utilization = try reader["Utilization"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansUtilization.read(from:))
         value.savings = try reader["Savings"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansSavings.read(from:))
         value.amortizedCommitment = try reader["AmortizedCommitment"].readIfPresent(with: CostExplorerClientTypes.SavingsPlansAmortizedCommitment.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.AnalysisSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.AnalysisSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.AnalysisSummary()
+        value.estimatedCompletionTime = try reader["EstimatedCompletionTime"].readIfPresent()
+        value.analysisCompletionTime = try reader["AnalysisCompletionTime"].readIfPresent()
+        value.analysisStartedTime = try reader["AnalysisStartedTime"].readIfPresent()
+        value.analysisStatus = try reader["AnalysisStatus"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.analysisId = try reader["AnalysisId"].readIfPresent()
+        value.commitmentPurchaseAnalysisConfiguration = try reader["CommitmentPurchaseAnalysisConfiguration"].readIfPresent(with: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration.read(from:))
         return value
     }
 }

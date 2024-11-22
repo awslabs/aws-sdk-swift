@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationAutoScalingClient: ClientRuntime.Client {
     public static let clientName = "ApplicationAutoScalingClient"
-    public static let version = "1.0.45"
+    public static let version = "1.0.46"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationAutoScalingClient.ApplicationAutoScalingClientConfiguration
     let serviceName = "Application Auto Scaling"
@@ -695,6 +695,77 @@ extension ApplicationAutoScalingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeScheduledActions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetPredictiveScalingForecast` operation on the `AnyScaleFrontendService` service.
+    ///
+    /// Retrieves the forecast data for a predictive scaling policy. Load forecasts are predictions of the hourly load values using historical load data from CloudWatch and an analysis of historical trends. Capacity forecasts are represented as predicted values for the minimum capacity that is needed on an hourly basis, based on the hourly load forecast. A minimum of 24 hours of data is required to create the initial forecasts. However, having a full 14 days of historical data results in more accurate forecasts.
+    ///
+    /// - Parameter GetPredictiveScalingForecastInput : [no documentation found]
+    ///
+    /// - Returns: `GetPredictiveScalingForecastOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : The service encountered an internal error.
+    /// - `ValidationException` : An exception was thrown for a validation issue. Review the available parameters for the API request.
+    public func getPredictiveScalingForecast(input: GetPredictiveScalingForecastInput) async throws -> GetPredictiveScalingForecastOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPredictiveScalingForecast")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "application-autoscaling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(GetPredictiveScalingForecastInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPredictiveScalingForecastOutput>(GetPredictiveScalingForecastOutput.httpOutput(from:), GetPredictiveScalingForecastOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPredictiveScalingForecastOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetPredictiveScalingForecastOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(serviceID: serviceName, version: ApplicationAutoScalingClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(xAmzTarget: "AnyScaleFrontendService.GetPredictiveScalingForecast"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetPredictiveScalingForecastInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPredictiveScalingForecastOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPredictiveScalingForecastInput, GetPredictiveScalingForecastOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationAutoScaling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPredictiveScalingForecast")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
