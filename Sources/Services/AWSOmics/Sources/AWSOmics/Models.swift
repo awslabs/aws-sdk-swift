@@ -2851,6 +2851,22 @@ extension OmicsClientTypes {
     }
 }
 
+extension OmicsClientTypes {
+
+    /// S3 access configuration parameters.
+    public struct S3AccessConfig: Swift.Sendable {
+        /// Location of the access logs.
+        public var accessLogLocation: Swift.String?
+
+        public init(
+            accessLogLocation: Swift.String? = nil
+        )
+        {
+            self.accessLogLocation = accessLogLocation
+        }
+    }
+}
+
 public struct CreateSequenceStoreInput: Swift.Sendable {
     /// To ensure that requests don't run multiple times, specify a unique token for each request.
     public var clientToken: Swift.String?
@@ -2863,6 +2879,10 @@ public struct CreateSequenceStoreInput: Swift.Sendable {
     /// A name for the store.
     /// This member is required.
     public var name: Swift.String?
+    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+    public var propagatedSetLevelTags: [Swift.String]?
+    /// S3 access configuration parameters
+    public var s3AccessConfig: OmicsClientTypes.S3AccessConfig?
     /// Server-side encryption (SSE) settings for the store.
     public var sseConfig: OmicsClientTypes.SseConfig?
     /// Tags for the store.
@@ -2874,6 +2894,8 @@ public struct CreateSequenceStoreInput: Swift.Sendable {
         eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily? = nil,
         fallbackLocation: Swift.String? = nil,
         name: Swift.String? = nil,
+        propagatedSetLevelTags: [Swift.String]? = nil,
+        s3AccessConfig: OmicsClientTypes.S3AccessConfig? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -2883,8 +2905,72 @@ public struct CreateSequenceStoreInput: Swift.Sendable {
         self.eTagAlgorithmFamily = eTagAlgorithmFamily
         self.fallbackLocation = fallbackLocation
         self.name = name
+        self.propagatedSetLevelTags = propagatedSetLevelTags
+        self.s3AccessConfig = s3AccessConfig
         self.sseConfig = sseConfig
         self.tags = tags
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// The S3 access metadata of the sequence store.
+    public struct SequenceStoreS3Access: Swift.Sendable {
+        /// Location of the access logs.
+        public var accessLogLocation: Swift.String?
+        /// This is ARN of the access point associated with the S3 bucket storing read sets.
+        public var s3AccessPointArn: Swift.String?
+        /// The S3 URI of the sequence store.
+        public var s3Uri: Swift.String?
+
+        public init(
+            accessLogLocation: Swift.String? = nil,
+            s3AccessPointArn: Swift.String? = nil,
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.accessLogLocation = accessLogLocation
+            self.s3AccessPointArn = s3AccessPointArn
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    public enum SequenceStoreStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SequenceStoreStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -2906,8 +2992,16 @@ public struct CreateSequenceStoreOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The store's name.
     public var name: Swift.String?
+    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+    public var propagatedSetLevelTags: [Swift.String]?
+    /// The S3 access metadata of the sequence store.
+    public var s3Access: OmicsClientTypes.SequenceStoreS3Access?
     /// The store's SSE settings.
     public var sseConfig: OmicsClientTypes.SseConfig?
+    /// The status of the sequence store.
+    public var status: OmicsClientTypes.SequenceStoreStatus?
+    /// The status message of the sequence store.
+    public var statusMessage: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
@@ -2917,7 +3011,11 @@ public struct CreateSequenceStoreOutput: Swift.Sendable {
         fallbackLocation: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
-        sseConfig: OmicsClientTypes.SseConfig? = nil
+        propagatedSetLevelTags: [Swift.String]? = nil,
+        s3Access: OmicsClientTypes.SequenceStoreS3Access? = nil,
+        sseConfig: OmicsClientTypes.SseConfig? = nil,
+        status: OmicsClientTypes.SequenceStoreStatus? = nil,
+        statusMessage: Swift.String? = nil
     )
     {
         self.arn = arn
@@ -2927,7 +3025,11 @@ public struct CreateSequenceStoreOutput: Swift.Sendable {
         self.fallbackLocation = fallbackLocation
         self.id = id
         self.name = name
+        self.propagatedSetLevelTags = propagatedSetLevelTags
+        self.s3Access = s3Access
         self.sseConfig = sseConfig
+        self.status = status
+        self.statusMessage = statusMessage
     }
 }
 
@@ -3311,6 +3413,24 @@ public struct DeleteRunGroupInput: Swift.Sendable {
     {
         self.id = id
     }
+}
+
+public struct DeleteS3AccessPolicyInput: Swift.Sendable {
+    /// The S3 access point ARN that has the access policy.
+    /// This member is required.
+    public var s3AccessPointArn: Swift.String?
+
+    public init(
+        s3AccessPointArn: Swift.String? = nil
+    )
+    {
+        self.s3AccessPointArn = s3AccessPointArn
+    }
+}
+
+public struct DeleteS3AccessPolicyOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteSequenceStoreInput: Swift.Sendable {
@@ -5491,6 +5611,77 @@ public struct GetRunTaskOutput: Swift.Sendable {
     }
 }
 
+public struct GetS3AccessPolicyInput: Swift.Sendable {
+    /// The S3 access point ARN that has the access policy.
+    /// This member is required.
+    public var s3AccessPointArn: Swift.String?
+
+    public init(
+        s3AccessPointArn: Swift.String? = nil
+    )
+    {
+        self.s3AccessPointArn = s3AccessPointArn
+    }
+}
+
+extension OmicsClientTypes {
+
+    public enum StoreType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case referenceStore
+        case sequenceStore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StoreType] {
+            return [
+                .referenceStore,
+                .sequenceStore
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .referenceStore: return "REFERENCE_STORE"
+            case .sequenceStore: return "SEQUENCE_STORE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetS3AccessPolicyOutput: Swift.Sendable {
+    /// The S3 access point ARN that has the access policy.
+    public var s3AccessPointArn: Swift.String?
+    /// The current resource policy that controls S3 access on the store.
+    /// This member is required.
+    public var s3AccessPolicy: Swift.String?
+    /// The AWS-generated Sequence Store or Reference Store ID.
+    public var storeId: Swift.String?
+    /// The type of store associated with the access point.
+    public var storeType: OmicsClientTypes.StoreType?
+    /// The time when the policy was last updated.
+    public var updateTime: Foundation.Date?
+
+    public init(
+        s3AccessPointArn: Swift.String? = nil,
+        s3AccessPolicy: Swift.String? = nil,
+        storeId: Swift.String? = nil,
+        storeType: OmicsClientTypes.StoreType? = nil,
+        updateTime: Foundation.Date? = nil
+    )
+    {
+        self.s3AccessPointArn = s3AccessPointArn
+        self.s3AccessPolicy = s3AccessPolicy
+        self.storeId = storeId
+        self.storeType = storeType
+        self.updateTime = updateTime
+    }
+}
+
 public struct GetSequenceStoreInput: Swift.Sendable {
     /// The store's ID.
     /// This member is required.
@@ -5501,26 +5692,6 @@ public struct GetSequenceStoreInput: Swift.Sendable {
     )
     {
         self.id = id
-    }
-}
-
-extension OmicsClientTypes {
-
-    /// The S3 access metadata of the sequence store.
-    public struct SequenceStoreS3Access: Swift.Sendable {
-        /// This is ARN of the access point associated with the S3 bucket storing read sets.
-        public var s3AccessPointArn: Swift.String?
-        /// The S3 URI of the sequence store.
-        public var s3Uri: Swift.String?
-
-        public init(
-            s3AccessPointArn: Swift.String? = nil,
-            s3Uri: Swift.String? = nil
-        )
-        {
-            self.s3AccessPointArn = s3AccessPointArn
-            self.s3Uri = s3Uri
-        }
     }
 }
 
@@ -5542,10 +5713,18 @@ public struct GetSequenceStoreOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The store's name.
     public var name: Swift.String?
+    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+    public var propagatedSetLevelTags: [Swift.String]?
     /// The S3 metadata of a sequence store, including the ARN and S3 URI of the S3 bucket.
     public var s3Access: OmicsClientTypes.SequenceStoreS3Access?
     /// The store's server-side encryption (SSE) settings.
     public var sseConfig: OmicsClientTypes.SseConfig?
+    /// The status of the sequence store.
+    public var status: OmicsClientTypes.SequenceStoreStatus?
+    /// The status message of the sequence store.
+    public var statusMessage: Swift.String?
+    /// The last-updated time of the sequence store.
+    public var updateTime: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
@@ -5555,8 +5734,12 @@ public struct GetSequenceStoreOutput: Swift.Sendable {
         fallbackLocation: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
+        propagatedSetLevelTags: [Swift.String]? = nil,
         s3Access: OmicsClientTypes.SequenceStoreS3Access? = nil,
-        sseConfig: OmicsClientTypes.SseConfig? = nil
+        sseConfig: OmicsClientTypes.SseConfig? = nil,
+        status: OmicsClientTypes.SequenceStoreStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        updateTime: Foundation.Date? = nil
     )
     {
         self.arn = arn
@@ -5566,8 +5749,12 @@ public struct GetSequenceStoreOutput: Swift.Sendable {
         self.fallbackLocation = fallbackLocation
         self.id = id
         self.name = name
+        self.propagatedSetLevelTags = propagatedSetLevelTags
         self.s3Access = s3Access
         self.sseConfig = sseConfig
+        self.status = status
+        self.statusMessage = statusMessage
+        self.updateTime = updateTime
     }
 }
 
@@ -7217,16 +7404,28 @@ extension OmicsClientTypes {
         public var createdBefore: Foundation.Date?
         /// A name to filter on.
         public var name: Swift.String?
+        /// Filter results based on status.
+        public var status: OmicsClientTypes.SequenceStoreStatus?
+        /// Filter results based on stores updated after the specified time.
+        public var updatedAfter: Foundation.Date?
+        /// Filter results based on stores updated before the specified time.
+        public var updatedBefore: Foundation.Date?
 
         public init(
             createdAfter: Foundation.Date? = nil,
             createdBefore: Foundation.Date? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            status: OmicsClientTypes.SequenceStoreStatus? = nil,
+            updatedAfter: Foundation.Date? = nil,
+            updatedBefore: Foundation.Date? = nil
         )
         {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.name = name
+            self.status = status
+            self.updatedAfter = updatedAfter
+            self.updatedBefore = updatedBefore
         }
     }
 }
@@ -7274,6 +7473,12 @@ extension OmicsClientTypes {
         public var name: Swift.String?
         /// The store's server-side encryption (SSE) settings.
         public var sseConfig: OmicsClientTypes.SseConfig?
+        /// Status of the sequence store.
+        public var status: OmicsClientTypes.SequenceStoreStatus?
+        /// The status message of the sequence store.
+        public var statusMessage: Swift.String?
+        /// The last-updated time of the Sequence Store.
+        public var updateTime: Foundation.Date?
 
         public init(
             arn: Swift.String? = nil,
@@ -7283,7 +7488,10 @@ extension OmicsClientTypes {
             fallbackLocation: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
-            sseConfig: OmicsClientTypes.SseConfig? = nil
+            sseConfig: OmicsClientTypes.SseConfig? = nil,
+            status: OmicsClientTypes.SequenceStoreStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            updateTime: Foundation.Date? = nil
         )
         {
             self.arn = arn
@@ -7294,6 +7502,9 @@ extension OmicsClientTypes {
             self.id = id
             self.name = name
             self.sseConfig = sseConfig
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updateTime = updateTime
         }
     }
 }
@@ -7732,6 +7943,44 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     {
         self.items = items
         self.nextToken = nextToken
+    }
+}
+
+public struct PutS3AccessPolicyInput: Swift.Sendable {
+    /// The S3 access point ARN where you want to put the access policy.
+    /// This member is required.
+    public var s3AccessPointArn: Swift.String?
+    /// The resource policy that controls S3 access to the store.
+    /// This member is required.
+    public var s3AccessPolicy: Swift.String?
+
+    public init(
+        s3AccessPointArn: Swift.String? = nil,
+        s3AccessPolicy: Swift.String? = nil
+    )
+    {
+        self.s3AccessPointArn = s3AccessPointArn
+        self.s3AccessPolicy = s3AccessPolicy
+    }
+}
+
+public struct PutS3AccessPolicyOutput: Swift.Sendable {
+    /// The S3 access point ARN that now has the access policy.
+    public var s3AccessPointArn: Swift.String?
+    /// The AWS-generated Sequence Store or Reference Store ID.
+    public var storeId: Swift.String?
+    /// The type of store associated with the access point.
+    public var storeType: OmicsClientTypes.StoreType?
+
+    public init(
+        s3AccessPointArn: Swift.String? = nil,
+        storeId: Swift.String? = nil,
+        storeType: OmicsClientTypes.StoreType? = nil
+    )
+    {
+        self.s3AccessPointArn = s3AccessPointArn
+        self.storeId = storeId
+        self.storeType = storeType
     }
 }
 
@@ -8241,6 +8490,106 @@ public struct StartReadSetImportJobOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateSequenceStoreInput: Swift.Sendable {
+    /// To ensure that requests don't run multiple times, specify a unique token for each request.
+    public var clientToken: Swift.String?
+    /// A description for the sequence store.
+    public var description: Swift.String?
+    /// The S3 URI of a bucket and folder to store Read Sets that fail to upload.
+    public var fallbackLocation: Swift.String?
+    /// The ID of the sequence store.
+    /// This member is required.
+    public var id: Swift.String?
+    /// A name for the sequence store.
+    public var name: Swift.String?
+    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+    public var propagatedSetLevelTags: [Swift.String]?
+    /// S3 access configuration parameters.
+    public var s3AccessConfig: OmicsClientTypes.S3AccessConfig?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        fallbackLocation: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        propagatedSetLevelTags: [Swift.String]? = nil,
+        s3AccessConfig: OmicsClientTypes.S3AccessConfig? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.fallbackLocation = fallbackLocation
+        self.id = id
+        self.name = name
+        self.propagatedSetLevelTags = propagatedSetLevelTags
+        self.s3AccessConfig = s3AccessConfig
+    }
+}
+
+public struct UpdateSequenceStoreOutput: Swift.Sendable {
+    /// The ARN of the sequence store.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time when the store was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// Description of the sequence store.
+    public var description: Swift.String?
+    /// The ETag algorithm family to use on ingested read sets.
+    public var eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily?
+    /// The S3 URI of a bucket and folder to store Read Sets that fail to upload.
+    public var fallbackLocation: Swift.String?
+    /// The ID of the sequence store.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the sequence store.
+    public var name: Swift.String?
+    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+    public var propagatedSetLevelTags: [Swift.String]?
+    /// The S3 access metadata of the sequence store.
+    public var s3Access: OmicsClientTypes.SequenceStoreS3Access?
+    /// Server-side encryption (SSE) settings for a store.
+    public var sseConfig: OmicsClientTypes.SseConfig?
+    /// The status of the sequence store.
+    public var status: OmicsClientTypes.SequenceStoreStatus?
+    /// The status message of the sequence store.
+    public var statusMessage: Swift.String?
+    /// The last-updated time of the Sequence Store.
+    public var updateTime: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily? = nil,
+        fallbackLocation: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        propagatedSetLevelTags: [Swift.String]? = nil,
+        s3Access: OmicsClientTypes.SequenceStoreS3Access? = nil,
+        sseConfig: OmicsClientTypes.SseConfig? = nil,
+        status: OmicsClientTypes.SequenceStoreStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        updateTime: Foundation.Date? = nil
+    )
+    {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.description = description
+        self.eTagAlgorithmFamily = eTagAlgorithmFamily
+        self.fallbackLocation = fallbackLocation
+        self.id = id
+        self.name = name
+        self.propagatedSetLevelTags = propagatedSetLevelTags
+        self.s3Access = s3Access
+        self.sseConfig = sseConfig
+        self.status = status
+        self.statusMessage = statusMessage
+        self.updateTime = updateTime
+    }
+}
+
 public struct UploadReadSetPartInput: Swift.Sendable {
     /// The number of the part being uploaded.
     /// This member is required.
@@ -8724,6 +9073,16 @@ extension DeleteRunGroupInput {
     }
 }
 
+extension DeleteS3AccessPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteS3AccessPolicyInput) -> Swift.String? {
+        guard let s3AccessPointArn = value.s3AccessPointArn else {
+            return nil
+        }
+        return "/s3accesspolicy/\(s3AccessPointArn.urlPercentEncoding())"
+    }
+}
+
 extension DeleteSequenceStoreInput {
 
     static func urlPathProvider(_ value: DeleteSequenceStoreInput) -> Swift.String? {
@@ -9024,6 +9383,16 @@ extension GetRunTaskInput {
             return nil
         }
         return "/run/\(id.urlPercentEncoding())/task/\(taskId.urlPercentEncoding())"
+    }
+}
+
+extension GetS3AccessPolicyInput {
+
+    static func urlPathProvider(_ value: GetS3AccessPolicyInput) -> Swift.String? {
+        guard let s3AccessPointArn = value.s3AccessPointArn else {
+            return nil
+        }
+        return "/s3accesspolicy/\(s3AccessPointArn.urlPercentEncoding())"
     }
 }
 
@@ -9653,6 +10022,16 @@ extension ListWorkflowsInput {
     }
 }
 
+extension PutS3AccessPolicyInput {
+
+    static func urlPathProvider(_ value: PutS3AccessPolicyInput) -> Swift.String? {
+        guard let s3AccessPointArn = value.s3AccessPointArn else {
+            return nil
+        }
+        return "/s3accesspolicy/\(s3AccessPointArn.urlPercentEncoding())"
+    }
+}
+
 extension StartAnnotationImportJobInput {
 
     static func urlPathProvider(_ value: StartAnnotationImportJobInput) -> Swift.String? {
@@ -9790,6 +10169,16 @@ extension UpdateRunGroupInput {
             return nil
         }
         return "/runGroup/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateSequenceStoreInput {
+
+    static func urlPathProvider(_ value: UpdateSequenceStoreInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/sequencestore/\(id.urlPercentEncoding())"
     }
 }
 
@@ -9953,6 +10342,8 @@ extension CreateSequenceStoreInput {
         try writer["eTagAlgorithmFamily"].write(value.eTagAlgorithmFamily)
         try writer["fallbackLocation"].write(value.fallbackLocation)
         try writer["name"].write(value.name)
+        try writer["propagatedSetLevelTags"].writeList(value.propagatedSetLevelTags, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["s3AccessConfig"].write(value.s3AccessConfig, with: OmicsClientTypes.S3AccessConfig.write(value:to:))
         try writer["sseConfig"].write(value.sseConfig, with: OmicsClientTypes.SseConfig.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -10132,6 +10523,14 @@ extension ListVariantStoresInput {
     }
 }
 
+extension PutS3AccessPolicyInput {
+
+    static func write(value: PutS3AccessPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3AccessPolicy"].write(value.s3AccessPolicy)
+    }
+}
+
 extension StartAnnotationImportJobInput {
 
     static func write(value: StartAnnotationImportJobInput?, to writer: SmithyJSON.Writer) throws {
@@ -10266,6 +10665,19 @@ extension UpdateRunGroupInput {
         try writer["maxGpus"].write(value.maxGpus)
         try writer["maxRuns"].write(value.maxRuns)
         try writer["name"].write(value.name)
+    }
+}
+
+extension UpdateSequenceStoreInput {
+
+    static func write(value: UpdateSequenceStoreInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["fallbackLocation"].write(value.fallbackLocation)
+        try writer["name"].write(value.name)
+        try writer["propagatedSetLevelTags"].writeList(value.propagatedSetLevelTags, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["s3AccessConfig"].write(value.s3AccessConfig, with: OmicsClientTypes.S3AccessConfig.write(value:to:))
     }
 }
 
@@ -10477,7 +10889,11 @@ extension CreateSequenceStoreOutput {
         value.fallbackLocation = try reader["fallbackLocation"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
+        value.propagatedSetLevelTags = try reader["propagatedSetLevelTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.s3Access = try reader["s3Access"].readIfPresent(with: OmicsClientTypes.SequenceStoreS3Access.read(from:))
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
 }
@@ -10583,6 +10999,13 @@ extension DeleteRunGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRunGroupOutput {
         return DeleteRunGroupOutput()
+    }
+}
+
+extension DeleteS3AccessPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteS3AccessPolicyOutput {
+        return DeleteS3AccessPolicyOutput()
     }
 }
 
@@ -10985,6 +11408,22 @@ extension GetRunTaskOutput {
     }
 }
 
+extension GetS3AccessPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetS3AccessPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetS3AccessPolicyOutput()
+        value.s3AccessPointArn = try reader["s3AccessPointArn"].readIfPresent()
+        value.s3AccessPolicy = try reader["s3AccessPolicy"].readIfPresent() ?? ""
+        value.storeId = try reader["storeId"].readIfPresent()
+        value.storeType = try reader["storeType"].readIfPresent()
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension GetSequenceStoreOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSequenceStoreOutput {
@@ -10999,8 +11438,12 @@ extension GetSequenceStoreOutput {
         value.fallbackLocation = try reader["fallbackLocation"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
+        value.propagatedSetLevelTags = try reader["propagatedSetLevelTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.s3Access = try reader["s3Access"].readIfPresent(with: OmicsClientTypes.SequenceStoreS3Access.read(from:))
         value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -11375,6 +11818,20 @@ extension ListWorkflowsOutput {
     }
 }
 
+extension PutS3AccessPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutS3AccessPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutS3AccessPolicyOutput()
+        value.s3AccessPointArn = try reader["s3AccessPointArn"].readIfPresent()
+        value.storeId = try reader["storeId"].readIfPresent()
+        value.storeType = try reader["storeType"].readIfPresent()
+        return value
+    }
+}
+
 extension StartAnnotationImportJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAnnotationImportJobOutput {
@@ -11543,6 +12000,30 @@ extension UpdateRunGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRunGroupOutput {
         return UpdateRunGroupOutput()
+    }
+}
+
+extension UpdateSequenceStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSequenceStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSequenceStoreOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.eTagAlgorithmFamily = try reader["eTagAlgorithmFamily"].readIfPresent()
+        value.fallbackLocation = try reader["fallbackLocation"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.propagatedSetLevelTags = try reader["propagatedSetLevelTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.s3Access = try reader["s3Access"].readIfPresent(with: OmicsClientTypes.SequenceStoreS3Access.read(from:))
+        value.sseConfig = try reader["sseConfig"].readIfPresent(with: OmicsClientTypes.SseConfig.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
     }
 }
 
@@ -12064,6 +12545,26 @@ enum DeleteRunGroupOutputError {
     }
 }
 
+enum DeleteS3AccessPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotSupportedOperationException": return try NotSupportedOperationException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteSequenceStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12446,6 +12947,27 @@ enum GetRunTaskOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetS3AccessPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotSupportedOperationException": return try NotSupportedOperationException.makeError(baseError: baseError)
             case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -12980,6 +13502,26 @@ enum ListWorkflowsOutputError {
     }
 }
 
+enum PutS3AccessPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotSupportedOperationException": return try NotSupportedOperationException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartAnnotationImportJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13232,6 +13774,26 @@ enum UpdateRunGroupOutputError {
             case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSequenceStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13568,6 +14130,18 @@ extension OmicsClientTypes.SseConfig {
     }
 }
 
+extension OmicsClientTypes.SequenceStoreS3Access {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.SequenceStoreS3Access {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.SequenceStoreS3Access()
+        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.s3AccessPointArn = try reader["s3AccessPointArn"].readIfPresent()
+        value.accessLogLocation = try reader["accessLogLocation"].readIfPresent()
+        return value
+    }
+}
+
 extension OmicsClientTypes.VersionDeleteError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.VersionDeleteError {
@@ -13837,17 +14411,6 @@ extension OmicsClientTypes.RunLogLocation {
         var value = OmicsClientTypes.RunLogLocation()
         value.engineLogStream = try reader["engineLogStream"].readIfPresent()
         value.runLogStream = try reader["runLogStream"].readIfPresent()
-        return value
-    }
-}
-
-extension OmicsClientTypes.SequenceStoreS3Access {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.SequenceStoreS3Access {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OmicsClientTypes.SequenceStoreS3Access()
-        value.s3Uri = try reader["s3Uri"].readIfPresent()
-        value.s3AccessPointArn = try reader["s3AccessPointArn"].readIfPresent()
         return value
     }
 }
@@ -14198,6 +14761,9 @@ extension OmicsClientTypes.SequenceStoreDetail {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.fallbackLocation = try reader["fallbackLocation"].readIfPresent()
         value.eTagAlgorithmFamily = try reader["eTagAlgorithmFamily"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -14264,6 +14830,14 @@ extension OmicsClientTypes.CompleteReadSetUploadPartListItem {
         try writer["checksum"].write(value.checksum)
         try writer["partNumber"].write(value.partNumber)
         try writer["partSource"].write(value.partSource)
+    }
+}
+
+extension OmicsClientTypes.S3AccessConfig {
+
+    static func write(value: OmicsClientTypes.S3AccessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessLogLocation"].write(value.accessLogLocation)
     }
 }
 
@@ -14385,6 +14959,9 @@ extension OmicsClientTypes.SequenceStoreFilter {
         try writer["createdAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["createdBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
+        try writer["updatedAfter"].writeTimestamp(value.updatedAfter, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["updatedBefore"].writeTimestamp(value.updatedBefore, format: SmithyTimestamps.TimestampFormat.dateTime)
     }
 }
 

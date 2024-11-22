@@ -1048,6 +1048,35 @@ extension ElasticLoadBalancingv2ClientTypes {
     }
 }
 
+extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum AdvertiseTrustStoreCaNamesEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case off
+        case on
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdvertiseTrustStoreCaNamesEnum] {
+            return [
+                .off,
+                .on
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .off: return "off"
+            case .on: return "on"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The specified allocation ID does not exist.
 public struct AllocationIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1774,6 +1803,8 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about the mutual authentication attributes of a listener.
     public struct MutualAuthenticationAttributes: Swift.Sendable {
+        /// Indicates whether trust store CA certificate names are advertised.
+        public var advertiseTrustStoreCaNames: ElasticLoadBalancingv2ClientTypes.AdvertiseTrustStoreCaNamesEnum?
         /// Indicates whether expired client certificates are ignored.
         public var ignoreClientCertificateExpiry: Swift.Bool?
         /// The client certificate handling method. Options are off, passthrough or verify. The default value is off.
@@ -1784,12 +1815,14 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var trustStoreAssociationStatus: ElasticLoadBalancingv2ClientTypes.TrustStoreAssociationStatusEnum?
 
         public init(
+            advertiseTrustStoreCaNames: ElasticLoadBalancingv2ClientTypes.AdvertiseTrustStoreCaNamesEnum? = nil,
             ignoreClientCertificateExpiry: Swift.Bool? = nil,
             mode: Swift.String? = nil,
             trustStoreArn: Swift.String? = nil,
             trustStoreAssociationStatus: ElasticLoadBalancingv2ClientTypes.TrustStoreAssociationStatusEnum? = nil
         )
         {
+            self.advertiseTrustStoreCaNames = advertiseTrustStoreCaNames
             self.ignoreClientCertificateExpiry = ignoreClientCertificateExpiry
             self.mode = mode
             self.trustStoreArn = trustStoreArn
@@ -8740,6 +8773,7 @@ extension ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
 
     static func write(value: ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdvertiseTrustStoreCaNames"].write(value.advertiseTrustStoreCaNames)
         try writer["IgnoreClientCertificateExpiry"].write(value.ignoreClientCertificateExpiry)
         try writer["Mode"].write(value.mode)
         try writer["TrustStoreArn"].write(value.trustStoreArn)
@@ -8753,6 +8787,7 @@ extension ElasticLoadBalancingv2ClientTypes.MutualAuthenticationAttributes {
         value.trustStoreArn = try reader["TrustStoreArn"].readIfPresent()
         value.ignoreClientCertificateExpiry = try reader["IgnoreClientCertificateExpiry"].readIfPresent()
         value.trustStoreAssociationStatus = try reader["TrustStoreAssociationStatus"].readIfPresent()
+        value.advertiseTrustStoreCaNames = try reader["AdvertiseTrustStoreCaNames"].readIfPresent()
         return value
     }
 }
