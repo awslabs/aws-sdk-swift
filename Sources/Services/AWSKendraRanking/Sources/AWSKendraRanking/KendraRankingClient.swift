@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KendraRankingClient: ClientRuntime.Client {
     public static let clientName = "KendraRankingClient"
-    public static let version = "1.0.43"
+    public static let version = "1.0.47"
     let client: ClientRuntime.SdkHttpClient
     let config: KendraRankingClient.KendraRankingClientConfiguration
     let serviceName = "Kendra Ranking"

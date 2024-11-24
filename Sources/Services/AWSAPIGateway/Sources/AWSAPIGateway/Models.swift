@@ -70,6 +70,11 @@ public struct DeleteDocumentationVersionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteDomainNameAccessAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteDomainNameOutput: Swift.Sendable {
 
     public init() { }
@@ -150,6 +155,11 @@ public struct FlushStageCacheOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct RejectDomainNameAccessAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct TagResourceOutput: Swift.Sendable {
 
     public init() { }
@@ -158,6 +168,32 @@ public struct TagResourceOutput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension APIGatewayClientTypes {
+
+    public enum AccessAssociationSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vpce
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessAssociationSourceType] {
+            return [
+                .vpce
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vpce: return "VPCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension APIGatewayClientTypes {
@@ -784,6 +820,8 @@ public struct CreateBasePathMappingInput: Swift.Sendable {
     /// The domain name of the BasePathMapping resource to create.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
@@ -793,12 +831,14 @@ public struct CreateBasePathMappingInput: Swift.Sendable {
     public init(
         basePath: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         restApiId: Swift.String? = nil,
         stage: Swift.String? = nil
     )
     {
         self.basePath = basePath
         self.domainName = domainName
+        self.domainNameId = domainNameId
         self.restApiId = restApiId
         self.stage = stage
     }
@@ -1304,13 +1344,13 @@ extension APIGatewayClientTypes {
 
 /// A request to create a new domain name.
 public struct CreateDomainNameInput: Swift.Sendable {
-    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
-    /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
+    /// [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint or private endpoint for this domain name provided by your certificate authority.
     public var certificateBody: Swift.String?
     /// [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
     public var certificateChain: Swift.String?
-    /// The user-friendly name of the certificate that will be used by edge-optimized endpoint for this domain name.
+    /// The user-friendly name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     public var certificateName: Swift.String?
     /// [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
     public var certificatePrivateKey: Swift.String?
@@ -1323,6 +1363,8 @@ public struct CreateDomainNameInput: Swift.Sendable {
     public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthenticationInput?
     /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
     public var ownershipVerificationCertificateArn: Swift.String?
+    /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+    public var policy: Swift.String?
     /// The reference to an Amazon Web Services-managed certificate that will be used by regional endpoint for this domain name. Certificate Manager is the only supported source.
     public var regionalCertificateArn: Swift.String?
     /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
@@ -1342,6 +1384,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthenticationInput? = nil,
         ownershipVerificationCertificateArn: Swift.String? = nil,
+        policy: Swift.String? = nil,
         regionalCertificateArn: Swift.String? = nil,
         regionalCertificateName: Swift.String? = nil,
         securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
@@ -1357,6 +1400,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
         self.endpointConfiguration = endpointConfiguration
         self.mutualTlsAuthentication = mutualTlsAuthentication
         self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+        self.policy = policy
         self.regionalCertificateArn = regionalCertificateArn
         self.regionalCertificateName = regionalCertificateName
         self.securityPolicy = securityPolicy
@@ -1428,11 +1472,11 @@ extension APIGatewayClientTypes {
 
 /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
 public struct CreateDomainNameOutput: Swift.Sendable {
-    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
-    /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
+    /// The name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     public var certificateName: Swift.String?
-    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
+    /// The timestamp when the certificate that was used by edge-optimized endpoint or private endpoint for this domain name was uploaded.
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
@@ -1440,16 +1484,24 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
+    /// The ARN of the domain name. Supported only for private custom domain names.
+    public var domainNameArn: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
     /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
+    /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
+    public var managementPolicy: Swift.String?
     /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
     public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication?
     /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
     public var ownershipVerificationCertificateArn: Swift.String?
+    /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+    public var policy: Swift.String?
     /// The reference to an Amazon Web Services-managed certificate that will be used for validating the regional domain name. Certificate Manager is the only supported source.
     public var regionalCertificateArn: Swift.String?
     /// The name of the certificate that will be used for validating the regional domain name.
@@ -1470,11 +1522,15 @@ public struct CreateDomainNameOutput: Swift.Sendable {
         distributionDomainName: Swift.String? = nil,
         distributionHostedZoneId: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
         domainNameStatusMessage: Swift.String? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
+        managementPolicy: Swift.String? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
         ownershipVerificationCertificateArn: Swift.String? = nil,
+        policy: Swift.String? = nil,
         regionalCertificateArn: Swift.String? = nil,
         regionalCertificateName: Swift.String? = nil,
         regionalDomainName: Swift.String? = nil,
@@ -1489,16 +1545,76 @@ public struct CreateDomainNameOutput: Swift.Sendable {
         self.distributionDomainName = distributionDomainName
         self.distributionHostedZoneId = distributionHostedZoneId
         self.domainName = domainName
+        self.domainNameArn = domainNameArn
+        self.domainNameId = domainNameId
         self.domainNameStatus = domainNameStatus
         self.domainNameStatusMessage = domainNameStatusMessage
         self.endpointConfiguration = endpointConfiguration
+        self.managementPolicy = managementPolicy
         self.mutualTlsAuthentication = mutualTlsAuthentication
         self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+        self.policy = policy
         self.regionalCertificateArn = regionalCertificateArn
         self.regionalCertificateName = regionalCertificateName
         self.regionalDomainName = regionalDomainName
         self.regionalHostedZoneId = regionalHostedZoneId
         self.securityPolicy = securityPolicy
+        self.tags = tags
+    }
+}
+
+public struct CreateDomainNameAccessAssociationInput: Swift.Sendable {
+    /// The identifier of the domain name access association source. For a VPCE, the value is the VPC endpoint ID.
+    /// This member is required.
+    public var accessAssociationSource: Swift.String?
+    /// The type of the domain name access association source.
+    /// This member is required.
+    public var accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType?
+    /// The ARN of the domain name.
+    /// This member is required.
+    public var domainNameArn: Swift.String?
+    /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        accessAssociationSource: Swift.String? = nil,
+        accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType? = nil,
+        domainNameArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.accessAssociationSource = accessAssociationSource
+        self.accessAssociationSourceType = accessAssociationSourceType
+        self.domainNameArn = domainNameArn
+        self.tags = tags
+    }
+}
+
+/// Represents a domain name access association between an access association source and a private custom domain name. With a domain name access association, an access association source can invoke a private custom domain name while isolated from the public internet.
+public struct CreateDomainNameAccessAssociationOutput: Swift.Sendable {
+    /// The ARN of the domain name access association source. For a VPCE, the ARN must be a VPC endpoint.
+    public var accessAssociationSource: Swift.String?
+    /// The type of the domain name access association source.
+    public var accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType?
+    /// The ARN of the domain name access association resource.
+    public var domainNameAccessAssociationArn: Swift.String?
+    /// The ARN of the domain name.
+    public var domainNameArn: Swift.String?
+    /// The collection of tags. Each tag element is associated with a given resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        accessAssociationSource: Swift.String? = nil,
+        accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType? = nil,
+        domainNameAccessAssociationArn: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.accessAssociationSource = accessAssociationSource
+        self.accessAssociationSourceType = accessAssociationSourceType
+        self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
+        self.domainNameArn = domainNameArn
         self.tags = tags
     }
 }
@@ -2688,14 +2804,18 @@ public struct DeleteBasePathMappingInput: Swift.Sendable {
     /// The domain name of the BasePathMapping resource to delete.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
 
     public init(
         basePath: Swift.String? = nil,
-        domainName: Swift.String? = nil
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil
     )
     {
         self.basePath = basePath
         self.domainName = domainName
+        self.domainNameId = domainNameId
     }
 }
 
@@ -2775,12 +2895,29 @@ public struct DeleteDomainNameInput: Swift.Sendable {
     /// The name of the DomainName resource to be deleted.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
 
     public init(
-        domainName: Swift.String? = nil
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil
     )
     {
         self.domainName = domainName
+        self.domainNameId = domainNameId
+    }
+}
+
+public struct DeleteDomainNameAccessAssociationInput: Swift.Sendable {
+    /// The ARN of the domain name access association resource.
+    /// This member is required.
+    public var domainNameAccessAssociationArn: Swift.String?
+
+    public init(
+        domainNameAccessAssociationArn: Swift.String? = nil
+    )
+    {
+        self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
     }
 }
 
@@ -3483,14 +3620,18 @@ public struct GetBasePathMappingInput: Swift.Sendable {
     /// The domain name of the BasePathMapping resource to be described.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
 
     public init(
         basePath: Swift.String? = nil,
-        domainName: Swift.String? = nil
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil
     )
     {
         self.basePath = basePath
         self.domainName = domainName
+        self.domainNameId = domainNameId
     }
 }
 
@@ -3520,6 +3661,8 @@ public struct GetBasePathMappingsInput: Swift.Sendable {
     /// The domain name of a BasePathMapping resource.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
@@ -3527,11 +3670,13 @@ public struct GetBasePathMappingsInput: Swift.Sendable {
 
     public init(
         domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         position: Swift.String? = nil
     )
     {
         self.domainName = domainName
+        self.domainNameId = domainNameId
         self.limit = limit
         self.position = position
     }
@@ -4066,22 +4211,26 @@ public struct GetDomainNameInput: Swift.Sendable {
     /// The name of the DomainName resource.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
 
     public init(
-        domainName: Swift.String? = nil
+        domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil
     )
     {
         self.domainName = domainName
+        self.domainNameId = domainNameId
     }
 }
 
 /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
 public struct GetDomainNameOutput: Swift.Sendable {
-    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
-    /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
+    /// The name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     public var certificateName: Swift.String?
-    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
+    /// The timestamp when the certificate that was used by edge-optimized endpoint or private endpoint for this domain name was uploaded.
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
@@ -4089,16 +4238,24 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
+    /// The ARN of the domain name. Supported only for private custom domain names.
+    public var domainNameArn: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
     /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
+    /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
+    public var managementPolicy: Swift.String?
     /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
     public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication?
     /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
     public var ownershipVerificationCertificateArn: Swift.String?
+    /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+    public var policy: Swift.String?
     /// The reference to an Amazon Web Services-managed certificate that will be used for validating the regional domain name. Certificate Manager is the only supported source.
     public var regionalCertificateArn: Swift.String?
     /// The name of the certificate that will be used for validating the regional domain name.
@@ -4119,11 +4276,15 @@ public struct GetDomainNameOutput: Swift.Sendable {
         distributionDomainName: Swift.String? = nil,
         distributionHostedZoneId: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
         domainNameStatusMessage: Swift.String? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
+        managementPolicy: Swift.String? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
         ownershipVerificationCertificateArn: Swift.String? = nil,
+        policy: Swift.String? = nil,
         regionalCertificateArn: Swift.String? = nil,
         regionalCertificateName: Swift.String? = nil,
         regionalDomainName: Swift.String? = nil,
@@ -4138,11 +4299,15 @@ public struct GetDomainNameOutput: Swift.Sendable {
         self.distributionDomainName = distributionDomainName
         self.distributionHostedZoneId = distributionHostedZoneId
         self.domainName = domainName
+        self.domainNameArn = domainNameArn
+        self.domainNameId = domainNameId
         self.domainNameStatus = domainNameStatus
         self.domainNameStatusMessage = domainNameStatusMessage
         self.endpointConfiguration = endpointConfiguration
+        self.managementPolicy = managementPolicy
         self.mutualTlsAuthentication = mutualTlsAuthentication
         self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+        self.policy = policy
         self.regionalCertificateArn = regionalCertificateArn
         self.regionalCertificateName = regionalCertificateName
         self.regionalDomainName = regionalDomainName
@@ -4152,20 +4317,121 @@ public struct GetDomainNameOutput: Swift.Sendable {
     }
 }
 
+extension APIGatewayClientTypes {
+
+    public enum ResourceOwner: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case otherAccounts
+        case `self`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceOwner] {
+            return [
+                .otherAccounts,
+                .self
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .otherAccounts: return "OTHER_ACCOUNTS"
+            case .self: return "SELF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDomainNameAccessAssociationsInput: Swift.Sendable {
+    /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+    public var limit: Swift.Int?
+    /// The current pagination position in the paged result set.
+    public var position: Swift.String?
+    /// The owner of the domain name access association. Use SELF to only list the domain name access associations owned by your own account. Use OTHER_ACCOUNTS to list the domain name access associations with your private custom domain names that are owned by other AWS accounts.
+    public var resourceOwner: APIGatewayClientTypes.ResourceOwner?
+
+    public init(
+        limit: Swift.Int? = nil,
+        position: Swift.String? = nil,
+        resourceOwner: APIGatewayClientTypes.ResourceOwner? = nil
+    )
+    {
+        self.limit = limit
+        self.position = position
+        self.resourceOwner = resourceOwner
+    }
+}
+
+extension APIGatewayClientTypes {
+
+    /// Represents a domain name access association between an access association source and a private custom domain name. With a domain name access association, an access association source can invoke a private custom domain name while isolated from the public internet.
+    public struct DomainNameAccessAssociation: Swift.Sendable {
+        /// The ARN of the domain name access association source. For a VPCE, the ARN must be a VPC endpoint.
+        public var accessAssociationSource: Swift.String?
+        /// The type of the domain name access association source.
+        public var accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType?
+        /// The ARN of the domain name access association resource.
+        public var domainNameAccessAssociationArn: Swift.String?
+        /// The ARN of the domain name.
+        public var domainNameArn: Swift.String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            accessAssociationSource: Swift.String? = nil,
+            accessAssociationSourceType: APIGatewayClientTypes.AccessAssociationSourceType? = nil,
+            domainNameAccessAssociationArn: Swift.String? = nil,
+            domainNameArn: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.accessAssociationSource = accessAssociationSource
+            self.accessAssociationSourceType = accessAssociationSourceType
+            self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
+            self.domainNameArn = domainNameArn
+            self.tags = tags
+        }
+    }
+}
+
+public struct GetDomainNameAccessAssociationsOutput: Swift.Sendable {
+    /// The current page of elements from this collection.
+    public var items: [APIGatewayClientTypes.DomainNameAccessAssociation]?
+    /// The current pagination position in the paged result set.
+    public var position: Swift.String?
+
+    public init(
+        items: [APIGatewayClientTypes.DomainNameAccessAssociation]? = nil,
+        position: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.position = position
+    }
+}
+
 /// Request to describe a collection of DomainName resources.
 public struct GetDomainNamesInput: Swift.Sendable {
     /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
     public var limit: Swift.Int?
     /// The current pagination position in the paged result set.
     public var position: Swift.String?
+    /// The owner of the domain name access association.
+    public var resourceOwner: APIGatewayClientTypes.ResourceOwner?
 
     public init(
         limit: Swift.Int? = nil,
-        position: Swift.String? = nil
+        position: Swift.String? = nil,
+        resourceOwner: APIGatewayClientTypes.ResourceOwner? = nil
     )
     {
         self.limit = limit
         self.position = position
+        self.resourceOwner = resourceOwner
     }
 }
 
@@ -4173,11 +4439,11 @@ extension APIGatewayClientTypes {
 
     /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
     public struct DomainName: Swift.Sendable {
-        /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+        /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
         public var certificateArn: Swift.String?
-        /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
+        /// The name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
         public var certificateName: Swift.String?
-        /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
+        /// The timestamp when the certificate that was used by edge-optimized endpoint or private endpoint for this domain name was uploaded.
         public var certificateUploadDate: Foundation.Date?
         /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
         public var distributionDomainName: Swift.String?
@@ -4185,16 +4451,24 @@ extension APIGatewayClientTypes {
         public var distributionHostedZoneId: Swift.String?
         /// The custom domain name as an API host name, for example, my-api.example.com.
         public var domainName: Swift.String?
+        /// The ARN of the domain name. Supported only for private custom domain names.
+        public var domainNameArn: Swift.String?
+        /// The identifier for the domain name resource. Supported only for private custom domain names.
+        public var domainNameId: Swift.String?
         /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
         public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
         /// An optional text message containing detailed information about status of the DomainName migration.
         public var domainNameStatusMessage: Swift.String?
         /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
         public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
+        /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
+        public var managementPolicy: Swift.String?
         /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
         public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication?
         /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
         public var ownershipVerificationCertificateArn: Swift.String?
+        /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+        public var policy: Swift.String?
         /// The reference to an Amazon Web Services-managed certificate that will be used for validating the regional domain name. Certificate Manager is the only supported source.
         public var regionalCertificateArn: Swift.String?
         /// The name of the certificate that will be used for validating the regional domain name.
@@ -4215,11 +4489,15 @@ extension APIGatewayClientTypes {
             distributionDomainName: Swift.String? = nil,
             distributionHostedZoneId: Swift.String? = nil,
             domainName: Swift.String? = nil,
+            domainNameArn: Swift.String? = nil,
+            domainNameId: Swift.String? = nil,
             domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
             domainNameStatusMessage: Swift.String? = nil,
             endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
+            managementPolicy: Swift.String? = nil,
             mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
             ownershipVerificationCertificateArn: Swift.String? = nil,
+            policy: Swift.String? = nil,
             regionalCertificateArn: Swift.String? = nil,
             regionalCertificateName: Swift.String? = nil,
             regionalDomainName: Swift.String? = nil,
@@ -4234,11 +4512,15 @@ extension APIGatewayClientTypes {
             self.distributionDomainName = distributionDomainName
             self.distributionHostedZoneId = distributionHostedZoneId
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
+            self.domainNameId = domainNameId
             self.domainNameStatus = domainNameStatus
             self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointConfiguration = endpointConfiguration
+            self.managementPolicy = managementPolicy
             self.mutualTlsAuthentication = mutualTlsAuthentication
             self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+            self.policy = policy
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
             self.regionalDomainName = regionalDomainName
@@ -6900,6 +7182,24 @@ public struct PutRestApiOutput: Swift.Sendable {
     }
 }
 
+public struct RejectDomainNameAccessAssociationInput: Swift.Sendable {
+    /// The ARN of the domain name access association resource.
+    /// This member is required.
+    public var domainNameAccessAssociationArn: Swift.String?
+    /// The ARN of the domain name.
+    /// This member is required.
+    public var domainNameArn: Swift.String?
+
+    public init(
+        domainNameAccessAssociationArn: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil
+    )
+    {
+        self.domainNameAccessAssociationArn = domainNameAccessAssociationArn
+        self.domainNameArn = domainNameArn
+    }
+}
+
 /// Adds or updates a tag on a given resource.
 public struct TagResourceInput: Swift.Sendable {
     /// The ARN of a resource that can be tagged.
@@ -7353,17 +7653,21 @@ public struct UpdateBasePathMappingInput: Swift.Sendable {
     /// The domain name of the BasePathMapping resource to change.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
 
     public init(
         basePath: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil
     )
     {
         self.basePath = basePath
         self.domainName = domainName
+        self.domainNameId = domainNameId
         self.patchOperations = patchOperations
     }
 }
@@ -7581,26 +7885,30 @@ public struct UpdateDomainNameInput: Swift.Sendable {
     /// The name of the DomainName resource to be changed.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
     public var patchOperations: [APIGatewayClientTypes.PatchOperation]?
 
     public init(
         domainName: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         patchOperations: [APIGatewayClientTypes.PatchOperation]? = nil
     )
     {
         self.domainName = domainName
+        self.domainNameId = domainNameId
         self.patchOperations = patchOperations
     }
 }
 
 /// Represents a custom domain name as a user-friendly host name of an API (RestApi).
 public struct UpdateDomainNameOutput: Swift.Sendable {
-    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint for this domain name. Certificate Manager is the only supported source.
+    /// The reference to an Amazon Web Services-managed certificate that will be used by edge-optimized endpoint or private endpoint for this domain name. Certificate Manager is the only supported source.
     public var certificateArn: Swift.String?
-    /// The name of the certificate that will be used by edge-optimized endpoint for this domain name.
+    /// The name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     public var certificateName: Swift.String?
-    /// The timestamp when the certificate that was used by edge-optimized endpoint for this domain name was uploaded. API Gateway doesn't change this value if you update the certificate.
+    /// The timestamp when the certificate that was used by edge-optimized endpoint or private endpoint for this domain name was uploaded.
     public var certificateUploadDate: Foundation.Date?
     /// The domain name of the Amazon CloudFront distribution associated with this custom domain name for an edge-optimized endpoint. You set up this association when adding a DNS record pointing the custom domain name to this distribution name. For more information about CloudFront distributions, see the Amazon CloudFront documentation.
     public var distributionDomainName: Swift.String?
@@ -7608,16 +7916,24 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var distributionHostedZoneId: Swift.String?
     /// The custom domain name as an API host name, for example, my-api.example.com.
     public var domainName: Swift.String?
+    /// The ARN of the domain name. Supported only for private custom domain names.
+    public var domainNameArn: Swift.String?
+    /// The identifier for the domain name resource. Supported only for private custom domain names.
+    public var domainNameId: Swift.String?
     /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
     /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
+    /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
+    public var managementPolicy: Swift.String?
     /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
     public var mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication?
     /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
     public var ownershipVerificationCertificateArn: Swift.String?
+    /// A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
+    public var policy: Swift.String?
     /// The reference to an Amazon Web Services-managed certificate that will be used for validating the regional domain name. Certificate Manager is the only supported source.
     public var regionalCertificateArn: Swift.String?
     /// The name of the certificate that will be used for validating the regional domain name.
@@ -7638,11 +7954,15 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
         distributionDomainName: Swift.String? = nil,
         distributionHostedZoneId: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        domainNameArn: Swift.String? = nil,
+        domainNameId: Swift.String? = nil,
         domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
         domainNameStatusMessage: Swift.String? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
+        managementPolicy: Swift.String? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
         ownershipVerificationCertificateArn: Swift.String? = nil,
+        policy: Swift.String? = nil,
         regionalCertificateArn: Swift.String? = nil,
         regionalCertificateName: Swift.String? = nil,
         regionalDomainName: Swift.String? = nil,
@@ -7657,11 +7977,15 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
         self.distributionDomainName = distributionDomainName
         self.distributionHostedZoneId = distributionHostedZoneId
         self.domainName = domainName
+        self.domainNameArn = domainNameArn
+        self.domainNameId = domainNameId
         self.domainNameStatus = domainNameStatus
         self.domainNameStatusMessage = domainNameStatusMessage
         self.endpointConfiguration = endpointConfiguration
+        self.managementPolicy = managementPolicy
         self.mutualTlsAuthentication = mutualTlsAuthentication
         self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
+        self.policy = policy
         self.regionalCertificateArn = regionalCertificateArn
         self.regionalCertificateName = regionalCertificateName
         self.regionalDomainName = regionalDomainName
@@ -8545,6 +8869,18 @@ extension CreateBasePathMappingInput {
     }
 }
 
+extension CreateBasePathMappingInput {
+
+    static func queryItemProvider(_ value: CreateBasePathMappingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension CreateDeploymentInput {
 
     static func urlPathProvider(_ value: CreateDeploymentInput) -> Swift.String? {
@@ -8579,6 +8915,13 @@ extension CreateDomainNameInput {
 
     static func urlPathProvider(_ value: CreateDomainNameInput) -> Swift.String? {
         return "/domainnames"
+    }
+}
+
+extension CreateDomainNameAccessAssociationInput {
+
+    static func urlPathProvider(_ value: CreateDomainNameAccessAssociationInput) -> Swift.String? {
+        return "/domainnameaccessassociations"
     }
 }
 
@@ -8692,6 +9035,18 @@ extension DeleteBasePathMappingInput {
     }
 }
 
+extension DeleteBasePathMappingInput {
+
+    static func queryItemProvider(_ value: DeleteBasePathMappingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteClientCertificateInput {
 
     static func urlPathProvider(_ value: DeleteClientCertificateInput) -> Swift.String? {
@@ -8748,6 +9103,28 @@ extension DeleteDomainNameInput {
             return nil
         }
         return "/domainnames/\(domainName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDomainNameInput {
+
+    static func queryItemProvider(_ value: DeleteDomainNameInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteDomainNameAccessAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteDomainNameAccessAssociationInput) -> Swift.String? {
+        guard let domainNameAccessAssociationArn = value.domainNameAccessAssociationArn else {
+            return nil
+        }
+        return "/domainnameaccessassociations/\(domainNameAccessAssociationArn.urlPercentEncoding())"
     }
 }
 
@@ -9078,6 +9455,18 @@ extension GetBasePathMappingInput {
     }
 }
 
+extension GetBasePathMappingInput {
+
+    static func queryItemProvider(_ value: GetBasePathMappingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetBasePathMappingsInput {
 
     static func urlPathProvider(_ value: GetBasePathMappingsInput) -> Swift.String? {
@@ -9092,6 +9481,10 @@ extension GetBasePathMappingsInput {
 
     static func queryItemProvider(_ value: GetBasePathMappingsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
         if let limit = value.limit {
             let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
@@ -9294,6 +9687,45 @@ extension GetDomainNameInput {
     }
 }
 
+extension GetDomainNameInput {
+
+    static func queryItemProvider(_ value: GetDomainNameInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetDomainNameAccessAssociationsInput {
+
+    static func urlPathProvider(_ value: GetDomainNameAccessAssociationsInput) -> Swift.String? {
+        return "/domainnameaccessassociations"
+    }
+}
+
+extension GetDomainNameAccessAssociationsInput {
+
+    static func queryItemProvider(_ value: GetDomainNameAccessAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let resourceOwner = value.resourceOwner {
+            let resourceOwnerQueryItem = Smithy.URIQueryItem(name: "resourceOwner".urlPercentEncoding(), value: Swift.String(resourceOwner.rawValue).urlPercentEncoding())
+            items.append(resourceOwnerQueryItem)
+        }
+        if let limit = value.limit {
+            let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
+            items.append(limitQueryItem)
+        }
+        if let position = value.position {
+            let positionQueryItem = Smithy.URIQueryItem(name: "position".urlPercentEncoding(), value: Swift.String(position).urlPercentEncoding())
+            items.append(positionQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetDomainNamesInput {
 
     static func urlPathProvider(_ value: GetDomainNamesInput) -> Swift.String? {
@@ -9305,6 +9737,10 @@ extension GetDomainNamesInput {
 
     static func queryItemProvider(_ value: GetDomainNamesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let resourceOwner = value.resourceOwner {
+            let resourceOwnerQueryItem = Smithy.URIQueryItem(name: "resourceOwner".urlPercentEncoding(), value: Swift.String(resourceOwner.rawValue).urlPercentEncoding())
+            items.append(resourceOwnerQueryItem)
+        }
         if let limit = value.limit {
             let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
@@ -10146,6 +10582,33 @@ extension PutRestApiInput {
     }
 }
 
+extension RejectDomainNameAccessAssociationInput {
+
+    static func urlPathProvider(_ value: RejectDomainNameAccessAssociationInput) -> Swift.String? {
+        return "/rejectdomainnameaccessassociations"
+    }
+}
+
+extension RejectDomainNameAccessAssociationInput {
+
+    static func queryItemProvider(_ value: RejectDomainNameAccessAssociationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let domainNameAccessAssociationArn = value.domainNameAccessAssociationArn else {
+            let message = "Creating a URL Query Item failed. domainNameAccessAssociationArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let domainNameAccessAssociationArnQueryItem = Smithy.URIQueryItem(name: "domainNameAccessAssociationArn".urlPercentEncoding(), value: Swift.String(domainNameAccessAssociationArn).urlPercentEncoding())
+        items.append(domainNameAccessAssociationArnQueryItem)
+        guard let domainNameArn = value.domainNameArn else {
+            let message = "Creating a URL Query Item failed. domainNameArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let domainNameArnQueryItem = Smithy.URIQueryItem(name: "domainNameArn".urlPercentEncoding(), value: Swift.String(domainNameArn).urlPercentEncoding())
+        items.append(domainNameArnQueryItem)
+        return items
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -10254,6 +10717,18 @@ extension UpdateBasePathMappingInput {
     }
 }
 
+extension UpdateBasePathMappingInput {
+
+    static func queryItemProvider(_ value: UpdateBasePathMappingInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension UpdateClientCertificateInput {
 
     static func urlPathProvider(_ value: UpdateClientCertificateInput) -> Swift.String? {
@@ -10310,6 +10785,18 @@ extension UpdateDomainNameInput {
             return nil
         }
         return "/domainnames/\(domainName.urlPercentEncoding())"
+    }
+}
+
+extension UpdateDomainNameInput {
+
+    static func queryItemProvider(_ value: UpdateDomainNameInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let domainNameId = value.domainNameId {
+            let domainNameIdQueryItem = Smithy.URIQueryItem(name: "domainNameId".urlPercentEncoding(), value: Swift.String(domainNameId).urlPercentEncoding())
+            items.append(domainNameIdQueryItem)
+        }
+        return items
     }
 }
 
@@ -10579,9 +11066,21 @@ extension CreateDomainNameInput {
         try writer["endpointConfiguration"].write(value.endpointConfiguration, with: APIGatewayClientTypes.EndpointConfiguration.write(value:to:))
         try writer["mutualTlsAuthentication"].write(value.mutualTlsAuthentication, with: APIGatewayClientTypes.MutualTlsAuthenticationInput.write(value:to:))
         try writer["ownershipVerificationCertificateArn"].write(value.ownershipVerificationCertificateArn)
+        try writer["policy"].write(value.policy)
         try writer["regionalCertificateArn"].write(value.regionalCertificateArn)
         try writer["regionalCertificateName"].write(value.regionalCertificateName)
         try writer["securityPolicy"].write(value.securityPolicy)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateDomainNameAccessAssociationInput {
+
+    static func write(value: CreateDomainNameAccessAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessAssociationSource"].write(value.accessAssociationSource)
+        try writer["accessAssociationSourceType"].write(value.accessAssociationSourceType)
+        try writer["domainNameArn"].write(value.domainNameArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -11112,16 +11611,36 @@ extension CreateDomainNameOutput {
         value.distributionDomainName = try reader["distributionDomainName"].readIfPresent()
         value.distributionHostedZoneId = try reader["distributionHostedZoneId"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
+        value.domainNameId = try reader["domainNameId"].readIfPresent()
         value.domainNameStatus = try reader["domainNameStatus"].readIfPresent()
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
+        value.managementPolicy = try reader["managementPolicy"].readIfPresent()
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         value.regionalCertificateArn = try reader["regionalCertificateArn"].readIfPresent()
         value.regionalCertificateName = try reader["regionalCertificateName"].readIfPresent()
         value.regionalDomainName = try reader["regionalDomainName"].readIfPresent()
         value.regionalHostedZoneId = try reader["regionalHostedZoneId"].readIfPresent()
         value.securityPolicy = try reader["securityPolicy"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateDomainNameAccessAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDomainNameAccessAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDomainNameAccessAssociationOutput()
+        value.accessAssociationSource = try reader["accessAssociationSource"].readIfPresent()
+        value.accessAssociationSourceType = try reader["accessAssociationSourceType"].readIfPresent()
+        value.domainNameAccessAssociationArn = try reader["domainNameAccessAssociationArn"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -11332,6 +11851,13 @@ extension DeleteDomainNameOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDomainNameOutput {
         return DeleteDomainNameOutput()
+    }
+}
+
+extension DeleteDomainNameAccessAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDomainNameAccessAssociationOutput {
+        return DeleteDomainNameAccessAssociationOutput()
     }
 }
 
@@ -11693,17 +12219,34 @@ extension GetDomainNameOutput {
         value.distributionDomainName = try reader["distributionDomainName"].readIfPresent()
         value.distributionHostedZoneId = try reader["distributionHostedZoneId"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
+        value.domainNameId = try reader["domainNameId"].readIfPresent()
         value.domainNameStatus = try reader["domainNameStatus"].readIfPresent()
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
+        value.managementPolicy = try reader["managementPolicy"].readIfPresent()
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         value.regionalCertificateArn = try reader["regionalCertificateArn"].readIfPresent()
         value.regionalCertificateName = try reader["regionalCertificateName"].readIfPresent()
         value.regionalDomainName = try reader["regionalDomainName"].readIfPresent()
         value.regionalHostedZoneId = try reader["regionalHostedZoneId"].readIfPresent()
         value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetDomainNameAccessAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDomainNameAccessAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDomainNameAccessAssociationsOutput()
+        value.items = try reader["item"].readListIfPresent(memberReadingClosure: APIGatewayClientTypes.DomainNameAccessAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.position = try reader["position"].readIfPresent()
         return value
     }
 }
@@ -12364,6 +12907,13 @@ extension PutRestApiOutput {
     }
 }
 
+extension RejectDomainNameAccessAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectDomainNameAccessAssociationOutput {
+        return RejectDomainNameAccessAssociationOutput()
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -12557,11 +13107,15 @@ extension UpdateDomainNameOutput {
         value.distributionDomainName = try reader["distributionDomainName"].readIfPresent()
         value.distributionHostedZoneId = try reader["distributionHostedZoneId"].readIfPresent()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
+        value.domainNameId = try reader["domainNameId"].readIfPresent()
         value.domainNameStatus = try reader["domainNameStatus"].readIfPresent()
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
+        value.managementPolicy = try reader["managementPolicy"].readIfPresent()
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         value.regionalCertificateArn = try reader["regionalCertificateArn"].readIfPresent()
         value.regionalCertificateName = try reader["regionalCertificateName"].readIfPresent()
         value.regionalDomainName = try reader["regionalDomainName"].readIfPresent()
@@ -12952,6 +13506,24 @@ enum CreateDomainNameOutputError {
     }
 }
 
+enum CreateDomainNameAccessAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateModelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13230,6 +13802,24 @@ enum DeleteDocumentationVersionOutputError {
 }
 
 enum DeleteDomainNameOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDomainNameAccessAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13794,6 +14384,23 @@ enum GetDocumentationVersionsOutputError {
 }
 
 enum GetDomainNameOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDomainNameAccessAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14488,6 +15095,24 @@ enum PutRestApiOutputError {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RejectDomainNameAccessAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
@@ -15444,12 +16069,28 @@ extension APIGatewayClientTypes.DocumentationVersion {
     }
 }
 
+extension APIGatewayClientTypes.DomainNameAccessAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.DomainNameAccessAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = APIGatewayClientTypes.DomainNameAccessAssociation()
+        value.domainNameAccessAssociationArn = try reader["domainNameAccessAssociationArn"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
+        value.accessAssociationSourceType = try reader["accessAssociationSourceType"].readIfPresent()
+        value.accessAssociationSource = try reader["accessAssociationSource"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension APIGatewayClientTypes.DomainName {
 
     static func read(from reader: SmithyJSON.Reader) throws -> APIGatewayClientTypes.DomainName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = APIGatewayClientTypes.DomainName()
         value.domainName = try reader["domainName"].readIfPresent()
+        value.domainNameId = try reader["domainNameId"].readIfPresent()
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
         value.certificateName = try reader["certificateName"].readIfPresent()
         value.certificateArn = try reader["certificateArn"].readIfPresent()
         value.certificateUploadDate = try reader["certificateUploadDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -15466,6 +16107,8 @@ extension APIGatewayClientTypes.DomainName {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
+        value.managementPolicy = try reader["managementPolicy"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         return value
     }
 }

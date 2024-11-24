@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.94.0"
+let clientRuntimeVersion: Version = "0.96.0"
 let crtVersion: Version = "0.37.0"
 
 let excludeRuntimeUnitTests = false
@@ -55,6 +55,7 @@ let serviceTargets: [String] = [
     "AWSAutoScalingPlans",
     "AWSB2bi",
     "AWSBCMDataExports",
+    "AWSBCMPricingCalculator",
     "AWSBackup",
     "AWSBackupGateway",
     "AWSBatch",
@@ -281,6 +282,8 @@ let serviceTargets: [String] = [
     "AWSNetworkFirewall",
     "AWSNetworkManager",
     "AWSNetworkMonitor",
+    "AWSNotifications",
+    "AWSNotificationsContacts",
     "AWSOAM",
     "AWSOSIS",
     "AWSOmics",

@@ -2871,6 +2871,8 @@ public struct CreateBlueGreenDeploymentInput: Swift.Sendable {
     public var source: Swift.String?
     /// Tags to assign to the blue/green deployment.
     public var tags: [RDSClientTypes.Tag]?
+    /// The amount of storage in gibibytes (GiB) to allocate for the green DB instance. You can choose to increase or decrease the allocated storage on the green DB instance. This setting doesn't apply to Amazon Aurora blue/green deployments.
+    public var targetAllocatedStorage: Swift.Int?
     /// The DB cluster parameter group associated with the Aurora DB cluster in the green environment. To test parameter changes, specify a DB cluster parameter group that is different from the one associated with the source DB cluster.
     public var targetDBClusterParameterGroupName: Swift.String?
     /// Specify the DB instance class for the databases in the green environment. This parameter only applies to RDS DB instances, because DB instances within an Aurora DB cluster can have multiple different instance classes. If you're creating a blue/green deployment from an Aurora DB cluster, don't specify this parameter. After the green environment is created, you can individually modify the instance classes of the DB instances within the green DB cluster.
@@ -2879,6 +2881,12 @@ public struct CreateBlueGreenDeploymentInput: Swift.Sendable {
     public var targetDBParameterGroupName: Swift.String?
     /// The engine version of the database in the green environment. Specify the engine version to upgrade to in the green environment.
     public var targetEngineVersion: Swift.String?
+    /// The amount of Provisioned IOPS (input/output operations per second) to allocate for the green DB instance. For information about valid IOPS values, see [Amazon RDS DB instance storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora blue/green deployments.
+    public var targetIops: Swift.Int?
+    /// The storage throughput value for the green DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora blue/green deployments.
+    public var targetStorageThroughput: Swift.Int?
+    /// The storage type to associate with the green DB instance. Valid Values: gp2 | gp3 | io1 | io2 This setting doesn't apply to Amazon Aurora blue/green deployments.
+    public var targetStorageType: Swift.String?
     /// Whether to upgrade the storage file system configuration on the green database. This option migrates the green DB instance from the older 32-bit file system to the preferred configuration. For more information, see [Upgrading the storage file system for a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.UpgradeFileSystem).
     public var upgradeTargetStorageConfig: Swift.Bool?
 
@@ -2886,20 +2894,28 @@ public struct CreateBlueGreenDeploymentInput: Swift.Sendable {
         blueGreenDeploymentName: Swift.String? = nil,
         source: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
+        targetAllocatedStorage: Swift.Int? = nil,
         targetDBClusterParameterGroupName: Swift.String? = nil,
         targetDBInstanceClass: Swift.String? = nil,
         targetDBParameterGroupName: Swift.String? = nil,
         targetEngineVersion: Swift.String? = nil,
+        targetIops: Swift.Int? = nil,
+        targetStorageThroughput: Swift.Int? = nil,
+        targetStorageType: Swift.String? = nil,
         upgradeTargetStorageConfig: Swift.Bool? = nil
     )
     {
         self.blueGreenDeploymentName = blueGreenDeploymentName
         self.source = source
         self.tags = tags
+        self.targetAllocatedStorage = targetAllocatedStorage
         self.targetDBClusterParameterGroupName = targetDBClusterParameterGroupName
         self.targetDBInstanceClass = targetDBInstanceClass
         self.targetDBParameterGroupName = targetDBParameterGroupName
         self.targetEngineVersion = targetEngineVersion
+        self.targetIops = targetIops
+        self.targetStorageThroughput = targetStorageThroughput
+        self.targetStorageType = targetStorageType
         self.upgradeTargetStorageConfig = upgradeTargetStorageConfig
     }
 }
@@ -23195,10 +23211,14 @@ extension CreateBlueGreenDeploymentInput {
         try writer["BlueGreenDeploymentName"].write(value.blueGreenDeploymentName)
         try writer["Source"].write(value.source)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["TargetAllocatedStorage"].write(value.targetAllocatedStorage)
         try writer["TargetDBClusterParameterGroupName"].write(value.targetDBClusterParameterGroupName)
         try writer["TargetDBInstanceClass"].write(value.targetDBInstanceClass)
         try writer["TargetDBParameterGroupName"].write(value.targetDBParameterGroupName)
         try writer["TargetEngineVersion"].write(value.targetEngineVersion)
+        try writer["TargetIops"].write(value.targetIops)
+        try writer["TargetStorageThroughput"].write(value.targetStorageThroughput)
+        try writer["TargetStorageType"].write(value.targetStorageType)
         try writer["UpgradeTargetStorageConfig"].write(value.upgradeTargetStorageConfig)
         try writer["Action"].write("CreateBlueGreenDeployment")
         try writer["Version"].write("2014-10-31")

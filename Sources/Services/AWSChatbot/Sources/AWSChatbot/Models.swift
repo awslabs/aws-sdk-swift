@@ -43,6 +43,118 @@ extension ChatbotClientTypes {
     }
 }
 
+/// Unexpected error during processing of request.
+public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServiceError" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// Your request input doesn't meet the constraints required by AWS Chatbot.
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The request was rejected because it doesn't have valid credentials for the target resource.
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnauthorizedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct AssociateToConfigurationInput: Swift.Sendable {
+    /// The channel configuration to associate with the resource.
+    /// This member is required.
+    public var chatConfiguration: Swift.String?
+    /// The resource Amazon Resource Name (ARN) to link.
+    /// This member is required.
+    public var resource: Swift.String?
+
+    public init(
+        chatConfiguration: Swift.String? = nil,
+        resource: Swift.String? = nil
+    )
+    {
+        self.chatConfiguration = chatConfiguration
+        self.resource = resource
+    }
+}
+
+public struct AssociateToConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension ChatbotClientTypes {
+
+    /// A listing of an association with a channel configuration.
+    public struct AssociationListing: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource (for example, a custom action).
+        /// This member is required.
+        public var resource: Swift.String?
+
+        public init(
+            resource: Swift.String? = nil
+        )
+        {
+            self.resource = resource
+        }
+    }
+}
+
 extension ChatbotClientTypes {
 
     /// A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings. Do not include confidential or sensitive information in this field. For more information, see [User-Defined Tag Restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the AWS Billing and Cost Management User Guide.
@@ -69,7 +181,7 @@ extension ChatbotClientTypes {
 
     /// An AWS Chatbot configuration for Amazon Chime.
     public struct ChimeWebhookConfiguration: Swift.Sendable {
-        /// The Amazon Resource Number (ARN) of the ChimeWebhookConfiguration.
+        /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
         /// The name of the configuration.
@@ -228,30 +340,6 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// Your request input doesn't meet the constraints required by AWS Chatbot.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidRequestException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 /// You have exceeded a service limit for AWS Chatbot.
 public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -331,6 +419,153 @@ public struct CreateChimeWebhookConfigurationOutput: Swift.Sendable {
     )
     {
         self.webhookConfiguration = webhookConfiguration
+    }
+}
+
+extension ChatbotClientTypes {
+
+    public enum CustomActionAttachmentCriteriaOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case hasValue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomActionAttachmentCriteriaOperator] {
+            return [
+                .equals,
+                .hasValue
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case .hasValue: return "HAS_VALUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ChatbotClientTypes {
+
+    /// A criteria for when a button should be shown based on values in the notification
+    public struct CustomActionAttachmentCriteria: Swift.Sendable {
+        /// The operation to perform on the named variable.
+        /// This member is required.
+        public var `operator`: ChatbotClientTypes.CustomActionAttachmentCriteriaOperator?
+        /// A value that is compared with the actual value of the variable based on the behavior of the operator.
+        public var value: Swift.String?
+        /// The name of the variable to operate on.
+        /// This member is required.
+        public var variableName: Swift.String?
+
+        public init(
+            `operator`: ChatbotClientTypes.CustomActionAttachmentCriteriaOperator? = nil,
+            value: Swift.String? = nil,
+            variableName: Swift.String? = nil
+        )
+        {
+            self.`operator` = `operator`
+            self.value = value
+            self.variableName = variableName
+        }
+    }
+}
+
+extension ChatbotClientTypes {
+
+    /// Defines when a custom action button should be attached to a notification.
+    public struct CustomActionAttachment: Swift.Sendable {
+        /// The text of the button that appears on the notification.
+        public var buttonText: Swift.String?
+        /// The criteria for when a button should be shown based on values in the notification.
+        public var criteria: [ChatbotClientTypes.CustomActionAttachmentCriteria]?
+        /// The type of notification that the custom action should be attached to.
+        public var notificationType: Swift.String?
+        /// The variables to extract from the notification.
+        public var variables: [Swift.String: Swift.String]?
+
+        public init(
+            buttonText: Swift.String? = nil,
+            criteria: [ChatbotClientTypes.CustomActionAttachmentCriteria]? = nil,
+            notificationType: Swift.String? = nil,
+            variables: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.buttonText = buttonText
+            self.criteria = criteria
+            self.notificationType = notificationType
+            self.variables = variables
+        }
+    }
+}
+
+extension ChatbotClientTypes {
+
+    /// The definition of the command to run when invoked as an alias or as an action button.
+    public struct CustomActionDefinition: Swift.Sendable {
+        /// The command string to run which may include variables by prefixing with a dollar sign ($).
+        /// This member is required.
+        public var commandText: Swift.String?
+
+        public init(
+            commandText: Swift.String? = nil
+        )
+        {
+            self.commandText = commandText
+        }
+    }
+}
+
+public struct CreateCustomActionInput: Swift.Sendable {
+    /// The name of the custom action. This name is included in the Amazon Resource Name (ARN).
+    /// This member is required.
+    public var actionName: Swift.String?
+    /// The name used to invoke this action in a chat channel. For example, @aws run my-alias.
+    public var aliasName: Swift.String?
+    /// Defines when this custom action button should be attached to a notification.
+    public var attachments: [ChatbotClientTypes.CustomActionAttachment]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the SDK.
+    public var clientToken: Swift.String?
+    /// The definition of the command to run when invoked as an alias or as an action button.
+    /// This member is required.
+    public var definition: ChatbotClientTypes.CustomActionDefinition?
+    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs.
+    public var tags: [ChatbotClientTypes.Tag]?
+
+    public init(
+        actionName: Swift.String? = nil,
+        aliasName: Swift.String? = nil,
+        attachments: [ChatbotClientTypes.CustomActionAttachment]? = nil,
+        clientToken: Swift.String? = nil,
+        definition: ChatbotClientTypes.CustomActionDefinition? = nil,
+        tags: [ChatbotClientTypes.Tag]? = nil
+    )
+    {
+        self.actionName = actionName
+        self.aliasName = aliasName
+        self.attachments = attachments
+        self.clientToken = clientToken
+        self.definition = definition
+        self.tags = tags
+    }
+}
+
+public struct CreateCustomActionOutput: Swift.Sendable {
+    /// The fully defined ARN of the custom action.
+    /// This member is required.
+    public var customActionArn: Swift.String?
+
+    public init(
+        customActionArn: Swift.String? = nil
+    )
+    {
+        self.customActionArn = customActionArn
     }
 }
 
@@ -604,7 +839,7 @@ extension ChatbotClientTypes {
 
     /// An AWS Chatbot configuration for Slack.
     public struct SlackChannelConfiguration: Swift.Sendable {
-        /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration.
+        /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
         /// The name of the configuration.
@@ -692,16 +927,50 @@ public struct CreateSlackChannelConfigurationOutput: Swift.Sendable {
     }
 }
 
-/// We can’t process your request right now because of a server issue. Try again later.
-public struct DeleteChimeWebhookConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+extension ChatbotClientTypes {
+
+    /// Represents a parameterized command that can be invoked as an alias or as a notification button in the chat client.
+    public struct CustomAction: Swift.Sendable {
+        /// The name of the custom action that is included in the ARN.
+        public var actionName: Swift.String?
+        /// The name used to invoke this action in the chat channel. For example, @aws run my-alias.
+        public var aliasName: Swift.String?
+        /// Defines when this custom action button should be attached to a notification.
+        public var attachments: [ChatbotClientTypes.CustomActionAttachment]?
+        /// The fully defined Amazon Resource Name (ARN) of the custom action.
+        /// This member is required.
+        public var customActionArn: Swift.String?
+        /// The definition of the command to run when invoked an alias or as an action button.
+        /// This member is required.
+        public var definition: ChatbotClientTypes.CustomActionDefinition?
+
+        public init(
+            actionName: Swift.String? = nil,
+            aliasName: Swift.String? = nil,
+            attachments: [ChatbotClientTypes.CustomActionAttachment]? = nil,
+            customActionArn: Swift.String? = nil,
+            definition: ChatbotClientTypes.CustomActionDefinition? = nil
+        )
+        {
+            self.actionName = actionName
+            self.aliasName = aliasName
+            self.attachments = attachments
+            self.customActionArn = customActionArn
+            self.definition = definition
+        }
+    }
+}
+
+/// We were unable to find the resource for your request
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
         public internal(set) var message: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "DeleteChimeWebhookConfigurationException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -716,16 +985,131 @@ public struct DeleteChimeWebhookConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-/// We were unable to find the resource for your request
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeleteCustomActionInput: Swift.Sendable {
+    /// The fully defined ARN of the custom action.
+    /// This member is required.
+    public var customActionArn: Swift.String?
+
+    public init(
+        customActionArn: Swift.String? = nil
+    )
+    {
+        self.customActionArn = customActionArn
+    }
+}
+
+public struct DeleteCustomActionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetCustomActionInput: Swift.Sendable {
+    /// Returns the fully defined Amazon Resource Name (ARN) of the custom action.
+    /// This member is required.
+    public var customActionArn: Swift.String?
+
+    public init(
+        customActionArn: Swift.String? = nil
+    )
+    {
+        self.customActionArn = customActionArn
+    }
+}
+
+public struct GetCustomActionOutput: Swift.Sendable {
+    /// Returns the custom action.
+    public var customAction: ChatbotClientTypes.CustomAction?
+
+    public init(
+        customAction: ChatbotClientTypes.CustomAction? = nil
+    )
+    {
+        self.customAction = customAction
+    }
+}
+
+public struct ListCustomActionsInput: Swift.Sendable {
+    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCustomActionsOutput: Swift.Sendable {
+    /// A list of custom actions.
+    /// This member is required.
+    public var customActions: [Swift.String]?
+    /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+
+    public init(
+        customActions: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.customActions = customActions
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateCustomActionInput: Swift.Sendable {
+    /// The name used to invoke this action in the chat channel. For example, @aws run my-alias.
+    public var aliasName: Swift.String?
+    /// Defines when this custom action button should be attached to a notification.
+    public var attachments: [ChatbotClientTypes.CustomActionAttachment]?
+    /// The fully defined Amazon Resource Name (ARN) of the custom action.
+    /// This member is required.
+    public var customActionArn: Swift.String?
+    /// The definition of the command to run when invoked as an alias or as an action button.
+    /// This member is required.
+    public var definition: ChatbotClientTypes.CustomActionDefinition?
+
+    public init(
+        aliasName: Swift.String? = nil,
+        attachments: [ChatbotClientTypes.CustomActionAttachment]? = nil,
+        customActionArn: Swift.String? = nil,
+        definition: ChatbotClientTypes.CustomActionDefinition? = nil
+    )
+    {
+        self.aliasName = aliasName
+        self.attachments = attachments
+        self.customActionArn = customActionArn
+        self.definition = definition
+    }
+}
+
+public struct UpdateCustomActionOutput: Swift.Sendable {
+    /// The fully defined ARN of the custom action.
+    /// This member is required.
+    public var customActionArn: Swift.String?
+
+    public init(
+        customActionArn: Swift.String? = nil
+    )
+    {
+        self.customActionArn = customActionArn
+    }
+}
+
+/// We can’t process your request right now because of a server issue. Try again later.
+public struct DeleteChimeWebhookConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
         public internal(set) var message: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var typeName: Swift.String { "DeleteChimeWebhookConfigurationException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -1050,7 +1434,7 @@ public struct DescribeChimeWebhookConfigurationsException: ClientRuntime.Modeled
 }
 
 public struct DescribeChimeWebhookConfigurationsInput: Swift.Sendable {
-    /// An optional Amazon Resource Number (ARN) of a ChimeWebhookConfiguration to describe.
+    /// An optional Amazon Resource Name (ARN) of a ChimeWebhookConfiguration to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -1110,7 +1494,7 @@ public struct DescribeSlackChannelConfigurationsException: ClientRuntime.Modeled
 }
 
 public struct DescribeSlackChannelConfigurationsInput: Swift.Sendable {
-    /// An optional Amazon Resource Number (ARN) of a SlackChannelConfiguration to describe.
+    /// An optional Amazon Resource Name (ARN) of a SlackChannelConfiguration to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -1170,7 +1554,7 @@ public struct DescribeSlackUserIdentitiesException: ClientRuntime.ModeledError, 
 }
 
 public struct DescribeSlackUserIdentitiesInput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration associated with the user identities to describe.
+    /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration associated with the user identities to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -1195,7 +1579,7 @@ extension ChatbotClientTypes {
     public struct SlackUserIdentity: Swift.Sendable {
         /// The AWS user identity ARN used to associate a Slack user ID with an IAM Role.
         public var awsUserIdentity: Swift.String?
-        /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration associated with the user identity to delete.
+        /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration associated with the user identity to delete.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
         /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
@@ -1327,6 +1711,29 @@ public struct DescribeSlackWorkspacesOutput: Swift.Sendable {
     }
 }
 
+public struct DisassociateFromConfigurationInput: Swift.Sendable {
+    /// The channel configuration the resource is being disassociated from.
+    /// This member is required.
+    public var chatConfiguration: Swift.String?
+    /// The resource (for example, a custom action) Amazon Resource Name (ARN) to unlink.
+    /// This member is required.
+    public var resource: Swift.String?
+
+    public init(
+        chatConfiguration: Swift.String? = nil,
+        resource: Swift.String? = nil
+    )
+    {
+        self.chatConfiguration = chatConfiguration
+        self.resource = resource
+    }
+}
+
+public struct DisassociateFromConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// We can’t process your request right now because of a server issue. Try again later.
 public struct GetAccountPreferencesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1393,7 +1800,7 @@ public struct GetTeamsChannelConfigurationException: ClientRuntime.ModeledError,
 }
 
 public struct GetMicrosoftTeamsChannelConfigurationInput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration to retrieve.
+    /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration to retrieve.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
 
@@ -1417,27 +1824,41 @@ public struct GetMicrosoftTeamsChannelConfigurationOutput: Swift.Sendable {
     }
 }
 
-/// Unexpected error during processing of request.
-public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServiceError" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+public struct ListAssociationsInput: Swift.Sendable {
+    /// The channel configuration to list associations for.
+    /// This member is required.
+    public var chatConfiguration: Swift.String?
+    /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        chatConfiguration: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     )
     {
-        self.properties.message = message
+        self.chatConfiguration = chatConfiguration
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAssociationsOutput: Swift.Sendable {
+    /// The resources associated with this channel configuration.
+    /// This member is required.
+    public var associations: [ChatbotClientTypes.AssociationListing]?
+    /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+
+    public init(
+        associations: [ChatbotClientTypes.AssociationListing]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.associations = associations
+        self.nextToken = nextToken
     }
 }
 
@@ -1582,7 +2003,7 @@ public struct ListMicrosoftTeamsUserIdentitiesException: ClientRuntime.ModeledEr
 }
 
 public struct ListMicrosoftTeamsUserIdentitiesInput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the MicrosoftTeamsChannelConfiguration associated with the user identities to list.
+    /// The Amazon Resource Name (ARN) of the MicrosoftTeamsChannelConfiguration associated with the user identities to list.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -1685,7 +2106,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The ARN you specified to list the tags of.
+    /// The ARN of the resource to list tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -1856,7 +2277,7 @@ public struct UpdateChimeWebhookConfigurationException: ClientRuntime.ModeledErr
 }
 
 public struct UpdateChimeWebhookConfigurationInput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the ChimeWebhookConfiguration to update.
+    /// The Amazon Resource Name (ARN) of the ChimeWebhookConfiguration to update.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
     /// A user-defined role that AWS Chatbot assumes. This is not the service-linked role. For more information, see [IAM policies for AWS Chatbot](https://docs.aws.amazon.com/chatbot/latest/adminguide/chatbot-iam-policies.html) in the AWS Chatbot Administrator Guide.
@@ -1935,7 +2356,7 @@ public struct UpdateMicrosoftTeamsChannelConfigurationInput: Swift.Sendable {
     public var channelId: Swift.String?
     /// The name of the Microsoft Teams channel.
     public var channelName: Swift.String?
-    /// The Amazon Resource Number (ARN) of the TeamsChannelConfiguration to update.
+    /// The Amazon Resource Name (ARN) of the TeamsChannelConfiguration to update.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
     /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set.
@@ -2013,7 +2434,7 @@ public struct UpdateSlackChannelConfigurationException: ClientRuntime.ModeledErr
 }
 
 public struct UpdateSlackChannelConfigurationInput: Swift.Sendable {
-    /// The Amazon Resource Number (ARN) of the SlackChannelConfiguration to update.
+    /// The Amazon Resource Name (ARN) of the SlackChannelConfiguration to update.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
     /// The list of IAM policy ARNs that are applied as channel guardrails. The AWS managed AdministratorAccess policy is applied by default if this is not set.
@@ -2071,10 +2492,24 @@ public struct UpdateSlackChannelConfigurationOutput: Swift.Sendable {
     }
 }
 
+extension AssociateToConfigurationInput {
+
+    static func urlPathProvider(_ value: AssociateToConfigurationInput) -> Swift.String? {
+        return "/associate-to-configuration"
+    }
+}
+
 extension CreateChimeWebhookConfigurationInput {
 
     static func urlPathProvider(_ value: CreateChimeWebhookConfigurationInput) -> Swift.String? {
         return "/create-chime-webhook-configuration"
+    }
+}
+
+extension CreateCustomActionInput {
+
+    static func urlPathProvider(_ value: CreateCustomActionInput) -> Swift.String? {
+        return "/create-custom-action"
     }
 }
 
@@ -2096,6 +2531,13 @@ extension DeleteChimeWebhookConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteChimeWebhookConfigurationInput) -> Swift.String? {
         return "/delete-chime-webhook-configuration"
+    }
+}
+
+extension DeleteCustomActionInput {
+
+    static func urlPathProvider(_ value: DeleteCustomActionInput) -> Swift.String? {
+        return "/delete-custom-action"
     }
 }
 
@@ -2169,6 +2611,13 @@ extension DescribeSlackWorkspacesInput {
     }
 }
 
+extension DisassociateFromConfigurationInput {
+
+    static func urlPathProvider(_ value: DisassociateFromConfigurationInput) -> Swift.String? {
+        return "/disassociate-from-configuration"
+    }
+}
+
 extension GetAccountPreferencesInput {
 
     static func urlPathProvider(_ value: GetAccountPreferencesInput) -> Swift.String? {
@@ -2176,10 +2625,31 @@ extension GetAccountPreferencesInput {
     }
 }
 
+extension GetCustomActionInput {
+
+    static func urlPathProvider(_ value: GetCustomActionInput) -> Swift.String? {
+        return "/get-custom-action"
+    }
+}
+
 extension GetMicrosoftTeamsChannelConfigurationInput {
 
     static func urlPathProvider(_ value: GetMicrosoftTeamsChannelConfigurationInput) -> Swift.String? {
         return "/get-ms-teams-channel-configuration"
+    }
+}
+
+extension ListAssociationsInput {
+
+    static func urlPathProvider(_ value: ListAssociationsInput) -> Swift.String? {
+        return "/list-associations"
+    }
+}
+
+extension ListCustomActionsInput {
+
+    static func urlPathProvider(_ value: ListCustomActionsInput) -> Swift.String? {
+        return "/list-custom-actions"
     }
 }
 
@@ -2239,6 +2709,13 @@ extension UpdateChimeWebhookConfigurationInput {
     }
 }
 
+extension UpdateCustomActionInput {
+
+    static func urlPathProvider(_ value: UpdateCustomActionInput) -> Swift.String? {
+        return "/update-custom-action"
+    }
+}
+
 extension UpdateMicrosoftTeamsChannelConfigurationInput {
 
     static func urlPathProvider(_ value: UpdateMicrosoftTeamsChannelConfigurationInput) -> Swift.String? {
@@ -2253,6 +2730,15 @@ extension UpdateSlackChannelConfigurationInput {
     }
 }
 
+extension AssociateToConfigurationInput {
+
+    static func write(value: AssociateToConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChatConfiguration"].write(value.chatConfiguration)
+        try writer["Resource"].write(value.resource)
+    }
+}
+
 extension CreateChimeWebhookConfigurationInput {
 
     static func write(value: CreateChimeWebhookConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -2264,6 +2750,19 @@ extension CreateChimeWebhookConfigurationInput {
         try writer["Tags"].writeList(value.tags, memberWritingClosure: ChatbotClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WebhookDescription"].write(value.webhookDescription)
         try writer["WebhookUrl"].write(value.webhookUrl)
+    }
+}
+
+extension CreateCustomActionInput {
+
+    static func write(value: CreateCustomActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionName"].write(value.actionName)
+        try writer["AliasName"].write(value.aliasName)
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: ChatbotClientTypes.CustomActionAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Definition"].write(value.definition, with: ChatbotClientTypes.CustomActionDefinition.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ChatbotClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2308,6 +2807,14 @@ extension DeleteChimeWebhookConfigurationInput {
     static func write(value: DeleteChimeWebhookConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ChatConfigurationArn"].write(value.chatConfigurationArn)
+    }
+}
+
+extension DeleteCustomActionInput {
+
+    static func write(value: DeleteCustomActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomActionArn"].write(value.customActionArn)
     }
 }
 
@@ -2401,11 +2908,47 @@ extension DescribeSlackWorkspacesInput {
     }
 }
 
+extension DisassociateFromConfigurationInput {
+
+    static func write(value: DisassociateFromConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChatConfiguration"].write(value.chatConfiguration)
+        try writer["Resource"].write(value.resource)
+    }
+}
+
+extension GetCustomActionInput {
+
+    static func write(value: GetCustomActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomActionArn"].write(value.customActionArn)
+    }
+}
+
 extension GetMicrosoftTeamsChannelConfigurationInput {
 
     static func write(value: GetMicrosoftTeamsChannelConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ChatConfigurationArn"].write(value.chatConfigurationArn)
+    }
+}
+
+extension ListAssociationsInput {
+
+    static func write(value: ListAssociationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChatConfiguration"].write(value.chatConfiguration)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListCustomActionsInput {
+
+    static func write(value: ListCustomActionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -2486,6 +3029,17 @@ extension UpdateChimeWebhookConfigurationInput {
     }
 }
 
+extension UpdateCustomActionInput {
+
+    static func write(value: UpdateCustomActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AliasName"].write(value.aliasName)
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: ChatbotClientTypes.CustomActionAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomActionArn"].write(value.customActionArn)
+        try writer["Definition"].write(value.definition, with: ChatbotClientTypes.CustomActionDefinition.write(value:to:))
+    }
+}
+
 extension UpdateMicrosoftTeamsChannelConfigurationInput {
 
     static func write(value: UpdateMicrosoftTeamsChannelConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -2516,6 +3070,13 @@ extension UpdateSlackChannelConfigurationInput {
     }
 }
 
+extension AssociateToConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateToConfigurationOutput {
+        return AssociateToConfigurationOutput()
+    }
+}
+
 extension CreateChimeWebhookConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateChimeWebhookConfigurationOutput {
@@ -2524,6 +3085,18 @@ extension CreateChimeWebhookConfigurationOutput {
         let reader = responseReader
         var value = CreateChimeWebhookConfigurationOutput()
         value.webhookConfiguration = try reader["WebhookConfiguration"].readIfPresent(with: ChatbotClientTypes.ChimeWebhookConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CreateCustomActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCustomActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCustomActionOutput()
+        value.customActionArn = try reader["CustomActionArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2556,6 +3129,13 @@ extension DeleteChimeWebhookConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChimeWebhookConfigurationOutput {
         return DeleteChimeWebhookConfigurationOutput()
+    }
+}
+
+extension DeleteCustomActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCustomActionOutput {
+        return DeleteCustomActionOutput()
     }
 }
 
@@ -2653,6 +3233,13 @@ extension DescribeSlackWorkspacesOutput {
     }
 }
 
+extension DisassociateFromConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateFromConfigurationOutput {
+        return DisassociateFromConfigurationOutput()
+    }
+}
+
 extension GetAccountPreferencesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountPreferencesOutput {
@@ -2665,6 +3252,18 @@ extension GetAccountPreferencesOutput {
     }
 }
 
+extension GetCustomActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCustomActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCustomActionOutput()
+        value.customAction = try reader["CustomAction"].readIfPresent(with: ChatbotClientTypes.CustomAction.read(from:))
+        return value
+    }
+}
+
 extension GetMicrosoftTeamsChannelConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMicrosoftTeamsChannelConfigurationOutput {
@@ -2673,6 +3272,32 @@ extension GetMicrosoftTeamsChannelConfigurationOutput {
         let reader = responseReader
         var value = GetMicrosoftTeamsChannelConfigurationOutput()
         value.channelConfiguration = try reader["ChannelConfiguration"].readIfPresent(with: ChatbotClientTypes.TeamsChannelConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ListAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAssociationsOutput()
+        value.associations = try reader["Associations"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.AssociationListing.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCustomActionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCustomActionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCustomActionsOutput()
+        value.customActions = try reader["CustomActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -2766,6 +3391,18 @@ extension UpdateChimeWebhookConfigurationOutput {
     }
 }
 
+extension UpdateCustomActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCustomActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCustomActionOutput()
+        value.customActionArn = try reader["CustomActionArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension UpdateMicrosoftTeamsChannelConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMicrosoftTeamsChannelConfigurationOutput {
@@ -2790,6 +3427,22 @@ extension UpdateSlackChannelConfigurationOutput {
     }
 }
 
+enum AssociateToConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateChimeWebhookConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2803,6 +3456,24 @@ enum CreateChimeWebhookConfigurationOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCustomActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2856,6 +3527,23 @@ enum DeleteChimeWebhookConfigurationOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCustomActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -3021,6 +3709,22 @@ enum DescribeSlackWorkspacesOutputError {
     }
 }
 
+enum DisassociateFromConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAccountPreferencesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3031,6 +3735,23 @@ enum GetAccountPreferencesOutputError {
         switch baseError.code {
             case "GetAccountPreferencesException": return try GetAccountPreferencesException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCustomActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -3047,6 +3768,35 @@ enum GetMicrosoftTeamsChannelConfigurationOutputError {
             case "GetTeamsChannelConfigurationException": return try GetTeamsChannelConfigurationException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCustomActionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -3182,6 +3932,23 @@ enum UpdateChimeWebhookConfigurationOutputError {
     }
 }
 
+enum UpdateCustomActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateMicrosoftTeamsChannelConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3222,6 +3989,32 @@ extension InvalidRequestException {
         let reader = baseError.errorBodyReader
         var value = InvalidRequestException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnauthorizedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+        let reader = baseError.errorBodyReader
+        var value = UnauthorizedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServiceError {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceError {
+        let reader = baseError.errorBodyReader
+        var value = InternalServiceError()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3528,19 +4321,6 @@ extension ListMicrosoftTeamsUserIdentitiesException {
     }
 }
 
-extension InternalServiceError {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceError {
-        let reader = baseError.errorBodyReader
-        var value = InternalServiceError()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ServiceUnavailableException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
@@ -3735,6 +4515,85 @@ extension ChatbotClientTypes.AccountPreferences {
         var value = ChatbotClientTypes.AccountPreferences()
         value.userAuthorizationRequired = try reader["UserAuthorizationRequired"].readIfPresent()
         value.trainingDataCollectionEnabled = try reader["TrainingDataCollectionEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension ChatbotClientTypes.CustomAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.CustomAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChatbotClientTypes.CustomAction()
+        value.customActionArn = try reader["CustomActionArn"].readIfPresent() ?? ""
+        value.definition = try reader["Definition"].readIfPresent(with: ChatbotClientTypes.CustomActionDefinition.read(from:))
+        value.aliasName = try reader["AliasName"].readIfPresent()
+        value.attachments = try reader["Attachments"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.CustomActionAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actionName = try reader["ActionName"].readIfPresent()
+        return value
+    }
+}
+
+extension ChatbotClientTypes.CustomActionAttachment {
+
+    static func write(value: ChatbotClientTypes.CustomActionAttachment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ButtonText"].write(value.buttonText)
+        try writer["Criteria"].writeList(value.criteria, memberWritingClosure: ChatbotClientTypes.CustomActionAttachmentCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NotificationType"].write(value.notificationType)
+        try writer["Variables"].writeMap(value.variables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.CustomActionAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChatbotClientTypes.CustomActionAttachment()
+        value.notificationType = try reader["NotificationType"].readIfPresent()
+        value.buttonText = try reader["ButtonText"].readIfPresent()
+        value.criteria = try reader["Criteria"].readListIfPresent(memberReadingClosure: ChatbotClientTypes.CustomActionAttachmentCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.variables = try reader["Variables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ChatbotClientTypes.CustomActionAttachmentCriteria {
+
+    static func write(value: ChatbotClientTypes.CustomActionAttachmentCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
+        try writer["VariableName"].write(value.variableName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.CustomActionAttachmentCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChatbotClientTypes.CustomActionAttachmentCriteria()
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.variableName = try reader["VariableName"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ChatbotClientTypes.CustomActionDefinition {
+
+    static func write(value: ChatbotClientTypes.CustomActionDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommandText"].write(value.commandText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.CustomActionDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChatbotClientTypes.CustomActionDefinition()
+        value.commandText = try reader["CommandText"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ChatbotClientTypes.AssociationListing {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChatbotClientTypes.AssociationListing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChatbotClientTypes.AssociationListing()
+        value.resource = try reader["Resource"].readIfPresent() ?? ""
         return value
     }
 }

@@ -49,6 +49,7 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SignerMiddleware
@@ -63,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTJobsDataPlaneClient: ClientRuntime.Client {
     public static let clientName = "IoTJobsDataPlaneClient"
-    public static let version = "1.0.43"
+    public static let version = "1.0.47"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTJobsDataPlaneClient.IoTJobsDataPlaneClientConfiguration
     let serviceName = "IoT Jobs Data Plane"
@@ -196,7 +197,7 @@ extension IoTJobsDataPlaneClient {
 extension IoTJobsDataPlaneClient {
     /// Performs the `DescribeJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
     ///
-    /// Gets details of a job execution.
+    /// Gets details of a job execution. Requires permission to access the [DescribeJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter DescribeJobExecutionInput : [no documentation found]
     ///
@@ -206,7 +207,7 @@ extension IoTJobsDataPlaneClient {
     ///
     /// __Possible Exceptions:__
     /// - `CertificateValidationException` : The certificate is invalid.
-    /// - `InvalidRequestException` : The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
+    /// - `InvalidRequestException` : The contents of the request were invalid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `TerminalStateException` : The job is in a terminal state.
@@ -268,7 +269,7 @@ extension IoTJobsDataPlaneClient {
 
     /// Performs the `GetPendingJobExecutions` operation on the `IotLaserThingJobManagerExternalService` service.
     ///
-    /// Gets the list of all jobs for a thing that are not in a terminal status.
+    /// Gets the list of all jobs for a thing that are not in a terminal status. Requires permission to access the [GetPendingJobExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter GetPendingJobExecutionsInput : [no documentation found]
     ///
@@ -278,7 +279,7 @@ extension IoTJobsDataPlaneClient {
     ///
     /// __Possible Exceptions:__
     /// - `CertificateValidationException` : The certificate is invalid.
-    /// - `InvalidRequestException` : The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
+    /// - `InvalidRequestException` : The contents of the request were invalid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
@@ -336,9 +337,84 @@ extension IoTJobsDataPlaneClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartCommandExecution` operation on the `IotLaserThingJobManagerExternalService` service.
+    ///
+    /// Using the command created with the CreateCommand API, start a command execution on a specific device.
+    ///
+    /// - Parameter StartCommandExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `StartCommandExecutionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A conflict has occurred when performing the API request.
+    /// - `InternalServerException` : An internal server error occurred when performing the API request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this request.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : A validation error occurred when performing the API request.
+    public func startCommandExecution(input: StartCommandExecutionInput) async throws -> StartCommandExecutionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startCommandExecution")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iot-jobs-data")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartCommandExecutionInput, StartCommandExecutionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(StartCommandExecutionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCommandExecutionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCommandExecutionOutput>(StartCommandExecutionOutput.httpOutput(from:), StartCommandExecutionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartCommandExecutionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartCommandExecutionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(serviceID: serviceName, version: IoTJobsDataPlaneClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCommandExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTJobsDataPlane")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartCommandExecution")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartNextPendingJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
     ///
-    /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
+    /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing. Requires permission to access the [StartNextPendingJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
     /// - Parameter StartNextPendingJobExecutionInput : [no documentation found]
     ///
@@ -348,7 +424,7 @@ extension IoTJobsDataPlaneClient {
     ///
     /// __Possible Exceptions:__
     /// - `CertificateValidationException` : The certificate is invalid.
-    /// - `InvalidRequestException` : The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
+    /// - `InvalidRequestException` : The contents of the request were invalid.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
@@ -411,7 +487,7 @@ extension IoTJobsDataPlaneClient {
 
     /// Performs the `UpdateJobExecution` operation on the `IotLaserThingJobManagerExternalService` service.
     ///
-    /// Updates the status of a job execution.
+    /// Updates the status of a job execution. Requires permission to access the [UpdateJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotjobsdataplane.html) action.
     ///
     /// - Parameter UpdateJobExecutionInput : [no documentation found]
     ///
@@ -421,7 +497,7 @@ extension IoTJobsDataPlaneClient {
     ///
     /// __Possible Exceptions:__
     /// - `CertificateValidationException` : The certificate is invalid.
-    /// - `InvalidRequestException` : The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
+    /// - `InvalidRequestException` : The contents of the request were invalid.
     /// - `InvalidStateTransitionException` : An update attempted to change the job execution to a state that is invalid because of the job execution's current state (for example, an attempt to change a request in state SUCCESS to state IN_PROGRESS). In this case, the body of the error message also contains the executionState field.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.

@@ -27,6 +27,7 @@ extension RbinClient {
 extension ListRulesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListRulesInput {
         return ListRulesInput(
+            excludeResourceTags: self.excludeResourceTags,
             lockState: self.lockState,
             maxResults: self.maxResults,
             nextToken: token,

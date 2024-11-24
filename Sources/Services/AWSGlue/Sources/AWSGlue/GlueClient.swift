@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlueClient: ClientRuntime.Client {
     public static let clientName = "GlueClient"
-    public static let version = "1.0.43"
+    public static let version = "1.0.47"
     let client: ClientRuntime.SdkHttpClient
     let config: GlueClient.GlueClientConfiguration
     let serviceName = "Glue"
@@ -3306,7 +3306,7 @@ extension GlueClient {
 
     /// Performs the `CreateTableOptimizer` operation on the `AWSGlue` service.
     ///
-    /// Creates a new table optimizer for a specific function. compaction is the only currently supported optimizer type.
+    /// Creates a new table optimizer for a specific function.
     ///
     /// - Parameter CreateTableOptimizerInput : [no documentation found]
     ///

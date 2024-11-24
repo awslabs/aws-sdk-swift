@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudTrailClient: ClientRuntime.Client {
     public static let clientName = "CloudTrailClient"
-    public static let version = "1.0.43"
+    public static let version = "1.0.47"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudTrailClient.CloudTrailClientConfiguration
     let serviceName = "CloudTrail"
@@ -197,9 +197,9 @@ extension CloudTrailClient {
 extension CloudTrailClient {
     /// Performs the `AddTags` operation on the `CloudTrail_20131101` service.
     ///
-    /// Adds one or more tags to a trail, event data store, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
+    /// Adds one or more tags to a trail, event data store, dashboard, or channel, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home Region).
     ///
-    /// - Parameter AddTagsInput : Specifies the tags to add to a trail, event data store, or channel.
+    /// - Parameter AddTagsInput : Specifies the tags to add to a trail, event data store, dashboard, or channel.
     ///
     /// - Returns: `AddTagsOutput` : Returns the objects or data if successful. Otherwise, returns an error.
     ///
@@ -208,7 +208,7 @@ extension CloudTrailClient {
     /// __Possible Exceptions:__
     /// - `ChannelARNInvalidException` : This exception is thrown when the specified value of ChannelARN is not valid.
     /// - `ChannelNotFoundException` : This exception is thrown when CloudTrail cannot find the specified channel.
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `EventDataStoreARNInvalidException` : The specified event data store ARN is not valid or does not map to an event data store in your account.
     /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
@@ -230,7 +230,7 @@ extension CloudTrailClient {
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
-    /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
+    /// - `TagsLimitExceededException` : The number of tags per trail, event data store, dashboard, or channel has exceeded the permitted amount. Currently, the limit is 50.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = Smithy.ContextBuilder()
@@ -390,7 +390,7 @@ extension CloudTrailClient {
     /// - `InvalidSourceException` : This exception is thrown when the specified value of Source is not valid.
     /// - `InvalidTagParameterException` : This exception is thrown when the specified tag key or values are not valid. It can also occur if there are duplicate tags or too many tags on the resource.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
-    /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
+    /// - `TagsLimitExceededException` : The number of tags per trail, event data store, dashboard, or channel has exceeded the permitted amount. Currently, the limit is 50.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = Smithy.ContextBuilder()
@@ -450,6 +450,90 @@ extension CloudTrailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateDashboard` operation on the `CloudTrail_20131101` service.
+    ///
+    /// Creates a custom dashboard or the Highlights dashboard.
+    ///
+    /// * Custom dashboards - Custom dashboards allow you to query events in any event data store type. You can add up to 10 widgets to a custom dashboard. You can manually refresh a custom dashboard, or you can set a refresh schedule.
+    ///
+    /// * Highlights dashboard - You can create the Highlights dashboard to see a summary of key user activities and API usage across all your event data stores. CloudTrail Lake manages the Highlights dashboard and refreshes the dashboard every 6 hours. To create the Highlights dashboard, you must set and enable a refresh schedule.
+    ///
+    ///
+    /// CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the CloudTrail User Guide. To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to the dashboard. For more information, see [ Resource-based policy example for a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-dashboards) in the CloudTrail User Guide. For more information about dashboards, see [CloudTrail Lake dashboards](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-dashboard.html) in the CloudTrail User Guide.
+    ///
+    /// - Parameter CreateDashboardInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDashboardOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
+    /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
+    /// - `InactiveEventDataStoreException` : The event data store is inactive.
+    /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
+    /// - `InvalidQueryStatementException` : The query that was submitted has validation errors, or uses incorrect syntax or unsupported keywords. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
+    /// - `InvalidTagParameterException` : This exception is thrown when the specified tag key or values are not valid. It can also occur if there are duplicate tags or too many tags on the resource.
+    /// - `ServiceQuotaExceededException` : This exception is thrown when the quota is exceeded. For information about CloudTrail quotas, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/ct.html#limits_cloudtrail) in the Amazon Web Services General Reference.
+    /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
+    public func createDashboard(input: CreateDashboardInput) async throws -> CreateDashboardOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createDashboard")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateDashboardInput, CreateDashboardOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDashboardInput, CreateDashboardOutput>(CreateDashboardInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDashboardInput, CreateDashboardOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDashboardInput, CreateDashboardOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDashboardOutput>(CreateDashboardOutput.httpOutput(from:), CreateDashboardOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDashboardInput, CreateDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDashboardOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateDashboardOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDashboardInput, CreateDashboardOutput>(serviceID: serviceName, version: CloudTrailClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateDashboardInput, CreateDashboardOutput>(xAmzTarget: "CloudTrail_20131101.CreateDashboard"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateDashboardInput, CreateDashboardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDashboardInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDashboardInput, CreateDashboardOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDashboardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDashboardInput, CreateDashboardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDashboardInput, CreateDashboardOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudTrail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDashboard")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateEventDataStore` operation on the `CloudTrail_20131101` service.
     ///
     /// Creates a new event data store.
@@ -466,7 +550,7 @@ extension CloudTrailClient {
     /// - `EventDataStoreAlreadyExistsException` : An event data store with that name already exists.
     /// - `EventDataStoreMaxLimitExceededException` : Your account has used the maximum number of event data stores.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
-    /// - `InsufficientEncryptionPolicyException` : This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
+    /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     /// - `InvalidEventSelectorsException` : This exception is thrown when the PutEventSelectors operation is called with a number of event selectors, advanced event selectors, or data resources that is not valid. The combination of event selectors or advanced event selectors and data resources is not valid. A trail can have up to 5 event selectors. If a trail uses advanced event selectors, a maximum of 500 total values for all conditions in all advanced event selectors is allowed. A trail is limited to 250 data resources. These data resources can be distributed across event selectors, but the overall total cannot exceed 250. You can:
     ///
     /// * Specify a valid number of event selectors (1 to 5) for a trail.
@@ -561,7 +645,7 @@ extension CloudTrailClient {
     /// - `CloudWatchLogsDeliveryUnavailableException` : Cannot set a CloudWatch Logs delivery for this Region.
     /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
-    /// - `InsufficientEncryptionPolicyException` : This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
+    /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     /// - `InsufficientS3BucketPolicyException` : This exception is thrown when the policy on the S3 bucket is not sufficient.
     /// - `InsufficientSnsTopicPolicyException` : This exception is thrown when the policy on the Amazon SNS topic is not sufficient.
     /// - `InvalidCloudWatchLogsLogGroupArnException` : This exception is thrown when the provided CloudWatch Logs log group is not valid.
@@ -594,7 +678,7 @@ extension CloudTrailClient {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `S3BucketDoesNotExistException` : This exception is thrown when the specified S3 bucket does not exist.
-    /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
+    /// - `TagsLimitExceededException` : The number of tags per trail, event data store, dashboard, or channel has exceeded the permitted amount. Currently, the limit is 50.
     /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailAlreadyExistsException` : This exception is thrown when the specified trail already exists.
     /// - `TrailNotProvidedException` : This exception is no longer in use.
@@ -730,6 +814,78 @@ extension CloudTrailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteDashboard` operation on the `CloudTrail_20131101` service.
+    ///
+    /// Deletes the specified dashboard. You cannot delete a dashboard that has termination protection enabled.
+    ///
+    /// - Parameter DeleteDashboardInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDashboardOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
+    /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
+    /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
+    public func deleteDashboard(input: DeleteDashboardInput) async throws -> DeleteDashboardOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteDashboard")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteDashboardInput, DeleteDashboardOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(DeleteDashboardInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDashboardInput, DeleteDashboardOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDashboardInput, DeleteDashboardOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDashboardOutput>(DeleteDashboardOutput.httpOutput(from:), DeleteDashboardOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDashboardOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteDashboardOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(serviceID: serviceName, version: CloudTrailClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(xAmzTarget: "CloudTrail_20131101.DeleteDashboard"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteDashboardInput, DeleteDashboardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteDashboardInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDashboardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDashboardInput, DeleteDashboardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudTrail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDashboard")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteEventDataStore` operation on the `CloudTrail_20131101` service.
     ///
     /// Disables the event data store specified by EventDataStore, which accepts an event data store ARN. After you run DeleteEventDataStore, the event data store enters a PENDING_DELETION state, and is automatically deleted after a wait period of seven days. TerminationProtectionEnabled must be set to False on the event data store and the FederationStatus must be DISABLED. You cannot delete an event data store if TerminationProtectionEnabled is True or the FederationStatus is ENABLED. After you run DeleteEventDataStore on an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on queries that are using an event data store in a PENDING_DELETION state. An event data store in the PENDING_DELETION state does not incur costs.
@@ -815,7 +971,7 @@ extension CloudTrailClient {
 
     /// Performs the `DeleteResourcePolicy` operation on the `CloudTrail_20131101` service.
     ///
-    /// Deletes the resource-based policy attached to the CloudTrail channel.
+    /// Deletes the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
@@ -824,8 +980,9 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
-    /// - `ResourceARNNotValidException` : This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the valid format for a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// - `ResourceARNNotValidException` : This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
     /// - `ResourcePolicyNotFoundException` : This exception is thrown when the specified resource policy is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
@@ -899,7 +1056,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
     /// - `InvalidHomeRegionException` : This exception is thrown when an operation is called on a trail from a Region other than the Region in which the trail was created.
@@ -1060,7 +1217,7 @@ extension CloudTrailClient {
 
     /// Performs the `DescribeQuery` operation on the `CloudTrail_20131101` service.
     ///
-    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket, the response also provides the S3 URI and the delivery status. You must specify either a QueryID or a QueryAlias. Specifying the QueryAlias parameter returns information about the last query run for the alias.
+    /// Returns metadata about a query, including query run time in milliseconds, number of events scanned and matched, and query status. If the query results were delivered to an S3 bucket, the response also provides the S3 URI and the delivery status. You must specify either QueryId or QueryAlias. Specifying the QueryAlias parameter returns information about the last query run for the alias. You can provide RefreshId along with QueryAlias to view the query results of a dashboard query for the specified RefreshId.
     ///
     /// - Parameter DescribeQueryInput : [no documentation found]
     ///
@@ -1146,7 +1303,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `InvalidTrailNameException` : This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:
     ///
     /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
@@ -1536,6 +1693,77 @@ extension CloudTrailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetDashboard` operation on the `CloudTrail_20131101` service.
+    ///
+    /// Returns the specified dashboard.
+    ///
+    /// - Parameter GetDashboardInput : [no documentation found]
+    ///
+    /// - Returns: `GetDashboardOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
+    /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
+    public func getDashboard(input: GetDashboardInput) async throws -> GetDashboardOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDashboard")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDashboardInput, GetDashboardOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDashboardInput, GetDashboardOutput>(GetDashboardInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDashboardInput, GetDashboardOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDashboardInput, GetDashboardOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDashboardOutput>(GetDashboardOutput.httpOutput(from:), GetDashboardOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDashboardInput, GetDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDashboardOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetDashboardOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDashboardInput, GetDashboardOutput>(serviceID: serviceName, version: CloudTrailClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetDashboardInput, GetDashboardOutput>(xAmzTarget: "CloudTrail_20131101.GetDashboard"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetDashboardInput, GetDashboardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetDashboardInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDashboardInput, GetDashboardOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDashboardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDashboardInput, GetDashboardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDashboardInput, GetDashboardOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudTrail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDashboard")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetEventDataStore` operation on the `CloudTrail_20131101` service.
     ///
     /// Returns information about an event data store specified as either an ARN or the ID portion of the ARN.
@@ -1639,7 +1867,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `InvalidTrailNameException` : This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:
     ///
     /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
@@ -1797,7 +2025,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `InsightNotEnabledException` : If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
     /// - `InvalidParameterCombinationException` : This exception is thrown when the combination of parameters provided is not valid.
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
@@ -1889,7 +2117,7 @@ extension CloudTrailClient {
     /// - `EventDataStoreARNInvalidException` : The specified event data store ARN is not valid or does not map to an event data store in your account.
     /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
     /// - `InactiveEventDataStoreException` : The event data store is inactive.
-    /// - `InsufficientEncryptionPolicyException` : This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
+    /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     /// - `InvalidMaxResultsException` : This exception is thrown if the limit specified is not valid.
     /// - `InvalidNextTokenException` : A token that is not valid, or a token that was previously used in a request with different parameters. This exception is thrown if the token is not valid.
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
@@ -1957,7 +2185,7 @@ extension CloudTrailClient {
 
     /// Performs the `GetResourcePolicy` operation on the `CloudTrail_20131101` service.
     ///
-    /// Retrieves the JSON text of the resource-based policy document attached to the CloudTrail channel.
+    /// Retrieves the JSON text of the resource-based policy document attached to the CloudTrail event data store, dashboard, or channel.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
     ///
@@ -1967,7 +2195,7 @@ extension CloudTrailClient {
     ///
     /// __Possible Exceptions:__
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
-    /// - `ResourceARNNotValidException` : This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the valid format for a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// - `ResourceARNNotValidException` : This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
     /// - `ResourcePolicyNotFoundException` : This exception is thrown when the specified resource policy is not found.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
@@ -2041,7 +2269,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `InvalidTrailNameException` : This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:
     ///
     /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
@@ -2125,7 +2353,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `InvalidTrailNameException` : This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:
     ///
     /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
@@ -2258,6 +2486,76 @@ extension CloudTrailClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudTrail")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListChannels")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDashboards` operation on the `CloudTrail_20131101` service.
+    ///
+    /// Returns information about all dashboards in the account, in the current Region.
+    ///
+    /// - Parameter ListDashboardsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDashboardsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
+    public func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDashboards")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDashboardsInput, ListDashboardsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDashboardsInput, ListDashboardsOutput>(ListDashboardsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDashboardsInput, ListDashboardsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDashboardsInput, ListDashboardsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDashboardsOutput>(ListDashboardsOutput.httpOutput(from:), ListDashboardsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDashboardsInput, ListDashboardsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDashboardsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListDashboardsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDashboardsInput, ListDashboardsOutput>(serviceID: serviceName, version: CloudTrailClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListDashboardsInput, ListDashboardsOutput>(xAmzTarget: "CloudTrail_20131101.ListDashboards"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDashboardsInput, ListDashboardsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDashboardsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDashboardsInput, ListDashboardsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDashboardsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDashboardsInput, ListDashboardsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDashboardsInput, ListDashboardsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudTrail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDashboards")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2727,7 +3025,7 @@ extension CloudTrailClient {
 
     /// Performs the `ListTags` operation on the `CloudTrail_20131101` service.
     ///
-    /// Lists the tags for the specified trails, event data stores, or channels in the current Region.
+    /// Lists the tags for the specified trails, event data stores, dashboards, or channels in the current Region.
     ///
     /// - Parameter ListTagsInput : Specifies a list of tags to return.
     ///
@@ -2737,7 +3035,7 @@ extension CloudTrailClient {
     ///
     /// __Possible Exceptions:__
     /// - `ChannelARNInvalidException` : This exception is thrown when the specified value of ChannelARN is not valid.
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `EventDataStoreARNInvalidException` : The specified event data store ARN is not valid or does not map to an event data store in your account.
     /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
     /// - `InactiveEventDataStoreException` : The event data store is inactive.
@@ -3024,7 +3322,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
     /// - `InvalidEventSelectorsException` : This exception is thrown when the PutEventSelectors operation is called with a number of event selectors, advanced event selectors, or data resources that is not valid. The combination of event selectors or advanced event selectors and data resources is not valid. A trail can have up to 5 event selectors. If a trail uses advanced event selectors, a maximum of 500 total values for all conditions in all advanced event selectors is allowed. A trail is limited to 250 data resources. These data resources can be distributed across event selectors, but the overall total cannot exceed 250. You can:
@@ -3123,8 +3421,8 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
-    /// - `InsufficientEncryptionPolicyException` : This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     /// - `InsufficientS3BucketPolicyException` : This exception is thrown when the policy on the S3 bucket is not sufficient.
     /// - `InvalidHomeRegionException` : This exception is thrown when an operation is called on a trail from a Region other than the Region in which the trail was created.
     /// - `InvalidInsightSelectorsException` : For PutInsightSelectors, this exception is thrown when the formatting or syntax of the InsightSelectors JSON statement is not valid, or the specified InsightType in the InsightSelectors statement is not valid. Valid values for InsightType are ApiCallRateInsight and ApiErrorRateInsight. To enable Insights on an event data store, the destination event data store specified by the InsightsDestination parameter must log Insights events and the source event data store specified by the EventDataStore parameter must log management events. For UpdateEventDataStore, this exception is thrown if Insights are enabled on the event data store and the updated advanced event selectors are not compatible with the configured InsightSelectors. If the InsightSelectors includes an InsightType of ApiCallRateInsight, the source event data store must log write management events. If the InsightSelectors includes an InsightType of ApiErrorRateInsight, the source event data store must log management events.
@@ -3209,7 +3507,7 @@ extension CloudTrailClient {
 
     /// Performs the `PutResourcePolicy` operation on the `CloudTrail_20131101` service.
     ///
-    /// Attaches a resource-based permission policy to a CloudTrail channel that is used for an integration with an event source outside of Amazon Web Services. For more information about resource-based policies, see [CloudTrail resource-based policy examples](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html) in the CloudTrail User Guide.
+    /// Attaches a resource-based permission policy to a CloudTrail event data store, dashboard, or channel. For more information about resource-based policies, see [CloudTrail resource-based policy examples](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html) in the CloudTrail User Guide.
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
@@ -3218,16 +3516,11 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
-    /// - `ResourceARNNotValidException` : This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the valid format for a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// - `ResourceARNNotValidException` : This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
-    /// - `ResourcePolicyNotValidException` : This exception is thrown when the resouce-based policy has syntax errors, or contains a principal that is not valid. The following are requirements for the resource policy:
-    ///
-    /// * Contains only one action: cloudtrail-data:PutAuditEvents
-    ///
-    /// * Contains at least one statement. The policy can have a maximum of 20 statements.
-    ///
-    /// * Each statement contains at least one principal. A statement can have a maximum of 50 principals.
+    /// - `ResourcePolicyNotValidException` : This exception is thrown when the resouce-based policy has syntax errors, or contains a principal that is not valid.
     /// - `ResourceTypeNotSupportedException` : This exception is thrown when the specified resource type is not supported by CloudTrail.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
@@ -3372,9 +3665,9 @@ extension CloudTrailClient {
 
     /// Performs the `RemoveTags` operation on the `CloudTrail_20131101` service.
     ///
-    /// Removes the specified tags from a trail, event data store, or channel.
+    /// Removes the specified tags from a trail, event data store, dashboard, or channel.
     ///
-    /// - Parameter RemoveTagsInput : Specifies the tags to remove from a trail, event data store, or channel.
+    /// - Parameter RemoveTagsInput : Specifies the tags to remove from a trail, event data store, dashboard, or channel.
     ///
     /// - Returns: `RemoveTagsOutput` : Returns the objects or data listed below if successful. Otherwise, returns an error.
     ///
@@ -3383,7 +3676,7 @@ extension CloudTrailClient {
     /// __Possible Exceptions:__
     /// - `ChannelARNInvalidException` : This exception is thrown when the specified value of ChannelARN is not valid.
     /// - `ChannelNotFoundException` : This exception is thrown when CloudTrail cannot find the specified channel.
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `EventDataStoreARNInvalidException` : The specified event data store ARN is not valid or does not map to an event data store in your account.
     /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
@@ -3546,6 +3839,80 @@ extension CloudTrailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartDashboardRefresh` operation on the `CloudTrail_20131101` service.
+    ///
+    /// Starts a refresh of the specified dashboard. Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the CloudTrail User Guide.
+    ///
+    /// - Parameter StartDashboardRefreshInput : [no documentation found]
+    ///
+    /// - Returns: `StartDashboardRefreshOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
+    /// - `InactiveEventDataStoreException` : The event data store is inactive.
+    /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
+    /// - `ServiceQuotaExceededException` : This exception is thrown when the quota is exceeded. For information about CloudTrail quotas, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/ct.html#limits_cloudtrail) in the Amazon Web Services General Reference.
+    /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
+    public func startDashboardRefresh(input: StartDashboardRefreshInput) async throws -> StartDashboardRefreshOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startDashboardRefresh")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartDashboardRefreshInput, StartDashboardRefreshOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>(StartDashboardRefreshInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDashboardRefreshOutput>(StartDashboardRefreshOutput.httpOutput(from:), StartDashboardRefreshOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartDashboardRefreshOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartDashboardRefreshOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>(serviceID: serviceName, version: CloudTrailClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>(xAmzTarget: "CloudTrail_20131101.StartDashboardRefresh"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartDashboardRefreshInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDashboardRefreshOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartDashboardRefreshInput, StartDashboardRefreshOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudTrail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartDashboardRefresh")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartEventDataStoreIngestion` operation on the `CloudTrail_20131101` service.
     ///
     /// Starts the ingestion of live events on an event data store specified as either an ARN or the ID portion of the ARN. To start ingestion, the event data store Status must be STOPPED_INGESTION and the eventCategory must be Management, Data, NetworkActivity, or ConfigurationItem.
@@ -3641,7 +4008,7 @@ extension CloudTrailClient {
     /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
     /// - `ImportNotFoundException` : The specified import was not found.
     /// - `InactiveEventDataStoreException` : The event data store is inactive.
-    /// - `InsufficientEncryptionPolicyException` : This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
+    /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     /// - `InvalidEventDataStoreCategoryException` : This exception is thrown when event categories of specified event data stores are not valid.
     /// - `InvalidEventDataStoreStatusException` : The event data store is not in a status that supports the operation.
     /// - `InvalidImportSourceException` : This exception is thrown when the provided source S3 bucket is not valid for import.
@@ -3717,7 +4084,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
     /// - `InvalidHomeRegionException` : This exception is thrown when an operation is called on a trail from a Region other than the Region in which the trail was created.
@@ -3810,7 +4177,7 @@ extension CloudTrailClient {
     /// - `EventDataStoreARNInvalidException` : The specified event data store ARN is not valid or does not map to an event data store in your account.
     /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
     /// - `InactiveEventDataStoreException` : The event data store is inactive.
-    /// - `InsufficientEncryptionPolicyException` : This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
+    /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     /// - `InsufficientS3BucketPolicyException` : This exception is thrown when the policy on the S3 bucket is not sufficient.
     /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `InvalidQueryStatementException` : The query that was submitted has validation errors, or uses incorrect syntax or unsupported keywords. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
@@ -4042,7 +4409,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
     /// - `InvalidHomeRegionException` : This exception is thrown when an operation is called on a trail from a Region other than the Region in which the trail was created.
@@ -4200,6 +4567,83 @@ extension CloudTrailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateDashboard` operation on the `CloudTrail_20131101` service.
+    ///
+    /// Updates the specified dashboard. To set a refresh schedule, CloudTrail must be granted permissions to run the StartDashboardRefresh operation to refresh the dashboard on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to the dashboard. For more information, see [ Resource-based policy example for a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-dashboards) in the CloudTrail User Guide. CloudTrail runs queries to populate the dashboard's widgets during a manual or scheduled refresh. CloudTrail must be granted permissions to run the StartQuery operation on your behalf. To provide permissions, run the PutResourcePolicy operation to attach a resource-based policy to each event data store. For more information, see [Example: Allow CloudTrail to run queries to populate a dashboard](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html#security_iam_resource-based-policy-examples-eds-dashboard) in the CloudTrail User Guide.
+    ///
+    /// - Parameter UpdateDashboardInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDashboardOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
+    /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
+    /// - `InactiveEventDataStoreException` : The event data store is inactive.
+    /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
+    /// - `InvalidQueryStatementException` : The query that was submitted has validation errors, or uses incorrect syntax or unsupported keywords. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
+    /// - `ResourceNotFoundException` : This exception is thrown when the specified resource is not found.
+    /// - `ServiceQuotaExceededException` : This exception is thrown when the quota is exceeded. For information about CloudTrail quotas, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/ct.html#limits_cloudtrail) in the Amazon Web Services General Reference.
+    /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
+    public func updateDashboard(input: UpdateDashboardInput) async throws -> UpdateDashboardOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateDashboard")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudtrail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateDashboardInput, UpdateDashboardOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDashboardInput, UpdateDashboardOutput>(UpdateDashboardInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDashboardInput, UpdateDashboardOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDashboardInput, UpdateDashboardOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDashboardOutput>(UpdateDashboardOutput.httpOutput(from:), UpdateDashboardOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDashboardInput, UpdateDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDashboardOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateDashboardOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDashboardInput, UpdateDashboardOutput>(serviceID: serviceName, version: CloudTrailClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateDashboardInput, UpdateDashboardOutput>(xAmzTarget: "CloudTrail_20131101.UpdateDashboard"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDashboardInput, UpdateDashboardOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDashboardInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDashboardInput, UpdateDashboardOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDashboardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDashboardInput, UpdateDashboardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDashboardInput, UpdateDashboardOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudTrail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDashboard")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateEventDataStore` operation on the `CloudTrail_20131101` service.
     ///
     /// Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are integers between 7 and 3653 if the BillingMode is set to EXTENDABLE_RETENTION_PRICING, or between 7 and 2557 if BillingMode is set to FIXED_RETENTION_PRICING. By default, TerminationProtection is enabled. For event data stores for CloudTrail events, AdvancedEventSelectors includes or excludes management, data, or network activity events in your event data store. For more information about AdvancedEventSelectors, see [AdvancedEventSelectors](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html). For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that type in your event data store.
@@ -4218,7 +4662,7 @@ extension CloudTrailClient {
     /// - `EventDataStoreNotFoundException` : The specified event data store was not found.
     /// - `InactiveEventDataStoreException` : The event data store is inactive.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
-    /// - `InsufficientEncryptionPolicyException` : This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
+    /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     /// - `InvalidEventSelectorsException` : This exception is thrown when the PutEventSelectors operation is called with a number of event selectors, advanced event selectors, or data resources that is not valid. The combination of event selectors or advanced event selectors and data resources is not valid. A trail can have up to 5 event selectors. If a trail uses advanced event selectors, a maximum of 500 total values for all conditions in all advanced event selectors is allowed. A trail is limited to 250 data resources. These data resources can be distributed across event selectors, but the overall total cannot exceed 250. You can:
     ///
     /// * Specify a valid number of event selectors (1 to 5) for a trail.
@@ -4309,12 +4753,12 @@ extension CloudTrailClient {
     ///
     /// __Possible Exceptions:__
     /// - `CloudTrailAccessNotEnabledException` : This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see [How to enable or disable trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_how-to-enable-disable-trusted-access) in the Organizations User Guide and [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) in the CloudTrail User Guide.
-    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `CloudTrailInvalidClientTokenIdException` : This exception is thrown when a call results in the InvalidClientTokenId error code. This can occur when you are creating or updating a trail to send notifications to an Amazon SNS topic that is in a suspended Amazon Web Services account.
     /// - `CloudWatchLogsDeliveryUnavailableException` : Cannot set a CloudWatch Logs delivery for this Region.
     /// - `ConflictException` : This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
     /// - `InsufficientDependencyServiceAccessPermissionException` : This exception is thrown when the IAM identity that is used to create the organization resource lacks one or more required permissions for creating an organization resource in a required service.
-    /// - `InsufficientEncryptionPolicyException` : This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
+    /// - `InsufficientEncryptionPolicyException` : For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
     /// - `InsufficientS3BucketPolicyException` : This exception is thrown when the policy on the S3 bucket is not sufficient.
     /// - `InsufficientSnsTopicPolicyException` : This exception is thrown when the policy on the Amazon SNS topic is not sufficient.
     /// - `InvalidCloudWatchLogsLogGroupArnException` : This exception is thrown when the provided CloudWatch Logs log group is not valid.
