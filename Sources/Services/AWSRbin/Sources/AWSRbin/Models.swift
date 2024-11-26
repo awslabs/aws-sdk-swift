@@ -162,6 +162,27 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension RbinClientTypes {
 
+    /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule.
+    public struct ResourceTag: Swift.Sendable {
+        /// The tag key.
+        /// This member is required.
+        public var resourceTagKey: Swift.String?
+        /// The tag value.
+        public var resourceTagValue: Swift.String?
+
+        public init(
+            resourceTagKey: Swift.String? = nil,
+            resourceTagValue: Swift.String? = nil
+        )
+        {
+            self.resourceTagKey = resourceTagKey
+            self.resourceTagValue = resourceTagValue
+        }
+    }
+}
+
+extension RbinClientTypes {
+
     public enum UnlockDelayUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case days
         case sdkUnknown(Swift.String)
@@ -221,27 +242,6 @@ extension RbinClientTypes {
         )
         {
             self.unlockDelay = unlockDelay
-        }
-    }
-}
-
-extension RbinClientTypes {
-
-    /// Information about the resource tags used to identify resources that are retained by the retention rule.
-    public struct ResourceTag: Swift.Sendable {
-        /// The tag key.
-        /// This member is required.
-        public var resourceTagKey: Swift.String?
-        /// The tag value.
-        public var resourceTagValue: Swift.String?
-
-        public init(
-            resourceTagKey: Swift.String? = nil,
-            resourceTagValue: Swift.String? = nil
-        )
-        {
-            self.resourceTagKey = resourceTagKey
-            self.resourceTagValue = resourceTagValue
         }
     }
 }
@@ -348,9 +348,11 @@ extension RbinClientTypes {
 public struct CreateRuleInput: Swift.Sendable {
     /// The retention rule description.
     public var description: Swift.String?
+    /// [Region-level retention rules only] Specifies the exclusion tags to use to identify resources that are to be excluded, or ignored, by a Region-level retention rule. Resources that have any of these tags are not retained by the retention rule upon deletion. You can't specify exclusion tags for tag-level retention rules.
+    public var excludeResourceTags: [RbinClientTypes.ResourceTag]?
     /// Information about the retention rule lock configuration.
     public var lockConfiguration: RbinClientTypes.LockConfiguration?
-    /// Specifies the resource tags to use to identify resources that are to be retained by a tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule does not have any resource tags specified. It retains all deleted resources of the specified resource type in the Region in which the rule is created, even if the resources are not tagged.
+    /// [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule does not have any resource tags specified. It retains all deleted resources of the specified resource type in the Region in which the rule is created, even if the resources are not tagged.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To retain EBS-backed AMIs, specify EC2_IMAGE.
     /// This member is required.
@@ -363,6 +365,7 @@ public struct CreateRuleInput: Swift.Sendable {
 
     public init(
         description: Swift.String? = nil,
+        excludeResourceTags: [RbinClientTypes.ResourceTag]? = nil,
         lockConfiguration: RbinClientTypes.LockConfiguration? = nil,
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
@@ -371,6 +374,7 @@ public struct CreateRuleInput: Swift.Sendable {
     )
     {
         self.description = description
+        self.excludeResourceTags = excludeResourceTags
         self.lockConfiguration = lockConfiguration
         self.resourceTags = resourceTags
         self.resourceType = resourceType
@@ -443,11 +447,13 @@ extension RbinClientTypes {
 public struct CreateRuleOutput: Swift.Sendable {
     /// The retention rule description.
     public var description: Swift.String?
+    /// [Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be excluded, or ignored, by the retention rule.
+    public var excludeResourceTags: [RbinClientTypes.ResourceTag]?
     /// The unique ID of the retention rule.
     public var identifier: Swift.String?
     /// Information about the retention rule lock configuration.
     public var lockConfiguration: RbinClientTypes.LockConfiguration?
-    /// The lock state for the retention rule.
+    /// [Region-level retention rules only] The lock state for the retention rule.
     ///
     /// * locked - The retention rule is locked and can't be modified or deleted.
     ///
@@ -457,7 +463,7 @@ public struct CreateRuleOutput: Swift.Sendable {
     ///
     /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
     public var lockState: RbinClientTypes.LockState?
-    /// Information about the resource tags used to identify resources that are retained by the retention rule.
+    /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type retained by the retention rule.
     public var resourceType: RbinClientTypes.ResourceType?
@@ -472,6 +478,7 @@ public struct CreateRuleOutput: Swift.Sendable {
 
     public init(
         description: Swift.String? = nil,
+        excludeResourceTags: [RbinClientTypes.ResourceTag]? = nil,
         identifier: Swift.String? = nil,
         lockConfiguration: RbinClientTypes.LockConfiguration? = nil,
         lockState: RbinClientTypes.LockState? = nil,
@@ -484,6 +491,7 @@ public struct CreateRuleOutput: Swift.Sendable {
     )
     {
         self.description = description
+        self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
         self.lockConfiguration = lockConfiguration
         self.lockState = lockState
@@ -638,13 +646,15 @@ public struct GetRuleInput: Swift.Sendable {
 public struct GetRuleOutput: Swift.Sendable {
     /// The retention rule description.
     public var description: Swift.String?
+    /// [Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be excluded, or ignored, by the retention rule.
+    public var excludeResourceTags: [RbinClientTypes.ResourceTag]?
     /// The unique ID of the retention rule.
     public var identifier: Swift.String?
     /// Information about the retention rule lock configuration.
     public var lockConfiguration: RbinClientTypes.LockConfiguration?
     /// The date and time at which the unlock delay is set to expire. Only returned for retention rules that have been unlocked and that are still within the unlock delay period.
     public var lockEndTime: Foundation.Date?
-    /// The lock state for the retention rule.
+    /// [Region-level retention rules only] The lock state for the retention rule.
     ///
     /// * locked - The retention rule is locked and can't be modified or deleted.
     ///
@@ -654,7 +664,7 @@ public struct GetRuleOutput: Swift.Sendable {
     ///
     /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
     public var lockState: RbinClientTypes.LockState?
-    /// Information about the resource tags used to identify resources that are retained by the retention rule.
+    /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type retained by the retention rule.
     public var resourceType: RbinClientTypes.ResourceType?
@@ -667,6 +677,7 @@ public struct GetRuleOutput: Swift.Sendable {
 
     public init(
         description: Swift.String? = nil,
+        excludeResourceTags: [RbinClientTypes.ResourceTag]? = nil,
         identifier: Swift.String? = nil,
         lockConfiguration: RbinClientTypes.LockConfiguration? = nil,
         lockEndTime: Foundation.Date? = nil,
@@ -679,6 +690,7 @@ public struct GetRuleOutput: Swift.Sendable {
     )
     {
         self.description = description
+        self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
         self.lockConfiguration = lockConfiguration
         self.lockEndTime = lockEndTime
@@ -692,19 +704,22 @@ public struct GetRuleOutput: Swift.Sendable {
 }
 
 public struct ListRulesInput: Swift.Sendable {
+    /// [Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be excluded, or ignored, by the retention rule.
+    public var excludeResourceTags: [RbinClientTypes.ResourceTag]?
     /// The lock state of the retention rules to list. Only retention rules with the specified lock state are returned.
     public var lockState: RbinClientTypes.LockState?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
-    /// Information about the resource tags used to identify resources that are retained by the retention rule.
+    /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type retained by the retention rule. Only retention rules that retain the specified resource type are listed. Currently, only Amazon EBS snapshots and EBS-backed AMIs are supported. To list retention rules that retain snapshots, specify EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify EC2_IMAGE.
     /// This member is required.
     public var resourceType: RbinClientTypes.ResourceType?
 
     public init(
+        excludeResourceTags: [RbinClientTypes.ResourceTag]? = nil,
         lockState: RbinClientTypes.LockState? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -712,6 +727,7 @@ public struct ListRulesInput: Swift.Sendable {
         resourceType: RbinClientTypes.ResourceType? = nil
     )
     {
+        self.excludeResourceTags = excludeResourceTags
         self.lockState = lockState
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -728,7 +744,7 @@ extension RbinClientTypes {
         public var description: Swift.String?
         /// The unique ID of the retention rule.
         public var identifier: Swift.String?
-        /// The lock state for the retention rule.
+        /// [Region-level retention rules only] The lock state for the retention rule.
         ///
         /// * locked - The retention rule is locked and can't be modified or deleted.
         ///
@@ -822,11 +838,13 @@ public struct LockRuleInput: Swift.Sendable {
 public struct LockRuleOutput: Swift.Sendable {
     /// The retention rule description.
     public var description: Swift.String?
+    /// [Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be excluded, or ignored, by the retention rule.
+    public var excludeResourceTags: [RbinClientTypes.ResourceTag]?
     /// The unique ID of the retention rule.
     public var identifier: Swift.String?
     /// Information about the retention rule lock configuration.
     public var lockConfiguration: RbinClientTypes.LockConfiguration?
-    /// The lock state for the retention rule.
+    /// [Region-level retention rules only] The lock state for the retention rule.
     ///
     /// * locked - The retention rule is locked and can't be modified or deleted.
     ///
@@ -836,7 +854,7 @@ public struct LockRuleOutput: Swift.Sendable {
     ///
     /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
     public var lockState: RbinClientTypes.LockState?
-    /// Information about the resource tags used to identify resources that are retained by the retention rule.
+    /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type retained by the retention rule.
     public var resourceType: RbinClientTypes.ResourceType?
@@ -849,6 +867,7 @@ public struct LockRuleOutput: Swift.Sendable {
 
     public init(
         description: Swift.String? = nil,
+        excludeResourceTags: [RbinClientTypes.ResourceTag]? = nil,
         identifier: Swift.String? = nil,
         lockConfiguration: RbinClientTypes.LockConfiguration? = nil,
         lockState: RbinClientTypes.LockState? = nil,
@@ -860,6 +879,7 @@ public struct LockRuleOutput: Swift.Sendable {
     )
     {
         self.description = description
+        self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
         self.lockConfiguration = lockConfiguration
         self.lockState = lockState
@@ -910,13 +930,15 @@ public struct UnlockRuleInput: Swift.Sendable {
 public struct UnlockRuleOutput: Swift.Sendable {
     /// The retention rule description.
     public var description: Swift.String?
+    /// [Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be excluded, or ignored, by the retention rule.
+    public var excludeResourceTags: [RbinClientTypes.ResourceTag]?
     /// The unique ID of the retention rule.
     public var identifier: Swift.String?
     /// Information about the retention rule lock configuration.
     public var lockConfiguration: RbinClientTypes.LockConfiguration?
     /// The date and time at which the unlock delay is set to expire. Only returned for retention rules that have been unlocked and that are still within the unlock delay period.
     public var lockEndTime: Foundation.Date?
-    /// The lock state for the retention rule.
+    /// [Region-level retention rules only] The lock state for the retention rule.
     ///
     /// * locked - The retention rule is locked and can't be modified or deleted.
     ///
@@ -926,7 +948,7 @@ public struct UnlockRuleOutput: Swift.Sendable {
     ///
     /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
     public var lockState: RbinClientTypes.LockState?
-    /// Information about the resource tags used to identify resources that are retained by the retention rule.
+    /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type retained by the retention rule.
     public var resourceType: RbinClientTypes.ResourceType?
@@ -939,6 +961,7 @@ public struct UnlockRuleOutput: Swift.Sendable {
 
     public init(
         description: Swift.String? = nil,
+        excludeResourceTags: [RbinClientTypes.ResourceTag]? = nil,
         identifier: Swift.String? = nil,
         lockConfiguration: RbinClientTypes.LockConfiguration? = nil,
         lockEndTime: Foundation.Date? = nil,
@@ -951,6 +974,7 @@ public struct UnlockRuleOutput: Swift.Sendable {
     )
     {
         self.description = description
+        self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
         self.lockConfiguration = lockConfiguration
         self.lockEndTime = lockEndTime
@@ -989,10 +1013,12 @@ public struct UntagResourceOutput: Swift.Sendable {
 public struct UpdateRuleInput: Swift.Sendable {
     /// The retention rule description.
     public var description: Swift.String?
+    /// [Region-level retention rules only] Specifies the exclusion tags to use to identify resources that are to be excluded, or ignored, by a Region-level retention rule. Resources that have any of these tags are not retained by the retention rule upon deletion. You can't specify exclusion tags for tag-level retention rules.
+    public var excludeResourceTags: [RbinClientTypes.ResourceTag]?
     /// The unique ID of the retention rule.
     /// This member is required.
     public var identifier: Swift.String?
-    /// Specifies the resource tags to use to identify resources that are to be retained by a tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule does not have any resource tags specified. It retains all deleted resources of the specified resource type in the Region in which the rule is created, even if the resources are not tagged.
+    /// [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule does not have any resource tags specified. It retains all deleted resources of the specified resource type in the Region in which the rule is created, even if the resources are not tagged.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// This parameter is currently not supported. You can't update a retention rule's resource type after creation.
     public var resourceType: RbinClientTypes.ResourceType?
@@ -1001,6 +1027,7 @@ public struct UpdateRuleInput: Swift.Sendable {
 
     public init(
         description: Swift.String? = nil,
+        excludeResourceTags: [RbinClientTypes.ResourceTag]? = nil,
         identifier: Swift.String? = nil,
         resourceTags: [RbinClientTypes.ResourceTag]? = nil,
         resourceType: RbinClientTypes.ResourceType? = nil,
@@ -1008,6 +1035,7 @@ public struct UpdateRuleInput: Swift.Sendable {
     )
     {
         self.description = description
+        self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
         self.resourceTags = resourceTags
         self.resourceType = resourceType
@@ -1018,11 +1046,13 @@ public struct UpdateRuleInput: Swift.Sendable {
 public struct UpdateRuleOutput: Swift.Sendable {
     /// The retention rule description.
     public var description: Swift.String?
+    /// [Region-level retention rules only] Information about the exclusion tags used to identify resources that are to be excluded, or ignored, by the retention rule.
+    public var excludeResourceTags: [RbinClientTypes.ResourceTag]?
     /// The unique ID of the retention rule.
     public var identifier: Swift.String?
     /// The date and time at which the unlock delay is set to expire. Only returned for retention rules that have been unlocked and that are still within the unlock delay period.
     public var lockEndTime: Foundation.Date?
-    /// The lock state for the retention rule.
+    /// [Region-level retention rules only] The lock state for the retention rule.
     ///
     /// * locked - The retention rule is locked and can't be modified or deleted.
     ///
@@ -1032,7 +1062,7 @@ public struct UpdateRuleOutput: Swift.Sendable {
     ///
     /// * null - The retention rule has never been locked. Once a retention rule has been locked, it can transition between the locked and unlocked states only; it can never transition back to null.
     public var lockState: RbinClientTypes.LockState?
-    /// Information about the resource tags used to identify resources that are retained by the retention rule.
+    /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
     /// The resource type retained by the retention rule.
     public var resourceType: RbinClientTypes.ResourceType?
@@ -1045,6 +1075,7 @@ public struct UpdateRuleOutput: Swift.Sendable {
 
     public init(
         description: Swift.String? = nil,
+        excludeResourceTags: [RbinClientTypes.ResourceTag]? = nil,
         identifier: Swift.String? = nil,
         lockEndTime: Foundation.Date? = nil,
         lockState: RbinClientTypes.LockState? = nil,
@@ -1056,6 +1087,7 @@ public struct UpdateRuleOutput: Swift.Sendable {
     )
     {
         self.description = description
+        self.excludeResourceTags = excludeResourceTags
         self.identifier = identifier
         self.lockEndTime = lockEndTime
         self.lockState = lockState
@@ -1182,6 +1214,7 @@ extension CreateRuleInput {
     static func write(value: CreateRuleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Description"].write(value.description)
+        try writer["ExcludeResourceTags"].writeList(value.excludeResourceTags, memberWritingClosure: RbinClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LockConfiguration"].write(value.lockConfiguration, with: RbinClientTypes.LockConfiguration.write(value:to:))
         try writer["ResourceTags"].writeList(value.resourceTags, memberWritingClosure: RbinClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceType"].write(value.resourceType)
@@ -1194,6 +1227,7 @@ extension ListRulesInput {
 
     static func write(value: ListRulesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ExcludeResourceTags"].writeList(value.excludeResourceTags, memberWritingClosure: RbinClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LockState"].write(value.lockState)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -1223,6 +1257,7 @@ extension UpdateRuleInput {
     static func write(value: UpdateRuleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Description"].write(value.description)
+        try writer["ExcludeResourceTags"].writeList(value.excludeResourceTags, memberWritingClosure: RbinClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceTags"].writeList(value.resourceTags, memberWritingClosure: RbinClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceType"].write(value.resourceType)
         try writer["RetentionPeriod"].write(value.retentionPeriod, with: RbinClientTypes.RetentionPeriod.write(value:to:))
@@ -1237,6 +1272,7 @@ extension CreateRuleOutput {
         let reader = responseReader
         var value = CreateRuleOutput()
         value.description = try reader["Description"].readIfPresent()
+        value.excludeResourceTags = try reader["ExcludeResourceTags"].readListIfPresent(memberReadingClosure: RbinClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.identifier = try reader["Identifier"].readIfPresent()
         value.lockConfiguration = try reader["LockConfiguration"].readIfPresent(with: RbinClientTypes.LockConfiguration.read(from:))
         value.lockState = try reader["LockState"].readIfPresent()
@@ -1265,6 +1301,7 @@ extension GetRuleOutput {
         let reader = responseReader
         var value = GetRuleOutput()
         value.description = try reader["Description"].readIfPresent()
+        value.excludeResourceTags = try reader["ExcludeResourceTags"].readListIfPresent(memberReadingClosure: RbinClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.identifier = try reader["Identifier"].readIfPresent()
         value.lockConfiguration = try reader["LockConfiguration"].readIfPresent(with: RbinClientTypes.LockConfiguration.read(from:))
         value.lockEndTime = try reader["LockEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -1311,6 +1348,7 @@ extension LockRuleOutput {
         let reader = responseReader
         var value = LockRuleOutput()
         value.description = try reader["Description"].readIfPresent()
+        value.excludeResourceTags = try reader["ExcludeResourceTags"].readListIfPresent(memberReadingClosure: RbinClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.identifier = try reader["Identifier"].readIfPresent()
         value.lockConfiguration = try reader["LockConfiguration"].readIfPresent(with: RbinClientTypes.LockConfiguration.read(from:))
         value.lockState = try reader["LockState"].readIfPresent()
@@ -1338,6 +1376,7 @@ extension UnlockRuleOutput {
         let reader = responseReader
         var value = UnlockRuleOutput()
         value.description = try reader["Description"].readIfPresent()
+        value.excludeResourceTags = try reader["ExcludeResourceTags"].readListIfPresent(memberReadingClosure: RbinClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.identifier = try reader["Identifier"].readIfPresent()
         value.lockConfiguration = try reader["LockConfiguration"].readIfPresent(with: RbinClientTypes.LockConfiguration.read(from:))
         value.lockEndTime = try reader["LockEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -1366,6 +1405,7 @@ extension UpdateRuleOutput {
         let reader = responseReader
         var value = UpdateRuleOutput()
         value.description = try reader["Description"].readIfPresent()
+        value.excludeResourceTags = try reader["ExcludeResourceTags"].readListIfPresent(memberReadingClosure: RbinClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.identifier = try reader["Identifier"].readIfPresent()
         value.lockEndTime = try reader["LockEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lockState = try reader["LockState"].readIfPresent()

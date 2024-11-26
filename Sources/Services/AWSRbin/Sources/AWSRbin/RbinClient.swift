@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RbinClient: ClientRuntime.Client {
     public static let clientName = "RbinClient"
-    public static let version = "1.0.44"
+    public static let version = "1.0.48"
     let client: ClientRuntime.SdkHttpClient
     let config: RbinClient.RbinClientConfiguration
     let serviceName = "rbin"
@@ -197,7 +197,14 @@ extension RbinClient {
 extension RbinClient {
     /// Performs the `CreateRule` operation on the `AmazonRecycleBin` service.
     ///
-    /// Creates a Recycle Bin retention rule. For more information, see [ Create Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-create-rule) in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a Recycle Bin retention rule. You can create two types of retention rules:
+    ///
+    /// * Tag-level retention rules - These retention rules use resource tags to identify the resources to protect. For each retention rule, you specify one or more tag key and value pairs. Resources (of the specified type) that have at least one of these tag key and value pairs are automatically retained in the Recycle Bin upon deletion. Use this type of retention rule to protect specific resources in your account based on their tags.
+    ///
+    /// * Region-level retention rules - These retention rules, by default, apply to all of the resources (of the specified type) in the Region, even if the resources are not tagged. However, you can specify exclusion tags to exclude resources that have specific tags. Use this type of retention rule to protect all resources of a specific type in a Region.
+    ///
+    ///
+    /// For more information, see [ Create Recycle Bin retention rules](https://docs.aws.amazon.com/ebs/latest/userguide/recycle-bin.html) in the Amazon EBS User Guide.
     ///
     /// - Parameter CreateRuleInput : [no documentation found]
     ///
@@ -543,7 +550,7 @@ extension RbinClient {
 
     /// Performs the `LockRule` operation on the `AmazonRecycleBin` service.
     ///
-    /// Locks a retention rule. A locked retention rule can't be modified or deleted.
+    /// Locks a Region-level retention rule. A locked retention rule can't be modified or deleted. You can't lock tag-level retention rules, or Region-level retention rules that have exclusion tags.
     ///
     /// - Parameter LockRuleInput : [no documentation found]
     ///

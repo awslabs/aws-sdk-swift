@@ -61,6 +61,7 @@ extension GetBasePathMappingsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetBasePathMappingsInput {
         return GetBasePathMappingsInput(
             domainName: self.domainName,
+            domainNameId: self.domainNameId,
             limit: self.limit,
             position: token
         )}
@@ -153,7 +154,8 @@ extension GetDomainNamesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetDomainNamesInput {
         return GetDomainNamesInput(
             limit: self.limit,
-            position: token
+            position: token,
+            resourceOwner: self.resourceOwner
         )}
 }
 

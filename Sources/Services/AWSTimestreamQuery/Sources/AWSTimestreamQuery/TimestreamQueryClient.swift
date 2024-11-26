@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamQueryClient: ClientRuntime.Client {
     public static let clientName = "TimestreamQueryClient"
-    public static let version = "1.0.44"
+    public static let version = "1.0.48"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamQueryClient.TimestreamQueryClientConfiguration
     let serviceName = "Timestream Query"
@@ -207,10 +207,10 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func cancelQuery(input: CancelQueryInput) async throws -> CancelQueryOutput {
         let context = Smithy.ContextBuilder()
@@ -281,12 +281,12 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
     /// - `ConflictException` : Unable to poll results for a cancelled query.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
     /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func createScheduledQuery(input: CreateScheduledQueryInput) async throws -> CreateScheduledQueryOutput {
         let context = Smithy.ContextBuilder()
@@ -358,11 +358,11 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func deleteScheduledQuery(input: DeleteScheduledQueryInput) async throws -> DeleteScheduledQueryOutput {
         let context = Smithy.ContextBuilder()
@@ -433,10 +433,10 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     public func describeAccountSettings(input: DescribeAccountSettingsInput) async throws -> DescribeAccountSettingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -515,8 +515,8 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput {
         let context = Smithy.ContextBuilder()
@@ -587,11 +587,11 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func describeScheduledQuery(input: DescribeScheduledQueryInput) async throws -> DescribeScheduledQueryOutput {
         let context = Smithy.ContextBuilder()
@@ -653,7 +653,7 @@ extension TimestreamQueryClient {
 
     /// Performs the `ExecuteScheduledQuery` operation on the `Timestream_20181101` service.
     ///
-    /// You can use this API to run a scheduled query manually. If you enabled QueryInsights, this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query.
+    /// You can use this API to run a scheduled query manually. If you enabled QueryInsights, this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query. For more information about QueryInsights, see [Using query insights to optimize queries in Amazon Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html).
     ///
     /// - Parameter ExecuteScheduledQueryInput : [no documentation found]
     ///
@@ -662,11 +662,11 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func executeScheduledQuery(input: ExecuteScheduledQueryInput) async throws -> ExecuteScheduledQueryOutput {
         let context = Smithy.ContextBuilder()
@@ -738,10 +738,10 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func listScheduledQueries(input: ListScheduledQueriesInput) async throws -> ListScheduledQueriesOutput {
         let context = Smithy.ContextBuilder()
@@ -812,9 +812,9 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -885,10 +885,10 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func prepareQuery(input: PrepareQueryInput) async throws -> PrepareQueryOutput {
         let context = Smithy.ContextBuilder()
@@ -950,7 +950,7 @@ extension TimestreamQueryClient {
 
     /// Performs the `Query` operation on the `Timestream_20181101` service.
     ///
-    /// Query is a synchronous operation that enables you to run a query against your Amazon Timestream data. If you enabled QueryInsights, this API also returns insights and metrics related to the query that you executed. QueryInsights helps with performance tuning of your query. The maximum number of Query API requests you're allowed to make with QueryInsights enabled is 1 query per second (QPS). If you exceed this query rate, it might result in throttling. Query will time out after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. See the [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html) for details. Your query request will fail in the following cases:
+    /// Query is a synchronous operation that enables you to run a query against your Amazon Timestream data. If you enabled QueryInsights, this API also returns insights and metrics related to the query that you executed. QueryInsights helps with performance tuning of your query. For more information about QueryInsights, see [Using query insights to optimize queries in Amazon Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html). The maximum number of Query API requests you're allowed to make with QueryInsights enabled is 1 query per second (QPS). If you exceed this query rate, it might result in throttling. Query will time out after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. See the [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html) for details. Your query request will fail in the following cases:
     ///
     /// * If you submit a Query request with the same client token outside of the 5-minute idempotency window.
     ///
@@ -967,12 +967,12 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
     /// - `ConflictException` : Unable to poll results for a cancelled query.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
     /// - `QueryExecutionException` : Timestream was unable to run the query successfully.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func query(input: QueryInput) async throws -> QueryOutput {
         let context = Smithy.ContextBuilder()
@@ -1044,10 +1044,10 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -1118,9 +1118,9 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -1191,10 +1191,10 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
         let context = Smithy.ContextBuilder()
@@ -1265,11 +1265,11 @@ extension TimestreamQueryClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You are not authorized to perform this action.
-    /// - `InternalServerException` : The service was unable to fully process this request because of an internal server error.
-    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `AccessDeniedException` : You do not have the necessary permissions to access the account settings.
+    /// - `InternalServerException` : An internal server error occurred while processing the request.
+    /// - `InvalidEndpointException` : The requested endpoint is invalid.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ThrottlingException` : The request was throttled due to excessive requests.
     /// - `ValidationException` : Invalid or malformed request.
     public func updateScheduledQuery(input: UpdateScheduledQueryInput) async throws -> UpdateScheduledQueryOutput {
         let context = Smithy.ContextBuilder()

@@ -14,8 +14,10 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -166,7 +168,7 @@ extension SFNClientTypes {
 
     /// Provides details about input or output in an execution history event.
     public struct HistoryEventExecutionDataDetails: Swift.Sendable {
-        /// Indicates whether input or output was truncated in the response. Always false for API calls.
+        /// Indicates whether input or output was truncated in the response. Always false for API calls. In CloudWatch logs, the value will be true if the data is truncated due to size limits.
         public var truncated: Swift.Bool
 
         public init(
@@ -328,6 +330,22 @@ public struct ActivityWorkerLimitExceeded: ClientRuntime.ModeledError, AWSClient
     )
     {
         self.properties.message = message
+    }
+}
+
+extension SFNClientTypes {
+
+    /// Provides details about assigned variables in an execution history event.
+    public struct AssignedVariablesDetails: Swift.Sendable {
+        /// Indicates whether assigned variables were truncated in the response. Always false for API calls. In CloudWatch logs, the value will be true if the data is truncated due to size limits.
+        public var truncated: Swift.Bool
+
+        public init(
+            truncated: Swift.Bool = false
+        )
+        {
+            self.truncated = truncated
+        }
     }
 }
 
@@ -2040,6 +2058,8 @@ public struct DescribeStateMachineOutput: Swift.Sendable {
     /// The type of the state machine (STANDARD or EXPRESS).
     /// This member is required.
     public var type: SFNClientTypes.StateMachineType?
+    /// A map of state name to a list of variables referenced by that state. States that do not use variable references will not be shown in the response.
+    public var variableReferences: [Swift.String: [Swift.String]]?
 
     public init(
         creationDate: Foundation.Date? = nil,
@@ -2054,7 +2074,8 @@ public struct DescribeStateMachineOutput: Swift.Sendable {
         stateMachineArn: Swift.String? = nil,
         status: SFNClientTypes.StateMachineStatus? = nil,
         tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
-        type: SFNClientTypes.StateMachineType? = nil
+        type: SFNClientTypes.StateMachineType? = nil,
+        variableReferences: [Swift.String: [Swift.String]]? = nil
     )
     {
         self.creationDate = creationDate
@@ -2070,12 +2091,13 @@ public struct DescribeStateMachineOutput: Swift.Sendable {
         self.status = status
         self.tracingConfiguration = tracingConfiguration
         self.type = type
+        self.variableReferences = variableReferences
     }
 }
 
 extension DescribeStateMachineOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeStateMachineOutput(creationDate: \(Swift.String(describing: creationDate)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "DescribeStateMachineOutput(creationDate: \(Swift.String(describing: creationDate)), encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), status: \(Swift.String(describing: status)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), type: \(Swift.String(describing: type)), definition: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", variableReferences: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeStateMachineAliasInput: Swift.Sendable {
@@ -2173,6 +2195,8 @@ public struct DescribeStateMachineForExecutionOutput: Swift.Sendable {
     /// The date and time the state machine associated with an execution was updated. For a newly created state machine, this is the creation date.
     /// This member is required.
     public var updateDate: Foundation.Date?
+    /// A map of state name to a list of variables referenced by that state. States that do not use variable references will not be shown in the response.
+    public var variableReferences: [Swift.String: [Swift.String]]?
 
     public init(
         definition: Swift.String? = nil,
@@ -2185,7 +2209,8 @@ public struct DescribeStateMachineForExecutionOutput: Swift.Sendable {
         roleArn: Swift.String? = nil,
         stateMachineArn: Swift.String? = nil,
         tracingConfiguration: SFNClientTypes.TracingConfiguration? = nil,
-        updateDate: Foundation.Date? = nil
+        updateDate: Foundation.Date? = nil,
+        variableReferences: [Swift.String: [Swift.String]]? = nil
     )
     {
         self.definition = definition
@@ -2199,12 +2224,13 @@ public struct DescribeStateMachineForExecutionOutput: Swift.Sendable {
         self.stateMachineArn = stateMachineArn
         self.tracingConfiguration = tracingConfiguration
         self.updateDate = updateDate
+        self.variableReferences = variableReferences
     }
 }
 
 extension DescribeStateMachineForExecutionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeStateMachineForExecutionOutput(encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), updateDate: \(Swift.String(describing: updateDate)), definition: \"CONTENT_REDACTED\")"}
+        "DescribeStateMachineForExecutionOutput(encryptionConfiguration: \(Swift.String(describing: encryptionConfiguration)), label: \(Swift.String(describing: label)), loggingConfiguration: \(Swift.String(describing: loggingConfiguration)), mapRunArn: \(Swift.String(describing: mapRunArn)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), roleArn: \(Swift.String(describing: roleArn)), stateMachineArn: \(Swift.String(describing: stateMachineArn)), tracingConfiguration: \(Swift.String(describing: tracingConfiguration)), updateDate: \(Swift.String(describing: updateDate)), definition: \"CONTENT_REDACTED\", variableReferences: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetActivityTaskInput: Swift.Sendable {
@@ -2296,6 +2322,40 @@ public struct GetExecutionHistoryInput: Swift.Sendable {
         self.nextToken = nextToken
         self.reverseOrder = reverseOrder
     }
+}
+
+extension SFNClientTypes {
+
+    /// Contains details about an evaluation failure that occurred while processing a state, for example, when a JSONata expression throws an error. This event will only be present in state machines that have QueryLanguage set to JSONata, or individual states set to JSONata.
+    public struct EvaluationFailedEventDetails: Swift.Sendable {
+        /// A more detailed explanation of the cause of the failure.
+        public var cause: Swift.String?
+        /// The error code of the failure.
+        public var error: Swift.String?
+        /// The location of the field in the state in which the evaluation error occurred.
+        public var location: Swift.String?
+        /// The name of the state in which the evaluation error occurred.
+        /// This member is required.
+        public var state: Swift.String?
+
+        public init(
+            cause: Swift.String? = nil,
+            error: Swift.String? = nil,
+            location: Swift.String? = nil,
+            state: Swift.String? = nil
+        )
+        {
+            self.cause = cause
+            self.error = error
+            self.location = location
+            self.state = state
+        }
+    }
+}
+
+extension SFNClientTypes.EvaluationFailedEventDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EvaluationFailedEventDetails(state: \(Swift.String(describing: state)), cause: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", location: \"CONTENT_REDACTED\")"}
 }
 
 extension SFNClientTypes {
@@ -2761,6 +2821,10 @@ extension SFNClientTypes {
 
     /// Contains details about an exit from a state during an execution.
     public struct StateExitedEventDetails: Swift.Sendable {
+        /// Map of variable name and value as a serialized JSON representation.
+        public var assignedVariables: [Swift.String: Swift.String]?
+        /// Provides details about input or output in an execution history event.
+        public var assignedVariablesDetails: SFNClientTypes.AssignedVariablesDetails?
         /// The name of the state. A name must not contain:
         ///
         /// * white space
@@ -2783,11 +2847,15 @@ extension SFNClientTypes {
         public var outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails?
 
         public init(
+            assignedVariables: [Swift.String: Swift.String]? = nil,
+            assignedVariablesDetails: SFNClientTypes.AssignedVariablesDetails? = nil,
             name: Swift.String? = nil,
             output: Swift.String? = nil,
             outputDetails: SFNClientTypes.HistoryEventExecutionDataDetails? = nil
         )
         {
+            self.assignedVariables = assignedVariables
+            self.assignedVariablesDetails = assignedVariablesDetails
             self.name = name
             self.output = output
             self.outputDetails = outputDetails
@@ -2797,7 +2865,7 @@ extension SFNClientTypes {
 
 extension SFNClientTypes.StateExitedEventDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StateExitedEventDetails(name: \(Swift.String(describing: name)), outputDetails: \(Swift.String(describing: outputDetails)), output: \"CONTENT_REDACTED\")"}
+        "StateExitedEventDetails(assignedVariablesDetails: \(Swift.String(describing: assignedVariablesDetails)), name: \(Swift.String(describing: name)), outputDetails: \(Swift.String(describing: outputDetails)), assignedVariables: \"CONTENT_REDACTED\", output: \"CONTENT_REDACTED\")"}
 }
 
 extension SFNClientTypes {
@@ -3092,6 +3160,7 @@ extension SFNClientTypes {
         case activitytimedout
         case choicestateentered
         case choicestateexited
+        case evaluationfailed
         case executionaborted
         case executionfailed
         case executionredriven
@@ -3157,6 +3226,7 @@ extension SFNClientTypes {
                 .activitytimedout,
                 .choicestateentered,
                 .choicestateexited,
+                .evaluationfailed,
                 .executionaborted,
                 .executionfailed,
                 .executionredriven,
@@ -3228,6 +3298,7 @@ extension SFNClientTypes {
             case .activitytimedout: return "ActivityTimedOut"
             case .choicestateentered: return "ChoiceStateEntered"
             case .choicestateexited: return "ChoiceStateExited"
+            case .evaluationfailed: return "EvaluationFailed"
             case .executionaborted: return "ExecutionAborted"
             case .executionfailed: return "ExecutionFailed"
             case .executionredriven: return "ExecutionRedriven"
@@ -3303,6 +3374,8 @@ extension SFNClientTypes {
         public var activitySucceededEventDetails: SFNClientTypes.ActivitySucceededEventDetails?
         /// Contains details about an activity timeout that occurred during an execution.
         public var activityTimedOutEventDetails: SFNClientTypes.ActivityTimedOutEventDetails?
+        /// Contains details about an evaluation failure that occurred while processing a state.
+        public var evaluationFailedEventDetails: SFNClientTypes.EvaluationFailedEventDetails?
         /// Contains details about an abort of an execution.
         public var executionAbortedEventDetails: SFNClientTypes.ExecutionAbortedEventDetails?
         /// Contains details about an execution failure event.
@@ -3382,6 +3455,7 @@ extension SFNClientTypes {
             activityStartedEventDetails: SFNClientTypes.ActivityStartedEventDetails? = nil,
             activitySucceededEventDetails: SFNClientTypes.ActivitySucceededEventDetails? = nil,
             activityTimedOutEventDetails: SFNClientTypes.ActivityTimedOutEventDetails? = nil,
+            evaluationFailedEventDetails: SFNClientTypes.EvaluationFailedEventDetails? = nil,
             executionAbortedEventDetails: SFNClientTypes.ExecutionAbortedEventDetails? = nil,
             executionFailedEventDetails: SFNClientTypes.ExecutionFailedEventDetails? = nil,
             executionRedrivenEventDetails: SFNClientTypes.ExecutionRedrivenEventDetails? = nil,
@@ -3424,6 +3498,7 @@ extension SFNClientTypes {
             self.activityStartedEventDetails = activityStartedEventDetails
             self.activitySucceededEventDetails = activitySucceededEventDetails
             self.activityTimedOutEventDetails = activityTimedOutEventDetails
+            self.evaluationFailedEventDetails = evaluationFailedEventDetails
             self.executionAbortedEventDetails = executionAbortedEventDetails
             self.executionFailedEventDetails = executionFailedEventDetails
             self.executionRedrivenEventDetails = executionRedrivenEventDetails
@@ -4623,15 +4698,17 @@ public struct TestStateInput: Swift.Sendable {
     /// Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds to modify the HTTP request headers, query parameters, and body. Step Functions doesn't omit any information included in the state definition or the HTTP response. If you set revealSecrets to true, you must make sure that the IAM user that calls the TestState API has permission for the states:RevealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see [IAM permissions to test a state](https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-permissions). Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false.
     public var revealSecrets: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the execution role with the required IAM permissions for the state.
-    /// This member is required.
     public var roleArn: Swift.String?
+    /// JSON object literal that sets variables used in the state under test. Object keys are the variable names and values are the variable values.
+    public var variables: Swift.String?
 
     public init(
         definition: Swift.String? = nil,
         input: Swift.String? = nil,
         inspectionLevel: SFNClientTypes.InspectionLevel? = nil,
         revealSecrets: Swift.Bool? = false,
-        roleArn: Swift.String? = nil
+        roleArn: Swift.String? = nil,
+        variables: Swift.String? = nil
     )
     {
         self.definition = definition
@@ -4639,12 +4716,13 @@ public struct TestStateInput: Swift.Sendable {
         self.inspectionLevel = inspectionLevel
         self.revealSecrets = revealSecrets
         self.roleArn = roleArn
+        self.variables = variables
     }
 }
 
 extension TestStateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TestStateInput(inspectionLevel: \(Swift.String(describing: inspectionLevel)), revealSecrets: \(Swift.String(describing: revealSecrets)), roleArn: \(Swift.String(describing: roleArn)), definition: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\")"}
+        "TestStateInput(inspectionLevel: \(Swift.String(describing: inspectionLevel)), revealSecrets: \(Swift.String(describing: revealSecrets)), roleArn: \(Swift.String(describing: roleArn)), definition: \"CONTENT_REDACTED\", input: \"CONTENT_REDACTED\", variables: \"CONTENT_REDACTED\")"}
 }
 
 extension SFNClientTypes {
@@ -4715,13 +4793,15 @@ extension SFNClientTypes {
 
     /// Contains additional details about the state's execution, including its input and output data processing flow, and HTTP request and response information.
     public struct InspectionData: Swift.Sendable {
-        /// The input after Step Functions applies the [InputPath](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-inputpath) filter.
+        /// The input after Step Functions applies an Arguments filter. This event will only be present when QueryLanguage for the state machine or individual states is set to JSONata. For more info, see [Transforming data with Step Functions](https://docs.aws.amazon.com/step-functions/latest/dg/data-transform.html).
+        public var afterArguments: Swift.String?
+        /// The input after Step Functions applies the [InputPath](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-inputpath) filter. Not populated when QueryLanguage is JSONata.
         public var afterInputPath: Swift.String?
-        /// The effective input after Step Functions applies the [Parameters](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-parameters) filter.
+        /// The effective input after Step Functions applies the [Parameters](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-parameters) filter. Not populated when QueryLanguage is JSONata.
         public var afterParameters: Swift.String?
-        /// The effective result combined with the raw state input after Step Functions applies the [ResultPath](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultpath.html) filter.
+        /// The effective result combined with the raw state input after Step Functions applies the [ResultPath](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultpath.html) filter. Not populated when QueryLanguage is JSONata.
         public var afterResultPath: Swift.String?
-        /// The effective result after Step Functions applies the [ResultSelector](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-resultselector) filter.
+        /// The effective result after Step Functions applies the [ResultSelector](https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-resultselector) filter. Not populated when QueryLanguage is JSONata.
         public var afterResultSelector: Swift.String?
         /// The raw state input.
         public var input: Swift.String?
@@ -4731,8 +4811,11 @@ extension SFNClientTypes {
         public var response: SFNClientTypes.InspectionDataResponse?
         /// The state's raw result.
         public var result: Swift.String?
+        /// JSON string that contains the set of workflow variables after execution of the state. The set will include variables assigned in the state and variables set up as test state input.
+        public var variables: Swift.String?
 
         public init(
+            afterArguments: Swift.String? = nil,
             afterInputPath: Swift.String? = nil,
             afterParameters: Swift.String? = nil,
             afterResultPath: Swift.String? = nil,
@@ -4740,9 +4823,11 @@ extension SFNClientTypes {
             input: Swift.String? = nil,
             request: SFNClientTypes.InspectionDataRequest? = nil,
             response: SFNClientTypes.InspectionDataResponse? = nil,
-            result: Swift.String? = nil
+            result: Swift.String? = nil,
+            variables: Swift.String? = nil
         )
         {
+            self.afterArguments = afterArguments
             self.afterInputPath = afterInputPath
             self.afterParameters = afterParameters
             self.afterResultPath = afterResultPath
@@ -4751,6 +4836,7 @@ extension SFNClientTypes {
             self.request = request
             self.response = response
             self.result = result
+            self.variables = variables
         }
     }
 }
@@ -5077,7 +5163,7 @@ extension ValidateStateMachineDefinitionInput: Swift.CustomDebugStringConvertibl
 
 extension SFNClientTypes {
 
-    /// Describes an error found during validation. Validation errors found in the definition return in the response as diagnostic elements, rather than raise an exception.
+    /// Describes potential issues found during state machine validation. Rather than raise an exception, validation will return a list of diagnostic elements containing diagnostic information. The [ValidateStateMachineDefinitionlAPI](https://docs.aws.amazon.com/step-functions/latest/apireference/API_ValidateStateMachineDefinition.html) might add new diagnostics in the future, adjust diagnostic codes, or change the message wording. Your automated processes should only rely on the value of the result field value (OK, FAIL). Do not rely on the exact order, count, or wording of diagnostic messages. List of warning codes NO_DOLLAR No .$ on a field that appears to be a JSONPath or Intrinsic Function. NO_PATH Field value looks like a path, but field name does not end with 'Path'. PASS_RESULT_IS_STATIC Attempt to use a path in the result of a pass state. List of error codes INVALID_JSON_DESCRIPTION JSON syntax problem found. MISSING_DESCRIPTION Received a null or empty workflow input. SCHEMA_VALIDATION_FAILED Schema validation reported errors. INVALID_RESOURCE The value of a Task-state resource field is invalid. MISSING_END_STATE The workflow does not have a terminal state. DUPLICATE_STATE_NAME The same state name appears more than once. INVALID_STATE_NAME The state name does not follow the naming convention. STATE_MACHINE_NAME_EMPTY The state machine name has not been specified. STATE_MACHINE_NAME_INVALID The state machine name does not follow the naming convention. STATE_MACHINE_NAME_TOO_LONG The state name exceeds the allowed length. STATE_MACHINE_NAME_ALREADY_EXISTS The state name already exists. DUPLICATE_LABEL_NAME A label name appears more than once. INVALID_LABEL_NAME You have provided an invalid label name. MISSING_TRANSITION_TARGET The value of "Next" field doesn't match a known state name. TOO_DEEPLY_NESTED The states are too deeply nested.
     public struct ValidateStateMachineDefinitionDiagnostic: Swift.Sendable {
         /// Identifying code for the diagnostic.
         /// This member is required.
@@ -5087,7 +5173,7 @@ extension SFNClientTypes {
         /// Message describing the diagnostic condition.
         /// This member is required.
         public var message: Swift.String?
-        /// A value of ERROR means that you cannot create or update a state machine with this definition.
+        /// A value of ERROR means that you cannot create or update a state machine with this definition. WARNING level diagnostics alert you to potential issues, but they will not prevent you from creating or updating your state machine.
         /// This member is required.
         public var severity: SFNClientTypes.ValidateStateMachineDefinitionSeverity?
 
@@ -5104,6 +5190,11 @@ extension SFNClientTypes {
             self.severity = severity
         }
     }
+}
+
+extension SFNClientTypes.ValidateStateMachineDefinitionDiagnostic: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ValidateStateMachineDefinitionDiagnostic(severity: \(Swift.String(describing: severity)), code: \"CONTENT_REDACTED\", location: \"CONTENT_REDACTED\", message: \"CONTENT_REDACTED\")"}
 }
 
 extension SFNClientTypes {
@@ -5136,7 +5227,7 @@ extension SFNClientTypes {
 }
 
 public struct ValidateStateMachineDefinitionOutput: Swift.Sendable {
-    /// If the result is OK, this field will be empty. When there are errors, this field will contain an array of Diagnostic objects to help you troubleshoot.
+    /// An array of diagnostic errors and warnings found during validation of the state machine definition. Since warnings do not prevent deploying your workflow definition, the result value could be OK even when warning diagnostics are present in the response.
     /// This member is required.
     public var diagnostics: [SFNClientTypes.ValidateStateMachineDefinitionDiagnostic]?
     /// The result value will be OK when no syntax errors are found, or FAIL if the workflow definition does not pass verification.
@@ -5723,6 +5814,7 @@ extension TestStateInput {
         try writer["inspectionLevel"].write(value.inspectionLevel)
         try writer["revealSecrets"].write(value.revealSecrets)
         try writer["roleArn"].write(value.roleArn)
+        try writer["variables"].write(value.variables)
     }
 }
 
@@ -5939,6 +6031,7 @@ extension DescribeStateMachineOutput {
         value.status = try reader["status"].readIfPresent()
         value.tracingConfiguration = try reader["tracingConfiguration"].readIfPresent(with: SFNClientTypes.TracingConfiguration.read(from:))
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.variableReferences = try reader["variableReferences"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -5978,6 +6071,7 @@ extension DescribeStateMachineForExecutionOutput {
         value.stateMachineArn = try reader["stateMachineArn"].readIfPresent() ?? ""
         value.tracingConfiguration = try reader["tracingConfiguration"].readIfPresent(with: SFNClientTypes.TracingConfiguration.read(from:))
         value.updateDate = try reader["updateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.variableReferences = try reader["variableReferences"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -7557,6 +7651,20 @@ extension SFNClientTypes.HistoryEvent {
         value.mapRunStartedEventDetails = try reader["mapRunStartedEventDetails"].readIfPresent(with: SFNClientTypes.MapRunStartedEventDetails.read(from:))
         value.mapRunFailedEventDetails = try reader["mapRunFailedEventDetails"].readIfPresent(with: SFNClientTypes.MapRunFailedEventDetails.read(from:))
         value.mapRunRedrivenEventDetails = try reader["mapRunRedrivenEventDetails"].readIfPresent(with: SFNClientTypes.MapRunRedrivenEventDetails.read(from:))
+        value.evaluationFailedEventDetails = try reader["evaluationFailedEventDetails"].readIfPresent(with: SFNClientTypes.EvaluationFailedEventDetails.read(from:))
+        return value
+    }
+}
+
+extension SFNClientTypes.EvaluationFailedEventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.EvaluationFailedEventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.EvaluationFailedEventDetails()
+        value.error = try reader["error"].readIfPresent()
+        value.cause = try reader["cause"].readIfPresent()
+        value.location = try reader["location"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7601,6 +7709,18 @@ extension SFNClientTypes.StateExitedEventDetails {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.output = try reader["output"].readIfPresent()
         value.outputDetails = try reader["outputDetails"].readIfPresent(with: SFNClientTypes.HistoryEventExecutionDataDetails.read(from:))
+        value.assignedVariables = try reader["assignedVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.assignedVariablesDetails = try reader["assignedVariablesDetails"].readIfPresent(with: SFNClientTypes.AssignedVariablesDetails.read(from:))
+        return value
+    }
+}
+
+extension SFNClientTypes.AssignedVariablesDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SFNClientTypes.AssignedVariablesDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SFNClientTypes.AssignedVariablesDetails()
+        value.truncated = try reader["truncated"].readIfPresent() ?? false
         return value
     }
 }
@@ -8084,6 +8204,7 @@ extension SFNClientTypes.InspectionData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SFNClientTypes.InspectionData()
         value.input = try reader["input"].readIfPresent()
+        value.afterArguments = try reader["afterArguments"].readIfPresent()
         value.afterInputPath = try reader["afterInputPath"].readIfPresent()
         value.afterParameters = try reader["afterParameters"].readIfPresent()
         value.result = try reader["result"].readIfPresent()
@@ -8091,6 +8212,7 @@ extension SFNClientTypes.InspectionData {
         value.afterResultPath = try reader["afterResultPath"].readIfPresent()
         value.request = try reader["request"].readIfPresent(with: SFNClientTypes.InspectionDataRequest.read(from:))
         value.response = try reader["response"].readIfPresent(with: SFNClientTypes.InspectionDataResponse.read(from:))
+        value.variables = try reader["variables"].readIfPresent()
         return value
     }
 }

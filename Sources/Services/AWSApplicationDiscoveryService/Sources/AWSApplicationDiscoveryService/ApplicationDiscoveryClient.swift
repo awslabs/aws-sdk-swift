@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationDiscoveryClient: ClientRuntime.Client {
     public static let clientName = "ApplicationDiscoveryClient"
-    public static let version = "1.0.44"
+    public static let version = "1.0.48"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationDiscoveryClient.ApplicationDiscoveryClientConfiguration
     let serviceName = "Application Discovery"
@@ -1717,6 +1717,7 @@ extension ApplicationDiscoveryClient {
     /// __Possible Exceptions:__
     /// - `AuthorizationErrorException` : The user does not have permission to perform the action. Check the IAM policy associated with this user.
     /// - `HomeRegionNotSetException` : The home Region is not set. Set the home Region to continue.
+    /// - `InvalidParameterException` : One or more parameters are not valid. Verify the parameters and try again.
     /// - `InvalidParameterValueException` : The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     /// - `LimitExceededException` : The limit of 200 configuration IDs per request has been exceeded.
     /// - `OperationNotPermittedException` : This operation is not permitted.

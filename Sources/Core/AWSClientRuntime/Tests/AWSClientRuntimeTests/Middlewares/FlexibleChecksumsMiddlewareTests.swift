@@ -461,8 +461,8 @@ class TestLogger: LogAgent {
         self.level = level
     }
 
-    func log(level: LogAgentLevel = .info, message: String, metadata: [String : String]? = nil, source: String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
-        messages.append((level: level, message: message))
+    func log(level: LogAgentLevel = .info, message: @autoclosure () -> String, metadata: @autoclosure () -> [String : String]? = nil, source: @autoclosure () -> String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
+        messages.append((level: level, message: message()))
     }
 }
 

@@ -3419,7 +3419,7 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// A description of the patch baseline.
     public var description: Swift.String?
-    /// A set of global filters used to include patches in the baseline.
+    /// A set of global filters used to include patches in the baseline. The GlobalFilters parameter can be configured only by using the CLI or an Amazon Web Services SDK. It can't be configured from the Patch Manager console, and its value isn't displayed in the console.
     public var globalFilters: SSMClientTypes.PatchFilterGroup?
     /// The name of the patch baseline.
     /// This member is required.
@@ -3764,7 +3764,7 @@ public struct InvalidActivation: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// The activation ID isn't valid. Verify the you entered the correct ActivationId or ActivationCode and try again.
+/// The activation ID isn't valid. Verify that you entered the correct ActivationId or ActivationCode and try again.
 public struct InvalidActivationId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -4696,7 +4696,7 @@ public struct DeregisterTaskFromMaintenanceWindowOutput: Swift.Sendable {
     }
 }
 
-/// The filter name isn't valid. Verify the you entered the correct name and try again.
+/// The filter name isn't valid. Verify that you entered the correct name and try again.
 public struct InvalidFilter: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -7871,7 +7871,7 @@ extension SSMClientTypes {
         public var pingStatus: SSMClientTypes.PingStatus?
         /// The name of the operating system platform running on your managed node.
         public var platformName: Swift.String?
-        /// The operating system platform type of the managed node. For example, Windows.
+        /// The operating system platform type of the managed node. For example, Windows Server or Amazon Linux 2.
         public var platformType: SSMClientTypes.PlatformType?
         /// The version of the OS platform running on your managed node.
         public var platformVersion: Swift.String?
@@ -9665,7 +9665,7 @@ extension SSMClientTypes {
     public struct ParameterMetadata: Swift.Sendable {
         /// A parameter name can include only the following letters and symbols. a-zA-Z0-9_.-
         public var allowedPattern: Swift.String?
-        /// The (ARN) of the last user to update the parameter.
+        /// The Amazon Resource Name (ARN) of the parameter.
         public var arn: Swift.String?
         /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
         public var dataType: Swift.String?
@@ -11263,7 +11263,179 @@ public struct GetDocumentOutput: Swift.Sendable {
     }
 }
 
-/// The specified aggregator isn't valid for inventory groups. Verify that the aggregator uses a valid inventory type such as AWS:Application or AWS:InstanceInformation.
+public struct GetExecutionPreviewInput: Swift.Sendable {
+    /// The ID of the existing execution preview.
+    /// This member is required.
+    public var executionPreviewId: Swift.String?
+
+    public init(
+        executionPreviewId: Swift.String? = nil
+    )
+    {
+        self.executionPreviewId = executionPreviewId
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum ImpactType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `mutating`
+        case nonMutating
+        case undetermined
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImpactType] {
+            return [
+                .mutating,
+                .nonMutating,
+                .undetermined
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mutating: return "Mutating"
+            case .nonMutating: return "NonMutating"
+            case .undetermined: return "Undetermined"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Information about the resources that would be included in the actual runbook execution, if it were to be run.
+    public struct TargetPreview: Swift.Sendable {
+        /// The number of resources of a certain type included in an execution preview.
+        public var count: Swift.Int
+        /// A type of resource that was included in the execution preview.
+        public var targetType: Swift.String?
+
+        public init(
+            count: Swift.Int = 0,
+            targetType: Swift.String? = nil
+        )
+        {
+            self.count = count
+            self.targetType = targetType
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Information about the results of the execution preview.
+    public struct AutomationExecutionPreview: Swift.Sendable {
+        /// Information about the Amazon Web Services Regions targeted by the execution preview.
+        public var regions: [Swift.String]?
+        /// Information about the type of impact a runbook step would have on a resource.
+        ///
+        /// * Mutating: The runbook step would make changes to the targets through actions that create, modify, or delete resources.
+        ///
+        /// * Non_Mutating: The runbook step would retrieve data about resources but not make changes to them. This category generally includes Describe*, List*, Get*, and similar read-only API actions.
+        ///
+        /// * Undetermined: An undetermined step invokes executions performed by another orchestration service like Lambda, Step Functions, or Amazon Web Services Systems Manager Run Command. An undetermined step might also call a third-party API. Systems Manager Automation doesn't know the outcome of the orchestration processes or third-party API executions, so the results of the steps are undetermined.
+        public var stepPreviews: [Swift.String: Swift.Int]?
+        /// Information that provides a preview of what the impact of running the specified Automation runbook would be.
+        public var targetPreviews: [SSMClientTypes.TargetPreview]?
+        /// Information about the Amazon Web Services accounts that were included in the execution preview.
+        public var totalAccounts: Swift.Int
+
+        public init(
+            regions: [Swift.String]? = nil,
+            stepPreviews: [Swift.String: Swift.Int]? = nil,
+            targetPreviews: [SSMClientTypes.TargetPreview]? = nil,
+            totalAccounts: Swift.Int = 0
+        )
+        {
+            self.regions = regions
+            self.stepPreviews = stepPreviews
+            self.targetPreviews = targetPreviews
+            self.totalAccounts = totalAccounts
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Information about the changes that would be made if an execution were run.
+    public enum ExecutionPreview: Swift.Sendable {
+        /// Information about the changes that would be made if an Automation workflow were run.
+        case automation(SSMClientTypes.AutomationExecutionPreview)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum ExecutionPreviewStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case pending
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionPreviewStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .pending,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .pending: return "Pending"
+            case .success: return "Success"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetExecutionPreviewOutput: Swift.Sendable {
+    /// A UTC timestamp indicating when the execution preview operation ended.
+    public var endedAt: Foundation.Date?
+    /// Information about the changes that would be made if an execution were run.
+    public var executionPreview: SSMClientTypes.ExecutionPreview?
+    /// The generated ID for the existing execution preview.
+    public var executionPreviewId: Swift.String?
+    /// The current status of the execution preview operation.
+    public var status: SSMClientTypes.ExecutionPreviewStatus?
+    /// Supplemental information about the current status of the execution preview.
+    public var statusMessage: Swift.String?
+
+    public init(
+        endedAt: Foundation.Date? = nil,
+        executionPreview: SSMClientTypes.ExecutionPreview? = nil,
+        executionPreviewId: Swift.String? = nil,
+        status: SSMClientTypes.ExecutionPreviewStatus? = nil,
+        statusMessage: Swift.String? = nil
+    )
+    {
+        self.endedAt = endedAt
+        self.executionPreview = executionPreview
+        self.executionPreviewId = executionPreviewId
+        self.status = status
+        self.statusMessage = statusMessage
+    }
+}
+
+/// The specified aggregator isn't valid for the group type. Verify that the aggregator you provided is supported.
 public struct InvalidAggregatorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -13152,15 +13324,19 @@ public struct ServiceSettingNotFound: ClientRuntime.ModeledError, AWSClientRunti
 public struct GetServiceSettingInput: Swift.Sendable {
     /// The ID of the service setting to get. The setting ID can be one of the following.
     ///
-    /// * /ssm/managed-instance/default-ec2-instance-management-role
+    /// * /ssm/appmanager/appmanager-enabled
     ///
     /// * /ssm/automation/customer-script-log-destination
     ///
     /// * /ssm/automation/customer-script-log-group-name
     ///
+    /// * /ssm/automation/enable-adaptive-concurrency
+    ///
     /// * /ssm/documents/console/public-sharing-permission
     ///
     /// * /ssm/managed-instance/activation-tier
+    ///
+    /// * /ssm/managed-instance/default-ec2-instance-management-role
     ///
     /// * /ssm/opsinsights/opscenter
     ///
@@ -15162,6 +15338,460 @@ public struct ListInventoryEntriesOutput: Swift.Sendable {
     }
 }
 
+/// This operation is not supported for the current account. You must first enable the Systems Manager integrated experience in your account.
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedOperation" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum NodeFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case agentType
+        case agentVersion
+        case computerName
+        case instanceId
+        case instanceStatus
+        case ipAddress
+        case managedStatus
+        case organizationalUnitId
+        case organizationalUnitPath
+        case platformName
+        case platformType
+        case platformVersion
+        case region
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeFilterKey] {
+            return [
+                .accountId,
+                .agentType,
+                .agentVersion,
+                .computerName,
+                .instanceId,
+                .instanceStatus,
+                .ipAddress,
+                .managedStatus,
+                .organizationalUnitId,
+                .organizationalUnitPath,
+                .platformName,
+                .platformType,
+                .platformVersion,
+                .region,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .agentType: return "AgentType"
+            case .agentVersion: return "AgentVersion"
+            case .computerName: return "ComputerName"
+            case .instanceId: return "InstanceId"
+            case .instanceStatus: return "InstanceStatus"
+            case .ipAddress: return "IpAddress"
+            case .managedStatus: return "ManagedStatus"
+            case .organizationalUnitId: return "OrganizationalUnitId"
+            case .organizationalUnitPath: return "OrganizationalUnitPath"
+            case .platformName: return "PlatformName"
+            case .platformType: return "PlatformType"
+            case .platformVersion: return "PlatformVersion"
+            case .region: return "Region"
+            case .resourceType: return "ResourceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum NodeFilterOperatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case beginWith
+        case equal
+        case notEqual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeFilterOperatorType] {
+            return [
+                .beginWith,
+                .equal,
+                .notEqual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .beginWith: return "BeginWith"
+            case .equal: return "Equal"
+            case .notEqual: return "NotEqual"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// The filters for the operation.
+    public struct NodeFilter: Swift.Sendable {
+        /// The name of the filter.
+        /// This member is required.
+        public var key: SSMClientTypes.NodeFilterKey?
+        /// The type of filter operator.
+        public var type: SSMClientTypes.NodeFilterOperatorType?
+        /// A filter value supported by the specified key. For example, for the key PlatformType, supported values include Linux and Windows.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            key: SSMClientTypes.NodeFilterKey? = nil,
+            type: SSMClientTypes.NodeFilterOperatorType? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.key = key
+            self.type = type
+            self.values = values
+        }
+    }
+}
+
+public struct ListNodesInput: Swift.Sendable {
+    /// One or more filters. Use a filter to return a more specific list of managed nodes.
+    public var filters: [SSMClientTypes.NodeFilter]?
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of items to return. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+    /// The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configurations. Optional for single account/single-Region configurations.
+    public var syncName: Swift.String?
+
+    public init(
+        filters: [SSMClientTypes.NodeFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        syncName: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.syncName = syncName
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum ManagedStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case managed
+        case unmanaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedStatus] {
+            return [
+                .all,
+                .managed,
+                .unmanaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "All"
+            case .managed: return "Managed"
+            case .unmanaged: return "Unmanaged"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Details about a specific managed node.
+    public struct InstanceInfo: Swift.Sendable {
+        /// The type of agent installed on the node.
+        public var agentType: Swift.String?
+        /// The version number of the agent installed on the node.
+        public var agentVersion: Swift.String?
+        /// The fully qualified host name of the managed node.
+        public var computerName: Swift.String?
+        /// The current status of the managed node.
+        public var instanceStatus: Swift.String?
+        /// The IP address of the managed node.
+        public var ipAddress: Swift.String?
+        /// Indicates whether the node is managed by Systems Manager.
+        public var managedStatus: SSMClientTypes.ManagedStatus?
+        /// The name of the operating system platform running on your managed node.
+        public var platformName: Swift.String?
+        /// The operating system platform type of the managed node.
+        public var platformType: SSMClientTypes.PlatformType?
+        /// The version of the OS platform running on your managed node.
+        public var platformVersion: Swift.String?
+        /// The type of instance, either an EC2 instance or another supported machine type in a hybrid fleet.
+        public var resourceType: SSMClientTypes.ResourceType?
+
+        public init(
+            agentType: Swift.String? = nil,
+            agentVersion: Swift.String? = nil,
+            computerName: Swift.String? = nil,
+            instanceStatus: Swift.String? = nil,
+            ipAddress: Swift.String? = nil,
+            managedStatus: SSMClientTypes.ManagedStatus? = nil,
+            platformName: Swift.String? = nil,
+            platformType: SSMClientTypes.PlatformType? = nil,
+            platformVersion: Swift.String? = nil,
+            resourceType: SSMClientTypes.ResourceType? = nil
+        )
+        {
+            self.agentType = agentType
+            self.agentVersion = agentVersion
+            self.computerName = computerName
+            self.instanceStatus = instanceStatus
+            self.ipAddress = ipAddress
+            self.managedStatus = managedStatus
+            self.platformName = platformName
+            self.platformType = platformType
+            self.platformVersion = platformVersion
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension SSMClientTypes.InstanceInfo: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InstanceInfo(agentType: \(Swift.String(describing: agentType)), agentVersion: \(Swift.String(describing: agentVersion)), computerName: \(Swift.String(describing: computerName)), instanceStatus: \(Swift.String(describing: instanceStatus)), managedStatus: \(Swift.String(describing: managedStatus)), platformName: \(Swift.String(describing: platformName)), platformType: \(Swift.String(describing: platformType)), platformVersion: \(Swift.String(describing: platformVersion)), resourceType: \(Swift.String(describing: resourceType)), ipAddress: \"CONTENT_REDACTED\")"}
+}
+
+extension SSMClientTypes {
+
+    /// Information about a managed node's type.
+    public enum NodeType: Swift.Sendable {
+        /// Information about a specific managed node.
+        case instance(SSMClientTypes.InstanceInfo)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Information about ownership of a managed node.
+    public struct NodeOwnerInfo: Swift.Sendable {
+        /// The ID of the Amazon Web Services account that owns the managed node.
+        public var accountId: Swift.String?
+        /// The ID of the organization unit (OU) that the account is part of.
+        public var organizationalUnitId: Swift.String?
+        /// The path for the organizational unit (OU) that owns the managed node. The path for the OU is built using the IDs of the organization, root, and all OUs in the path down to and including the OU. For example: o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-ghi0-awsccccc/ou-jkl0-awsddddd/
+        public var organizationalUnitPath: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            organizationalUnitId: Swift.String? = nil,
+            organizationalUnitPath: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
+            self.organizationalUnitId = organizationalUnitId
+            self.organizationalUnitPath = organizationalUnitPath
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Details about an individual managed node.
+    public struct Node: Swift.Sendable {
+        /// The UTC timestamp for when the managed node data was last captured.
+        public var captureTime: Foundation.Date?
+        /// The ID of the managed node.
+        public var id: Swift.String?
+        /// Information about the type of node.
+        public var nodeType: SSMClientTypes.NodeType?
+        /// Information about the ownership of the managed node.
+        public var owner: SSMClientTypes.NodeOwnerInfo?
+        /// The Amazon Web Services Region that a managed node was created in or assigned to.
+        public var region: Swift.String?
+
+        public init(
+            captureTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            nodeType: SSMClientTypes.NodeType? = nil,
+            owner: SSMClientTypes.NodeOwnerInfo? = nil,
+            region: Swift.String? = nil
+        )
+        {
+            self.captureTime = captureTime
+            self.id = id
+            self.nodeType = nodeType
+            self.owner = owner
+            self.region = region
+        }
+    }
+}
+
+public struct ListNodesOutput: Swift.Sendable {
+    /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+    public var nextToken: Swift.String?
+    /// A list of managed nodes that match the specified filter criteria.
+    public var nodes: [SSMClientTypes.Node]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        nodes: [SSMClientTypes.Node]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.nodes = nodes
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum NodeAggregatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case count
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeAggregatorType] {
+            return [
+                .count
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .count: return "Count"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum NodeAttributeName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentVersion
+        case platformName
+        case platformType
+        case platformVersion
+        case region
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeAttributeName] {
+            return [
+                .agentVersion,
+                .platformName,
+                .platformType,
+                .platformVersion,
+                .region,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentVersion: return "AgentVersion"
+            case .platformName: return "PlatformName"
+            case .platformType: return "PlatformType"
+            case .platformVersion: return "PlatformVersion"
+            case .region: return "Region"
+            case .resourceType: return "ResourceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum NodeTypeName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case instance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeTypeName] {
+            return [
+                .instance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .instance: return "Instance"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListNodesSummaryOutput: Swift.Sendable {
+    /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+    public var nextToken: Swift.String?
+    /// A collection of objects reporting information about your managed nodes, such as the count of nodes by operating system.
+    public var summary: [[Swift.String: Swift.String]]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        summary: [[Swift.String: Swift.String]]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.summary = summary
+    }
+}
+
 extension SSMClientTypes {
 
     public enum OpsItemEventFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -17115,15 +17745,19 @@ public struct RemoveTagsFromResourceOutput: Swift.Sendable {
 public struct ResetServiceSettingInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following.
     ///
-    /// * /ssm/managed-instance/default-ec2-instance-management-role
+    /// * /ssm/appmanager/appmanager-enabled
     ///
     /// * /ssm/automation/customer-script-log-destination
     ///
     /// * /ssm/automation/customer-script-log-group-name
     ///
+    /// * /ssm/automation/enable-adaptive-concurrency
+    ///
     /// * /ssm/documents/console/public-sharing-permission
     ///
     /// * /ssm/managed-instance/activation-tier
+    ///
+    /// * /ssm/managed-instance/default-ec2-instance-management-role
     ///
     /// * /ssm/opsinsights/opscenter
     ///
@@ -17772,6 +18406,113 @@ public struct StartChangeRequestExecutionOutput: Swift.Sendable {
     )
     {
         self.automationExecutionId = automationExecutionId
+    }
+}
+
+/// The request isn't valid. Verify that you entered valid contents for the command and try again.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+        /// The reason code for the invalid request.
+        public internal(set) var reasonCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        reasonCode: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.reasonCode = reasonCode
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Information about the optional inputs that can be specified for an automation execution preview.
+    public struct AutomationExecutionInputs: Swift.Sendable {
+        /// Information about parameters that can be specified for the preview operation.
+        public var parameters: [Swift.String: [Swift.String]]?
+        /// Information about the Amazon Web Services Regions and Amazon Web Services accounts targeted by the Automation execution preview operation.
+        public var targetLocations: [SSMClientTypes.TargetLocation]?
+        /// A publicly accessible URL for a file that contains the TargetLocations body. Currently, only files in presigned Amazon S3 buckets are supported.
+        public var targetLocationsURL: Swift.String?
+        /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
+        public var targetMaps: [[Swift.String: [Swift.String]]]?
+        /// The name of the parameter used as the target resource for the rate-controlled execution. Required if you specify targets.
+        public var targetParameterName: Swift.String?
+        /// Information about the resources that would be included in the actual runbook execution, if it were to be run. Both Targets and TargetMaps can't be specified together.
+        public var targets: [SSMClientTypes.Target]?
+
+        public init(
+            parameters: [Swift.String: [Swift.String]]? = nil,
+            targetLocations: [SSMClientTypes.TargetLocation]? = nil,
+            targetLocationsURL: Swift.String? = nil,
+            targetMaps: [[Swift.String: [Swift.String]]]? = nil,
+            targetParameterName: Swift.String? = nil,
+            targets: [SSMClientTypes.Target]? = nil
+        )
+        {
+            self.parameters = parameters
+            self.targetLocations = targetLocations
+            self.targetLocationsURL = targetLocationsURL
+            self.targetMaps = targetMaps
+            self.targetParameterName = targetParameterName
+            self.targets = targets
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Information about the inputs for an execution preview.
+    public enum ExecutionInputs: Swift.Sendable {
+        /// Information about the optional inputs that can be specified for an automation execution preview.
+        case automation(SSMClientTypes.AutomationExecutionInputs)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct StartExecutionPreviewInput: Swift.Sendable {
+    /// The name of the Automation runbook to run. The result of the execution preview indicates what the impact would be of running this runbook.
+    /// This member is required.
+    public var documentName: Swift.String?
+    /// The version of the Automation runbook to run. The default value is $DEFAULT.
+    public var documentVersion: Swift.String?
+    /// Information about the inputs that can be specified for the preview operation.
+    public var executionInputs: SSMClientTypes.ExecutionInputs?
+
+    public init(
+        documentName: Swift.String? = nil,
+        documentVersion: Swift.String? = nil,
+        executionInputs: SSMClientTypes.ExecutionInputs? = nil
+    )
+    {
+        self.documentName = documentName
+        self.documentVersion = documentVersion
+        self.executionInputs = executionInputs
+    }
+}
+
+public struct StartExecutionPreviewOutput: Swift.Sendable {
+    /// The ID of the execution preview generated by the system.
+    public var executionPreviewId: Swift.String?
+
+    public init(
+        executionPreviewId: Swift.String? = nil
+    )
+    {
+        self.executionPreviewId = executionPreviewId
     }
 }
 
@@ -18998,7 +19739,7 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
     public var baselineId: Swift.String?
     /// A description of the patch baseline.
     public var description: Swift.String?
-    /// A set of global filters used to include patches in the baseline.
+    /// A set of global filters used to include patches in the baseline. The GlobalFilters parameter can be configured only by using the CLI or an Amazon Web Services SDK. It can't be configured from the Patch Manager console, and its value isn't displayed in the console.
     public var globalFilters: SSMClientTypes.PatchFilterGroup?
     /// The name of the patch baseline.
     public var name: Swift.String?
@@ -19161,15 +19902,19 @@ public struct UpdateResourceDataSyncOutput: Swift.Sendable {
 public struct UpdateServiceSettingInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the service setting to update. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.
     ///
-    /// * /ssm/managed-instance/default-ec2-instance-management-role
+    /// * /ssm/appmanager/appmanager-enabled
     ///
     /// * /ssm/automation/customer-script-log-destination
     ///
     /// * /ssm/automation/customer-script-log-group-name
     ///
+    /// * /ssm/automation/enable-adaptive-concurrency
+    ///
     /// * /ssm/documents/console/public-sharing-permission
     ///
     /// * /ssm/managed-instance/activation-tier
+    ///
+    /// * /ssm/managed-instance/default-ec2-instance-management-role
     ///
     /// * /ssm/opsinsights/opscenter
     ///
@@ -19183,7 +19928,7 @@ public struct UpdateServiceSettingInput: Swift.Sendable {
     public var settingId: Swift.String?
     /// The new value to specify for the service setting. The following list specifies the available values for each setting.
     ///
-    /// * For /ssm/managed-instance/default-ec2-instance-management-role, enter the name of an IAM role.
+    /// * For /ssm/appmanager/appmanager-enabled, enter True or False.
     ///
     /// * For /ssm/automation/customer-script-log-destination, enter CloudWatch.
     ///
@@ -19192,6 +19937,8 @@ public struct UpdateServiceSettingInput: Swift.Sendable {
     /// * For /ssm/documents/console/public-sharing-permission, enter Enable or Disable.
     ///
     /// * For /ssm/managed-instance/activation-tier, enter standard or advanced.
+    ///
+    /// * For /ssm/managed-instance/default-ec2-instance-management-role, enter the name of an IAM role.
     ///
     /// * For /ssm/opsinsights/opscenter, enter Enabled or Disabled.
     ///
@@ -19237,6 +19984,37 @@ extension SSMClientTypes {
             self.aggregators = aggregators
             self.expression = expression
             self.groups = groups
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// One or more aggregators for viewing counts of nodes using different dimensions.
+    public struct NodeAggregator: Swift.Sendable {
+        /// The aggregator type for limiting a node summary. Currently, only Count is supported.
+        /// This member is required.
+        public var aggregatorType: SSMClientTypes.NodeAggregatorType?
+        /// Information about aggregators used to refine a node summary.
+        public var aggregators: [SSMClientTypes.NodeAggregator]?
+        /// The name of a node attribute on which to limit the count of nodes.
+        /// This member is required.
+        public var attributeName: SSMClientTypes.NodeAttributeName?
+        /// The data type name to use for viewing counts of nodes. Currently, only Instance is supported.
+        /// This member is required.
+        public var typeName: SSMClientTypes.NodeTypeName?
+
+        public init(
+            aggregatorType: SSMClientTypes.NodeAggregatorType? = nil,
+            aggregators: [SSMClientTypes.NodeAggregator]? = nil,
+            attributeName: SSMClientTypes.NodeAttributeName? = nil,
+            typeName: SSMClientTypes.NodeTypeName? = nil
+        )
+        {
+            self.aggregatorType = aggregatorType
+            self.aggregators = aggregators
+            self.attributeName = attributeName
+            self.typeName = typeName
         }
     }
 }
@@ -19333,6 +20111,35 @@ public struct GetOpsSummaryInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resultAttributes = resultAttributes
+        self.syncName = syncName
+    }
+}
+
+public struct ListNodesSummaryInput: Swift.Sendable {
+    /// Specify one or more aggregators to return a count of managed nodes that match that expression. For example, a count of managed nodes by operating system.
+    /// This member is required.
+    public var aggregators: [SSMClientTypes.NodeAggregator]?
+    /// One or more filters. Use a filter to generate a summary that matches your specified filter criteria.
+    public var filters: [SSMClientTypes.NodeFilter]?
+    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of items to return. (You received this token from a previous call.) The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    public var nextToken: Swift.String?
+    /// The name of the resource data sync to retrieve information about. Required for cross-account/cross-Region configuration. Optional for single account/single-Region configurations.
+    public var syncName: Swift.String?
+
+    public init(
+        aggregators: [SSMClientTypes.NodeAggregator]? = nil,
+        filters: [SSMClientTypes.NodeFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        syncName: Swift.String? = nil
+    )
+    {
+        self.aggregators = aggregators
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
         self.syncName = syncName
     }
 }
@@ -19827,6 +20634,13 @@ extension GetDocumentInput {
     }
 }
 
+extension GetExecutionPreviewInput {
+
+    static func urlPathProvider(_ value: GetExecutionPreviewInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetInventoryInput {
 
     static func urlPathProvider(_ value: GetInventoryInput) -> Swift.String? {
@@ -20030,6 +20844,20 @@ extension ListInventoryEntriesInput {
     }
 }
 
+extension ListNodesInput {
+
+    static func urlPathProvider(_ value: ListNodesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListNodesSummaryInput {
+
+    static func urlPathProvider(_ value: ListNodesSummaryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListOpsItemEventsInput {
 
     static func urlPathProvider(_ value: ListOpsItemEventsInput) -> Swift.String? {
@@ -20187,6 +21015,13 @@ extension StartAutomationExecutionInput {
 extension StartChangeRequestExecutionInput {
 
     static func urlPathProvider(_ value: StartChangeRequestExecutionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartExecutionPreviewInput {
+
+    static func urlPathProvider(_ value: StartExecutionPreviewInput) -> Swift.String? {
         return "/"
     }
 }
@@ -21075,6 +21910,14 @@ extension GetDocumentInput {
     }
 }
 
+extension GetExecutionPreviewInput {
+
+    static func write(value: GetExecutionPreviewInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExecutionPreviewId"].write(value.executionPreviewId)
+    }
+}
+
 extension GetInventoryInput {
 
     static func write(value: GetInventoryInput?, to writer: SmithyJSON.Writer) throws {
@@ -21374,6 +22217,29 @@ extension ListInventoryEntriesInput {
     }
 }
 
+extension ListNodesInput {
+
+    static func write(value: ListNodesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: SSMClientTypes.NodeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SyncName"].write(value.syncName)
+    }
+}
+
+extension ListNodesSummaryInput {
+
+    static func write(value: ListNodesSummaryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Aggregators"].writeList(value.aggregators, memberWritingClosure: SSMClientTypes.NodeAggregator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: SSMClientTypes.NodeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SyncName"].write(value.syncName)
+    }
+}
+
 extension ListOpsItemEventsInput {
 
     static func write(value: ListOpsItemEventsInput?, to writer: SmithyJSON.Writer) throws {
@@ -21657,6 +22523,16 @@ extension StartChangeRequestExecutionInput {
         try writer["ScheduledEndTime"].writeTimestamp(value.scheduledEndTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["ScheduledTime"].writeTimestamp(value.scheduledTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SSMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StartExecutionPreviewInput {
+
+    static func write(value: StartExecutionPreviewInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DocumentName"].write(value.documentName)
+        try writer["DocumentVersion"].write(value.documentVersion)
+        try writer["ExecutionInputs"].write(value.executionInputs, with: SSMClientTypes.ExecutionInputs.write(value:to:))
     }
 }
 
@@ -22768,6 +23644,22 @@ extension GetDocumentOutput {
     }
 }
 
+extension GetExecutionPreviewOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetExecutionPreviewOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetExecutionPreviewOutput()
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionPreview = try reader["ExecutionPreview"].readIfPresent(with: SSMClientTypes.ExecutionPreview.read(from:))
+        value.executionPreviewId = try reader["ExecutionPreviewId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension GetInventoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInventoryOutput {
@@ -23218,6 +24110,32 @@ extension ListInventoryEntriesOutput {
     }
 }
 
+extension ListNodesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNodesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListNodesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.nodes = try reader["Nodes"].readListIfPresent(memberReadingClosure: SSMClientTypes.Node.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListNodesSummaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNodesSummaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListNodesSummaryOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.summary = try reader["Summary"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListOpsItemEventsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListOpsItemEventsOutput {
@@ -23475,6 +24393,18 @@ extension StartChangeRequestExecutionOutput {
         let reader = responseReader
         var value = StartChangeRequestExecutionOutput()
         value.automationExecutionId = try reader["AutomationExecutionId"].readIfPresent()
+        return value
+    }
+}
+
+extension StartExecutionPreviewOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartExecutionPreviewOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartExecutionPreviewOutput()
+        value.executionPreviewId = try reader["ExecutionPreviewId"].readIfPresent()
         return value
     }
 }
@@ -24856,6 +25786,21 @@ enum GetDocumentOutputError {
     }
 }
 
+enum GetExecutionPreviewOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetInventoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -25333,6 +26278,43 @@ enum ListInventoryEntriesOutputError {
     }
 }
 
+enum ListNodesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidFilter": return try InvalidFilter.makeError(baseError: baseError)
+            case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
+            case "ResourceDataSyncNotFound": return try ResourceDataSyncNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListNodesSummaryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidAggregator": return try InvalidAggregatorException.makeError(baseError: baseError)
+            case "InvalidFilter": return try InvalidFilter.makeError(baseError: baseError)
+            case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
+            case "ResourceDataSyncNotFound": return try ResourceDataSyncNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListOpsItemEventsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -25747,6 +26729,21 @@ enum StartChangeRequestExecutionOutputError {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatch.makeError(baseError: baseError)
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidAutomationExecutionParameters": return try InvalidAutomationExecutionParametersException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartExecutionPreviewOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27167,6 +28164,19 @@ extension ParameterVersionLabelLimitExceeded {
     }
 }
 
+extension UnsupportedOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedOperationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DocumentPermissionLimit {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DocumentPermissionLimit {
@@ -27645,6 +28655,20 @@ extension AutomationDefinitionNotApprovedException {
         let reader = baseError.errorBodyReader
         var value = AutomationDefinitionNotApprovedException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reasonCode = try reader["ReasonCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -29042,6 +30066,44 @@ extension SSMClientTypes.AttachmentContent {
     }
 }
 
+extension SSMClientTypes.ExecutionPreview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.ExecutionPreview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Automation":
+                return .automation(try reader["Automation"].read(with: SSMClientTypes.AutomationExecutionPreview.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SSMClientTypes.AutomationExecutionPreview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.AutomationExecutionPreview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMClientTypes.AutomationExecutionPreview()
+        value.stepPreviews = try reader["StepPreviews"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetPreviews = try reader["TargetPreviews"].readListIfPresent(memberReadingClosure: SSMClientTypes.TargetPreview.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalAccounts = try reader["TotalAccounts"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SSMClientTypes.TargetPreview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.TargetPreview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMClientTypes.TargetPreview()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        value.targetType = try reader["TargetType"].readIfPresent()
+        return value
+    }
+}
+
 extension SSMClientTypes.InventoryResultEntity {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.InventoryResultEntity {
@@ -29775,6 +30837,65 @@ extension SSMClientTypes.DocumentVersionInfo {
     }
 }
 
+extension SSMClientTypes.Node {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.Node {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMClientTypes.Node()
+        value.captureTime = try reader["CaptureTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["Id"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent(with: SSMClientTypes.NodeOwnerInfo.read(from:))
+        value.region = try reader["Region"].readIfPresent()
+        value.nodeType = try reader["NodeType"].readIfPresent(with: SSMClientTypes.NodeType.read(from:))
+        return value
+    }
+}
+
+extension SSMClientTypes.NodeType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.NodeType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Instance":
+                return .instance(try reader["Instance"].read(with: SSMClientTypes.InstanceInfo.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SSMClientTypes.InstanceInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.InstanceInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMClientTypes.InstanceInfo()
+        value.agentType = try reader["AgentType"].readIfPresent()
+        value.agentVersion = try reader["AgentVersion"].readIfPresent()
+        value.computerName = try reader["ComputerName"].readIfPresent()
+        value.instanceStatus = try reader["InstanceStatus"].readIfPresent()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.managedStatus = try reader["ManagedStatus"].readIfPresent()
+        value.platformType = try reader["PlatformType"].readIfPresent()
+        value.platformName = try reader["PlatformName"].readIfPresent()
+        value.platformVersion = try reader["PlatformVersion"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension SSMClientTypes.NodeOwnerInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.NodeOwnerInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMClientTypes.NodeOwnerInfo()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.organizationalUnitId = try reader["OrganizationalUnitId"].readIfPresent()
+        value.organizationalUnitPath = try reader["OrganizationalUnitPath"].readIfPresent()
+        return value
+    }
+}
+
 extension SSMClientTypes.OpsItemEventSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMClientTypes.OpsItemEventSummary {
@@ -30278,6 +31399,27 @@ extension SSMClientTypes.DocumentKeyValuesFilter {
     }
 }
 
+extension SSMClientTypes.NodeFilter {
+
+    static func write(value: SSMClientTypes.NodeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Type"].write(value.type)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SSMClientTypes.NodeAggregator {
+
+    static func write(value: SSMClientTypes.NodeAggregator?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggregatorType"].write(value.aggregatorType)
+        try writer["Aggregators"].writeList(value.aggregators, memberWritingClosure: SSMClientTypes.NodeAggregator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["TypeName"].write(value.typeName)
+    }
+}
+
 extension SSMClientTypes.OpsItemEventFilter {
 
     static func write(value: SSMClientTypes.OpsItemEventFilter?, to writer: SmithyJSON.Writer) throws {
@@ -30329,6 +31471,32 @@ extension SSMClientTypes.InventoryItem {
         try writer["Context"].writeMap(value.context, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["SchemaVersion"].write(value.schemaVersion)
         try writer["TypeName"].write(value.typeName)
+    }
+}
+
+extension SSMClientTypes.ExecutionInputs {
+
+    static func write(value: SSMClientTypes.ExecutionInputs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .automation(automation):
+                try writer["Automation"].write(automation, with: SSMClientTypes.AutomationExecutionInputs.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension SSMClientTypes.AutomationExecutionInputs {
+
+    static func write(value: SSMClientTypes.AutomationExecutionInputs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TargetLocations"].writeList(value.targetLocations, memberWritingClosure: SSMClientTypes.TargetLocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetLocationsURL"].write(value.targetLocationsURL)
+        try writer["TargetMaps"].writeList(value.targetMaps, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetParameterName"].write(value.targetParameterName)
+        try writer["Targets"].writeList(value.targets, memberWritingClosure: SSMClientTypes.Target.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

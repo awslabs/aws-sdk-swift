@@ -1369,6 +1369,37 @@ extension MailManagerClientTypes {
 
 extension MailManagerClientTypes {
 
+    /// The action to deliver incoming emails to an Amazon Q Business application for indexing.
+    public struct DeliverToQBusinessAction: Swift.Sendable {
+        /// A policy that states what to do in the case of failure. The action will fail if there are configuration errors. For example, the specified application has been deleted or the role lacks necessary permissions to call the qbusiness:BatchPutDocument API.
+        public var actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy?
+        /// The unique identifier of the Amazon Q Business application instance where the email content will be delivered.
+        /// This member is required.
+        public var applicationId: Swift.String?
+        /// The identifier of the knowledge base index within the Amazon Q Business application where the email content will be stored and indexed.
+        /// This member is required.
+        public var indexId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM Role to use while delivering to Amazon Q Business. This role must have access to the qbusiness:BatchPutDocument API for the given application and index.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            actionFailurePolicy: MailManagerClientTypes.ActionFailurePolicy? = nil,
+            applicationId: Swift.String? = nil,
+            indexId: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.actionFailurePolicy = actionFailurePolicy
+            self.applicationId = applicationId
+            self.indexId = indexId
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension MailManagerClientTypes {
+
     /// This action causes processing to stop and the email to be dropped. If the action applies only to certain recipients, only those recipients are dropped, and processing continues for other recipients.
     public struct DropAction: Swift.Sendable {
 
@@ -1526,6 +1557,8 @@ extension MailManagerClientTypes {
         case replacerecipient(MailManagerClientTypes.ReplaceRecipientAction)
         /// This action delivers an email to a WorkMail mailbox.
         case delivertomailbox(MailManagerClientTypes.DeliverToMailboxAction)
+        /// This action delivers an email to an Amazon Q Business application for ingestion into its knowledge base.
+        case delivertoqbusiness(MailManagerClientTypes.DeliverToQBusinessAction)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6910,6 +6943,8 @@ extension MailManagerClientTypes.RuleAction {
                 try writer["Archive"].write(archive, with: MailManagerClientTypes.ArchiveAction.write(value:to:))
             case let .delivertomailbox(delivertomailbox):
                 try writer["DeliverToMailbox"].write(delivertomailbox, with: MailManagerClientTypes.DeliverToMailboxAction.write(value:to:))
+            case let .delivertoqbusiness(delivertoqbusiness):
+                try writer["DeliverToQBusiness"].write(delivertoqbusiness, with: MailManagerClientTypes.DeliverToQBusinessAction.write(value:to:))
             case let .drop(drop):
                 try writer["Drop"].write(drop, with: MailManagerClientTypes.DropAction.write(value:to:))
             case let .relay(relay):
@@ -6945,9 +6980,32 @@ extension MailManagerClientTypes.RuleAction {
                 return .replacerecipient(try reader["ReplaceRecipient"].read(with: MailManagerClientTypes.ReplaceRecipientAction.read(from:)))
             case "DeliverToMailbox":
                 return .delivertomailbox(try reader["DeliverToMailbox"].read(with: MailManagerClientTypes.DeliverToMailboxAction.read(from:)))
+            case "DeliverToQBusiness":
+                return .delivertoqbusiness(try reader["DeliverToQBusiness"].read(with: MailManagerClientTypes.DeliverToQBusinessAction.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MailManagerClientTypes.DeliverToQBusinessAction {
+
+    static func write(value: MailManagerClientTypes.DeliverToQBusinessAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["ApplicationId"].write(value.applicationId)
+        try writer["IndexId"].write(value.indexId)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.DeliverToQBusinessAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.DeliverToQBusinessAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.indexId = try reader["IndexId"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        return value
     }
 }
 

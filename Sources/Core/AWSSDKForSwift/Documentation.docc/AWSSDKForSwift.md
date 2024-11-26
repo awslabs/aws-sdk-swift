@@ -141,6 +141,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSBCMDataExports](../../../../../swift/api/awsbcmdataexports/latest)
 
+[AWSBCMPricingCalculator](../../../../../swift/api/awsbcmpricingcalculator/latest)
+
 [AWSBackup](../../../../../swift/api/awsbackup/latest)
 
 [AWSBackupGateway](../../../../../swift/api/awsbackupgateway/latest)
@@ -592,6 +594,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSNetworkManager](../../../../../swift/api/awsnetworkmanager/latest)
 
 [AWSNetworkMonitor](../../../../../swift/api/awsnetworkmonitor/latest)
+
+[AWSNotifications](../../../../../swift/api/awsnotifications/latest)
+
+[AWSNotificationsContacts](../../../../../swift/api/awsnotificationscontacts/latest)
 
 [AWSOAM](../../../../../swift/api/awsoam/latest)
 

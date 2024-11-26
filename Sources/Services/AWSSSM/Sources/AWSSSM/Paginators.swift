@@ -1360,6 +1360,71 @@ extension PaginatorSequence where OperationStackInput == ListDocumentVersionsInp
     }
 }
 extension SSMClient {
+    /// Paginate over `[ListNodesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListNodesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNodesOutput`
+    public func listNodesPaginated(input: ListNodesInput) -> ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput> {
+        return ClientRuntime.PaginatorSequence<ListNodesInput, ListNodesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNodes(input:))
+    }
+}
+
+extension ListNodesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListNodesInput {
+        return ListNodesInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            syncName: self.syncName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListNodesInput, OperationStackOutput == ListNodesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listNodesPaginated`
+    /// to access the nested member `[SSMClientTypes.Node]`
+    /// - Returns: `[SSMClientTypes.Node]`
+    public func nodes() async throws -> [SSMClientTypes.Node] {
+        return try await self.asyncCompactMap { item in item.nodes }
+    }
+}
+extension SSMClient {
+    /// Paginate over `[ListNodesSummaryOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListNodesSummaryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNodesSummaryOutput`
+    public func listNodesSummaryPaginated(input: ListNodesSummaryInput) -> ClientRuntime.PaginatorSequence<ListNodesSummaryInput, ListNodesSummaryOutput> {
+        return ClientRuntime.PaginatorSequence<ListNodesSummaryInput, ListNodesSummaryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listNodesSummary(input:))
+    }
+}
+
+extension ListNodesSummaryInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListNodesSummaryInput {
+        return ListNodesSummaryInput(
+            aggregators: self.aggregators,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            syncName: self.syncName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListNodesSummaryInput, OperationStackOutput == ListNodesSummaryOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listNodesSummaryPaginated`
+    /// to access the nested member `[[Swift.String: Swift.String]]`
+    /// - Returns: `[[Swift.String: Swift.String]]`
+    public func summary() async throws -> [[Swift.String: Swift.String]] {
+        return try await self.asyncCompactMap { item in item.summary }
+    }
+}
+extension SSMClient {
     /// Paginate over `[ListOpsItemEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

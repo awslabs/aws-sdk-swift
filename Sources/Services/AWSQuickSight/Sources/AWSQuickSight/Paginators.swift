@@ -1139,3 +1139,35 @@ extension PaginatorSequence where OperationStackInput == SearchGroupsInput, Oper
         return try await self.asyncCompactMap { item in item.groupList }
     }
 }
+extension QuickSightClient {
+    /// Paginate over `[SearchTopicsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchTopicsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchTopicsOutput`
+    public func searchTopicsPaginated(input: SearchTopicsInput) -> ClientRuntime.PaginatorSequence<SearchTopicsInput, SearchTopicsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchTopicsInput, SearchTopicsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchTopics(input:))
+    }
+}
+
+extension SearchTopicsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchTopicsInput {
+        return SearchTopicsInput(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchTopicsInput, OperationStackOutput == SearchTopicsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchTopicsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.TopicSummary]`
+    /// - Returns: `[QuickSightClientTypes.TopicSummary]`
+    public func topicSummaryList() async throws -> [QuickSightClientTypes.TopicSummary] {
+        return try await self.asyncCompactMap { item in item.topicSummaryList }
+    }
+}
