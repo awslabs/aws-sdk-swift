@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostExplorerClient: ClientRuntime.Client {
     public static let clientName = "CostExplorerClient"
-    public static let version = "1.0.46"
+    public static let version = "1.0.48"
     let client: ClientRuntime.SdkHttpClient
     let config: CostExplorerClient.CostExplorerClientConfiguration
     let serviceName = "Cost Explorer"
@@ -2245,7 +2245,7 @@ extension CostExplorerClient {
 
     /// Performs the `ListCommitmentPurchaseAnalyses` operation on the `AWSInsightsIndexService` service.
     ///
-    /// Lists the commitment purchase analyses for your account based on the last 30 days.
+    /// Lists the commitment purchase analyses for your account.
     ///
     /// - Parameter ListCommitmentPurchaseAnalysesInput : [no documentation found]
     ///
@@ -2742,7 +2742,7 @@ extension CostExplorerClient {
 
     /// Performs the `StartCommitmentPurchaseAnalysis` operation on the `AWSInsightsIndexService` service.
     ///
-    /// Specifies the parameters of a planned commitment purchase and starts the generation of the analysis. This enables you to estimate the cost, coverage, and utilization impact of your planned commitment purchases. You can request up to 20 analysis runs per day.
+    /// Specifies the parameters of a planned commitment purchase and starts the generation of the analysis. This enables you to estimate the cost, coverage, and utilization impact of your planned commitment purchases.
     ///
     /// - Parameter StartCommitmentPurchaseAnalysisInput : [no documentation found]
     ///
@@ -2752,7 +2752,7 @@ extension CostExplorerClient {
     ///
     /// __Possible Exceptions:__
     /// - `DataUnavailableException` : The requested data is unavailable.
-    /// - `GenerationExistsException` : A request to generate a recommendation is already in progress.
+    /// - `GenerationExistsException` : A request to generate a recommendation or analysis is already in progress.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
     public func startCommitmentPurchaseAnalysis(input: StartCommitmentPurchaseAnalysisInput) async throws -> StartCommitmentPurchaseAnalysisOutput {
@@ -2896,7 +2896,7 @@ extension CostExplorerClient {
     ///
     /// __Possible Exceptions:__
     /// - `DataUnavailableException` : The requested data is unavailable.
-    /// - `GenerationExistsException` : A request to generate a recommendation is already in progress.
+    /// - `GenerationExistsException` : A request to generate a recommendation or analysis is already in progress.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
     public func startSavingsPlansPurchaseRecommendationGeneration(input: StartSavingsPlansPurchaseRecommendationGenerationInput) async throws -> StartSavingsPlansPurchaseRecommendationGenerationOutput {

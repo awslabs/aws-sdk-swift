@@ -276,6 +276,11 @@ public struct UpdateQueueOutboundCallerConfigOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateQueueOutboundEmailConfigOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateQueueStatusOutput: Swift.Sendable {
 
     public init() { }
@@ -625,6 +630,46 @@ public struct ActivateEvaluationFormOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    ///
+    public struct EmailRecipient: Swift.Sendable {
+        ///
+        public var address: Swift.String?
+        ///
+        public var displayName: Swift.String?
+
+        public init(
+            address: Swift.String? = nil,
+            displayName: Swift.String? = nil
+        )
+        {
+            self.address = address
+            self.displayName = displayName
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct AdditionalEmailRecipients: Swift.Sendable {
+        ///
+        public var ccList: [ConnectClientTypes.EmailRecipient]?
+        ///
+        public var toList: [ConnectClientTypes.EmailRecipient]?
+
+        public init(
+            ccList: [ConnectClientTypes.EmailRecipient]? = nil,
+            toList: [ConnectClientTypes.EmailRecipient]? = nil
+        )
+        {
+            self.ccList = ccList
+            self.toList = toList
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum AgentAvailabilityTimer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case timeSinceLastActivity
         case timeSinceLastInbound
@@ -745,6 +790,7 @@ extension ConnectClientTypes {
 
     public enum Channel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case chat
+        case email
         case task
         case voice
         case sdkUnknown(Swift.String)
@@ -752,6 +798,7 @@ extension ConnectClientTypes {
         public static var allCases: [Channel] {
             return [
                 .chat,
+                .email,
                 .task,
                 .voice
             ]
@@ -765,6 +812,7 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .chat: return "CHAT"
+            case .email: return "EMAIL"
             case .task: return "TASK"
             case .voice: return "VOICE"
             case let .sdkUnknown(s): return s
@@ -776,28 +824,34 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum ContactInitiationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentReply
         case api
         case callback
         case disconnect
         case externalOutbound
+        case flow
         case inbound
         case monitor
         case outbound
         case queueTransfer
         case transfer
+        case webrtcApi
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContactInitiationMethod] {
             return [
+                .agentReply,
                 .api,
                 .callback,
                 .disconnect,
                 .externalOutbound,
+                .flow,
                 .inbound,
                 .monitor,
                 .outbound,
                 .queueTransfer,
-                .transfer
+                .transfer,
+                .webrtcApi
             ]
         }
 
@@ -808,15 +862,18 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .agentReply: return "AGENT_REPLY"
             case .api: return "API"
             case .callback: return "CALLBACK"
             case .disconnect: return "DISCONNECT"
             case .externalOutbound: return "EXTERNAL_OUTBOUND"
+            case .flow: return "FLOW"
             case .inbound: return "INBOUND"
             case .monitor: return "MONITOR"
             case .outbound: return "OUTBOUND"
             case .queueTransfer: return "QUEUE_TRANSFER"
             case .transfer: return "TRANSFER"
+            case .webrtcApi: return "WEBRTC_API"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1626,11 +1683,52 @@ public struct AssociateAnalyticsDataSetOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    public enum AttachedFileServiceQuotaExceededExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case totalFileCountExceeded
+        case totalFileSizeExceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachedFileServiceQuotaExceededExceptionReason] {
+            return [
+                .totalFileCountExceeded,
+                .totalFileSizeExceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .totalFileCountExceeded: return "TOTAL_FILE_COUNT_EXCEEDED"
+            case .totalFileSizeExceeded: return "TOTAL_FILE_SIZE_EXCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public enum ServiceQuotaExceededExceptionReason: Swift.Sendable {
+        ///
+        case attachedfileservicequotaexceededexceptionreason(ConnectClientTypes.AttachedFileServiceQuotaExceededExceptionReason)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 /// The service quota has been exceeded.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
         public internal(set) var message: Swift.String? = nil
+        ///
+        public internal(set) var reason: ConnectClientTypes.ServiceQuotaExceededExceptionReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -1643,10 +1741,12 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: ConnectClientTypes.ServiceQuotaExceededExceptionReason? = nil
     )
     {
         self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -1904,11 +2004,15 @@ public struct AssociateDefaultVocabularyOutput: Swift.Sendable {
 extension ConnectClientTypes {
 
     public enum FlowAssociationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inboundEmail
+        case outboundEmail
         case smsPhoneNumber
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FlowAssociationResourceType] {
             return [
+                .inboundEmail,
+                .outboundEmail,
                 .smsPhoneNumber
             ]
         }
@@ -1920,6 +2024,8 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .inboundEmail: return "INBOUND_EMAIL"
+            case .outboundEmail: return "OUTBOUND_EMAIL"
             case .smsPhoneNumber: return "SMS_PHONE_NUMBER"
             case let .sdkUnknown(s): return s
             }
@@ -1969,6 +2075,7 @@ extension ConnectClientTypes {
         case chatTranscripts
         case contactEvaluations
         case contactTraceRecords
+        case emailMessages
         case mediaStreams
         case realTimeContactAnalysisChatSegments
         case realTimeContactAnalysisSegments
@@ -1985,6 +2092,7 @@ extension ConnectClientTypes {
                 .chatTranscripts,
                 .contactEvaluations,
                 .contactTraceRecords,
+                .emailMessages,
                 .mediaStreams,
                 .realTimeContactAnalysisChatSegments,
                 .realTimeContactAnalysisSegments,
@@ -2007,6 +2115,7 @@ extension ConnectClientTypes {
             case .chatTranscripts: return "CHAT_TRANSCRIPTS"
             case .contactEvaluations: return "CONTACT_EVALUATIONS"
             case .contactTraceRecords: return "CONTACT_TRACE_RECORDS"
+            case .emailMessages: return "EMAIL_MESSAGES"
             case .mediaStreams: return "MEDIA_STREAMS"
             case .realTimeContactAnalysisChatSegments: return "REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS"
             case .realTimeContactAnalysisSegments: return "REAL_TIME_CONTACT_ANALYSIS_SEGMENTS"
@@ -2752,11 +2861,13 @@ extension ConnectClientTypes {
 
     public enum FileUseCaseType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case attachment
+        case emailMessage
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FileUseCaseType] {
             return [
-                .attachment
+                .attachment,
+                .emailMessage
             ]
         }
 
@@ -2768,6 +2879,7 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .attachment: return "ATTACHMENT"
+            case .emailMessage: return "EMAIL_MESSAGE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2851,11 +2963,15 @@ public struct BatchGetAttachedFileMetadataOutput: Swift.Sendable {
 extension ConnectClientTypes {
 
     public enum ListFlowAssociationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inboundEmail
+        case outboundEmail
         case voicePhoneNumber
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ListFlowAssociationResourceType] {
             return [
+                .inboundEmail,
+                .outboundEmail,
                 .voicePhoneNumber
             ]
         }
@@ -2867,6 +2983,8 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .inboundEmail: return "INBOUND_EMAIL"
+            case .outboundEmail: return "OUTBOUND_EMAIL"
             case .voicePhoneNumber: return "VOICE_PHONE_NUMBER"
             case let .sdkUnknown(s): return s
             }
@@ -2977,6 +3095,7 @@ extension ConnectClientTypes {
     public enum EndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case connectPhonenumberArn
         case contactFlow
+        case emailAddress
         case telephoneNumber
         case voip
         case sdkUnknown(Swift.String)
@@ -2985,6 +3104,7 @@ extension ConnectClientTypes {
             return [
                 .connectPhonenumberArn,
                 .contactFlow,
+                .emailAddress,
                 .telephoneNumber,
                 .voip
             ]
@@ -2999,6 +3119,7 @@ extension ConnectClientTypes {
             switch self {
             case .connectPhonenumberArn: return "CONNECT_PHONENUMBER_ARN"
             case .contactFlow: return "CONTACT_FLOW"
+            case .emailAddress: return "EMAIL_ADDRESS"
             case .telephoneNumber: return "TELEPHONE_NUMBER"
             case .voip: return "VOIP"
             case let .sdkUnknown(s): return s
@@ -3352,6 +3473,293 @@ public struct CreateAgentStatusOutput: Swift.Sendable {
     }
 }
 
+/// Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum InitiateAs: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connectedToUser
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InitiateAs] {
+            return [
+                .connectedToUser
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connectedToUser: return "CONNECTED_TO_USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum ReferenceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case available
+        case deleted
+        case failed
+        case processing
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReferenceStatus] {
+            return [
+                .approved,
+                .available,
+                .deleted,
+                .failed,
+                .processing,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .available: return "AVAILABLE"
+            case .deleted: return "DELETED"
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum ReferenceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachment
+        case contactAnalysis
+        case date
+        case email
+        case emailMessage
+        case number
+        case string
+        case url
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReferenceType] {
+            return [
+                .attachment,
+                .contactAnalysis,
+                .date,
+                .email,
+                .emailMessage,
+                .number,
+                .string,
+                .url
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachment: return "ATTACHMENT"
+            case .contactAnalysis: return "CONTACT_ANALYSIS"
+            case .date: return "DATE"
+            case .email: return "EMAIL"
+            case .emailMessage: return "EMAIL_MESSAGE"
+            case .number: return "NUMBER"
+            case .string: return "STRING"
+            case .url: return "URL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Well-formed data on a contact, used by agents to complete a contact request. You can have up to 4,096 UTF-8 bytes across all references for a contact.
+    public struct Reference: Swift.Sendable {
+        ///
+        public var arn: Swift.String?
+        ///
+        public var status: ConnectClientTypes.ReferenceStatus?
+        ///
+        public var statusReason: Swift.String?
+        /// The type of the reference. DATE must be of type Epoch timestamp.
+        /// This member is required.
+        public var type: ConnectClientTypes.ReferenceType?
+        /// A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP).
+        public var value: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            status: ConnectClientTypes.ReferenceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            type: ConnectClientTypes.ReferenceType? = nil,
+            value: Swift.String? = ""
+        )
+        {
+            self.arn = arn
+            self.status = status
+            self.statusReason = statusReason
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string.
+    public struct SegmentAttributeValue: Swift.Sendable {
+        /// The value of a segment attribute.
+        public var valueString: Swift.String?
+
+        public init(
+            valueString: Swift.String? = nil
+        )
+        {
+            self.valueString = valueString
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct UserInfo: Swift.Sendable {
+        ///
+        public var userId: Swift.String?
+
+        public init(
+            userId: Swift.String? = nil
+        )
+        {
+            self.userId = userId
+        }
+    }
+}
+
+public struct CreateContactInput: Swift.Sendable {
+    ///
+    public var attributes: [Swift.String: Swift.String]?
+    ///
+    /// This member is required.
+    public var channel: ConnectClientTypes.Channel?
+    ///
+    public var clientToken: Swift.String?
+    ///
+    public var description: Swift.String?
+    ///
+    public var expiryDurationInMinutes: Swift.Int?
+    ///
+    public var initiateAs: ConnectClientTypes.InitiateAs?
+    ///
+    /// This member is required.
+    public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+    ///
+    public var name: Swift.String?
+    ///
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    ///
+    public var relatedContactId: Swift.String?
+    ///
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+    ///
+    public var userInfo: ConnectClientTypes.UserInfo?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        channel: ConnectClientTypes.Channel? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        expiryDurationInMinutes: Swift.Int? = nil,
+        initiateAs: ConnectClientTypes.InitiateAs? = nil,
+        initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+        userInfo: ConnectClientTypes.UserInfo? = nil
+    )
+    {
+        self.attributes = attributes
+        self.channel = channel
+        self.clientToken = clientToken
+        self.description = description
+        self.expiryDurationInMinutes = expiryDurationInMinutes
+        self.initiateAs = initiateAs
+        self.initiationMethod = initiationMethod
+        self.instanceId = instanceId
+        self.name = name
+        self.references = references
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+        self.userInfo = userInfo
+    }
+}
+
+extension CreateContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateContactInput(attributes: \(Swift.String(describing: attributes)), channel: \(Swift.String(describing: channel)), clientToken: \(Swift.String(describing: clientToken)), expiryDurationInMinutes: \(Swift.String(describing: expiryDurationInMinutes)), initiateAs: \(Swift.String(describing: initiateAs)), initiationMethod: \(Swift.String(describing: initiationMethod)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), userInfo: \(Swift.String(describing: userInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateContactOutput: Swift.Sendable {
+    ///
+    public var contactArn: Swift.String?
+    ///
+    public var contactId: Swift.String?
+
+    public init(
+        contactArn: Swift.String? = nil,
+        contactId: Swift.String? = nil
+    )
+    {
+        self.contactArn = contactArn
+        self.contactId = contactId
+    }
+}
+
 extension ConnectClientTypes {
 
     /// Information about a problem detail.
@@ -3654,6 +4062,61 @@ public struct CreateContactFlowVersionOutput: Swift.Sendable {
     {
         self.contactFlowArn = contactFlowArn
         self.version = version
+    }
+}
+
+public struct CreateEmailAddressInput: Swift.Sendable {
+    ///
+    public var clientToken: Swift.String?
+    ///
+    public var description: Swift.String?
+    ///
+    public var displayName: Swift.String?
+    ///
+    /// This member is required.
+    public var emailAddress: Swift.String?
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+    ///
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        emailAddress: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.displayName = displayName
+        self.emailAddress = emailAddress
+        self.instanceId = instanceId
+        self.tags = tags
+    }
+}
+
+extension CreateEmailAddressInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateEmailAddressInput(clientToken: \(Swift.String(describing: clientToken)), instanceId: \(Swift.String(describing: instanceId)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateEmailAddressOutput: Swift.Sendable {
+    ///
+    public var emailAddressArn: Swift.String?
+    ///
+    public var emailAddressId: Swift.String?
+
+    public init(
+        emailAddressArn: Swift.String? = nil,
+        emailAddressId: Swift.String? = nil
+    )
+    {
+        self.emailAddressArn = emailAddressArn
+        self.emailAddressId = emailAddressId
     }
 }
 
@@ -4401,6 +4864,7 @@ extension ConnectClientTypes {
         case fileScanner
         case pinpointApp
         case qMessageTemplates
+        case sesIdentity
         case voiceId
         case wisdomAssistant
         case wisdomKnowledgeBase
@@ -4415,6 +4879,7 @@ extension ConnectClientTypes {
                 .fileScanner,
                 .pinpointApp,
                 .qMessageTemplates,
+                .sesIdentity,
                 .voiceId,
                 .wisdomAssistant,
                 .wisdomKnowledgeBase,
@@ -4435,6 +4900,7 @@ extension ConnectClientTypes {
             case .fileScanner: return "FILE_SCANNER"
             case .pinpointApp: return "PINPOINT_APP"
             case .qMessageTemplates: return "Q_MESSAGE_TEMPLATES"
+            case .sesIdentity: return "SES_IDENTITY"
             case .voiceId: return "VOICE_ID"
             case .wisdomAssistant: return "WISDOM_ASSISTANT"
             case .wisdomKnowledgeBase: return "WISDOM_KNOWLEDGE_BASE"
@@ -4873,6 +5339,22 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes {
+
+    ///
+    public struct OutboundEmailConfig: Swift.Sendable {
+        ///
+        public var outboundEmailAddressId: Swift.String?
+
+        public init(
+            outboundEmailAddressId: Swift.String? = nil
+        )
+        {
+            self.outboundEmailAddressId = outboundEmailAddressId
+        }
+    }
+}
+
 public struct CreateQueueInput: Swift.Sendable {
     /// The description of the queue.
     public var description: Swift.String?
@@ -4889,6 +5371,8 @@ public struct CreateQueueInput: Swift.Sendable {
     public var name: Swift.String?
     /// The outbound caller ID name, number, and outbound whisper flow.
     public var outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig?
+    ///
+    public var outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig?
     /// The quick connects available to agents who are working the queue.
     public var quickConnectIds: [Swift.String]?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -4901,6 +5385,7 @@ public struct CreateQueueInput: Swift.Sendable {
         maxContacts: Swift.Int? = 0,
         name: Swift.String? = nil,
         outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
+        outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
         quickConnectIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -4911,6 +5396,7 @@ public struct CreateQueueInput: Swift.Sendable {
         self.maxContacts = maxContacts
         self.name = name
         self.outboundCallerConfig = outboundCallerConfig
+        self.outboundEmailConfig = outboundEmailConfig
         self.quickConnectIds = quickConnectIds
         self.tags = tags
     }
@@ -5471,69 +5957,6 @@ extension ConnectClientTypes {
         )
         {
             self.evaluationFormId = evaluationFormId
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    public enum ReferenceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case attachment
-        case date
-        case email
-        case number
-        case string
-        case url
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ReferenceType] {
-            return [
-                .attachment,
-                .date,
-                .email,
-                .number,
-                .string,
-                .url
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .attachment: return "ATTACHMENT"
-            case .date: return "DATE"
-            case .email: return "EMAIL"
-            case .number: return "NUMBER"
-            case .string: return "STRING"
-            case .url: return "URL"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// Well-formed data on a contact, used by agents to complete a contact request. You can have up to 4,096 UTF-8 bytes across all references for a contact.
-    public struct Reference: Swift.Sendable {
-        /// The type of the reference. DATE must be of type Epoch timestamp.
-        /// This member is required.
-        public var type: ConnectClientTypes.ReferenceType?
-        /// A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP).
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            type: ConnectClientTypes.ReferenceType? = nil,
-            value: Swift.String? = nil
-        )
-        {
-            self.type = type
-            self.value = value
         }
     }
 }
@@ -6113,10 +6536,12 @@ extension ConnectClientTypes {
         case dateTime
         case description
         case email
+        case expiryDuration
         case name
         case number
         case quickConnect
         case scheduledTime
+        case selfAssign
         case singleSelect
         case text
         case textArea
@@ -6129,10 +6554,12 @@ extension ConnectClientTypes {
                 .dateTime,
                 .description,
                 .email,
+                .expiryDuration,
                 .name,
                 .number,
                 .quickConnect,
                 .scheduledTime,
+                .selfAssign,
                 .singleSelect,
                 .text,
                 .textArea,
@@ -6151,10 +6578,12 @@ extension ConnectClientTypes {
             case .dateTime: return "DATE_TIME"
             case .description: return "DESCRIPTION"
             case .email: return "EMAIL"
+            case .expiryDuration: return "EXPIRY_DURATION"
             case .name: return "NAME"
             case .number: return "NUMBER"
             case .quickConnect: return "QUICK_CONNECT"
             case .scheduledTime: return "SCHEDULED_TIME"
+            case .selfAssign: return "SELF_ASSIGN"
             case .singleSelect: return "SINGLE_SELECT"
             case .text: return "TEXT"
             case .textArea: return "TEXT_AREA"
@@ -6243,6 +6672,8 @@ public struct CreateTaskTemplateInput: Swift.Sendable {
     /// The name of the task template.
     /// This member is required.
     public var name: Swift.String?
+    ///
+    public var selfAssignFlowId: Swift.String?
     /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
     public var status: ConnectClientTypes.TaskTemplateStatus?
 
@@ -6255,6 +6686,7 @@ public struct CreateTaskTemplateInput: Swift.Sendable {
         fields: [ConnectClientTypes.TaskTemplateField]? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
+        selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil
     )
     {
@@ -6266,6 +6698,7 @@ public struct CreateTaskTemplateInput: Swift.Sendable {
         self.fields = fields
         self.instanceId = instanceId
         self.name = name
+        self.selfAssignFlowId = selfAssignFlowId
         self.status = status
     }
 }
@@ -7260,6 +7693,29 @@ public struct DeleteContactFlowModuleOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteEmailAddressInput: Swift.Sendable {
+    ///
+    /// This member is required.
+    public var emailAddressId: Swift.String?
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        emailAddressId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.emailAddressId = emailAddressId
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteEmailAddressOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteEvaluationFormInput: Swift.Sendable {
     /// The unique identifier for the evaluation form.
     /// This member is required.
@@ -7874,6 +8330,30 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    ///
+    public struct EndpointInfo: Swift.Sendable {
+        ///
+        public var address: Swift.String?
+        ///
+        public var displayName: Swift.String?
+        ///
+        public var type: ConnectClientTypes.EndpointType?
+
+        public init(
+            address: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            type: ConnectClientTypes.EndpointType? = nil
+        )
+        {
+            self.address = address
+            self.displayName = displayName
+            self.type = type
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about customer’s voice activity.
     public struct CustomerVoiceActivity: Swift.Sendable {
         /// Timestamp that measures the end of the customer greeting from an outbound voice call.
@@ -8063,22 +8543,6 @@ extension ConnectClientTypes {
             case .joined: return "JOINED"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string.
-    public struct SegmentAttributeValue: Swift.Sendable {
-        /// The value of a segment attribute.
-        public var valueString: Swift.String?
-
-        public init(
-            valueString: Swift.String? = nil
-        )
-        {
-            self.valueString = valueString
         }
     }
 }
@@ -8595,6 +9059,69 @@ public struct DescribeContactFlowModuleOutput: Swift.Sendable {
     {
         self.contactFlowModule = contactFlowModule
     }
+}
+
+public struct DescribeEmailAddressInput: Swift.Sendable {
+    ///
+    /// This member is required.
+    public var emailAddressId: Swift.String?
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        emailAddressId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.emailAddressId = emailAddressId
+        self.instanceId = instanceId
+    }
+}
+
+public struct DescribeEmailAddressOutput: Swift.Sendable {
+    ///
+    public var createTimestamp: Swift.String?
+    ///
+    public var description: Swift.String?
+    ///
+    public var displayName: Swift.String?
+    ///
+    public var emailAddress: Swift.String?
+    ///
+    public var emailAddressArn: Swift.String?
+    ///
+    public var emailAddressId: Swift.String?
+    ///
+    public var modifiedTimestamp: Swift.String?
+    ///
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        createTimestamp: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        emailAddress: Swift.String? = nil,
+        emailAddressArn: Swift.String? = nil,
+        emailAddressId: Swift.String? = nil,
+        modifiedTimestamp: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.createTimestamp = createTimestamp
+        self.description = description
+        self.displayName = displayName
+        self.emailAddress = emailAddress
+        self.emailAddressArn = emailAddressArn
+        self.emailAddressId = emailAddressId
+        self.modifiedTimestamp = modifiedTimestamp
+        self.tags = tags
+    }
+}
+
+extension DescribeEmailAddressOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeEmailAddressOutput(createTimestamp: \(Swift.String(describing: createTimestamp)), emailAddressArn: \(Swift.String(describing: emailAddressArn)), emailAddressId: \(Swift.String(describing: emailAddressId)), modifiedTimestamp: \(Swift.String(describing: modifiedTimestamp)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeEvaluationFormInput: Swift.Sendable {
@@ -10217,6 +10744,8 @@ extension ConnectClientTypes {
         public var name: Swift.String?
         /// The outbound caller ID name, number, and outbound whisper flow.
         public var outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig?
+        ///
+        public var outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig?
         /// The Amazon Resource Name (ARN) for the queue.
         public var queueArn: Swift.String?
         /// The identifier for the queue.
@@ -10234,6 +10763,7 @@ extension ConnectClientTypes {
             maxContacts: Swift.Int? = 0,
             name: Swift.String? = nil,
             outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
+            outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
             queueArn: Swift.String? = nil,
             queueId: Swift.String? = nil,
             status: ConnectClientTypes.QueueStatus? = nil,
@@ -10247,6 +10777,7 @@ extension ConnectClientTypes {
             self.maxContacts = maxContacts
             self.name = name
             self.outboundCallerConfig = outboundCallerConfig
+            self.outboundEmailConfig = outboundEmailConfig
             self.queueArn = queueArn
             self.queueId = queueId
             self.status = status
@@ -13177,6 +13708,8 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
     /// The name of the task template.
     /// This member is required.
     public var name: Swift.String?
+    ///
+    public var selfAssignFlowId: Swift.String?
     /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
     public var status: ConnectClientTypes.TaskTemplateStatus?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -13194,6 +13727,7 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -13209,6 +13743,7 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
         self.instanceId = instanceId
         self.lastModifiedTime = lastModifiedTime
         self.name = name
+        self.selfAssignFlowId = selfAssignFlowId
         self.status = status
         self.tags = tags
     }
@@ -13473,6 +14008,96 @@ public struct ListApprovedOriginsOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.origins = origins
+    }
+}
+
+public struct ListAssociatedContactsInput: Swift.Sendable {
+    ///
+    /// This member is required.
+    public var contactId: Swift.String?
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+    ///
+    public var maxResults: Swift.Int?
+    ///
+    public var nextToken: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct AssociatedContactSummary: Swift.Sendable {
+        ///
+        public var channel: ConnectClientTypes.Channel?
+        ///
+        public var contactArn: Swift.String?
+        ///
+        public var contactId: Swift.String?
+        ///
+        public var disconnectTimestamp: Foundation.Date?
+        ///
+        public var initialContactId: Swift.String?
+        ///
+        public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
+        ///
+        public var initiationTimestamp: Foundation.Date?
+        ///
+        public var previousContactId: Swift.String?
+        ///
+        public var relatedContactId: Swift.String?
+
+        public init(
+            channel: ConnectClientTypes.Channel? = nil,
+            contactArn: Swift.String? = nil,
+            contactId: Swift.String? = nil,
+            disconnectTimestamp: Foundation.Date? = nil,
+            initialContactId: Swift.String? = nil,
+            initiationMethod: ConnectClientTypes.ContactInitiationMethod? = nil,
+            initiationTimestamp: Foundation.Date? = nil,
+            previousContactId: Swift.String? = nil,
+            relatedContactId: Swift.String? = nil
+        )
+        {
+            self.channel = channel
+            self.contactArn = contactArn
+            self.contactId = contactId
+            self.disconnectTimestamp = disconnectTimestamp
+            self.initialContactId = initialContactId
+            self.initiationMethod = initiationMethod
+            self.initiationTimestamp = initiationTimestamp
+            self.previousContactId = previousContactId
+            self.relatedContactId = relatedContactId
+        }
+    }
+}
+
+public struct ListAssociatedContactsOutput: Swift.Sendable {
+    ///
+    public var contactSummaryList: [ConnectClientTypes.AssociatedContactSummary]?
+    ///
+    public var nextToken: Swift.String?
+
+    public init(
+        contactSummaryList: [ConnectClientTypes.AssociatedContactSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.contactSummaryList = contactSummaryList
+        self.nextToken = nextToken
     }
 }
 
@@ -13976,37 +14601,10 @@ public struct ListContactReferencesInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    public enum ReferenceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case approved
-        case rejected
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ReferenceStatus] {
-            return [
-                .approved,
-                .rejected
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .approved: return "APPROVED"
-            case .rejected: return "REJECTED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
     /// Information about a reference when the referenceType is ATTACHMENT. Otherwise, null.
     public struct AttachmentReference: Swift.Sendable {
+        ///
+        public var arn: Swift.String?
         /// Identifier of the attachment reference.
         public var name: Swift.String?
         /// Status of the attachment reference type.
@@ -14015,11 +14613,13 @@ extension ConnectClientTypes {
         public var value: Swift.String?
 
         public init(
+            arn: Swift.String? = nil,
             name: Swift.String? = nil,
             status: ConnectClientTypes.ReferenceStatus? = nil,
             value: Swift.String? = nil
         )
         {
+            self.arn = arn
             self.name = name
             self.status = status
             self.value = value
@@ -14063,6 +14663,26 @@ extension ConnectClientTypes {
         {
             self.name = name
             self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct EmailMessageReference: Swift.Sendable {
+        ///
+        public var arn: Swift.String?
+        ///
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
         }
     }
 }
@@ -14135,6 +14755,8 @@ extension ConnectClientTypes {
         case url(ConnectClientTypes.UrlReference)
         /// Information about the reference when the referenceType is ATTACHMENT. Otherwise, null.
         case attachment(ConnectClientTypes.AttachmentReference)
+        ///
+        case emailmessage(ConnectClientTypes.EmailMessageReference)
         /// Information about a reference when the referenceType is STRING. Otherwise, null.
         case string(ConnectClientTypes.StringReference)
         /// Information about a reference when the referenceType is NUMBER. Otherwise, null.
@@ -17340,30 +17962,6 @@ public struct MonitorContactOutput: Swift.Sendable {
     }
 }
 
-/// Operation cannot be performed at this time as there is a conflict with another operation or contact state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 public struct PauseContactInput: Swift.Sendable {
     /// The identifier of the flow.
     public var contactFlowId: Swift.String?
@@ -17893,6 +18491,54 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    ///
+    public struct SearchableSegmentAttributesCriteria: Swift.Sendable {
+        ///
+        /// This member is required.
+        public var key: Swift.String?
+        ///
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.key = key
+            self.values = values
+        }
+    }
+}
+
+extension ConnectClientTypes.SearchableSegmentAttributesCriteria: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SearchableSegmentAttributesCriteria(key: \"CONTENT_REDACTED\", values: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct SearchableSegmentAttributes: Swift.Sendable {
+        ///
+        /// This member is required.
+        public var criteria: [ConnectClientTypes.SearchableSegmentAttributesCriteria]?
+        ///
+        public var matchType: ConnectClientTypes.SearchContactsMatchType?
+
+        public init(
+            criteria: [ConnectClientTypes.SearchableSegmentAttributesCriteria]? = nil,
+            matchType: ConnectClientTypes.SearchContactsMatchType? = nil
+        )
+        {
+            self.criteria = criteria
+            self.matchType = matchType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// A structure of search criteria to be used to return contacts.
     public struct SearchCriteria: Swift.Sendable {
         /// The agent hierarchy groups of the agent at the time of handling the contact.
@@ -17909,6 +18555,8 @@ extension ConnectClientTypes {
         public var queueIds: [Swift.String]?
         /// The search criteria based on user-defined contact attributes that have been configured for contact search. For more information, see [Search by custom contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/search-custom-attributes.html) in the Amazon Connect Administrator Guide. To use SearchableContactAttributes in a search request, the GetContactAttributes action is required to perform an API request. For more information, see [https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonconnect.html#amazonconnect-actions-as-permissions)Actions defined by Amazon Connect.
         public var searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes?
+        ///
+        public var searchableSegmentAttributes: ConnectClientTypes.SearchableSegmentAttributes?
 
         public init(
             agentHierarchyGroups: ConnectClientTypes.AgentHierarchyGroups? = nil,
@@ -17917,7 +18565,8 @@ extension ConnectClientTypes {
             contactAnalysis: ConnectClientTypes.ContactAnalysis? = nil,
             initiationMethods: [ConnectClientTypes.ContactInitiationMethod]? = nil,
             queueIds: [Swift.String]? = nil,
-            searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes? = nil
+            searchableContactAttributes: ConnectClientTypes.SearchableContactAttributes? = nil,
+            searchableSegmentAttributes: ConnectClientTypes.SearchableSegmentAttributes? = nil
         )
         {
             self.agentHierarchyGroups = agentHierarchyGroups
@@ -17927,6 +18576,7 @@ extension ConnectClientTypes {
             self.initiationMethods = initiationMethods
             self.queueIds = queueIds
             self.searchableContactAttributes = searchableContactAttributes
+            self.searchableSegmentAttributes = searchableSegmentAttributes
         }
     }
 }
@@ -18132,6 +18782,22 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    ///
+    public struct ContactSearchSummarySegmentAttributeValue: Swift.Sendable {
+        ///
+        public var valueString: Swift.String?
+
+        public init(
+            valueString: Swift.String? = nil
+        )
+        {
+            self.valueString = valueString
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information of returned contact.
     public struct ContactSearchSummary: Swift.Sendable {
         /// Information about the agent who accepted the contact.
@@ -18156,6 +18822,8 @@ extension ConnectClientTypes {
         public var queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
         public var scheduledTimestamp: Foundation.Date?
+        ///
+        public var segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]?
 
         public init(
             agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo? = nil,
@@ -18168,7 +18836,8 @@ extension ConnectClientTypes {
             initiationTimestamp: Foundation.Date? = nil,
             previousContactId: Swift.String? = nil,
             queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo? = nil,
-            scheduledTimestamp: Foundation.Date? = nil
+            scheduledTimestamp: Foundation.Date? = nil,
+            segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]? = nil
         )
         {
             self.agentInfo = agentInfo
@@ -18182,6 +18851,7 @@ extension ConnectClientTypes {
             self.previousContactId = previousContactId
             self.queueInfo = queueInfo
             self.scheduledTimestamp = scheduledTimestamp
+            self.segmentAttributes = segmentAttributes
         }
     }
 }
@@ -18204,6 +18874,83 @@ public struct SearchContactsOutput: Swift.Sendable {
         self.contacts = contacts
         self.nextToken = nextToken
         self.totalCount = totalCount
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct EmailAddressSearchFilter: Swift.Sendable {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
+        ///
+        /// * Top level list specifies conditions that need to be applied with OR operator
+        ///
+        /// * Inner list specifies conditions that need to be applied with AND operator.
+        public var tagFilter: ConnectClientTypes.ControlPlaneTagFilter?
+
+        public init(
+            tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
+        )
+        {
+            self.tagFilter = tagFilter
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct EmailAddressMetadata: Swift.Sendable {
+        ///
+        public var description: Swift.String?
+        ///
+        public var displayName: Swift.String?
+        ///
+        public var emailAddress: Swift.String?
+        ///
+        public var emailAddressArn: Swift.String?
+        ///
+        public var emailAddressId: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            emailAddress: Swift.String? = nil,
+            emailAddressArn: Swift.String? = nil,
+            emailAddressId: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.displayName = displayName
+            self.emailAddress = emailAddress
+            self.emailAddressArn = emailAddressArn
+            self.emailAddressId = emailAddressId
+        }
+    }
+}
+
+extension ConnectClientTypes.EmailAddressMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EmailAddressMetadata(emailAddressArn: \(Swift.String(describing: emailAddressArn)), emailAddressId: \(Swift.String(describing: emailAddressId)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\")"}
+}
+
+public struct SearchEmailAddressesOutput: Swift.Sendable {
+    ///
+    public var approximateTotalCount: Swift.Int?
+    ///
+    public var emailAddresses: [ConnectClientTypes.EmailAddressMetadata]?
+    ///
+    public var nextToken: Swift.String?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        emailAddresses: [ConnectClientTypes.EmailAddressMetadata]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.approximateTotalCount = approximateTotalCount
+        self.emailAddresses = emailAddresses
+        self.nextToken = nextToken
     }
 }
 
@@ -19363,6 +20110,280 @@ public struct SendChatIntegrationEventOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    ///
+    public struct EmailAddressInfo: Swift.Sendable {
+        ///
+        public var displayName: Swift.String?
+        ///
+        /// This member is required.
+        public var emailAddress: Swift.String?
+
+        public init(
+            displayName: Swift.String? = nil,
+            emailAddress: Swift.String? = nil
+        )
+        {
+            self.displayName = displayName
+            self.emailAddress = emailAddress
+        }
+    }
+}
+
+extension ConnectClientTypes.EmailAddressInfo: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EmailAddressInfo(displayName: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct OutboundAdditionalRecipients: Swift.Sendable {
+        ///
+        public var ccEmailAddresses: [ConnectClientTypes.EmailAddressInfo]?
+
+        public init(
+            ccEmailAddresses: [ConnectClientTypes.EmailAddressInfo]? = nil
+        )
+        {
+            self.ccEmailAddresses = ccEmailAddresses
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum OutboundMessageSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case raw
+        case template
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutboundMessageSourceType] {
+            return [
+                .raw,
+                .template
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .raw: return "RAW"
+            case .template: return "TEMPLATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct OutboundRawMessage: Swift.Sendable {
+        ///
+        /// This member is required.
+        public var body: Swift.String?
+        ///
+        /// This member is required.
+        public var contentType: Swift.String?
+        ///
+        /// This member is required.
+        public var subject: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            contentType: Swift.String? = nil,
+            subject: Swift.String? = nil
+        )
+        {
+            self.body = body
+            self.contentType = contentType
+            self.subject = subject
+        }
+    }
+}
+
+extension ConnectClientTypes.OutboundRawMessage: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OutboundRawMessage(contentType: \(Swift.String(describing: contentType)), body: \"CONTENT_REDACTED\", subject: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct TemplateAttributes: Swift.Sendable {
+        ///
+        public var customAttributes: [Swift.String: Swift.String]?
+        ///
+        public var customerProfileAttributes: Swift.String?
+
+        public init(
+            customAttributes: [Swift.String: Swift.String]? = nil,
+            customerProfileAttributes: Swift.String? = nil
+        )
+        {
+            self.customAttributes = customAttributes
+            self.customerProfileAttributes = customerProfileAttributes
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct TemplatedMessageConfig: Swift.Sendable {
+        ///
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        ///
+        /// This member is required.
+        public var messageTemplateId: Swift.String?
+        ///
+        /// This member is required.
+        public var templateAttributes: ConnectClientTypes.TemplateAttributes?
+
+        public init(
+            knowledgeBaseId: Swift.String? = nil,
+            messageTemplateId: Swift.String? = nil,
+            templateAttributes: ConnectClientTypes.TemplateAttributes? = nil
+        )
+        {
+            self.knowledgeBaseId = knowledgeBaseId
+            self.messageTemplateId = messageTemplateId
+            self.templateAttributes = templateAttributes
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct OutboundEmailContent: Swift.Sendable {
+        ///
+        /// This member is required.
+        public var messageSourceType: ConnectClientTypes.OutboundMessageSourceType?
+        ///
+        public var rawMessage: ConnectClientTypes.OutboundRawMessage?
+        ///
+        public var templatedMessageConfig: ConnectClientTypes.TemplatedMessageConfig?
+
+        public init(
+            messageSourceType: ConnectClientTypes.OutboundMessageSourceType? = nil,
+            rawMessage: ConnectClientTypes.OutboundRawMessage? = nil,
+            templatedMessageConfig: ConnectClientTypes.TemplatedMessageConfig? = nil
+        )
+        {
+            self.messageSourceType = messageSourceType
+            self.rawMessage = rawMessage
+            self.templatedMessageConfig = templatedMessageConfig
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct SourceCampaign: Swift.Sendable {
+        ///
+        public var campaignId: Swift.String?
+        ///
+        public var outboundRequestId: Swift.String?
+
+        public init(
+            campaignId: Swift.String? = nil,
+            outboundRequestId: Swift.String? = nil
+        )
+        {
+            self.campaignId = campaignId
+            self.outboundRequestId = outboundRequestId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum TrafficType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case campaign
+        case general
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrafficType] {
+            return [
+                .campaign,
+                .general
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .campaign: return "CAMPAIGN"
+            case .general: return "GENERAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct SendOutboundEmailInput: Swift.Sendable {
+    ///
+    public var additionalRecipients: ConnectClientTypes.OutboundAdditionalRecipients?
+    ///
+    public var clientToken: Swift.String?
+    ///
+    /// This member is required.
+    public var destinationEmailAddress: ConnectClientTypes.EmailAddressInfo?
+    ///
+    /// This member is required.
+    public var emailMessage: ConnectClientTypes.OutboundEmailContent?
+    ///
+    /// This member is required.
+    public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+    ///
+    public var sourceCampaign: ConnectClientTypes.SourceCampaign?
+    ///
+    /// This member is required.
+    public var trafficType: ConnectClientTypes.TrafficType?
+
+    public init(
+        additionalRecipients: ConnectClientTypes.OutboundAdditionalRecipients? = nil,
+        clientToken: Swift.String? = nil,
+        destinationEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
+        emailMessage: ConnectClientTypes.OutboundEmailContent? = nil,
+        fromEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
+        instanceId: Swift.String? = nil,
+        sourceCampaign: ConnectClientTypes.SourceCampaign? = nil,
+        trafficType: ConnectClientTypes.TrafficType? = nil
+    )
+    {
+        self.additionalRecipients = additionalRecipients
+        self.clientToken = clientToken
+        self.destinationEmailAddress = destinationEmailAddress
+        self.emailMessage = emailMessage
+        self.fromEmailAddress = fromEmailAddress
+        self.instanceId = instanceId
+        self.sourceCampaign = sourceCampaign
+        self.trafficType = trafficType
+    }
+}
+
+public struct SendOutboundEmailOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct StartAttachedFileUploadInput: Swift.Sendable {
     /// The resource to which the attached file is (being) uploaded to. [Cases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) are the only current supported resource. This value must be a valid ARN.
     /// This member is required.
@@ -19770,6 +20791,254 @@ public struct StartContactStreamingOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    ///
+    public struct InboundAdditionalRecipients: Swift.Sendable {
+        ///
+        public var ccAddresses: [ConnectClientTypes.EmailAddressInfo]?
+        ///
+        public var toAddresses: [ConnectClientTypes.EmailAddressInfo]?
+
+        public init(
+            ccAddresses: [ConnectClientTypes.EmailAddressInfo]? = nil,
+            toAddresses: [ConnectClientTypes.EmailAddressInfo]? = nil
+        )
+        {
+            self.ccAddresses = ccAddresses
+            self.toAddresses = toAddresses
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct EmailAttachment: Swift.Sendable {
+        ///
+        /// This member is required.
+        public var fileName: Swift.String?
+        ///
+        /// This member is required.
+        public var s3Url: Swift.String?
+
+        public init(
+            fileName: Swift.String? = nil,
+            s3Url: Swift.String? = nil
+        )
+        {
+            self.fileName = fileName
+            self.s3Url = s3Url
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum InboundMessageSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case raw
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InboundMessageSourceType] {
+            return [
+                .raw
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .raw: return "RAW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EmailHeaderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inReplyTo
+        case messageId
+        case references
+        case xSesSpamVerdict
+        case xSesVirusVerdict
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmailHeaderType] {
+            return [
+                .inReplyTo,
+                .messageId,
+                .references,
+                .xSesSpamVerdict,
+                .xSesVirusVerdict
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inReplyTo: return "IN_REPLY_TO"
+            case .messageId: return "MESSAGE_ID"
+            case .references: return "REFERENCES"
+            case .xSesSpamVerdict: return "X_SES_SPAM_VERDICT"
+            case .xSesVirusVerdict: return "X_SES_VIRUS_VERDICT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct InboundRawMessage: Swift.Sendable {
+        ///
+        /// This member is required.
+        public var body: Swift.String?
+        ///
+        /// This member is required.
+        public var contentType: Swift.String?
+        ///
+        public var headers: [Swift.String: Swift.String]?
+        ///
+        /// This member is required.
+        public var subject: Swift.String?
+
+        public init(
+            body: Swift.String? = nil,
+            contentType: Swift.String? = nil,
+            headers: [Swift.String: Swift.String]? = nil,
+            subject: Swift.String? = nil
+        )
+        {
+            self.body = body
+            self.contentType = contentType
+            self.headers = headers
+            self.subject = subject
+        }
+    }
+}
+
+extension ConnectClientTypes.InboundRawMessage: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InboundRawMessage(contentType: \(Swift.String(describing: contentType)), headers: \(Swift.String(describing: headers)), body: \"CONTENT_REDACTED\", subject: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct InboundEmailContent: Swift.Sendable {
+        ///
+        /// This member is required.
+        public var messageSourceType: ConnectClientTypes.InboundMessageSourceType?
+        ///
+        public var rawMessage: ConnectClientTypes.InboundRawMessage?
+
+        public init(
+            messageSourceType: ConnectClientTypes.InboundMessageSourceType? = nil,
+            rawMessage: ConnectClientTypes.InboundRawMessage? = nil
+        )
+        {
+            self.messageSourceType = messageSourceType
+            self.rawMessage = rawMessage
+        }
+    }
+}
+
+public struct StartEmailContactInput: Swift.Sendable {
+    ///
+    public var additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients?
+    ///
+    public var attachments: [ConnectClientTypes.EmailAttachment]?
+    ///
+    public var attributes: [Swift.String: Swift.String]?
+    ///
+    public var clientToken: Swift.String?
+    ///
+    public var contactFlowId: Swift.String?
+    ///
+    public var description: Swift.String?
+    ///
+    /// This member is required.
+    public var destinationEmailAddress: Swift.String?
+    ///
+    /// This member is required.
+    public var emailMessage: ConnectClientTypes.InboundEmailContent?
+    ///
+    /// This member is required.
+    public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+    ///
+    public var name: Swift.String?
+    ///
+    public var references: [Swift.String: ConnectClientTypes.Reference]?
+    ///
+    public var relatedContactId: Swift.String?
+    ///
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+
+    public init(
+        additionalRecipients: ConnectClientTypes.InboundAdditionalRecipients? = nil,
+        attachments: [ConnectClientTypes.EmailAttachment]? = nil,
+        attributes: [Swift.String: Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        contactFlowId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        destinationEmailAddress: Swift.String? = nil,
+        emailMessage: ConnectClientTypes.InboundEmailContent? = nil,
+        fromEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil
+    )
+    {
+        self.additionalRecipients = additionalRecipients
+        self.attachments = attachments
+        self.attributes = attributes
+        self.clientToken = clientToken
+        self.contactFlowId = contactFlowId
+        self.description = description
+        self.destinationEmailAddress = destinationEmailAddress
+        self.emailMessage = emailMessage
+        self.fromEmailAddress = fromEmailAddress
+        self.instanceId = instanceId
+        self.name = name
+        self.references = references
+        self.relatedContactId = relatedContactId
+        self.segmentAttributes = segmentAttributes
+    }
+}
+
+extension StartEmailContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartEmailContactInput(additionalRecipients: \(Swift.String(describing: additionalRecipients)), attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), emailMessage: \(Swift.String(describing: emailMessage)), fromEmailAddress: \(Swift.String(describing: fromEmailAddress)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), attachments: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", destinationEmailAddress: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartEmailContactOutput: Swift.Sendable {
+    ///
+    public var contactId: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil
+    )
+    {
+        self.contactId = contactId
+    }
+}
+
 public struct StartOutboundChatContactInput: Swift.Sendable {
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes.
     public var attributes: [Swift.String: Swift.String]?
@@ -19866,6 +21135,58 @@ public struct StartOutboundChatContactOutput: Swift.Sendable {
     }
 }
 
+public struct StartOutboundEmailContactInput: Swift.Sendable {
+    ///
+    public var additionalRecipients: ConnectClientTypes.OutboundAdditionalRecipients?
+    ///
+    public var clientToken: Swift.String?
+    ///
+    /// This member is required.
+    public var contactId: Swift.String?
+    ///
+    /// This member is required.
+    public var destinationEmailAddress: ConnectClientTypes.EmailAddressInfo?
+    ///
+    /// This member is required.
+    public var emailMessage: ConnectClientTypes.OutboundEmailContent?
+    ///
+    public var fromEmailAddress: ConnectClientTypes.EmailAddressInfo?
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        additionalRecipients: ConnectClientTypes.OutboundAdditionalRecipients? = nil,
+        clientToken: Swift.String? = nil,
+        contactId: Swift.String? = nil,
+        destinationEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
+        emailMessage: ConnectClientTypes.OutboundEmailContent? = nil,
+        fromEmailAddress: ConnectClientTypes.EmailAddressInfo? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.additionalRecipients = additionalRecipients
+        self.clientToken = clientToken
+        self.contactId = contactId
+        self.destinationEmailAddress = destinationEmailAddress
+        self.emailMessage = emailMessage
+        self.fromEmailAddress = fromEmailAddress
+        self.instanceId = instanceId
+    }
+}
+
+public struct StartOutboundEmailContactOutput: Swift.Sendable {
+    ///
+    public var contactId: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil
+    )
+    {
+        self.contactId = contactId
+    }
+}
+
 /// Outbound calls to the destination number are not allowed.
 public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -19932,35 +21253,6 @@ extension ConnectClientTypes {
         {
             self.awaitAnswerMachinePrompt = awaitAnswerMachinePrompt
             self.enableAnswerMachineDetection = enableAnswerMachineDetection
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    public enum TrafficType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case campaign
-        case general
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TrafficType] {
-            return [
-                .campaign,
-                .general
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .campaign: return "CAMPAIGN"
-            case .general: return "GENERAL"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -20101,6 +21393,8 @@ public struct StartTaskContactInput: Swift.Sendable {
     public var relatedContactId: Swift.String?
     /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
     public var scheduledTime: Foundation.Date?
+    ///
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
     /// A unique identifier for the task template. For more information about task templates, see [Create task templates](https://docs.aws.amazon.com/connect/latest/adminguide/task-templates.html) in the Amazon Connect Administrator Guide.
     public var taskTemplateId: Swift.String?
 
@@ -20116,6 +21410,7 @@ public struct StartTaskContactInput: Swift.Sendable {
         references: [Swift.String: ConnectClientTypes.Reference]? = nil,
         relatedContactId: Swift.String? = nil,
         scheduledTime: Foundation.Date? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
         taskTemplateId: Swift.String? = nil
     )
     {
@@ -20130,13 +21425,14 @@ public struct StartTaskContactInput: Swift.Sendable {
         self.references = references
         self.relatedContactId = relatedContactId
         self.scheduledTime = scheduledTime
+        self.segmentAttributes = segmentAttributes
         self.taskTemplateId = taskTemplateId
     }
 }
 
 extension StartTaskContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartTaskContactOutput: Swift.Sendable {
@@ -20837,13 +22133,16 @@ public struct UpdateContactInput: Swift.Sendable {
     public var name: Swift.String?
     /// Well-formed data on contact, shown to agents on Contact Control Panel (CCP).
     public var references: [Swift.String: ConnectClientTypes.Reference]?
+    ///
+    public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
 
     public init(
         contactId: Swift.String? = nil,
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
-        references: [Swift.String: ConnectClientTypes.Reference]? = nil
+        references: [Swift.String: ConnectClientTypes.Reference]? = nil,
+        segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil
     )
     {
         self.contactId = contactId
@@ -20851,12 +22150,13 @@ public struct UpdateContactInput: Swift.Sendable {
         self.instanceId = instanceId
         self.name = name
         self.references = references
+        self.segmentAttributes = segmentAttributes
     }
 }
 
 extension UpdateContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateContactInput(contactId: \(Swift.String(describing: contactId)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateContactInput(contactId: \(Swift.String(describing: contactId)), instanceId: \(Swift.String(describing: instanceId)), references: \(Swift.String(describing: references)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateContactOutput: Swift.Sendable {
@@ -21144,6 +22444,57 @@ public struct UpdateContactScheduleInput: Swift.Sendable {
 public struct UpdateContactScheduleOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateEmailAddressMetadataInput: Swift.Sendable {
+    ///
+    public var clientToken: Swift.String?
+    ///
+    public var description: Swift.String?
+    ///
+    public var displayName: Swift.String?
+    ///
+    /// This member is required.
+    public var emailAddressId: Swift.String?
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        emailAddressId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.displayName = displayName
+        self.emailAddressId = emailAddressId
+        self.instanceId = instanceId
+    }
+}
+
+extension UpdateEmailAddressMetadataInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateEmailAddressMetadataInput(clientToken: \(Swift.String(describing: clientToken)), emailAddressId: \(Swift.String(describing: emailAddressId)), instanceId: \(Swift.String(describing: instanceId)), description: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateEmailAddressMetadataOutput: Swift.Sendable {
+    ///
+    public var emailAddressArn: Swift.String?
+    ///
+    public var emailAddressId: Swift.String?
+
+    public init(
+        emailAddressArn: Swift.String? = nil,
+        emailAddressId: Swift.String? = nil
+    )
+    {
+        self.emailAddressArn = emailAddressArn
+        self.emailAddressId = emailAddressId
+    }
 }
 
 public struct UpdateEvaluationFormOutput: Swift.Sendable {
@@ -21656,6 +23007,53 @@ public struct UpdateQueueOutboundCallerConfigInput: Swift.Sendable {
     }
 }
 
+///
+public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct UpdateQueueOutboundEmailConfigInput: Swift.Sendable {
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+    ///
+    /// This member is required.
+    public var outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig?
+    ///
+    /// This member is required.
+    public var queueId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
+        queueId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.outboundEmailConfig = outboundEmailConfig
+        self.queueId = queueId
+    }
+}
+
 public struct UpdateQueueStatusInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -21946,6 +23344,8 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
     public var instanceId: Swift.String?
     /// The name of the task template.
     public var name: Swift.String?
+    ///
+    public var selfAssignFlowId: Swift.String?
     /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
     public var status: ConnectClientTypes.TaskTemplateStatus?
     /// A unique identifier for the task template.
@@ -21960,6 +23360,7 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
         fields: [ConnectClientTypes.TaskTemplateField]? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
+        selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil,
         taskTemplateId: Swift.String? = nil
     )
@@ -21971,6 +23372,7 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
         self.fields = fields
         self.instanceId = instanceId
         self.name = name
+        self.selfAssignFlowId = selfAssignFlowId
         self.status = status
         self.taskTemplateId = taskTemplateId
     }
@@ -21999,6 +23401,8 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
     public var lastModifiedTime: Foundation.Date?
     /// The name of the task template.
     public var name: Swift.String?
+    ///
+    public var selfAssignFlowId: Swift.String?
     /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
     public var status: ConnectClientTypes.TaskTemplateStatus?
 
@@ -22014,6 +23418,7 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        selfAssignFlowId: Swift.String? = nil,
         status: ConnectClientTypes.TaskTemplateStatus? = nil
     )
     {
@@ -22028,6 +23433,7 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
         self.instanceId = instanceId
         self.lastModifiedTime = lastModifiedTime
         self.name = name
+        self.selfAssignFlowId = selfAssignFlowId
         self.status = status
     }
 }
@@ -22492,6 +23898,30 @@ extension ConnectClientTypes {
             self.statusCondition = statusCondition
             self.stringCondition = stringCondition
             self.typeCondition = typeCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    ///
+    public struct EmailAddressSearchCriteria: Swift.Sendable {
+        ///
+        public var andConditions: [ConnectClientTypes.EmailAddressSearchCriteria]?
+        ///
+        public var orConditions: [ConnectClientTypes.EmailAddressSearchCriteria]?
+        /// A leaf node condition which can be used to specify a string condition.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.EmailAddressSearchCriteria]? = nil,
+            orConditions: [ConnectClientTypes.EmailAddressSearchCriteria]? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        )
+        {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
         }
     }
 }
@@ -23118,6 +24548,35 @@ public struct SearchContactFlowsInput: Swift.Sendable {
     }
 }
 
+public struct SearchEmailAddressesInput: Swift.Sendable {
+    ///
+    /// This member is required.
+    public var instanceId: Swift.String?
+    ///
+    public var maxResults: Swift.Int?
+    ///
+    public var nextToken: Swift.String?
+    ///
+    public var searchCriteria: ConnectClientTypes.EmailAddressSearchCriteria?
+    ///
+    public var searchFilter: ConnectClientTypes.EmailAddressSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.EmailAddressSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.EmailAddressSearchFilter? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
 public struct SearchHoursOfOperationsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
@@ -23419,6 +24878,8 @@ extension ConnectClientTypes {
 
     /// Contains information about a contact.
     public struct Contact: Swift.Sendable {
+        ///
+        public var additionalEmailRecipients: ConnectClientTypes.AdditionalEmailRecipients?
         /// Information about the agent who accepted the contact.
         public var agentInfo: ConnectClientTypes.AgentInfo?
         /// Indicates how an [outbound campaign](https://docs.aws.amazon.com/connect/latest/adminguide/how-to-create-campaigns.html) call is actually disposed if the contact is connected to Amazon Connect.
@@ -23431,8 +24892,12 @@ extension ConnectClientTypes {
         public var channel: ConnectClientTypes.Channel?
         /// The timestamp when customer endpoint connected to Amazon Connect.
         public var connectedToSystemTimestamp: Foundation.Date?
+        ///
+        public var contactAssociationId: Swift.String?
         /// Information about the Customer on the contact.
         public var customer: ConnectClientTypes.Customer?
+        ///
+        public var customerEndpoint: ConnectClientTypes.EndpointInfo?
         /// Information about customer’s voice activity.
         public var customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity?
         /// The description of the contact.
@@ -23475,6 +24940,8 @@ extension ConnectClientTypes {
         public var scheduledTimestamp: Foundation.Date?
         /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes and can be accessed in flows. Attribute keys can include only alphanumeric, -, and _ characters. This field can be used to show channel subtype. For example, connect:Guide or connect:SMS.
         public var segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]?
+        ///
+        public var systemEndpoint: ConnectClientTypes.EndpointInfo?
         /// Tags associated with the contact. This contains both Amazon Web Services generated and user-defined tags.
         public var tags: [Swift.String: Swift.String]?
         /// Total pause count for a contact.
@@ -23485,13 +24952,16 @@ extension ConnectClientTypes {
         public var wisdomInfo: ConnectClientTypes.WisdomInfo?
 
         public init(
+            additionalEmailRecipients: ConnectClientTypes.AdditionalEmailRecipients? = nil,
             agentInfo: ConnectClientTypes.AgentInfo? = nil,
             answeringMachineDetectionStatus: ConnectClientTypes.AnsweringMachineDetectionStatus? = nil,
             arn: Swift.String? = nil,
             campaign: ConnectClientTypes.Campaign? = nil,
             channel: ConnectClientTypes.Channel? = nil,
             connectedToSystemTimestamp: Foundation.Date? = nil,
+            contactAssociationId: Swift.String? = nil,
             customer: ConnectClientTypes.Customer? = nil,
+            customerEndpoint: ConnectClientTypes.EndpointInfo? = nil,
             customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity? = nil,
             description: Swift.String? = nil,
             disconnectDetails: ConnectClientTypes.DisconnectDetails? = nil,
@@ -23513,19 +24983,23 @@ extension ConnectClientTypes {
             routingCriteria: ConnectClientTypes.RoutingCriteria? = nil,
             scheduledTimestamp: Foundation.Date? = nil,
             segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
+            systemEndpoint: ConnectClientTypes.EndpointInfo? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             totalPauseCount: Swift.Int? = nil,
             totalPauseDurationInSeconds: Swift.Int? = nil,
             wisdomInfo: ConnectClientTypes.WisdomInfo? = nil
         )
         {
+            self.additionalEmailRecipients = additionalEmailRecipients
             self.agentInfo = agentInfo
             self.answeringMachineDetectionStatus = answeringMachineDetectionStatus
             self.arn = arn
             self.campaign = campaign
             self.channel = channel
             self.connectedToSystemTimestamp = connectedToSystemTimestamp
+            self.contactAssociationId = contactAssociationId
             self.customer = customer
+            self.customerEndpoint = customerEndpoint
             self.customerVoiceActivity = customerVoiceActivity
             self.description = description
             self.disconnectDetails = disconnectDetails
@@ -23547,6 +25021,7 @@ extension ConnectClientTypes {
             self.routingCriteria = routingCriteria
             self.scheduledTimestamp = scheduledTimestamp
             self.segmentAttributes = segmentAttributes
+            self.systemEndpoint = systemEndpoint
             self.tags = tags
             self.totalPauseCount = totalPauseCount
             self.totalPauseDurationInSeconds = totalPauseDurationInSeconds
@@ -23557,7 +25032,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), customer: \(Swift.String(describing: customer)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateContactRoutingDataInput: Swift.Sendable {
@@ -23875,6 +25350,13 @@ extension CreateAgentStatusInput {
     }
 }
 
+extension CreateContactInput {
+
+    static func urlPathProvider(_ value: CreateContactInput) -> Swift.String? {
+        return "/contact/create-contact"
+    }
+}
+
 extension CreateContactFlowInput {
 
     static func urlPathProvider(_ value: CreateContactFlowInput) -> Swift.String? {
@@ -23905,6 +25387,16 @@ extension CreateContactFlowVersionInput {
             return nil
         }
         return "/contact-flows/\(instanceId.urlPercentEncoding())/\(contactFlowId.urlPercentEncoding())/version"
+    }
+}
+
+extension CreateEmailAddressInput {
+
+    static func urlPathProvider(_ value: CreateEmailAddressInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/email-addresses/\(instanceId.urlPercentEncoding())"
     }
 }
 
@@ -24194,6 +25686,19 @@ extension DeleteContactFlowModuleInput {
             return nil
         }
         return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteEmailAddressInput {
+
+    static func urlPathProvider(_ value: DeleteEmailAddressInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let emailAddressId = value.emailAddressId else {
+            return nil
+        }
+        return "/email-addresses/\(instanceId.urlPercentEncoding())/\(emailAddressId.urlPercentEncoding())"
     }
 }
 
@@ -24531,6 +26036,19 @@ extension DescribeContactFlowModuleInput {
             return nil
         }
         return "/contact-flow-modules/\(instanceId.urlPercentEncoding())/\(contactFlowModuleId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeEmailAddressInput {
+
+    static func urlPathProvider(_ value: DescribeEmailAddressInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let emailAddressId = value.emailAddressId else {
+            return nil
+        }
+        return "/email-addresses/\(instanceId.urlPercentEncoding())/\(emailAddressId.urlPercentEncoding())"
     }
 }
 
@@ -25301,6 +26819,38 @@ extension ListApprovedOriginsInput {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        return items
+    }
+}
+
+extension ListAssociatedContactsInput {
+
+    static func urlPathProvider(_ value: ListAssociatedContactsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/contact/associated/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListAssociatedContactsInput {
+
+    static func queryItemProvider(_ value: ListAssociatedContactsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let contactId = value.contactId else {
+            let message = "Creating a URL Query Item failed. contactId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let contactIdQueryItem = Smithy.URIQueryItem(name: "contactId".urlPercentEncoding(), value: Swift.String(contactId).urlPercentEncoding())
+        items.append(contactIdQueryItem)
         return items
     }
 }
@@ -26579,6 +28129,13 @@ extension SearchContactsInput {
     }
 }
 
+extension SearchEmailAddressesInput {
+
+    static func urlPathProvider(_ value: SearchEmailAddressesInput) -> Swift.String? {
+        return "/search-email-addresses"
+    }
+}
+
 extension SearchHoursOfOperationsInput {
 
     static func urlPathProvider(_ value: SearchHoursOfOperationsInput) -> Swift.String? {
@@ -26666,6 +28223,16 @@ extension SendChatIntegrationEventInput {
     }
 }
 
+extension SendOutboundEmailInput {
+
+    static func urlPathProvider(_ value: SendOutboundEmailInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/instance/\(instanceId.urlPercentEncoding())/outbound-email"
+    }
+}
+
 extension StartAttachedFileUploadInput {
 
     static func urlPathProvider(_ value: StartAttachedFileUploadInput) -> Swift.String? {
@@ -26721,10 +28288,24 @@ extension StartContactStreamingInput {
     }
 }
 
+extension StartEmailContactInput {
+
+    static func urlPathProvider(_ value: StartEmailContactInput) -> Swift.String? {
+        return "/contact/email"
+    }
+}
+
 extension StartOutboundChatContactInput {
 
     static func urlPathProvider(_ value: StartOutboundChatContactInput) -> Swift.String? {
         return "/contact/outbound-chat"
+    }
+}
+
+extension StartOutboundEmailContactInput {
+
+    static func urlPathProvider(_ value: StartOutboundEmailContactInput) -> Swift.String? {
+        return "/contact/outbound-email"
     }
 }
 
@@ -27020,6 +28601,19 @@ extension UpdateContactScheduleInput {
     }
 }
 
+extension UpdateEmailAddressMetadataInput {
+
+    static func urlPathProvider(_ value: UpdateEmailAddressMetadataInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let emailAddressId = value.emailAddressId else {
+            return nil
+        }
+        return "/email-addresses/\(instanceId.urlPercentEncoding())/\(emailAddressId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateEvaluationFormInput {
 
     static func urlPathProvider(_ value: UpdateEvaluationFormInput) -> Swift.String? {
@@ -27194,6 +28788,19 @@ extension UpdateQueueOutboundCallerConfigInput {
             return nil
         }
         return "/queues/\(instanceId.urlPercentEncoding())/\(queueId.urlPercentEncoding())/outbound-caller-config"
+    }
+}
+
+extension UpdateQueueOutboundEmailConfigInput {
+
+    static func urlPathProvider(_ value: UpdateQueueOutboundEmailConfigInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let queueId = value.queueId else {
+            return nil
+        }
+        return "/queues/\(instanceId.urlPercentEncoding())/\(queueId.urlPercentEncoding())/outbound-email-config"
     }
 }
 
@@ -27673,6 +29280,26 @@ extension CreateAgentStatusInput {
     }
 }
 
+extension CreateContactInput {
+
+    static func write(value: CreateContactInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Channel"].write(value.channel)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["ExpiryDurationInMinutes"].write(value.expiryDurationInMinutes)
+        try writer["InitiateAs"].write(value.initiateAs)
+        try writer["InitiationMethod"].write(value.initiationMethod)
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["Name"].write(value.name)
+        try writer["References"].writeMap(value.references, valueWritingClosure: ConnectClientTypes.Reference.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RelatedContactId"].write(value.relatedContactId)
+        try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["UserInfo"].write(value.userInfo, with: ConnectClientTypes.UserInfo.write(value:to:))
+    }
+}
+
 extension CreateContactFlowInput {
 
     static func write(value: CreateContactFlowInput?, to writer: SmithyJSON.Writer) throws {
@@ -27706,6 +29333,18 @@ extension CreateContactFlowVersionInput {
         try writer["FlowContentSha256"].write(value.flowContentSha256)
         try writer["LastModifiedRegion"].write(value.lastModifiedRegion)
         try writer["LastModifiedTime"].writeTimestamp(value.lastModifiedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension CreateEmailAddressInput {
+
+    static func write(value: CreateEmailAddressInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["DisplayName"].write(value.displayName)
+        try writer["EmailAddress"].write(value.emailAddress)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -27810,6 +29449,7 @@ extension CreateQueueInput {
         try writer["MaxContacts"].write(value.maxContacts)
         try writer["Name"].write(value.name)
         try writer["OutboundCallerConfig"].write(value.outboundCallerConfig, with: ConnectClientTypes.OutboundCallerConfig.write(value:to:))
+        try writer["OutboundEmailConfig"].write(value.outboundEmailConfig, with: ConnectClientTypes.OutboundEmailConfig.write(value:to:))
         try writer["QuickConnectIds"].writeList(value.quickConnectIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -27880,6 +29520,7 @@ extension CreateTaskTemplateInput {
         try writer["Description"].write(value.description)
         try writer["Fields"].writeList(value.fields, memberWritingClosure: ConnectClientTypes.TaskTemplateField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
+        try writer["SelfAssignFlowId"].write(value.selfAssignFlowId)
         try writer["Status"].write(value.status)
     }
 }
@@ -28246,6 +29887,18 @@ extension SearchContactsInput {
     }
 }
 
+extension SearchEmailAddressesInput {
+
+    static func write(value: SearchEmailAddressesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.EmailAddressSearchCriteria.write(value:to:))
+        try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.EmailAddressSearchFilter.write(value:to:))
+    }
+}
+
 extension SearchHoursOfOperationsInput {
 
     static func write(value: SearchHoursOfOperationsInput?, to writer: SmithyJSON.Writer) throws {
@@ -28389,6 +30042,20 @@ extension SendChatIntegrationEventInput {
     }
 }
 
+extension SendOutboundEmailInput {
+
+    static func write(value: SendOutboundEmailInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalRecipients"].write(value.additionalRecipients, with: ConnectClientTypes.OutboundAdditionalRecipients.write(value:to:))
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DestinationEmailAddress"].write(value.destinationEmailAddress, with: ConnectClientTypes.EmailAddressInfo.write(value:to:))
+        try writer["EmailMessage"].write(value.emailMessage, with: ConnectClientTypes.OutboundEmailContent.write(value:to:))
+        try writer["FromEmailAddress"].write(value.fromEmailAddress, with: ConnectClientTypes.EmailAddressInfo.write(value:to:))
+        try writer["SourceCampaign"].write(value.sourceCampaign, with: ConnectClientTypes.SourceCampaign.write(value:to:))
+        try writer["TrafficType"].write(value.trafficType)
+    }
+}
+
 extension StartAttachedFileUploadInput {
 
     static func write(value: StartAttachedFileUploadInput?, to writer: SmithyJSON.Writer) throws {
@@ -28453,6 +30120,27 @@ extension StartContactStreamingInput {
     }
 }
 
+extension StartEmailContactInput {
+
+    static func write(value: StartEmailContactInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalRecipients"].write(value.additionalRecipients, with: ConnectClientTypes.InboundAdditionalRecipients.write(value:to:))
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: ConnectClientTypes.EmailAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ContactFlowId"].write(value.contactFlowId)
+        try writer["Description"].write(value.description)
+        try writer["DestinationEmailAddress"].write(value.destinationEmailAddress)
+        try writer["EmailMessage"].write(value.emailMessage, with: ConnectClientTypes.InboundEmailContent.write(value:to:))
+        try writer["FromEmailAddress"].write(value.fromEmailAddress, with: ConnectClientTypes.EmailAddressInfo.write(value:to:))
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["Name"].write(value.name)
+        try writer["References"].writeMap(value.references, valueWritingClosure: ConnectClientTypes.Reference.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RelatedContactId"].write(value.relatedContactId)
+        try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension StartOutboundChatContactInput {
 
     static func write(value: StartOutboundChatContactInput?, to writer: SmithyJSON.Writer) throws {
@@ -28469,6 +30157,20 @@ extension StartOutboundChatContactInput {
         try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["SourceEndpoint"].write(value.sourceEndpoint, with: ConnectClientTypes.Endpoint.write(value:to:))
         try writer["SupportedMessagingContentTypes"].writeList(value.supportedMessagingContentTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StartOutboundEmailContactInput {
+
+    static func write(value: StartOutboundEmailContactInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalRecipients"].write(value.additionalRecipients, with: ConnectClientTypes.OutboundAdditionalRecipients.write(value:to:))
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ContactId"].write(value.contactId)
+        try writer["DestinationEmailAddress"].write(value.destinationEmailAddress, with: ConnectClientTypes.EmailAddressInfo.write(value:to:))
+        try writer["EmailMessage"].write(value.emailMessage, with: ConnectClientTypes.OutboundEmailContent.write(value:to:))
+        try writer["FromEmailAddress"].write(value.fromEmailAddress, with: ConnectClientTypes.EmailAddressInfo.write(value:to:))
+        try writer["InstanceId"].write(value.instanceId)
     }
 }
 
@@ -28518,6 +30220,7 @@ extension StartTaskContactInput {
         try writer["References"].writeMap(value.references, valueWritingClosure: ConnectClientTypes.Reference.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RelatedContactId"].write(value.relatedContactId)
         try writer["ScheduledTime"].writeTimestamp(value.scheduledTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TaskTemplateId"].write(value.taskTemplateId)
     }
 }
@@ -28649,6 +30352,7 @@ extension UpdateContactInput {
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
         try writer["References"].writeMap(value.references, valueWritingClosure: ConnectClientTypes.Reference.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -28733,6 +30437,16 @@ extension UpdateContactScheduleInput {
         try writer["ContactId"].write(value.contactId)
         try writer["InstanceId"].write(value.instanceId)
         try writer["ScheduledTime"].writeTimestamp(value.scheduledTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension UpdateEmailAddressMetadataInput {
+
+    static func write(value: UpdateEmailAddressMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["DisplayName"].write(value.displayName)
     }
 }
 
@@ -28855,6 +30569,14 @@ extension UpdateQueueOutboundCallerConfigInput {
     }
 }
 
+extension UpdateQueueOutboundEmailConfigInput {
+
+    static func write(value: UpdateQueueOutboundEmailConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OutboundEmailConfig"].write(value.outboundEmailConfig, with: ConnectClientTypes.OutboundEmailConfig.write(value:to:))
+    }
+}
+
 extension UpdateQueueStatusInput {
 
     static func write(value: UpdateQueueStatusInput?, to writer: SmithyJSON.Writer) throws {
@@ -28956,6 +30678,7 @@ extension UpdateTaskTemplateInput {
         try writer["Description"].write(value.description)
         try writer["Fields"].writeList(value.fields, memberWritingClosure: ConnectClientTypes.TaskTemplateField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
+        try writer["SelfAssignFlowId"].write(value.selfAssignFlowId)
         try writer["Status"].write(value.status)
     }
 }
@@ -29279,6 +31002,19 @@ extension CreateAgentStatusOutput {
     }
 }
 
+extension CreateContactOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateContactOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateContactOutput()
+        value.contactArn = try reader["ContactArn"].readIfPresent()
+        value.contactId = try reader["ContactId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateContactFlowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateContactFlowOutput {
@@ -29315,6 +31051,19 @@ extension CreateContactFlowVersionOutput {
         var value = CreateContactFlowVersionOutput()
         value.contactFlowArn = try reader["ContactFlowArn"].readIfPresent()
         value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateEmailAddressOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEmailAddressOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateEmailAddressOutput()
+        value.emailAddressArn = try reader["EmailAddressArn"].readIfPresent()
+        value.emailAddressId = try reader["EmailAddressId"].readIfPresent()
         return value
     }
 }
@@ -29626,6 +31375,13 @@ extension DeleteContactFlowModuleOutput {
     }
 }
 
+extension DeleteEmailAddressOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEmailAddressOutput {
+        return DeleteEmailAddressOutput()
+    }
+}
+
 extension DeleteEvaluationFormOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEvaluationFormOutput {
@@ -29835,6 +31591,25 @@ extension DescribeContactFlowModuleOutput {
         let reader = responseReader
         var value = DescribeContactFlowModuleOutput()
         value.contactFlowModule = try reader["ContactFlowModule"].readIfPresent(with: ConnectClientTypes.ContactFlowModule.read(from:))
+        return value
+    }
+}
+
+extension DescribeEmailAddressOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEmailAddressOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeEmailAddressOutput()
+        value.createTimestamp = try reader["CreateTimestamp"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.emailAddress = try reader["EmailAddress"].readIfPresent()
+        value.emailAddressArn = try reader["EmailAddressArn"].readIfPresent()
+        value.emailAddressId = try reader["EmailAddressId"].readIfPresent()
+        value.modifiedTimestamp = try reader["ModifiedTimestamp"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -30316,6 +32091,7 @@ extension GetTaskTemplateOutput {
         value.instanceId = try reader["InstanceId"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["Name"].readIfPresent() ?? ""
+        value.selfAssignFlowId = try reader["SelfAssignFlowId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -30386,6 +32162,19 @@ extension ListApprovedOriginsOutput {
         var value = ListApprovedOriginsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.origins = try reader["Origins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListAssociatedContactsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssociatedContactsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAssociatedContactsOutput()
+        value.contactSummaryList = try reader["ContactSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AssociatedContactSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -31090,6 +32879,20 @@ extension SearchContactsOutput {
     }
 }
 
+extension SearchEmailAddressesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchEmailAddressesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchEmailAddressesOutput()
+        value.approximateTotalCount = try reader["ApproximateTotalCount"].readIfPresent()
+        value.emailAddresses = try reader["EmailAddresses"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EmailAddressMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension SearchHoursOfOperationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchHoursOfOperationsOutput {
@@ -31255,6 +33058,13 @@ extension SendChatIntegrationEventOutput {
     }
 }
 
+extension SendOutboundEmailOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendOutboundEmailOutput {
+        return SendOutboundEmailOutput()
+    }
+}
+
 extension StartAttachedFileUploadOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAttachedFileUploadOutput {
@@ -31319,6 +33129,18 @@ extension StartContactStreamingOutput {
     }
 }
 
+extension StartEmailContactOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartEmailContactOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartEmailContactOutput()
+        value.contactId = try reader["ContactId"].readIfPresent()
+        return value
+    }
+}
+
 extension StartOutboundChatContactOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartOutboundChatContactOutput {
@@ -31326,6 +33148,18 @@ extension StartOutboundChatContactOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartOutboundChatContactOutput()
+        value.contactId = try reader["ContactId"].readIfPresent()
+        return value
+    }
+}
+
+extension StartOutboundEmailContactOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartOutboundEmailContactOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartOutboundEmailContactOutput()
         value.contactId = try reader["ContactId"].readIfPresent()
         return value
     }
@@ -31549,6 +33383,19 @@ extension UpdateContactScheduleOutput {
     }
 }
 
+extension UpdateEmailAddressMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEmailAddressMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateEmailAddressMetadataOutput()
+        value.emailAddressArn = try reader["EmailAddressArn"].readIfPresent()
+        value.emailAddressId = try reader["EmailAddressId"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateEvaluationFormOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEvaluationFormOutput {
@@ -31659,6 +33506,13 @@ extension UpdateQueueOutboundCallerConfigOutput {
     }
 }
 
+extension UpdateQueueOutboundEmailConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQueueOutboundEmailConfigOutput {
+        return UpdateQueueOutboundEmailConfigOutput()
+    }
+}
+
 extension UpdateQueueStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQueueStatusOutput {
@@ -31747,6 +33601,7 @@ extension UpdateTaskTemplateOutput {
         value.instanceId = try reader["InstanceId"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["Name"].readIfPresent()
+        value.selfAssignFlowId = try reader["SelfAssignFlowId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         return value
     }
@@ -32267,6 +34122,28 @@ enum CreateAgentStatusOutputError {
     }
 }
 
+enum CreateContactOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateContactFlowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -32325,6 +34202,29 @@ enum CreateContactFlowVersionOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateEmailAddressOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -32835,6 +34735,26 @@ enum DeleteContactFlowModuleOutputError {
     }
 }
 
+enum DeleteEmailAddressOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteEvaluationFormOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33275,6 +35195,25 @@ enum DescribeContactFlowOutputError {
 }
 
 enum DescribeContactFlowModuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeEmailAddressOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -34141,6 +36080,24 @@ enum ListAnalyticsDataAssociationsOutputError {
 }
 
 enum ListApprovedOriginsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAssociatedContactsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -35153,6 +37110,25 @@ enum SearchContactsOutputError {
     }
 }
 
+enum SearchEmailAddressesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SearchHoursOfOperationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35369,6 +37345,26 @@ enum SendChatIntegrationEventOutputError {
     }
 }
 
+enum SendOutboundEmailOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartAttachedFileUploadOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35460,6 +37456,26 @@ enum StartContactStreamingOutputError {
     }
 }
 
+enum StartEmailContactOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartOutboundChatContactOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35474,6 +37490,26 @@ enum StartOutboundChatContactOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartOutboundEmailContactOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -35958,6 +37994,26 @@ enum UpdateContactScheduleOutputError {
     }
 }
 
+enum UpdateEmailAddressMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateEvaluationFormOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -36191,6 +38247,26 @@ enum UpdateQueueOutboundCallerConfigOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateQueueOutboundEmailConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConditionalOperationFailedException": return try ConditionalOperationFailedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -36693,6 +38769,7 @@ extension ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent(with: ConnectClientTypes.ServiceQuotaExceededExceptionReason.read(from:))
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -36744,6 +38821,19 @@ extension DuplicateResourceException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DuplicateResourceException {
         let reader = baseError.errorBodyReader
         var value = DuplicateResourceException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -36872,19 +38962,6 @@ extension OutputTypeNotFoundException {
     }
 }
 
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension MaximumResultReturnedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MaximumResultReturnedException {
@@ -36929,6 +39006,19 @@ extension ContactNotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ContactNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ContactNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConditionalOperationFailedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConditionalOperationFailedException {
+        let reader = baseError.errorBodyReader
+        var value = ConditionalOperationFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -37149,6 +39239,7 @@ extension ConnectClientTypes.Contact {
         value.id = try reader["Id"].readIfPresent()
         value.initialContactId = try reader["InitialContactId"].readIfPresent()
         value.previousContactId = try reader["PreviousContactId"].readIfPresent()
+        value.contactAssociationId = try reader["ContactAssociationId"].readIfPresent()
         value.initiationMethod = try reader["InitiationMethod"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
@@ -37165,6 +39256,8 @@ extension ConnectClientTypes.Contact {
         value.scheduledTimestamp = try reader["ScheduledTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.relatedContactId = try reader["RelatedContactId"].readIfPresent()
         value.wisdomInfo = try reader["WisdomInfo"].readIfPresent(with: ConnectClientTypes.WisdomInfo.read(from:))
+        value.customerEndpoint = try reader["CustomerEndpoint"].readIfPresent(with: ConnectClientTypes.EndpointInfo.read(from:))
+        value.systemEndpoint = try reader["SystemEndpoint"].readIfPresent(with: ConnectClientTypes.EndpointInfo.read(from:))
         value.queueTimeAdjustmentSeconds = try reader["QueueTimeAdjustmentSeconds"].readIfPresent()
         value.queuePriority = try reader["QueuePriority"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -37176,6 +39269,7 @@ extension ConnectClientTypes.Contact {
         value.customerVoiceActivity = try reader["CustomerVoiceActivity"].readIfPresent(with: ConnectClientTypes.CustomerVoiceActivity.read(from:))
         value.qualityMetrics = try reader["QualityMetrics"].readIfPresent(with: ConnectClientTypes.QualityMetrics.read(from:))
         value.disconnectDetails = try reader["DisconnectDetails"].readIfPresent(with: ConnectClientTypes.DisconnectDetails.read(from:))
+        value.additionalEmailRecipients = try reader["AdditionalEmailRecipients"].readIfPresent(with: ConnectClientTypes.AdditionalEmailRecipients.read(from:))
         value.segmentAttributes = try reader["SegmentAttributes"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.SegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -37192,6 +39286,28 @@ extension ConnectClientTypes.SegmentAttributeValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.SegmentAttributeValue()
         value.valueString = try reader["ValueString"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.AdditionalEmailRecipients {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AdditionalEmailRecipients {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AdditionalEmailRecipients()
+        value.toList = try reader["ToList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EmailRecipient.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ccList = try reader["CcList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EmailRecipient.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.EmailRecipient {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EmailRecipient {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EmailRecipient()
+        value.address = try reader["Address"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
         return value
     }
 }
@@ -37417,6 +39533,18 @@ extension ConnectClientTypes.Expiry {
         var value = ConnectClientTypes.Expiry()
         value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
         value.expiryTimestamp = try reader["ExpiryTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConnectClientTypes.EndpointInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EndpointInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EndpointInfo()
+        value.type = try reader["Type"].readIfPresent()
+        value.address = try reader["Address"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
         return value
     }
 }
@@ -38291,12 +40419,28 @@ extension ConnectClientTypes.Queue {
         value.queueId = try reader["QueueId"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.outboundCallerConfig = try reader["OutboundCallerConfig"].readIfPresent(with: ConnectClientTypes.OutboundCallerConfig.read(from:))
+        value.outboundEmailConfig = try reader["OutboundEmailConfig"].readIfPresent(with: ConnectClientTypes.OutboundEmailConfig.read(from:))
         value.hoursOfOperationId = try reader["HoursOfOperationId"].readIfPresent()
         value.maxContacts = try reader["MaxContacts"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.OutboundEmailConfig {
+
+    static func write(value: ConnectClientTypes.OutboundEmailConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OutboundEmailAddressId"].write(value.outboundEmailAddressId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.OutboundEmailConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.OutboundEmailConfig()
+        value.outboundEmailAddressId = try reader["OutboundEmailAddressId"].readIfPresent()
         return value
     }
 }
@@ -38720,6 +40864,9 @@ extension ConnectClientTypes.Reference {
 
     static func write(value: ConnectClientTypes.Reference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["Status"].write(value.status)
+        try writer["StatusReason"].write(value.statusReason)
         try writer["Type"].write(value.type)
         try writer["Value"].write(value.value)
     }
@@ -38729,6 +40876,9 @@ extension ConnectClientTypes.Reference {
         var value = ConnectClientTypes.Reference()
         value.value = try reader["Value"].readIfPresent() ?? ""
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
         return value
     }
 }
@@ -39500,6 +41650,24 @@ extension ConnectClientTypes.AgentStatusSummary {
     }
 }
 
+extension ConnectClientTypes.AssociatedContactSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AssociatedContactSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AssociatedContactSummary()
+        value.contactId = try reader["ContactId"].readIfPresent()
+        value.contactArn = try reader["ContactArn"].readIfPresent()
+        value.initiationTimestamp = try reader["InitiationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.disconnectTimestamp = try reader["DisconnectTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.initialContactId = try reader["InitialContactId"].readIfPresent()
+        value.previousContactId = try reader["PreviousContactId"].readIfPresent()
+        value.relatedContactId = try reader["RelatedContactId"].readIfPresent()
+        value.initiationMethod = try reader["InitiationMethod"].readIfPresent()
+        value.channel = try reader["Channel"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.AuthenticationProfileSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AuthenticationProfileSummary {
@@ -39626,6 +41794,8 @@ extension ConnectClientTypes.ReferenceSummary {
                 return .url(try reader["Url"].read(with: ConnectClientTypes.UrlReference.read(from:)))
             case "Attachment":
                 return .attachment(try reader["Attachment"].read(with: ConnectClientTypes.AttachmentReference.read(from:)))
+            case "EmailMessage":
+                return .emailmessage(try reader["EmailMessage"].read(with: ConnectClientTypes.EmailMessageReference.read(from:)))
             case "String":
                 return .string(try reader["String"].read(with: ConnectClientTypes.StringReference.read(from:)))
             case "Number":
@@ -39684,6 +41854,17 @@ extension ConnectClientTypes.StringReference {
     }
 }
 
+extension ConnectClientTypes.EmailMessageReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EmailMessageReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EmailMessageReference()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.AttachmentReference {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AttachmentReference {
@@ -39692,6 +41873,7 @@ extension ConnectClientTypes.AttachmentReference {
         value.name = try reader["Name"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -40345,6 +42527,17 @@ extension ConnectClientTypes.ContactSearchSummary {
         value.initiationTimestamp = try reader["InitiationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.disconnectTimestamp = try reader["DisconnectTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.scheduledTimestamp = try reader["ScheduledTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.segmentAttributes = try reader["SegmentAttributes"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.ContactSearchSummarySegmentAttributeValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactSearchSummarySegmentAttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactSearchSummarySegmentAttributeValue()
+        value.valueString = try reader["ValueString"].readIfPresent()
         return value
     }
 }
@@ -40367,6 +42560,20 @@ extension ConnectClientTypes.ContactSearchSummaryQueueInfo {
         var value = ConnectClientTypes.ContactSearchSummaryQueueInfo()
         value.id = try reader["Id"].readIfPresent()
         value.enqueueTimestamp = try reader["EnqueueTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConnectClientTypes.EmailAddressMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EmailAddressMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EmailAddressMetadata()
+        value.emailAddressId = try reader["EmailAddressId"].readIfPresent()
+        value.emailAddressArn = try reader["EmailAddressArn"].readIfPresent()
+        value.emailAddress = try reader["EmailAddress"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
         return value
     }
 }
@@ -40538,6 +42745,20 @@ extension ConnectClientTypes.InvalidRequestExceptionReason {
     }
 }
 
+extension ConnectClientTypes.ServiceQuotaExceededExceptionReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ServiceQuotaExceededExceptionReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "AttachedFileServiceQuotaExceededExceptionReason":
+                return .attachedfileservicequotaexceededexceptionreason(try reader["AttachedFileServiceQuotaExceededExceptionReason"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension ConnectClientTypes.ProblemDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ProblemDetail {
@@ -40598,6 +42819,14 @@ extension ConnectClientTypes.Endpoint {
         guard let value else { return }
         try writer["Address"].write(value.address)
         try writer["Type"].write(value.type)
+    }
+}
+
+extension ConnectClientTypes.UserInfo {
+
+    static func write(value: ConnectClientTypes.UserInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UserId"].write(value.userId)
     }
 }
 
@@ -40811,6 +43040,25 @@ extension ConnectClientTypes.SearchCriteria {
         try writer["InitiationMethods"].writeList(value.initiationMethods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.ContactInitiationMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["QueueIds"].writeList(value.queueIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SearchableContactAttributes"].write(value.searchableContactAttributes, with: ConnectClientTypes.SearchableContactAttributes.write(value:to:))
+        try writer["SearchableSegmentAttributes"].write(value.searchableSegmentAttributes, with: ConnectClientTypes.SearchableSegmentAttributes.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.SearchableSegmentAttributes {
+
+    static func write(value: ConnectClientTypes.SearchableSegmentAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Criteria"].writeList(value.criteria, memberWritingClosure: ConnectClientTypes.SearchableSegmentAttributesCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MatchType"].write(value.matchType)
+    }
+}
+
+extension ConnectClientTypes.SearchableSegmentAttributesCriteria {
+
+    static func write(value: ConnectClientTypes.SearchableSegmentAttributesCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -40877,6 +43125,24 @@ extension ConnectClientTypes.Sort {
         guard let value else { return }
         try writer["FieldName"].write(value.fieldName)
         try writer["Order"].write(value.order)
+    }
+}
+
+extension ConnectClientTypes.EmailAddressSearchCriteria {
+
+    static func write(value: ConnectClientTypes.EmailAddressSearchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.EmailAddressSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.EmailAddressSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.EmailAddressSearchFilter {
+
+    static func write(value: ConnectClientTypes.EmailAddressSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TagFilter"].write(value.tagFilter, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
     }
 }
 
@@ -41152,6 +43418,71 @@ extension ConnectClientTypes.ParticipantDetails {
     }
 }
 
+extension ConnectClientTypes.EmailAddressInfo {
+
+    static func write(value: ConnectClientTypes.EmailAddressInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DisplayName"].write(value.displayName)
+        try writer["EmailAddress"].write(value.emailAddress)
+    }
+}
+
+extension ConnectClientTypes.OutboundAdditionalRecipients {
+
+    static func write(value: ConnectClientTypes.OutboundAdditionalRecipients?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CcEmailAddresses"].writeList(value.ccEmailAddresses, memberWritingClosure: ConnectClientTypes.EmailAddressInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectClientTypes.OutboundEmailContent {
+
+    static func write(value: ConnectClientTypes.OutboundEmailContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MessageSourceType"].write(value.messageSourceType)
+        try writer["RawMessage"].write(value.rawMessage, with: ConnectClientTypes.OutboundRawMessage.write(value:to:))
+        try writer["TemplatedMessageConfig"].write(value.templatedMessageConfig, with: ConnectClientTypes.TemplatedMessageConfig.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.OutboundRawMessage {
+
+    static func write(value: ConnectClientTypes.OutboundRawMessage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+        try writer["ContentType"].write(value.contentType)
+        try writer["Subject"].write(value.subject)
+    }
+}
+
+extension ConnectClientTypes.TemplatedMessageConfig {
+
+    static func write(value: ConnectClientTypes.TemplatedMessageConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KnowledgeBaseId"].write(value.knowledgeBaseId)
+        try writer["MessageTemplateId"].write(value.messageTemplateId)
+        try writer["TemplateAttributes"].write(value.templateAttributes, with: ConnectClientTypes.TemplateAttributes.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.TemplateAttributes {
+
+    static func write(value: ConnectClientTypes.TemplateAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomAttributes"].writeMap(value.customAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["CustomerProfileAttributes"].write(value.customerProfileAttributes)
+    }
+}
+
+extension ConnectClientTypes.SourceCampaign {
+
+    static func write(value: ConnectClientTypes.SourceCampaign?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CampaignId"].write(value.campaignId)
+        try writer["OutboundRequestId"].write(value.outboundRequestId)
+    }
+}
+
 extension ConnectClientTypes.ChatMessage {
 
     static func write(value: ConnectClientTypes.ChatMessage?, to writer: SmithyJSON.Writer) throws {
@@ -41175,6 +43506,44 @@ extension ConnectClientTypes.VoiceRecordingConfiguration {
     static func write(value: ConnectClientTypes.VoiceRecordingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["VoiceRecordingTrack"].write(value.voiceRecordingTrack)
+    }
+}
+
+extension ConnectClientTypes.InboundEmailContent {
+
+    static func write(value: ConnectClientTypes.InboundEmailContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MessageSourceType"].write(value.messageSourceType)
+        try writer["RawMessage"].write(value.rawMessage, with: ConnectClientTypes.InboundRawMessage.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.InboundRawMessage {
+
+    static func write(value: ConnectClientTypes.InboundRawMessage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+        try writer["ContentType"].write(value.contentType)
+        try writer["Headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Subject"].write(value.subject)
+    }
+}
+
+extension ConnectClientTypes.InboundAdditionalRecipients {
+
+    static func write(value: ConnectClientTypes.InboundAdditionalRecipients?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CcAddresses"].writeList(value.ccAddresses, memberWritingClosure: ConnectClientTypes.EmailAddressInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ToAddresses"].writeList(value.toAddresses, memberWritingClosure: ConnectClientTypes.EmailAddressInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectClientTypes.EmailAttachment {
+
+    static func write(value: ConnectClientTypes.EmailAttachment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileName"].write(value.fileName)
+        try writer["S3Url"].write(value.s3Url)
     }
 }
 

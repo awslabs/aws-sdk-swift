@@ -970,6 +970,28 @@ public struct ConfigurationSetSendingPausedException: ClientRuntime.ModeledError
     }
 }
 
+extension SESClientTypes {
+
+    /// When included in a receipt rule, this action parses the received message and starts an email contact in Amazon Connect on your behalf. When you receive emails, the maximum email size (including headers) is 40 MB. Additionally, emails may only have up to 10 attachments. Emails larger than 40 MB or with more than 10 attachments will be bounced. We recommend that you configure this action via Amazon Connect.
+    public struct ConnectAction: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM role to be used by Amazon Simple Email Service while starting email contacts to the Amazon Connect instance. This role should have permission to invoke connect:StartEmailContact for the given Amazon Connect instance.
+        /// This member is required.
+        public var iamRoleARN: Swift.String?
+        /// The Amazon Resource Name (ARN) for the Amazon Connect instance that Amazon SES integrates with for starting email contacts. For more information about Amazon Connect instances, see the [Amazon Connect Administrator Guide](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-instances.html)
+        /// This member is required.
+        public var instanceARN: Swift.String?
+
+        public init(
+            iamRoleARN: Swift.String? = nil,
+            instanceARN: Swift.String? = nil
+        )
+        {
+            self.iamRoleARN = iamRoleARN
+            self.instanceARN = instanceARN
+        }
+    }
+}
+
 /// Indicates that the configuration set is invalid. See the error message for details.
 public struct InvalidConfigurationSetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1810,14 +1832,14 @@ extension SESClientTypes {
         ///
         /// If an IAM role ARN is provided, the role (and only the role) is used to access all the given resources (Amazon S3 bucket, Amazon Web Services KMS customer managed key and Amazon SNS topic). Therefore, setting up individual resource access permissions is not required.
         public var iamRoleArn: Swift.String?
-        /// The customer managed key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default managed key or a custom managed key that you created in Amazon Web Services KMS as follows:
+        /// The customer managed key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the Amazon Web Services managed key or a customer managed key that you created in Amazon Web Services KMS as follows:
         ///
-        /// * To use the default managed key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your Amazon Web Services account ID is 123456789012 and you want to use the default managed key in the US West (Oregon) Region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the default managed key, you don't need to perform any extra steps to give Amazon SES permission to use the key.
+        /// * To use the Amazon Web Services managed key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses. For example, if your Amazon Web Services account ID is 123456789012 and you want to use the Amazon Web Services managed key in the US West (Oregon) Region, the ARN of the Amazon Web Services managed key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses. If you use the Amazon Web Services managed key, you don't need to perform any extra steps to give Amazon SES permission to use the key.
         ///
-        /// * To use a custom managed key that you created in Amazon Web Services KMS, provide the ARN of the managed key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html).
+        /// * To use a customer managed key that you created in Amazon Web Services KMS, provide the ARN of the customer managed key and ensure that you add a statement to your key's policy to give Amazon SES permission to use it. For more information about giving permissions, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html).
         ///
         ///
-        /// For more information about key policies, see the [Amazon Web Services KMS Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html). If you do not specify a managed key, Amazon SES does not encrypt your emails. Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your Amazon Web Services KMS keys for decryption. This encryption client is currently available with the [Amazon Web Services SDK for Java](http://aws.amazon.com/sdk-for-java/) and [Amazon Web Services SDK for Ruby](http://aws.amazon.com/sdk-for-ruby/) only. For more information about client-side encryption using Amazon Web Services KMS managed keys, see the [Amazon S3 Developer Guide](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html).
+        /// For more information about key policies, see the [Amazon Web Services KMS Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html). If you do not specify an Amazon Web Services KMS key, Amazon SES does not encrypt your emails. Your mail is encrypted by Amazon SES using the Amazon S3 encryption client before the mail is submitted to Amazon S3 for storage. It is not encrypted using Amazon S3 server-side encryption. This means that you must use the Amazon S3 encryption client to decrypt the email after retrieving it from Amazon S3, as the service has no access to use your Amazon Web Services KMS keys for decryption. This encryption client is currently available with the [Amazon Web Services SDK for Java](http://aws.amazon.com/sdk-for-java/) and [Amazon Web Services SDK for Ruby](http://aws.amazon.com/sdk-for-ruby/) only. For more information about client-side encryption using Amazon Web Services KMS managed keys, see the [Amazon S3 Developer Guide](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html).
         public var kmsKeyArn: Swift.String?
         /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a directory name that enables you to store similar data under the same directory in a bucket.
         public var objectKeyPrefix: Swift.String?
@@ -1967,6 +1989,8 @@ extension SESClientTypes {
         public var addHeaderAction: SESClientTypes.AddHeaderAction?
         /// Rejects the received email by returning a bounce response to the sender and, optionally, publishes a notification to Amazon Simple Notification Service (Amazon SNS).
         public var bounceAction: SESClientTypes.BounceAction?
+        /// Parses the received message and starts an email contact in Amazon Connect on your behalf.
+        public var connectAction: SESClientTypes.ConnectAction?
         /// Calls an Amazon Web Services Lambda function, and optionally, publishes a notification to Amazon SNS.
         public var lambdaAction: SESClientTypes.LambdaAction?
         /// Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
@@ -1981,6 +2005,7 @@ extension SESClientTypes {
         public init(
             addHeaderAction: SESClientTypes.AddHeaderAction? = nil,
             bounceAction: SESClientTypes.BounceAction? = nil,
+            connectAction: SESClientTypes.ConnectAction? = nil,
             lambdaAction: SESClientTypes.LambdaAction? = nil,
             s3Action: SESClientTypes.S3Action? = nil,
             snsAction: SESClientTypes.SNSAction? = nil,
@@ -1990,6 +2015,7 @@ extension SESClientTypes {
         {
             self.addHeaderAction = addHeaderAction
             self.bounceAction = bounceAction
+            self.connectAction = connectAction
             self.lambdaAction = lambdaAction
             self.s3Action = s3Action
             self.snsAction = snsAction
@@ -8230,6 +8256,7 @@ extension SESClientTypes.ReceiptAction {
         guard let value else { return }
         try writer["AddHeaderAction"].write(value.addHeaderAction, with: SESClientTypes.AddHeaderAction.write(value:to:))
         try writer["BounceAction"].write(value.bounceAction, with: SESClientTypes.BounceAction.write(value:to:))
+        try writer["ConnectAction"].write(value.connectAction, with: SESClientTypes.ConnectAction.write(value:to:))
         try writer["LambdaAction"].write(value.lambdaAction, with: SESClientTypes.LambdaAction.write(value:to:))
         try writer["S3Action"].write(value.s3Action, with: SESClientTypes.S3Action.write(value:to:))
         try writer["SNSAction"].write(value.snsAction, with: SESClientTypes.SNSAction.write(value:to:))
@@ -8247,6 +8274,24 @@ extension SESClientTypes.ReceiptAction {
         value.stopAction = try reader["StopAction"].readIfPresent(with: SESClientTypes.StopAction.read(from:))
         value.addHeaderAction = try reader["AddHeaderAction"].readIfPresent(with: SESClientTypes.AddHeaderAction.read(from:))
         value.snsAction = try reader["SNSAction"].readIfPresent(with: SESClientTypes.SNSAction.read(from:))
+        value.connectAction = try reader["ConnectAction"].readIfPresent(with: SESClientTypes.ConnectAction.read(from:))
+        return value
+    }
+}
+
+extension SESClientTypes.ConnectAction {
+
+    static func write(value: SESClientTypes.ConnectAction?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["IAMRoleARN"].write(value.iamRoleARN)
+        try writer["InstanceARN"].write(value.instanceARN)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ConnectAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.ConnectAction()
+        value.instanceARN = try reader["InstanceARN"].readIfPresent() ?? ""
+        value.iamRoleARN = try reader["IAMRoleARN"].readIfPresent() ?? ""
         return value
     }
 }

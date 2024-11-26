@@ -4832,6 +4832,8 @@ extension AutoScalingClientTypes {
         /// The metric to use.
         /// This member is required.
         public var metric: AutoScalingClientTypes.Metric?
+        /// The period of the metric in seconds. The default value is 60. Accepted values are 10, 30, and 60. For high resolution metric, set the value to less than 60. For more information, see [Create a target tracking policy using high-resolution metrics for faster response](https://docs.aws.amazon.com/autoscaling/ec2/userguide/policy-creating-high-resolution-metrics.html).
+        public var period: Swift.Int?
         /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in [Statistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic) in the Amazon CloudWatch User Guide. The most commonly used metric for scaling is Average.
         /// This member is required.
         public var stat: Swift.String?
@@ -4840,11 +4842,13 @@ extension AutoScalingClientTypes {
 
         public init(
             metric: AutoScalingClientTypes.Metric? = nil,
+            period: Swift.Int? = nil,
             stat: Swift.String? = nil,
             unit: Swift.String? = nil
         )
         {
             self.metric = metric
+            self.period = period
             self.stat = stat
             self.unit = unit
         }
@@ -4864,6 +4868,8 @@ extension AutoScalingClientTypes {
         public var label: Swift.String?
         /// Information about the metric data to return. Conditional: Within each TargetTrackingMetricDataQuery object, you must specify either Expression or MetricStat, but not both.
         public var metricStat: AutoScalingClientTypes.TargetTrackingMetricStat?
+        /// The period of the metric in seconds. The default value is 60. Accepted values are 10, 30, and 60. For high resolution metric, set the value to less than 60. For more information, see [Create a target tracking policy using high-resolution metrics for faster response](https://docs.aws.amazon.com/autoscaling/ec2/userguide/policy-creating-high-resolution-metrics.html).
+        public var period: Swift.Int?
         /// Indicates whether to return the timestamps and raw data values of this metric. If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
         public var returnData: Swift.Bool?
 
@@ -4872,6 +4878,7 @@ extension AutoScalingClientTypes {
             id: Swift.String? = nil,
             label: Swift.String? = nil,
             metricStat: AutoScalingClientTypes.TargetTrackingMetricStat? = nil,
+            period: Swift.Int? = nil,
             returnData: Swift.Bool? = nil
         )
         {
@@ -4879,6 +4886,7 @@ extension AutoScalingClientTypes {
             self.id = id
             self.label = label
             self.metricStat = metricStat
+            self.period = period
             self.returnData = returnData
         }
     }
@@ -4941,6 +4949,8 @@ extension AutoScalingClientTypes {
         public var metrics: [AutoScalingClientTypes.TargetTrackingMetricDataQuery]?
         /// The namespace of the metric.
         public var namespace: Swift.String?
+        /// The period of the metric in seconds. The default value is 60. Accepted values are 10, 30, and 60. For high resolution metric, set the value to less than 60. For more information, see [Create a target tracking policy using high-resolution metrics for faster response](https://docs.aws.amazon.com/autoscaling/ec2/userguide/policy-creating-high-resolution-metrics.html).
+        public var period: Swift.Int?
         /// The statistic of the metric.
         public var statistic: AutoScalingClientTypes.MetricStatistic?
         /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
@@ -4951,6 +4961,7 @@ extension AutoScalingClientTypes {
             metricName: Swift.String? = nil,
             metrics: [AutoScalingClientTypes.TargetTrackingMetricDataQuery]? = nil,
             namespace: Swift.String? = nil,
+            period: Swift.Int? = nil,
             statistic: AutoScalingClientTypes.MetricStatistic? = nil,
             unit: Swift.String? = nil
         )
@@ -4959,6 +4970,7 @@ extension AutoScalingClientTypes {
             self.metricName = metricName
             self.metrics = metrics
             self.namespace = namespace
+            self.period = period
             self.statistic = statistic
             self.unit = unit
         }
@@ -10965,6 +10977,7 @@ extension AutoScalingClientTypes.CustomizedMetricSpecification {
         try writer["MetricName"].write(value.metricName)
         try writer["Metrics"].writeList(value.metrics, memberWritingClosure: AutoScalingClientTypes.TargetTrackingMetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Namespace"].write(value.namespace)
+        try writer["Period"].write(value.period)
         try writer["Statistic"].write(value.statistic)
         try writer["Unit"].write(value.unit)
     }
@@ -10977,6 +10990,7 @@ extension AutoScalingClientTypes.CustomizedMetricSpecification {
         value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.MetricDimension.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.statistic = try reader["Statistic"].readIfPresent()
         value.unit = try reader["Unit"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
         value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.TargetTrackingMetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -10990,6 +11004,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricDataQuery {
         try writer["Id"].write(value.id)
         try writer["Label"].write(value.label)
         try writer["MetricStat"].write(value.metricStat, with: AutoScalingClientTypes.TargetTrackingMetricStat.write(value:to:))
+        try writer["Period"].write(value.period)
         try writer["ReturnData"].write(value.returnData)
     }
 
@@ -11000,6 +11015,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricDataQuery {
         value.expression = try reader["Expression"].readIfPresent()
         value.metricStat = try reader["MetricStat"].readIfPresent(with: AutoScalingClientTypes.TargetTrackingMetricStat.read(from:))
         value.label = try reader["Label"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
         value.returnData = try reader["ReturnData"].readIfPresent()
         return value
     }
@@ -11010,6 +11026,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricStat {
     static func write(value: AutoScalingClientTypes.TargetTrackingMetricStat?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Metric"].write(value.metric, with: AutoScalingClientTypes.Metric.write(value:to:))
+        try writer["Period"].write(value.period)
         try writer["Stat"].write(value.stat)
         try writer["Unit"].write(value.unit)
     }
@@ -11020,6 +11037,7 @@ extension AutoScalingClientTypes.TargetTrackingMetricStat {
         value.metric = try reader["Metric"].readIfPresent(with: AutoScalingClientTypes.Metric.read(from:))
         value.stat = try reader["Stat"].readIfPresent() ?? ""
         value.unit = try reader["Unit"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
         return value
     }
 }

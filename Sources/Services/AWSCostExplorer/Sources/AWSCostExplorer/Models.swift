@@ -109,17 +109,17 @@ extension CostExplorerClientTypes {
         public var estimatedAverageCoverage: Swift.String?
         /// The estimated utilization of the Savings Plan.
         public var estimatedAverageUtilization: Swift.String?
-        /// The estimated cost of the purchase commitment over the length of the lookback period.
+        /// The estimated cost of the Savings Plan over the length of the lookback period.
         public var estimatedCommitmentCost: Swift.String?
         /// The estimated monthly savings amount based on the Savings Plan.
         public var estimatedMonthlySavingsAmount: Swift.String?
-        /// The remaining On-Demand cost estimated to not be covered by the commitment, over the length of the lookback period.
+        /// The remaining On-Demand cost estimated to not be covered by the Savings Plan over the length of the lookback period.
         public var estimatedOnDemandCost: Swift.String?
-        /// The estimated On-Demand cost you expect with no additional commitment, based on your usage of the selected time period and the Savings Plan you own.
+        /// The estimated On-Demand cost you expect with no additional commitment based on your usage of the selected time period and the Savings Plan you own.
         public var estimatedOnDemandCostWithCurrentCommitment: Swift.String?
-        /// The estimated return on investment that's based on the purchase commitment and estimated savings. This is calculated as estimatedSavingsAmount/estimatedSPCost*100.
+        /// The estimated return on investment that's based on the Savings Plan and estimated savings. This is calculated as estimatedSavingsAmount/estimatedSPCost*100.
         public var estimatedROI: Swift.String?
-        /// The estimated savings amount that's based on the purchase commitment over the length of the lookback period.
+        /// The estimated savings amount that's based on the Savings Plan over the length of the lookback period.
         public var estimatedSavingsAmount: Swift.String?
         /// The estimated savings percentage relative to the total cost over the cost calculation lookback period.
         public var estimatedSavingsPercentage: Swift.String?
@@ -133,7 +133,7 @@ extension CostExplorerClientTypes {
         public var lookbackPeriodInHours: Swift.String?
         /// The related hourly cost, coverage, and utilization metrics over the lookback period.
         public var metricsOverLookbackPeriod: [CostExplorerClientTypes.RecommendationDetailHourlyMetrics]?
-        /// The upfront cost of the Savings Plan, based on the selected payment option.
+        /// The upfront cost of the Savings Plan based on the selected payment option.
         public var upfrontCost: Swift.String?
 
         public init(
@@ -418,7 +418,7 @@ extension CostExplorerClientTypes {
     public struct SavingsPlans: Swift.Sendable {
         /// The instance family of the Savings Plans commitment.
         public var instanceFamily: Swift.String?
-        /// The unique ID that's used to distinguish commitments from one another.
+        /// The unique ID that's used to distinguish Savings Plans commitments from one another.
         public var offeringId: Swift.String?
         /// The payment option for the Savings Plans commitment.
         public var paymentOption: CostExplorerClientTypes.PaymentOption?
@@ -551,13 +551,13 @@ extension CostExplorerClientTypes {
     public struct AnalysisSummary: Swift.Sendable {
         /// The completion time of the analysis.
         public var analysisCompletionTime: Swift.String?
-        /// The analysis ID that's associated with the commitment purchase.
+        /// The analysis ID that's associated with the commitment purchase analysis.
         public var analysisId: Swift.String?
         /// The start time of the analysis.
         public var analysisStartedTime: Swift.String?
         /// The status of the analysis.
         public var analysisStatus: CostExplorerClientTypes.AnalysisStatus?
-        /// The analysis configuration for the commitment purchase analysis.
+        /// The configuration for the commitment purchase analysis.
         public var commitmentPurchaseAnalysisConfiguration: CostExplorerClientTypes.CommitmentPurchaseAnalysisConfiguration?
         /// The error code used for the analysis.
         public var errorCode: CostExplorerClientTypes.ErrorCode?
@@ -674,8 +674,27 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes {
 
-    /// The combination of Amazon Web Services service, linked account, linked account name, Region, and usage type where a cost anomaly is observed. The linked account name will only be available when the account name can be identified.
+    /// The dollar value of the root cause.
+    public struct RootCauseImpact: Swift.Sendable {
+        /// The dollar amount that this root cause contributed to the anomaly's TotalImpact.
+        /// This member is required.
+        public var contribution: Swift.Double
+
+        public init(
+            contribution: Swift.Double = 0.0
+        )
+        {
+            self.contribution = contribution
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// The combination of Amazon Web Services service, linked account, linked account name, Region, and usage type where a cost anomaly is observed, along with the dollar and percentage amount of the anomaly impact. The linked account name will only be available when the account name can be identified.
     public struct RootCause: Swift.Sendable {
+        /// The dollar impact for the root cause.
+        public var impact: CostExplorerClientTypes.RootCauseImpact?
         /// The member account value that's associated with the cost anomaly.
         public var linkedAccount: Swift.String?
         /// The member account name value that's associated with the cost anomaly.
@@ -688,6 +707,7 @@ extension CostExplorerClientTypes {
         public var usageType: Swift.String?
 
         public init(
+            impact: CostExplorerClientTypes.RootCauseImpact? = nil,
             linkedAccount: Swift.String? = nil,
             linkedAccountName: Swift.String? = nil,
             region: Swift.String? = nil,
@@ -695,6 +715,7 @@ extension CostExplorerClientTypes {
             usageType: Swift.String? = nil
         )
         {
+            self.impact = impact
             self.linkedAccount = linkedAccount
             self.linkedAccountName = linkedAccountName
             self.region = region
@@ -3235,11 +3256,11 @@ extension CostExplorerClientTypes {
         public var averageNumberOfCapacityUnitsUsedPerHour: Swift.String?
         /// The average number of instances that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public var averageNumberOfInstancesUsedPerHour: Swift.String?
-        /// The average utilization of your recommendations. Amazon Web Services uses this to calculate your recommended reservation purchases.
+        /// The average utilization of your instances. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public var averageUtilization: Swift.String?
-        /// The currency code that Amazon Web Services used to calculate the costs for this recommendation.
+        /// The currency code that Amazon Web Services used to calculate the costs for this instance.
         public var currencyCode: Swift.String?
-        /// How long Amazon Web Services estimates that it takes for this recommendation to start saving you money, in months.
+        /// How long Amazon Web Services estimates that it takes for this instance to start saving you money, in months.
         public var estimatedBreakEvenInMonths: Swift.String?
         /// How much Amazon Web Services estimates that you spend on On-Demand Instances in a month.
         public var estimatedMonthlyOnDemandCost: Swift.String?
@@ -3269,11 +3290,11 @@ extension CostExplorerClientTypes {
         public var recommendedNumberOfCapacityUnitsToPurchase: Swift.String?
         /// The number of instances that Amazon Web Services recommends that you purchase.
         public var recommendedNumberOfInstancesToPurchase: Swift.String?
-        /// How much purchasing this recommendation costs you on a monthly basis.
+        /// How much purchasing this instance costs you on a monthly basis.
         public var recurringStandardMonthlyCost: Swift.String?
         /// Details about the reservations that Amazon Web Services recommends that you purchase.
         public var reservedCapacityDetails: CostExplorerClientTypes.ReservedCapacityDetails?
-        /// How much purchasing this recommendation costs you upfront.
+        /// How much purchasing this instance costs you upfront.
         public var upfrontCost: Swift.String?
 
         public init(
@@ -5496,7 +5517,7 @@ public struct ProvideAnomalyFeedbackOutput: Swift.Sendable {
     }
 }
 
-/// A request to generate a recommendation is already in progress.
+/// A request to generate a recommendation or analysis is already in progress.
 public struct GenerationExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -6096,7 +6117,7 @@ extension CostExplorerClientTypes {
     public struct CostCategoryRule: Swift.Sendable {
         /// The value the line item is categorized as if the line item contains the matched dimension.
         public var inheritedValue: CostExplorerClientTypes.CostCategoryInheritedValueDimension?
-        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, LINKED_ACCOUNT_NAME, REGION, USAGE_TYPE, and BILLING_ENTITY. RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see [Term Comparisons](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms) in the Billing and Cost Management User Guide.
+        /// An [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html) object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, LINKED_ACCOUNT_NAME, REGION, and USAGE_TYPE. RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see [Term Comparisons](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms) in the Billing and Cost Management User Guide.
         public var rule: CostExplorerClientTypes.Expression?
         /// You can define the CostCategoryRule rule type as either REGULAR or INHERITED_VALUE. The INHERITED_VALUE rule type adds the flexibility to define a rule that dynamically inherits the cost category value. This value is from the dimension value that's defined by CostCategoryInheritedValueDimension. For example, suppose that you want to costs to be dynamically grouped based on the value of a specific tag key. First, choose an inherited value rule type, and then choose the tag dimension and specify the tag key to use.
         public var type: CostExplorerClientTypes.CostCategoryRuleType?
@@ -10147,8 +10168,19 @@ extension CostExplorerClientTypes.RootCause {
         value.service = try reader["Service"].readIfPresent()
         value.region = try reader["Region"].readIfPresent()
         value.linkedAccount = try reader["LinkedAccount"].readIfPresent()
-        value.usageType = try reader["UsageType"].readIfPresent()
         value.linkedAccountName = try reader["LinkedAccountName"].readIfPresent()
+        value.usageType = try reader["UsageType"].readIfPresent()
+        value.impact = try reader["Impact"].readIfPresent(with: CostExplorerClientTypes.RootCauseImpact.read(from:))
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.RootCauseImpact {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.RootCauseImpact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.RootCauseImpact()
+        value.contribution = try reader["Contribution"].readIfPresent() ?? 0
         return value
     }
 }

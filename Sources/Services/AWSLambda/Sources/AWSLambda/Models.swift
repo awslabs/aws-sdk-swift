@@ -1121,6 +1121,26 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    /// The [ Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode) configuration for the event source. Use Provisioned Mode to customize the minimum and maximum number of event pollers for your event source. An event poller is a compute unit that provides approximately 5 MBps of throughput.
+    public struct ProvisionedPollerConfig: Swift.Sendable {
+        /// The maximum number of event pollers this event source can scale up to.
+        public var maximumPollers: Swift.Int?
+        /// The minimum number of event pollers this event source can scale down to.
+        public var minimumPollers: Swift.Int?
+
+        public init(
+            maximumPollers: Swift.Int? = nil,
+            minimumPollers: Swift.Int? = nil
+        )
+        {
+            self.maximumPollers = maximumPollers
+            self.minimumPollers = minimumPollers
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
     /// (Amazon SQS only) The scaling configuration for the event source. To remove the configuration, pass an empty value.
     public struct ScalingConfig: Swift.Sendable {
         /// Limits the number of concurrent instances that the Amazon SQS event source can invoke.
@@ -1381,6 +1401,8 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -1419,6 +1441,7 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
         maximumRetryAttempts: Swift.Int? = nil,
         metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -1447,6 +1470,7 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.queues = queues
         self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
@@ -1520,6 +1544,8 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -1565,6 +1591,7 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
         maximumRetryAttempts: Swift.Int? = nil,
         metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -1598,6 +1625,7 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.queues = queues
         self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
@@ -3311,6 +3339,8 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -3356,6 +3386,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
         maximumRetryAttempts: Swift.Int? = nil,
         metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -3389,6 +3420,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.queues = queues
         self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
@@ -3731,6 +3763,8 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -3776,6 +3810,7 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
         maximumRetryAttempts: Swift.Int? = nil,
         metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -3809,6 +3844,7 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.queues = queues
         self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
@@ -6207,6 +6243,8 @@ extension LambdaClientTypes {
         public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public var parallelizationFactor: Swift.Int?
+        /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+        public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
         /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
         public var queues: [Swift.String]?
         /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -6252,6 +6290,7 @@ extension LambdaClientTypes {
             maximumRetryAttempts: Swift.Int? = nil,
             metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
             parallelizationFactor: Swift.Int? = nil,
+            provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
             queues: [Swift.String]? = nil,
             scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
             selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -6285,6 +6324,7 @@ extension LambdaClientTypes {
             self.maximumRetryAttempts = maximumRetryAttempts
             self.metricsConfig = metricsConfig
             self.parallelizationFactor = parallelizationFactor
+            self.provisionedPollerConfig = provisionedPollerConfig
             self.queues = queues
             self.scalingConfig = scalingConfig
             self.selfManagedEventSource = selfManagedEventSource
@@ -7845,6 +7885,8 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
     public var scalingConfig: LambdaClientTypes.ScalingConfig?
     /// An array of authentication protocols or VPC components required to secure your event source.
@@ -7870,6 +7912,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         maximumRetryAttempts: Swift.Int? = nil,
         metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil,
@@ -7890,6 +7933,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.scalingConfig = scalingConfig
         self.sourceAccessConfigurations = sourceAccessConfigurations
         self.tumblingWindowInSeconds = tumblingWindowInSeconds
@@ -7937,6 +7981,8 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -7982,6 +8028,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
         maximumRetryAttempts: Swift.Int? = nil,
         metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -8015,6 +8062,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.queues = queues
         self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
@@ -10025,6 +10073,7 @@ extension CreateEventSourceMappingInput {
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
         try writer["MetricsConfig"].write(value.metricsConfig, with: LambdaClientTypes.EventSourceMappingMetricsConfig.write(value:to:))
         try writer["ParallelizationFactor"].write(value.parallelizationFactor)
+        try writer["ProvisionedPollerConfig"].write(value.provisionedPollerConfig, with: LambdaClientTypes.ProvisionedPollerConfig.write(value:to:))
         try writer["Queues"].writeList(value.queues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ScalingConfig"].write(value.scalingConfig, with: LambdaClientTypes.ScalingConfig.write(value:to:))
         try writer["SelfManagedEventSource"].write(value.selfManagedEventSource, with: LambdaClientTypes.SelfManagedEventSource.write(value:to:))
@@ -10223,6 +10272,7 @@ extension UpdateEventSourceMappingInput {
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
         try writer["MetricsConfig"].write(value.metricsConfig, with: LambdaClientTypes.EventSourceMappingMetricsConfig.write(value:to:))
         try writer["ParallelizationFactor"].write(value.parallelizationFactor)
+        try writer["ProvisionedPollerConfig"].write(value.provisionedPollerConfig, with: LambdaClientTypes.ProvisionedPollerConfig.write(value:to:))
         try writer["ScalingConfig"].write(value.scalingConfig, with: LambdaClientTypes.ScalingConfig.write(value:to:))
         try writer["SourceAccessConfigurations"].writeList(value.sourceAccessConfigurations, memberWritingClosure: LambdaClientTypes.SourceAccessConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TumblingWindowInSeconds"].write(value.tumblingWindowInSeconds)
@@ -10371,6 +10421,7 @@ extension CreateEventSourceMappingOutput {
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
         value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.selfManagedEventSource = try reader["SelfManagedEventSource"].readIfPresent(with: LambdaClientTypes.SelfManagedEventSource.read(from:))
@@ -10491,6 +10542,7 @@ extension DeleteEventSourceMappingOutput {
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
         value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.selfManagedEventSource = try reader["SelfManagedEventSource"].readIfPresent(with: LambdaClientTypes.SelfManagedEventSource.read(from:))
@@ -10624,6 +10676,7 @@ extension GetEventSourceMappingOutput {
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
         value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.selfManagedEventSource = try reader["SelfManagedEventSource"].readIfPresent(with: LambdaClientTypes.SelfManagedEventSource.read(from:))
@@ -11315,6 +11368,7 @@ extension UpdateEventSourceMappingOutput {
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
         value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.selfManagedEventSource = try reader["SelfManagedEventSource"].readIfPresent(with: LambdaClientTypes.SelfManagedEventSource.read(from:))
@@ -13543,6 +13597,23 @@ extension LambdaClientTypes.EventSourceMappingMetricsConfig {
     }
 }
 
+extension LambdaClientTypes.ProvisionedPollerConfig {
+
+    static func write(value: LambdaClientTypes.ProvisionedPollerConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumPollers"].write(value.maximumPollers)
+        try writer["MinimumPollers"].write(value.minimumPollers)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ProvisionedPollerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ProvisionedPollerConfig()
+        value.minimumPollers = try reader["MinimumPollers"].readIfPresent()
+        value.maximumPollers = try reader["MaximumPollers"].readIfPresent()
+        return value
+    }
+}
+
 extension LambdaClientTypes.VpcConfigResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.VpcConfigResponse {
@@ -13960,6 +14031,7 @@ extension LambdaClientTypes.EventSourceMappingConfiguration {
         value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
         value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         return value
     }
 }
