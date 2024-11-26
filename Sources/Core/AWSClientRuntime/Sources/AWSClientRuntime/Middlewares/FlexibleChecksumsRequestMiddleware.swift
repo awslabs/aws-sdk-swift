@@ -8,6 +8,7 @@
 import enum SmithyChecksumsAPI.ChecksumAlgorithm
 import enum SmithyChecksums.ChecksumMismatchException
 import enum Smithy.ClientError
+import struct Smithy.URIQueryItem
 import class Smithy.Context
 import struct Foundation.Data
 import AwsCommonRuntimeKit
@@ -41,16 +42,42 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             }
         }
 
+        let checksumHeaderPrefix = "x-amz-checksum-"
+
+        // If it's a PRESIGN_URL flow, add checksum headers present in the request to the request's query items. If only the algo header was configured in input, it's up to user to add the checksum hash query item along with the matching body when they send request using the presigned URL. If the checksum hash header was configured in input, it's up to user to provide a body whose checksum matches the value of the checksum hash header when they send request using the presigned URL.
+        if attributes.getFlowType() == .PRESIGN_URL {
+            let checksumAlgoHeader = builder.headers.headers.first(where: {
+                $0.name.lowercased() == checksumAlgoHeaderName?.lowercased()
+            })
+            if let checksumAlgoHeader {
+                builder.withQueryItem(URIQueryItem(
+                    name: checksumAlgoHeader.name,
+                    value: checksumAlgoHeader.value.first
+                ))
+            }
+            let checksumHeader = builder.headers.headers.first(where: {
+                $0.name.lowercased().starts(with: checksumHeaderPrefix) &&
+                $0.name.lowercased() != checksumAlgoHeaderName?.lowercased()
+            })
+            if let checksumHeader {
+                builder.withQueryItem(URIQueryItem(
+                    name: checksumHeader.name,
+                    value: checksumHeader.value.first
+                ))
+            }
+            // Skip default request checksum calculation logic.
+            return
+        }
+
         // Initialize logger
         guard let logger = attributes.getLogger() else {
             throw ClientError.unknownError("No logger found!")
         }
 
         // Check if any checksum header is already provided by the user
-        let checksumHeaderPrefix = "x-amz-checksum-"
         if builder.headers.headers.contains(where: {
             $0.name.lowercased().starts(with: checksumHeaderPrefix) &&
-            $0.name.lowercased() != checksumAlgoHeaderName
+            $0.name.lowercased() != checksumAlgoHeaderName?.lowercased()
         }) {
             logger.debug("Checksum header already provided by the user. Skipping calculation.")
             return
