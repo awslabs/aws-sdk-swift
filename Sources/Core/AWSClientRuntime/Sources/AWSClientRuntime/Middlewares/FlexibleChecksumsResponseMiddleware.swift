@@ -43,7 +43,7 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
         guard let checksumHeader = checksumHeaderIsPresent else {
             let message =
                 "User requested checksum validation, but the response headers did not contain any valid checksums"
-            logger.warn(message)
+            logger.warning(message)
             return
         }
 

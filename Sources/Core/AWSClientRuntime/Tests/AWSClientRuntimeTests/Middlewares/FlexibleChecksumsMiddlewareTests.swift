@@ -382,14 +382,14 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
 }
 
 class TestLogger: LogAgent {
-    var name: String
+    var label: String
 
     var messages: [(level: LogAgentLevel, message: String)] = []
 
     var level: LogAgentLevel
 
-    init(name: String = "Test", messages: [(level: LogAgentLevel, message: String)] = [], level: LogAgentLevel = .info) {
-        self.name = name
+    init(label: String = "Test", messages: [(level: LogAgentLevel, message: String)] = [], level: LogAgentLevel = .info) {
+        self.label = label
         self.messages = messages
         self.level = level
     }
