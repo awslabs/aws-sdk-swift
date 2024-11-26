@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PcaConnectorScepClient: ClientRuntime.Client {
     public static let clientName = "PcaConnectorScepClient"
-    public static let version = "1.0.47"
+    public static let version = "1.0.48"
     let client: ClientRuntime.SdkHttpClient
     let config: PcaConnectorScepClient.PcaConnectorScepClientConfiguration
     let serviceName = "Pca Connector Scep"
