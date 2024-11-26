@@ -1555,6 +1555,26 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// Configurations for streaming.
+    public struct StreamingConfigurations: Swift.Sendable {
+        /// The guardrail interval to apply as response is generated.
+        public var applyGuardrailInterval: Swift.Int?
+        /// Specifies whether to enable streaming for the final response. This is set to false by default.
+        public var streamFinalResponse: Swift.Bool
+
+        public init(
+            applyGuardrailInterval: Swift.Int? = nil,
+            streamFinalResponse: Swift.Bool = false
+        )
+        {
+            self.applyGuardrailInterval = applyGuardrailInterval
+            self.streamFinalResponse = streamFinalResponse
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Contains information about where the text with a citation begins and ends in the generated output. This data type is used in the following API operations:
     ///
     /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the span field
@@ -2182,6 +2202,54 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes.ReturnControlPayload: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The event in the custom orchestration sequence.
+    public struct CustomOrchestrationTraceEvent: Swift.Sendable {
+        /// The text that prompted the event at this step.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.CustomOrchestrationTraceEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The trace behavior for the custom orchestration.
+    public struct CustomOrchestrationTrace: Swift.Sendable {
+        /// The trace event details used with the custom orchestration.
+        public var event: BedrockAgentRuntimeClientTypes.CustomOrchestrationTraceEvent?
+        /// The unique identifier of the trace.
+        public var traceId: Swift.String?
+
+        public init(
+            event: BedrockAgentRuntimeClientTypes.CustomOrchestrationTraceEvent? = nil,
+            traceId: Swift.String? = nil
+        )
+        {
+            self.event = event
+            self.traceId = traceId
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.CustomOrchestrationTrace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
     }
@@ -3739,6 +3807,8 @@ extension BedrockAgentRuntimeClientTypes {
         case postprocessingtrace(BedrockAgentRuntimeClientTypes.PostProcessingTrace)
         /// Contains information about the failure of the interaction.
         case failuretrace(BedrockAgentRuntimeClientTypes.FailureTrace)
+        /// Details about the custom orchestration step in which the agent determines the order in which actions are executed.
+        case customorchestrationtrace(BedrockAgentRuntimeClientTypes.CustomOrchestrationTrace)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5389,6 +5459,8 @@ public struct InvokeAgentInput: Swift.Sendable {
     public var sessionId: Swift.String?
     /// Contains parameters that specify various attributes of the session. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html). If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
     public var sessionState: BedrockAgentRuntimeClientTypes.SessionState?
+    /// Specifies the configurations for streaming.
+    public var streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations?
 
     public init(
         agentAliasId: Swift.String? = nil,
@@ -5398,7 +5470,8 @@ public struct InvokeAgentInput: Swift.Sendable {
         inputText: Swift.String? = nil,
         memoryId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
-        sessionState: BedrockAgentRuntimeClientTypes.SessionState? = nil
+        sessionState: BedrockAgentRuntimeClientTypes.SessionState? = nil,
+        streamingConfigurations: BedrockAgentRuntimeClientTypes.StreamingConfigurations? = nil
     )
     {
         self.agentAliasId = agentAliasId
@@ -5409,12 +5482,13 @@ public struct InvokeAgentInput: Swift.Sendable {
         self.memoryId = memoryId
         self.sessionId = sessionId
         self.sessionState = sessionState
+        self.streamingConfigurations = streamingConfigurations
     }
 }
 
 extension InvokeAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeAgentInput(agentAliasId: \(Swift.String(describing: agentAliasId)), agentId: \(Swift.String(describing: agentId)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), memoryId: \(Swift.String(describing: memoryId)), sessionId: \(Swift.String(describing: sessionId)), sessionState: \(Swift.String(describing: sessionState)), inputText: \"CONTENT_REDACTED\")"}
+        "InvokeAgentInput(agentAliasId: \(Swift.String(describing: agentAliasId)), agentId: \(Swift.String(describing: agentId)), enableTrace: \(Swift.String(describing: enableTrace)), endSession: \(Swift.String(describing: endSession)), memoryId: \(Swift.String(describing: memoryId)), sessionId: \(Swift.String(describing: sessionId)), sessionState: \(Swift.String(describing: sessionState)), streamingConfigurations: \(Swift.String(describing: streamingConfigurations)), inputText: \"CONTENT_REDACTED\")"}
 }
 
 extension DeleteAgentMemoryInput {
@@ -5555,6 +5629,7 @@ extension InvokeAgentInput {
         try writer["inputText"].write(value.inputText)
         try writer["memoryId"].write(value.memoryId)
         try writer["sessionState"].write(value.sessionState, with: BedrockAgentRuntimeClientTypes.SessionState.write(value:to:))
+        try writer["streamingConfigurations"].write(value.streamingConfigurations, with: BedrockAgentRuntimeClientTypes.StreamingConfigurations.write(value:to:))
     }
 }
 
@@ -6560,9 +6635,32 @@ extension BedrockAgentRuntimeClientTypes.Trace {
                 return .postprocessingtrace(try reader["postProcessingTrace"].read(with: BedrockAgentRuntimeClientTypes.PostProcessingTrace.read(from:)))
             case "failureTrace":
                 return .failuretrace(try reader["failureTrace"].read(with: BedrockAgentRuntimeClientTypes.FailureTrace.read(from:)))
+            case "customOrchestrationTrace":
+                return .customorchestrationtrace(try reader["customOrchestrationTrace"].read(with: BedrockAgentRuntimeClientTypes.CustomOrchestrationTrace.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.CustomOrchestrationTrace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.CustomOrchestrationTrace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.CustomOrchestrationTrace()
+        value.traceId = try reader["traceId"].readIfPresent()
+        value.event = try reader["event"].readIfPresent(with: BedrockAgentRuntimeClientTypes.CustomOrchestrationTraceEvent.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.CustomOrchestrationTraceEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.CustomOrchestrationTraceEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.CustomOrchestrationTraceEvent()
+        value.text = try reader["text"].readIfPresent()
+        return value
     }
 }
 
@@ -7639,6 +7737,15 @@ extension BedrockAgentRuntimeClientTypes.ApiResult {
         try writer["httpStatusCode"].write(value.httpStatusCode)
         try writer["responseBody"].writeMap(value.responseBody, valueWritingClosure: BedrockAgentRuntimeClientTypes.ContentBody.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["responseState"].write(value.responseState)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.StreamingConfigurations {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.StreamingConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applyGuardrailInterval"].write(value.applyGuardrailInterval)
+        try writer["streamFinalResponse"].write(value.streamFinalResponse)
     }
 }
 
