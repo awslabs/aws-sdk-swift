@@ -385,15 +385,14 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
 class TestLogger: LogAgent {
     var label: String
 
-    var messages: [(level: Logger.Level, message: String)] = []
+    var messages: [(level: Logging.Logger.Level, message: String)] = []
 
-    init(label: String = "Test", messages: [(level: Logger.Level, message: String)] = [], level: Logger.Level = .info) {
+    init(label: String = "Test", messages: [(level: Logging.Logger.Level, message: String)] = [], level: Logging.Logger.Level = .info) {
         self.label = label
         self.messages = messages
-        self.level = level
     }
 
-    func log(level: Logger.Level = .info, message: @autoclosure () -> String, metadata: @autoclosure () -> [String : String]? = nil, source: @autoclosure () -> String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
+    func log(level: Logging.Logger.Level = .info, message: @autoclosure () -> String, metadata: @autoclosure () -> [String : String]? = nil, source: @autoclosure () -> String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
         messages.append((level: level, message: message()))
     }
 }
