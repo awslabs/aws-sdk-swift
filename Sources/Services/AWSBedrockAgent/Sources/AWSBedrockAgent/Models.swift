@@ -7368,16 +7368,50 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Bedrock models embedding data type. Can be either float32 or binary
+    public enum EmbeddingDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case binary
+        case float32
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmbeddingDataType] {
+            return [
+                .binary,
+                .float32
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .binary: return "BINARY"
+            case .float32: return "FLOAT32"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// The vector configuration details for the Bedrock embeddings model.
     public struct BedrockEmbeddingModelConfiguration: Swift.Sendable {
         /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
         public var dimensions: Swift.Int?
+        /// The data type for the vectors when using a model to convert text into vector embeddings. The model must support the specified data type for vector embeddings. Floating-point (float32) is the default data type, and is supported by most models for vector embeddings. See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
+        public var embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType?
 
         public init(
-            dimensions: Swift.Int? = nil
+            dimensions: Swift.Int? = nil,
+            embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType? = nil
         )
         {
             self.dimensions = dimensions
+            self.embeddingDataType = embeddingDataType
         }
     }
 }
@@ -14771,12 +14805,14 @@ extension BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
     static func write(value: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["dimensions"].write(value.dimensions)
+        try writer["embeddingDataType"].write(value.embeddingDataType)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration()
         value.dimensions = try reader["dimensions"].readIfPresent()
+        value.embeddingDataType = try reader["embeddingDataType"].readIfPresent()
         return value
     }
 }

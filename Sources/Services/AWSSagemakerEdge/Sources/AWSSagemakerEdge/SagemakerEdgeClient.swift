@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SagemakerEdgeClient: ClientRuntime.Client {
     public static let clientName = "SagemakerEdgeClient"
-    public static let version = "1.0.49"
+    public static let version = "1.0.50"
     let client: ClientRuntime.SdkHttpClient
     let config: SagemakerEdgeClient.SagemakerEdgeClientConfiguration
     let serviceName = "Sagemaker Edge"

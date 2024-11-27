@@ -603,6 +603,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSOSIS](../../../../../swift/api/awsosis/latest)
 
+[AWSObservabilityAdmin](../../../../../swift/api/awsobservabilityadmin/latest)
+
 [AWSOmics](../../../../../swift/api/awsomics/latest)
 
 [AWSOpenSearch](../../../../../swift/api/awsopensearch/latest)

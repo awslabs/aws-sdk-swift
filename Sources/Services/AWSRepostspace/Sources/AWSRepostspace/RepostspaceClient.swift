@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RepostspaceClient: ClientRuntime.Client {
     public static let clientName = "RepostspaceClient"
-    public static let version = "1.0.49"
+    public static let version = "1.0.50"
     let client: ClientRuntime.SdkHttpClient
     let config: RepostspaceClient.RepostspaceClientConfiguration
     let serviceName = "repostspace"
