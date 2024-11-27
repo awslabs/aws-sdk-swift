@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConfigClient: ClientRuntime.Client {
     public static let clientName = "ConfigClient"
-    public static let version = "1.0.48"
+    public static let version = "1.0.50"
     let client: ClientRuntime.SdkHttpClient
     let config: ConfigClient.ConfigClientConfiguration
     let serviceName = "Config"
@@ -195,6 +195,104 @@ extension ConfigClient {
 }
 
 extension ConfigClient {
+    /// Performs the `AssociateResourceTypes` operation on the `StarlingDoveService` service.
+    ///
+    /// Adds all resource types specified in the ResourceTypes list to the [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) of specified configuration recorder and includes those resource types when recording. For this operation, the specified configuration recorder must use a [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
+    ///
+    /// - Parameter AssociateResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateResourceTypesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+    ///
+    /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+    /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    public func associateResourceTypes(input: AssociateResourceTypesInput) async throws -> AssociateResourceTypesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateResourceTypes")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateResourceTypesInput, AssociateResourceTypesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(AssociateResourceTypesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateResourceTypesOutput>(AssociateResourceTypesOutput.httpOutput(from:), AssociateResourceTypesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResourceTypesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateResourceTypesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(xAmzTarget: "StarlingDoveService.AssociateResourceTypes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateResourceTypesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateResourceTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateResourceTypes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchGetAggregateResourceConfig` operation on the `StarlingDoveService` service.
     ///
     /// Returns the current configuration items for resources that are present in your Config aggregator. The operation also returns a list of resources that are not processed in the current request. If there are no unprocessed resources, the operation returns an empty unprocessedResourceIdentifiers list.
@@ -211,7 +309,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func batchGetAggregateResourceConfig(input: BatchGetAggregateResourceConfigInput) async throws -> BatchGetAggregateResourceConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -285,8 +405,30 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func batchGetResourceConfig(input: BatchGetResourceConfigInput) async throws -> BatchGetResourceConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -417,7 +559,13 @@ extension ConfigClient {
 
     /// Performs the `DeleteConfigRule` operation on the `StarlingDoveService` service.
     ///
-    /// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException. You can check the state of a rule by using the DescribeConfigRules request.
+    /// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException. You can check the state of a rule by using the DescribeConfigRules request. Recommendation: Stop recording resource compliance before deleting rules It is highly recommended that you stop recording for the AWS::Config::ResourceCompliance resource type before you delete rules in your account. Deleting rules creates CIs for AWS::Config::ResourceCompliance and can affect your Config [configuration recorder](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) costs. If you are deleting rules which evaluate a large number of resource types, this can lead to a spike in the number of CIs recorded. Best practice:
+    ///
+    /// * Stop recording AWS::Config::ResourceCompliance
+    ///
+    /// * Delete rule(s)
+    ///
+    /// * Turn on recording for AWS::Config::ResourceCompliance
     ///
     /// - Parameter DeleteConfigRuleInput :
     ///
@@ -572,9 +720,9 @@ extension ConfigClient {
 
     /// Performs the `DeleteConfigurationRecorder` operation on the `StarlingDoveService` service.
     ///
-    /// Deletes the configuration recorder. After the configuration recorder is deleted, Config will not record resource configuration changes until you create a new configuration recorder. This action does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the GetResourceConfigHistory action, but you will not be able to access this information in the Config console until you create a new configuration recorder.
+    /// Deletes the customer managed configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the [GetResourceConfigHistory](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html) operation, but you will not be able to access this information in the Config console until you have created a new customer managed configuration recorder.
     ///
-    /// - Parameter DeleteConfigurationRecorderInput : The request object for the DeleteConfigurationRecorder action.
+    /// - Parameter DeleteConfigurationRecorderInput : The request object for the DeleteConfigurationRecorder operation.
     ///
     /// - Returns: `DeleteConfigurationRecorderOutput` : [no documentation found]
     ///
@@ -582,6 +730,7 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `UnmodifiableEntityException` : The requested operation is not valid. For [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html), you will see this exception because you cannot use this operation to create a service-linked configuration recorder. Use the [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html) operation to create a service-linked configuration recorder. For [DeleteConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html), you will see this exception because you cannot use this operation to delete a service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder. For [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) and [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html), you will see this exception because these operations do not affect service-linked configuration recorders. Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder.
     public func deleteConfigurationRecorder(input: DeleteConfigurationRecorderInput) async throws -> DeleteConfigurationRecorderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -727,7 +876,7 @@ extension ConfigClient {
 
     /// Performs the `DeleteDeliveryChannel` operation on the `StarlingDoveService` service.
     ///
-    /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the configuration recorder by using the [StopConfigurationRecorder] action.
+    /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the [StopConfigurationRecorder] operation to stop the customer managed configuration recorder.
     ///
     /// - Parameter DeleteDeliveryChannelInput : The input for the [DeleteDeliveryChannel] action. The action accepts the following data, in JSON format.
     ///
@@ -736,7 +885,7 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `LastDeliveryChannelDeleteFailedException` : You cannot delete the delivery channel you specified because the configuration recorder is running.
+    /// - `LastDeliveryChannelDeleteFailedException` : You cannot delete the delivery channel you specified because the customer managed configuration recorder is running.
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
     public func deleteDeliveryChannel(input: DeleteDeliveryChannelInput) async throws -> DeleteDeliveryChannelOutput {
         let context = Smithy.ContextBuilder()
@@ -901,7 +1050,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -998,7 +1147,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -1158,17 +1307,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
     /// - `RemediationInProgressException` : Remediation action is in progress. You can either cancel execution in Amazon Web Services Systems Manager or wait and try again later.
@@ -1312,7 +1466,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func deleteResourceConfig(input: DeleteResourceConfigInput) async throws -> DeleteResourceConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1442,6 +1618,104 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteServiceLinkedConfigurationRecorder` operation on the `StarlingDoveService` service.
+    ///
+    /// Deletes an existing service-linked configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the [GetResourceConfigHistory](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html) operation, but you will not be able to access this information in the Config console until you have created a new service-linked configuration recorder for the same service. The recording scope determines if you receive configuration items The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
+    ///
+    /// - Parameter DeleteServiceLinkedConfigurationRecorderInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceLinkedConfigurationRecorderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+    ///
+    /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+    /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    public func deleteServiceLinkedConfigurationRecorder(input: DeleteServiceLinkedConfigurationRecorderInput) async throws -> DeleteServiceLinkedConfigurationRecorderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteServiceLinkedConfigurationRecorder")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(DeleteServiceLinkedConfigurationRecorderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceLinkedConfigurationRecorderOutput>(DeleteServiceLinkedConfigurationRecorderOutput.httpOutput(from:), DeleteServiceLinkedConfigurationRecorderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceLinkedConfigurationRecorderOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteServiceLinkedConfigurationRecorderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.DeleteServiceLinkedConfigurationRecorder"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceLinkedConfigurationRecorderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteServiceLinkedConfigurationRecorder")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteStoredQuery` operation on the `StarlingDoveService` service.
     ///
     /// Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
@@ -1454,7 +1728,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func deleteStoredQuery(input: DeleteStoredQueryInput) async throws -> DeleteStoredQueryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1530,7 +1826,7 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
     /// - `NoSuchDeliveryChannelException` : You have specified a delivery channel that does not exist.
     public func deliverConfigSnapshot(input: DeliverConfigSnapshotInput) async throws -> DeliverConfigSnapshotOutput {
@@ -1605,7 +1901,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func describeAggregateComplianceByConfigRules(input: DescribeAggregateComplianceByConfigRulesInput) async throws -> DescribeAggregateComplianceByConfigRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1666,7 +1984,7 @@ extension ConfigClient {
 
     /// Performs the `DescribeAggregateComplianceByConformancePacks` operation on the `StarlingDoveService` service.
     ///
-    /// Returns a list of the conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
+    /// Returns a list of the existing and deleted conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
     /// - Parameter DescribeAggregateComplianceByConformancePacksInput : [no documentation found]
     ///
@@ -1678,7 +1996,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func describeAggregateComplianceByConformancePacks(input: DescribeAggregateComplianceByConformancePacksInput) async throws -> DescribeAggregateComplianceByConformancePacksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1811,7 +2151,7 @@ extension ConfigClient {
 
     /// Performs the `DescribeComplianceByConfigRule` operation on the `StarlingDoveService` service.
     ///
-    /// Indicates whether the specified Config rules are compliant. If a rule is noncompliant, this action returns the number of Amazon Web Services resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if any of these resources do not comply. If Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions:
+    /// Indicates whether the specified Config rules are compliant. If a rule is noncompliant, this operation returns the number of Amazon Web Services resources that do not comply with the rule. A rule is compliant if all of the evaluated resources comply with it. It is noncompliant if any of these resources do not comply. If Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions:
     ///
     /// * Config has never invoked an evaluation for the rule. To check whether it has, use the DescribeConfigRuleEvaluationStatus action to get the LastSuccessfulInvocationTime and LastFailedInvocationTime.
     ///
@@ -1889,7 +2229,7 @@ extension ConfigClient {
 
     /// Performs the `DescribeComplianceByResource` operation on the `StarlingDoveService` service.
     ///
-    /// Indicates whether the specified Amazon Web Services resources are compliant. If a resource is noncompliant, this action returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config rules that evaluate it. It is noncompliant if it does not comply with one or more of these rules. If Config has no current evaluation results for the resource, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions about the rules that evaluate the resource:
+    /// Indicates whether the specified Amazon Web Services resources are compliant. If a resource is noncompliant, this operation returns the number of Config rules that the resource does not comply with. A resource is compliant if it complies with all the Config rules that evaluate it. It is noncompliant if it does not comply with one or more of these rules. If Config has no current evaluation results for the resource, it returns INSUFFICIENT_DATA. This result might indicate one of the following conditions about the rules that evaluate the resource:
     ///
     /// * Config has never invoked an evaluation for the rule. To check whether it has, use the DescribeConfigRuleEvaluationStatus action to get the LastSuccessfulInvocationTime and LastFailedInvocationTime.
     ///
@@ -2183,7 +2523,7 @@ extension ConfigClient {
 
     /// Performs the `DescribeConfigurationAggregators` operation on the `StarlingDoveService` service.
     ///
-    /// Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this action returns the details for all the configuration aggregators associated with the account.
+    /// Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this operation returns the details for all the configuration aggregators associated with the account.
     ///
     /// - Parameter DescribeConfigurationAggregatorsInput : [no documentation found]
     ///
@@ -2256,7 +2596,7 @@ extension ConfigClient {
 
     /// Performs the `DescribeConfigurationRecorderStatus` operation on the `StarlingDoveService` service.
     ///
-    /// Returns the current status of the specified configuration recorder as well as the status of the last recording event for the recorder. If a configuration recorder is not specified, this action returns the status of all configuration recorders associated with the account. >You can specify only one configuration recorder for each Amazon Web Services Region for each account. For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics.
+    /// Returns the current status of the configuration recorder you specify as well as the status of the last recording event for the configuration recorders. For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics. If a configuration recorder is not specified, this operation returns the status for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     ///
     /// - Parameter DescribeConfigurationRecorderStatusInput : The input for the [DescribeConfigurationRecorderStatus] action.
     ///
@@ -2266,6 +2606,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func describeConfigurationRecorderStatus(input: DescribeConfigurationRecorderStatusInput) async throws -> DescribeConfigurationRecorderStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2326,7 +2689,7 @@ extension ConfigClient {
 
     /// Performs the `DescribeConfigurationRecorders` operation on the `StarlingDoveService` service.
     ///
-    /// Returns the details for the specified configuration recorders. If the configuration recorder is not specified, this action returns the details for all configuration recorders associated with the account. You can specify only one configuration recorder for each Amazon Web Services Region for each account.
+    /// Returns details for the configuration recorder you specify. If a configuration recorder is not specified, this operation returns details for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     ///
     /// - Parameter DescribeConfigurationRecordersInput : The input for the [DescribeConfigurationRecorders] action.
     ///
@@ -2336,6 +2699,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func describeConfigurationRecorders(input: DescribeConfigurationRecordersInput) async throws -> DescribeConfigurationRecordersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2615,7 +3001,7 @@ extension ConfigClient {
 
     /// Performs the `DescribeDeliveryChannelStatus` operation on the `StarlingDoveService` service.
     ///
-    /// Returns the current status of the specified delivery channel. If a delivery channel is not specified, this action returns the current status of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
+    /// Returns the current status of the specified delivery channel. If a delivery channel is not specified, this operation returns the current status of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
     ///
     /// - Parameter DescribeDeliveryChannelStatusInput : The input for the [DeliveryChannelStatus] action.
     ///
@@ -2685,7 +3071,7 @@ extension ConfigClient {
 
     /// Performs the `DescribeDeliveryChannels` operation on the `StarlingDoveService` service.
     ///
-    /// Returns details about the specified delivery channel. If a delivery channel is not specified, this action returns the details of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
+    /// Returns details about the specified delivery channel. If a delivery channel is not specified, this operation returns the details of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
     ///
     /// - Parameter DescribeDeliveryChannelsInput : The input for the [DescribeDeliveryChannels] action.
     ///
@@ -2775,7 +3161,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -2859,7 +3245,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -2943,7 +3329,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -3027,7 +3413,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -3371,7 +3757,7 @@ extension ConfigClient {
 
     /// Performs the `DescribeRetentionConfigurations` operation on the `StarlingDoveService` service.
     ///
-    /// Returns the details of one or more retention configurations. If the retention configuration name is not specified, this action returns the details for all the retention configurations for that account. Currently, Config supports only one retention configuration per region in your account.
+    /// Returns the details of one or more retention configurations. If the retention configuration name is not specified, this operation returns the details for all the retention configurations for that account. Currently, Config supports only one retention configuration per region in your account.
     ///
     /// - Parameter DescribeRetentionConfigurationsInput : [no documentation found]
     ///
@@ -3441,6 +3827,104 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateResourceTypes` operation on the `StarlingDoveService` service.
+    ///
+    /// Removes all resource types specified in the ResourceTypes list from the [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) of configuration recorder and excludes these resource types when recording. For this operation, the configuration recorder must use a [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
+    ///
+    /// - Parameter DisassociateResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateResourceTypesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+    ///
+    /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+    /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    public func disassociateResourceTypes(input: DisassociateResourceTypesInput) async throws -> DisassociateResourceTypesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateResourceTypes")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateResourceTypesInput, DisassociateResourceTypesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(DisassociateResourceTypesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateResourceTypesOutput>(DisassociateResourceTypesOutput.httpOutput(from:), DisassociateResourceTypesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResourceTypesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateResourceTypesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(xAmzTarget: "StarlingDoveService.DisassociateResourceTypes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateResourceTypesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateResourceTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateResourceTypes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAggregateComplianceDetailsByConfigRule` operation on the `StarlingDoveService` service.
     ///
     /// Returns the evaluation results for the specified Config rule for a specific resource in a rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule. The results can return an empty result page. But if you have a nextToken, the results are displayed on the next page.
@@ -3455,7 +3939,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getAggregateComplianceDetailsByConfigRule(input: GetAggregateComplianceDetailsByConfigRuleInput) async throws -> GetAggregateComplianceDetailsByConfigRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3528,7 +4034,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getAggregateConfigRuleComplianceSummary(input: GetAggregateConfigRuleComplianceSummaryInput) async throws -> GetAggregateConfigRuleComplianceSummaryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3601,7 +4129,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getAggregateConformancePackComplianceSummary(input: GetAggregateConformancePackComplianceSummaryInput) async throws -> GetAggregateConformancePackComplianceSummaryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3674,7 +4224,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getAggregateDiscoveredResourceCounts(input: GetAggregateDiscoveredResourceCountsInput) async throws -> GetAggregateDiscoveredResourceCountsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3735,7 +4307,7 @@ extension ConfigClient {
 
     /// Performs the `GetAggregateResourceConfig` operation on the `StarlingDoveService` service.
     ///
-    /// Returns configuration item that is aggregated for your specific resource in a specific source account and region.
+    /// Returns configuration item that is aggregated for your specific resource in a specific source account and region. The API does not return results for deleted resources.
     ///
     /// - Parameter GetAggregateResourceConfigInput : [no documentation found]
     ///
@@ -3747,7 +4319,29 @@ extension ConfigClient {
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
     /// - `OversizedConfigurationItemException` : The configuration item size is outside the allowable range.
     /// - `ResourceNotDiscoveredException` : You have specified a resource that is either unknown or has not been discovered.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getAggregateResourceConfig(input: GetAggregateResourceConfigInput) async throws -> GetAggregateResourceConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4337,7 +4931,29 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getDiscoveredResourceCounts(input: GetDiscoveredResourceCountsInput) async throws -> GetDiscoveredResourceCountsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4418,7 +5034,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -4502,7 +5118,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -4584,7 +5200,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -4660,9 +5276,31 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `InvalidTimeRangeException` : The specified time range is not valid. The earlier time is not chronologically before the later time.
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
     /// - `ResourceNotDiscoveredException` : You have specified a resource that is either unknown or has not been discovered.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getResourceConfigHistory(input: GetResourceConfigHistoryInput) async throws -> GetResourceConfigHistoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4803,7 +5441,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func getStoredQuery(input: GetStoredQueryInput) async throws -> GetStoredQueryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4876,7 +5536,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `NoSuchConfigurationAggregatorException` : You have specified a configuration aggregator that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func listAggregateDiscoveredResources(input: ListAggregateDiscoveredResourcesInput) async throws -> ListAggregateDiscoveredResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4923,6 +5605,98 @@ extension ConfigClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAggregateDiscoveredResources")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListConfigurationRecorders` operation on the `StarlingDoveService` service.
+    ///
+    /// Returns a list of configuration recorders depending on the filters you specify.
+    ///
+    /// - Parameter ListConfigurationRecordersInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationRecordersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    public func listConfigurationRecorders(input: ListConfigurationRecordersInput) async throws -> ListConfigurationRecordersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listConfigurationRecorders")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListConfigurationRecordersInput, ListConfigurationRecordersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(ListConfigurationRecordersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationRecordersOutput>(ListConfigurationRecordersOutput.httpOutput(from:), ListConfigurationRecordersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationRecordersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListConfigurationRecordersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(xAmzTarget: "StarlingDoveService.ListConfigurationRecorders"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConfigurationRecordersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfigurationRecordersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConfigurationRecorders")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5020,8 +5794,30 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func listDiscoveredResources(input: ListDiscoveredResourcesInput) async throws -> ListDiscoveredResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5164,7 +5960,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func listStoredQueries(input: ListStoredQueriesInput) async throws -> ListStoredQueriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5237,7 +6055,29 @@ extension ConfigClient {
     /// - `InvalidLimitException` : The specified limit is outside the allowable range.
     /// - `InvalidNextTokenException` : The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5298,7 +6138,7 @@ extension ConfigClient {
 
     /// Performs the `PutAggregationAuthorization` operation on the `StarlingDoveService` service.
     ///
-    /// Authorizes the aggregator account and region to collect data from the source account and region. PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// Authorizes the aggregator account and region to collect data from the source account and region. Tags are added at creation and cannot be updated with this operation PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
     /// - Parameter PutAggregationAuthorizationInput : [no documentation found]
     ///
@@ -5368,7 +6208,7 @@ extension ConfigClient {
 
     /// Performs the `PutConfigRule` operation on the `StarlingDoveService` service.
     ///
-    /// Adds or updates an Config rule to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the SourceIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function that the rule invokes to evaluate your resources. When you use PutConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. You specify the ARN in the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object. For any new Config rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. For more information about developing and using Config rules, see [Evaluating Resources with Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the Config Developer Guide. PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// Adds or updates an Config rule to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the SourceIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function that the rule invokes to evaluate your resources. When you use PutConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. You specify the ARN in the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object. For any new Config rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. For more information about developing and using Config rules, see [Evaluating Resources with Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the Config Developer Guide. Tags are added at creation and cannot be updated with this operation PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
     /// - Parameter PutConfigRuleInput : [no documentation found]
     ///
@@ -5379,20 +6219,25 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfConfigRulesExceededException` : Failed to add the Config rule because the account already contains the maximum number of 1000 rules. Consider deleting any deactivated rules before you add new rules.
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
     /// - `ResourceInUseException` : You see this exception in the following cases:
     ///
     /// * For DeleteConfigRule, Config is deleting this rule. Try your request again later.
@@ -5468,7 +6313,7 @@ extension ConfigClient {
 
     /// Performs the `PutConfigurationAggregator` operation on the `StarlingDoveService` service.
     ///
-    /// Creates and updates the configuration aggregator with the selected source accounts and regions. The source account can be individual account(s) or an organization. accountIds that are passed will be replaced with existing accounts. If you want to add additional accounts into the aggregator, call DescribeConfigurationAggregators to get the previous accounts and then append new ones. Config should be enabled in source accounts and regions you want to aggregate. If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization. If the caller is a management account, Config calls EnableAwsServiceAccess API to enable integration between Config and Organizations. If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see [Register a Delegated Administrator](https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli) in the Config developer guide. PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// Creates and updates the configuration aggregator with the selected source accounts and regions. The source account can be individual account(s) or an organization. accountIds that are passed will be replaced with existing accounts. If you want to add additional accounts into the aggregator, call DescribeConfigurationAggregators to get the previous accounts and then append new ones. Config should be enabled in source accounts and regions you want to aggregate. If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization. If the caller is a management account, Config calls EnableAwsServiceAccess API to enable integration between Config and Organizations. If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see [Register a Delegated Administrator](https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli) in the Config developer guide. Tags are added at creation and cannot be updated with this operation PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
     /// - Parameter PutConfigurationAggregatorInput : [no documentation found]
     ///
@@ -5478,8 +6323,8 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    /// - `InvalidRoleException` : You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the configuration recorder.
-    /// - `LimitExceededException` : For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
+    /// - `InvalidRoleException` : You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the customer managed configuration recorder.
+    /// - `LimitExceededException` : For PutServiceLinkedConfigurationRecorder API, this exception is thrown if the number of service-linked roles in the account exceeds the limit. For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
     /// - `NoAvailableOrganizationException` : Organization is no longer available.
     /// - `OrganizationAccessDeniedException` : For PutConfigurationAggregator API, you can see this exception for the following reasons:
     ///
@@ -5489,7 +6334,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -5554,7 +6399,7 @@ extension ConfigClient {
 
     /// Performs the `PutConfigurationRecorder` operation on the `StarlingDoveService` service.
     ///
-    /// Creates a new configuration recorder to record configuration changes for specified resource types. You can also use this action to change the roleARN or the recordingGroup of an existing recorder. For more information, see [ Managing the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. You can specify only one configuration recorder for each Amazon Web Services Region for each account. If the configuration recorder does not have the recordingGroup field specified, the default is to record all supported resource types.
+    /// Creates or updates the customer managed configuration recorder. You can use this operation to create a new customer managed configuration recorder or to update the roleARN and the recordingGroup for an existing customer managed configuration recorder. To start the customer managed configuration recorder and begin recording configuration changes for the resource types you specify, use the [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) operation. For more information, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. One customer managed configuration recorder per account per Region You can create only one customer managed configuration recorder for each account for each Amazon Web Services Region. Default is to record all supported resource types, excluding the global IAM resource types If you have not specified values for the recordingGroup field, the default for the customer managed configuration recorder is to record all supported resource types, excluding the global IAM resource types: AWS::IAM::Group, AWS::IAM::Policy, AWS::IAM::Role, and AWS::IAM::User. Tags are added at creation and cannot be updated PutConfigurationRecorder is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
     /// - Parameter PutConfigurationRecorderInput : The input for the [PutConfigurationRecorder] action.
     ///
@@ -5563,8 +6408,8 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidConfigurationRecorderNameException` : You have provided a name for the configuration recorder that is not valid.
-    /// - `InvalidRecordingGroupException` : Indicates one of the following errors:
+    /// - `InvalidConfigurationRecorderNameException` : You have provided a name for the customer managed configuration recorder that is not valid.
+    /// - `InvalidRecordingGroupException` : One of the following errors:
     ///
     /// * You have provided a combination of parameter values that is not valid. For example:
     ///
@@ -5580,9 +6425,32 @@ extension ConfigClient {
     /// * You have reached the limit of the number of resource types you can provide for the recording group.
     ///
     /// * You have provided resource types or a recording strategy that are not valid.
-    /// - `InvalidRoleException` : You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the configuration recorder.
+    /// - `InvalidRoleException` : You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the customer managed configuration recorder.
     /// - `MaxNumberOfConfigurationRecordersExceededException` : You have reached the limit of the number of configuration recorders you can create.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `UnmodifiableEntityException` : The requested operation is not valid. For [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html), you will see this exception because you cannot use this operation to create a service-linked configuration recorder. Use the [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html) operation to create a service-linked configuration recorder. For [DeleteConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html), you will see this exception because you cannot use this operation to delete a service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder. For [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) and [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html), you will see this exception because these operations do not affect service-linked configuration recorders. Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func putConfigurationRecorder(input: PutConfigurationRecorderInput) async throws -> PutConfigurationRecorderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5655,17 +6523,22 @@ extension ConfigClient {
     /// - `ConformancePackTemplateValidationException` : You have specified a template that is not valid or supported.
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfConformancePacksExceededException` : You have reached the limit of the number of conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `ResourceInUseException` : You see this exception in the following cases:
@@ -5743,7 +6616,7 @@ extension ConfigClient {
 
     /// Performs the `PutDeliveryChannel` operation on the `StarlingDoveService` service.
     ///
-    /// Creates a delivery channel object to deliver configuration information and other compliance information to an Amazon S3 bucket and Amazon SNS topic. For more information, see [Notifications that Config Sends to an Amazon SNS topic](https://docs.aws.amazon.com/config/latest/developerguide/notifications-for-AWS-Config.html). Before you can create a delivery channel, you must create a configuration recorder. You can use this action to change the Amazon S3 bucket or an Amazon SNS topic of the existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS topic, call this action and specify the changed values for the S3 bucket and the SNS topic. If you specify a different value for either the S3 bucket or the SNS topic, this action will keep the existing value for the parameter that is not changed. You can have only one delivery channel per region in your account.
+    /// Creates or updates a delivery channel to deliver configuration information and other compliance information. You can use this operation to create a new delivery channel or to update the Amazon S3 bucket and the Amazon SNS topic of an existing delivery channel. For more information, see [ Working with the Delivery Channel ](https://docs.aws.amazon.com/config/latest/developerguide/manage-delivery-channel.html) in the Config Developer Guide. One delivery channel per account per Region You can have only one delivery channel for each account for each Amazon Web Services Region.
     ///
     /// - Parameter PutDeliveryChannelInput : The input for the [PutDeliveryChannel] action.
     ///
@@ -5752,13 +6625,13 @@ extension ConfigClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InsufficientDeliveryPolicyException` : Your Amazon S3 bucket policy does not permit Config to write to it.
+    /// - `InsufficientDeliveryPolicyException` : Your Amazon S3 bucket policy does not allow Config to write to it.
     /// - `InvalidDeliveryChannelNameException` : The specified delivery channel name is not valid.
     /// - `InvalidS3KeyPrefixException` : The specified Amazon S3 key prefix is not valid.
     /// - `InvalidS3KmsKeyArnException` : The specified Amazon KMS Key ARN is not valid.
     /// - `InvalidSNSTopicARNException` : The specified Amazon SNS topic does not exist.
     /// - `MaxNumberOfDeliveryChannelsExceededException` : You have reached the limit of the number of delivery channels you can create.
-    /// - `NoAvailableConfigurationRecorderException` : There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
+    /// - `NoAvailableConfigurationRecorderException` : There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
     /// - `NoSuchBucketException` : The specified Amazon S3 bucket does not exist.
     public func putDeliveryChannel(input: PutDeliveryChannelInput) async throws -> PutDeliveryChannelOutput {
         let context = Smithy.ContextBuilder()
@@ -5820,7 +6693,7 @@ extension ConfigClient {
 
     /// Performs the `PutEvaluations` operation on the `StarlingDoveService` service.
     ///
-    /// Used by an Lambda function to deliver evaluation results to Config. This action is required in every Lambda function that is invoked by an Config rule.
+    /// Used by an Lambda function to deliver evaluation results to Config. This operation is required in every Lambda function that is invoked by an Config rule.
     ///
     /// - Parameter PutEvaluationsInput :
     ///
@@ -5974,17 +6847,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `MaxNumberOfOrganizationConfigRulesExceededException` : You have reached the limit of the number of organization Config rules you can create. For more information, see see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `NoAvailableOrganizationException` : Organization is no longer available.
@@ -5996,7 +6874,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -6016,7 +6894,29 @@ extension ConfigClient {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func putOrganizationConfigRule(input: PutOrganizationConfigRuleInput) async throws -> PutOrganizationConfigRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6088,17 +6988,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `MaxNumberOfOrganizationConformancePacksExceededException` : You have reached the limit of the number of organization conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
     /// - `NoAvailableOrganizationException` : Organization is no longer available.
     /// - `OrganizationAccessDeniedException` : For PutConfigurationAggregator API, you can see this exception for the following reasons:
@@ -6109,7 +7014,7 @@ extension ConfigClient {
     ///
     /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
     ///
-    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+    /// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
     ///
     ///
     /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -6130,7 +7035,29 @@ extension ConfigClient {
     /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     ///
     /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func putOrganizationConformancePack(input: PutOrganizationConformancePackInput) async throws -> PutOrganizationConformancePackOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6202,17 +7129,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     public func putRemediationConfigurations(input: PutRemediationConfigurationsInput) async throws -> PutRemediationConfigurationsOutput {
         let context = Smithy.ContextBuilder()
@@ -6274,7 +7206,7 @@ extension ConfigClient {
 
     /// Performs the `PutRemediationExceptions` operation on the `StarlingDoveService` service.
     ///
-    /// A remediation exception is when a specified resource is no longer considered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. Exceptions block auto remediation Config generates a remediation exception when a problem occurs running a remediation action for a specified resource. Remediation exceptions blocks auto-remediation until the exception is cleared. Manual remediation is recommended when placing an exception When placing an exception on an Amazon Web Services resource, it is recommended that remediation is set as manual remediation until the given Config rule for the specified resource evaluates the resource as NON_COMPLIANT. Once the resource has been evaluated as NON_COMPLIANT, you can add remediation exceptions and change the remediation type back from Manual to Auto if you want to use auto-remediation. Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied. Exceptions can only be performed on non-compliant resources Placing an exception can only be performed on resources that are NON_COMPLIANT. If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated. For more information on the conditions that initiate the possible Config evaluation results, see [Concepts | Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules) in the Config Developer Guide. Auto remediation can be initiated even for compliant resources If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html) API or the Config console, it initiates the remediation process for all non-compliant resources for that specific rule. The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis. Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
+    /// A remediation exception is when a specified resource is no longer considered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. Exceptions block auto remediation Config generates a remediation exception when a problem occurs running a remediation action for a specified resource. Remediation exceptions blocks auto-remediation until the exception is cleared. Manual remediation is recommended when placing an exception When placing an exception on an Amazon Web Services resource, it is recommended that remediation is set as manual remediation until the given Config rule for the specified resource evaluates the resource as NON_COMPLIANT. Once the resource has been evaluated as NON_COMPLIANT, you can add remediation exceptions and change the remediation type back from Manual to Auto if you want to use auto-remediation. Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied. Exceptions can only be performed on non-compliant resources Placing an exception can only be performed on resources that are NON_COMPLIANT. If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated. For more information on the conditions that initiate the possible Config evaluation results, see [Concepts | Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules) in the Config Developer Guide. Exceptions cannot be placed on service-linked remediation actions You cannot place an exception on service-linked remediation actions, such as remediation actions put by an organizational conformance pack. Auto remediation can be initiated even for compliant resources If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html) API or the Config console, it initiates the remediation process for all non-compliant resources for that specific rule. The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis. Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
     ///
     /// - Parameter PutRemediationExceptionsInput : [no documentation found]
     ///
@@ -6285,17 +7217,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     public func putRemediationExceptions(input: PutRemediationExceptionsInput) async throws -> PutRemediationExceptionsOutput {
         let context = Smithy.ContextBuilder()
@@ -6368,20 +7305,47 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `MaxActiveResourcesExceededException` : You have reached the limit of active custom resource types in your account. There is a limit of 100,000. Delete unused resources using [DeleteResourceConfig](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteResourceConfig.html).
     /// - `NoRunningConfigurationRecorderException` : There is no configuration recorder running.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func putResourceConfig(input: PutResourceConfigInput) async throws -> PutResourceConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6511,9 +7475,125 @@ extension ConfigClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutServiceLinkedConfigurationRecorder` operation on the `StarlingDoveService` service.
+    ///
+    /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. For more information, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfig in your account. The service-linked role is created only when the role does not exist in your account. The recording scope determines if you receive configuration items The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel. Tags are added at creation and cannot be updated with this operation Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
+    ///
+    /// - Parameter PutServiceLinkedConfigurationRecorderInput : [no documentation found]
+    ///
+    /// - Returns: `PutServiceLinkedConfigurationRecorderOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+    ///
+    /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+    /// - `InsufficientPermissionsException` : Indicates one of the following errors:
+    ///
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    ///
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    ///
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    ///
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
+    ///
+    /// * You do not have permission to call IAM GetRole action or create a service-linked role.
+    ///
+    /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
+    /// - `LimitExceededException` : For PutServiceLinkedConfigurationRecorder API, this exception is thrown if the number of service-linked roles in the account exceeds the limit. For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+    public func putServiceLinkedConfigurationRecorder(input: PutServiceLinkedConfigurationRecorderInput) async throws -> PutServiceLinkedConfigurationRecorderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putServiceLinkedConfigurationRecorder")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "config")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(PutServiceLinkedConfigurationRecorderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutServiceLinkedConfigurationRecorderOutput>(PutServiceLinkedConfigurationRecorderOutput.httpOutput(from:), PutServiceLinkedConfigurationRecorderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutServiceLinkedConfigurationRecorderOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutServiceLinkedConfigurationRecorderOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(serviceID: serviceName, version: ConfigClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(xAmzTarget: "StarlingDoveService.PutServiceLinkedConfigurationRecorder"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutServiceLinkedConfigurationRecorderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Config")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutServiceLinkedConfigurationRecorder")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutStoredQuery` operation on the `StarlingDoveService` service.
     ///
-    /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region. You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region. PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
+    /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region. You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region. Tags are added at creation and cannot be updated PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
     /// - Parameter PutStoredQueryInput : [no documentation found]
     ///
@@ -6524,7 +7604,29 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `ResourceConcurrentModificationException` : Two users are trying to modify the same query at the same time. Wait for a moment and try again.
     /// - `TooManyTagsException` : You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func putStoredQuery(input: PutStoredQueryInput) async throws -> PutStoredQueryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6750,7 +7852,7 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-    /// - `LimitExceededException` : For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
+    /// - `LimitExceededException` : For PutServiceLinkedConfigurationRecorder API, this exception is thrown if the number of service-linked roles in the account exceeds the limit. For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
     /// - `NoSuchConfigRuleException` : The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
     /// - `ResourceInUseException` : You see this exception in the following cases:
     ///
@@ -6827,9 +7929,9 @@ extension ConfigClient {
 
     /// Performs the `StartConfigurationRecorder` operation on the `StarlingDoveService` service.
     ///
-    /// Starts recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account. You must have created at least one delivery channel to successfully start the configuration recorder.
+    /// Starts the customer managed configuration recorder. The customer managed configuration recorder will begin recording configuration changes for the resource types you specify. You must have created a delivery channel to successfully start the customer managed configuration recorder. You can use the [PutDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_PutDeliveryChannel.html) operation to create a delivery channel.
     ///
-    /// - Parameter StartConfigurationRecorderInput : The input for the [StartConfigurationRecorder] action.
+    /// - Parameter StartConfigurationRecorderInput : The input for the [StartConfigurationRecorder] operation.
     ///
     /// - Returns: `StartConfigurationRecorderOutput` : [no documentation found]
     ///
@@ -6838,6 +7940,7 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `NoAvailableDeliveryChannelException` : There is no delivery channel available to record configurations.
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `UnmodifiableEntityException` : The requested operation is not valid. For [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html), you will see this exception because you cannot use this operation to create a service-linked configuration recorder. Use the [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html) operation to create a service-linked configuration recorder. For [DeleteConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html), you will see this exception because you cannot use this operation to delete a service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder. For [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) and [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html), you will see this exception because these operations do not affect service-linked configuration recorders. Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder.
     public func startConfigurationRecorder(input: StartConfigurationRecorderInput) async throws -> StartConfigurationRecorderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6909,17 +8012,22 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `InsufficientPermissionsException` : Indicates one of the following errors:
     ///
-    /// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
     ///
-    /// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+    /// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
     ///
-    /// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+    /// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
     ///
-    /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+    /// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
     ///
     /// * You do not have permission to call IAM GetRole action or create a service-linked role.
     ///
     /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+    ///
+    ///
+    ///
+    ///
+    /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
     /// - `InvalidParameterValueException` : One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
     /// - `NoSuchRemediationConfigurationException` : You specified an Config rule without a remediation configuration.
     public func startRemediationExecution(input: StartRemediationExecutionInput) async throws -> StartRemediationExecutionOutput {
@@ -7053,9 +8161,9 @@ extension ConfigClient {
 
     /// Performs the `StopConfigurationRecorder` operation on the `StarlingDoveService` service.
     ///
-    /// Stops recording configurations of the Amazon Web Services resources you have selected to record in your Amazon Web Services account.
+    /// Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
     ///
-    /// - Parameter StopConfigurationRecorderInput : The input for the [StopConfigurationRecorder] action.
+    /// - Parameter StopConfigurationRecorderInput : The input for the [StopConfigurationRecorder] operation.
     ///
     /// - Returns: `StopConfigurationRecorderOutput` : [no documentation found]
     ///
@@ -7063,6 +8171,7 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `NoSuchConfigurationRecorderException` : You have specified a configuration recorder that does not exist.
+    /// - `UnmodifiableEntityException` : The requested operation is not valid. For [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html), you will see this exception because you cannot use this operation to create a service-linked configuration recorder. Use the [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html) operation to create a service-linked configuration recorder. For [DeleteConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html), you will see this exception because you cannot use this operation to delete a service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder. For [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) and [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html), you will see this exception because these operations do not affect service-linked configuration recorders. Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder.
     public func stopConfigurationRecorder(input: StopConfigurationRecorderInput) async throws -> StopConfigurationRecorderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7123,7 +8232,7 @@ extension ConfigClient {
 
     /// Performs the `TagResource` operation on the `StarlingDoveService` service.
     ///
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
+    /// Associates the specified tags to a resource with the specified ResourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -7134,7 +8243,29 @@ extension ConfigClient {
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
     /// - `TooManyTagsException` : You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7205,7 +8336,29 @@ extension ConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : You have specified a resource that does not exist.
-    /// - `ValidationException` : The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+    /// - `ValidationException` : The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+    ///
+    /// * There are missing required fields.
+    ///
+    /// * The input value fails the validation.
+    ///
+    /// * You are trying to create more than 300 queries.
+    ///
+    ///
+    /// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+    ///
+    /// * You have specified more than one configuration recorder.
+    ///
+    /// * You have provided a service principal for service-linked configuration recorder that is not valid.
+    ///
+    ///
+    /// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+    ///
+    /// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+    ///
+    /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+    ///
+    /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

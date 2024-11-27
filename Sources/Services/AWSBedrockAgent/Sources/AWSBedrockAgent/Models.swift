@@ -911,6 +911,32 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Contains details about the Lambda function containing the orchestration logic carried out upon invoking the custom orchestration.
+    public enum OrchestrationExecutor: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
+        case lambda(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Details of custom orchestration.
+    public struct CustomOrchestration: Swift.Sendable {
+        /// The structure of the executor invoking the actions in custom orchestration.
+        public var executor: BedrockAgentClientTypes.OrchestrationExecutor?
+
+        public init(
+            executor: BedrockAgentClientTypes.OrchestrationExecutor? = nil
+        )
+        {
+            self.executor = executor
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Details about a guardrail associated with a resource.
     public struct GuardrailConfiguration: Swift.Sendable {
         /// The unique identifier of the guardrail.
@@ -972,6 +998,35 @@ extension BedrockAgentClientTypes {
         {
             self.enabledMemoryTypes = enabledMemoryTypes
             self.storageDays = storageDays
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum OrchestrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customOrchestration
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrchestrationType] {
+            return [
+                .customOrchestration,
+                .default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customOrchestration: return "CUSTOM_ORCHESTRATION"
+            case .default: return "DEFAULT"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1218,6 +1273,8 @@ extension BedrockAgentClientTypes {
         /// The time at which the agent was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// Contains custom orchestration configurations for the agent.
+        public var customOrchestration: BedrockAgentClientTypes.CustomOrchestration?
         /// The Amazon Resource Name (ARN) of the KMS key that encrypts the agent.
         public var customerEncryptionKeyArn: Swift.String?
         /// The description of the agent.
@@ -1235,6 +1292,8 @@ extension BedrockAgentClientTypes {
         public var instruction: Swift.String?
         /// Contains memory configuration for the agent.
         public var memoryConfiguration: BedrockAgentClientTypes.MemoryConfiguration?
+        /// Specifies the orchestration strategy for the agent.
+        public var orchestrationType: BedrockAgentClientTypes.OrchestrationType?
         /// The time at which the agent was last prepared.
         public var preparedAt: Foundation.Date?
         /// Contains configurations to override prompt templates in different parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
@@ -1254,6 +1313,7 @@ extension BedrockAgentClientTypes {
             agentVersion: Swift.String? = nil,
             clientToken: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
+            customOrchestration: BedrockAgentClientTypes.CustomOrchestration? = nil,
             customerEncryptionKeyArn: Swift.String? = nil,
             description: Swift.String? = nil,
             failureReasons: [Swift.String]? = nil,
@@ -1262,6 +1322,7 @@ extension BedrockAgentClientTypes {
             idleSessionTTLInSeconds: Swift.Int? = nil,
             instruction: Swift.String? = nil,
             memoryConfiguration: BedrockAgentClientTypes.MemoryConfiguration? = nil,
+            orchestrationType: BedrockAgentClientTypes.OrchestrationType? = nil,
             preparedAt: Foundation.Date? = nil,
             promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration? = nil,
             recommendedActions: [Swift.String]? = nil,
@@ -1276,6 +1337,7 @@ extension BedrockAgentClientTypes {
             self.agentVersion = agentVersion
             self.clientToken = clientToken
             self.createdAt = createdAt
+            self.customOrchestration = customOrchestration
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
             self.description = description
             self.failureReasons = failureReasons
@@ -1284,6 +1346,7 @@ extension BedrockAgentClientTypes {
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.instruction = instruction
             self.memoryConfiguration = memoryConfiguration
+            self.orchestrationType = orchestrationType
             self.preparedAt = preparedAt
             self.promptOverrideConfiguration = promptOverrideConfiguration
             self.recommendedActions = recommendedActions
@@ -1294,7 +1357,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.Agent: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Agent(agentArn: \(Swift.String(describing: agentArn)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), agentStatus: \(Swift.String(describing: agentStatus)), agentVersion: \(Swift.String(describing: agentVersion)), clientToken: \(Swift.String(describing: clientToken)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), failureReasons: \(Swift.String(describing: failureReasons)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), preparedAt: \(Swift.String(describing: preparedAt)), recommendedActions: \(Swift.String(describing: recommendedActions)), updatedAt: \(Swift.String(describing: updatedAt)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "Agent(agentArn: \(Swift.String(describing: agentArn)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), agentStatus: \(Swift.String(describing: agentStatus)), agentVersion: \(Swift.String(describing: agentVersion)), clientToken: \(Swift.String(describing: clientToken)), createdAt: \(Swift.String(describing: createdAt)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), failureReasons: \(Swift.String(describing: failureReasons)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), orchestrationType: \(Swift.String(describing: orchestrationType)), preparedAt: \(Swift.String(describing: preparedAt)), recommendedActions: \(Swift.String(describing: recommendedActions)), updatedAt: \(Swift.String(describing: updatedAt)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -1634,6 +1697,8 @@ public struct CreateAgentInput: Swift.Sendable {
     public var agentResourceRoleArn: Swift.String?
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
+    /// Contains details of the custom orchestration configured for the agent.
+    public var customOrchestration: BedrockAgentClientTypes.CustomOrchestration?
     /// The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
     public var customerEncryptionKeyArn: Swift.String?
     /// A description of the agent.
@@ -1658,6 +1723,8 @@ public struct CreateAgentInput: Swift.Sendable {
     public var instruction: Swift.String?
     /// Contains the details of the memory configured for the agent.
     public var memoryConfiguration: BedrockAgentClientTypes.MemoryConfiguration?
+    /// Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
+    public var orchestrationType: BedrockAgentClientTypes.OrchestrationType?
     /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
     public var promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration?
     /// Any tags that you want to attach to the agent.
@@ -1667,6 +1734,7 @@ public struct CreateAgentInput: Swift.Sendable {
         agentName: Swift.String? = nil,
         agentResourceRoleArn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        customOrchestration: BedrockAgentClientTypes.CustomOrchestration? = nil,
         customerEncryptionKeyArn: Swift.String? = nil,
         description: Swift.String? = nil,
         foundationModel: Swift.String? = nil,
@@ -1674,6 +1742,7 @@ public struct CreateAgentInput: Swift.Sendable {
         idleSessionTTLInSeconds: Swift.Int? = nil,
         instruction: Swift.String? = nil,
         memoryConfiguration: BedrockAgentClientTypes.MemoryConfiguration? = nil,
+        orchestrationType: BedrockAgentClientTypes.OrchestrationType? = nil,
         promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -1681,6 +1750,7 @@ public struct CreateAgentInput: Swift.Sendable {
         self.agentName = agentName
         self.agentResourceRoleArn = agentResourceRoleArn
         self.clientToken = clientToken
+        self.customOrchestration = customOrchestration
         self.customerEncryptionKeyArn = customerEncryptionKeyArn
         self.description = description
         self.foundationModel = foundationModel
@@ -1688,6 +1758,7 @@ public struct CreateAgentInput: Swift.Sendable {
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
         self.instruction = instruction
         self.memoryConfiguration = memoryConfiguration
+        self.orchestrationType = orchestrationType
         self.promptOverrideConfiguration = promptOverrideConfiguration
         self.tags = tags
     }
@@ -1695,7 +1766,7 @@ public struct CreateAgentInput: Swift.Sendable {
 
 extension CreateAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAgentInput(agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), clientToken: \(Swift.String(describing: clientToken)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), tags: \(Swift.String(describing: tags)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "CreateAgentInput(agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), clientToken: \(Swift.String(describing: clientToken)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), orchestrationType: \(Swift.String(describing: orchestrationType)), tags: \(Swift.String(describing: tags)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAgentOutput: Swift.Sendable {
@@ -1900,6 +1971,8 @@ public struct UpdateAgentInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.
     /// This member is required.
     public var agentResourceRoleArn: Swift.String?
+    /// Contains details of the custom orchestration configured for the agent.
+    public var customOrchestration: BedrockAgentClientTypes.CustomOrchestration?
     /// The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
     public var customerEncryptionKeyArn: Swift.String?
     /// Specifies a new description of the agent.
@@ -1925,6 +1998,8 @@ public struct UpdateAgentInput: Swift.Sendable {
     public var instruction: Swift.String?
     /// Specifies the new memory configuration for the agent.
     public var memoryConfiguration: BedrockAgentClientTypes.MemoryConfiguration?
+    /// Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
+    public var orchestrationType: BedrockAgentClientTypes.OrchestrationType?
     /// Contains configurations to override prompts in different parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
     public var promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration?
 
@@ -1932,6 +2007,7 @@ public struct UpdateAgentInput: Swift.Sendable {
         agentId: Swift.String? = nil,
         agentName: Swift.String? = nil,
         agentResourceRoleArn: Swift.String? = nil,
+        customOrchestration: BedrockAgentClientTypes.CustomOrchestration? = nil,
         customerEncryptionKeyArn: Swift.String? = nil,
         description: Swift.String? = nil,
         foundationModel: Swift.String? = nil,
@@ -1939,12 +2015,14 @@ public struct UpdateAgentInput: Swift.Sendable {
         idleSessionTTLInSeconds: Swift.Int? = nil,
         instruction: Swift.String? = nil,
         memoryConfiguration: BedrockAgentClientTypes.MemoryConfiguration? = nil,
+        orchestrationType: BedrockAgentClientTypes.OrchestrationType? = nil,
         promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration? = nil
     )
     {
         self.agentId = agentId
         self.agentName = agentName
         self.agentResourceRoleArn = agentResourceRoleArn
+        self.customOrchestration = customOrchestration
         self.customerEncryptionKeyArn = customerEncryptionKeyArn
         self.description = description
         self.foundationModel = foundationModel
@@ -1952,13 +2030,14 @@ public struct UpdateAgentInput: Swift.Sendable {
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
         self.instruction = instruction
         self.memoryConfiguration = memoryConfiguration
+        self.orchestrationType = orchestrationType
         self.promptOverrideConfiguration = promptOverrideConfiguration
     }
 }
 
 extension UpdateAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAgentInput(agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "UpdateAgentInput(agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), orchestrationType: \(Swift.String(describing: orchestrationType)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateAgentOutput: Swift.Sendable {
@@ -7289,16 +7368,50 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Bedrock models embedding data type. Can be either float32 or binary
+    public enum EmbeddingDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case binary
+        case float32
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmbeddingDataType] {
+            return [
+                .binary,
+                .float32
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .binary: return "BINARY"
+            case .float32: return "FLOAT32"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// The vector configuration details for the Bedrock embeddings model.
     public struct BedrockEmbeddingModelConfiguration: Swift.Sendable {
         /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
         public var dimensions: Swift.Int?
+        /// The data type for the vectors when using a model to convert text into vector embeddings. The model must support the specified data type for vector embeddings. Floating-point (float32) is the default data type, and is supported by most models for vector embeddings. See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
+        public var embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType?
 
         public init(
-            dimensions: Swift.Int? = nil
+            dimensions: Swift.Int? = nil,
+            embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType? = nil
         )
         {
             self.dimensions = dimensions
+            self.embeddingDataType = embeddingDataType
         }
     }
 }
@@ -9941,6 +10054,7 @@ extension CreateAgentInput {
         try writer["agentName"].write(value.agentName)
         try writer["agentResourceRoleArn"].write(value.agentResourceRoleArn)
         try writer["clientToken"].write(value.clientToken)
+        try writer["customOrchestration"].write(value.customOrchestration, with: BedrockAgentClientTypes.CustomOrchestration.write(value:to:))
         try writer["customerEncryptionKeyArn"].write(value.customerEncryptionKeyArn)
         try writer["description"].write(value.description)
         try writer["foundationModel"].write(value.foundationModel)
@@ -9948,6 +10062,7 @@ extension CreateAgentInput {
         try writer["idleSessionTTLInSeconds"].write(value.idleSessionTTLInSeconds)
         try writer["instruction"].write(value.instruction)
         try writer["memoryConfiguration"].write(value.memoryConfiguration, with: BedrockAgentClientTypes.MemoryConfiguration.write(value:to:))
+        try writer["orchestrationType"].write(value.orchestrationType)
         try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentClientTypes.PromptOverrideConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -10164,6 +10279,7 @@ extension UpdateAgentInput {
         guard let value else { return }
         try writer["agentName"].write(value.agentName)
         try writer["agentResourceRoleArn"].write(value.agentResourceRoleArn)
+        try writer["customOrchestration"].write(value.customOrchestration, with: BedrockAgentClientTypes.CustomOrchestration.write(value:to:))
         try writer["customerEncryptionKeyArn"].write(value.customerEncryptionKeyArn)
         try writer["description"].write(value.description)
         try writer["foundationModel"].write(value.foundationModel)
@@ -10171,6 +10287,7 @@ extension UpdateAgentInput {
         try writer["idleSessionTTLInSeconds"].write(value.idleSessionTTLInSeconds)
         try writer["instruction"].write(value.instruction)
         try writer["memoryConfiguration"].write(value.memoryConfiguration, with: BedrockAgentClientTypes.MemoryConfiguration.write(value:to:))
+        try writer["orchestrationType"].write(value.orchestrationType)
         try writer["promptOverrideConfiguration"].write(value.promptOverrideConfiguration, with: BedrockAgentClientTypes.PromptOverrideConfiguration.write(value:to:))
     }
 }
@@ -12447,6 +12564,8 @@ extension BedrockAgentClientTypes.Agent {
         value.agentStatus = try reader["agentStatus"].readIfPresent() ?? .sdkUnknown("")
         value.foundationModel = try reader["foundationModel"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
+        value.orchestrationType = try reader["orchestrationType"].readIfPresent()
+        value.customOrchestration = try reader["customOrchestration"].readIfPresent(with: BedrockAgentClientTypes.CustomOrchestration.read(from:))
         value.idleSessionTTLInSeconds = try reader["idleSessionTTLInSeconds"].readIfPresent() ?? 0
         value.agentResourceRoleArn = try reader["agentResourceRoleArn"].readIfPresent() ?? ""
         value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
@@ -12558,6 +12677,45 @@ extension BedrockAgentClientTypes.InferenceConfiguration {
         value.maximumLength = try reader["maximumLength"].readIfPresent()
         value.stopSequences = try reader["stopSequences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension BedrockAgentClientTypes.CustomOrchestration {
+
+    static func write(value: BedrockAgentClientTypes.CustomOrchestration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["executor"].write(value.executor, with: BedrockAgentClientTypes.OrchestrationExecutor.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.CustomOrchestration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.CustomOrchestration()
+        value.executor = try reader["executor"].readIfPresent(with: BedrockAgentClientTypes.OrchestrationExecutor.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.OrchestrationExecutor {
+
+    static func write(value: BedrockAgentClientTypes.OrchestrationExecutor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .lambda(lambda):
+                try writer["lambda"].write(lambda)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.OrchestrationExecutor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "lambda":
+                return .lambda(try reader["lambda"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -14647,12 +14805,14 @@ extension BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
     static func write(value: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["dimensions"].write(value.dimensions)
+        try writer["embeddingDataType"].write(value.embeddingDataType)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration()
         value.dimensions = try reader["dimensions"].readIfPresent()
+        value.embeddingDataType = try reader["embeddingDataType"].readIfPresent()
         return value
     }
 }
