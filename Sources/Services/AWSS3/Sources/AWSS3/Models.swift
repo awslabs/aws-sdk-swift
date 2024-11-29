@@ -22349,12 +22349,12 @@ extension UploadPartInput {
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartOutput>())
         let endpointParams = EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: config.endpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
-        context.attributes.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
         builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UploadPartOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UploadPartOutput>())
         builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UploadPartInput, UploadPartOutput>())
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<UploadPartInput, UploadPartOutput>(checksumAlgorithm: input.checksumAlgorithm?.rawValue))
-        builder.serialize(UploadPartPresignedURLMiddleware())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UploadPartInput, UploadPartOutput>(UploadPartInput.queryItemProvider(_:)))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UploadPart")
@@ -22368,27 +22368,6 @@ extension UploadPartInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input).endpoint.url
-    }
-}
-
-public struct UploadPartPresignedURLMiddleware {
-    public let id: Swift.String = "UploadPartPresignedURLMiddleware"
-
-    public init() {}
-}
-extension UploadPartPresignedURLMiddleware: Smithy.RequestMessageSerializer {
-    public typealias InputType = UploadPartInput
-    public typealias RequestType = SmithyHTTPAPI.HTTPRequest
-
-    public func apply(input: InputType, builder: SmithyHTTPAPI.HTTPRequestBuilder, attributes: Smithy.Context) throws {
-        if let partNumber = input.partNumber {
-            let queryItem = Smithy.URIQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
-            builder.withQueryItem(queryItem)
-        }
-        if let uploadId = input.uploadId {
-            let queryItem = Smithy.URIQueryItem(name: "uploadId".urlPercentEncoding(), value: Swift.String(uploadId).urlPercentEncoding())
-            builder.withQueryItem(queryItem)
-        }
     }
 }
 
