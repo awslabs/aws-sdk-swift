@@ -134,6 +134,30 @@ public struct AcceptDirectConnectGatewayAssociationProposalInput: Swift.Sendable
 
 extension DirectConnectClientTypes {
 
+    /// The Amazon Web Services Cloud WAN core network that the Direct Connect attachment is associated with.
+    public struct AssociatedCoreNetwork: Swift.Sendable {
+        /// the ID of the Direct Connect attachment
+        public var attachmentId: Swift.String?
+        /// The ID of the Cloud WAN core network.
+        public var id: Swift.String?
+        /// The account owner of the Cloud WAN core network.
+        public var ownerAccount: Swift.String?
+
+        public init(
+            attachmentId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            ownerAccount: Swift.String? = nil
+        )
+        {
+            self.attachmentId = attachmentId
+            self.id = id
+            self.ownerAccount = ownerAccount
+        }
+    }
+}
+
+extension DirectConnectClientTypes {
+
     public enum GatewayType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case transitgateway
         case virtualprivategateway
@@ -233,6 +257,8 @@ extension DirectConnectClientTypes {
     public struct DirectConnectGatewayAssociation: Swift.Sendable {
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public var allowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
+        /// The ID of the Cloud WAN core network associated with the Direct Connect attachment.
+        public var associatedCoreNetwork: DirectConnectClientTypes.AssociatedCoreNetwork?
         /// Information about the associated gateway.
         public var associatedGateway: DirectConnectClientTypes.AssociatedGateway?
         /// The ID of the Direct Connect gateway association.
@@ -265,6 +291,7 @@ extension DirectConnectClientTypes {
 
         public init(
             allowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
+            associatedCoreNetwork: DirectConnectClientTypes.AssociatedCoreNetwork? = nil,
             associatedGateway: DirectConnectClientTypes.AssociatedGateway? = nil,
             associationId: Swift.String? = nil,
             associationState: DirectConnectClientTypes.DirectConnectGatewayAssociationState? = nil,
@@ -277,6 +304,7 @@ extension DirectConnectClientTypes {
         )
         {
             self.allowedPrefixesToDirectConnectGateway = allowedPrefixesToDirectConnectGateway
+            self.associatedCoreNetwork = associatedCoreNetwork
             self.associatedGateway = associatedGateway
             self.associationId = associationId
             self.associationState = associationState
@@ -9361,9 +9389,22 @@ extension DirectConnectClientTypes.DirectConnectGatewayAssociation {
         value.associatedGateway = try reader["associatedGateway"].readIfPresent(with: DirectConnectClientTypes.AssociatedGateway.read(from:))
         value.associationId = try reader["associationId"].readIfPresent()
         value.allowedPrefixesToDirectConnectGateway = try reader["allowedPrefixesToDirectConnectGateway"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.RouteFilterPrefix.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.associatedCoreNetwork = try reader["associatedCoreNetwork"].readIfPresent(with: DirectConnectClientTypes.AssociatedCoreNetwork.read(from:))
         value.virtualGatewayId = try reader["virtualGatewayId"].readIfPresent()
         value.virtualGatewayRegion = try reader["virtualGatewayRegion"].readIfPresent()
         value.virtualGatewayOwnerAccount = try reader["virtualGatewayOwnerAccount"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectConnectClientTypes.AssociatedCoreNetwork {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectConnectClientTypes.AssociatedCoreNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectConnectClientTypes.AssociatedCoreNetwork()
+        value.id = try reader["id"].readIfPresent()
+        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.attachmentId = try reader["attachmentId"].readIfPresent()
         return value
     }
 }

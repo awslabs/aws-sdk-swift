@@ -796,6 +796,8 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when StorageType is HDD. When set to READ the file system has an SSD storage cache that is sized to 20% of the file system's storage capacity. This improves the performance for frequently accessed files by caching up to 20% of the total storage capacity. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
+        /// Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage (GDS) support is enabled for the Amazon FSx for Lustre file system.
+        public var efaEnabled: Swift.Bool?
         /// The Lustre logging configuration. Lustre logging writes the enabled log events for your file system to Amazon CloudWatch Logs.
         public var logConfiguration: FSxClientTypes.LustreLogConfiguration?
         /// The Lustre metadata performance configuration for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type.
@@ -823,6 +825,7 @@ extension FSxClientTypes {
             dataRepositoryConfiguration: FSxClientTypes.DataRepositoryConfiguration? = nil,
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
+            efaEnabled: Swift.Bool? = nil,
             logConfiguration: FSxClientTypes.LustreLogConfiguration? = nil,
             metadataConfiguration: FSxClientTypes.FileSystemLustreMetadataConfiguration? = nil,
             mountName: Swift.String? = nil,
@@ -838,6 +841,7 @@ extension FSxClientTypes {
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
+            self.efaEnabled = efaEnabled
             self.logConfiguration = logConfiguration
             self.metadataConfiguration = metadataConfiguration
             self.mountName = mountName
@@ -4894,6 +4898,8 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
+        /// (Optional) Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage (GDS) support is enabled for the Amazon FSx for Lustre file system. (Default = false)
+        public var efaEnabled: Swift.Bool?
         /// (Optional) Specifies the path in the Amazon S3 bucket where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you specify only a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file system to that export prefix in the Amazon S3 bucket. This parameter is not supported for file systems with a data repository association.
         public var exportPath: Swift.String?
         /// (Optional) The path to the Amazon S3 bucket (including the optional prefix) that you're using as the data repository for your Amazon FSx for Lustre file system. The root of your FSx for Lustre file system will be mapped to the root of the Amazon S3 bucket you select. An example is s3://import-bucket/optional-prefix. If you specify a prefix after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system. This parameter is not supported for file systems with a data repository association.
@@ -4925,6 +4931,7 @@ extension FSxClientTypes {
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
+            efaEnabled: Swift.Bool? = nil,
             exportPath: Swift.String? = nil,
             importPath: Swift.String? = nil,
             importedFileChunkSize: Swift.Int? = nil,
@@ -4942,6 +4949,7 @@ extension FSxClientTypes {
             self.dataCompressionType = dataCompressionType
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
+            self.efaEnabled = efaEnabled
             self.exportPath = exportPath
             self.importPath = importPath
             self.importedFileChunkSize = importedFileChunkSize
@@ -12403,6 +12411,7 @@ extension FSxClientTypes.LustreFileSystemConfiguration {
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: FSxClientTypes.LustreLogConfiguration.read(from:))
         value.rootSquashConfiguration = try reader["RootSquashConfiguration"].readIfPresent(with: FSxClientTypes.LustreRootSquashConfiguration.read(from:))
         value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileSystemLustreMetadataConfiguration.read(from:))
+        value.efaEnabled = try reader["EfaEnabled"].readIfPresent()
         return value
     }
 }
@@ -13137,6 +13146,7 @@ extension FSxClientTypes.CreateFileSystemLustreConfiguration {
         try writer["DataCompressionType"].write(value.dataCompressionType)
         try writer["DeploymentType"].write(value.deploymentType)
         try writer["DriveCacheType"].write(value.driveCacheType)
+        try writer["EfaEnabled"].write(value.efaEnabled)
         try writer["ExportPath"].write(value.exportPath)
         try writer["ImportPath"].write(value.importPath)
         try writer["ImportedFileChunkSize"].write(value.importedFileChunkSize)
