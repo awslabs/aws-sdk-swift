@@ -5,11 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import AWSSDKHTTPAuth
 import XCTest
 import AWSS3
-import ClientRuntime
-import AWSClientRuntime
 
 /// Tests presigned multipart upload using S3.
 class S3PresignedMultiPartUploadTests: S3XCTestCase {
