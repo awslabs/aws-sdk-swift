@@ -19,7 +19,7 @@ class RpcV2CborValidateResponseHeaderIntegration : SwiftIntegration {
         .any { it.hasTrait(Rpcv2CborTrait::class.java) }
 }
 
-private object RpcV2CborValidateResponseHeaderMiddleware : MiddlewareRenderable {
+object RpcV2CborValidateResponseHeaderMiddleware : MiddlewareRenderable {
     override val name = "RpcV2CborValidateResponseHeaderMiddleware"
 
     override fun renderMiddlewareInit(
