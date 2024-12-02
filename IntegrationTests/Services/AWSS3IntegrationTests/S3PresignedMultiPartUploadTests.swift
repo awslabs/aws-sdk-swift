@@ -5,6 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import XCTest
 import AWSS3
 
