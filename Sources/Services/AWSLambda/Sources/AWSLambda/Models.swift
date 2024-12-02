@@ -918,7 +918,7 @@ extension LambdaClientTypes {
 
     /// A destination for events that failed processing.
     public struct OnFailure: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from [Kinesis and DynamoDB event sources](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#event-source-mapping-destinations), you can configure an Amazon SNS topic or Amazon SQS queue as the destination. To retain records of failed invocations from [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
+        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of unsuccessful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from [Kinesis](https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html), [DynamoDB](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html), [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
         public var destination: Swift.String?
 
         public init(
@@ -932,7 +932,7 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// A destination for events that were processed successfully.
+    /// A destination for events that were processed successfully. To retain records of successful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination.
     public struct OnSuccess: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the destination resource.
         public var destination: Swift.String?
@@ -1073,6 +1073,68 @@ extension LambdaClientTypes {
             case .reportbatchitemfailures: return "ReportBatchItemFailures"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum EventSourceMappingMetric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eventcount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventSourceMappingMetric] {
+            return [
+                .eventcount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eventcount: return "EventCount"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The metrics configuration for your event source. Use this configuration object to define which metrics you want your event source mapping to produce.
+    public struct EventSourceMappingMetricsConfig: Swift.Sendable {
+        /// The metrics you want your event source mapping to produce. Include EventCount to receive event source mapping metrics related to the number of events processed by your event source mapping. For more information about these metrics, see [ Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+        public var metrics: [LambdaClientTypes.EventSourceMappingMetric]?
+
+        public init(
+            metrics: [LambdaClientTypes.EventSourceMappingMetric]? = nil
+        )
+        {
+            self.metrics = metrics
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The [ Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode) configuration for the event source. Use Provisioned Mode to customize the minimum and maximum number of event pollers for your event source. An event poller is a compute unit that provides approximately 5 MBps of throughput.
+    public struct ProvisionedPollerConfig: Swift.Sendable {
+        /// The maximum number of event pollers this event source can scale up to.
+        public var maximumPollers: Swift.Int?
+        /// The minimum number of event pollers this event source can scale down to.
+        public var minimumPollers: Swift.Int?
+
+        public init(
+            maximumPollers: Swift.Int? = nil,
+            minimumPollers: Swift.Int? = nil
+        )
+        {
+            self.maximumPollers = maximumPollers
+            self.minimumPollers = minimumPollers
         }
     }
 }
@@ -1335,8 +1397,12 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -1373,7 +1439,9 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -1400,7 +1468,9 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.queues = queues
         self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
@@ -1470,8 +1540,12 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -1515,7 +1589,9 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -1547,7 +1623,9 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.queues = queues
         self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
@@ -1684,6 +1762,8 @@ extension LambdaClientTypes {
         public var s3Key: Swift.String?
         /// For versioned objects, the version of the deployment package object to use.
         public var s3ObjectVersion: Swift.String?
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk).
+        public var sourceKMSKeyArn: Swift.String?
         /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients handle the encoding for you.
         public var zipFile: Foundation.Data?
 
@@ -1692,6 +1772,7 @@ extension LambdaClientTypes {
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil,
             s3ObjectVersion: Swift.String? = nil,
+            sourceKMSKeyArn: Swift.String? = nil,
             zipFile: Foundation.Data? = nil
         )
         {
@@ -1699,6 +1780,7 @@ extension LambdaClientTypes {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
             self.s3ObjectVersion = s3ObjectVersion
+            self.sourceKMSKeyArn = sourceKMSKeyArn
             self.zipFile = zipFile
         }
     }
@@ -1706,7 +1788,7 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes.FunctionCode: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "FunctionCode(imageUri: \(Swift.String(describing: imageUri)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), zipFile: \"CONTENT_REDACTED\")"}
+        "FunctionCode(imageUri: \(Swift.String(describing: imageUri)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), sourceKMSKeyArn: \(Swift.String(describing: sourceKMSKeyArn)), zipFile: \"CONTENT_REDACTED\")"}
 }
 
 extension LambdaClientTypes {
@@ -1949,6 +2031,7 @@ extension LambdaClientTypes {
         case nodejs16x
         case nodejs18x
         case nodejs20x
+        case nodejs22x
         case nodejs43
         case nodejs43edge
         case nodejs610
@@ -1960,6 +2043,7 @@ extension LambdaClientTypes {
         case python310
         case python311
         case python312
+        case python313
         case python36
         case python37
         case python38
@@ -1991,6 +2075,7 @@ extension LambdaClientTypes {
                 .nodejs16x,
                 .nodejs18x,
                 .nodejs20x,
+                .nodejs22x,
                 .nodejs43,
                 .nodejs43edge,
                 .nodejs610,
@@ -2002,6 +2087,7 @@ extension LambdaClientTypes {
                 .python310,
                 .python311,
                 .python312,
+                .python313,
                 .python36,
                 .python37,
                 .python38,
@@ -2039,6 +2125,7 @@ extension LambdaClientTypes {
             case .nodejs16x: return "nodejs16.x"
             case .nodejs18x: return "nodejs18.x"
             case .nodejs20x: return "nodejs20.x"
+            case .nodejs22x: return "nodejs22.x"
             case .nodejs43: return "nodejs4.3"
             case .nodejs43edge: return "nodejs4.3-edge"
             case .nodejs610: return "nodejs6.10"
@@ -2050,6 +2137,7 @@ extension LambdaClientTypes {
             case .python310: return "python3.10"
             case .python311: return "python3.11"
             case .python312: return "python3.12"
+            case .python313: return "python3.13"
             case .python36: return "python3.6"
             case .python37: return "python3.7"
             case .python38: return "python3.8"
@@ -2212,7 +2300,18 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var handler: Swift.String?
     /// Container image [configuration values](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-parms) that override the values in the container image Dockerfile.
     public var imageConfig: LambdaClientTypes.ImageConfig?
-    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, Lambda also uses this key is to encrypt your function's snapshot. If you deploy your function using a container image, Lambda also uses this key to encrypt your function when it's deployed. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). If you don't provide a customer managed key, Lambda uses a default service key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:
+    ///
+    /// * The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+    ///
+    /// * The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) snapshots.
+    ///
+    /// * When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see [ Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+    ///
+    /// * The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+    ///
+    ///
+    /// If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk) or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
     public var kmsKeyArn: Swift.String?
     /// A list of [function layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) to add to the function's execution environment. Specify each layer by its ARN, including the version.
     public var layers: [Swift.String]?
@@ -2829,7 +2928,18 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var handler: Swift.String?
     /// The function's image configuration values.
     public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:
+    ///
+    /// * The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+    ///
+    /// * The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) snapshots.
+    ///
+    /// * When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see [ Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+    ///
+    /// * The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+    ///
+    ///
+    /// If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk) or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
     public var kmsKeyArn: Swift.String?
     /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModified: Swift.String?
@@ -3225,8 +3335,12 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -3270,7 +3384,9 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -3302,7 +3418,9 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.queues = queues
         self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
@@ -3641,8 +3759,12 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -3686,7 +3808,9 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -3718,7 +3842,9 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.queues = queues
         self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
@@ -3772,18 +3898,22 @@ extension LambdaClientTypes {
         public var repositoryType: Swift.String?
         /// The resolved URI for the image.
         public var resolvedImageUri: Swift.String?
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk).
+        public var sourceKMSKeyArn: Swift.String?
 
         public init(
             imageUri: Swift.String? = nil,
             location: Swift.String? = nil,
             repositoryType: Swift.String? = nil,
-            resolvedImageUri: Swift.String? = nil
+            resolvedImageUri: Swift.String? = nil,
+            sourceKMSKeyArn: Swift.String? = nil
         )
         {
             self.imageUri = imageUri
             self.location = location
             self.repositoryType = repositoryType
             self.resolvedImageUri = resolvedImageUri
+            self.sourceKMSKeyArn = sourceKMSKeyArn
         }
     }
 }
@@ -3831,7 +3961,18 @@ extension LambdaClientTypes {
         public var handler: Swift.String?
         /// The function's image configuration values.
         public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-        /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
+        /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:
+        ///
+        /// * The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+        ///
+        /// * The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) snapshots.
+        ///
+        /// * When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see [ Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+        ///
+        /// * The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+        ///
+        ///
+        /// If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk) or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
         public var kmsKeyArn: Swift.String?
         /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
         public var lastModified: Swift.String?
@@ -3988,7 +4129,7 @@ public struct GetFunctionOutput: Swift.Sendable {
     public var concurrency: LambdaClientTypes.Concurrency?
     /// The configuration of the function or version.
     public var configuration: LambdaClientTypes.FunctionConfiguration?
-    /// The function's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). Lambda returns tag data only if you have explicit allow permissions for [lambda:ListTags](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/lambda/latest/api/API_ListTags.html).
+    /// The function's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). Lambda returns tag data only if you have explicit allow permissions for [lambda:ListTags](https://docs.aws.amazon.com/lambda/latest/api/API_ListTags.html).
     public var tags: [Swift.String: Swift.String]?
     /// An object that contains details about an error related to retrieving tags.
     public var tagsError: LambdaClientTypes.TagsError?
@@ -4144,7 +4285,18 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var handler: Swift.String?
     /// The function's image configuration values.
     public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:
+    ///
+    /// * The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+    ///
+    /// * The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) snapshots.
+    ///
+    /// * When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see [ Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+    ///
+    /// * The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+    ///
+    ///
+    /// If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk) or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
     public var kmsKeyArn: Swift.String?
     /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModified: Swift.String?
@@ -4304,9 +4456,14 @@ public struct GetFunctionEventInvokeConfigOutput: Swift.Sendable {
     ///
     /// * Queue - The ARN of a standard SQS queue.
     ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
     /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// The Amazon Resource Name (ARN) of the function.
     public var functionArn: Swift.String?
@@ -6082,8 +6239,12 @@ extension LambdaClientTypes {
         public var maximumRecordAgeInSeconds: Swift.Int?
         /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
         public var maximumRetryAttempts: Swift.Int?
+        /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+        public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public var parallelizationFactor: Swift.Int?
+        /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+        public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
         /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
         public var queues: [Swift.String]?
         /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -6127,7 +6288,9 @@ extension LambdaClientTypes {
             maximumBatchingWindowInSeconds: Swift.Int? = nil,
             maximumRecordAgeInSeconds: Swift.Int? = nil,
             maximumRetryAttempts: Swift.Int? = nil,
+            metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
             parallelizationFactor: Swift.Int? = nil,
+            provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
             queues: [Swift.String]? = nil,
             scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
             selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -6159,7 +6322,9 @@ extension LambdaClientTypes {
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
+            self.metricsConfig = metricsConfig
             self.parallelizationFactor = parallelizationFactor
+            self.provisionedPollerConfig = provisionedPollerConfig
             self.queues = queues
             self.scalingConfig = scalingConfig
             self.selfManagedEventSource = selfManagedEventSource
@@ -6231,9 +6396,14 @@ extension LambdaClientTypes {
         ///
         /// * Queue - The ARN of a standard SQS queue.
         ///
+        /// * Bucket - The ARN of an Amazon S3 bucket.
+        ///
         /// * Topic - The ARN of a standard SNS topic.
         ///
         /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+        ///
+        ///
+        /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
         public var destinationConfig: LambdaClientTypes.DestinationConfig?
         /// The Amazon Resource Name (ARN) of the function.
         public var functionArn: Swift.String?
@@ -6960,7 +7130,18 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var handler: Swift.String?
     /// The function's image configuration values.
     public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:
+    ///
+    /// * The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+    ///
+    /// * The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) snapshots.
+    ///
+    /// * When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see [ Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+    ///
+    /// * The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+    ///
+    ///
+    /// If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk) or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
     public var kmsKeyArn: Swift.String?
     /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModified: Swift.String?
@@ -7187,9 +7368,14 @@ public struct PutFunctionEventInvokeConfigInput: Swift.Sendable {
     ///
     /// * Queue - The ARN of a standard SQS queue.
     ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
     /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
@@ -7233,9 +7419,14 @@ public struct PutFunctionEventInvokeConfigOutput: Swift.Sendable {
     ///
     /// * Queue - The ARN of a standard SQS queue.
     ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
     /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// The Amazon Resource Name (ARN) of the function.
     public var functionArn: Swift.String?
@@ -7690,8 +7881,12 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
     public var scalingConfig: LambdaClientTypes.ScalingConfig?
     /// An array of authentication protocols or VPC components required to secure your event source.
@@ -7715,7 +7910,9 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil,
@@ -7734,7 +7931,9 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.scalingConfig = scalingConfig
         self.sourceAccessConfigurations = sourceAccessConfigurations
         self.tumblingWindowInSeconds = tumblingWindowInSeconds
@@ -7778,8 +7977,12 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
     public var maximumRecordAgeInSeconds: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
     public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
     /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see [Provisioned Mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
     /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
@@ -7823,7 +8026,9 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
         queues: [Swift.String]? = nil,
         scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
@@ -7855,7 +8060,9 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
         self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
         self.queues = queues
         self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
@@ -7900,6 +8107,8 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
     public var s3Key: Swift.String?
     /// For versioned objects, the version of the deployment package object to use.
     public var s3ObjectVersion: Swift.String?
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
+    public var sourceKMSKeyArn: Swift.String?
     /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients handle the encoding for you. Use only with a function defined with a .zip file archive deployment package.
     public var zipFile: Foundation.Data?
 
@@ -7913,6 +8122,7 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
         s3Bucket: Swift.String? = nil,
         s3Key: Swift.String? = nil,
         s3ObjectVersion: Swift.String? = nil,
+        sourceKMSKeyArn: Swift.String? = nil,
         zipFile: Foundation.Data? = nil
     )
     {
@@ -7925,13 +8135,14 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
         self.s3Bucket = s3Bucket
         self.s3Key = s3Key
         self.s3ObjectVersion = s3ObjectVersion
+        self.sourceKMSKeyArn = sourceKMSKeyArn
         self.zipFile = zipFile
     }
 }
 
 extension UpdateFunctionCodeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateFunctionCodeInput(architectures: \(Swift.String(describing: architectures)), dryRun: \(Swift.String(describing: dryRun)), functionName: \(Swift.String(describing: functionName)), imageUri: \(Swift.String(describing: imageUri)), publish: \(Swift.String(describing: publish)), revisionId: \(Swift.String(describing: revisionId)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), zipFile: \"CONTENT_REDACTED\")"}
+        "UpdateFunctionCodeInput(architectures: \(Swift.String(describing: architectures)), dryRun: \(Swift.String(describing: dryRun)), functionName: \(Swift.String(describing: functionName)), imageUri: \(Swift.String(describing: imageUri)), publish: \(Swift.String(describing: publish)), revisionId: \(Swift.String(describing: revisionId)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), sourceKMSKeyArn: \(Swift.String(describing: sourceKMSKeyArn)), zipFile: \"CONTENT_REDACTED\")"}
 }
 
 /// Details about a function's configuration.
@@ -7960,7 +8171,18 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var handler: Swift.String?
     /// The function's image configuration values.
     public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:
+    ///
+    /// * The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+    ///
+    /// * The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) snapshots.
+    ///
+    /// * When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see [ Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+    ///
+    /// * The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+    ///
+    ///
+    /// If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk) or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
     public var kmsKeyArn: Swift.String?
     /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModified: Swift.String?
@@ -8114,7 +8336,18 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var handler: Swift.String?
     /// [Container image configuration values](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-parms) that override the values in the container image Docker file.
     public var imageConfig: LambdaClientTypes.ImageConfig?
-    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, Lambda also uses this key is to encrypt your function's snapshot. If you deploy your function using a container image, Lambda also uses this key to encrypt your function when it's deployed. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). If you don't provide a customer managed key, Lambda uses a default service key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:
+    ///
+    /// * The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+    ///
+    /// * The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) snapshots.
+    ///
+    /// * When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see [ Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+    ///
+    /// * The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+    ///
+    ///
+    /// If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk) or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
     public var kmsKeyArn: Swift.String?
     /// A list of [function layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) to add to the function's execution environment. Specify each layer by its ARN, including the version.
     public var layers: [Swift.String]?
@@ -8207,7 +8440,18 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var handler: Swift.String?
     /// The function's image configuration values.
     public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:
+    ///
+    /// * The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+    ///
+    /// * The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) snapshots.
+    ///
+    /// * When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see [ Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+    ///
+    /// * The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+    ///
+    ///
+    /// If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk) or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
     public var kmsKeyArn: Swift.String?
     /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModified: Swift.String?
@@ -8341,9 +8585,14 @@ public struct UpdateFunctionEventInvokeConfigInput: Swift.Sendable {
     ///
     /// * Queue - The ARN of a standard SQS queue.
     ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
     /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
@@ -8387,9 +8636,14 @@ public struct UpdateFunctionEventInvokeConfigOutput: Swift.Sendable {
     ///
     /// * Queue - The ARN of a standard SQS queue.
     ///
+    /// * Bucket - The ARN of an Amazon S3 bucket.
+    ///
     /// * Topic - The ARN of a standard SNS topic.
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
+    ///
+    ///
+    /// S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// The Amazon Resource Name (ARN) of the function.
     public var functionArn: Swift.String?
@@ -9817,7 +10071,9 @@ extension CreateEventSourceMappingInput {
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["MaximumRecordAgeInSeconds"].write(value.maximumRecordAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
+        try writer["MetricsConfig"].write(value.metricsConfig, with: LambdaClientTypes.EventSourceMappingMetricsConfig.write(value:to:))
         try writer["ParallelizationFactor"].write(value.parallelizationFactor)
+        try writer["ProvisionedPollerConfig"].write(value.provisionedPollerConfig, with: LambdaClientTypes.ProvisionedPollerConfig.write(value:to:))
         try writer["Queues"].writeList(value.queues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ScalingConfig"].write(value.scalingConfig, with: LambdaClientTypes.ScalingConfig.write(value:to:))
         try writer["SelfManagedEventSource"].write(value.selfManagedEventSource, with: LambdaClientTypes.SelfManagedEventSource.write(value:to:))
@@ -10014,7 +10270,9 @@ extension UpdateEventSourceMappingInput {
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["MaximumRecordAgeInSeconds"].write(value.maximumRecordAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
+        try writer["MetricsConfig"].write(value.metricsConfig, with: LambdaClientTypes.EventSourceMappingMetricsConfig.write(value:to:))
         try writer["ParallelizationFactor"].write(value.parallelizationFactor)
+        try writer["ProvisionedPollerConfig"].write(value.provisionedPollerConfig, with: LambdaClientTypes.ProvisionedPollerConfig.write(value:to:))
         try writer["ScalingConfig"].write(value.scalingConfig, with: LambdaClientTypes.ScalingConfig.write(value:to:))
         try writer["SourceAccessConfigurations"].writeList(value.sourceAccessConfigurations, memberWritingClosure: LambdaClientTypes.SourceAccessConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TumblingWindowInSeconds"].write(value.tumblingWindowInSeconds)
@@ -10033,6 +10291,7 @@ extension UpdateFunctionCodeInput {
         try writer["S3Bucket"].write(value.s3Bucket)
         try writer["S3Key"].write(value.s3Key)
         try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
+        try writer["SourceKMSKeyArn"].write(value.sourceKMSKeyArn)
         try writer["ZipFile"].write(value.zipFile)
     }
 }
@@ -10160,7 +10419,9 @@ extension CreateEventSourceMappingOutput {
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.selfManagedEventSource = try reader["SelfManagedEventSource"].readIfPresent(with: LambdaClientTypes.SelfManagedEventSource.read(from:))
@@ -10279,7 +10540,9 @@ extension DeleteEventSourceMappingOutput {
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.selfManagedEventSource = try reader["SelfManagedEventSource"].readIfPresent(with: LambdaClientTypes.SelfManagedEventSource.read(from:))
@@ -10411,7 +10674,9 @@ extension GetEventSourceMappingOutput {
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.selfManagedEventSource = try reader["SelfManagedEventSource"].readIfPresent(with: LambdaClientTypes.SelfManagedEventSource.read(from:))
@@ -11101,7 +11366,9 @@ extension UpdateEventSourceMappingOutput {
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.selfManagedEventSource = try reader["SelfManagedEventSource"].readIfPresent(with: LambdaClientTypes.SelfManagedEventSource.read(from:))
@@ -13315,6 +13582,38 @@ extension LambdaClientTypes.FilterCriteriaError {
     }
 }
 
+extension LambdaClientTypes.EventSourceMappingMetricsConfig {
+
+    static func write(value: LambdaClientTypes.EventSourceMappingMetricsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.EventSourceMappingMetric>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventSourceMappingMetricsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EventSourceMappingMetricsConfig()
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.EventSourceMappingMetric>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.ProvisionedPollerConfig {
+
+    static func write(value: LambdaClientTypes.ProvisionedPollerConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumPollers"].write(value.maximumPollers)
+        try writer["MinimumPollers"].write(value.minimumPollers)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ProvisionedPollerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ProvisionedPollerConfig()
+        value.minimumPollers = try reader["MinimumPollers"].readIfPresent()
+        value.maximumPollers = try reader["MaximumPollers"].readIfPresent()
+        return value
+    }
+}
+
 extension LambdaClientTypes.VpcConfigResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.VpcConfigResponse {
@@ -13619,6 +13918,7 @@ extension LambdaClientTypes.FunctionCodeLocation {
         value.location = try reader["Location"].readIfPresent()
         value.imageUri = try reader["ImageUri"].readIfPresent()
         value.resolvedImageUri = try reader["ResolvedImageUri"].readIfPresent()
+        value.sourceKMSKeyArn = try reader["SourceKMSKeyArn"].readIfPresent()
         return value
     }
 }
@@ -13730,6 +14030,8 @@ extension LambdaClientTypes.EventSourceMappingConfiguration {
         value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         return value
     }
 }
@@ -13816,6 +14118,7 @@ extension LambdaClientTypes.FunctionCode {
         try writer["S3Bucket"].write(value.s3Bucket)
         try writer["S3Key"].write(value.s3Key)
         try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
+        try writer["SourceKMSKeyArn"].write(value.sourceKMSKeyArn)
         try writer["ZipFile"].write(value.zipFile)
     }
 }

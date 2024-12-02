@@ -170,6 +170,68 @@ extension PaginatorSequence where OperationStackInput == ListAssetBundleImportJo
     }
 }
 extension QuickSightClient {
+    /// Paginate over `[ListBrandsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBrandsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBrandsOutput`
+    public func listBrandsPaginated(input: ListBrandsInput) -> ClientRuntime.PaginatorSequence<ListBrandsInput, ListBrandsOutput> {
+        return ClientRuntime.PaginatorSequence<ListBrandsInput, ListBrandsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBrands(input:))
+    }
+}
+
+extension ListBrandsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBrandsInput {
+        return ListBrandsInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListBrandsInput, OperationStackOutput == ListBrandsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listBrandsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.BrandSummary]`
+    /// - Returns: `[QuickSightClientTypes.BrandSummary]`
+    public func brands() async throws -> [QuickSightClientTypes.BrandSummary] {
+        return try await self.asyncCompactMap { item in item.brands }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListCustomPermissionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCustomPermissionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomPermissionsOutput`
+    public func listCustomPermissionsPaginated(input: ListCustomPermissionsInput) -> ClientRuntime.PaginatorSequence<ListCustomPermissionsInput, ListCustomPermissionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCustomPermissionsInput, ListCustomPermissionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCustomPermissions(input:))
+    }
+}
+
+extension ListCustomPermissionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCustomPermissionsInput {
+        return ListCustomPermissionsInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCustomPermissionsInput, OperationStackOutput == ListCustomPermissionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCustomPermissionsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.CustomPermissions]`
+    /// - Returns: `[QuickSightClientTypes.CustomPermissions]`
+    public func customPermissionsList() async throws -> [QuickSightClientTypes.CustomPermissions] {
+        return try await self.asyncCompactMap { item in item.customPermissionsList }
+    }
+}
+extension QuickSightClient {
     /// Paginate over `[ListDashboardsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1075,5 +1137,37 @@ extension PaginatorSequence where OperationStackInput == SearchGroupsInput, Oper
     /// - Returns: `[QuickSightClientTypes.Group]`
     public func groupList() async throws -> [QuickSightClientTypes.Group] {
         return try await self.asyncCompactMap { item in item.groupList }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[SearchTopicsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchTopicsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchTopicsOutput`
+    public func searchTopicsPaginated(input: SearchTopicsInput) -> ClientRuntime.PaginatorSequence<SearchTopicsInput, SearchTopicsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchTopicsInput, SearchTopicsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchTopics(input:))
+    }
+}
+
+extension SearchTopicsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchTopicsInput {
+        return SearchTopicsInput(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchTopicsInput, OperationStackOutput == SearchTopicsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchTopicsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.TopicSummary]`
+    /// - Returns: `[QuickSightClientTypes.TopicSummary]`
+    public func topicSummaryList() async throws -> [QuickSightClientTypes.TopicSummary] {
+        return try await self.asyncCompactMap { item in item.topicSummaryList }
     }
 }

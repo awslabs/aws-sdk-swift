@@ -283,4 +283,20 @@ class SigV4AuthSchemeTests: XCTestCase {
         let updatedProperties = try sigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
         XCTAssertTrue(try XCTUnwrap(updatedProperties.get(key: SigningPropertyKeys.shouldNormalizeURIPath)))
     }
+
+    func testRequestUnsignedBody() throws {
+        let customSigV4AuthScheme = SigV4AuthScheme(requestUnsignedBody: true)
+        let context = contextBuilder
+            .withBidirectionalStreamingEnabled(value: true)
+            .withServiceName(value: "filler")
+            .withFlowType(value: .NORMAL)
+            .withOperation(value: "filler")
+            .withUnsignedPayloadTrait(value: false)
+            .build()
+        let updatedProperties = try customSigV4AuthScheme.customizeSigningProperties(signingProperties: Attributes(), context: context)
+        let unwrappedRequestUnsignedBodyValue = try XCTUnwrap(
+            updatedProperties.get(key: SigningPropertyKeys.requestUnsignedBody)
+        )
+        XCTAssertTrue(unwrappedRequestUnsignedBodyValue)
+    }
 }

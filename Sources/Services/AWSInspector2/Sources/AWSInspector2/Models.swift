@@ -32,7 +32,7 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-/// You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+/// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1829,6 +1829,36 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+/// You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The ID of the resource that exceeds a service quota.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+    }
+}
+
 /// The limit on the number of requests per second was exceeded.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -2161,6 +2191,9 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes {
 
     public enum Runtime: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dotnetcore31
+        case dotnet6
+        case dotnet7
         case go1X
         case java11
         case java17
@@ -2172,14 +2205,20 @@ extension Inspector2ClientTypes {
         case nodejs16X
         case nodejs18X
         case python310
+        case python311
         case python37
         case python38
         case python39
+        case ruby27
+        case ruby32
         case unsupported
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Runtime] {
             return [
+                .dotnetcore31,
+                .dotnet6,
+                .dotnet7,
                 .go1X,
                 .java11,
                 .java17,
@@ -2191,9 +2230,12 @@ extension Inspector2ClientTypes {
                 .nodejs16X,
                 .nodejs18X,
                 .python310,
+                .python311,
                 .python37,
                 .python38,
                 .python39,
+                .ruby27,
+                .ruby32,
                 .unsupported
             ]
         }
@@ -2205,6 +2247,9 @@ extension Inspector2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .dotnetcore31: return "DOTNETCORE_3_1"
+            case .dotnet6: return "DOTNET_6"
+            case .dotnet7: return "DOTNET_7"
             case .go1X: return "GO_1_X"
             case .java11: return "JAVA_11"
             case .java17: return "JAVA_17"
@@ -2216,9 +2261,12 @@ extension Inspector2ClientTypes {
             case .nodejs16X: return "NODEJS_16_X"
             case .nodejs18X: return "NODEJS_18_X"
             case .python310: return "PYTHON_3_10"
+            case .python311: return "PYTHON_3_11"
             case .python37: return "PYTHON_3_7"
             case .python38: return "PYTHON_3_8"
             case .python39: return "PYTHON_3_9"
+            case .ruby27: return "RUBY_2_7"
+            case .ruby32: return "RUBY_3_2"
             case .unsupported: return "UNSUPPORTED"
             case let .sdkUnknown(s): return s
             }
@@ -4966,7 +5014,7 @@ extension Inspector2ClientTypes {
         public var resourceId: [Inspector2ClientTypes.CoverageStringFilter]?
         /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY or AWS_ACCOUNT.
         public var resourceType: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED and EC2_HYBRID.
+        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED and EC2_AGENTLESS.
         public var scanMode: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The scan status code to filter on. Valid values are: ValidationException, InternalServerException, ResourceNotFoundException, BadRequestException, and ThrottlingException.
         public var scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]?
@@ -5561,36 +5609,6 @@ public struct CreateCisScanConfigurationOutput: Swift.Sendable {
     }
 }
 
-/// You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The ID of the resource that exceeds a service quota.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-    }
-}
-
 extension Inspector2ClientTypes {
 
     public enum FilterAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -5688,6 +5706,8 @@ extension Inspector2ClientTypes {
         public var architecture: Inspector2ClientTypes.StringFilter?
         /// An object that contains details on the package epoch to filter on.
         public var epoch: Inspector2ClientTypes.NumberFilter?
+        /// An object that contains details on the package file path to filter on.
+        public var filePath: Inspector2ClientTypes.StringFilter?
         /// An object that contains details on the name of the package to filter on.
         public var name: Inspector2ClientTypes.StringFilter?
         /// An object that contains details on the package release to filter on.
@@ -5702,6 +5722,7 @@ extension Inspector2ClientTypes {
         public init(
             architecture: Inspector2ClientTypes.StringFilter? = nil,
             epoch: Inspector2ClientTypes.NumberFilter? = nil,
+            filePath: Inspector2ClientTypes.StringFilter? = nil,
             name: Inspector2ClientTypes.StringFilter? = nil,
             release: Inspector2ClientTypes.StringFilter? = nil,
             sourceLambdaLayerArn: Inspector2ClientTypes.StringFilter? = nil,
@@ -5711,6 +5732,7 @@ extension Inspector2ClientTypes {
         {
             self.architecture = architecture
             self.epoch = epoch
+            self.filePath = filePath
             self.name = name
             self.release = release
             self.sourceLambdaLayerArn = sourceLambdaLayerArn
@@ -7424,6 +7446,7 @@ extension Inspector2ClientTypes {
         case bundler
         case cargo
         case composer
+        case dotnetCore
         case gemspec
         case gobinary
         case gomod
@@ -7445,6 +7468,7 @@ extension Inspector2ClientTypes {
                 .bundler,
                 .cargo,
                 .composer,
+                .dotnetCore,
                 .gemspec,
                 .gobinary,
                 .gomod,
@@ -7472,6 +7496,7 @@ extension Inspector2ClientTypes {
             case .bundler: return "BUNDLER"
             case .cargo: return "CARGO"
             case .composer: return "COMPOSER"
+            case .dotnetCore: return "DOTNET_CORE"
             case .gemspec: return "GEMSPEC"
             case .gobinary: return "GOBINARY"
             case .gomod: return "GOMOD"
@@ -8304,7 +8329,7 @@ public struct GetSbomExportOutput: Swift.Sendable {
     public var format: Inspector2ClientTypes.SbomReportFormat?
     /// The report ID of the software bill of materials (SBOM) report.
     public var reportId: Swift.String?
-    /// Contains details of the Amazon S3 bucket and KMS key used to export findings.
+    /// Contains details of the Amazon S3 bucket and KMS key used to export findings
     public var s3Destination: Inspector2ClientTypes.Destination?
     /// The status of the software bill of materials (SBOM) report.
     public var status: Inspector2ClientTypes.ExternalReportStatus?
@@ -11682,6 +11707,7 @@ enum AssociateMemberOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12745,6 +12771,20 @@ extension ValidationException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -12781,20 +12821,6 @@ extension BadRequestException {
         let reader = baseError.errorBodyReader
         var value = BadRequestException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -13337,6 +13363,7 @@ extension Inspector2ClientTypes.PackageFilter {
         guard let value else { return }
         try writer["architecture"].write(value.architecture, with: Inspector2ClientTypes.StringFilter.write(value:to:))
         try writer["epoch"].write(value.epoch, with: Inspector2ClientTypes.NumberFilter.write(value:to:))
+        try writer["filePath"].write(value.filePath, with: Inspector2ClientTypes.StringFilter.write(value:to:))
         try writer["name"].write(value.name, with: Inspector2ClientTypes.StringFilter.write(value:to:))
         try writer["release"].write(value.release, with: Inspector2ClientTypes.StringFilter.write(value:to:))
         try writer["sourceLambdaLayerArn"].write(value.sourceLambdaLayerArn, with: Inspector2ClientTypes.StringFilter.write(value:to:))
@@ -13354,6 +13381,7 @@ extension Inspector2ClientTypes.PackageFilter {
         value.architecture = try reader["architecture"].readIfPresent(with: Inspector2ClientTypes.StringFilter.read(from:))
         value.sourceLayerHash = try reader["sourceLayerHash"].readIfPresent(with: Inspector2ClientTypes.StringFilter.read(from:))
         value.sourceLambdaLayerArn = try reader["sourceLambdaLayerArn"].readIfPresent(with: Inspector2ClientTypes.StringFilter.read(from:))
+        value.filePath = try reader["filePath"].readIfPresent(with: Inspector2ClientTypes.StringFilter.read(from:))
         return value
     }
 }

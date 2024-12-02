@@ -946,7 +946,7 @@ extension Route53ResolverClientTypes {
         ///
         /// * CREATING: Resolver is creating an association between an Amazon VPC and a query logging configuration.
         ///
-        /// * CREATED: The association between an Amazon VPC and a query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.
+        /// * ACTIVE: The association between an Amazon VPC and a query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.
         ///
         /// * DELETING: Resolver is deleting this query logging association.
         ///
@@ -1212,6 +1212,38 @@ extension Route53ResolverClientTypes {
     }
 }
 
+extension Route53ResolverClientTypes {
+
+    public enum ConfidenceThreshold: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfidenceThreshold] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateFirewallDomainListInput: Swift.Sendable {
     /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
@@ -1338,6 +1370,35 @@ public struct CreateFirewallDomainListOutput: Swift.Sendable {
 
 extension Route53ResolverClientTypes {
 
+    public enum DnsThreatProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dga
+        case dnsTunneling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DnsThreatProtection] {
+            return [
+                .dga,
+                .dnsTunneling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dga: return "DGA"
+            case .dnsTunneling: return "DNS_TUNNELING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
+
     public enum FirewallDomainRedirectionAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case inspectRedirectionDomain
         case trustRedirectionDomain
@@ -1366,9 +1427,9 @@ extension Route53ResolverClientTypes {
 }
 
 public struct CreateFirewallRuleInput: Swift.Sendable {
-    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
+    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
     ///
-    /// * ALLOW - Permit the request to go through.
+    /// * ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.
     ///
     /// * ALERT - Permit the request and send metrics and logs to Cloud Watch.
     ///
@@ -1392,13 +1453,22 @@ public struct CreateFirewallRuleInput: Swift.Sendable {
     ///
     /// This setting is required if the rule action setting is BLOCK.
     public var blockResponse: Route53ResolverClientTypes.BlockResponse?
+    /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence level values mean:
+    ///
+    /// * LOW: Provides the highest detection rate for threats, but also increases false positives.
+    ///
+    /// * MEDIUM: Provides a balance between detecting threats and false positives.
+    ///
+    /// * HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+    public var confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold?
     /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
-    /// The ID of the domain list that you want to use in the rule.
-    /// This member is required.
+    /// Use to create a DNS Firewall Advanced rule.
+    public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
+    /// The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton.
     public var firewallDomainListId: Swift.String?
-    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
     public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     /// The unique identifier of the firewall rule group where you want to create the rule.
     /// This member is required.
@@ -1446,7 +1516,9 @@ public struct CreateFirewallRuleInput: Swift.Sendable {
         blockOverrideDomain: Swift.String? = nil,
         blockOverrideTtl: Swift.Int? = nil,
         blockResponse: Route53ResolverClientTypes.BlockResponse? = nil,
+        confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold? = nil,
         creatorRequestId: Swift.String? = nil,
+        dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection? = nil,
         firewallDomainListId: Swift.String? = nil,
         firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction? = nil,
         firewallRuleGroupId: Swift.String? = nil,
@@ -1460,7 +1532,9 @@ public struct CreateFirewallRuleInput: Swift.Sendable {
         self.blockOverrideDomain = blockOverrideDomain
         self.blockOverrideTtl = blockOverrideTtl
         self.blockResponse = blockResponse
+        self.confidenceThreshold = confidenceThreshold
         self.creatorRequestId = creatorRequestId
+        self.dnsThreatProtection = dnsThreatProtection
         self.firewallDomainListId = firewallDomainListId
         self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
         self.firewallRuleGroupId = firewallRuleGroupId
@@ -1474,9 +1548,9 @@ extension Route53ResolverClientTypes {
 
     /// A single firewall rule in a rule group.
     public struct FirewallRule: Swift.Sendable {
-        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
         ///
-        /// * ALLOW - Permit the request to go through.
+        /// * ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.
         ///
         /// * ALERT - Permit the request to go through but send an alert to the logs.
         ///
@@ -1496,16 +1570,32 @@ extension Route53ResolverClientTypes {
         ///
         /// * OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
         public var blockResponse: Route53ResolverClientTypes.BlockResponse?
+        /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence level values mean:
+        ///
+        /// * LOW: Provides the highest detection rate for threats, but also increases false positives.
+        ///
+        /// * MEDIUM: Provides a balance between detecting threats and false positives.
+        ///
+        /// * HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+        public var confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold?
         /// The date and time that the rule was created, in Unix time format and Coordinated Universal Time (UTC).
         public var creationTime: Swift.String?
         /// A unique string defined by you to identify the request. This allows you to retry failed requests without the risk of executing the operation twice. This can be any unique string, for example, a timestamp.
         public var creatorRequestId: Swift.String?
+        /// The type of the DNS Firewall Advanced rule. Valid values are:
+        ///
+        /// * DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to to launch malware attacks.
+        ///
+        /// * DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.
+        public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
         /// The ID of the domain list that's used in the rule.
         public var firewallDomainListId: Swift.String?
-        /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
+        /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
         public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
-        /// The unique identifier of the firewall rule group of the rule.
+        /// The unique identifier of the Firewall rule group of the rule.
         public var firewallRuleGroupId: Swift.String?
+        /// ID of the DNS Firewall Advanced rule.
+        public var firewallThreatProtectionId: Swift.String?
         /// The date and time that the rule was last modified, in Unix time format and Coordinated Universal Time (UTC).
         public var modificationTime: Swift.String?
         /// The name of the rule.
@@ -1549,11 +1639,14 @@ extension Route53ResolverClientTypes {
             blockOverrideDomain: Swift.String? = nil,
             blockOverrideTtl: Swift.Int? = nil,
             blockResponse: Route53ResolverClientTypes.BlockResponse? = nil,
+            confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold? = nil,
             creationTime: Swift.String? = nil,
             creatorRequestId: Swift.String? = nil,
+            dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection? = nil,
             firewallDomainListId: Swift.String? = nil,
             firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction? = nil,
             firewallRuleGroupId: Swift.String? = nil,
+            firewallThreatProtectionId: Swift.String? = nil,
             modificationTime: Swift.String? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
@@ -1565,11 +1658,14 @@ extension Route53ResolverClientTypes {
             self.blockOverrideDomain = blockOverrideDomain
             self.blockOverrideTtl = blockOverrideTtl
             self.blockResponse = blockResponse
+            self.confidenceThreshold = confidenceThreshold
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
+            self.dnsThreatProtection = dnsThreatProtection
             self.firewallDomainListId = firewallDomainListId
             self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallThreatProtectionId = firewallThreatProtectionId
             self.modificationTime = modificationTime
             self.name = name
             self.priority = priority
@@ -2218,30 +2314,7 @@ extension Route53ResolverClientTypes {
         public var ipv6: Swift.String?
         /// The port at Ip that you want to forward DNS queries to.
         public var port: Swift.Int?
-        /// The protocols for the Resolver endpoints. DoH-FIPS is applicable for inbound endpoints only. For an inbound endpoint you can apply the protocols as follows:
-        ///
-        /// * Do53 and DoH in combination.
-        ///
-        /// * Do53 and DoH-FIPS in combination.
-        ///
-        /// * Do53 alone.
-        ///
-        /// * DoH alone.
-        ///
-        /// * DoH-FIPS alone.
-        ///
-        /// * None, which is treated as Do53.
-        ///
-        ///
-        /// For an outbound endpoint you can apply the protocols as follows:
-        ///
-        /// * Do53 and DoH in combination.
-        ///
-        /// * Do53 alone.
-        ///
-        /// * DoH alone.
-        ///
-        /// * None, which is treated as Do53.
+        /// The protocols for the target address. The protocol you choose needs to be supported by the outbound endpoint of the Resolver rule.
         public var `protocol`: Route53ResolverClientTypes.ModelProtocol?
         /// The Server Name Indication of the DoH server that you want to forward queries to. This is only used if the Protocol of the TargetAddress is DoH.
         public var serverNameIndication: Swift.String?
@@ -2443,11 +2516,12 @@ public struct DeleteFirewallDomainListOutput: Swift.Sendable {
 
 public struct DeleteFirewallRuleInput: Swift.Sendable {
     /// The ID of the domain list that's used in the rule.
-    /// This member is required.
     public var firewallDomainListId: Swift.String?
     /// The unique identifier of the firewall rule group that you want to delete the rule from.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
+    /// The ID that is created for a DNS Firewall Advanced rule.
+    public var firewallThreatProtectionId: Swift.String?
     /// The DNS query type that the rule you are deleting evaluates. Allowed values are;
     ///
     /// * A: Returns an IPv4 address.
@@ -2482,11 +2556,13 @@ public struct DeleteFirewallRuleInput: Swift.Sendable {
     public init(
         firewallDomainListId: Swift.String? = nil,
         firewallRuleGroupId: Swift.String? = nil,
+        firewallThreatProtectionId: Swift.String? = nil,
         qtype: Swift.String? = nil
     )
     {
         self.firewallDomainListId = firewallDomainListId
         self.firewallRuleGroupId = firewallRuleGroupId
+        self.firewallThreatProtectionId = firewallThreatProtectionId
         self.qtype = qtype
     }
 }
@@ -4030,9 +4106,9 @@ public struct ListFirewallRuleGroupsOutput: Swift.Sendable {
 }
 
 public struct ListFirewallRulesInput: Swift.Sendable {
-    /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
+    /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
     ///
-    /// * ALLOW - Permit the request to go through.
+    /// * ALLOW - Permit the request to go through. Not availabe for DNS Firewall Advanced rules.
     ///
     /// * ALERT - Permit the request to go through but send an alert to the logs.
     ///
@@ -4883,9 +4959,9 @@ public struct UpdateFirewallDomainsOutput: Swift.Sendable {
 }
 
 public struct UpdateFirewallRuleInput: Swift.Sendable {
-    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list:
+    /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:
     ///
-    /// * ALLOW - Permit the request to go through.
+    /// * ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.
     ///
     /// * ALERT - Permit the request to go through but send an alert to the logs.
     ///
@@ -4905,14 +4981,29 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
     ///
     /// * OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
     public var blockResponse: Route53ResolverClientTypes.BlockResponse?
+    /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create a DNS Firewall Advanced rule. The confidence level values mean:
+    ///
+    /// * LOW: Provides the highest detection rate for threats, but also increases false positives.
+    ///
+    /// * MEDIUM: Provides a balance between detecting threats and false positives.
+    ///
+    /// * HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+    public var confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold?
+    /// The type of the DNS Firewall Advanced rule. Valid values are:
+    ///
+    /// * DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to to launch malware attacks.
+    ///
+    /// * DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.
+    public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
     /// The ID of the domain list to use in the rule.
-    /// This member is required.
     public var firewallDomainListId: Swift.String?
-    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
+    /// How you want the the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME. INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list. TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the domain in the redirection list to the domain list.
     public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
     /// The unique identifier of the firewall rule group for the rule.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
+    /// The DNS Firewall Advanced rule ID.
+    public var firewallThreatProtectionId: Swift.String?
     /// The name of the rule.
     public var name: Swift.String?
     /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group. To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for the rules in a rule group at any time.
@@ -4954,9 +5045,12 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
         blockOverrideDomain: Swift.String? = nil,
         blockOverrideTtl: Swift.Int? = nil,
         blockResponse: Route53ResolverClientTypes.BlockResponse? = nil,
+        confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold? = nil,
+        dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection? = nil,
         firewallDomainListId: Swift.String? = nil,
         firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction? = nil,
         firewallRuleGroupId: Swift.String? = nil,
+        firewallThreatProtectionId: Swift.String? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil,
         qtype: Swift.String? = nil
@@ -4967,9 +5061,12 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
         self.blockOverrideDomain = blockOverrideDomain
         self.blockOverrideTtl = blockOverrideTtl
         self.blockResponse = blockResponse
+        self.confidenceThreshold = confidenceThreshold
+        self.dnsThreatProtection = dnsThreatProtection
         self.firewallDomainListId = firewallDomainListId
         self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
         self.firewallRuleGroupId = firewallRuleGroupId
+        self.firewallThreatProtectionId = firewallThreatProtectionId
         self.name = name
         self.priority = priority
         self.qtype = qtype
@@ -5810,7 +5907,9 @@ extension CreateFirewallRuleInput {
         try writer["BlockOverrideDomain"].write(value.blockOverrideDomain)
         try writer["BlockOverrideTtl"].write(value.blockOverrideTtl)
         try writer["BlockResponse"].write(value.blockResponse)
+        try writer["ConfidenceThreshold"].write(value.confidenceThreshold)
         try writer["CreatorRequestId"].write(value.creatorRequestId)
+        try writer["DnsThreatProtection"].write(value.dnsThreatProtection)
         try writer["FirewallDomainListId"].write(value.firewallDomainListId)
         try writer["FirewallDomainRedirectionAction"].write(value.firewallDomainRedirectionAction)
         try writer["FirewallRuleGroupId"].write(value.firewallRuleGroupId)
@@ -5899,6 +5998,7 @@ extension DeleteFirewallRuleInput {
         guard let value else { return }
         try writer["FirewallDomainListId"].write(value.firewallDomainListId)
         try writer["FirewallRuleGroupId"].write(value.firewallRuleGroupId)
+        try writer["FirewallThreatProtectionId"].write(value.firewallThreatProtectionId)
         try writer["Qtype"].write(value.qtype)
     }
 }
@@ -6346,9 +6446,12 @@ extension UpdateFirewallRuleInput {
         try writer["BlockOverrideDomain"].write(value.blockOverrideDomain)
         try writer["BlockOverrideTtl"].write(value.blockOverrideTtl)
         try writer["BlockResponse"].write(value.blockResponse)
+        try writer["ConfidenceThreshold"].write(value.confidenceThreshold)
+        try writer["DnsThreatProtection"].write(value.dnsThreatProtection)
         try writer["FirewallDomainListId"].write(value.firewallDomainListId)
         try writer["FirewallDomainRedirectionAction"].write(value.firewallDomainRedirectionAction)
         try writer["FirewallRuleGroupId"].write(value.firewallRuleGroupId)
+        try writer["FirewallThreatProtectionId"].write(value.firewallThreatProtectionId)
         try writer["Name"].write(value.name)
         try writer["Priority"].write(value.priority)
         try writer["Qtype"].write(value.qtype)
@@ -7502,6 +7605,7 @@ enum DeleteFirewallRuleOutputError {
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8852,6 +8956,7 @@ extension Route53ResolverClientTypes.FirewallRule {
         var value = Route53ResolverClientTypes.FirewallRule()
         value.firewallRuleGroupId = try reader["FirewallRuleGroupId"].readIfPresent()
         value.firewallDomainListId = try reader["FirewallDomainListId"].readIfPresent()
+        value.firewallThreatProtectionId = try reader["FirewallThreatProtectionId"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.priority = try reader["Priority"].readIfPresent()
         value.action = try reader["Action"].readIfPresent()
@@ -8864,6 +8969,8 @@ extension Route53ResolverClientTypes.FirewallRule {
         value.modificationTime = try reader["ModificationTime"].readIfPresent()
         value.firewallDomainRedirectionAction = try reader["FirewallDomainRedirectionAction"].readIfPresent()
         value.qtype = try reader["Qtype"].readIfPresent()
+        value.dnsThreatProtection = try reader["DnsThreatProtection"].readIfPresent()
+        value.confidenceThreshold = try reader["ConfidenceThreshold"].readIfPresent()
         return value
     }
 }

@@ -441,6 +441,7 @@ extension OrganizationsClientTypes {
         case invalidPartyTypeTarget
         case invalidPattern
         case invalidPatternTargetId
+        case invalidPrincipal
         case invalidResourcePolicyJson
         case invalidRoleName
         case invalidSyntaxOrganization
@@ -452,6 +453,7 @@ extension OrganizationsClientTypes {
         case minLengthExceeded
         case minValueExceeded
         case movingAccountBetweenDifferentRoots
+        case nonDetachablePolicy
         case targetNotSupported
         case unrecognizedServicePrincipal
         case unsupportedActionInResourcePolicy
@@ -473,6 +475,7 @@ extension OrganizationsClientTypes {
                 .invalidPartyTypeTarget,
                 .invalidPattern,
                 .invalidPatternTargetId,
+                .invalidPrincipal,
                 .invalidResourcePolicyJson,
                 .invalidRoleName,
                 .invalidSyntaxOrganization,
@@ -484,6 +487,7 @@ extension OrganizationsClientTypes {
                 .minLengthExceeded,
                 .minValueExceeded,
                 .movingAccountBetweenDifferentRoots,
+                .nonDetachablePolicy,
                 .targetNotSupported,
                 .unrecognizedServicePrincipal,
                 .unsupportedActionInResourcePolicy,
@@ -511,6 +515,7 @@ extension OrganizationsClientTypes {
             case .invalidPartyTypeTarget: return "INVALID_PARTY_TYPE_TARGET"
             case .invalidPattern: return "INVALID_PATTERN"
             case .invalidPatternTargetId: return "INVALID_PATTERN_TARGET_ID"
+            case .invalidPrincipal: return "INVALID_PRINCIPAL"
             case .invalidResourcePolicyJson: return "INVALID_RESOURCE_POLICY_JSON"
             case .invalidRoleName: return "INVALID_ROLE_NAME"
             case .invalidSyntaxOrganization: return "INVALID_SYNTAX_ORGANIZATION_ARN"
@@ -522,6 +527,7 @@ extension OrganizationsClientTypes {
             case .minLengthExceeded: return "MIN_LENGTH_EXCEEDED"
             case .minValueExceeded: return "MIN_VALUE_EXCEEDED"
             case .movingAccountBetweenDifferentRoots: return "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
+            case .nonDetachablePolicy: return "NON_DETACHABLE_POLICY"
             case .targetNotSupported: return "TARGET_NOT_SUPPORTED"
             case .unrecognizedServicePrincipal: return "UNRECOGNIZED_SERVICE_PRINCIPAL"
             case .unsupportedActionInResourcePolicy: return "UNSUPPORTED_ACTION_IN_RESOURCE_POLICY"
@@ -559,6 +565,8 @@ extension OrganizationsClientTypes {
 ///
 /// * INVALID_PATTERN_TARGET_ID: You specified a policy target ID that doesn't match the required pattern.
 ///
+/// * INVALID_PRINCIPAL: You specified an invalid principal element in the policy.
+///
 /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
 ///
 /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
@@ -578,6 +586,8 @@ extension OrganizationsClientTypes {
 /// * MIN_VALUE_EXCEEDED: You provided a numeric parameter that has a smaller value than allowed.
 ///
 /// * MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS: You can move an account only between entities in the same root.
+///
+/// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
 ///
 /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
 ///
@@ -2034,6 +2044,8 @@ extension OrganizationsClientTypes {
         case aiservicesOptOutPolicy
         case backupPolicy
         case chatbotPolicy
+        case declarativePolicyEc2
+        case resourceControlPolicy
         case serviceControlPolicy
         case tagPolicy
         case sdkUnknown(Swift.String)
@@ -2043,6 +2055,8 @@ extension OrganizationsClientTypes {
                 .aiservicesOptOutPolicy,
                 .backupPolicy,
                 .chatbotPolicy,
+                .declarativePolicyEc2,
+                .resourceControlPolicy,
                 .serviceControlPolicy,
                 .tagPolicy
             ]
@@ -2058,6 +2072,8 @@ extension OrganizationsClientTypes {
             case .aiservicesOptOutPolicy: return "AISERVICES_OPT_OUT_POLICY"
             case .backupPolicy: return "BACKUP_POLICY"
             case .chatbotPolicy: return "CHATBOT_POLICY"
+            case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
+            case .resourceControlPolicy: return "RESOURCE_CONTROL_POLICY"
             case .serviceControlPolicy: return "SERVICE_CONTROL_POLICY"
             case .tagPolicy: return "TAG_POLICY"
             case let .sdkUnknown(s): return s
@@ -2340,6 +2356,10 @@ public struct CreatePolicyInput: Swift.Sendable {
     /// The type of policy to create. You can specify one of the following values:
     ///
     /// * [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+    ///
+    /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
     ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
@@ -2716,6 +2736,7 @@ extension OrganizationsClientTypes {
         case aiservicesOptOutPolicy
         case backupPolicy
         case chatbotPolicy
+        case declarativePolicyEc2
         case tagPolicy
         case sdkUnknown(Swift.String)
 
@@ -2724,6 +2745,7 @@ extension OrganizationsClientTypes {
                 .aiservicesOptOutPolicy,
                 .backupPolicy,
                 .chatbotPolicy,
+                .declarativePolicyEc2,
                 .tagPolicy
             ]
         }
@@ -2738,6 +2760,7 @@ extension OrganizationsClientTypes {
             case .aiservicesOptOutPolicy: return "AISERVICES_OPT_OUT_POLICY"
             case .backupPolicy: return "BACKUP_POLICY"
             case .chatbotPolicy: return "CHATBOT_POLICY"
+            case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
             case .tagPolicy: return "TAG_POLICY"
             case let .sdkUnknown(s): return s
             }
@@ -2747,6 +2770,8 @@ extension OrganizationsClientTypes {
 
 public struct DescribeEffectivePolicyInput: Swift.Sendable {
     /// The type of policy that you want information about. You can specify one of the following values:
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
     ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
@@ -3027,6 +3052,10 @@ public struct DisablePolicyTypeInput: Swift.Sendable {
     ///
     /// * [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
     ///
+    /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
     /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
@@ -3136,6 +3165,10 @@ public struct EnablePolicyTypeInput: Swift.Sendable {
     /// The policy type that you want to enable. You can specify one of the following values:
     ///
     /// * [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+    ///
+    /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
     ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
@@ -3868,6 +3901,10 @@ public struct ListPoliciesInput: Swift.Sendable {
     ///
     /// * [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
     ///
+    /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
     /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
@@ -3914,6 +3951,10 @@ public struct ListPoliciesForTargetInput: Swift.Sendable {
     /// The type of policy that you want to include in the returned list. You must specify one of the following values:
     ///
     /// * [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
+    ///
+    /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
     ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///

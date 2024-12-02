@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class ClientRuntime.Indirect
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
@@ -26,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
@@ -115,8 +117,38 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension QAppsClientTypes {
 
+    public enum Action: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case read
+        case write
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Action] {
+            return [
+                .read,
+                .write
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .read: return "read"
+            case .write: return "write"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
     public enum CardType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fileUpload
+        case formInput
         case qPlugin
         case qQuery
         case textInput
@@ -125,6 +157,7 @@ extension QAppsClientTypes {
         public static var allCases: [CardType] {
             return [
                 .fileUpload,
+                .formInput,
                 .qPlugin,
                 .qQuery,
                 .textInput
@@ -139,6 +172,7 @@ extension QAppsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .fileUpload: return "file-upload"
+            case .formInput: return "form-input"
             case .qPlugin: return "q-plugin"
             case .qQuery: return "q-query"
             case .textInput: return "text-input"
@@ -186,6 +220,93 @@ extension QAppsClientTypes {
             self.fileId = fileId
             self.filename = filename
             self.id = id
+            self.title = title
+            self.type = type
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
+    public enum InputCardComputeMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case append
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputCardComputeMode] {
+            return [
+                .append,
+                .replace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .append: return "append"
+            case .replace: return "replace"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// The metadata of the form input card.
+    public struct FormInputCardMetadata: Swift.Sendable {
+        /// The JSON schema that defines the shape of the response data.
+        /// This member is required.
+        public var schema: Smithy.Document?
+
+        public init(
+            schema: Smithy.Document? = nil
+        )
+        {
+            self.schema = schema
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// A card in an Amazon Q App that allows the user to submit a response.
+    public struct FormInputCard: Swift.Sendable {
+        /// The compute mode of the form input card. This property determines whether individual participants of a data collection session can submit multiple response or one response. A compute mode of append shall allow participants to submit the same form multiple times with different values. A compute mode of replacecode> shall overwrite the current value for each participant.
+        public var computeMode: QAppsClientTypes.InputCardComputeMode?
+        /// Any dependencies or requirements for the form input card.
+        /// This member is required.
+        public var dependencies: [Swift.String]?
+        /// The unique identifier of the form input card.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The metadata that defines the form input card data.
+        /// This member is required.
+        public var metadata: QAppsClientTypes.FormInputCardMetadata?
+        /// The title of the form input card.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The type of the card.
+        /// This member is required.
+        public var type: QAppsClientTypes.CardType?
+
+        public init(
+            computeMode: QAppsClientTypes.InputCardComputeMode? = nil,
+            dependencies: [Swift.String]? = nil,
+            id: Swift.String? = nil,
+            metadata: QAppsClientTypes.FormInputCardMetadata? = nil,
+            title: Swift.String? = nil,
+            type: QAppsClientTypes.CardType? = nil
+        )
+        {
+            self.computeMode = computeMode
+            self.dependencies = dependencies
+            self.id = id
+            self.metadata = metadata
             self.title = title
             self.type = type
         }
@@ -417,6 +538,42 @@ extension QAppsClientTypes {
             self.fileId = fileId
             self.filename = filename
             self.id = id
+            self.title = title
+            self.type = type
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// Represents a form input card for an Amazon Q App.
+    public struct FormInputCardInput: Swift.Sendable {
+        /// The compute mode of the form input card. This property determines whether individual participants of a data collection session can submit multiple response or one response. A compute mode of append shall allow participants to submit the same form multiple times with different values. A compute mode of replacecode> shall overwrite the current value for each participant.
+        public var computeMode: QAppsClientTypes.InputCardComputeMode?
+        /// The unique identifier of the form input card.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The metadata that defines the form input card data.
+        /// This member is required.
+        public var metadata: QAppsClientTypes.FormInputCardMetadata?
+        /// The title or label of the form input card.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The type of the card.
+        /// This member is required.
+        public var type: QAppsClientTypes.CardType?
+
+        public init(
+            computeMode: QAppsClientTypes.InputCardComputeMode? = nil,
+            id: Swift.String? = nil,
+            metadata: QAppsClientTypes.FormInputCardMetadata? = nil,
+            title: Swift.String? = nil,
+            type: QAppsClientTypes.CardType? = .formInput
+        )
+        {
+            self.computeMode = computeMode
+            self.id = id
+            self.metadata = metadata
             self.title = title
             self.type = type
         }
@@ -940,6 +1097,7 @@ extension QAppsClientTypes {
 
     public enum ExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
+        case error
         case inProgress
         case waiting
         case sdkUnknown(Swift.String)
@@ -947,6 +1105,7 @@ extension QAppsClientTypes {
         public static var allCases: [ExecutionStatus] {
             return [
                 .completed,
+                .error,
                 .inProgress,
                 .waiting
             ]
@@ -960,10 +1119,35 @@ extension QAppsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .completed: return "COMPLETED"
+            case .error: return "ERROR"
             case .inProgress: return "IN_PROGRESS"
             case .waiting: return "WAITING"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// A record created when a user submits a form card.
+    public struct Submission: Swift.Sendable {
+        /// The unique identifier of the submission.
+        public var submissionId: Swift.String?
+        /// The date and time when the card is submitted.
+        public var timestamp: Foundation.Date?
+        /// The data submitted by the user.
+        public var value: Smithy.Document?
+
+        public init(
+            submissionId: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil,
+            value: Smithy.Document? = nil
+        )
+        {
+            self.submissionId = submissionId
+            self.timestamp = timestamp
+            self.value = value
         }
     }
 }
@@ -978,14 +1162,72 @@ extension QAppsClientTypes {
         /// The current value or result associated with the card.
         /// This member is required.
         public var currentValue: Swift.String?
+        /// A list of previous submissions, if the card is a form card.
+        public var submissions: [QAppsClientTypes.Submission]?
 
         public init(
             currentState: QAppsClientTypes.ExecutionStatus? = nil,
-            currentValue: Swift.String? = nil
+            currentValue: Swift.String? = nil,
+            submissions: [QAppsClientTypes.Submission]? = nil
         )
         {
             self.currentState = currentState
             self.currentValue = currentValue
+            self.submissions = submissions
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
+    public enum SubmissionMutationKind: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case add
+        case delete
+        case edit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubmissionMutationKind] {
+            return [
+                .add,
+                .delete,
+                .edit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .add: return "add"
+            case .delete: return "delete"
+            case .edit: return "edit"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// Represents an action performed on a submission.
+    public struct SubmissionMutation: Swift.Sendable {
+        /// The operation that is performed on a submission.
+        /// This member is required.
+        public var mutationType: QAppsClientTypes.SubmissionMutationKind?
+        /// The unique identifier of the submission.
+        /// This member is required.
+        public var submissionId: Swift.String?
+
+        public init(
+            mutationType: QAppsClientTypes.SubmissionMutationKind? = nil,
+            submissionId: Swift.String? = nil
+        )
+        {
+            self.mutationType = mutationType
+            self.submissionId = submissionId
         }
     }
 }
@@ -997,16 +1239,20 @@ extension QAppsClientTypes {
         /// The unique identifier of the card.
         /// This member is required.
         public var cardId: Swift.String?
+        /// The structure that describes how the current form card value is mutated. Only applies for form cards when multiple responses are allowed.
+        public var submissionMutation: QAppsClientTypes.SubmissionMutation?
         /// The value or result associated with the card.
         /// This member is required.
         public var value: Swift.String?
 
         public init(
             cardId: Swift.String? = nil,
+            submissionMutation: QAppsClientTypes.SubmissionMutation? = nil,
             value: Swift.String? = nil
         )
         {
             self.cardId = cardId
+            self.submissionMutation = submissionMutation
             self.value = value
         }
     }
@@ -1201,6 +1447,105 @@ public struct CreateLibraryItemOutput: Swift.Sendable {
     }
 }
 
+extension QAppsClientTypes {
+
+    public enum DocumentScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case application
+        case session
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DocumentScope] {
+            return [
+                .application,
+                .session
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .application: return "APPLICATION"
+            case .session: return "SESSION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePresignedUrlInput: Swift.Sendable {
+    /// The unique identifier of the Q App the file is associated with.
+    /// This member is required.
+    public var appId: Swift.String?
+    /// The unique identifier of the card the file is associated with.
+    /// This member is required.
+    public var cardId: Swift.String?
+    /// The Base64-encoded SHA-256 digest of the contents of the file to be uploaded.
+    /// This member is required.
+    public var fileContentsSha256: Swift.String?
+    /// The name of the file to be uploaded.
+    /// This member is required.
+    public var fileName: Swift.String?
+    /// The unique identifier of the Amazon Q Business application environment instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Whether the file is associated with a Q App definition or a specific Q App session.
+    /// This member is required.
+    public var scope: QAppsClientTypes.DocumentScope?
+    /// The unique identifier of the Q App session the file is associated with, if applicable.
+    public var sessionId: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        cardId: Swift.String? = nil,
+        fileContentsSha256: Swift.String? = nil,
+        fileName: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        scope: QAppsClientTypes.DocumentScope? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.appId = appId
+        self.cardId = cardId
+        self.fileContentsSha256 = fileContentsSha256
+        self.fileName = fileName
+        self.instanceId = instanceId
+        self.scope = scope
+        self.sessionId = sessionId
+    }
+}
+
+public struct CreatePresignedUrlOutput: Swift.Sendable {
+    /// The unique identifier assigned to the file to be uploaded.
+    /// This member is required.
+    public var fileId: Swift.String?
+    /// The URL for a presigned S3 POST operation used to upload a file.
+    /// This member is required.
+    public var presignedUrl: Swift.String?
+    /// The date and time that the presigned URL will expire in ISO 8601 format.
+    /// This member is required.
+    public var presignedUrlExpiration: Foundation.Date?
+    /// The form fields to include in the presigned S3 POST operation used to upload a file.
+    /// This member is required.
+    public var presignedUrlFields: [Swift.String: Swift.String]?
+
+    public init(
+        fileId: Swift.String? = nil,
+        presignedUrl: Swift.String? = nil,
+        presignedUrlExpiration: Foundation.Date? = nil,
+        presignedUrlFields: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.fileId = fileId
+        self.presignedUrl = presignedUrl
+        self.presignedUrlExpiration = presignedUrlExpiration
+        self.presignedUrlFields = presignedUrlFields
+    }
+}
+
 public struct CreateQAppOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the new Q App.
     /// This member is required.
@@ -1302,6 +1647,119 @@ public struct DeleteQAppInput: Swift.Sendable {
     }
 }
 
+public struct DescribeQAppPermissionsInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q App for which to retrieve permissions.
+    /// This member is required.
+    public var appId: Swift.String?
+    /// The unique identifier of the Amazon Q Business application environment instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.appId = appId
+        self.instanceId = instanceId
+    }
+}
+
+extension QAppsClientTypes {
+
+    public enum UserType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case owner
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserType] {
+            return [
+                .owner,
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .owner: return "owner"
+            case .user: return "user"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// The principal for which the permission applies.
+    public struct PrincipalOutput: Swift.Sendable {
+        /// The email address associated with the user.
+        public var email: Swift.String?
+        /// The unique identifier of the user.
+        public var userId: Swift.String?
+        /// The type of the user.
+        public var userType: QAppsClientTypes.UserType?
+
+        public init(
+            email: Swift.String? = nil,
+            userId: Swift.String? = nil,
+            userType: QAppsClientTypes.UserType? = nil
+        )
+        {
+            self.email = email
+            self.userId = userId
+            self.userType = userType
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// The permission granted to the Amazon Q App.
+    public struct PermissionOutput: Swift.Sendable {
+        /// The action associated with the permission.
+        /// This member is required.
+        public var action: QAppsClientTypes.Action?
+        /// The principal user to which the permission applies.
+        /// This member is required.
+        public var principal: QAppsClientTypes.PrincipalOutput?
+
+        public init(
+            action: QAppsClientTypes.Action? = nil,
+            principal: QAppsClientTypes.PrincipalOutput? = nil
+        )
+        {
+            self.action = action
+            self.principal = principal
+        }
+    }
+}
+
+public struct DescribeQAppPermissionsOutput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q App for which permissions are returned.
+    public var appId: Swift.String?
+    /// The list of permissions granted for the Amazon Q App.
+    public var permissions: [QAppsClientTypes.PermissionOutput]?
+    /// The Amazon Resource Name (ARN) of the Amazon Q App for which permissions are returned.
+    public var resourceArn: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        permissions: [QAppsClientTypes.PermissionOutput]? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.appId = appId
+        self.permissions = permissions
+        self.resourceArn = resourceArn
+    }
+}
+
 public struct DisassociateLibraryItemReviewInput: Swift.Sendable {
     /// The unique identifier of the Amazon Q Business application environment instance.
     /// This member is required.
@@ -1338,32 +1796,44 @@ public struct DisassociateQAppFromUserInput: Swift.Sendable {
     }
 }
 
-extension QAppsClientTypes {
+public struct ExportQAppSessionDataInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application environment instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The unique identifier of the Q App data collection session.
+    /// This member is required.
+    public var sessionId: Swift.String?
 
-    public enum DocumentScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case application
-        case session
-        case sdkUnknown(Swift.String)
+    public init(
+        instanceId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.sessionId = sessionId
+    }
+}
 
-        public static var allCases: [DocumentScope] {
-            return [
-                .application,
-                .session
-            ]
-        }
+public struct ExportQAppSessionDataOutput: Swift.Sendable {
+    /// The link where the exported Q App session data can be downloaded from.
+    /// This member is required.
+    public var csvFileLink: Swift.String?
+    /// The date and time when the link for the exported Q App session data expires.
+    /// This member is required.
+    public var expiresAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the Q App data collection session.
+    /// This member is required.
+    public var sessionArn: Swift.String?
 
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .application: return "APPLICATION"
-            case .session: return "SESSION"
-            case let .sdkUnknown(s): return s
-            }
-        }
+    public init(
+        csvFileLink: Swift.String? = nil,
+        expiresAt: Foundation.Date? = nil,
+        sessionArn: Swift.String? = nil
+    )
+    {
+        self.csvFileLink = csvFileLink
+        self.expiresAt = expiresAt
+        self.sessionArn = sessionArn
     }
 }
 
@@ -1461,16 +1931,20 @@ public struct GetQAppInput: Swift.Sendable {
     /// The unique identifier of the Q App to retrieve.
     /// This member is required.
     public var appId: Swift.String?
+    /// The version of the Q App.
+    public var appVersion: Swift.Int?
     /// The unique identifier of the Amazon Q Business application environment instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
+        appVersion: Swift.Int? = nil,
         instanceId: Swift.String? = nil
     )
     {
         self.appId = appId
+        self.appVersion = appVersion
         self.instanceId = instanceId
     }
 }
@@ -1494,30 +1968,120 @@ public struct GetQAppSessionInput: Swift.Sendable {
 }
 
 public struct GetQAppSessionOutput: Swift.Sendable {
+    /// The version of the Q App used for the session.
+    public var appVersion: Swift.Int?
     /// The current status for each card in the Q App session.
     /// This member is required.
     public var cardStatus: [Swift.String: QAppsClientTypes.CardStatus]?
+    /// The latest published version of the Q App used for the session.
+    public var latestPublishedAppVersion: Swift.Int?
     /// The Amazon Resource Name (ARN) of the Q App session.
     /// This member is required.
     public var sessionArn: Swift.String?
     /// The unique identifier of the Q App session.
     /// This member is required.
     public var sessionId: Swift.String?
+    /// The name of the Q App session.
+    public var sessionName: Swift.String?
     /// The current status of the Q App session.
     /// This member is required.
     public var status: QAppsClientTypes.ExecutionStatus?
+    /// Indicates whether the current user is the owner of the Q App data collection session.
+    public var userIsHost: Swift.Bool?
 
     public init(
+        appVersion: Swift.Int? = nil,
         cardStatus: [Swift.String: QAppsClientTypes.CardStatus]? = nil,
+        latestPublishedAppVersion: Swift.Int? = nil,
         sessionArn: Swift.String? = nil,
         sessionId: Swift.String? = nil,
-        status: QAppsClientTypes.ExecutionStatus? = nil
+        sessionName: Swift.String? = nil,
+        status: QAppsClientTypes.ExecutionStatus? = nil,
+        userIsHost: Swift.Bool? = nil
     )
     {
+        self.appVersion = appVersion
         self.cardStatus = cardStatus
+        self.latestPublishedAppVersion = latestPublishedAppVersion
         self.sessionArn = sessionArn
         self.sessionId = sessionId
+        self.sessionName = sessionName
         self.status = status
+        self.userIsHost = userIsHost
+    }
+}
+
+public struct GetQAppSessionMetadataInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application environment instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The unique identifier of the Q App session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.sessionId = sessionId
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// The sharing configuration of an Amazon Q App data collection session.
+    public struct SessionSharingConfiguration: Swift.Sendable {
+        /// Indicates whether an Q App session can accept responses from users.
+        public var acceptResponses: Swift.Bool?
+        /// Indicates whether an Q App session is shareable with other users.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// Indicates whether collected responses for an Q App session are revealed for all users.
+        public var revealCards: Swift.Bool?
+
+        public init(
+            acceptResponses: Swift.Bool? = nil,
+            enabled: Swift.Bool? = nil,
+            revealCards: Swift.Bool? = nil
+        )
+        {
+            self.acceptResponses = acceptResponses
+            self.enabled = enabled
+            self.revealCards = revealCards
+        }
+    }
+}
+
+public struct GetQAppSessionMetadataOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Q App session.
+    /// This member is required.
+    public var sessionArn: Swift.String?
+    /// The unique identifier of the Q App session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The name of the Q App session.
+    public var sessionName: Swift.String?
+    /// Indicates whether the current user is the owner of the Q App session.
+    public var sessionOwner: Swift.Bool?
+    /// The sharing configuration of the Q App data collection session.
+    /// This member is required.
+    public var sharingConfiguration: QAppsClientTypes.SessionSharingConfiguration?
+
+    public init(
+        sessionArn: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        sessionName: Swift.String? = nil,
+        sessionOwner: Swift.Bool? = nil,
+        sharingConfiguration: QAppsClientTypes.SessionSharingConfiguration? = nil
+    )
+    {
+        self.sessionArn = sessionArn
+        self.sessionId = sessionId
+        self.sessionName = sessionName
+        self.sessionOwner = sessionOwner
+        self.sharingConfiguration = sharingConfiguration
     }
 }
 
@@ -1525,7 +2089,7 @@ public struct ImportDocumentInput: Swift.Sendable {
     /// The unique identifier of the Q App the file is associated with.
     /// This member is required.
     public var appId: Swift.String?
-    /// The unique identifier of the card the file is associated with, if applicable.
+    /// The unique identifier of the card the file is associated with.
     /// This member is required.
     public var cardId: Swift.String?
     /// The base64-encoded contents of the file to upload.
@@ -1537,7 +2101,7 @@ public struct ImportDocumentInput: Swift.Sendable {
     /// The unique identifier of the Amazon Q Business application environment instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// Whether the file is associated with an Q App definition or a specific Q App session.
+    /// Whether the file is associated with a Q App definition or a specific Q App session.
     /// This member is required.
     public var scope: QAppsClientTypes.DocumentScope?
     /// The unique identifier of the Q App session the file is associated with, if applicable.
@@ -1828,6 +2392,100 @@ public struct ListQAppsOutput: Swift.Sendable {
     }
 }
 
+public struct ListQAppSessionDataInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application environment instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The unique identifier of the Q App data collection session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.sessionId = sessionId
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// A user of an Amazon Q App.
+    public struct User: Swift.Sendable {
+        /// The unique identifier of a user.
+        public var userId: Swift.String?
+
+        public init(
+            userId: Swift.String? = nil
+        )
+        {
+            self.userId = userId
+        }
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// The response collected for a Amazon Q App session. This container represents a single response to a Q App session.
+    public struct QAppSessionData: Swift.Sendable {
+        /// The card Id associated with the response submitted for a Q App session.
+        /// This member is required.
+        public var cardId: Swift.String?
+        /// The unique identifier of the submission.
+        public var submissionId: Swift.String?
+        /// The date and time when the session data is submitted.
+        public var timestamp: Foundation.Date?
+        /// The user who submitted the response for a Q App session.
+        /// This member is required.
+        public var user: QAppsClientTypes.User?
+        /// The response submitted for a Q App session.
+        public var value: Smithy.Document?
+
+        public init(
+            cardId: Swift.String? = nil,
+            submissionId: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil,
+            user: QAppsClientTypes.User? = nil,
+            value: Smithy.Document? = nil
+        )
+        {
+            self.cardId = cardId
+            self.submissionId = submissionId
+            self.timestamp = timestamp
+            self.user = user
+            self.value = value
+        }
+    }
+}
+
+public struct ListQAppSessionDataOutput: Swift.Sendable {
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Q App data collection session.
+    /// This member is required.
+    public var sessionArn: Swift.String?
+    /// The collected responses of a Q App session.
+    public var sessionData: [QAppsClientTypes.QAppSessionData]?
+    /// The unique identifier of the Q App data collection session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessionArn: Swift.String? = nil,
+        sessionData: [QAppsClientTypes.QAppSessionData]? = nil,
+        sessionId: Swift.String? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.sessionArn = sessionArn
+        self.sessionData = sessionData
+        self.sessionId = sessionId
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource whose tags should be listed.
     /// This member is required.
@@ -1850,6 +2508,28 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     )
     {
         self.tags = tags
+    }
+}
+
+extension QAppsClientTypes {
+
+    /// The permission to grant or revoke for a Amazon Q App.
+    public struct PermissionInput: Swift.Sendable {
+        /// The action associated with the permission.
+        /// This member is required.
+        public var action: QAppsClientTypes.Action?
+        /// The principal user to which the permission applies.
+        /// This member is required.
+        public var principal: Swift.String?
+
+        public init(
+            action: QAppsClientTypes.Action? = nil,
+            principal: Swift.String? = nil
+        )
+        {
+            self.action = action
+            self.principal = principal
+        }
     }
 }
 
@@ -1894,6 +2574,8 @@ public struct StartQAppSessionInput: Swift.Sendable {
     /// The unique identifier of the Amazon Q Business application environment instance.
     /// This member is required.
     public var instanceId: Swift.String?
+    /// The unique identifier of the a Q App session.
+    public var sessionId: Swift.String?
     /// Optional tags to associate with the new Q App session.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1902,6 +2584,7 @@ public struct StartQAppSessionInput: Swift.Sendable {
         appVersion: Swift.Int? = nil,
         initialValues: [QAppsClientTypes.CardValue]? = nil,
         instanceId: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
     {
@@ -1909,6 +2592,7 @@ public struct StartQAppSessionInput: Swift.Sendable {
         self.appVersion = appVersion
         self.initialValues = initialValues
         self.instanceId = instanceId
+        self.sessionId = sessionId
         self.tags = tags
     }
 }
@@ -1917,7 +2601,7 @@ public struct StartQAppSessionOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the new Q App session.
     /// This member is required.
     public var sessionArn: Swift.String?
-    /// The unique identifier of the new Q App session.
+    /// The unique identifier of the new or retrieved Q App session.
     /// This member is required.
     public var sessionId: Swift.String?
 
@@ -2176,6 +2860,52 @@ public struct UpdateQAppOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateQAppPermissionsInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q App for which permissions are being updated.
+    /// This member is required.
+    public var appId: Swift.String?
+    /// The list of permissions to grant for the Amazon Q App.
+    public var grantPermissions: [QAppsClientTypes.PermissionInput]?
+    /// The unique identifier of the Amazon Q Business application environment instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The list of permissions to revoke for the Amazon Q App.
+    public var revokePermissions: [QAppsClientTypes.PermissionInput]?
+
+    public init(
+        appId: Swift.String? = nil,
+        grantPermissions: [QAppsClientTypes.PermissionInput]? = nil,
+        instanceId: Swift.String? = nil,
+        revokePermissions: [QAppsClientTypes.PermissionInput]? = nil
+    )
+    {
+        self.appId = appId
+        self.grantPermissions = grantPermissions
+        self.instanceId = instanceId
+        self.revokePermissions = revokePermissions
+    }
+}
+
+public struct UpdateQAppPermissionsOutput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q App for which permissions were updated.
+    public var appId: Swift.String?
+    /// The updated list of permissions for the Amazon Q App.
+    public var permissions: [QAppsClientTypes.PermissionOutput]?
+    /// The Amazon Resource Name (ARN) of the Amazon Q App for which permissions were updated.
+    public var resourceArn: Swift.String?
+
+    public init(
+        appId: Swift.String? = nil,
+        permissions: [QAppsClientTypes.PermissionOutput]? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.appId = appId
+        self.permissions = permissions
+        self.resourceArn = resourceArn
+    }
+}
+
 public struct UpdateQAppSessionInput: Swift.Sendable {
     /// The unique identifier of the Amazon Q Business application environment instance.
     /// This member is required.
@@ -2213,6 +2943,60 @@ public struct UpdateQAppSessionOutput: Swift.Sendable {
     {
         self.sessionArn = sessionArn
         self.sessionId = sessionId
+    }
+}
+
+public struct UpdateQAppSessionMetadataInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application environment instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The unique identifier of the Q App session to update configuration for.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The new name for the Q App session.
+    public var sessionName: Swift.String?
+    /// The new sharing configuration for the Q App data collection session.
+    /// This member is required.
+    public var sharingConfiguration: QAppsClientTypes.SessionSharingConfiguration?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        sessionName: Swift.String? = nil,
+        sharingConfiguration: QAppsClientTypes.SessionSharingConfiguration? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.sessionId = sessionId
+        self.sessionName = sessionName
+        self.sharingConfiguration = sharingConfiguration
+    }
+}
+
+public struct UpdateQAppSessionMetadataOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated Q App session.
+    /// This member is required.
+    public var sessionArn: Swift.String?
+    /// The unique identifier of the updated Q App session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The new name of the updated Q App session.
+    public var sessionName: Swift.String?
+    /// The new sharing configuration of the updated Q App data collection session.
+    /// This member is required.
+    public var sharingConfiguration: QAppsClientTypes.SessionSharingConfiguration?
+
+    public init(
+        sessionArn: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        sessionName: Swift.String? = nil,
+        sharingConfiguration: QAppsClientTypes.SessionSharingConfiguration? = nil
+    )
+    {
+        self.sessionArn = sessionArn
+        self.sessionId = sessionId
+        self.sessionName = sessionName
+        self.sharingConfiguration = sharingConfiguration
     }
 }
 
@@ -2280,6 +3064,8 @@ extension QAppsClientTypes {
         /// The unique identifier of the query card.
         /// This member is required.
         public var id: Swift.String?
+        /// Any dependencies for the query card, where the dependencies are references to the collected responses.
+        public var memoryReferences: [Swift.String]?
         /// The source or type of output generated by the query card.
         /// This member is required.
         public var outputSource: QAppsClientTypes.CardOutputSource?
@@ -2297,6 +3083,7 @@ extension QAppsClientTypes {
             attributeFilter: QAppsClientTypes.AttributeFilter? = nil,
             dependencies: [Swift.String]? = nil,
             id: Swift.String? = nil,
+            memoryReferences: [Swift.String]? = nil,
             outputSource: QAppsClientTypes.CardOutputSource? = nil,
             prompt: Swift.String? = nil,
             title: Swift.String? = nil,
@@ -2306,6 +3093,7 @@ extension QAppsClientTypes {
             self.attributeFilter = attributeFilter
             self.dependencies = dependencies
             self.id = id
+            self.memoryReferences = memoryReferences
             self.outputSource = outputSource
             self.prompt = prompt
             self.title = title
@@ -2366,6 +3154,8 @@ extension QAppsClientTypes {
         case qplugin(QAppsClientTypes.QPluginCard)
         /// A container for the properties of the file upload card.
         case fileupload(QAppsClientTypes.FileUploadCard)
+        /// A container for the properties of the form input card.
+        case forminput(QAppsClientTypes.FormInputCard)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2382,6 +3172,8 @@ extension QAppsClientTypes {
         case qplugin(QAppsClientTypes.QPluginCardInput)
         /// A container for the properties of the file upload input card.
         case fileupload(QAppsClientTypes.FileUploadCardInput)
+        /// A container for the properties of the form input card.
+        case forminput(QAppsClientTypes.FormInputCardInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2716,6 +3508,24 @@ extension CreateLibraryItemInput {
     }
 }
 
+extension CreatePresignedUrlInput {
+
+    static func urlPathProvider(_ value: CreatePresignedUrlInput) -> Swift.String? {
+        return "/apps.createPresignedUrl"
+    }
+}
+
+extension CreatePresignedUrlInput {
+
+    static func headerProvider(_ value: CreatePresignedUrlInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let instanceId = value.instanceId {
+            items.add(SmithyHTTPAPI.Header(name: "instance-id", value: Swift.String(instanceId)))
+        }
+        return items
+    }
+}
+
 extension CreateQAppInput {
 
     static func urlPathProvider(_ value: CreateQAppInput) -> Swift.String? {
@@ -2770,6 +3580,38 @@ extension DeleteQAppInput {
     }
 }
 
+extension DescribeQAppPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeQAppPermissionsInput) -> Swift.String? {
+        return "/apps.describeQAppPermissions"
+    }
+}
+
+extension DescribeQAppPermissionsInput {
+
+    static func headerProvider(_ value: DescribeQAppPermissionsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let instanceId = value.instanceId {
+            items.add(SmithyHTTPAPI.Header(name: "instance-id", value: Swift.String(instanceId)))
+        }
+        return items
+    }
+}
+
+extension DescribeQAppPermissionsInput {
+
+    static func queryItemProvider(_ value: DescribeQAppPermissionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let appId = value.appId else {
+            let message = "Creating a URL Query Item failed. appId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let appIdQueryItem = Smithy.URIQueryItem(name: "appId".urlPercentEncoding(), value: Swift.String(appId).urlPercentEncoding())
+        items.append(appIdQueryItem)
+        return items
+    }
+}
+
 extension DisassociateLibraryItemReviewInput {
 
     static func urlPathProvider(_ value: DisassociateLibraryItemReviewInput) -> Swift.String? {
@@ -2798,6 +3640,24 @@ extension DisassociateQAppFromUserInput {
 extension DisassociateQAppFromUserInput {
 
     static func headerProvider(_ value: DisassociateQAppFromUserInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let instanceId = value.instanceId {
+            items.add(SmithyHTTPAPI.Header(name: "instance-id", value: Swift.String(instanceId)))
+        }
+        return items
+    }
+}
+
+extension ExportQAppSessionDataInput {
+
+    static func urlPathProvider(_ value: ExportQAppSessionDataInput) -> Swift.String? {
+        return "/runtime.exportQAppSessionData"
+    }
+}
+
+extension ExportQAppSessionDataInput {
+
+    static func headerProvider(_ value: ExportQAppSessionDataInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
         if let instanceId = value.instanceId {
             items.add(SmithyHTTPAPI.Header(name: "instance-id", value: Swift.String(instanceId)))
@@ -2864,6 +3724,10 @@ extension GetQAppInput {
 
     static func queryItemProvider(_ value: GetQAppInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let appVersion = value.appVersion {
+            let appVersionQueryItem = Smithy.URIQueryItem(name: "appVersion".urlPercentEncoding(), value: Swift.String(appVersion).urlPercentEncoding())
+            items.append(appVersionQueryItem)
+        }
         guard let appId = value.appId else {
             let message = "Creating a URL Query Item failed. appId is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
@@ -2895,6 +3759,38 @@ extension GetQAppSessionInput {
 extension GetQAppSessionInput {
 
     static func queryItemProvider(_ value: GetQAppSessionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let sessionId = value.sessionId else {
+            let message = "Creating a URL Query Item failed. sessionId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let sessionIdQueryItem = Smithy.URIQueryItem(name: "sessionId".urlPercentEncoding(), value: Swift.String(sessionId).urlPercentEncoding())
+        items.append(sessionIdQueryItem)
+        return items
+    }
+}
+
+extension GetQAppSessionMetadataInput {
+
+    static func urlPathProvider(_ value: GetQAppSessionMetadataInput) -> Swift.String? {
+        return "/runtime.getQAppSessionMetadata"
+    }
+}
+
+extension GetQAppSessionMetadataInput {
+
+    static func headerProvider(_ value: GetQAppSessionMetadataInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let instanceId = value.instanceId {
+            items.add(SmithyHTTPAPI.Header(name: "instance-id", value: Swift.String(instanceId)))
+        }
+        return items
+    }
+}
+
+extension GetQAppSessionMetadataInput {
+
+    static func queryItemProvider(_ value: GetQAppSessionMetadataInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         guard let sessionId = value.sessionId else {
             let message = "Creating a URL Query Item failed. sessionId is required and must not be nil."
@@ -3010,6 +3906,38 @@ extension ListQAppsInput {
             let limitQueryItem = Smithy.URIQueryItem(name: "limit".urlPercentEncoding(), value: Swift.String(limit).urlPercentEncoding())
             items.append(limitQueryItem)
         }
+        return items
+    }
+}
+
+extension ListQAppSessionDataInput {
+
+    static func urlPathProvider(_ value: ListQAppSessionDataInput) -> Swift.String? {
+        return "/runtime.listQAppSessionData"
+    }
+}
+
+extension ListQAppSessionDataInput {
+
+    static func headerProvider(_ value: ListQAppSessionDataInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let instanceId = value.instanceId {
+            items.add(SmithyHTTPAPI.Header(name: "instance-id", value: Swift.String(instanceId)))
+        }
+        return items
+    }
+}
+
+extension ListQAppSessionDataInput {
+
+    static func queryItemProvider(_ value: ListQAppSessionDataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let sessionId = value.sessionId else {
+            let message = "Creating a URL Query Item failed. sessionId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let sessionIdQueryItem = Smithy.URIQueryItem(name: "sessionId".urlPercentEncoding(), value: Swift.String(sessionId).urlPercentEncoding())
+        items.append(sessionIdQueryItem)
         return items
     }
 }
@@ -3168,6 +4096,24 @@ extension UpdateQAppInput {
     }
 }
 
+extension UpdateQAppPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateQAppPermissionsInput) -> Swift.String? {
+        return "/apps.updateQAppPermissions"
+    }
+}
+
+extension UpdateQAppPermissionsInput {
+
+    static func headerProvider(_ value: UpdateQAppPermissionsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let instanceId = value.instanceId {
+            items.add(SmithyHTTPAPI.Header(name: "instance-id", value: Swift.String(instanceId)))
+        }
+        return items
+    }
+}
+
 extension UpdateQAppSessionInput {
 
     static func urlPathProvider(_ value: UpdateQAppSessionInput) -> Swift.String? {
@@ -3178,6 +4124,24 @@ extension UpdateQAppSessionInput {
 extension UpdateQAppSessionInput {
 
     static func headerProvider(_ value: UpdateQAppSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let instanceId = value.instanceId {
+            items.add(SmithyHTTPAPI.Header(name: "instance-id", value: Swift.String(instanceId)))
+        }
+        return items
+    }
+}
+
+extension UpdateQAppSessionMetadataInput {
+
+    static func urlPathProvider(_ value: UpdateQAppSessionMetadataInput) -> Swift.String? {
+        return "/runtime.updateQAppSessionMetadata"
+    }
+}
+
+extension UpdateQAppSessionMetadataInput {
+
+    static func headerProvider(_ value: UpdateQAppSessionMetadataInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
         if let instanceId = value.instanceId {
             items.add(SmithyHTTPAPI.Header(name: "instance-id", value: Swift.String(instanceId)))
@@ -3236,6 +4200,19 @@ extension CreateLibraryItemInput {
     }
 }
 
+extension CreatePresignedUrlInput {
+
+    static func write(value: CreatePresignedUrlInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appId"].write(value.appId)
+        try writer["cardId"].write(value.cardId)
+        try writer["fileContentsSha256"].write(value.fileContentsSha256)
+        try writer["fileName"].write(value.fileName)
+        try writer["scope"].write(value.scope)
+        try writer["sessionId"].write(value.sessionId)
+    }
+}
+
 extension CreateQAppInput {
 
     static func write(value: CreateQAppInput?, to writer: SmithyJSON.Writer) throws {
@@ -3279,6 +4256,14 @@ extension DisassociateQAppFromUserInput {
     }
 }
 
+extension ExportQAppSessionDataInput {
+
+    static func write(value: ExportQAppSessionDataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionId"].write(value.sessionId)
+    }
+}
+
 extension ImportDocumentInput {
 
     static func write(value: ImportDocumentInput?, to writer: SmithyJSON.Writer) throws {
@@ -3307,6 +4292,7 @@ extension StartQAppSessionInput {
         try writer["appId"].write(value.appId)
         try writer["appVersion"].write(value.appVersion)
         try writer["initialValues"].writeList(value.initialValues, memberWritingClosure: QAppsClientTypes.CardValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sessionId"].write(value.sessionId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -3357,12 +4343,32 @@ extension UpdateQAppInput {
     }
 }
 
+extension UpdateQAppPermissionsInput {
+
+    static func write(value: UpdateQAppPermissionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appId"].write(value.appId)
+        try writer["grantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QAppsClientTypes.PermissionInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["revokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QAppsClientTypes.PermissionInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateQAppSessionInput {
 
     static func write(value: UpdateQAppSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["sessionId"].write(value.sessionId)
         try writer["values"].writeList(value.values, memberWritingClosure: QAppsClientTypes.CardValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateQAppSessionMetadataInput {
+
+    static func write(value: UpdateQAppSessionMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionId"].write(value.sessionId)
+        try writer["sessionName"].write(value.sessionName)
+        try writer["sharingConfiguration"].write(value.sharingConfiguration, with: QAppsClientTypes.SessionSharingConfiguration.write(value:to:))
     }
 }
 
@@ -3420,6 +4426,21 @@ extension CreateLibraryItemOutput {
     }
 }
 
+extension CreatePresignedUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePresignedUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePresignedUrlOutput()
+        value.fileId = try reader["fileId"].readIfPresent() ?? ""
+        value.presignedUrl = try reader["presignedUrl"].readIfPresent() ?? ""
+        value.presignedUrlExpiration = try reader["presignedUrlExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.presignedUrlFields = try reader["presignedUrlFields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
 extension CreateQAppOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQAppOutput {
@@ -3457,6 +4478,20 @@ extension DeleteQAppOutput {
     }
 }
 
+extension DescribeQAppPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeQAppPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeQAppPermissionsOutput()
+        value.appId = try reader["appId"].readIfPresent()
+        value.permissions = try reader["permissions"].readListIfPresent(memberReadingClosure: QAppsClientTypes.PermissionOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        return value
+    }
+}
+
 extension DisassociateLibraryItemReviewOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateLibraryItemReviewOutput {
@@ -3468,6 +4503,20 @@ extension DisassociateQAppFromUserOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateQAppFromUserOutput {
         return DisassociateQAppFromUserOutput()
+    }
+}
+
+extension ExportQAppSessionDataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportQAppSessionDataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ExportQAppSessionDataOutput()
+        value.csvFileLink = try reader["csvFileLink"].readIfPresent() ?? ""
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -3526,10 +4575,30 @@ extension GetQAppSessionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetQAppSessionOutput()
+        value.appVersion = try reader["appVersion"].readIfPresent()
         value.cardStatus = try reader["cardStatus"].readMapIfPresent(valueReadingClosure: QAppsClientTypes.CardStatus.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.latestPublishedAppVersion = try reader["latestPublishedAppVersion"].readIfPresent()
         value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
         value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.sessionName = try reader["sessionName"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.userIsHost = try reader["userIsHost"].readIfPresent()
+        return value
+    }
+}
+
+extension GetQAppSessionMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetQAppSessionMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetQAppSessionMetadataOutput()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.sessionName = try reader["sessionName"].readIfPresent()
+        value.sessionOwner = try reader["sessionOwner"].readIfPresent()
+        value.sharingConfiguration = try reader["sharingConfiguration"].readIfPresent(with: QAppsClientTypes.SessionSharingConfiguration.read(from:))
         return value
     }
 }
@@ -3580,6 +4649,21 @@ extension ListQAppsOutput {
         var value = ListQAppsOutput()
         value.apps = try reader["apps"].readListIfPresent(memberReadingClosure: QAppsClientTypes.UserAppItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListQAppSessionDataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQAppSessionDataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQAppSessionDataOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionData = try reader["sessionData"].readListIfPresent(memberReadingClosure: QAppsClientTypes.QAppSessionData.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3697,6 +4781,20 @@ extension UpdateQAppOutput {
     }
 }
 
+extension UpdateQAppPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQAppPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateQAppPermissionsOutput()
+        value.appId = try reader["appId"].readIfPresent()
+        value.permissions = try reader["permissions"].readListIfPresent(memberReadingClosure: QAppsClientTypes.PermissionOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateQAppSessionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQAppSessionOutput {
@@ -3706,6 +4804,21 @@ extension UpdateQAppSessionOutput {
         var value = UpdateQAppSessionOutput()
         value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
         value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateQAppSessionMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQAppSessionMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateQAppSessionMetadataOutput()
+        value.sessionArn = try reader["sessionArn"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
+        value.sessionName = try reader["sessionName"].readIfPresent()
+        value.sharingConfiguration = try reader["sharingConfiguration"].readIfPresent(with: QAppsClientTypes.SessionSharingConfiguration.read(from:))
         return value
     }
 }
@@ -3831,6 +4944,24 @@ enum CreateLibraryItemOutputError {
     }
 }
 
+enum CreatePresignedUrlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateQAppOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3891,6 +5022,25 @@ enum DeleteQAppOutputError {
     }
 }
 
+enum DescribeQAppPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateLibraryItemReviewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3923,6 +5073,27 @@ enum DisassociateQAppFromUserOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ExportQAppSessionDataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3970,6 +5141,26 @@ enum GetQAppOutputError {
 }
 
 enum GetQAppSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetQAppSessionMetadataOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4058,6 +5249,26 @@ enum ListQAppsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListQAppSessionDataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -4239,7 +5450,46 @@ enum UpdateQAppOutputError {
     }
 }
 
+enum UpdateQAppPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateQAppSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateQAppSessionMetadataOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4396,6 +5646,29 @@ extension ContentTooLargeException {
     }
 }
 
+extension QAppsClientTypes.PermissionOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.PermissionOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.PermissionOutput()
+        value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
+        value.principal = try reader["principal"].readIfPresent(with: QAppsClientTypes.PrincipalOutput.read(from:))
+        return value
+    }
+}
+
+extension QAppsClientTypes.PrincipalOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.PrincipalOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.PrincipalOutput()
+        value.userId = try reader["userId"].readIfPresent()
+        value.userType = try reader["userType"].readIfPresent()
+        value.email = try reader["email"].readIfPresent()
+        return value
+    }
+}
+
 extension QAppsClientTypes.Category {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.Category {
@@ -4435,9 +5708,41 @@ extension QAppsClientTypes.Card {
                 return .qplugin(try reader["qPlugin"].read(with: QAppsClientTypes.QPluginCard.read(from:)))
             case "fileUpload":
                 return .fileupload(try reader["fileUpload"].read(with: QAppsClientTypes.FileUploadCard.read(from:)))
+            case "formInput":
+                return .forminput(try reader["formInput"].read(with: QAppsClientTypes.FormInputCard.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QAppsClientTypes.FormInputCard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FormInputCard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.FormInputCard()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.dependencies = try reader["dependencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.metadata = try reader["metadata"].readIfPresent(with: QAppsClientTypes.FormInputCardMetadata.read(from:))
+        value.computeMode = try reader["computeMode"].readIfPresent()
+        return value
+    }
+}
+
+extension QAppsClientTypes.FormInputCardMetadata {
+
+    static func write(value: QAppsClientTypes.FormInputCardMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["schema"].write(value.schema)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FormInputCardMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.FormInputCardMetadata()
+        value.schema = try reader["schema"].readIfPresent() ?? [:]
+        return value
     }
 }
 
@@ -4485,6 +5790,7 @@ extension QAppsClientTypes.QQueryCard {
         value.prompt = try reader["prompt"].readIfPresent() ?? ""
         value.outputSource = try reader["outputSource"].readIfPresent() ?? .sdkUnknown("")
         value.attributeFilter = try reader["attributeFilter"].readIfPresent(with: QAppsClientTypes.AttributeFilter.read(from:))
+        value.memoryReferences = try reader["memoryReferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4597,6 +5903,38 @@ extension QAppsClientTypes.CardStatus {
         var value = QAppsClientTypes.CardStatus()
         value.currentState = try reader["currentState"].readIfPresent() ?? .sdkUnknown("")
         value.currentValue = try reader["currentValue"].readIfPresent() ?? ""
+        value.submissions = try reader["submissions"].readListIfPresent(memberReadingClosure: QAppsClientTypes.Submission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QAppsClientTypes.Submission {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.Submission {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.Submission()
+        value.value = try reader["value"].readIfPresent()
+        value.submissionId = try reader["submissionId"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension QAppsClientTypes.SessionSharingConfiguration {
+
+    static func write(value: QAppsClientTypes.SessionSharingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["acceptResponses"].write(value.acceptResponses)
+        try writer["enabled"].write(value.enabled)
+        try writer["revealCards"].write(value.revealCards)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.SessionSharingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.SessionSharingConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.acceptResponses = try reader["acceptResponses"].readIfPresent()
+        value.revealCards = try reader["revealCards"].readIfPresent()
         return value
     }
 }
@@ -4640,6 +5978,30 @@ extension QAppsClientTypes.UserAppItem {
     }
 }
 
+extension QAppsClientTypes.QAppSessionData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.QAppSessionData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.QAppSessionData()
+        value.cardId = try reader["cardId"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent()
+        value.user = try reader["user"].readIfPresent(with: QAppsClientTypes.User.read(from:))
+        value.submissionId = try reader["submissionId"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension QAppsClientTypes.User {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.User()
+        value.userId = try reader["userId"].readIfPresent()
+        return value
+    }
+}
+
 extension QAppsClientTypes.PredictAppDefinition {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.PredictAppDefinition {
@@ -4676,6 +6038,8 @@ extension QAppsClientTypes.CardInput {
         switch value {
             case let .fileupload(fileupload):
                 try writer["fileUpload"].write(fileupload, with: QAppsClientTypes.FileUploadCardInput.write(value:to:))
+            case let .forminput(forminput):
+                try writer["formInput"].write(forminput, with: QAppsClientTypes.FormInputCardInput.write(value:to:))
             case let .qplugin(qplugin):
                 try writer["qPlugin"].write(qplugin, with: QAppsClientTypes.QPluginCardInput.write(value:to:))
             case let .qquery(qquery):
@@ -4699,9 +6063,34 @@ extension QAppsClientTypes.CardInput {
                 return .qplugin(try reader["qPlugin"].read(with: QAppsClientTypes.QPluginCardInput.read(from:)))
             case "fileUpload":
                 return .fileupload(try reader["fileUpload"].read(with: QAppsClientTypes.FileUploadCardInput.read(from:)))
+            case "formInput":
+                return .forminput(try reader["formInput"].read(with: QAppsClientTypes.FormInputCardInput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QAppsClientTypes.FormInputCardInput {
+
+    static func write(value: QAppsClientTypes.FormInputCardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeMode"].write(value.computeMode)
+        try writer["id"].write(value.id)
+        try writer["metadata"].write(value.metadata, with: QAppsClientTypes.FormInputCardMetadata.write(value:to:))
+        try writer["title"].write(value.title)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QAppsClientTypes.FormInputCardInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QAppsClientTypes.FormInputCardInput()
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .formInput
+        value.metadata = try reader["metadata"].readIfPresent(with: QAppsClientTypes.FormInputCardMetadata.read(from:))
+        value.computeMode = try reader["computeMode"].readIfPresent()
+        return value
     }
 }
 
@@ -4850,7 +6239,26 @@ extension QAppsClientTypes.CardValue {
     static func write(value: QAppsClientTypes.CardValue?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["cardId"].write(value.cardId)
+        try writer["submissionMutation"].write(value.submissionMutation, with: QAppsClientTypes.SubmissionMutation.write(value:to:))
         try writer["value"].write(value.value)
+    }
+}
+
+extension QAppsClientTypes.SubmissionMutation {
+
+    static func write(value: QAppsClientTypes.SubmissionMutation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mutationType"].write(value.mutationType)
+        try writer["submissionId"].write(value.submissionId)
+    }
+}
+
+extension QAppsClientTypes.PermissionInput {
+
+    static func write(value: QAppsClientTypes.PermissionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["principal"].write(value.principal)
     }
 }
 

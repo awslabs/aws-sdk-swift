@@ -2712,9 +2712,9 @@ public struct CreateTaskInput: Swift.Sendable {
     public var tags: [DataSyncClientTypes.TagListEntry]?
     /// Specifies one of the following task modes for your data transfer:
     ///
-    /// * ENHANCED - Transfer virtually unlimited numbers of objects with enhanced metrics, more detailed logs, and higher performance than Basic mode. Currently available for transfers between Amazon S3 locations. To create an Enhanced mode task, the IAM role that you use to call the CreateTask operation must have the iam:CreateServiceLinkedRole permission.
+    /// * ENHANCED - Transfer virtually unlimited numbers of objects with higher performance than Basic mode. Enhanced mode tasks optimize the data transfer process by listing, preparing, transferring, and verifying data in parallel. Enhanced mode is currently available for transfers between Amazon S3 locations. To create an Enhanced mode task, the IAM role that you use to call the CreateTask operation must have the iam:CreateServiceLinkedRole permission.
     ///
-    /// * BASIC (default) - Transfer files or objects between Amazon Web Services storage and on-premises, edge, or other cloud storage. DataSync [quotas](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-limits.html) apply.
+    /// * BASIC (default) - Transfer files or objects between Amazon Web Services storage and all other supported DataSync locations. Basic mode tasks are subject to [quotas](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-limits.html) on the number of files, objects, and directories in a dataset. Basic mode sequentially prepares, transfers, and verifies data, making it slower than Enhanced mode for most workloads.
     ///
     ///
     /// For more information, see [Understanding task mode differences](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences).
@@ -4542,7 +4542,7 @@ extension DataSyncClientTypes {
 
     /// The number of objects that DataSync finds at your locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
     public struct TaskExecutionFilesListedDetail: Swift.Sendable {
-        /// The number of objects that DataSync finds at your destination location. This metric is only applicable if you [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-file-object-handling) to delete data in the destination that isn't in the source.
+        /// The number of objects that DataSync finds at your destination location. This counter is only applicable if you [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-file-object-handling) to delete data in the destination that isn't in the source.
         public var atDestinationForDelete: Swift.Int
         /// The number of objects that DataSync finds at your source location.
         ///
@@ -4717,7 +4717,7 @@ extension DataSyncClientTypes {
 
 /// DescribeTaskExecutionResponse
 public struct DescribeTaskExecutionOutput: Swift.Sendable {
-    /// The number of physical bytes that DataSync transfers over the network after compression (if compression is possible). This number is typically less than [BytesTransferred](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-BytesTransferred) unless the data isn't compressible. Not currently supported with [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    /// The number of physical bytes that DataSync transfers over the network after compression (if compression is possible). This number is typically less than [BytesTransferred](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-BytesTransferred) unless the data isn't compressible.
     public var bytesCompressed: Swift.Int
     /// The number of bytes that DataSync sends to the network before compression (if compression is possible). For the number of bytes transferred over the network, see [BytesCompressed](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-BytesCompressed).
     public var bytesTransferred: Swift.Int
@@ -4725,9 +4725,9 @@ public struct DescribeTaskExecutionOutput: Swift.Sendable {
     public var bytesWritten: Swift.Int
     /// The number of logical bytes that DataSync expects to write to the destination location.
     public var estimatedBytesToTransfer: Swift.Int
-    /// The number of files, objects, and directories that DataSync expects to delete in your destination location. If you don't [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html) to delete data in the destination that isn't in the source, the value is always 0.
+    /// The number of files, objects, and directories that DataSync expects to delete in your destination location. If you don't configure your task to [delete data in the destination that isn't in the source](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html), the value is always 0.
     public var estimatedFilesToDelete: Swift.Int
-    /// The number of files, objects, and directories that DataSync expects to transfer over the network. This value is calculated during the task execution's PREPARING[step](https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses) before the TRANSFERRING step. How this gets calculated depends primarily on your task’s [transfer mode](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-TransferMode) configuration:
+    /// The number of files, objects, and directories that DataSync expects to transfer over the network. This value is calculated while DataSync [prepares](https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses) the transfer. How this gets calculated depends primarily on your task’s [transfer mode](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-TransferMode) configuration:
     ///
     /// * If TranserMode is set to CHANGED - The calculation is based on comparing the content of the source and destination locations and determining the difference that needs to be transferred. The difference can include:
     ///
@@ -4744,17 +4744,17 @@ public struct DescribeTaskExecutionOutput: Swift.Sendable {
     public var estimatedFilesToTransfer: Swift.Int
     /// A list of filter rules that exclude specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var excludes: [DataSyncClientTypes.FilterRule]?
-    /// The number of files, objects, and directories that DataSync actually deletes in your destination location. If you don't [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html) to delete data in the destination that isn't in the source, the value is always 0.
+    /// The number of files, objects, and directories that DataSync actually deletes in your destination location. If you don't configure your task to [delete data in the destination that isn't in the source](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html), the value is always 0.
     public var filesDeleted: Swift.Int
     /// The number of objects that DataSync fails to prepare, transfer, verify, and delete during your task execution. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
     public var filesFailed: DataSyncClientTypes.TaskExecutionFilesFailedDetail?
     /// The number of objects that DataSync finds at your locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
     public var filesListed: DataSyncClientTypes.TaskExecutionFilesListedDetail?
-    /// The number of objects that DataSync will attempt to transfer after comparing your source and destination locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html). This metric isn't applicable if you configure your task to [transfer all data](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-transfer-mode). In that scenario, DataSync copies everything from the source to the destination without comparing differences between the locations.
+    /// The number of objects that DataSync will attempt to transfer after comparing your source and destination locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html). This counter isn't applicable if you configure your task to [transfer all data](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-transfer-mode). In that scenario, DataSync copies everything from the source to the destination without comparing differences between the locations.
     public var filesPrepared: Swift.Int
     /// The number of files, objects, and directories that DataSync skips during your transfer.
     public var filesSkipped: Swift.Int
-    /// The number of files, objects, and directories that DataSync actually transfers over the network. This value is updated periodically during the task execution's TRANSFERRING[step](https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses) when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what's transferring or to monitor your task execution.
+    /// The number of files, objects, and directories that DataSync actually transfers over the network. This value is updated periodically during your task execution when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what's transferring or to monitor your task execution.
     public var filesTransferred: Swift.Int
     /// The number of files, objects, and directories that DataSync verifies during your transfer. When you configure your task to [verify only the data that's transferred](https://docs.aws.amazon.com/datasync/latest/userguide/configure-data-verification-options.html), DataSync doesn't verify directories in some situations or files that fail to transfer.
     public var filesVerified: Swift.Int

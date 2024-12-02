@@ -2433,7 +2433,7 @@ extension IoTClientTypes {
     }
 }
 
-/// A resource with the same name already exists.
+/// The request conflicts with the current state of the resource.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2485,7 +2485,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// A limit has been exceeded.
+/// Service quota has been exceeded.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2812,6 +2812,35 @@ public struct AttachSecurityProfileOutput: Swift.Sendable {
     public init() { }
 }
 
+extension IoTClientTypes {
+
+    public enum ThingPrincipalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclusiveThing
+        case nonExclusiveThing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThingPrincipalType] {
+            return [
+                .exclusiveThing,
+                .nonExclusiveThing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclusiveThing: return "EXCLUSIVE_THING"
+            case .nonExclusiveThing: return "NON_EXCLUSIVE_THING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The input for the AttachThingPrincipal operation.
 public struct AttachThingPrincipalInput: Swift.Sendable {
     /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
@@ -2820,14 +2849,25 @@ public struct AttachThingPrincipalInput: Swift.Sendable {
     /// The name of the thing.
     /// This member is required.
     public var thingName: Swift.String?
+    /// The type of the relation you want to specify when you attach a principal to a thing.
+    ///
+    /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+    ///
+    ///
+    ///
+    ///
+    /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+    public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
 
     public init(
         principal: Swift.String? = nil,
-        thingName: Swift.String? = nil
+        thingName: Swift.String? = nil,
+        thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
     )
     {
         self.principal = principal
         self.thingName = thingName
+        self.thingPrincipalType = thingPrincipalType
     }
 }
 
@@ -4544,6 +4584,181 @@ public struct CreateCertificateProviderOutput: Swift.Sendable {
 
 extension IoTClientTypes {
 
+    /// The range of possible values that's used to describe a specific command parameter. The commandParameterValue can only have one of the below fields listed.
+    public struct CommandParameterValue: Swift.Sendable {
+        /// An attribute of type Boolean. For example: "BOOL": true
+        public var b: Swift.Bool?
+        /// An attribute of type Binary. For example: "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
+        public var bin: Foundation.Data?
+        /// An attribute of type Double (Sixty-Four Bits).
+        public var d: Swift.Double?
+        /// An attribute of type Integer (Thirty-Two Bits).
+        public var i: Swift.Int?
+        /// An attribute of type Long.
+        public var l: Swift.Int?
+        /// An attribute of type String. For example: "S": "Hello"
+        public var s: Swift.String?
+        /// An attribute of type unsigned long.
+        public var ul: Swift.String?
+
+        public init(
+            b: Swift.Bool? = nil,
+            bin: Foundation.Data? = nil,
+            d: Swift.Double? = nil,
+            i: Swift.Int? = nil,
+            l: Swift.Int? = nil,
+            s: Swift.String? = nil,
+            ul: Swift.String? = nil
+        )
+        {
+            self.b = b
+            self.bin = bin
+            self.d = d
+            self.i = i
+            self.l = l
+            self.s = s
+            self.ul = ul
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// A map of key-value pairs that describe the command.
+    public struct CommandParameter: Swift.Sendable {
+        /// The default value used to describe the command. This is the value assumed by the parameter if no other value is assigned to it.
+        public var defaultValue: IoTClientTypes.CommandParameterValue?
+        /// The description of the command parameter.
+        public var description: Swift.String?
+        /// The name of a specific parameter used in a command and command execution.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value used to describe the command. When you assign a value to a parameter, it will override any default value that you had already specified.
+        public var value: IoTClientTypes.CommandParameterValue?
+
+        public init(
+            defaultValue: IoTClientTypes.CommandParameterValue? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            value: IoTClientTypes.CommandParameterValue? = nil
+        )
+        {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum CommandNamespace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsiot
+        case awsiotfleetwise
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommandNamespace] {
+            return [
+                .awsiot,
+                .awsiotfleetwise
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsiot: return "AWS-IoT"
+            case .awsiotfleetwise: return "AWS-IoT-FleetWise"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The command payload object that contains the instructions for the device to process.
+    public struct CommandPayload: Swift.Sendable {
+        /// The static payload file for the command.
+        public var content: Foundation.Data?
+        /// The content type that specifies the format type of the payload file. This field must use a type/subtype format, such as application/json. For information about various content types, see [Common MIME types](https://developer.mozilla.org/en-US/docs/Web/HTTP/MIME_types/Common_types).
+        public var contentType: Swift.String?
+
+        public init(
+            content: Foundation.Data? = nil,
+            contentType: Swift.String? = nil
+        )
+        {
+            self.content = content
+            self.contentType = contentType
+        }
+    }
+}
+
+public struct CreateCommandInput: Swift.Sendable {
+    /// A unique identifier for the command. We recommend using UUID. Alpha-numeric characters, hyphens, and underscores are valid for use here.
+    /// This member is required.
+    public var commandId: Swift.String?
+    /// A short text decription of the command.
+    public var description: Swift.String?
+    /// The user-friendly name in the console for the command. This name doesn't have to be unique. You can update the user-friendly name after you define it.
+    public var displayName: Swift.String?
+    /// A list of parameters that are required by the StartCommandExecution API. These parameters need to be specified only when using the AWS-IoT-FleetWise namespace. You can either specify them here or when running the command using the StartCommandExecution API.
+    public var mandatoryParameters: [IoTClientTypes.CommandParameter]?
+    /// The namespace of the command. The MQTT reserved topics and validations will be used for command executions according to the namespace setting.
+    public var namespace: IoTClientTypes.CommandNamespace?
+    /// The payload object for the command. You must specify this information when using the AWS-IoT namespace. You can upload a static payload file from your local storage that contains the instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
+    public var payload: IoTClientTypes.CommandPayload?
+    /// The IAM role that allows access to create the command.
+    public var roleArn: Swift.String?
+    /// Name-value pairs that are used as metadata to manage a command.
+    public var tags: [IoTClientTypes.Tag]?
+
+    public init(
+        commandId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        mandatoryParameters: [IoTClientTypes.CommandParameter]? = nil,
+        namespace: IoTClientTypes.CommandNamespace? = nil,
+        payload: IoTClientTypes.CommandPayload? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [IoTClientTypes.Tag]? = nil
+    )
+    {
+        self.commandId = commandId
+        self.description = description
+        self.displayName = displayName
+        self.mandatoryParameters = mandatoryParameters
+        self.namespace = namespace
+        self.payload = payload
+        self.roleArn = roleArn
+        self.tags = tags
+    }
+}
+
+public struct CreateCommandOutput: Swift.Sendable {
+    /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+    public var commandArn: Swift.String?
+    /// The unique identifier for the command.
+    public var commandId: Swift.String?
+
+    public init(
+        commandArn: Swift.String? = nil,
+        commandId: Swift.String? = nil
+    )
+    {
+        self.commandArn = commandArn
+        self.commandId = commandId
+    }
+}
+
+extension IoTClientTypes {
+
     public enum CustomMetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ipAddressList
         case number
@@ -4743,14 +4958,22 @@ extension IoTClientTypes {
 
     /// The server certificate configuration.
     public struct ServerCertificateConfig: Swift.Sendable {
-        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [Configuring OCSP server-certificate stapling in domain configuration](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html) from Amazon Web Services IoT Core Developer Guide.
+        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [ Server certificate configuration for OCSP stapling](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html) from Amazon Web Services IoT Core Developer Guide.
         public var enableOCSPCheck: Swift.Bool?
+        /// The Amazon Resource Name (ARN) for an X.509 certificate stored in Amazon Web Services Certificate Manager (ACM). If provided, Amazon Web Services IoT Core will use this certificate to validate the signature of the received OCSP response. The OCSP responder must sign responses using either this authorized responder certificate or the issuing certificate, depending on whether the ARN is provided or not. The certificate must be in the same Amazon Web Services account and region as the domain configuration.
+        public var ocspAuthorizedResponderArn: Swift.String?
+        /// The Amazon Resource Name (ARN) for a Lambda function that acts as a Request for Comments (RFC) 6960-compliant Online Certificate Status Protocol (OCSP) responder, supporting basic OCSP responses. The Lambda function accepts a base64-encoding of the OCSP request in the Distinguished Encoding Rules (DER) format. The Lambda function's response is also a base64-encoded OCSP response in the DER format. The response size must not exceed 4 kilobytes (KiB). The Lambda function must be in the same Amazon Web Services account and region as the domain configuration. For more information, see [Configuring server certificate OCSP for private endpoints in Amazon Web Services IoT Core](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html#iot-custom-endpoints-cert-config-ocsp-private-endpoint.html) from the Amazon Web Services IoT Core developer guide.
+        public var ocspLambdaArn: Swift.String?
 
         public init(
-            enableOCSPCheck: Swift.Bool? = nil
+            enableOCSPCheck: Swift.Bool? = nil,
+            ocspAuthorizedResponderArn: Swift.String? = nil,
+            ocspLambdaArn: Swift.String? = nil
         )
         {
             self.enableOCSPCheck = enableOCSPCheck
+            self.ocspAuthorizedResponderArn = ocspAuthorizedResponderArn
+            self.ocspLambdaArn = ocspLambdaArn
         }
     }
 }
@@ -5550,7 +5773,7 @@ public struct CreateJobInput: Swift.Sendable {
     public var jobExecutionsRetryConfig: IoTClientTypes.JobExecutionsRetryConfig?
     /// Allows you to create a staged rollout of the job.
     public var jobExecutionsRolloutConfig: IoTClientTypes.JobExecutionsRolloutConfig?
-    /// A job identifier which must be unique for your Amazon Web Services account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
+    /// A job identifier which must be unique for your account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
     /// This member is required.
     public var jobId: Swift.String?
     /// The ARN of the job template used to create the job.
@@ -7591,18 +7814,62 @@ public struct CreateThingGroupOutput: Swift.Sendable {
 
 extension IoTClientTypes {
 
+    /// An object that represents the connection attribute, thing attribute, and the user property key.
+    public struct PropagatingAttribute: Swift.Sendable {
+        /// The attribute associated with the connection between a device and Amazon Web Services IoT Core.
+        public var connectionAttribute: Swift.String?
+        /// The user-defined thing attribute that is propagating for MQTT 5 message enrichment.
+        public var thingAttribute: Swift.String?
+        /// The key of the user property key-value pair.
+        public var userPropertyKey: Swift.String?
+
+        public init(
+            connectionAttribute: Swift.String? = nil,
+            thingAttribute: Swift.String? = nil,
+            userPropertyKey: Swift.String? = nil
+        )
+        {
+            self.connectionAttribute = connectionAttribute
+            self.thingAttribute = thingAttribute
+            self.userPropertyKey = userPropertyKey
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The configuration to add user-defined properties to enrich MQTT 5 messages.
+    public struct Mqtt5Configuration: Swift.Sendable {
+        /// An object that represents the propagating thing attributes and the connection attributes.
+        public var propagatingAttributes: [IoTClientTypes.PropagatingAttribute]?
+
+        public init(
+            propagatingAttributes: [IoTClientTypes.PropagatingAttribute]? = nil
+        )
+        {
+            self.propagatingAttributes = propagatingAttributes
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// The ThingTypeProperties contains information about the thing type including: a thing type description, and a list of searchable thing attribute names.
     public struct ThingTypeProperties: Swift.Sendable {
+        /// The configuration to add user-defined properties to enrich MQTT 5 messages.
+        public var mqtt5Configuration: IoTClientTypes.Mqtt5Configuration?
         /// A list of searchable thing attribute names.
         public var searchableAttributes: [Swift.String]?
         /// The description of the thing type.
         public var thingTypeDescription: Swift.String?
 
         public init(
+            mqtt5Configuration: IoTClientTypes.Mqtt5Configuration? = nil,
             searchableAttributes: [Swift.String]? = nil,
             thingTypeDescription: Swift.String? = nil
         )
         {
+            self.mqtt5Configuration = mqtt5Configuration
             self.searchableAttributes = searchableAttributes
             self.thingTypeDescription = thingTypeDescription
         }
@@ -8135,6 +8402,58 @@ public struct DeleteCertificateProviderInput: Swift.Sendable {
 }
 
 public struct DeleteCertificateProviderOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteCommandInput: Swift.Sendable {
+    /// The unique identifier of the command to be deleted.
+    /// This member is required.
+    public var commandId: Swift.String?
+
+    public init(
+        commandId: Swift.String? = nil
+    )
+    {
+        self.commandId = commandId
+    }
+}
+
+public struct DeleteCommandOutput: Swift.Sendable {
+    /// The status code for the command deletion request. The status code is in the 200 range for a successful request.
+    ///
+    /// * If the command hasn't been deprecated, or has been deprecated for a duration that is shorter than the maximum time out duration of 12 hours, when calling the DeleteCommand request, the deletion will be scheduled and a 202 status code will be returned. While the command is being deleted, it will be in a pendingDeletion state. Once the time out duration has been reached, the command will be permanently removed from your account.
+    ///
+    /// * If the command has been deprecated for a duration that is longer than the maximum time out duration of 12 hours, when calling the DeleteCommand request, the command will be deleted immediately and a 204 status code will be returned.
+    public var statusCode: Swift.Int
+
+    public init(
+        statusCode: Swift.Int = 0
+    )
+    {
+        self.statusCode = statusCode
+    }
+}
+
+public struct DeleteCommandExecutionInput: Swift.Sendable {
+    /// The unique identifier of the command execution that you want to delete from your account.
+    /// This member is required.
+    public var executionId: Swift.String?
+    /// The Amazon Resource Number (ARN) of the target device for which you want to delete command executions.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        executionId: Swift.String? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.executionId = executionId
+        self.targetArn = targetArn
+    }
+}
+
+public struct DeleteCommandExecutionOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -10291,7 +10610,7 @@ public struct DescribeIndexOutput: Swift.Sendable {
 }
 
 public struct DescribeJobInput: Swift.Sendable {
-    /// A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+    /// Provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
     public var beforeSubstitution: Swift.Bool?
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
@@ -11641,7 +11960,7 @@ public struct DescribeThingTypeOutput: Swift.Sendable {
     public var thingTypeMetadata: IoTClientTypes.ThingTypeMetadata?
     /// The name of the thing type.
     public var thingTypeName: Swift.String?
-    /// The ThingTypeProperties contains information about the thing type including description, and a list of searchable thing attribute names.
+    /// The ThingTypeProperties contains information about the thing type including description, a list of searchable thing attribute names, and MQTT5 configuration.
     public var thingTypeProperties: IoTClientTypes.ThingTypeProperties?
 
     public init(
@@ -12037,6 +12356,243 @@ public struct GetCardinalityOutput: Swift.Sendable {
     )
     {
         self.cardinality = cardinality
+    }
+}
+
+public struct GetCommandInput: Swift.Sendable {
+    /// The unique identifier of the command for which you want to retrieve information.
+    /// This member is required.
+    public var commandId: Swift.String?
+
+    public init(
+        commandId: Swift.String? = nil
+    )
+    {
+        self.commandId = commandId
+    }
+}
+
+public struct GetCommandOutput: Swift.Sendable {
+    /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+    public var commandArn: Swift.String?
+    /// The unique identifier of the command.
+    public var commandId: Swift.String?
+    /// The timestamp, when the command was created.
+    public var createdAt: Foundation.Date?
+    /// Indicates whether the command has been deprecated.
+    public var deprecated: Swift.Bool?
+    /// A short text description of the command.
+    public var description: Swift.String?
+    /// The user-friendly name in the console for the command.
+    public var displayName: Swift.String?
+    /// The timestamp, when the command was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// A list of parameters for the command created.
+    public var mandatoryParameters: [IoTClientTypes.CommandParameter]?
+    /// The namespace of the command.
+    public var namespace: IoTClientTypes.CommandNamespace?
+    /// The payload object that you provided for the command.
+    public var payload: IoTClientTypes.CommandPayload?
+    /// Indicates whether the command is being deleted.
+    public var pendingDeletion: Swift.Bool?
+    /// The IAM role that allows access to retrieve information about the command.
+    public var roleArn: Swift.String?
+
+    public init(
+        commandArn: Swift.String? = nil,
+        commandId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        deprecated: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        mandatoryParameters: [IoTClientTypes.CommandParameter]? = nil,
+        namespace: IoTClientTypes.CommandNamespace? = nil,
+        payload: IoTClientTypes.CommandPayload? = nil,
+        pendingDeletion: Swift.Bool? = nil,
+        roleArn: Swift.String? = nil
+    )
+    {
+        self.commandArn = commandArn
+        self.commandId = commandId
+        self.createdAt = createdAt
+        self.deprecated = deprecated
+        self.description = description
+        self.displayName = displayName
+        self.lastUpdatedAt = lastUpdatedAt
+        self.mandatoryParameters = mandatoryParameters
+        self.namespace = namespace
+        self.payload = payload
+        self.pendingDeletion = pendingDeletion
+        self.roleArn = roleArn
+    }
+}
+
+public struct GetCommandExecutionInput: Swift.Sendable {
+    /// The unique identifier for the command execution. This information is returned as a response of the StartCommandExecution API request.
+    /// This member is required.
+    public var executionId: Swift.String?
+    /// Can be used to specify whether to include the result of the command execution in the GetCommandExecution API response. Your device can use this field to provide additional information about the command execution. You only need to specify this field when using the AWS-IoT namespace.
+    public var includeResult: Swift.Bool?
+    /// The Amazon Resource Number (ARN) of the device on which the command execution is being performed.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        executionId: Swift.String? = nil,
+        includeResult: Swift.Bool? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.executionId = executionId
+        self.includeResult = includeResult
+        self.targetArn = targetArn
+    }
+}
+
+extension IoTClientTypes {
+
+    /// The result value of the command execution. The device can use the result field to share additional details about the execution such as a return value of a remote function call. This field is not applicable if you use the AWS-IoT-FleetWise namespace.
+    public struct CommandExecutionResult: Swift.Sendable {
+        /// An attribute of type Boolean. For example: "BOOL": true
+        public var b: Swift.Bool?
+        /// An attribute of type Binary.
+        public var bin: Foundation.Data?
+        /// An attribute of type String. For example: "S": "Hello"
+        public var s: Swift.String?
+
+        public init(
+            b: Swift.Bool? = nil,
+            bin: Foundation.Data? = nil,
+            s: Swift.String? = nil
+        )
+        {
+            self.b = b
+            self.bin = bin
+            self.s = s
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum CommandExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case failed
+        case inProgress
+        case rejected
+        case succeeded
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommandExecutionStatus] {
+            return [
+                .created,
+                .failed,
+                .inProgress,
+                .rejected,
+                .succeeded,
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .rejected: return "REJECTED"
+            case .succeeded: return "SUCCEEDED"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Provide additional context about the status of a command execution using a reason code and description.
+    public struct StatusReason: Swift.Sendable {
+        /// A code that provides additional context for the command execution status.
+        /// This member is required.
+        public var reasonCode: Swift.String?
+        /// A literal string for devices to optionally provide additional information about the reason code for a command execution status.
+        public var reasonDescription: Swift.String?
+
+        public init(
+            reasonCode: Swift.String? = nil,
+            reasonDescription: Swift.String? = nil
+        )
+        {
+            self.reasonCode = reasonCode
+            self.reasonDescription = reasonDescription
+        }
+    }
+}
+
+public struct GetCommandExecutionOutput: Swift.Sendable {
+    /// The Amazon Resource Number (ARN) of the command. For example, arn:aws:iot:::command/
+    public var commandArn: Swift.String?
+    /// The timestamp, when the command execution was completed.
+    public var completedAt: Foundation.Date?
+    /// The timestamp, when the command execution was created.
+    public var createdAt: Foundation.Date?
+    /// The unique identifier of the command execution.
+    public var executionId: Swift.String?
+    /// Specifies the amount of time in seconds that the device can take to finish a command execution. A timer starts when the command execution is created. If the command execution status is not set to another terminal state before the timer expires, it will automatically update to TIMED_OUT.
+    public var executionTimeoutSeconds: Swift.Int?
+    /// The timestamp, when the command execution was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The list of parameters that the StartCommandExecution API used when performing the command on the device.
+    public var parameters: [Swift.String: IoTClientTypes.CommandParameterValue]?
+    /// The result value for the current state of the command execution. The status provides information about the progress of the command execution. The device can use the result field to share additional details about the execution such as a return value of a remote function call. If you use the AWS-IoT-FleetWise namespace, then this field is not applicable in the API response.
+    public var result: [Swift.String: IoTClientTypes.CommandExecutionResult]?
+    /// The timestamp, when the command execution was started.
+    public var startedAt: Foundation.Date?
+    /// The status of the command execution. After your devices receive the command and start performing the operations specified in the command, it can use the UpdateCommandExecution MQTT API to update the status information.
+    public var status: IoTClientTypes.CommandExecutionStatus?
+    /// Your devices can use this parameter to provide additional context about the status of a command execution using a reason code and description.
+    public var statusReason: IoTClientTypes.StatusReason?
+    /// The Amazon Resource Number (ARN) of the device on which the command execution is being performed.
+    public var targetArn: Swift.String?
+    /// The time to live (TTL) parameter for the GetCommandExecution API.
+    public var timeToLive: Foundation.Date?
+
+    public init(
+        commandArn: Swift.String? = nil,
+        completedAt: Foundation.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        executionId: Swift.String? = nil,
+        executionTimeoutSeconds: Swift.Int? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        parameters: [Swift.String: IoTClientTypes.CommandParameterValue]? = nil,
+        result: [Swift.String: IoTClientTypes.CommandExecutionResult]? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: IoTClientTypes.CommandExecutionStatus? = nil,
+        statusReason: IoTClientTypes.StatusReason? = nil,
+        targetArn: Swift.String? = nil,
+        timeToLive: Foundation.Date? = nil
+    )
+    {
+        self.commandArn = commandArn
+        self.completedAt = completedAt
+        self.createdAt = createdAt
+        self.executionId = executionId
+        self.executionTimeoutSeconds = executionTimeoutSeconds
+        self.lastUpdatedAt = lastUpdatedAt
+        self.parameters = parameters
+        self.result = result
+        self.startedAt = startedAt
+        self.status = status
+        self.statusReason = statusReason
+        self.targetArn = targetArn
+        self.timeToLive = timeToLive
     }
 }
 
@@ -12485,7 +13041,7 @@ public struct GetIndexingConfigurationOutput: Swift.Sendable {
 }
 
 public struct GetJobDocumentInput: Swift.Sendable {
-    /// A flag that provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
+    /// Provides a view of the job document before and after the substitution parameters have been resolved with their exact values.
     public var beforeSubstitution: Swift.Bool?
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
@@ -13935,6 +14491,239 @@ public struct ListCertificatesByCAOutput: Swift.Sendable {
     }
 }
 
+extension IoTClientTypes {
+
+    /// A filter that can be used to list command executions for a device that started or completed before or after a particular date and time.
+    public struct TimeFilter: Swift.Sendable {
+        /// Filter to display command executions that started or completed only after a particular date and time.
+        public var after: Swift.String?
+        /// Filter to display command executions that started or completed only before a particular date and time.
+        public var before: Swift.String?
+
+        public init(
+            after: Swift.String? = nil,
+            before: Swift.String? = nil
+        )
+        {
+            self.after = after
+            self.before = before
+        }
+    }
+}
+
+extension IoTClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListCommandExecutionsInput: Swift.Sendable {
+    /// The Amazon Resource Number (ARN) of the command. You can use this information to list all command executions for a particular command.
+    public var commandArn: Swift.String?
+    /// List all command executions that completed any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm.
+    public var completedTimeFilter: IoTClientTypes.TimeFilter?
+    /// The maximum number of results to return in this operation.
+    public var maxResults: Swift.Int?
+    /// The namespace of the command.
+    public var namespace: IoTClientTypes.CommandNamespace?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// Specify whether to list the command executions that were created in the ascending or descending order. By default, the API returns all commands in the descending order based on the start time or completion time of the executions, that are determined by the startTimeFilter and completeTimeFilter parameters.
+    public var sortOrder: IoTClientTypes.SortOrder?
+    /// List all command executions that started any time before or after the date and time that you specify. The date and time uses the format yyyy-MM-dd'T'HH:mm.
+    public var startedTimeFilter: IoTClientTypes.TimeFilter?
+    /// List all command executions for the device that have a particular status. For example, you can filter the list to display only command executions that have failed or timed out.
+    public var status: IoTClientTypes.CommandExecutionStatus?
+    /// The Amazon Resource Number (ARN) of the target device. You can use this information to list all command executions for a particular device.
+    public var targetArn: Swift.String?
+
+    public init(
+        commandArn: Swift.String? = nil,
+        completedTimeFilter: IoTClientTypes.TimeFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: IoTClientTypes.CommandNamespace? = nil,
+        nextToken: Swift.String? = nil,
+        sortOrder: IoTClientTypes.SortOrder? = nil,
+        startedTimeFilter: IoTClientTypes.TimeFilter? = nil,
+        status: IoTClientTypes.CommandExecutionStatus? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.commandArn = commandArn
+        self.completedTimeFilter = completedTimeFilter
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+        self.sortOrder = sortOrder
+        self.startedTimeFilter = startedTimeFilter
+        self.status = status
+        self.targetArn = targetArn
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Summary information about a particular command execution.
+    public struct CommandExecutionSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the command execution.
+        public var commandArn: Swift.String?
+        /// The date and time at which the command completed executing on the target device.
+        public var completedAt: Foundation.Date?
+        /// The date and time at which the command execution was created for the target device.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the command execution.
+        public var executionId: Swift.String?
+        /// The date and time at which the command started executing on the target device.
+        public var startedAt: Foundation.Date?
+        /// The status of the command executions.
+        public var status: IoTClientTypes.CommandExecutionStatus?
+        /// The Amazon Resource Name (ARN) of the target device for which the command is being executed.
+        public var targetArn: Swift.String?
+
+        public init(
+            commandArn: Swift.String? = nil,
+            completedAt: Foundation.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            executionId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: IoTClientTypes.CommandExecutionStatus? = nil,
+            targetArn: Swift.String? = nil
+        )
+        {
+            self.commandArn = commandArn
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.executionId = executionId
+            self.startedAt = startedAt
+            self.status = status
+            self.targetArn = targetArn
+        }
+    }
+}
+
+public struct ListCommandExecutionsOutput: Swift.Sendable {
+    /// The list of command executions.
+    public var commandExecutions: [IoTClientTypes.CommandExecutionSummary]?
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init(
+        commandExecutions: [IoTClientTypes.CommandExecutionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.commandExecutions = commandExecutions
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCommandsInput: Swift.Sendable {
+    /// A filter that can be used to display the list of commands that have a specific command parameter name.
+    public var commandParameterName: Swift.String?
+    /// The maximum number of results to return in this operation. By default, the API returns up to a maximum of 25 results. You can override this default value to return up to a maximum of 100 results for this operation.
+    public var maxResults: Swift.Int?
+    /// The namespace of the command. By default, the API returns all commands that have been created for both AWS-IoT and AWS-IoT-FleetWise namespaces. You can override this default value if you want to return all commands that have been created only for a specific namespace.
+    public var namespace: IoTClientTypes.CommandNamespace?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// Specify whether to list the commands that you have created in the ascending or descending order. By default, the API returns all commands in the descending order based on the time that they were created.
+    public var sortOrder: IoTClientTypes.SortOrder?
+
+    public init(
+        commandParameterName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: IoTClientTypes.CommandNamespace? = nil,
+        nextToken: Swift.String? = nil,
+        sortOrder: IoTClientTypes.SortOrder? = nil
+    )
+    {
+        self.commandParameterName = commandParameterName
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+        self.sortOrder = sortOrder
+    }
+}
+
+extension IoTClientTypes {
+
+    /// Summary information about a particular command resource.
+    public struct CommandSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the command.
+        public var commandArn: Swift.String?
+        /// The unique identifier of the command.
+        public var commandId: Swift.String?
+        /// The timestamp, when the command was created.
+        public var createdAt: Foundation.Date?
+        /// Indicates whether the command has been deprecated.
+        public var deprecated: Swift.Bool?
+        /// The display name of the command.
+        public var displayName: Swift.String?
+        /// The timestamp, when the command was last updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// Indicates whether the command is pending deletion.
+        public var pendingDeletion: Swift.Bool?
+
+        public init(
+            commandArn: Swift.String? = nil,
+            commandId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            deprecated: Swift.Bool? = nil,
+            displayName: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            pendingDeletion: Swift.Bool? = nil
+        )
+        {
+            self.commandArn = commandArn
+            self.commandId = commandId
+            self.createdAt = createdAt
+            self.deprecated = deprecated
+            self.displayName = displayName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.pendingDeletion = pendingDeletion
+        }
+    }
+}
+
+public struct ListCommandsOutput: Swift.Sendable {
+    /// The list of commands.
+    public var commands: [IoTClientTypes.CommandSummary]?
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init(
+        commands: [IoTClientTypes.CommandSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.commands = commands
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListCustomMetricsInput: Swift.Sendable {
     /// The maximum number of results to return at one time. The default is 25.
     public var maxResults: Swift.Int?
@@ -15341,6 +16130,82 @@ public struct ListPrincipalThingsOutput: Swift.Sendable {
     }
 }
 
+public struct ListPrincipalThingsV2Input: Swift.Sendable {
+    /// The maximum number of results to return in this operation.
+    public var maxResults: Swift.Int?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// The principal. A principal can be an X.509 certificate or an Amazon Cognito ID.
+    /// This member is required.
+    public var principal: Swift.String?
+    /// The type of the relation you want to filter in the response. If no value is provided in this field, the response will list all things, including both the EXCLUSIVE_THING and NON_EXCLUSIVE_THING attachment types.
+    ///
+    /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+    ///
+    ///
+    ///
+    ///
+    /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+    public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        principal: Swift.String? = nil,
+        thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.principal = principal
+        self.thingPrincipalType = thingPrincipalType
+    }
+}
+
+extension IoTClientTypes {
+
+    /// An object that represents the thing and the type of relation it has with the principal.
+    public struct PrincipalThingObject: Swift.Sendable {
+        /// The name of the thing.
+        /// This member is required.
+        public var thingName: Swift.String?
+        /// The type of the relation you want to specify when you attach a principal to a thing. The value defaults to NON_EXCLUSIVE_THING.
+        ///
+        /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+        ///
+        ///
+        ///
+        ///
+        /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+        public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+        public init(
+            thingName: Swift.String? = nil,
+            thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+        )
+        {
+            self.thingName = thingName
+            self.thingPrincipalType = thingPrincipalType
+        }
+    }
+}
+
+public struct ListPrincipalThingsV2Output: Swift.Sendable {
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list of thingPrincipalObject that represents the principal and the type of relation it has with the thing.
+    public var principalThingObjects: [IoTClientTypes.PrincipalThingObject]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        principalThingObjects: [IoTClientTypes.PrincipalThingObject]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.principalThingObjects = principalThingObjects
+    }
+}
+
 public struct ListProvisioningTemplatesInput: Swift.Sendable {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
@@ -16171,6 +17036,82 @@ public struct ListThingPrincipalsOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.principals = principals
+    }
+}
+
+public struct ListThingPrincipalsV2Input: Swift.Sendable {
+    /// The maximum number of results to return in this operation.
+    public var maxResults: Swift.Int?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// The name of the thing.
+    /// This member is required.
+    public var thingName: Swift.String?
+    /// The type of the relation you want to filter in the response. If no value is provided in this field, the response will list all principals, including both the EXCLUSIVE_THING and NON_EXCLUSIVE_THING attachment types.
+    ///
+    /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+    ///
+    ///
+    ///
+    ///
+    /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+    public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        thingName: Swift.String? = nil,
+        thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.thingName = thingName
+        self.thingPrincipalType = thingPrincipalType
+    }
+}
+
+extension IoTClientTypes {
+
+    /// An object that represents the principal and the type of relation it has with the thing.
+    public struct ThingPrincipalObject: Swift.Sendable {
+        /// The principal of the thing principal object.
+        /// This member is required.
+        public var principal: Swift.String?
+        /// The type of the relation you want to specify when you attach a principal to a thing. The value defaults to NON_EXCLUSIVE_THING.
+        ///
+        /// * EXCLUSIVE_THING - Attaches the specified principal to the specified thing, exclusively. The thing will be the only thing that’s attached to the principal.
+        ///
+        ///
+        ///
+        ///
+        /// * NON_EXCLUSIVE_THING - Attaches the specified principal to the specified thing. Multiple things can be attached to the principal.
+        public var thingPrincipalType: IoTClientTypes.ThingPrincipalType?
+
+        public init(
+            principal: Swift.String? = nil,
+            thingPrincipalType: IoTClientTypes.ThingPrincipalType? = nil
+        )
+        {
+            self.principal = principal
+            self.thingPrincipalType = thingPrincipalType
+        }
+    }
+}
+
+public struct ListThingPrincipalsV2Output: Swift.Sendable {
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// A list of thingPrincipalObject that represents the principal and the type of relation it has with the thing.
+    public var thingPrincipalObjects: [IoTClientTypes.ThingPrincipalObject]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        thingPrincipalObjects: [IoTClientTypes.ThingPrincipalObject]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.thingPrincipalObjects = thingPrincipalObjects
     }
 }
 
@@ -18282,6 +19223,59 @@ public struct UpdateCertificateProviderOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateCommandInput: Swift.Sendable {
+    /// The unique identifier of the command to be updated.
+    /// This member is required.
+    public var commandId: Swift.String?
+    /// A boolean that you can use to specify whether to deprecate a command.
+    public var deprecated: Swift.Bool?
+    /// A short text description of the command.
+    public var description: Swift.String?
+    /// The new user-friendly name to use in the console for the command.
+    public var displayName: Swift.String?
+
+    public init(
+        commandId: Swift.String? = nil,
+        deprecated: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil
+    )
+    {
+        self.commandId = commandId
+        self.deprecated = deprecated
+        self.description = description
+        self.displayName = displayName
+    }
+}
+
+public struct UpdateCommandOutput: Swift.Sendable {
+    /// The unique identifier of the command.
+    public var commandId: Swift.String?
+    /// The boolean that indicates whether the command was deprecated.
+    public var deprecated: Swift.Bool?
+    /// The updated text description of the command.
+    public var description: Swift.String?
+    /// The updated user-friendly display name in the console for the command.
+    public var displayName: Swift.String?
+    /// The date and time (epoch timestamp in seconds) when the command was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+
+    public init(
+        commandId: Swift.String? = nil,
+        deprecated: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil
+    )
+    {
+        self.commandId = commandId
+        self.deprecated = deprecated
+        self.description = description
+        self.displayName = displayName
+        self.lastUpdatedAt = lastUpdatedAt
+    }
+}
+
 public struct UpdateCustomMetricInput: Swift.Sendable {
     /// Field represents a friendly name in the console for the custom metric, it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated.
     /// This member is required.
@@ -19214,6 +20208,28 @@ public struct UpdateThingGroupsForThingOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateThingTypeInput: Swift.Sendable {
+    /// The name of a thing type.
+    /// This member is required.
+    public var thingTypeName: Swift.String?
+    /// The ThingTypeProperties contains information about the thing type including: a thing type description, and a list of searchable thing attribute names.
+    public var thingTypeProperties: IoTClientTypes.ThingTypeProperties?
+
+    public init(
+        thingTypeName: Swift.String? = nil,
+        thingTypeProperties: IoTClientTypes.ThingTypeProperties? = nil
+    )
+    {
+        self.thingTypeName = thingTypeName
+        self.thingTypeProperties = thingTypeProperties
+    }
+}
+
+public struct UpdateThingTypeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateTopicRuleDestinationInput: Swift.Sendable {
     /// The ARN of the topic rule destination.
     /// This member is required.
@@ -19441,6 +20457,18 @@ extension AttachThingPrincipalInput {
     }
 }
 
+extension AttachThingPrincipalInput {
+
+    static func queryItemProvider(_ value: AttachThingPrincipalInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let thingPrincipalType = value.thingPrincipalType {
+            let thingPrincipalTypeQueryItem = Smithy.URIQueryItem(name: "thingPrincipalType".urlPercentEncoding(), value: Swift.String(thingPrincipalType.rawValue).urlPercentEncoding())
+            items.append(thingPrincipalTypeQueryItem)
+        }
+        return items
+    }
+}
+
 extension CancelAuditMitigationActionsTaskInput {
 
     static func urlPathProvider(_ value: CancelAuditMitigationActionsTaskInput) -> Swift.String? {
@@ -19598,6 +20626,16 @@ extension CreateCertificateProviderInput {
             return nil
         }
         return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+extension CreateCommandInput {
+
+    static func urlPathProvider(_ value: CreateCommandInput) -> Swift.String? {
+        guard let commandId = value.commandId else {
+            return nil
+        }
+        return "/commands/\(commandId.urlPercentEncoding())"
     }
 }
 
@@ -20023,6 +21061,40 @@ extension DeleteCertificateProviderInput {
             return nil
         }
         return "/certificate-providers/\(certificateProviderName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCommandInput {
+
+    static func urlPathProvider(_ value: DeleteCommandInput) -> Swift.String? {
+        guard let commandId = value.commandId else {
+            return nil
+        }
+        return "/commands/\(commandId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCommandExecutionInput {
+
+    static func urlPathProvider(_ value: DeleteCommandExecutionInput) -> Swift.String? {
+        guard let executionId = value.executionId else {
+            return nil
+        }
+        return "/command-executions/\(executionId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCommandExecutionInput {
+
+    static func queryItemProvider(_ value: DeleteCommandExecutionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let targetArn = value.targetArn else {
+            let message = "Creating a URL Query Item failed. targetArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let targetArnQueryItem = Smithy.URIQueryItem(name: "targetArn".urlPercentEncoding(), value: Swift.String(targetArn).urlPercentEncoding())
+        items.append(targetArnQueryItem)
+        return items
     }
 }
 
@@ -21008,6 +22080,44 @@ extension GetCardinalityInput {
     }
 }
 
+extension GetCommandInput {
+
+    static func urlPathProvider(_ value: GetCommandInput) -> Swift.String? {
+        guard let commandId = value.commandId else {
+            return nil
+        }
+        return "/commands/\(commandId.urlPercentEncoding())"
+    }
+}
+
+extension GetCommandExecutionInput {
+
+    static func urlPathProvider(_ value: GetCommandExecutionInput) -> Swift.String? {
+        guard let executionId = value.executionId else {
+            return nil
+        }
+        return "/command-executions/\(executionId.urlPercentEncoding())"
+    }
+}
+
+extension GetCommandExecutionInput {
+
+    static func queryItemProvider(_ value: GetCommandExecutionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let includeResult = value.includeResult {
+            let includeResultQueryItem = Smithy.URIQueryItem(name: "includeResult".urlPercentEncoding(), value: Swift.String(includeResult).urlPercentEncoding())
+            items.append(includeResultQueryItem)
+        }
+        guard let targetArn = value.targetArn else {
+            let message = "Creating a URL Query Item failed. targetArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let targetArnQueryItem = Smithy.URIQueryItem(name: "targetArn".urlPercentEncoding(), value: Swift.String(targetArn).urlPercentEncoding())
+        items.append(targetArnQueryItem)
+        return items
+    }
+}
+
 extension GetEffectivePoliciesInput {
 
     static func urlPathProvider(_ value: GetEffectivePoliciesInput) -> Swift.String? {
@@ -21554,6 +22664,64 @@ extension ListCertificatesByCAInput {
         if let pageSize = value.pageSize {
             let pageSizeQueryItem = Smithy.URIQueryItem(name: "pageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
             items.append(pageSizeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCommandExecutionsInput {
+
+    static func urlPathProvider(_ value: ListCommandExecutionsInput) -> Swift.String? {
+        return "/command-executions"
+    }
+}
+
+extension ListCommandExecutionsInput {
+
+    static func queryItemProvider(_ value: ListCommandExecutionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCommandsInput {
+
+    static func urlPathProvider(_ value: ListCommandsInput) -> Swift.String? {
+        return "/commands"
+    }
+}
+
+extension ListCommandsInput {
+
+    static func queryItemProvider(_ value: ListCommandsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace.rawValue).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        if let commandParameterName = value.commandParameterName {
+            let commandParameterNameQueryItem = Smithy.URIQueryItem(name: "commandParameterName".urlPercentEncoding(), value: Swift.String(commandParameterName).urlPercentEncoding())
+            items.append(commandParameterNameQueryItem)
         }
         return items
     }
@@ -22253,6 +23421,44 @@ extension ListPrincipalThingsInput {
     }
 }
 
+extension ListPrincipalThingsV2Input {
+
+    static func urlPathProvider(_ value: ListPrincipalThingsV2Input) -> Swift.String? {
+        return "/principals/things-v2"
+    }
+}
+
+extension ListPrincipalThingsV2Input {
+
+    static func headerProvider(_ value: ListPrincipalThingsV2Input) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let principal = value.principal {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-principal", value: Swift.String(principal)))
+        }
+        return items
+    }
+}
+
+extension ListPrincipalThingsV2Input {
+
+    static func queryItemProvider(_ value: ListPrincipalThingsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let thingPrincipalType = value.thingPrincipalType {
+            let thingPrincipalTypeQueryItem = Smithy.URIQueryItem(name: "thingPrincipalType".urlPercentEncoding(), value: Swift.String(thingPrincipalType.rawValue).urlPercentEncoding())
+            items.append(thingPrincipalTypeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListProvisioningTemplatesInput {
 
     static func urlPathProvider(_ value: ListProvisioningTemplatesInput) -> Swift.String? {
@@ -22657,6 +23863,36 @@ extension ListThingPrincipalsInput {
 
     static func queryItemProvider(_ value: ListThingPrincipalsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListThingPrincipalsV2Input {
+
+    static func urlPathProvider(_ value: ListThingPrincipalsV2Input) -> Swift.String? {
+        guard let thingName = value.thingName else {
+            return nil
+        }
+        return "/things/\(thingName.urlPercentEncoding())/principals-v2"
+    }
+}
+
+extension ListThingPrincipalsV2Input {
+
+    static func queryItemProvider(_ value: ListThingPrincipalsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let thingPrincipalType = value.thingPrincipalType {
+            let thingPrincipalTypeQueryItem = Smithy.URIQueryItem(name: "thingPrincipalType".urlPercentEncoding(), value: Swift.String(thingPrincipalType.rawValue).urlPercentEncoding())
+            items.append(thingPrincipalTypeQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -23339,6 +24575,16 @@ extension UpdateCertificateProviderInput {
     }
 }
 
+extension UpdateCommandInput {
+
+    static func urlPathProvider(_ value: UpdateCommandInput) -> Swift.String? {
+        guard let commandId = value.commandId else {
+            return nil
+        }
+        return "/commands/\(commandId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateCustomMetricInput {
 
     static func urlPathProvider(_ value: UpdateCustomMetricInput) -> Swift.String? {
@@ -23590,6 +24836,16 @@ extension UpdateThingGroupsForThingInput {
     }
 }
 
+extension UpdateThingTypeInput {
+
+    static func urlPathProvider(_ value: UpdateThingTypeInput) -> Swift.String? {
+        guard let thingTypeName = value.thingTypeName else {
+            return nil
+        }
+        return "/thing-types/\(thingTypeName.urlPercentEncoding())"
+    }
+}
+
 extension UpdateTopicRuleDestinationInput {
 
     static func urlPathProvider(_ value: UpdateTopicRuleDestinationInput) -> Swift.String? {
@@ -23721,6 +24977,20 @@ extension CreateCertificateProviderInput {
         try writer["accountDefaultForOperations"].writeList(value.accountDefaultForOperations, memberWritingClosure: SmithyReadWrite.WritingClosureBox<IoTClientTypes.CertificateProviderOperation>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["lambdaFunctionArn"].write(value.lambdaFunctionArn)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: IoTClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateCommandInput {
+
+    static func write(value: CreateCommandInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+        try writer["mandatoryParameters"].writeList(value.mandatoryParameters, memberWritingClosure: IoTClientTypes.CommandParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["namespace"].write(value.namespace)
+        try writer["payload"].write(value.payload, with: IoTClientTypes.CommandPayload.write(value:to:))
+        try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -24133,6 +25403,20 @@ extension ListAuditSuppressionsInput {
     }
 }
 
+extension ListCommandExecutionsInput {
+
+    static func write(value: ListCommandExecutionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["commandArn"].write(value.commandArn)
+        try writer["completedTimeFilter"].write(value.completedTimeFilter, with: IoTClientTypes.TimeFilter.write(value:to:))
+        try writer["namespace"].write(value.namespace)
+        try writer["sortOrder"].write(value.sortOrder)
+        try writer["startedTimeFilter"].write(value.startedTimeFilter, with: IoTClientTypes.TimeFilter.write(value:to:))
+        try writer["status"].write(value.status)
+        try writer["targetArn"].write(value.targetArn)
+    }
+}
+
 extension PutVerificationStateOnViolationInput {
 
     static func write(value: PutVerificationStateOnViolationInput?, to writer: SmithyJSON.Writer) throws {
@@ -24420,6 +25704,16 @@ extension UpdateCertificateProviderInput {
     }
 }
 
+extension UpdateCommandInput {
+
+    static func write(value: UpdateCommandInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deprecated"].write(value.deprecated)
+        try writer["description"].write(value.description)
+        try writer["displayName"].write(value.displayName)
+    }
+}
+
 extension UpdateCustomMetricInput {
 
     static func write(value: UpdateCustomMetricInput?, to writer: SmithyJSON.Writer) throws {
@@ -24639,6 +25933,14 @@ extension UpdateThingGroupsForThingInput {
     }
 }
 
+extension UpdateThingTypeInput {
+
+    static func write(value: UpdateThingTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["thingTypeProperties"].write(value.thingTypeProperties, with: IoTClientTypes.ThingTypeProperties.write(value:to:))
+    }
+}
+
 extension UpdateTopicRuleDestinationInput {
 
     static func write(value: UpdateTopicRuleDestinationInput?, to writer: SmithyJSON.Writer) throws {
@@ -24854,6 +26156,19 @@ extension CreateCertificateProviderOutput {
         var value = CreateCertificateProviderOutput()
         value.certificateProviderArn = try reader["certificateProviderArn"].readIfPresent()
         value.certificateProviderName = try reader["certificateProviderName"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateCommandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCommandOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCommandOutput()
+        value.commandArn = try reader["commandArn"].readIfPresent()
+        value.commandId = try reader["commandId"].readIfPresent()
         return value
     }
 }
@@ -25264,6 +26579,22 @@ extension DeleteCertificateProviderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCertificateProviderOutput {
         return DeleteCertificateProviderOutput()
+    }
+}
+
+extension DeleteCommandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCommandOutput {
+        var value = DeleteCommandOutput()
+        value.statusCode = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DeleteCommandExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCommandExecutionOutput {
+        return DeleteCommandExecutionOutput()
     }
 }
 
@@ -26110,6 +27441,53 @@ extension GetCardinalityOutput {
     }
 }
 
+extension GetCommandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCommandOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCommandOutput()
+        value.commandArn = try reader["commandArn"].readIfPresent()
+        value.commandId = try reader["commandId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deprecated = try reader["deprecated"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.mandatoryParameters = try reader["mandatoryParameters"].readListIfPresent(memberReadingClosure: IoTClientTypes.CommandParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.payload = try reader["payload"].readIfPresent(with: IoTClientTypes.CommandPayload.read(from:))
+        value.pendingDeletion = try reader["pendingDeletion"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GetCommandExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCommandExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCommandExecutionOutput()
+        value.commandArn = try reader["commandArn"].readIfPresent()
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionId = try reader["executionId"].readIfPresent()
+        value.executionTimeoutSeconds = try reader["executionTimeoutSeconds"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: IoTClientTypes.CommandParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.result = try reader["result"].readMapIfPresent(valueReadingClosure: IoTClientTypes.CommandExecutionResult.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent(with: IoTClientTypes.StatusReason.read(from:))
+        value.targetArn = try reader["targetArn"].readIfPresent()
+        value.timeToLive = try reader["timeToLive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GetEffectivePoliciesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEffectivePoliciesOutput {
@@ -26506,6 +27884,32 @@ extension ListCertificatesByCAOutput {
     }
 }
 
+extension ListCommandExecutionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCommandExecutionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCommandExecutionsOutput()
+        value.commandExecutions = try reader["commandExecutions"].readListIfPresent(memberReadingClosure: IoTClientTypes.CommandExecutionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCommandsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCommandsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCommandsOutput()
+        value.commands = try reader["commands"].readListIfPresent(memberReadingClosure: IoTClientTypes.CommandSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCustomMetricsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCustomMetricsOutput {
@@ -26804,6 +28208,19 @@ extension ListPrincipalThingsOutput {
     }
 }
 
+extension ListPrincipalThingsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPrincipalThingsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPrincipalThingsV2Output()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.principalThingObjects = try reader["principalThingObjects"].readListIfPresent(memberReadingClosure: IoTClientTypes.PrincipalThingObject.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListProvisioningTemplatesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProvisioningTemplatesOutput {
@@ -26995,6 +28412,19 @@ extension ListThingPrincipalsOutput {
         var value = ListThingPrincipalsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.principals = try reader["principals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListThingPrincipalsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListThingPrincipalsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListThingPrincipalsV2Output()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.thingPrincipalObjects = try reader["thingPrincipalObjects"].readListIfPresent(memberReadingClosure: IoTClientTypes.ThingPrincipalObject.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -27447,6 +28877,22 @@ extension UpdateCertificateProviderOutput {
     }
 }
 
+extension UpdateCommandOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCommandOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCommandOutput()
+        value.commandId = try reader["commandId"].readIfPresent()
+        value.deprecated = try reader["deprecated"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension UpdateCustomMetricOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCustomMetricOutput {
@@ -27660,6 +29106,13 @@ extension UpdateThingGroupsForThingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThingGroupsForThingOutput {
         return UpdateThingGroupsForThingOutput()
+    }
+}
+
+extension UpdateThingTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThingTypeOutput {
+        return UpdateThingTypeOutput()
     }
 }
 
@@ -28085,6 +29538,24 @@ enum CreateCertificateProviderOutputError {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCommandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28716,6 +30187,40 @@ enum DeleteCertificateProviderOutputError {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCommandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCommandExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30019,6 +31524,40 @@ enum GetCardinalityOutputError {
     }
 }
 
+enum GetCommandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCommandExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetEffectivePoliciesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -30532,6 +32071,39 @@ enum ListCertificatesByCAOutputError {
     }
 }
 
+enum ListCommandExecutionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCommandsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCustomMetricsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -30929,6 +32501,25 @@ enum ListPrincipalThingsOutputError {
     }
 }
 
+enum ListPrincipalThingsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListProvisioningTemplatesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -31173,6 +32764,25 @@ enum ListThingGroupsForThingOutputError {
 }
 
 enum ListThingPrincipalsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListThingPrincipalsV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -31959,6 +33569,24 @@ enum UpdateCertificateProviderOutputError {
     }
 }
 
+enum UpdateCommandOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateCustomMetricOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -32318,6 +33946,25 @@ enum UpdateThingGroupsForThingOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateThingTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -33465,12 +35112,16 @@ extension IoTClientTypes.ServerCertificateConfig {
     static func write(value: IoTClientTypes.ServerCertificateConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enableOCSPCheck"].write(value.enableOCSPCheck)
+        try writer["ocspAuthorizedResponderArn"].write(value.ocspAuthorizedResponderArn)
+        try writer["ocspLambdaArn"].write(value.ocspLambdaArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ServerCertificateConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.ServerCertificateConfig()
         value.enableOCSPCheck = try reader["enableOCSPCheck"].readIfPresent()
+        value.ocspLambdaArn = try reader["ocspLambdaArn"].readIfPresent()
+        value.ocspAuthorizedResponderArn = try reader["ocspAuthorizedResponderArn"].readIfPresent()
         return value
     }
 }
@@ -34124,6 +35775,7 @@ extension IoTClientTypes.ThingTypeProperties {
 
     static func write(value: IoTClientTypes.ThingTypeProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["mqtt5Configuration"].write(value.mqtt5Configuration, with: IoTClientTypes.Mqtt5Configuration.write(value:to:))
         try writer["searchableAttributes"].writeList(value.searchableAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["thingTypeDescription"].write(value.thingTypeDescription)
     }
@@ -34133,6 +35785,41 @@ extension IoTClientTypes.ThingTypeProperties {
         var value = IoTClientTypes.ThingTypeProperties()
         value.thingTypeDescription = try reader["thingTypeDescription"].readIfPresent()
         value.searchableAttributes = try reader["searchableAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mqtt5Configuration = try reader["mqtt5Configuration"].readIfPresent(with: IoTClientTypes.Mqtt5Configuration.read(from:))
+        return value
+    }
+}
+
+extension IoTClientTypes.Mqtt5Configuration {
+
+    static func write(value: IoTClientTypes.Mqtt5Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["propagatingAttributes"].writeList(value.propagatingAttributes, memberWritingClosure: IoTClientTypes.PropagatingAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.Mqtt5Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.Mqtt5Configuration()
+        value.propagatingAttributes = try reader["propagatingAttributes"].readListIfPresent(memberReadingClosure: IoTClientTypes.PropagatingAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTClientTypes.PropagatingAttribute {
+
+    static func write(value: IoTClientTypes.PropagatingAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectionAttribute"].write(value.connectionAttribute)
+        try writer["thingAttribute"].write(value.thingAttribute)
+        try writer["userPropertyKey"].write(value.userPropertyKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PropagatingAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.PropagatingAttribute()
+        value.userPropertyKey = try reader["userPropertyKey"].readIfPresent()
+        value.thingAttribute = try reader["thingAttribute"].readIfPresent()
+        value.connectionAttribute = try reader["connectionAttribute"].readIfPresent()
         return value
     }
 }
@@ -34171,6 +35858,94 @@ extension IoTClientTypes.Bucket {
         var value = IoTClientTypes.Bucket()
         value.keyValue = try reader["keyValue"].readIfPresent()
         value.count = try reader["count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandParameter {
+
+    static func write(value: IoTClientTypes.CommandParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultValue"].write(value.defaultValue, with: IoTClientTypes.CommandParameterValue.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value, with: IoTClientTypes.CommandParameterValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandParameter()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent(with: IoTClientTypes.CommandParameterValue.read(from:))
+        value.defaultValue = try reader["defaultValue"].readIfPresent(with: IoTClientTypes.CommandParameterValue.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandParameterValue {
+
+    static func write(value: IoTClientTypes.CommandParameterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["B"].write(value.b)
+        try writer["BIN"].write(value.bin)
+        try writer["D"].write(value.d)
+        try writer["I"].write(value.i)
+        try writer["L"].write(value.l)
+        try writer["S"].write(value.s)
+        try writer["UL"].write(value.ul)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandParameterValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandParameterValue()
+        value.s = try reader["S"].readIfPresent()
+        value.b = try reader["B"].readIfPresent()
+        value.i = try reader["I"].readIfPresent()
+        value.l = try reader["L"].readIfPresent()
+        value.d = try reader["D"].readIfPresent()
+        value.bin = try reader["BIN"].readIfPresent()
+        value.ul = try reader["UL"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandPayload {
+
+    static func write(value: IoTClientTypes.CommandPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["contentType"].write(value.contentType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandPayload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandPayload()
+        value.content = try reader["content"].readIfPresent()
+        value.contentType = try reader["contentType"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.StatusReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.StatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.StatusReason()
+        value.reasonCode = try reader["reasonCode"].readIfPresent() ?? ""
+        value.reasonDescription = try reader["reasonDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandExecutionResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandExecutionResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandExecutionResult()
+        value.s = try reader["S"].readIfPresent()
+        value.b = try reader["B"].readIfPresent()
+        value.bin = try reader["BIN"].readIfPresent()
         return value
     }
 }
@@ -35626,6 +37401,38 @@ extension IoTClientTypes.Certificate {
     }
 }
 
+extension IoTClientTypes.CommandExecutionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandExecutionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandExecutionSummary()
+        value.commandArn = try reader["commandArn"].readIfPresent()
+        value.executionId = try reader["executionId"].readIfPresent()
+        value.targetArn = try reader["targetArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTClientTypes.CommandSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.CommandSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.CommandSummary()
+        value.commandArn = try reader["commandArn"].readIfPresent()
+        value.commandId = try reader["commandId"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.deprecated = try reader["deprecated"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.pendingDeletion = try reader["pendingDeletion"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTClientTypes.DetectMitigationActionExecution {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.DetectMitigationActionExecution {
@@ -35838,6 +37645,17 @@ extension IoTClientTypes.PolicyVersion {
     }
 }
 
+extension IoTClientTypes.PrincipalThingObject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.PrincipalThingObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.PrincipalThingObject()
+        value.thingName = try reader["thingName"].readIfPresent() ?? ""
+        value.thingPrincipalType = try reader["thingPrincipalType"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTClientTypes.ProvisioningTemplateSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ProvisioningTemplateSummary {
@@ -35951,6 +37769,17 @@ extension IoTClientTypes.Tag {
         var value = IoTClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTClientTypes.ThingPrincipalObject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTClientTypes.ThingPrincipalObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTClientTypes.ThingPrincipalObject()
+        value.principal = try reader["principal"].readIfPresent() ?? ""
+        value.thingPrincipalType = try reader["thingPrincipalType"].readIfPresent()
         return value
     }
 }
@@ -36288,6 +38117,15 @@ extension IoTClientTypes.TermsAggregation {
     static func write(value: IoTClientTypes.TermsAggregation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["maxBuckets"].write(value.maxBuckets)
+    }
+}
+
+extension IoTClientTypes.TimeFilter {
+
+    static func write(value: IoTClientTypes.TimeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["after"].write(value.after)
+        try writer["before"].write(value.before)
     }
 }
 

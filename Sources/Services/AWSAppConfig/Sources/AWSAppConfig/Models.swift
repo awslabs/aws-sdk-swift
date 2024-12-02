@@ -116,11 +116,13 @@ extension AppConfigClientTypes {
 
 extension AppConfigClientTypes {
 
-    /// An action defines the tasks that the extension performs during the AppConfig workflow. Each action includes an action point such as ON_CREATE_HOSTED_CONFIGURATION, PRE_DEPLOYMENT, or ON_DEPLOYMENT. Each action also includes a name, a URI to an Lambda function, and an Amazon Resource Name (ARN) for an Identity and Access Management assume role. You specify the name, URI, and ARN for each action point defined in the extension. You can specify the following actions for an extension:
+    /// An action defines the tasks that the extension performs during the AppConfig workflow. Each action includes an action point, as shown in the following list:
     ///
     /// * PRE_CREATE_HOSTED_CONFIGURATION_VERSION
     ///
     /// * PRE_START_DEPLOYMENT
+    ///
+    /// * AT_DEPLOYMENT_TICK
     ///
     /// * ON_DEPLOYMENT_START
     ///
@@ -131,6 +133,9 @@ extension AppConfigClientTypes {
     /// * ON_DEPLOYMENT_COMPLETE
     ///
     /// * ON_DEPLOYMENT_ROLLED_BACK
+    ///
+    ///
+    /// Each action also includes a name, a URI to an Lambda function, and an Amazon Resource Name (ARN) for an Identity and Access Management assume role. You specify the name, URI, and ARN for each action point defined in the extension.
     public struct Action: Swift.Sendable {
         /// Information about the action.
         public var description: Swift.String?
@@ -199,6 +204,7 @@ extension AppConfigClientTypes {
 extension AppConfigClientTypes {
 
     public enum ActionPoint: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case atDeploymentTick
         case onDeploymentBaking
         case onDeploymentComplete
         case onDeploymentRolledBack
@@ -210,6 +216,7 @@ extension AppConfigClientTypes {
 
         public static var allCases: [ActionPoint] {
             return [
+                .atDeploymentTick,
                 .onDeploymentBaking,
                 .onDeploymentComplete,
                 .onDeploymentRolledBack,
@@ -227,6 +234,7 @@ extension AppConfigClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .atDeploymentTick: return "AT_DEPLOYMENT_TICK"
             case .onDeploymentBaking: return "ON_DEPLOYMENT_BAKING"
             case .onDeploymentComplete: return "ON_DEPLOYMENT_COMPLETE"
             case .onDeploymentRolledBack: return "ON_DEPLOYMENT_ROLLED_BACK"
@@ -529,7 +537,7 @@ public struct CreateConfigurationProfileInput: Swift.Sendable {
     ///
     /// * For an Secrets Manager secret, specify the URI in the following format: secretsmanager://.
     ///
-    /// * For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json
+    /// * For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json
     ///
     /// * For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
     /// This member is required.
@@ -2652,7 +2660,7 @@ public struct ListHostedConfigurationVersionsInput: Swift.Sendable {
     /// The configuration profile ID.
     /// This member is required.
     public var configurationProfileId: Swift.String?
-    /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+    /// The maximum number of items to return for this call. If MaxResults is not provided in the call, AppConfig returns the maximum of 50. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
     public var nextToken: Swift.String?

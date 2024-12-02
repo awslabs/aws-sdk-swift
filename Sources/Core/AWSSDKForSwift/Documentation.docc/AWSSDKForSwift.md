@@ -141,6 +141,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSBCMDataExports](../../../../../swift/api/awsbcmdataexports/latest)
 
+[AWSBCMPricingCalculator](../../../../../swift/api/awsbcmpricingcalculator/latest)
+
 [AWSBackup](../../../../../swift/api/awsbackup/latest)
 
 [AWSBackupGateway](../../../../../swift/api/awsbackupgateway/latest)
@@ -154,6 +156,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSBedrockAgentRuntime](../../../../../swift/api/awsbedrockagentruntime/latest)
 
 [AWSBedrockRuntime](../../../../../swift/api/awsbedrockruntime/latest)
+
+[AWSBilling](../../../../../swift/api/awsbilling/latest)
 
 [AWSBillingconductor](../../../../../swift/api/awsbillingconductor/latest)
 
@@ -250,6 +254,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSConnect](../../../../../swift/api/awsconnect/latest)
 
 [AWSConnectCampaigns](../../../../../swift/api/awsconnectcampaigns/latest)
+
+[AWSConnectCampaignsV2](../../../../../swift/api/awsconnectcampaignsv2/latest)
 
 [AWSConnectCases](../../../../../swift/api/awsconnectcases/latest)
 
@@ -416,6 +422,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSInspectorScan](../../../../../swift/api/awsinspectorscan/latest)
 
 [AWSInternetMonitor](../../../../../swift/api/awsinternetmonitor/latest)
+
+[AWSInvoicing](../../../../../swift/api/awsinvoicing/latest)
 
 [AWSIoT](../../../../../swift/api/awsiot/latest)
 
@@ -585,13 +593,21 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSNetworkFirewall](../../../../../swift/api/awsnetworkfirewall/latest)
 
+[AWSNetworkFlowMonitor](../../../../../swift/api/awsnetworkflowmonitor/latest)
+
 [AWSNetworkManager](../../../../../swift/api/awsnetworkmanager/latest)
 
 [AWSNetworkMonitor](../../../../../swift/api/awsnetworkmonitor/latest)
 
+[AWSNotifications](../../../../../swift/api/awsnotifications/latest)
+
+[AWSNotificationsContacts](../../../../../swift/api/awsnotificationscontacts/latest)
+
 [AWSOAM](../../../../../swift/api/awsoam/latest)
 
 [AWSOSIS](../../../../../swift/api/awsosis/latest)
+
+[AWSObservabilityAdmin](../../../../../swift/api/awsobservabilityadmin/latest)
 
 [AWSOmics](../../../../../swift/api/awsomics/latest)
 
@@ -612,6 +628,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSPI](../../../../../swift/api/awspi/latest)
 
 [AWSPanorama](../../../../../swift/api/awspanorama/latest)
+
+[AWSPartnerCentralSelling](../../../../../swift/api/awspartnercentralselling/latest)
 
 [AWSPaymentCryptography](../../../../../swift/api/awspaymentcryptography/latest)
 
@@ -762,6 +780,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSecretsManager](../../../../../swift/api/awssecretsmanager/latest)
 
 [AWSSecurityHub](../../../../../swift/api/awssecurityhub/latest)
+
+[AWSSecurityIR](../../../../../swift/api/awssecurityir/latest)
 
 [AWSSecurityLake](../../../../../swift/api/awssecuritylake/latest)
 

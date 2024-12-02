@@ -560,6 +560,123 @@ extension IoTFleetWiseClientTypes {
 
 extension IoTFleetWiseClientTypes {
 
+    /// Vehicles associated with the state template will stream telemetry data when there is a change.
+    public struct OnChangeStateTemplateUpdateStrategy: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    public enum TimeUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hour
+        case millisecond
+        case minute
+        case second
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TimeUnit] {
+            return [
+                .hour,
+                .millisecond,
+                .minute,
+                .second
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hour: return "HOUR"
+            case .millisecond: return "MILLISECOND"
+            case .minute: return "MINUTE"
+            case .second: return "SECOND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// The length of time between state template updates.
+    public struct TimePeriod: Swift.Sendable {
+        /// A unit of time.
+        /// This member is required.
+        public var unit: IoTFleetWiseClientTypes.TimeUnit?
+        /// A number of time units.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            unit: IoTFleetWiseClientTypes.TimeUnit? = nil,
+            value: Swift.Int? = nil
+        )
+        {
+            self.unit = unit
+            self.value = value
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// Vehicles associated with the state template will stream telemetry data during a specified time period.
+    public struct PeriodicStateTemplateUpdateStrategy: Swift.Sendable {
+        /// The length of time between state template updates.
+        /// This member is required.
+        public var stateTemplateUpdateRate: IoTFleetWiseClientTypes.TimePeriod?
+
+        public init(
+            stateTemplateUpdateRate: IoTFleetWiseClientTypes.TimePeriod? = nil
+        )
+        {
+            self.stateTemplateUpdateRate = stateTemplateUpdateRate
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// The update strategy for the state template. Vehicles associated with the state template can stream telemetry data with either an onChange or periodic update strategy. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public enum StateTemplateUpdateStrategy: Swift.Sendable {
+        /// Vehicles associated with the state template will stream telemetry data during a specified time period.
+        case periodic(IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy)
+        /// Vehicles associated with the state template will stream telemetry data when there is a change.
+        case onchange(IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// The state template associated with a vehicle. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public struct StateTemplateAssociation: Swift.Sendable {
+        /// A unique, service-generated identifier.
+        /// This member is required.
+        public var identifier: Swift.String?
+        /// The update strategy for the state template. Vehicles associated with the state template can stream telemetry data with either an onChange or periodic update strategy. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+        /// This member is required.
+        public var stateTemplateUpdateStrategy: IoTFleetWiseClientTypes.StateTemplateUpdateStrategy?
+
+        public init(
+            identifier: Swift.String? = nil,
+            stateTemplateUpdateStrategy: IoTFleetWiseClientTypes.StateTemplateUpdateStrategy? = nil
+        )
+        {
+            self.identifier = identifier
+            self.stateTemplateUpdateStrategy = stateTemplateUpdateStrategy
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
     /// A set of key/value pairs that are used to manage the resource.
     public struct Tag: Swift.Sendable {
         /// The tag's key.
@@ -594,6 +711,8 @@ extension IoTFleetWiseClientTypes {
         /// The ARN of the vehicle model (model manifest) to create the vehicle from.
         /// This member is required.
         public var modelManifestArn: Swift.String?
+        /// Associate state templates to track the state of the vehicle. State templates determine which signal updates the vehicle sends to the cloud.
+        public var stateTemplates: [IoTFleetWiseClientTypes.StateTemplateAssociation]?
         /// Metadata which can be used to manage the vehicle.
         public var tags: [IoTFleetWiseClientTypes.Tag]?
         /// The unique ID of the vehicle to create.
@@ -605,6 +724,7 @@ extension IoTFleetWiseClientTypes {
             attributes: [Swift.String: Swift.String]? = nil,
             decoderManifestArn: Swift.String? = nil,
             modelManifestArn: Swift.String? = nil,
+            stateTemplates: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
             tags: [IoTFleetWiseClientTypes.Tag]? = nil,
             vehicleName: Swift.String? = nil
         )
@@ -613,6 +733,7 @@ extension IoTFleetWiseClientTypes {
             self.attributes = attributes
             self.decoderManifestArn = decoderManifestArn
             self.modelManifestArn = modelManifestArn
+            self.stateTemplates = stateTemplates
             self.tags = tags
             self.vehicleName = vehicleName
         }
@@ -737,6 +858,10 @@ extension IoTFleetWiseClientTypes {
         public var decoderManifestArn: Swift.String?
         /// The ARN of the vehicle model (model manifest) associated with the vehicle to update.
         public var modelManifestArn: Swift.String?
+        /// Associate additional state templates to track the state of the vehicle. State templates determine which signal updates the vehicle sends to the cloud.
+        public var stateTemplatesToAdd: [IoTFleetWiseClientTypes.StateTemplateAssociation]?
+        /// Remove existing state template associations from the vehicle.
+        public var stateTemplatesToRemove: [Swift.String]?
         /// The unique ID of the vehicle to update.
         /// This member is required.
         public var vehicleName: Swift.String?
@@ -746,6 +871,8 @@ extension IoTFleetWiseClientTypes {
             attributes: [Swift.String: Swift.String]? = nil,
             decoderManifestArn: Swift.String? = nil,
             modelManifestArn: Swift.String? = nil,
+            stateTemplatesToAdd: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
+            stateTemplatesToRemove: [Swift.String]? = nil,
             vehicleName: Swift.String? = nil
         )
         {
@@ -753,6 +880,8 @@ extension IoTFleetWiseClientTypes {
             self.attributes = attributes
             self.decoderManifestArn = decoderManifestArn
             self.modelManifestArn = modelManifestArn
+            self.stateTemplatesToAdd = stateTemplatesToAdd
+            self.stateTemplatesToRemove = stateTemplatesToRemove
             self.vehicleName = vehicleName
         }
     }
@@ -1018,6 +1147,28 @@ extension IoTFleetWiseClientTypes {
 
 extension IoTFleetWiseClientTypes {
 
+    /// The MQTT topic to which the Amazon Web Services IoT FleetWise campaign routes data. For more information, see [Device communication protocols](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html) in the Amazon Web Services IoT Core Developer Guide. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public struct MqttTopicConfig: Swift.Sendable {
+        /// The ARN of the role that grants Amazon Web Services IoT FleetWise permission to access and act on messages sent to the MQTT topic.
+        /// This member is required.
+        public var executionRoleArn: Swift.String?
+        /// The ARN of the MQTT topic.
+        /// This member is required.
+        public var mqttTopicArn: Swift.String?
+
+        public init(
+            executionRoleArn: Swift.String? = nil,
+            mqttTopicArn: Swift.String? = nil
+        )
+        {
+            self.executionRoleArn = executionRoleArn
+            self.mqttTopicArn = mqttTopicArn
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
     public enum DataFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case json
         case parquet
@@ -1087,7 +1238,7 @@ extension IoTFleetWiseClientTypes {
         ///
         /// * JSON - Store data in a standard text-based JSON file format.
         public var dataFormat: IoTFleetWiseClientTypes.DataFormat?
-        /// (Optional) Enter an S3 bucket prefix. The prefix is the string of characters after the bucket name and before the object name. You can use the prefix to organize data stored in Amazon S3 buckets. For more information, see [Organizing objects using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) in the Amazon Simple Storage Service User Guide. By default, Amazon Web Services IoT FleetWise sets the prefix processed-data/year=YY/month=MM/date=DD/hour=HH/ (in UTC) to data it delivers to Amazon S3. You can enter a prefix to append it to this default prefix. For example, if you enter the prefix vehicles, the prefix will be vehicles/processed-data/year=YY/month=MM/date=DD/hour=HH/.
+        /// Enter an S3 bucket prefix. The prefix is the string of characters after the bucket name and before the object name. You can use the prefix to organize data stored in Amazon S3 buckets. For more information, see [Organizing objects using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) in the Amazon Simple Storage Service User Guide. By default, Amazon Web Services IoT FleetWise sets the prefix processed-data/year=YY/month=MM/date=DD/hour=HH/ (in UTC) to data it delivers to Amazon S3. You can enter a prefix to append it to this default prefix. For example, if you enter the prefix vehicles, the prefix will be vehicles/processed-data/year=YY/month=MM/date=DD/hour=HH/.
         public var `prefix`: Swift.String?
         /// By default, stored data is compressed as a .gzip file. Compressed files have a reduced file size, which can optimize the cost of data storage.
         public var storageCompressionFormat: IoTFleetWiseClientTypes.StorageCompressionFormat?
@@ -1131,13 +1282,213 @@ extension IoTFleetWiseClientTypes {
 
 extension IoTFleetWiseClientTypes {
 
-    /// The destination where the Amazon Web Services IoT FleetWise campaign sends data. You can send data to be stored in Amazon S3 or Amazon Timestream.
+    /// The destination where the campaign sends data. You can send data to an MQTT topic, or store it in Amazon S3 or Amazon Timestream.
     public enum DataDestinationConfig: Swift.Sendable {
         /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign sends data.
         case s3config(IoTFleetWiseClientTypes.S3Config)
         /// The Amazon Timestream table where the campaign sends data.
         case timestreamconfig(IoTFleetWiseClientTypes.TimestreamConfig)
+        /// The MQTT topic to which the Amazon Web Services IoT FleetWise campaign routes data. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+        case mqtttopicconfig(IoTFleetWiseClientTypes.MqttTopicConfig)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    public enum StorageMaximumSizeUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gb
+        case mb
+        case tb
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageMaximumSizeUnit] {
+            return [
+                .gb,
+                .mb,
+                .tb
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gb: return "GB"
+            case .mb: return "MB"
+            case .tb: return "TB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// The maximum storage size for the data partition. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public struct StorageMaximumSize: Swift.Sendable {
+        /// The data type of the data to store.
+        /// This member is required.
+        public var unit: IoTFleetWiseClientTypes.StorageMaximumSizeUnit?
+        /// The maximum amount of time to store data.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            unit: IoTFleetWiseClientTypes.StorageMaximumSizeUnit? = nil,
+            value: Swift.Int? = nil
+        )
+        {
+            self.unit = unit
+            self.value = value
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    public enum StorageMinimumTimeToLiveUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days
+        case hours
+        case weeks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageMinimumTimeToLiveUnit] {
+            return [
+                .days,
+                .hours,
+                .weeks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case .hours: return "HOURS"
+            case .weeks: return "WEEKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// Information about the minimum amount of time that data will be kept. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public struct StorageMinimumTimeToLive: Swift.Sendable {
+        /// The time increment type.
+        /// This member is required.
+        public var unit: IoTFleetWiseClientTypes.StorageMinimumTimeToLiveUnit?
+        /// The minimum amount of time to store the data.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            unit: IoTFleetWiseClientTypes.StorageMinimumTimeToLiveUnit? = nil,
+            value: Swift.Int? = nil
+        )
+        {
+            self.unit = unit
+            self.value = value
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// Size, time, and location options for the data partition.
+    public struct DataPartitionStorageOptions: Swift.Sendable {
+        /// The maximum storage size of the data stored in the data partition. Newer data overwrites older data when the partition reaches the maximum size.
+        /// This member is required.
+        public var maximumSize: IoTFleetWiseClientTypes.StorageMaximumSize?
+        /// The amount of time that data in this partition will be kept on disk.
+        ///
+        /// * After the designated amount of time passes, the data can be removed, but it's not guaranteed to be removed.
+        ///
+        /// * Before the time expires, data in this partition can still be deleted if the partition reaches its configured maximum size.
+        ///
+        /// * Newer data will overwrite older data when the partition reaches the maximum size.
+        /// This member is required.
+        public var minimumTimeToLive: IoTFleetWiseClientTypes.StorageMinimumTimeToLive?
+        /// The folder name for the data partition under the campaign storage folder.
+        /// This member is required.
+        public var storageLocation: Swift.String?
+
+        public init(
+            maximumSize: IoTFleetWiseClientTypes.StorageMaximumSize? = nil,
+            minimumTimeToLive: IoTFleetWiseClientTypes.StorageMinimumTimeToLive? = nil,
+            storageLocation: Swift.String? = nil
+        )
+        {
+            self.maximumSize = maximumSize
+            self.minimumTimeToLive = minimumTimeToLive
+            self.storageLocation = storageLocation
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.DataPartitionStorageOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataPartitionStorageOptions(maximumSize: \(Swift.String(describing: maximumSize)), minimumTimeToLive: \(Swift.String(describing: minimumTimeToLive)), storageLocation: \"CONTENT_REDACTED\")"}
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// The upload options for the data partition. If upload options are specified, you must also specify storage options. See [DataPartitionStorageOptions](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_DataPartitionStorageOptions.html). Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public struct DataPartitionUploadOptions: Swift.Sendable {
+        /// The version of the condition language. Defaults to the most recent condition language version.
+        public var conditionLanguageVersion: Swift.Int?
+        /// The logical expression used to recognize what data to collect. For example, $variable.`Vehicle.OutsideAirTemperature` >= 105.0.
+        /// This member is required.
+        public var expression: Swift.String?
+
+        public init(
+            conditionLanguageVersion: Swift.Int? = nil,
+            expression: Swift.String? = nil
+        )
+        {
+            self.conditionLanguageVersion = conditionLanguageVersion
+            self.expression = expression
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.DataPartitionUploadOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataPartitionUploadOptions(conditionLanguageVersion: \(Swift.String(describing: conditionLanguageVersion)), expression: \"CONTENT_REDACTED\")"}
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// The configuration for signal data storage and upload options. You can only specify these options when the campaign's spooling mode is TO_DISK. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public struct DataPartition: Swift.Sendable {
+        /// The ID of the data partition. The data partition ID must be unique within a campaign. You can establish a data partition as the default partition for a campaign by using default as the ID.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The storage options for a data partition.
+        /// This member is required.
+        public var storageOptions: IoTFleetWiseClientTypes.DataPartitionStorageOptions?
+        /// The upload options for the data partition.
+        public var uploadOptions: IoTFleetWiseClientTypes.DataPartitionUploadOptions?
+
+        public init(
+            id: Swift.String? = nil,
+            storageOptions: IoTFleetWiseClientTypes.DataPartitionStorageOptions? = nil,
+            uploadOptions: IoTFleetWiseClientTypes.DataPartitionUploadOptions? = nil
+        )
+        {
+            self.id = id
+            self.storageOptions = storageOptions
+            self.uploadOptions = uploadOptions
+        }
     }
 }
 
@@ -1174,6 +1525,8 @@ extension IoTFleetWiseClientTypes {
 
     /// Information about a signal.
     public struct SignalInformation: Swift.Sendable {
+        /// The ID of the data partition this signal is associated with. The ID must match one of the IDs provided in dataPartitions. This is accomplished either by specifying a particular data partition ID or by using default for an established default partition. You can establish a default partition in the DataPartition data type. If you upload a signal as a condition for a campaign's data partition, the same signal must be included in signalsToCollect. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+        public var dataPartitionId: Swift.String?
         /// The maximum number of samples to collect.
         public var maxSampleCount: Swift.Int?
         /// The minimum duration of time (in milliseconds) between two triggering events to collect data. If a signal changes often, you might want to collect data at a slower rate.
@@ -1183,16 +1536,110 @@ extension IoTFleetWiseClientTypes {
         public var name: Swift.String?
 
         public init(
+            dataPartitionId: Swift.String? = nil,
             maxSampleCount: Swift.Int? = nil,
             minimumSamplingIntervalMs: Swift.Int? = nil,
             name: Swift.String? = nil
         )
         {
+            self.dataPartitionId = dataPartitionId
             self.maxSampleCount = maxSampleCount
             self.minimumSamplingIntervalMs = minimumSamplingIntervalMs
             self.name = name
         }
     }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// Specifies the condition under which a signal fetch occurs.
+    public struct ConditionBasedSignalFetchConfig: Swift.Sendable {
+        /// The condition that must be satisfied to trigger a signal fetch.
+        /// This member is required.
+        public var conditionExpression: Swift.String?
+        /// Indicates the mode in which the signal fetch is triggered.
+        /// This member is required.
+        public var triggerMode: IoTFleetWiseClientTypes.TriggerMode?
+
+        public init(
+            conditionExpression: Swift.String? = nil,
+            triggerMode: IoTFleetWiseClientTypes.TriggerMode? = nil
+        )
+        {
+            self.conditionExpression = conditionExpression
+            self.triggerMode = triggerMode
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConditionBasedSignalFetchConfig(triggerMode: \(Swift.String(describing: triggerMode)), conditionExpression: \"CONTENT_REDACTED\")"}
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// Used to configure a frequency-based vehicle signal fetch.
+    public struct TimeBasedSignalFetchConfig: Swift.Sendable {
+        /// The frequency with which the signal fetch will be executed.
+        /// This member is required.
+        public var executionFrequencyMs: Swift.Int?
+
+        public init(
+            executionFrequencyMs: Swift.Int? = nil
+        )
+        {
+            self.executionFrequencyMs = executionFrequencyMs
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// The configuration of the signal fetch operation. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public enum SignalFetchConfig: Swift.Sendable {
+        /// The configuration of a time-based signal fetch operation.
+        case timebased(IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig)
+        /// The configuration of a condition-based signal fetch operation.
+        case conditionbased(IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// Information about the signal to be fetched. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public struct SignalFetchInformation: Swift.Sendable {
+        /// The actions to be performed by the signal fetch.
+        /// This member is required.
+        public var actions: [Swift.String]?
+        /// The version of the condition language used.
+        public var conditionLanguageVersion: Swift.Int?
+        /// The fully qualified name of the signal to be fetched.
+        /// This member is required.
+        public var fullyQualifiedName: Swift.String?
+        /// The configuration of the signal fetch operation.
+        /// This member is required.
+        public var signalFetchConfig: IoTFleetWiseClientTypes.SignalFetchConfig?
+
+        public init(
+            actions: [Swift.String]? = nil,
+            conditionLanguageVersion: Swift.Int? = nil,
+            fullyQualifiedName: Swift.String? = nil,
+            signalFetchConfig: IoTFleetWiseClientTypes.SignalFetchConfig? = nil
+        )
+        {
+            self.actions = actions
+            self.conditionLanguageVersion = conditionLanguageVersion
+            self.fullyQualifiedName = fullyQualifiedName
+            self.signalFetchConfig = signalFetchConfig
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.SignalFetchInformation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SignalFetchInformation(conditionLanguageVersion: \(Swift.String(describing: conditionLanguageVersion)), fullyQualifiedName: \(Swift.String(describing: fullyQualifiedName)), signalFetchConfig: \(Swift.String(describing: signalFetchConfig)), actions: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTFleetWiseClientTypes {
@@ -1228,34 +1675,38 @@ public struct CreateCampaignInput: Swift.Sendable {
     /// The data collection scheme associated with the campaign. You can specify a scheme that collects data based on time or an event.
     /// This member is required.
     public var collectionScheme: IoTFleetWiseClientTypes.CollectionScheme?
-    /// (Optional) Whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used. Default: SNAPPY
+    /// Determines whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used. Default: SNAPPY
     public var compression: IoTFleetWiseClientTypes.Compression?
-    /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. Amazon Web Services IoT FleetWise supports at-least-once file delivery to S3. Your vehicle data is stored on multiple Amazon Web Services IoT FleetWise servers for redundancy and high availability. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
+    /// The destination where the campaign sends data. You can send data to an MQTT topic, or store it in Amazon S3 or Amazon Timestream. MQTT is the publish/subscribe messaging protocol used by Amazon Web Services IoT to communicate with your devices. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. Amazon Web Services IoT FleetWise supports at-least-once file delivery to S3. Your vehicle data is stored on multiple Amazon Web Services IoT FleetWise servers for redundancy and high availability. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
     public var dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]?
-    /// (Optional) A list of vehicle attributes to associate with a campaign. Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model. Default: An empty array
+    /// A list of vehicle attributes to associate with a campaign. Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model. Default: An empty array
     public var dataExtraDimensions: [Swift.String]?
+    /// The data partitions associated with the signals collected from the vehicle.
+    public var dataPartitions: [IoTFleetWiseClientTypes.DataPartition]?
     /// An optional description of the campaign to help identify its purpose.
     public var description: Swift.String?
-    /// (Optional) Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
+    /// Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
     public var diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode?
-    /// (Optional) The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires. Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
+    /// The time the campaign expires, in seconds since epoch (January 1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign expires. Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
     public var expiryTime: Foundation.Date?
     /// The name of the campaign to create.
     /// This member is required.
     public var name: Swift.String?
-    /// (Optional) How long (in milliseconds) to collect raw data after a triggering event initiates the collection. If it's not specified, 0 is used. Default: 0
+    /// How long (in milliseconds) to collect raw data after a triggering event initiates the collection. If it's not specified, 0 is used. Default: 0
     public var postTriggerCollectionDuration: Swift.Int?
-    /// (Optional) A number indicating the priority of one campaign over another campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed to vehicles before any other campaigns. If it's not specified, 0 is used. Default: 0
+    /// A number indicating the priority of one campaign over another campaign for a certain vehicle or fleet. A campaign with the lowest value is deployed to vehicles before any other campaigns. If it's not specified, 0 is used. Default: 0
     @available(*, deprecated, message: "priority is no longer used or needed as input")
     public var priority: Swift.Int?
     /// The Amazon Resource Name (ARN) of the signal catalog to associate with the campaign.
     /// This member is required.
     public var signalCatalogArn: Swift.String?
-    /// (Optional) A list of information about signals to collect.
+    /// A list of information about signals to collect. If you upload a signal as a condition in a data partition for a campaign, then those same signals must be included in signalsToCollect.
     public var signalsToCollect: [IoTFleetWiseClientTypes.SignalInformation]?
-    /// (Optional) Whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise. If you want to store collected data when a vehicle loses connection with the cloud, use TO_DISK. If it's not specified, OFF is used. Default: OFF
+    /// A list of information about signals to fetch.
+    public var signalsToFetch: [IoTFleetWiseClientTypes.SignalFetchInformation]?
+    /// Determines whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise. If you want to store collected data when a vehicle loses connection with the cloud, use TO_DISK. If it's not specified, OFF is used. Default: OFF
     public var spoolingMode: IoTFleetWiseClientTypes.SpoolingMode?
-    /// (Optional) The time, in milliseconds, to deliver a campaign after it was approved. If it's not specified, 0 is used. Default: 0
+    /// The time, in milliseconds, to deliver a campaign after it was approved. If it's not specified, 0 is used. Default: 0
     public var startTime: Foundation.Date?
     /// Metadata that can be used to manage the campaign.
     public var tags: [IoTFleetWiseClientTypes.Tag]?
@@ -1268,6 +1719,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         compression: IoTFleetWiseClientTypes.Compression? = nil,
         dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]? = nil,
         dataExtraDimensions: [Swift.String]? = nil,
+        dataPartitions: [IoTFleetWiseClientTypes.DataPartition]? = nil,
         description: Swift.String? = nil,
         diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode? = nil,
         expiryTime: Foundation.Date? = nil,
@@ -1276,6 +1728,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         priority: Swift.Int? = nil,
         signalCatalogArn: Swift.String? = nil,
         signalsToCollect: [IoTFleetWiseClientTypes.SignalInformation]? = nil,
+        signalsToFetch: [IoTFleetWiseClientTypes.SignalFetchInformation]? = nil,
         spoolingMode: IoTFleetWiseClientTypes.SpoolingMode? = nil,
         startTime: Foundation.Date? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil,
@@ -1286,6 +1739,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         self.compression = compression
         self.dataDestinationConfigs = dataDestinationConfigs
         self.dataExtraDimensions = dataExtraDimensions
+        self.dataPartitions = dataPartitions
         self.description = description
         self.diagnosticsMode = diagnosticsMode
         self.expiryTime = expiryTime
@@ -1294,6 +1748,7 @@ public struct CreateCampaignInput: Swift.Sendable {
         self.priority = priority
         self.signalCatalogArn = signalCatalogArn
         self.signalsToCollect = signalsToCollect
+        self.signalsToFetch = signalsToFetch
         self.spoolingMode = spoolingMode
         self.startTime = startTime
         self.tags = tags
@@ -1303,7 +1758,7 @@ public struct CreateCampaignInput: Swift.Sendable {
 
 extension CreateCampaignInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCampaignInput(collectionScheme: \(Swift.String(describing: collectionScheme)), compression: \(Swift.String(describing: compression)), dataDestinationConfigs: \(Swift.String(describing: dataDestinationConfigs)), description: \(Swift.String(describing: description)), diagnosticsMode: \(Swift.String(describing: diagnosticsMode)), expiryTime: \(Swift.String(describing: expiryTime)), name: \(Swift.String(describing: name)), postTriggerCollectionDuration: \(Swift.String(describing: postTriggerCollectionDuration)), priority: \(Swift.String(describing: priority)), signalCatalogArn: \(Swift.String(describing: signalCatalogArn)), spoolingMode: \(Swift.String(describing: spoolingMode)), startTime: \(Swift.String(describing: startTime)), tags: \(Swift.String(describing: tags)), targetArn: \(Swift.String(describing: targetArn)), dataExtraDimensions: \"CONTENT_REDACTED\", signalsToCollect: \"CONTENT_REDACTED\")"}
+        "CreateCampaignInput(collectionScheme: \(Swift.String(describing: collectionScheme)), compression: \(Swift.String(describing: compression)), dataDestinationConfigs: \(Swift.String(describing: dataDestinationConfigs)), dataPartitions: \(Swift.String(describing: dataPartitions)), description: \(Swift.String(describing: description)), diagnosticsMode: \(Swift.String(describing: diagnosticsMode)), expiryTime: \(Swift.String(describing: expiryTime)), name: \(Swift.String(describing: name)), postTriggerCollectionDuration: \(Swift.String(describing: postTriggerCollectionDuration)), priority: \(Swift.String(describing: priority)), signalCatalogArn: \(Swift.String(describing: signalCatalogArn)), signalsToFetch: \(Swift.String(describing: signalsToFetch)), spoolingMode: \(Swift.String(describing: spoolingMode)), startTime: \(Swift.String(describing: startTime)), tags: \(Swift.String(describing: tags)), targetArn: \(Swift.String(describing: targetArn)), dataExtraDimensions: \"CONTENT_REDACTED\", signalsToCollect: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateCampaignOutput: Swift.Sendable {
@@ -1408,10 +1863,12 @@ public struct GetCampaignOutput: Swift.Sendable {
     public var compression: IoTFleetWiseClientTypes.Compression?
     /// The time the campaign was created in seconds since epoch (January 1, 1970 at midnight UTC time).
     public var creationTime: Foundation.Date?
-    /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
+    /// The destination where the campaign sends data. You can send data to an MQTT topic, or store it in Amazon S3 or Amazon Timestream. MQTT is the publish/subscribe messaging protocol used by Amazon Web Services IoT to communicate with your devices. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
     public var dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]?
     /// A list of vehicle attributes associated with the campaign.
     public var dataExtraDimensions: [Swift.String]?
+    /// The data partitions associated with the signals collected from the vehicle.
+    public var dataPartitions: [IoTFleetWiseClientTypes.DataPartition]?
     /// The description of the campaign.
     public var description: Swift.String?
     /// Option for a vehicle to send diagnostic trouble codes to Amazon Web Services IoT FleetWise.
@@ -1430,6 +1887,8 @@ public struct GetCampaignOutput: Swift.Sendable {
     public var signalCatalogArn: Swift.String?
     /// Information about a list of signals to collect data on.
     public var signalsToCollect: [IoTFleetWiseClientTypes.SignalInformation]?
+    /// Information about a list of signals to fetch data from.
+    public var signalsToFetch: [IoTFleetWiseClientTypes.SignalFetchInformation]?
     /// Whether to store collected data after a vehicle lost a connection with the cloud. After a connection is re-established, the data is automatically forwarded to Amazon Web Services IoT FleetWise.
     public var spoolingMode: IoTFleetWiseClientTypes.SpoolingMode?
     /// The time, in milliseconds, to deliver a campaign after it was approved.
@@ -1446,6 +1905,7 @@ public struct GetCampaignOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]? = nil,
         dataExtraDimensions: [Swift.String]? = nil,
+        dataPartitions: [IoTFleetWiseClientTypes.DataPartition]? = nil,
         description: Swift.String? = nil,
         diagnosticsMode: IoTFleetWiseClientTypes.DiagnosticsMode? = nil,
         expiryTime: Foundation.Date? = nil,
@@ -1455,6 +1915,7 @@ public struct GetCampaignOutput: Swift.Sendable {
         priority: Swift.Int? = nil,
         signalCatalogArn: Swift.String? = nil,
         signalsToCollect: [IoTFleetWiseClientTypes.SignalInformation]? = nil,
+        signalsToFetch: [IoTFleetWiseClientTypes.SignalFetchInformation]? = nil,
         spoolingMode: IoTFleetWiseClientTypes.SpoolingMode? = nil,
         startTime: Foundation.Date? = nil,
         status: IoTFleetWiseClientTypes.CampaignStatus? = nil,
@@ -1467,6 +1928,7 @@ public struct GetCampaignOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.dataDestinationConfigs = dataDestinationConfigs
         self.dataExtraDimensions = dataExtraDimensions
+        self.dataPartitions = dataPartitions
         self.description = description
         self.diagnosticsMode = diagnosticsMode
         self.expiryTime = expiryTime
@@ -1476,6 +1938,7 @@ public struct GetCampaignOutput: Swift.Sendable {
         self.priority = priority
         self.signalCatalogArn = signalCatalogArn
         self.signalsToCollect = signalsToCollect
+        self.signalsToFetch = signalsToFetch
         self.spoolingMode = spoolingMode
         self.startTime = startTime
         self.status = status
@@ -1485,7 +1948,7 @@ public struct GetCampaignOutput: Swift.Sendable {
 
 extension GetCampaignOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetCampaignOutput(arn: \(Swift.String(describing: arn)), collectionScheme: \(Swift.String(describing: collectionScheme)), compression: \(Swift.String(describing: compression)), creationTime: \(Swift.String(describing: creationTime)), dataDestinationConfigs: \(Swift.String(describing: dataDestinationConfigs)), description: \(Swift.String(describing: description)), diagnosticsMode: \(Swift.String(describing: diagnosticsMode)), expiryTime: \(Swift.String(describing: expiryTime)), lastModificationTime: \(Swift.String(describing: lastModificationTime)), name: \(Swift.String(describing: name)), postTriggerCollectionDuration: \(Swift.String(describing: postTriggerCollectionDuration)), priority: \(Swift.String(describing: priority)), signalCatalogArn: \(Swift.String(describing: signalCatalogArn)), spoolingMode: \(Swift.String(describing: spoolingMode)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), targetArn: \(Swift.String(describing: targetArn)), dataExtraDimensions: \"CONTENT_REDACTED\", signalsToCollect: \"CONTENT_REDACTED\")"}
+        "GetCampaignOutput(arn: \(Swift.String(describing: arn)), collectionScheme: \(Swift.String(describing: collectionScheme)), compression: \(Swift.String(describing: compression)), creationTime: \(Swift.String(describing: creationTime)), dataDestinationConfigs: \(Swift.String(describing: dataDestinationConfigs)), dataPartitions: \(Swift.String(describing: dataPartitions)), description: \(Swift.String(describing: description)), diagnosticsMode: \(Swift.String(describing: diagnosticsMode)), expiryTime: \(Swift.String(describing: expiryTime)), lastModificationTime: \(Swift.String(describing: lastModificationTime)), name: \(Swift.String(describing: name)), postTriggerCollectionDuration: \(Swift.String(describing: postTriggerCollectionDuration)), priority: \(Swift.String(describing: priority)), signalCatalogArn: \(Swift.String(describing: signalCatalogArn)), signalsToFetch: \(Swift.String(describing: signalsToFetch)), spoolingMode: \(Swift.String(describing: spoolingMode)), startTime: \(Swift.String(describing: startTime)), status: \(Swift.String(describing: status)), targetArn: \(Swift.String(describing: targetArn)), dataExtraDimensions: \"CONTENT_REDACTED\", signalsToCollect: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListCampaignsInput: Swift.Sendable {
@@ -1493,7 +1956,7 @@ public struct ListCampaignsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     public var nextToken: Swift.String?
-    /// Optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
+    /// An optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
     public var status: Swift.String?
 
     public init(
@@ -1837,6 +2300,7 @@ extension IoTFleetWiseClientTypes {
     public enum NetworkInterfaceFailureReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case canNetworkInterfaceInfoIsNull
         case conflictingNetworkInterface
+        case customDecodingSignalNetworkInterfaceInfoIsNull
         case duplicateInterface
         case networkInterfaceToAddAlreadyExists
         case networkInterfaceToRemoveAssociatedWithSignals
@@ -1848,6 +2312,7 @@ extension IoTFleetWiseClientTypes {
             return [
                 .canNetworkInterfaceInfoIsNull,
                 .conflictingNetworkInterface,
+                .customDecodingSignalNetworkInterfaceInfoIsNull,
                 .duplicateInterface,
                 .networkInterfaceToAddAlreadyExists,
                 .networkInterfaceToRemoveAssociatedWithSignals,
@@ -1865,6 +2330,7 @@ extension IoTFleetWiseClientTypes {
             switch self {
             case .canNetworkInterfaceInfoIsNull: return "CAN_NETWORK_INTERFACE_INFO_IS_NULL"
             case .conflictingNetworkInterface: return "CONFLICTING_NETWORK_INTERFACE"
+            case .customDecodingSignalNetworkInterfaceInfoIsNull: return "CUSTOM_DECODING_SIGNAL_NETWORK_INTERFACE_INFO_IS_NULL"
             case .duplicateInterface: return "DUPLICATE_NETWORK_INTERFACE"
             case .networkInterfaceToAddAlreadyExists: return "NETWORK_INTERFACE_TO_ADD_ALREADY_EXISTS"
             case .networkInterfaceToRemoveAssociatedWithSignals: return "NETWORK_INTERFACE_TO_REMOVE_ASSOCIATED_WITH_SIGNALS"
@@ -1901,6 +2367,7 @@ extension IoTFleetWiseClientTypes {
     public enum SignalDecoderFailureReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case canSignalInfoIsNull
         case conflictingSignal
+        case customDecodingSignalInfoIsNull
         case duplicateSignal
         case emptyMessageSignal
         case messageSignalInfoIsNull
@@ -1920,6 +2387,7 @@ extension IoTFleetWiseClientTypes {
             return [
                 .canSignalInfoIsNull,
                 .conflictingSignal,
+                .customDecodingSignalInfoIsNull,
                 .duplicateSignal,
                 .emptyMessageSignal,
                 .messageSignalInfoIsNull,
@@ -1945,6 +2413,7 @@ extension IoTFleetWiseClientTypes {
             switch self {
             case .canSignalInfoIsNull: return "CAN_SIGNAL_INFO_IS_NULL"
             case .conflictingSignal: return "CONFLICTING_SIGNAL"
+            case .customDecodingSignalInfoIsNull: return "CUSTOM_DECODING_SIGNAL_INFO_IS_NULL"
             case .duplicateSignal: return "DUPLICATE_SIGNAL"
             case .emptyMessageSignal: return "EMPTY_MESSAGE_SIGNAL"
             case .messageSignalInfoIsNull: return "MESSAGE_SIGNAL_INFO_IS_NULL"
@@ -2022,7 +2491,50 @@ public struct DecoderManifestValidationException: ClientRuntime.ModeledError, AW
 
 extension IoTFleetWiseClientTypes {
 
-    /// A network interface that specifies the On-board diagnostic (OBD) II network protocol.
+    public enum DefaultForUnmappedSignalsType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customDecoding
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultForUnmappedSignalsType] {
+            return [
+                .customDecoding
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customDecoding: return "CUSTOM_DECODING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// Represents a custom network interface as defined by the customer. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public struct CustomDecodingInterface: Swift.Sendable {
+        /// The name of the interface.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// A network interface that specifies the on-board diagnostic (OBD) II network protocol.
     public struct ObdInterface: Swift.Sendable {
         /// The maximum number message requests per diagnostic trouble code per second.
         public var dtcRequestIntervalSeconds: Swift.Int
@@ -2066,6 +2578,7 @@ extension IoTFleetWiseClientTypes {
 
     public enum NetworkInterfaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case canInterface
+        case customDecodingInterface
         case obdInterface
         case vehicleMiddleware
         case sdkUnknown(Swift.String)
@@ -2073,6 +2586,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [NetworkInterfaceType] {
             return [
                 .canInterface,
+                .customDecodingInterface,
                 .obdInterface,
                 .vehicleMiddleware
             ]
@@ -2086,6 +2600,7 @@ extension IoTFleetWiseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .canInterface: return "CAN_INTERFACE"
+            case .customDecodingInterface: return "CUSTOM_DECODING_INTERFACE"
             case .obdInterface: return "OBD_INTERFACE"
             case .vehicleMiddleware: return "VEHICLE_MIDDLEWARE"
             case let .sdkUnknown(s): return s
@@ -2148,10 +2663,12 @@ extension IoTFleetWiseClientTypes {
     public struct NetworkInterface: Swift.Sendable {
         /// Information about a network interface specified by the Controller Area Network (CAN) protocol.
         public var canInterface: IoTFleetWiseClientTypes.CanInterface?
+        /// Information about a [custom network interface](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CustomDecodingInterface.html).
+        public var customDecodingInterface: IoTFleetWiseClientTypes.CustomDecodingInterface?
         /// The ID of the network interface.
         /// This member is required.
         public var interfaceId: Swift.String?
-        /// Information about a network interface specified by the On-board diagnostic (OBD) II protocol.
+        /// Information about a network interface specified by the on-board diagnostic (OBD) II protocol.
         public var obdInterface: IoTFleetWiseClientTypes.ObdInterface?
         /// The network protocol for the vehicle. For example, CAN_SIGNAL specifies a protocol that defines how data is communicated between electronic control units (ECUs). OBD_SIGNAL specifies a protocol that defines how self-diagnostic data is communicated between ECUs.
         /// This member is required.
@@ -2161,6 +2678,7 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             canInterface: IoTFleetWiseClientTypes.CanInterface? = nil,
+            customDecodingInterface: IoTFleetWiseClientTypes.CustomDecodingInterface? = nil,
             interfaceId: Swift.String? = nil,
             obdInterface: IoTFleetWiseClientTypes.ObdInterface? = nil,
             type: IoTFleetWiseClientTypes.NetworkInterfaceType? = nil,
@@ -2168,10 +2686,28 @@ extension IoTFleetWiseClientTypes {
         )
         {
             self.canInterface = canInterface
+            self.customDecodingInterface = customDecodingInterface
             self.interfaceId = interfaceId
             self.obdInterface = obdInterface
             self.type = type
             self.vehicleMiddleware = vehicleMiddleware
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// Information about signals using a custom decoding protocol as defined by the customer. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public struct CustomDecodingSignal: Swift.Sendable {
+        /// The ID of the signal.
+        /// This member is required.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        )
+        {
+            self.id = id
         }
     }
 }
@@ -2374,6 +2910,7 @@ extension IoTFleetWiseClientTypes {
 
     public enum SignalDecoderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case canSignal
+        case customDecodingSignal
         case messageSignal
         case obdSignal
         case sdkUnknown(Swift.String)
@@ -2381,6 +2918,7 @@ extension IoTFleetWiseClientTypes {
         public static var allCases: [SignalDecoderType] {
             return [
                 .canSignal,
+                .customDecodingSignal,
                 .messageSignal,
                 .obdSignal
             ]
@@ -2394,6 +2932,7 @@ extension IoTFleetWiseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .canSignal: return "CAN_SIGNAL"
+            case .customDecodingSignal: return "CUSTOM_DECODING_SIGNAL"
             case .messageSignal: return "MESSAGE_SIGNAL"
             case .obdSignal: return "OBD_SIGNAL"
             case let .sdkUnknown(s): return s
@@ -2810,10 +3349,69 @@ public struct CreateSignalCatalogOutput: Swift.Sendable {
     }
 }
 
+public struct CreateStateTemplateInput: Swift.Sendable {
+    /// A list of vehicle attributes to associate with the payload published on the state template's MQTT topic. (See [ Processing last known state vehicle data using MQTT messaging](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data)). For example, if you add Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will enrich the protobuf encoded payload with those attributes in the extraDimensions field.
+    public var dataExtraDimensions: [Swift.String]?
+    /// A brief description of the state template.
+    public var description: Swift.String?
+    /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See [ Processing last known state vehicle data using MQTT messaging](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data)). For example, if you add Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will include these attributes as User Properties with the MQTT message. Default: An empty array
+    public var metadataExtraDimensions: [Swift.String]?
+    /// The name of the state template.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ARN of the signal catalog associated with the state template.
+    /// This member is required.
+    public var signalCatalogArn: Swift.String?
+    /// A list of signals from which data is collected. The state template properties contain the fully qualified names of the signals.
+    /// This member is required.
+    public var stateTemplateProperties: [Swift.String]?
+    /// Metadata that can be used to manage the state template.
+    public var tags: [IoTFleetWiseClientTypes.Tag]?
+
+    public init(
+        dataExtraDimensions: [Swift.String]? = nil,
+        description: Swift.String? = nil,
+        metadataExtraDimensions: [Swift.String]? = nil,
+        name: Swift.String? = nil,
+        signalCatalogArn: Swift.String? = nil,
+        stateTemplateProperties: [Swift.String]? = nil,
+        tags: [IoTFleetWiseClientTypes.Tag]? = nil
+    )
+    {
+        self.dataExtraDimensions = dataExtraDimensions
+        self.description = description
+        self.metadataExtraDimensions = metadataExtraDimensions
+        self.name = name
+        self.signalCatalogArn = signalCatalogArn
+        self.stateTemplateProperties = stateTemplateProperties
+        self.tags = tags
+    }
+}
+
+public struct CreateStateTemplateOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the state template.
+    public var arn: Swift.String?
+    /// The unique ID of the state template.
+    public var id: Swift.String?
+    /// The name of the state template.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.id = id
+        self.name = name
+    }
+}
+
 public struct CreateVehicleInput: Swift.Sendable {
     /// An option to create a new Amazon Web Services IoT thing when creating a vehicle, or to validate an existing Amazon Web Services IoT thing as a vehicle. Default:
     public var associationBehavior: IoTFleetWiseClientTypes.VehicleAssociationBehavior?
-    /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2" A campaign must include the keys (attribute names) in dataExtraDimensions for them to display in Amazon Timestream.
+    /// Static information about a vehicle in a key-value pair. For example: "engineType" : "1.3 L R2" To use attributes with Campaigns or State Templates, you must include them using the request parameters dataExtraDimensions and/or metadataExtraDimensions (for state templates only) when creating your campaign/state template.
     public var attributes: [Swift.String: Swift.String]?
     /// The ARN of a decoder manifest.
     /// This member is required.
@@ -2821,6 +3419,8 @@ public struct CreateVehicleInput: Swift.Sendable {
     /// The Amazon Resource Name ARN of a vehicle model.
     /// This member is required.
     public var modelManifestArn: Swift.String?
+    /// Associate state templates with the vehicle. You can monitor the last known state of the vehicle in near real time.
+    public var stateTemplates: [IoTFleetWiseClientTypes.StateTemplateAssociation]?
     /// Metadata that can be used to manage the vehicle.
     public var tags: [IoTFleetWiseClientTypes.Tag]?
     /// The unique ID of the vehicle to create.
@@ -2832,6 +3432,7 @@ public struct CreateVehicleInput: Swift.Sendable {
         attributes: [Swift.String: Swift.String]? = nil,
         decoderManifestArn: Swift.String? = nil,
         modelManifestArn: Swift.String? = nil,
+        stateTemplates: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
         tags: [IoTFleetWiseClientTypes.Tag]? = nil,
         vehicleName: Swift.String? = nil
     )
@@ -2840,6 +3441,7 @@ public struct CreateVehicleInput: Swift.Sendable {
         self.attributes = attributes
         self.decoderManifestArn = decoderManifestArn
         self.modelManifestArn = modelManifestArn
+        self.stateTemplates = stateTemplates
         self.tags = tags
         self.vehicleName = vehicleName
     }
@@ -3279,6 +3881,39 @@ public struct DeleteSignalCatalogOutput: Swift.Sendable {
     )
     {
         self.arn = arn
+        self.name = name
+    }
+}
+
+public struct DeleteStateTemplateInput: Swift.Sendable {
+    /// A unique, service-generated identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteStateTemplateOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the state template.
+    public var arn: Swift.String?
+    /// The unique ID of the state template.
+    public var id: Swift.String?
+    /// The name of the state template.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.id = id
         self.name = name
     }
 }
@@ -3981,6 +4616,67 @@ public struct GetSignalCatalogOutput: Swift.Sendable {
     }
 }
 
+public struct GetStateTemplateInput: Swift.Sendable {
+    /// A unique, service-generated identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+public struct GetStateTemplateOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the state template.
+    public var arn: Swift.String?
+    /// The time the state template was created in seconds since epoch (January 1, 1970 at midnight UTC time).
+    public var creationTime: Foundation.Date?
+    /// A list of vehicle attributes associated with the payload published on the state template's MQTT topic. Default: An empty array
+    public var dataExtraDimensions: [Swift.String]?
+    /// A brief description of the state template.
+    public var description: Swift.String?
+    /// The unique ID of the state template.
+    public var id: Swift.String?
+    /// The time the state template was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
+    public var lastModificationTime: Foundation.Date?
+    /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. Default: An empty array
+    public var metadataExtraDimensions: [Swift.String]?
+    /// The name of the state template.
+    public var name: Swift.String?
+    /// The ARN of the signal catalog associated with the state template.
+    public var signalCatalogArn: Swift.String?
+    /// A list of signals from which data is collected. The state template properties contain the fully qualified names of the signals.
+    public var stateTemplateProperties: [Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        dataExtraDimensions: [Swift.String]? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastModificationTime: Foundation.Date? = nil,
+        metadataExtraDimensions: [Swift.String]? = nil,
+        name: Swift.String? = nil,
+        signalCatalogArn: Swift.String? = nil,
+        stateTemplateProperties: [Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.dataExtraDimensions = dataExtraDimensions
+        self.description = description
+        self.id = id
+        self.lastModificationTime = lastModificationTime
+        self.metadataExtraDimensions = metadataExtraDimensions
+        self.name = name
+        self.signalCatalogArn = signalCatalogArn
+        self.stateTemplateProperties = stateTemplateProperties
+    }
+}
+
 public struct GetVehicleInput: Swift.Sendable {
     /// The ID of the vehicle to retrieve information about.
     /// This member is required.
@@ -4007,6 +4703,8 @@ public struct GetVehicleOutput: Swift.Sendable {
     public var lastModificationTime: Foundation.Date?
     /// The ARN of a vehicle model (model manifest) associated with the vehicle.
     public var modelManifestArn: Swift.String?
+    /// State templates associated with the vehicle.
+    public var stateTemplates: [IoTFleetWiseClientTypes.StateTemplateAssociation]?
     /// The ID of the vehicle.
     public var vehicleName: Swift.String?
 
@@ -4017,6 +4715,7 @@ public struct GetVehicleOutput: Swift.Sendable {
         decoderManifestArn: Swift.String? = nil,
         lastModificationTime: Foundation.Date? = nil,
         modelManifestArn: Swift.String? = nil,
+        stateTemplates: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
         vehicleName: Swift.String? = nil
     )
     {
@@ -4026,14 +4725,15 @@ public struct GetVehicleOutput: Swift.Sendable {
         self.decoderManifestArn = decoderManifestArn
         self.lastModificationTime = lastModificationTime
         self.modelManifestArn = modelManifestArn
+        self.stateTemplates = stateTemplates
         self.vehicleName = vehicleName
     }
 }
 
 public struct GetVehicleStatusInput: Swift.Sendable {
-    /// The maximum number of items to return, between 1 and 100, inclusive.
+    /// The maximum number of items to return, between 1 and 100, inclusive. This parameter is only supported for resources of type CAMPAIGN.
     public var maxResults: Swift.Int?
-    /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+    /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value. This parameter is only supported for resources of type CAMPAIGN.
     public var nextToken: Swift.String?
     /// The ID of the vehicle to retrieve information about.
     /// This member is required.
@@ -4091,21 +4791,21 @@ extension IoTFleetWiseClientTypes {
 
 extension IoTFleetWiseClientTypes {
 
-    /// Information about the state of a vehicle and how it relates to the status of a campaign.
+    /// Information about a campaign associated with a vehicle.
     public struct VehicleStatus: Swift.Sendable {
         /// The name of a campaign.
         public var campaignName: Swift.String?
-        /// The state of a vehicle, which can be one of the following:
+        /// The status of a campaign, which can be one of the following:
         ///
-        /// * CREATED - Amazon Web Services IoT FleetWise sucessfully created the vehicle.
+        /// * CREATED - The campaign has been created successfully but has not been approved.
         ///
-        /// * READY - The vehicle is ready to receive a campaign deployment.
+        /// * READY - The campaign has been approved but has not been deployed to the vehicle.
         ///
-        /// * HEALTHY - A campaign deployment was delivered to the vehicle.
+        /// * HEALTHY - The campaign has been deployed to the vehicle.
         ///
-        /// * SUSPENDED - A campaign associated with the vehicle was suspended and data collection was paused.
+        /// * SUSPENDED - The campaign has been suspended and data collection is paused.
         ///
-        /// * DELETING - Amazon Web Services IoT FleetWise is removing a campaign from the vehicle.
+        /// * DELETING - The campaign is being removed from the vehicle.
         public var status: IoTFleetWiseClientTypes.VehicleState?
         /// The unique ID of the vehicle.
         public var vehicleName: Swift.String?
@@ -4704,6 +5404,131 @@ public struct UpdateSignalCatalogOutput: Swift.Sendable {
     }
 }
 
+public struct ListStateTemplatesInput: Swift.Sendable {
+    /// The maximum number of items to return, between 1 and 100, inclusive.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+
+    /// Information about a state template. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public struct StateTemplateSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the state template.
+        public var arn: Swift.String?
+        /// The time the state template was created, in seconds since epoch (January 1, 1970 at midnight UTC time).
+        public var creationTime: Foundation.Date?
+        /// A brief description of the state template.
+        public var description: Swift.String?
+        /// The unique ID of the state template.
+        public var id: Swift.String?
+        /// The time the state template was last updated, in seconds since epoch (January 1, 1970 at midnight UTC time).
+        public var lastModificationTime: Foundation.Date?
+        /// The name of the state template.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the signal catalog associated with the state template.
+        public var signalCatalogArn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModificationTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            signalCatalogArn: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.id = id
+            self.lastModificationTime = lastModificationTime
+            self.name = name
+            self.signalCatalogArn = signalCatalogArn
+        }
+    }
+}
+
+public struct ListStateTemplatesOutput: Swift.Sendable {
+    /// The token to retrieve the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// A list of information about each state template.
+    public var summaries: [IoTFleetWiseClientTypes.StateTemplateSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        summaries: [IoTFleetWiseClientTypes.StateTemplateSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.summaries = summaries
+    }
+}
+
+public struct UpdateStateTemplateInput: Swift.Sendable {
+    /// A list of vehicle attributes to associate with the payload published on the state template's MQTT topic. (See [ Processing last known state vehicle data using MQTT messaging](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data)). For example, if you add Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will enrich the protobuf encoded payload with those attributes in the extraDimensions field. Default: An empty array
+    public var dataExtraDimensions: [Swift.String]?
+    /// A brief description of the state template.
+    public var description: Swift.String?
+    /// A unique, service-generated identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See [ Processing last known state vehicle data using MQTT messaging](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data)). For example, if you add Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise will include these attributes as User Properties with the MQTT message.
+    public var metadataExtraDimensions: [Swift.String]?
+    /// Add signals from which data is collected as part of the state template.
+    public var stateTemplatePropertiesToAdd: [Swift.String]?
+    /// Remove signals from which data is collected as part of the state template.
+    public var stateTemplatePropertiesToRemove: [Swift.String]?
+
+    public init(
+        dataExtraDimensions: [Swift.String]? = nil,
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        metadataExtraDimensions: [Swift.String]? = nil,
+        stateTemplatePropertiesToAdd: [Swift.String]? = nil,
+        stateTemplatePropertiesToRemove: [Swift.String]? = nil
+    )
+    {
+        self.dataExtraDimensions = dataExtraDimensions
+        self.description = description
+        self.identifier = identifier
+        self.metadataExtraDimensions = metadataExtraDimensions
+        self.stateTemplatePropertiesToAdd = stateTemplatePropertiesToAdd
+        self.stateTemplatePropertiesToRemove = stateTemplatePropertiesToRemove
+    }
+}
+
+public struct UpdateStateTemplateOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the state template.
+    public var arn: Swift.String?
+    /// The unique ID of the state template.
+    public var id: Swift.String?
+    /// The name of the state template.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.id = id
+        self.name = name
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The ARN of the resource.
     /// This member is required.
@@ -4751,9 +5576,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct ListVehiclesInput: Swift.Sendable {
-    /// The fully qualified names of the attributes. For example, the fully qualified name of an attribute might be Vehicle.Body.Engine.Type.
+    /// The fully qualified names of the attributes. You can use this optional parameter to list the vehicles containing all the attributes in the request. For example, attributeNames could be "Vehicle.Body.Engine.Type, Vehicle.Color" and the corresponding attributeValues could be "1.3 L R2, Blue" . In this case, the API will filter vehicles with an attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the attributeNames filter and the matching number of attributeValues filters to return the subset of vehicles that match the attributes filter condition.
     public var attributeNames: [Swift.String]?
-    /// Static information about a vehicle attribute value in string format. For example: "1.3 L R2"
+    /// Static information about a vehicle attribute value in string format. You can use this optional parameter in conjunction with attributeNames to list the vehicles containing all the attributeValues corresponding to the attributeNames filter. For example, attributeValues could be "1.3 L R2, Blue" and the corresponding attributeNames filter could be "Vehicle.Body.Engine.Type, Vehicle.Color". In this case, the API will filter vehicles with attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the attributeNames filter and the matching number of attributeValues filter to return the subset of vehicles that match the attributes filter condition.
     public var attributeValues: [Swift.String]?
     /// The maximum number of items to return, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
@@ -4849,6 +5674,10 @@ public struct UpdateVehicleInput: Swift.Sendable {
     public var decoderManifestArn: Swift.String?
     /// The ARN of a vehicle model (model manifest) associated with the vehicle.
     public var modelManifestArn: Swift.String?
+    /// Associate state templates with the vehicle.
+    public var stateTemplatesToAdd: [IoTFleetWiseClientTypes.StateTemplateAssociation]?
+    /// Remove state templates from the vehicle.
+    public var stateTemplatesToRemove: [Swift.String]?
     /// The unique ID of the vehicle to update.
     /// This member is required.
     public var vehicleName: Swift.String?
@@ -4858,6 +5687,8 @@ public struct UpdateVehicleInput: Swift.Sendable {
         attributes: [Swift.String: Swift.String]? = nil,
         decoderManifestArn: Swift.String? = nil,
         modelManifestArn: Swift.String? = nil,
+        stateTemplatesToAdd: [IoTFleetWiseClientTypes.StateTemplateAssociation]? = nil,
+        stateTemplatesToRemove: [Swift.String]? = nil,
         vehicleName: Swift.String? = nil
     )
     {
@@ -4865,6 +5696,8 @@ public struct UpdateVehicleInput: Swift.Sendable {
         self.attributes = attributes
         self.decoderManifestArn = decoderManifestArn
         self.modelManifestArn = modelManifestArn
+        self.stateTemplatesToAdd = stateTemplatesToAdd
+        self.stateTemplatesToRemove = stateTemplatesToRemove
         self.vehicleName = vehicleName
     }
 }
@@ -4980,6 +5813,8 @@ extension IoTFleetWiseClientTypes {
     public struct SignalDecoder: Swift.Sendable {
         /// Information about signal decoder using the Controller Area Network (CAN) protocol.
         public var canSignal: IoTFleetWiseClientTypes.CanSignal?
+        /// Information about a [custom signal decoder](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CustomDecodingSignal.html). Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+        public var customDecodingSignal: IoTFleetWiseClientTypes.CustomDecodingSignal?
         /// The fully qualified name of a signal decoder as defined in a vehicle model.
         /// This member is required.
         public var fullyQualifiedName: Swift.String?
@@ -4988,7 +5823,7 @@ extension IoTFleetWiseClientTypes {
         public var interfaceId: Swift.String?
         /// The decoding information for a specific message which supports higher order data types.
         public var messageSignal: IoTFleetWiseClientTypes.MessageSignal?
-        /// Information about signal decoder using the On-board diagnostic (OBD) II protocol.
+        /// Information about signal decoder using the on-board diagnostic (OBD) II protocol.
         public var obdSignal: IoTFleetWiseClientTypes.ObdSignal?
         /// The network protocol for the vehicle. For example, CAN_SIGNAL specifies a protocol that defines how data is communicated between electronic control units (ECUs). OBD_SIGNAL specifies a protocol that defines how self-diagnostic data is communicated between ECUs.
         /// This member is required.
@@ -4996,6 +5831,7 @@ extension IoTFleetWiseClientTypes {
 
         public init(
             canSignal: IoTFleetWiseClientTypes.CanSignal? = nil,
+            customDecodingSignal: IoTFleetWiseClientTypes.CustomDecodingSignal? = nil,
             fullyQualifiedName: Swift.String? = nil,
             interfaceId: Swift.String? = nil,
             messageSignal: IoTFleetWiseClientTypes.MessageSignal? = nil,
@@ -5004,6 +5840,7 @@ extension IoTFleetWiseClientTypes {
         )
         {
             self.canSignal = canSignal
+            self.customDecodingSignal = customDecodingSignal
             self.fullyQualifiedName = fullyQualifiedName
             self.interfaceId = interfaceId
             self.messageSignal = messageSignal
@@ -5014,6 +5851,8 @@ extension IoTFleetWiseClientTypes {
 }
 
 public struct CreateDecoderManifestInput: Swift.Sendable {
+    /// Use default decoders for all unmapped signals in the model. You don't need to provide any detailed decoding information. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public var defaultForUnmappedSignals: IoTFleetWiseClientTypes.DefaultForUnmappedSignalsType?
     /// A brief description of the decoder manifest.
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) of the vehicle model (model manifest).
@@ -5030,6 +5869,7 @@ public struct CreateDecoderManifestInput: Swift.Sendable {
     public var tags: [IoTFleetWiseClientTypes.Tag]?
 
     public init(
+        defaultForUnmappedSignals: IoTFleetWiseClientTypes.DefaultForUnmappedSignalsType? = nil,
         description: Swift.String? = nil,
         modelManifestArn: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -5038,6 +5878,7 @@ public struct CreateDecoderManifestInput: Swift.Sendable {
         tags: [IoTFleetWiseClientTypes.Tag]? = nil
     )
     {
+        self.defaultForUnmappedSignals = defaultForUnmappedSignals
         self.description = description
         self.modelManifestArn = modelManifestArn
         self.name = name
@@ -5064,6 +5905,8 @@ public struct ListDecoderManifestSignalsOutput: Swift.Sendable {
 }
 
 public struct UpdateDecoderManifestInput: Swift.Sendable {
+    /// Use default decoders for all unmapped signals in the model. You don't need to provide any detailed decoding information. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    public var defaultForUnmappedSignals: IoTFleetWiseClientTypes.DefaultForUnmappedSignalsType?
     /// A brief description of the decoder manifest to update.
     public var description: Swift.String?
     /// The name of the decoder manifest to update.
@@ -5085,6 +5928,7 @@ public struct UpdateDecoderManifestInput: Swift.Sendable {
     public var status: IoTFleetWiseClientTypes.ManifestStatus?
 
     public init(
+        defaultForUnmappedSignals: IoTFleetWiseClientTypes.DefaultForUnmappedSignalsType? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         networkInterfacesToAdd: [IoTFleetWiseClientTypes.NetworkInterface]? = nil,
@@ -5096,6 +5940,7 @@ public struct UpdateDecoderManifestInput: Swift.Sendable {
         status: IoTFleetWiseClientTypes.ManifestStatus? = nil
     )
     {
+        self.defaultForUnmappedSignals = defaultForUnmappedSignals
         self.description = description
         self.name = name
         self.networkInterfacesToAdd = networkInterfacesToAdd
@@ -5164,6 +6009,13 @@ extension CreateSignalCatalogInput {
     }
 }
 
+extension CreateStateTemplateInput {
+
+    static func urlPathProvider(_ value: CreateStateTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateVehicleInput {
 
     static func urlPathProvider(_ value: CreateVehicleInput) -> Swift.String? {
@@ -5202,6 +6054,13 @@ extension DeleteModelManifestInput {
 extension DeleteSignalCatalogInput {
 
     static func urlPathProvider(_ value: DeleteSignalCatalogInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteStateTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteStateTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5272,6 +6131,13 @@ extension GetRegisterAccountStatusInput {
 extension GetSignalCatalogInput {
 
     static func urlPathProvider(_ value: GetSignalCatalogInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetStateTemplateInput {
+
+    static func urlPathProvider(_ value: GetStateTemplateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5451,6 +6317,20 @@ extension ListSignalCatalogsInput {
     }
 }
 
+extension ListStateTemplatesInput {
+
+    static func urlPathProvider(_ value: ListStateTemplatesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListStateTemplatesInput {
+
+    static func queryItemProvider(_ value: ListStateTemplatesInput) throws -> [Smithy.URIQueryItem] {
+        return []
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -5577,6 +6457,13 @@ extension UpdateSignalCatalogInput {
     }
 }
 
+extension UpdateStateTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateStateTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateVehicleInput {
 
     static func urlPathProvider(_ value: UpdateVehicleInput) -> Swift.String? {
@@ -5616,6 +6503,7 @@ extension CreateCampaignInput {
         try writer["compression"].write(value.compression)
         try writer["dataDestinationConfigs"].writeList(value.dataDestinationConfigs, memberWritingClosure: IoTFleetWiseClientTypes.DataDestinationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dataExtraDimensions"].writeList(value.dataExtraDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dataPartitions"].writeList(value.dataPartitions, memberWritingClosure: IoTFleetWiseClientTypes.DataPartition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
         try writer["diagnosticsMode"].write(value.diagnosticsMode)
         try writer["expiryTime"].writeTimestamp(value.expiryTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -5623,6 +6511,7 @@ extension CreateCampaignInput {
         try writer["priority"].write(value.priority)
         try writer["signalCatalogArn"].write(value.signalCatalogArn)
         try writer["signalsToCollect"].writeList(value.signalsToCollect, memberWritingClosure: IoTFleetWiseClientTypes.SignalInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["signalsToFetch"].writeList(value.signalsToFetch, memberWritingClosure: IoTFleetWiseClientTypes.SignalFetchInformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["spoolingMode"].write(value.spoolingMode)
         try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -5634,6 +6523,7 @@ extension CreateDecoderManifestInput {
 
     static func write(value: CreateDecoderManifestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["defaultForUnmappedSignals"].write(value.defaultForUnmappedSignals)
         try writer["description"].write(value.description)
         try writer["modelManifestArn"].write(value.modelManifestArn)
         try writer["networkInterfaces"].writeList(value.networkInterfaces, memberWritingClosure: IoTFleetWiseClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -5673,6 +6563,19 @@ extension CreateSignalCatalogInput {
     }
 }
 
+extension CreateStateTemplateInput {
+
+    static func write(value: CreateStateTemplateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataExtraDimensions"].writeList(value.dataExtraDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["metadataExtraDimensions"].writeList(value.metadataExtraDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["signalCatalogArn"].write(value.signalCatalogArn)
+        try writer["stateTemplateProperties"].writeList(value.stateTemplateProperties, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateVehicleInput {
 
     static func write(value: CreateVehicleInput?, to writer: SmithyJSON.Writer) throws {
@@ -5681,6 +6584,7 @@ extension CreateVehicleInput {
         try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["decoderManifestArn"].write(value.decoderManifestArn)
         try writer["modelManifestArn"].write(value.modelManifestArn)
+        try writer["stateTemplates"].writeList(value.stateTemplates, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -5720,6 +6624,14 @@ extension DeleteModelManifestInput {
 extension DeleteSignalCatalogInput {
 
     static func write(value: DeleteSignalCatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
+extension DeleteStateTemplateInput {
+
+    static func write(value: DeleteStateTemplateInput?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
@@ -5800,6 +6712,14 @@ extension GetRegisterAccountStatusInput {
 extension GetSignalCatalogInput {
 
     static func write(value: GetSignalCatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
+extension GetStateTemplateInput {
+
+    static func write(value: GetStateTemplateInput?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
     }
@@ -5919,6 +6839,14 @@ extension ListSignalCatalogsInput {
     }
 }
 
+extension ListStateTemplatesInput {
+
+    static func write(value: ListStateTemplatesInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -5999,6 +6927,7 @@ extension UpdateDecoderManifestInput {
 
     static func write(value: UpdateDecoderManifestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["defaultForUnmappedSignals"].write(value.defaultForUnmappedSignals)
         try writer["description"].write(value.description)
         try writer["networkInterfacesToAdd"].writeList(value.networkInterfacesToAdd, memberWritingClosure: IoTFleetWiseClientTypes.NetworkInterface.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["networkInterfacesToRemove"].writeList(value.networkInterfacesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6040,6 +6969,18 @@ extension UpdateSignalCatalogInput {
     }
 }
 
+extension UpdateStateTemplateInput {
+
+    static func write(value: UpdateStateTemplateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataExtraDimensions"].writeList(value.dataExtraDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["metadataExtraDimensions"].writeList(value.metadataExtraDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["stateTemplatePropertiesToAdd"].writeList(value.stateTemplatePropertiesToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["stateTemplatePropertiesToRemove"].writeList(value.stateTemplatePropertiesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateVehicleInput {
 
     static func write(value: UpdateVehicleInput?, to writer: SmithyJSON.Writer) throws {
@@ -6048,6 +6989,8 @@ extension UpdateVehicleInput {
         try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["decoderManifestArn"].write(value.decoderManifestArn)
         try writer["modelManifestArn"].write(value.modelManifestArn)
+        try writer["stateTemplatesToAdd"].writeList(value.stateTemplatesToAdd, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["stateTemplatesToRemove"].writeList(value.stateTemplatesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6149,6 +7092,20 @@ extension CreateSignalCatalogOutput {
     }
 }
 
+extension CreateStateTemplateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateStateTemplateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateStateTemplateOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateVehicleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVehicleOutput {
@@ -6228,6 +7185,20 @@ extension DeleteSignalCatalogOutput {
     }
 }
 
+extension DeleteStateTemplateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteStateTemplateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteStateTemplateOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteVehicleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVehicleOutput {
@@ -6261,6 +7232,7 @@ extension GetCampaignOutput {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dataDestinationConfigs = try reader["dataDestinationConfigs"].readListIfPresent(memberReadingClosure: IoTFleetWiseClientTypes.DataDestinationConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataExtraDimensions = try reader["dataExtraDimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataPartitions = try reader["dataPartitions"].readListIfPresent(memberReadingClosure: IoTFleetWiseClientTypes.DataPartition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["description"].readIfPresent()
         value.diagnosticsMode = try reader["diagnosticsMode"].readIfPresent()
         value.expiryTime = try reader["expiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -6270,6 +7242,7 @@ extension GetCampaignOutput {
         value.priority = try reader["priority"].readIfPresent()
         value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
         value.signalsToCollect = try reader["signalsToCollect"].readListIfPresent(memberReadingClosure: IoTFleetWiseClientTypes.SignalInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signalsToFetch = try reader["signalsToFetch"].readListIfPresent(memberReadingClosure: IoTFleetWiseClientTypes.SignalFetchInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.spoolingMode = try reader["spoolingMode"].readIfPresent()
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["status"].readIfPresent()
@@ -6395,6 +7368,27 @@ extension GetSignalCatalogOutput {
     }
 }
 
+extension GetStateTemplateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetStateTemplateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetStateTemplateOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dataExtraDimensions = try reader["dataExtraDimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["description"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.metadataExtraDimensions = try reader["metadataExtraDimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent()
+        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
+        value.stateTemplateProperties = try reader["stateTemplateProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GetVehicleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVehicleOutput {
@@ -6408,6 +7402,7 @@ extension GetVehicleOutput {
         value.decoderManifestArn = try reader["decoderManifestArn"].readIfPresent()
         value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.modelManifestArn = try reader["modelManifestArn"].readIfPresent()
+        value.stateTemplates = try reader["stateTemplates"].readListIfPresent(memberReadingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.vehicleName = try reader["vehicleName"].readIfPresent()
         return value
     }
@@ -6582,6 +7577,19 @@ extension ListSignalCatalogsOutput {
     }
 }
 
+extension ListStateTemplatesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListStateTemplatesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListStateTemplatesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.summaries = try reader["summaries"].readListIfPresent(memberReadingClosure: IoTFleetWiseClientTypes.StateTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -6733,6 +7741,20 @@ extension UpdateSignalCatalogOutput {
         var value = UpdateSignalCatalogOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateStateTemplateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateStateTemplateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateStateTemplateOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
@@ -6919,6 +7941,28 @@ enum CreateSignalCatalogOutputError {
     }
 }
 
+enum CreateStateTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidSignalsException": return try InvalidSignalsException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateVehicleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7025,6 +8069,24 @@ enum DeleteSignalCatalogOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteStateTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -7207,6 +8269,25 @@ enum GetSignalCatalogOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetStateTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -7482,6 +8563,24 @@ enum ListSignalCatalogsOutputError {
     }
 }
 
+enum ListStateTemplatesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7739,6 +8838,27 @@ enum UpdateSignalCatalogOutputError {
     }
 }
 
+enum UpdateStateTemplateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidSignalsException": return try InvalidSignalsException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateVehicleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7964,6 +9084,7 @@ extension IoTFleetWiseClientTypes.SignalInformation {
 
     static func write(value: IoTFleetWiseClientTypes.SignalInformation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["dataPartitionId"].write(value.dataPartitionId)
         try writer["maxSampleCount"].write(value.maxSampleCount)
         try writer["minimumSamplingIntervalMs"].write(value.minimumSamplingIntervalMs)
         try writer["name"].write(value.name)
@@ -7975,6 +9096,7 @@ extension IoTFleetWiseClientTypes.SignalInformation {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.maxSampleCount = try reader["maxSampleCount"].readIfPresent()
         value.minimumSamplingIntervalMs = try reader["minimumSamplingIntervalMs"].readIfPresent()
+        value.dataPartitionId = try reader["dataPartitionId"].readIfPresent()
         return value
     }
 }
@@ -8048,6 +9170,8 @@ extension IoTFleetWiseClientTypes.DataDestinationConfig {
     static func write(value: IoTFleetWiseClientTypes.DataDestinationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .mqtttopicconfig(mqtttopicconfig):
+                try writer["mqttTopicConfig"].write(mqtttopicconfig, with: IoTFleetWiseClientTypes.MqttTopicConfig.write(value:to:))
             case let .s3config(s3config):
                 try writer["s3Config"].write(s3config, with: IoTFleetWiseClientTypes.S3Config.write(value:to:))
             case let .timestreamconfig(timestreamconfig):
@@ -8065,9 +9189,28 @@ extension IoTFleetWiseClientTypes.DataDestinationConfig {
                 return .s3config(try reader["s3Config"].read(with: IoTFleetWiseClientTypes.S3Config.read(from:)))
             case "timestreamConfig":
                 return .timestreamconfig(try reader["timestreamConfig"].read(with: IoTFleetWiseClientTypes.TimestreamConfig.read(from:)))
+            case "mqttTopicConfig":
+                return .mqtttopicconfig(try reader["mqttTopicConfig"].read(with: IoTFleetWiseClientTypes.MqttTopicConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension IoTFleetWiseClientTypes.MqttTopicConfig {
+
+    static func write(value: IoTFleetWiseClientTypes.MqttTopicConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["mqttTopicArn"].write(value.mqttTopicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.MqttTopicConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.MqttTopicConfig()
+        value.mqttTopicArn = try reader["mqttTopicArn"].readIfPresent() ?? ""
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -8105,6 +9248,176 @@ extension IoTFleetWiseClientTypes.S3Config {
         value.dataFormat = try reader["dataFormat"].readIfPresent()
         value.storageCompressionFormat = try reader["storageCompressionFormat"].readIfPresent()
         value.`prefix` = try reader["prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.DataPartition {
+
+    static func write(value: IoTFleetWiseClientTypes.DataPartition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["storageOptions"].write(value.storageOptions, with: IoTFleetWiseClientTypes.DataPartitionStorageOptions.write(value:to:))
+        try writer["uploadOptions"].write(value.uploadOptions, with: IoTFleetWiseClientTypes.DataPartitionUploadOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DataPartition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.DataPartition()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.storageOptions = try reader["storageOptions"].readIfPresent(with: IoTFleetWiseClientTypes.DataPartitionStorageOptions.read(from:))
+        value.uploadOptions = try reader["uploadOptions"].readIfPresent(with: IoTFleetWiseClientTypes.DataPartitionUploadOptions.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.DataPartitionUploadOptions {
+
+    static func write(value: IoTFleetWiseClientTypes.DataPartitionUploadOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditionLanguageVersion"].write(value.conditionLanguageVersion)
+        try writer["expression"].write(value.expression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DataPartitionUploadOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.DataPartitionUploadOptions()
+        value.expression = try reader["expression"].readIfPresent() ?? ""
+        value.conditionLanguageVersion = try reader["conditionLanguageVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.DataPartitionStorageOptions {
+
+    static func write(value: IoTFleetWiseClientTypes.DataPartitionStorageOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maximumSize"].write(value.maximumSize, with: IoTFleetWiseClientTypes.StorageMaximumSize.write(value:to:))
+        try writer["minimumTimeToLive"].write(value.minimumTimeToLive, with: IoTFleetWiseClientTypes.StorageMinimumTimeToLive.write(value:to:))
+        try writer["storageLocation"].write(value.storageLocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DataPartitionStorageOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.DataPartitionStorageOptions()
+        value.maximumSize = try reader["maximumSize"].readIfPresent(with: IoTFleetWiseClientTypes.StorageMaximumSize.read(from:))
+        value.storageLocation = try reader["storageLocation"].readIfPresent() ?? ""
+        value.minimumTimeToLive = try reader["minimumTimeToLive"].readIfPresent(with: IoTFleetWiseClientTypes.StorageMinimumTimeToLive.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.StorageMinimumTimeToLive {
+
+    static func write(value: IoTFleetWiseClientTypes.StorageMinimumTimeToLive?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["unit"].write(value.unit)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StorageMinimumTimeToLive {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.StorageMinimumTimeToLive()
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.StorageMaximumSize {
+
+    static func write(value: IoTFleetWiseClientTypes.StorageMaximumSize?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["unit"].write(value.unit)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StorageMaximumSize {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.StorageMaximumSize()
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.SignalFetchInformation {
+
+    static func write(value: IoTFleetWiseClientTypes.SignalFetchInformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["conditionLanguageVersion"].write(value.conditionLanguageVersion)
+        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
+        try writer["signalFetchConfig"].write(value.signalFetchConfig, with: IoTFleetWiseClientTypes.SignalFetchConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalFetchInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.SignalFetchInformation()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.signalFetchConfig = try reader["signalFetchConfig"].readIfPresent(with: IoTFleetWiseClientTypes.SignalFetchConfig.read(from:))
+        value.conditionLanguageVersion = try reader["conditionLanguageVersion"].readIfPresent()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.SignalFetchConfig {
+
+    static func write(value: IoTFleetWiseClientTypes.SignalFetchConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .conditionbased(conditionbased):
+                try writer["conditionBased"].write(conditionbased, with: IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig.write(value:to:))
+            case let .timebased(timebased):
+                try writer["timeBased"].write(timebased, with: IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalFetchConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "timeBased":
+                return .timebased(try reader["timeBased"].read(with: IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig.read(from:)))
+            case "conditionBased":
+                return .conditionbased(try reader["conditionBased"].read(with: IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig {
+
+    static func write(value: IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditionExpression"].write(value.conditionExpression)
+        try writer["triggerMode"].write(value.triggerMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig()
+        value.conditionExpression = try reader["conditionExpression"].readIfPresent() ?? ""
+        value.triggerMode = try reader["triggerMode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig {
+
+    static func write(value: IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["executionFrequencyMs"].write(value.executionFrequencyMs)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig()
+        value.executionFrequencyMs = try reader["executionFrequencyMs"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8169,6 +9482,96 @@ extension IoTFleetWiseClientTypes.NodeCounts {
     }
 }
 
+extension IoTFleetWiseClientTypes.StateTemplateAssociation {
+
+    static func write(value: IoTFleetWiseClientTypes.StateTemplateAssociation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
+        try writer["stateTemplateUpdateStrategy"].write(value.stateTemplateUpdateStrategy, with: IoTFleetWiseClientTypes.StateTemplateUpdateStrategy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StateTemplateAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.StateTemplateAssociation()
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.stateTemplateUpdateStrategy = try reader["stateTemplateUpdateStrategy"].readIfPresent(with: IoTFleetWiseClientTypes.StateTemplateUpdateStrategy.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.StateTemplateUpdateStrategy {
+
+    static func write(value: IoTFleetWiseClientTypes.StateTemplateUpdateStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .onchange(onchange):
+                try writer["onChange"].write(onchange, with: IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy.write(value:to:))
+            case let .periodic(periodic):
+                try writer["periodic"].write(periodic, with: IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StateTemplateUpdateStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "periodic":
+                return .periodic(try reader["periodic"].read(with: IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy.read(from:)))
+            case "onChange":
+                return .onchange(try reader["onChange"].read(with: IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy {
+
+    static func write(value: IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy()
+    }
+}
+
+extension IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy {
+
+    static func write(value: IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["stateTemplateUpdateRate"].write(value.stateTemplateUpdateRate, with: IoTFleetWiseClientTypes.TimePeriod.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy()
+        value.stateTemplateUpdateRate = try reader["stateTemplateUpdateRate"].readIfPresent(with: IoTFleetWiseClientTypes.TimePeriod.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.TimePeriod {
+
+    static func write(value: IoTFleetWiseClientTypes.TimePeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["unit"].write(value.unit)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimePeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.TimePeriod()
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension IoTFleetWiseClientTypes.VehicleStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.VehicleStatus {
@@ -8203,6 +9606,7 @@ extension IoTFleetWiseClientTypes.NetworkInterface {
     static func write(value: IoTFleetWiseClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["canInterface"].write(value.canInterface, with: IoTFleetWiseClientTypes.CanInterface.write(value:to:))
+        try writer["customDecodingInterface"].write(value.customDecodingInterface, with: IoTFleetWiseClientTypes.CustomDecodingInterface.write(value:to:))
         try writer["interfaceId"].write(value.interfaceId)
         try writer["obdInterface"].write(value.obdInterface, with: IoTFleetWiseClientTypes.ObdInterface.write(value:to:))
         try writer["type"].write(value.type)
@@ -8217,6 +9621,22 @@ extension IoTFleetWiseClientTypes.NetworkInterface {
         value.canInterface = try reader["canInterface"].readIfPresent(with: IoTFleetWiseClientTypes.CanInterface.read(from:))
         value.obdInterface = try reader["obdInterface"].readIfPresent(with: IoTFleetWiseClientTypes.ObdInterface.read(from:))
         value.vehicleMiddleware = try reader["vehicleMiddleware"].readIfPresent(with: IoTFleetWiseClientTypes.VehicleMiddleware.read(from:))
+        value.customDecodingInterface = try reader["customDecodingInterface"].readIfPresent(with: IoTFleetWiseClientTypes.CustomDecodingInterface.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CustomDecodingInterface {
+
+    static func write(value: IoTFleetWiseClientTypes.CustomDecodingInterface?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomDecodingInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CustomDecodingInterface()
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8306,6 +9726,7 @@ extension IoTFleetWiseClientTypes.SignalDecoder {
     static func write(value: IoTFleetWiseClientTypes.SignalDecoder?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["canSignal"].write(value.canSignal, with: IoTFleetWiseClientTypes.CanSignal.write(value:to:))
+        try writer["customDecodingSignal"].write(value.customDecodingSignal, with: IoTFleetWiseClientTypes.CustomDecodingSignal.write(value:to:))
         try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
         try writer["interfaceId"].write(value.interfaceId)
         try writer["messageSignal"].write(value.messageSignal, with: IoTFleetWiseClientTypes.MessageSignal.write(value:to:))
@@ -8322,6 +9743,22 @@ extension IoTFleetWiseClientTypes.SignalDecoder {
         value.canSignal = try reader["canSignal"].readIfPresent(with: IoTFleetWiseClientTypes.CanSignal.read(from:))
         value.obdSignal = try reader["obdSignal"].readIfPresent(with: IoTFleetWiseClientTypes.ObdSignal.read(from:))
         value.messageSignal = try reader["messageSignal"].readIfPresent(with: IoTFleetWiseClientTypes.MessageSignal.read(from:))
+        value.customDecodingSignal = try reader["customDecodingSignal"].readIfPresent(with: IoTFleetWiseClientTypes.CustomDecodingSignal.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CustomDecodingSignal {
+
+    static func write(value: IoTFleetWiseClientTypes.CustomDecodingSignal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomDecodingSignal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CustomDecodingSignal()
+        value.id = try reader["id"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8778,6 +10215,22 @@ extension IoTFleetWiseClientTypes.SignalCatalogSummary {
     }
 }
 
+extension IoTFleetWiseClientTypes.StateTemplateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StateTemplateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.StateTemplateSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTFleetWiseClientTypes.Tag {
 
     static func write(value: IoTFleetWiseClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -8896,6 +10349,7 @@ extension IoTFleetWiseClientTypes.CreateVehicleRequestItem {
         try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["decoderManifestArn"].write(value.decoderManifestArn)
         try writer["modelManifestArn"].write(value.modelManifestArn)
+        try writer["stateTemplates"].writeList(value.stateTemplates, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vehicleName"].write(value.vehicleName)
     }
@@ -8909,6 +10363,8 @@ extension IoTFleetWiseClientTypes.UpdateVehicleRequestItem {
         try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["decoderManifestArn"].write(value.decoderManifestArn)
         try writer["modelManifestArn"].write(value.modelManifestArn)
+        try writer["stateTemplatesToAdd"].writeList(value.stateTemplatesToAdd, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["stateTemplatesToRemove"].writeList(value.stateTemplatesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["vehicleName"].write(value.vehicleName)
     }
 }

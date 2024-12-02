@@ -695,6 +695,8 @@ extension CodePipelineClientTypes {
         public var lastStatusChange: Foundation.Date?
         /// The ARN of the user who last changed the pipeline.
         public var lastUpdatedBy: Swift.String?
+        /// The Amazon Resource Name (ARN) of the log stream for the action compute.
+        public var logStreamARN: Swift.String?
         /// A percentage of completeness of the action as it runs.
         public var percentComplete: Swift.Int?
         /// The status of the action, or for a completed action, the last status of the action.
@@ -711,6 +713,7 @@ extension CodePipelineClientTypes {
             externalExecutionUrl: Swift.String? = nil,
             lastStatusChange: Foundation.Date? = nil,
             lastUpdatedBy: Swift.String? = nil,
+            logStreamARN: Swift.String? = nil,
             percentComplete: Swift.Int? = nil,
             status: CodePipelineClientTypes.ActionExecutionStatus? = nil,
             summary: Swift.String? = nil,
@@ -723,6 +726,7 @@ extension CodePipelineClientTypes {
             self.externalExecutionUrl = externalExecutionUrl
             self.lastStatusChange = lastStatusChange
             self.lastUpdatedBy = lastUpdatedBy
+            self.logStreamARN = logStreamARN
             self.percentComplete = percentComplete
             self.status = status
             self.summary = summary
@@ -823,18 +827,22 @@ extension CodePipelineClientTypes {
         public var externalExecutionSummary: Swift.String?
         /// The deepest external link to the external resource (for example, a repository URL or deployment endpoint) that is used when running the action.
         public var externalExecutionUrl: Swift.String?
+        /// The Amazon Resource Name (ARN) of the log stream for the action compute.
+        public var logStreamARN: Swift.String?
 
         public init(
             errorDetails: CodePipelineClientTypes.ErrorDetails? = nil,
             externalExecutionId: Swift.String? = nil,
             externalExecutionSummary: Swift.String? = nil,
-            externalExecutionUrl: Swift.String? = nil
+            externalExecutionUrl: Swift.String? = nil,
+            logStreamARN: Swift.String? = nil
         )
         {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionSummary = externalExecutionSummary
             self.externalExecutionUrl = externalExecutionUrl
+            self.logStreamARN = logStreamARN
         }
     }
 }
@@ -5734,7 +5742,7 @@ public struct PutApprovalResultInput: Swift.Sendable {
     /// The name of the stage that contains the action.
     /// This member is required.
     public var stageName: Swift.String?
-    /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the [GetPipelineState] action. It is used to validate that the approval request corresponding to this token is still valid.
+    /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the [GetPipelineState] action. It is used to validate that the approval request corresponding to this token is still valid. For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject approval request as detailed above is not available. Instead, use the externalExecutionId from the GetPipelineState action as the token in the approval request.
     /// This member is required.
     public var token: Swift.String?
 
@@ -10168,6 +10176,7 @@ extension CodePipelineClientTypes.ActionExecution {
         value.externalExecutionUrl = try reader["externalExecutionUrl"].readIfPresent()
         value.percentComplete = try reader["percentComplete"].readIfPresent()
         value.errorDetails = try reader["errorDetails"].readIfPresent(with: CodePipelineClientTypes.ErrorDetails.read(from:))
+        value.logStreamARN = try reader["logStreamARN"].readIfPresent()
         return value
     }
 }
@@ -10274,6 +10283,7 @@ extension CodePipelineClientTypes.ActionExecutionResult {
         value.externalExecutionSummary = try reader["externalExecutionSummary"].readIfPresent()
         value.externalExecutionUrl = try reader["externalExecutionUrl"].readIfPresent()
         value.errorDetails = try reader["errorDetails"].readIfPresent(with: CodePipelineClientTypes.ErrorDetails.read(from:))
+        value.logStreamARN = try reader["logStreamARN"].readIfPresent()
         return value
     }
 }

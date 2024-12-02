@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSDataClient: ClientRuntime.Client {
     public static let clientName = "RDSDataClient"
-    public static let version = "1.0.35"
+    public static let version = "1.0.51"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSDataClient.RDSDataClientConfiguration
     let serviceName = "RDS Data"
@@ -208,6 +208,7 @@ extension RDSDataClient {
     /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
     /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
     /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
+    /// - `DatabaseResumingException` : A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
     /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
@@ -295,6 +296,7 @@ extension RDSDataClient {
     /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
     /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
     /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
+    /// - `DatabaseResumingException` : A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
     /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.
@@ -470,6 +472,7 @@ extension RDSDataClient {
     /// - `BadRequestException` : There is an error in the call or in a SQL statement. (This error only appears in calls from Aurora Serverless v1 databases.)
     /// - `DatabaseErrorException` : There was an error in processing the SQL statement.
     /// - `DatabaseNotFoundException` : The DB cluster doesn't have a DB instance.
+    /// - `DatabaseResumingException` : A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
     /// - `DatabaseUnavailableException` : The writer instance in the DB cluster isn't available.
     /// - `ForbiddenException` : There are insufficient privileges to make the call.
     /// - `HttpEndpointNotEnabledException` : The HTTP endpoint for using RDS Data API isn't enabled for the DB cluster.

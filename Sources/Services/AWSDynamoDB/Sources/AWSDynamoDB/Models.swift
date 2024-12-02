@@ -2010,6 +2010,26 @@ public struct CreateBackupOutput: Swift.Sendable {
 
 extension DynamoDBClientTypes {
 
+    /// Provides visibility into the number of read and write operations your table or secondary index can instantaneously support. The settings can be modified using the UpdateTable operation to meet the throughput requirements of an upcoming peak event.
+    public struct WarmThroughput: Swift.Sendable {
+        /// Represents the number of read operations your base table can instantaneously support.
+        public var readUnitsPerSecond: Swift.Int?
+        /// Represents the number of write operations your base table can instantaneously support.
+        public var writeUnitsPerSecond: Swift.Int?
+
+        public init(
+            readUnitsPerSecond: Swift.Int? = nil,
+            writeUnitsPerSecond: Swift.Int? = nil
+        )
+        {
+            self.readUnitsPerSecond = readUnitsPerSecond
+            self.writeUnitsPerSecond = writeUnitsPerSecond
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Represents a new global secondary index to be added to an existing table.
     public struct CreateGlobalSecondaryIndexAction: Swift.Sendable {
         /// The name of the global secondary index to be created.
@@ -2025,13 +2045,16 @@ extension DynamoDBClientTypes {
         public var projection: DynamoDBClientTypes.Projection?
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
+        /// Represents the warm throughput value (in read units per second and write units per second) when creating a secondary index.
+        public var warmThroughput: DynamoDBClientTypes.WarmThroughput?
 
         public init(
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
-            provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
+            provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
+            warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
         )
         {
             self.indexName = indexName
@@ -2039,6 +2062,7 @@ extension DynamoDBClientTypes {
             self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
+            self.warmThroughput = warmThroughput
         }
     }
 }
@@ -2170,6 +2194,65 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    public enum IndexStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IndexStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// The description of the warm throughput value on a global secondary index.
+    public struct GlobalSecondaryIndexWarmThroughputDescription: Swift.Sendable {
+        /// Represents warm throughput read units per second value for a global secondary index.
+        public var readUnitsPerSecond: Swift.Int?
+        /// Represents the warm throughput status being created or updated on a global secondary index. The status can only be UPDATING or ACTIVE.
+        public var status: DynamoDBClientTypes.IndexStatus?
+        /// Represents warm throughput write units per second value for a global secondary index.
+        public var writeUnitsPerSecond: Swift.Int?
+
+        public init(
+            readUnitsPerSecond: Swift.Int? = nil,
+            status: DynamoDBClientTypes.IndexStatus? = nil,
+            writeUnitsPerSecond: Swift.Int? = nil
+        )
+        {
+            self.readUnitsPerSecond = readUnitsPerSecond
+            self.status = status
+            self.writeUnitsPerSecond = writeUnitsPerSecond
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Represents the properties of a replica global secondary index.
     public struct ReplicaGlobalSecondaryIndexDescription: Swift.Sendable {
         /// The name of the global secondary index.
@@ -2178,16 +2261,20 @@ extension DynamoDBClientTypes {
         public var onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride?
         /// If not described, uses the source table GSI's read capacity settings.
         public var provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride?
+        /// Represents the warm throughput of the global secondary index for this replica.
+        public var warmThroughput: DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription?
 
         public init(
             indexName: Swift.String? = nil,
             onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride? = nil,
-            provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil
+            provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
+            warmThroughput: DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription? = nil
         )
         {
             self.indexName = indexName
             self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
+            self.warmThroughput = warmThroughput
         }
     }
 }
@@ -2287,6 +2374,74 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    public enum TableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case archived
+        case archiving
+        case creating
+        case deleting
+        case inaccessibleEncryptionCredentials
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableStatus] {
+            return [
+                .active,
+                .archived,
+                .archiving,
+                .creating,
+                .deleting,
+                .inaccessibleEncryptionCredentials,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .archived: return "ARCHIVED"
+            case .archiving: return "ARCHIVING"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .inaccessibleEncryptionCredentials: return "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// Represents the warm throughput value (in read units per second and write units per second) of the base table.
+    public struct TableWarmThroughputDescription: Swift.Sendable {
+        /// Represents the base table's warm throughput value in read units per second.
+        public var readUnitsPerSecond: Swift.Int?
+        /// Represents warm throughput value of the base table..
+        public var status: DynamoDBClientTypes.TableStatus?
+        /// Represents the base table's warm throughput value in write units per second.
+        public var writeUnitsPerSecond: Swift.Int?
+
+        public init(
+            readUnitsPerSecond: Swift.Int? = nil,
+            status: DynamoDBClientTypes.TableStatus? = nil,
+            writeUnitsPerSecond: Swift.Int? = nil
+        )
+        {
+            self.readUnitsPerSecond = readUnitsPerSecond
+            self.status = status
+            self.writeUnitsPerSecond = writeUnitsPerSecond
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Contains the details of the replica.
     public struct ReplicaDescription: Swift.Sendable {
         /// Replica-specific global secondary index settings.
@@ -2321,6 +2476,8 @@ extension DynamoDBClientTypes {
         public var replicaStatusPercentProgress: Swift.String?
         /// Contains details of the table class.
         public var replicaTableClassSummary: DynamoDBClientTypes.TableClassSummary?
+        /// Represents the warm throughput value for this replica.
+        public var warmThroughput: DynamoDBClientTypes.TableWarmThroughputDescription?
 
         public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription]? = nil,
@@ -2332,7 +2489,8 @@ extension DynamoDBClientTypes {
             replicaStatus: DynamoDBClientTypes.ReplicaStatus? = nil,
             replicaStatusDescription: Swift.String? = nil,
             replicaStatusPercentProgress: Swift.String? = nil,
-            replicaTableClassSummary: DynamoDBClientTypes.TableClassSummary? = nil
+            replicaTableClassSummary: DynamoDBClientTypes.TableClassSummary? = nil,
+            warmThroughput: DynamoDBClientTypes.TableWarmThroughputDescription? = nil
         )
         {
             self.globalSecondaryIndexes = globalSecondaryIndexes
@@ -2345,6 +2503,7 @@ extension DynamoDBClientTypes {
             self.replicaStatusDescription = replicaStatusDescription
             self.replicaStatusPercentProgress = replicaStatusPercentProgress
             self.replicaTableClassSummary = replicaTableClassSummary
+            self.warmThroughput = warmThroughput
         }
     }
 }
@@ -2538,13 +2697,16 @@ extension DynamoDBClientTypes {
         public var projection: DynamoDBClientTypes.Projection?
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
+        /// Represents the warm throughput value (in read units per second and write units per second) for the specified secondary index. If you use this parameter, you must specify ReadUnitsPerSecond, WriteUnitsPerSecond, or both.
+        public var warmThroughput: DynamoDBClientTypes.WarmThroughput?
 
         public init(
             indexName: Swift.String? = nil,
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
-            provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
+            provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
+            warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
         )
         {
             self.indexName = indexName
@@ -2552,6 +2714,7 @@ extension DynamoDBClientTypes {
             self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
+            self.warmThroughput = warmThroughput
         }
     }
 }
@@ -2744,6 +2907,8 @@ public struct CreateTableInput: Swift.Sendable {
     public var tableName: Swift.String?
     /// A list of key-value pairs to label the table. For more information, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html).
     public var tags: [DynamoDBClientTypes.Tag]?
+    /// Represents the warm throughput (in read units per second and write units per second) for creating a table.
+    public var warmThroughput: DynamoDBClientTypes.WarmThroughput?
 
     public init(
         attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]? = nil,
@@ -2759,7 +2924,8 @@ public struct CreateTableInput: Swift.Sendable {
         streamSpecification: DynamoDBClientTypes.StreamSpecification? = nil,
         tableClass: DynamoDBClientTypes.TableClass? = nil,
         tableName: Swift.String? = nil,
-        tags: [DynamoDBClientTypes.Tag]? = nil
+        tags: [DynamoDBClientTypes.Tag]? = nil,
+        warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
     )
     {
         self.attributeDefinitions = attributeDefinitions
@@ -2776,41 +2942,7 @@ public struct CreateTableInput: Swift.Sendable {
         self.tableClass = tableClass
         self.tableName = tableName
         self.tags = tags
-    }
-}
-
-extension DynamoDBClientTypes {
-
-    public enum IndexStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case creating
-        case deleting
-        case updating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [IndexStatus] {
-            return [
-                .active,
-                .creating,
-                .deleting,
-                .updating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .creating: return "CREATING"
-            case .deleting: return "DELETING"
-            case .updating: return "UPDATING"
-            case let .sdkUnknown(s): return s
-            }
-        }
+        self.warmThroughput = warmThroughput
     }
 }
 
@@ -2885,6 +3017,8 @@ extension DynamoDBClientTypes {
         public var projection: DynamoDBClientTypes.Projection?
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription?
+        /// Represents the warm throughput value (in read units per second and write units per second) for the specified secondary index.
+        public var warmThroughput: DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription?
 
         public init(
             backfilling: Swift.Bool? = nil,
@@ -2896,7 +3030,8 @@ extension DynamoDBClientTypes {
             keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
             onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             projection: DynamoDBClientTypes.Projection? = nil,
-            provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription? = nil
+            provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription? = nil,
+            warmThroughput: DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription? = nil
         )
         {
             self.backfilling = backfilling
@@ -2909,6 +3044,7 @@ extension DynamoDBClientTypes {
             self.onDemandThroughput = onDemandThroughput
             self.projection = projection
             self.provisionedThroughput = provisionedThroughput
+            self.warmThroughput = warmThroughput
         }
     }
 }
@@ -2982,50 +3118,6 @@ extension DynamoDBClientTypes {
             self.restoreInProgress = restoreInProgress
             self.sourceBackupArn = sourceBackupArn
             self.sourceTableArn = sourceTableArn
-        }
-    }
-}
-
-extension DynamoDBClientTypes {
-
-    public enum TableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case archived
-        case archiving
-        case creating
-        case deleting
-        case inaccessibleEncryptionCredentials
-        case updating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TableStatus] {
-            return [
-                .active,
-                .archived,
-                .archiving,
-                .creating,
-                .deleting,
-                .inaccessibleEncryptionCredentials,
-                .updating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .archived: return "ARCHIVED"
-            case .archiving: return "ARCHIVING"
-            case .creating: return "CREATING"
-            case .deleting: return "DELETING"
-            case .inaccessibleEncryptionCredentials: return "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
-            case .updating: return "UPDATING"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -3195,6 +3287,8 @@ extension DynamoDBClientTypes {
         ///
         /// * ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public var tableStatus: DynamoDBClientTypes.TableStatus?
+        /// Describes the warm throughput value of the base table.
+        public var warmThroughput: DynamoDBClientTypes.TableWarmThroughputDescription?
 
         public init(
             archivalSummary: DynamoDBClientTypes.ArchivalSummary? = nil,
@@ -3220,7 +3314,8 @@ extension DynamoDBClientTypes {
             tableId: Swift.String? = nil,
             tableName: Swift.String? = nil,
             tableSizeBytes: Swift.Int? = nil,
-            tableStatus: DynamoDBClientTypes.TableStatus? = nil
+            tableStatus: DynamoDBClientTypes.TableStatus? = nil,
+            warmThroughput: DynamoDBClientTypes.TableWarmThroughputDescription? = nil
         )
         {
             self.archivalSummary = archivalSummary
@@ -3247,6 +3342,7 @@ extension DynamoDBClientTypes {
             self.tableName = tableName
             self.tableSizeBytes = tableSizeBytes
             self.tableStatus = tableStatus
+            self.warmThroughput = warmThroughput
         }
     }
 }
@@ -6322,16 +6418,20 @@ extension DynamoDBClientTypes {
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
+        /// Represents the warm throughput value of the new provisioned throughput settings to be applied to a global secondary index.
+        public var warmThroughput: DynamoDBClientTypes.WarmThroughput?
 
         public init(
             indexName: Swift.String? = nil,
             onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
-            provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil
+            provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
+            warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
         )
         {
             self.indexName = indexName
             self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
+            self.warmThroughput = warmThroughput
         }
     }
 }
@@ -6484,6 +6584,8 @@ public struct UpdateTableInput: Swift.Sendable {
     /// The name of the table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
+    /// Represents the warm throughput (in read units per second and write units per second) for updating a table.
+    public var warmThroughput: DynamoDBClientTypes.WarmThroughput?
 
     public init(
         attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]? = nil,
@@ -6496,7 +6598,8 @@ public struct UpdateTableInput: Swift.Sendable {
         sseSpecification: DynamoDBClientTypes.SSESpecification? = nil,
         streamSpecification: DynamoDBClientTypes.StreamSpecification? = nil,
         tableClass: DynamoDBClientTypes.TableClass? = nil,
-        tableName: Swift.String? = nil
+        tableName: Swift.String? = nil,
+        warmThroughput: DynamoDBClientTypes.WarmThroughput? = nil
     )
     {
         self.attributeDefinitions = attributeDefinitions
@@ -6510,6 +6613,7 @@ public struct UpdateTableInput: Swift.Sendable {
         self.streamSpecification = streamSpecification
         self.tableClass = tableClass
         self.tableName = tableName
+        self.warmThroughput = warmThroughput
     }
 }
 
@@ -9269,6 +9373,7 @@ extension CreateTableInput {
         try writer["TableClass"].write(value.tableClass)
         try writer["TableName"].write(value.tableName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: DynamoDBClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WarmThroughput"].write(value.warmThroughput, with: DynamoDBClientTypes.WarmThroughput.write(value:to:))
     }
 }
 
@@ -9820,6 +9925,7 @@ extension UpdateTableInput {
         try writer["StreamSpecification"].write(value.streamSpecification, with: DynamoDBClientTypes.StreamSpecification.write(value:to:))
         try writer["TableClass"].write(value.tableClass)
         try writer["TableName"].write(value.tableName)
+        try writer["WarmThroughput"].write(value.warmThroughput, with: DynamoDBClientTypes.WarmThroughput.write(value:to:))
     }
 }
 
@@ -12230,6 +12336,7 @@ extension DynamoDBClientTypes.ReplicaDescription {
         value.kmsMasterKeyId = try reader["KMSMasterKeyId"].readIfPresent()
         value.provisionedThroughputOverride = try reader["ProvisionedThroughputOverride"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughputOverride.read(from:))
         value.onDemandThroughputOverride = try reader["OnDemandThroughputOverride"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughputOverride.read(from:))
+        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: DynamoDBClientTypes.TableWarmThroughputDescription.read(from:))
         value.globalSecondaryIndexes = try reader["GlobalSecondaryIndexes"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicaInaccessibleDateTime = try reader["ReplicaInaccessibleDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.replicaTableClassSummary = try reader["ReplicaTableClassSummary"].readIfPresent(with: DynamoDBClientTypes.TableClassSummary.read(from:))
@@ -12256,6 +12363,19 @@ extension DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription {
         value.indexName = try reader["IndexName"].readIfPresent()
         value.provisionedThroughputOverride = try reader["ProvisionedThroughputOverride"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughputOverride.read(from:))
         value.onDemandThroughputOverride = try reader["OnDemandThroughputOverride"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughputOverride.read(from:))
+        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription()
+        value.readUnitsPerSecond = try reader["ReadUnitsPerSecond"].readIfPresent()
+        value.writeUnitsPerSecond = try reader["WriteUnitsPerSecond"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -12290,6 +12410,18 @@ extension DynamoDBClientTypes.ProvisionedThroughputOverride {
     }
 }
 
+extension DynamoDBClientTypes.TableWarmThroughputDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TableWarmThroughputDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.TableWarmThroughputDescription()
+        value.readUnitsPerSecond = try reader["ReadUnitsPerSecond"].readIfPresent()
+        value.writeUnitsPerSecond = try reader["WriteUnitsPerSecond"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension DynamoDBClientTypes.TableDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.TableDescription {
@@ -12319,6 +12451,7 @@ extension DynamoDBClientTypes.TableDescription {
         value.tableClassSummary = try reader["TableClassSummary"].readIfPresent(with: DynamoDBClientTypes.TableClassSummary.read(from:))
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent()
         value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
+        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: DynamoDBClientTypes.TableWarmThroughputDescription.read(from:))
         return value
     }
 }
@@ -12410,6 +12543,7 @@ extension DynamoDBClientTypes.GlobalSecondaryIndexDescription {
         value.itemCount = try reader["ItemCount"].readIfPresent()
         value.indexArn = try reader["IndexArn"].readIfPresent()
         value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
+        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: DynamoDBClientTypes.GlobalSecondaryIndexWarmThroughputDescription.read(from:))
         return value
     }
 }
@@ -12835,6 +12969,7 @@ extension DynamoDBClientTypes.GlobalSecondaryIndex {
         try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
         try writer["Projection"].write(value.projection, with: DynamoDBClientTypes.Projection.write(value:to:))
         try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
+        try writer["WarmThroughput"].write(value.warmThroughput, with: DynamoDBClientTypes.WarmThroughput.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.GlobalSecondaryIndex {
@@ -12845,6 +12980,24 @@ extension DynamoDBClientTypes.GlobalSecondaryIndex {
         value.projection = try reader["Projection"].readIfPresent(with: DynamoDBClientTypes.Projection.read(from:))
         value.provisionedThroughput = try reader["ProvisionedThroughput"].readIfPresent(with: DynamoDBClientTypes.ProvisionedThroughput.read(from:))
         value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
+        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: DynamoDBClientTypes.WarmThroughput.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.WarmThroughput {
+
+    static func write(value: DynamoDBClientTypes.WarmThroughput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReadUnitsPerSecond"].write(value.readUnitsPerSecond)
+        try writer["WriteUnitsPerSecond"].write(value.writeUnitsPerSecond)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.WarmThroughput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.WarmThroughput()
+        value.readUnitsPerSecond = try reader["ReadUnitsPerSecond"].readIfPresent()
+        value.writeUnitsPerSecond = try reader["WriteUnitsPerSecond"].readIfPresent()
         return value
     }
 }
@@ -13410,6 +13563,7 @@ extension DynamoDBClientTypes.CreateGlobalSecondaryIndexAction {
         try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
         try writer["Projection"].write(value.projection, with: DynamoDBClientTypes.Projection.write(value:to:))
         try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
+        try writer["WarmThroughput"].write(value.warmThroughput, with: DynamoDBClientTypes.WarmThroughput.write(value:to:))
     }
 }
 
@@ -13420,6 +13574,7 @@ extension DynamoDBClientTypes.UpdateGlobalSecondaryIndexAction {
         try writer["IndexName"].write(value.indexName)
         try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
         try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
+        try writer["WarmThroughput"].write(value.warmThroughput, with: DynamoDBClientTypes.WarmThroughput.write(value:to:))
     }
 }
 

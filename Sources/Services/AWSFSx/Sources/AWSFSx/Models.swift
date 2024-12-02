@@ -796,6 +796,8 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when StorageType is HDD. When set to READ the file system has an SSD storage cache that is sized to 20% of the file system's storage capacity. This improves the performance for frequently accessed files by caching up to 20% of the total storage capacity. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
+        /// Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage (GDS) support is enabled for the Amazon FSx for Lustre file system.
+        public var efaEnabled: Swift.Bool?
         /// The Lustre logging configuration. Lustre logging writes the enabled log events for your file system to Amazon CloudWatch Logs.
         public var logConfiguration: FSxClientTypes.LustreLogConfiguration?
         /// The Lustre metadata performance configuration for an Amazon FSx for Lustre file system using a PERSISTENT_2 deployment type.
@@ -823,6 +825,7 @@ extension FSxClientTypes {
             dataRepositoryConfiguration: FSxClientTypes.DataRepositoryConfiguration? = nil,
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
+            efaEnabled: Swift.Bool? = nil,
             logConfiguration: FSxClientTypes.LustreLogConfiguration? = nil,
             metadataConfiguration: FSxClientTypes.FileSystemLustreMetadataConfiguration? = nil,
             mountName: Swift.String? = nil,
@@ -838,6 +841,7 @@ extension FSxClientTypes {
             self.dataRepositoryConfiguration = dataRepositoryConfiguration
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
+            self.efaEnabled = efaEnabled
             self.logConfiguration = logConfiguration
             self.metadataConfiguration = metadataConfiguration
             self.mountName = mountName
@@ -1111,6 +1115,64 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
+    public enum OpenZFSReadCacheSizingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noCache
+        case proportionalToThroughputCapacity
+        case userProvisioned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OpenZFSReadCacheSizingMode] {
+            return [
+                .noCache,
+                .proportionalToThroughputCapacity,
+                .userProvisioned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noCache: return "NO_CACHE"
+            case .proportionalToThroughputCapacity: return "PROPORTIONAL_TO_THROUGHPUT_CAPACITY"
+            case .userProvisioned: return "USER_PROVISIONED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
+    public struct OpenZFSReadCacheConfiguration: Swift.Sendable {
+        /// Required if SizingMode is set to USER_PROVISIONED. Specifies the size of the file system's SSD read cache, in gibibytes (GiB).
+        public var sizeGiB: Swift.Int?
+        /// Specifies how the provisioned SSD read cache is sized, as follows:
+        ///
+        /// * Set to NO_CACHE if you do not want to use an SSD read cache with your Intelligent-Tiering file system.
+        ///
+        /// * Set to USER_PROVISIONED to specify the exact size of your SSD read cache.
+        ///
+        /// * Set to PROPORTIONAL_TO_THROUGHPUT_CAPACITY to have your SSD read cache automatically sized based on your throughput capacity.
+        public var sizingMode: FSxClientTypes.OpenZFSReadCacheSizingMode?
+
+        public init(
+            sizeGiB: Swift.Int? = nil,
+            sizingMode: FSxClientTypes.OpenZFSReadCacheSizingMode? = nil
+        )
+        {
+            self.sizeGiB = sizeGiB
+            self.sizingMode = sizingMode
+        }
+    }
+}
+
+extension FSxClientTypes {
+
     /// The configuration for the Amazon FSx for OpenZFS file system.
     public struct OpenZFSFileSystemConfiguration: Swift.Sendable {
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
@@ -1131,6 +1193,8 @@ extension FSxClientTypes {
         public var endpointIpAddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
+        /// Required when StorageType is set to INTELLIGENT_TIERING. Specifies the optional provisioned SSD read cache.
+        public var readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration?
         /// The ID of the root volume of the OpenZFS file system.
         public var rootVolumeId: Swift.String?
         /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
@@ -1150,6 +1214,7 @@ extension FSxClientTypes {
             endpointIpAddress: Swift.String? = nil,
             endpointIpAddressRange: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
+            readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             rootVolumeId: Swift.String? = nil,
             routeTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
@@ -1165,6 +1230,7 @@ extension FSxClientTypes {
             self.endpointIpAddress = endpointIpAddress
             self.endpointIpAddressRange = endpointIpAddressRange
             self.preferredSubnetId = preferredSubnetId
+            self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeId = rootVolumeId
             self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
@@ -1178,12 +1244,14 @@ extension FSxClientTypes {
     /// Specifies the file system's storage type.
     public enum StorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hdd
+        case intelligentTiering
         case ssd
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StorageType] {
             return [
                 .hdd,
+                .intelligentTiering,
                 .ssd
             ]
         }
@@ -1196,6 +1264,7 @@ extension FSxClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .hdd: return "HDD"
+            case .intelligentTiering: return "INTELLIGENT_TIERING"
             case .ssd: return "SSD"
             case let .sdkUnknown(s): return s
             }
@@ -4894,6 +4963,8 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public var driveCacheType: FSxClientTypes.DriveCacheType?
+        /// (Optional) Specifies whether Elastic Fabric Adapter (EFA) and GPUDirect Storage (GDS) support is enabled for the Amazon FSx for Lustre file system. (Default = false)
+        public var efaEnabled: Swift.Bool?
         /// (Optional) Specifies the path in the Amazon S3 bucket where the root of your Amazon FSx file system is exported. The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which new and changed data is to be exported from your Amazon FSx for Lustre file system. If an ExportPath value is not provided, Amazon FSx sets a default export path, s3://import-bucket/FSxLustre[creation-timestamp]. The timestamp is in UTC format, for example s3://import-bucket/FSxLustre20181105T222312Z. The Amazon S3 export bucket must be the same as the import bucket specified by ImportPath. If you specify only a bucket name, such as s3://import-bucket, you get a 1:1 mapping of file system objects to S3 bucket objects. This mapping means that the input data in S3 is overwritten on export. If you provide a custom prefix in the export path, such as s3://import-bucket/[custom-optional-prefix], Amazon FSx exports the contents of your file system to that export prefix in the Amazon S3 bucket. This parameter is not supported for file systems with a data repository association.
         public var exportPath: Swift.String?
         /// (Optional) The path to the Amazon S3 bucket (including the optional prefix) that you're using as the data repository for your Amazon FSx for Lustre file system. The root of your FSx for Lustre file system will be mapped to the root of the Amazon S3 bucket you select. An example is s3://import-bucket/optional-prefix. If you specify a prefix after the Amazon S3 bucket name, only object keys with that prefix are loaded into the file system. This parameter is not supported for file systems with a data repository association.
@@ -4925,6 +4996,7 @@ extension FSxClientTypes {
             dataCompressionType: FSxClientTypes.DataCompressionType? = nil,
             deploymentType: FSxClientTypes.LustreDeploymentType? = nil,
             driveCacheType: FSxClientTypes.DriveCacheType? = nil,
+            efaEnabled: Swift.Bool? = nil,
             exportPath: Swift.String? = nil,
             importPath: Swift.String? = nil,
             importedFileChunkSize: Swift.Int? = nil,
@@ -4942,6 +5014,7 @@ extension FSxClientTypes {
             self.dataCompressionType = dataCompressionType
             self.deploymentType = deploymentType
             self.driveCacheType = driveCacheType
+            self.efaEnabled = efaEnabled
             self.exportPath = exportPath
             self.importPath = importPath
             self.importedFileChunkSize = importedFileChunkSize
@@ -5130,6 +5203,8 @@ extension FSxClientTypes {
         public var endpointIpAddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
+        /// Specifies the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
+        public var readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration?
         /// The configuration Amazon FSx uses when creating the root value of the Amazon FSx for OpenZFS file system. All volumes are children of the root volume.
         public var rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration?
         /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
@@ -5156,6 +5231,7 @@ extension FSxClientTypes {
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             endpointIpAddressRange: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
+            readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration? = nil,
             routeTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
@@ -5170,6 +5246,7 @@ extension FSxClientTypes {
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
             self.preferredSubnetId = preferredSubnetId
+            self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeConfiguration = rootVolumeConfiguration
             self.routeTableIds = routeTableIds
             self.throughputCapacity = throughputCapacity
@@ -5421,16 +5498,17 @@ public struct CreateFileSystemInput: Swift.Sendable {
     /// * For SSD storage, valid values are 32 GiB-65,536 GiB (64 TiB).
     ///
     /// * For HDD storage, valid values are 2000 GiB-65,536 GiB (64 TiB).
-    /// This member is required.
     public var storageCapacity: Swift.Int?
-    /// Sets the storage type for the file system that you're creating. Valid values are SSD and HDD.
+    /// Sets the storage class for the file system that you're creating. Valid values are SSD, HDD, and INTELLIGENT_TIERING.
     ///
     /// * Set to SSD to use solid state drive storage. SSD is supported on all Windows, Lustre, ONTAP, and OpenZFS deployment types.
     ///
     /// * Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.
     ///
+    /// * Set to INTELLIGENT_TIERING to use fully elastic, intelligently-tiered storage. Intelligent-Tiering is only available for OpenZFS file systems with the Multi-AZ deployment type.
     ///
-    /// Default value is SSD. For more information, see [ Storage type options](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options) in the FSx for Windows File Server User Guide and [Multiple storage options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html#storage-options) in the FSx for Lustre User Guide.
+    ///
+    /// Default value is SSD. For more information, see [ Storage type options](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options) in the FSx for Windows File Server User Guide, [Multiple storage options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html#storage-options) in the FSx for Lustre User Guide, and [Working with Intelligent-Tiering](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance-intelligent-tiering) in the Amazon FSx for OpenZFS User Guide.
     public var storageType: FSxClientTypes.StorageType?
     /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows and ONTAP MULTI_AZ_1 deployment types,provide exactly two subnet IDs, one for the preferred file server and one for the standby file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration > PreferredSubnetID or OntapConfiguration > PreferredSubnetID properties. For more information about Multi-AZ file system configuration, see [ Availability and durability: Single-AZ and Multi-AZ file systems](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html) in the Amazon FSx for Windows User Guide and [ Availability and durability](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-multiAZ.html) in the Amazon FSx for ONTAP User Guide. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 and all Lustre deployment types, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
     /// This member is required.
@@ -6220,7 +6298,7 @@ extension FSxClientTypes {
         public var parentVolumeId: Swift.String?
         /// A Boolean value indicating whether the volume is read-only.
         public var readOnly: Swift.Bool?
-        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB). Valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB. The default is 128 KiB. We recommend using the default setting for the majority of use cases. Generally, workloads that write in fixed small or large record sizes may benefit from setting a custom record size, like database workloads (small record size) or media streaming workloads (large record size). For additional guidance on when to set a custom record size, see [ ZFS Record size](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#record-size-performance) in the Amazon FSx for OpenZFS User Guide.
+        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB). For file systems using the Intelligent-Tiering storage class, valid values are 128, 256, 512, 1024, 2048, or 4096 KiB, with a default of 2048 KiB. For all other file systems, valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB, with a default of 128 KiB. We recommend using the default setting for the majority of use cases. Generally, workloads that write in fixed small or large record sizes may benefit from setting a custom record size, like database workloads (small record size) or media streaming workloads (large record size). For additional guidance on when to set a custom record size, see [ ZFS Record size](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#record-size-performance) in the Amazon FSx for OpenZFS User Guide.
         public var recordSizeKiB: Swift.Int?
         /// Sets the maximum storage size in gibibytes (GiB) for the volume. You can specify a quota that is larger than the storage on the parent volume. A volume quota limits the amount of storage that the volume can consume to the configured amount, but does not guarantee the space will be available on the parent volume. To guarantee quota space, you must also set StorageCapacityReservationGiB. To not specify a storage capacity quota, set this to -1. For more information, see [Volume properties](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties) in the Amazon FSx for OpenZFS User Guide.
         public var storageCapacityQuotaGiB: Swift.Int?
@@ -8244,6 +8322,8 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
+        public var readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for OpenZFS file system. You can use the API operation to retrieve the list of VPC route table IDs for a file system.
         public var removeRouteTableIds: [Swift.String]?
         /// The throughput of an Amazon FSx for OpenZFS file system, measured in megabytes per second  (MB/s). Valid values depend on the DeploymentType you choose, as follows:
@@ -8262,6 +8342,7 @@ extension FSxClientTypes {
             copyTagsToVolumes: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             removeRouteTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
@@ -8273,6 +8354,7 @@ extension FSxClientTypes {
             self.copyTagsToVolumes = copyTagsToVolumes
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.readCacheConfiguration = readCacheConfiguration
             self.removeRouteTableIds = removeRouteTableIds
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -9293,6 +9375,8 @@ extension FSxClientTypes {
         public var resourceARN: Swift.String?
         /// Specifies the resource type that's backed up.
         public var resourceType: FSxClientTypes.ResourceType?
+        /// The size of the backup in bytes. This represents the amount of data that the file system would contain if you restore this backup.
+        public var sizeInBytes: Swift.Int?
         /// The ID of the source backup. Specifies the backup that you are copying.
         public var sourceBackupId: Swift.String?
         /// The source Region of the backup. Specifies the Region from where this backup is copied.
@@ -9317,6 +9401,7 @@ extension FSxClientTypes {
             progressPercent: Swift.Int? = nil,
             resourceARN: Swift.String? = nil,
             resourceType: FSxClientTypes.ResourceType? = nil,
+            sizeInBytes: Swift.Int? = nil,
             sourceBackupId: Swift.String? = nil,
             sourceBackupRegion: Swift.String? = nil,
             tags: [FSxClientTypes.Tag]? = nil,
@@ -9335,6 +9420,7 @@ extension FSxClientTypes {
             self.progressPercent = progressPercent
             self.resourceARN = resourceARN
             self.resourceType = resourceType
+            self.sizeInBytes = sizeInBytes
             self.sourceBackupId = sourceBackupId
             self.sourceBackupRegion = sourceBackupRegion
             self.tags = tags
@@ -12084,6 +12170,7 @@ extension FSxClientTypes.Backup {
         value.sourceBackupRegion = try reader["SourceBackupRegion"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.volume = try reader["Volume"].readIfPresent(with: FSxClientTypes.Volume.read(from:))
+        value.sizeInBytes = try reader["SizeInBytes"].readIfPresent()
         return value
     }
 }
@@ -12320,6 +12407,24 @@ extension FSxClientTypes.OpenZFSFileSystemConfiguration {
         value.endpointIpAddressRange = try reader["EndpointIpAddressRange"].readIfPresent()
         value.routeTableIds = try reader["RouteTableIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.endpointIpAddress = try reader["EndpointIpAddress"].readIfPresent()
+        value.readCacheConfiguration = try reader["ReadCacheConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSReadCacheConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OpenZFSReadCacheConfiguration {
+
+    static func write(value: FSxClientTypes.OpenZFSReadCacheConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SizeGiB"].write(value.sizeGiB)
+        try writer["SizingMode"].write(value.sizingMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OpenZFSReadCacheConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OpenZFSReadCacheConfiguration()
+        value.sizingMode = try reader["SizingMode"].readIfPresent()
+        value.sizeGiB = try reader["SizeGiB"].readIfPresent()
         return value
     }
 }
@@ -12403,6 +12508,7 @@ extension FSxClientTypes.LustreFileSystemConfiguration {
         value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: FSxClientTypes.LustreLogConfiguration.read(from:))
         value.rootSquashConfiguration = try reader["RootSquashConfiguration"].readIfPresent(with: FSxClientTypes.LustreRootSquashConfiguration.read(from:))
         value.metadataConfiguration = try reader["MetadataConfiguration"].readIfPresent(with: FSxClientTypes.FileSystemLustreMetadataConfiguration.read(from:))
+        value.efaEnabled = try reader["EfaEnabled"].readIfPresent()
         return value
     }
 }
@@ -13137,6 +13243,7 @@ extension FSxClientTypes.CreateFileSystemLustreConfiguration {
         try writer["DataCompressionType"].write(value.dataCompressionType)
         try writer["DeploymentType"].write(value.deploymentType)
         try writer["DriveCacheType"].write(value.driveCacheType)
+        try writer["EfaEnabled"].write(value.efaEnabled)
         try writer["ExportPath"].write(value.exportPath)
         try writer["ImportPath"].write(value.importPath)
         try writer["ImportedFileChunkSize"].write(value.importedFileChunkSize)
@@ -13197,6 +13304,7 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration {
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
         try writer["EndpointIpAddressRange"].write(value.endpointIpAddressRange)
         try writer["PreferredSubnetId"].write(value.preferredSubnetId)
+        try writer["ReadCacheConfiguration"].write(value.readCacheConfiguration, with: FSxClientTypes.OpenZFSReadCacheConfiguration.write(value:to:))
         try writer["RootVolumeConfiguration"].write(value.rootVolumeConfiguration, with: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration.write(value:to:))
         try writer["RouteTableIds"].writeList(value.routeTableIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
@@ -13472,6 +13580,7 @@ extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration {
         try writer["CopyTagsToVolumes"].write(value.copyTagsToVolumes)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["ReadCacheConfiguration"].write(value.readCacheConfiguration, with: FSxClientTypes.OpenZFSReadCacheConfiguration.write(value:to:))
         try writer["RemoveRouteTableIds"].writeList(value.removeRouteTableIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)

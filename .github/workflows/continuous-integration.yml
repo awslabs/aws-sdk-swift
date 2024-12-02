@@ -139,7 +139,6 @@ jobs:
       matrix:
         os:
           - jammy
-          - amazonlinux2
         version:
           - "5.9"
           - "6.0"

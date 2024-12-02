@@ -41,3 +41,36 @@ extension PaginatorSequence where OperationStackInput == ListConfigurationManage
         return try await self.asyncCompactMap { item in item.configurationManagersList }
     }
 }
+extension SSMQuickSetupClient {
+    /// Paginate over `[ListConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationsOutput`
+    public func listConfigurationsPaginated(input: ListConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConfigurationsInput, ListConfigurationsOutput>(input: input, inputKey: \.startingToken, outputKey: \.nextToken, paginationFunction: self.listConfigurations(input:))
+    }
+}
+
+extension ListConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConfigurationsInput {
+        return ListConfigurationsInput(
+            configurationDefinitionId: self.configurationDefinitionId,
+            filters: self.filters,
+            managerArn: self.managerArn,
+            maxItems: self.maxItems,
+            startingToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConfigurationsInput, OperationStackOutput == ListConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConfigurationsPaginated`
+    /// to access the nested member `[SSMQuickSetupClientTypes.ConfigurationSummary]`
+    /// - Returns: `[SSMQuickSetupClientTypes.ConfigurationSummary]`
+    public func configurationsList() async throws -> [SSMQuickSetupClientTypes.ConfigurationSummary] {
+        return try await self.asyncCompactMap { item in item.configurationsList }
+    }
+}

@@ -7795,7 +7795,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC] Version [5.0.0]
+    /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator [SID_TIC] Version [7.0.0]
     public struct NielsenNonLinearWatermarkSettings: Swift.Sendable {
         /// Choose the type of Nielsen watermarks that you want in your outputs. When you choose NAES 2 and NW, you must provide a value for the setting SID. When you choose CBET, you must provide a value for the setting CSID. When you choose NAES 2, NW, and CBET, you must provide values for both of these settings.
         public var activeWatermarkProcess: MediaConvertClientTypes.NielsenActiveWatermarkProcessType?
@@ -20805,7 +20805,7 @@ extension MediaConvertClientTypes {
         public var motionImageInserter: MediaConvertClientTypes.MotionImageInserter?
         /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration, MediaConvert enables PCM to ID3 tagging for all outputs in the job.
         public var nielsenConfiguration: MediaConvertClientTypes.NielsenConfiguration?
-        /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC] Version [5.0.0]
+        /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator [SID_TIC] Version [7.0.0]
         public var nielsenNonLinearWatermark: MediaConvertClientTypes.NielsenNonLinearWatermarkSettings?
         /// Contains one group of settings for each set of outputs that share a common package type. All unpackaged files (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in a single output group as well. Required in is a group of settings that apply to the whole group. This required object depends on the value you set for Type. Type, settings object pairs are as follows. * FILE_GROUP_SETTINGS, FileGroupSettings * HLS_GROUP_SETTINGS, HlsGroupSettings * DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings * MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings * CMAF_GROUP_SETTINGS, CmafGroupSettings
         public var outputGroups: [MediaConvertClientTypes.OutputGroup]?
@@ -21207,7 +21207,7 @@ extension MediaConvertClientTypes {
         public var motionImageInserter: MediaConvertClientTypes.MotionImageInserter?
         /// Settings for your Nielsen configuration. If you don't do Nielsen measurement and analytics, ignore these settings. When you enable Nielsen configuration, MediaConvert enables PCM to ID3 tagging for all outputs in the job.
         public var nielsenConfiguration: MediaConvertClientTypes.NielsenConfiguration?
-        /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC] Version [5.0.0]
+        /// Ignore these settings unless you are using Nielsen non-linear watermarking. Specify the values that MediaConvert uses to generate and place Nielsen watermarks in your output audio. In addition to specifying these values, you also need to set up your cloud TIC server. These settings apply to every output in your job. The MediaConvert implementation is currently with the following Nielsen versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM Watermark Engine Version 1.3.3 Nielsen Watermark Authenticator [SID_TIC] Version [7.0.0]
         public var nielsenNonLinearWatermark: MediaConvertClientTypes.NielsenNonLinearWatermarkSettings?
         /// Contains one group of settings for each set of outputs that share a common package type. All unpackaged files (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in a single output group as well. Required in is a group of settings that apply to the whole group. This required object depends on the value you set for Type. Type, settings object pairs are as follows. * FILE_GROUP_SETTINGS, FileGroupSettings * HLS_GROUP_SETTINGS, HlsGroupSettings * DASH_ISO_GROUP_SETTINGS, DashIsoGroupSettings * MS_SMOOTH_GROUP_SETTINGS, MsSmoothGroupSettings * CMAF_GROUP_SETTINGS, CmafGroupSettings
         public var outputGroups: [MediaConvertClientTypes.OutputGroup]?
@@ -21575,6 +21575,34 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// A service override applied by MediaConvert to the settings that you have configured. If you see any overrides, we recommend that you contact AWS Support.
+    public struct ServiceOverride: Swift.Sendable {
+        /// Details about the service override that MediaConvert has applied.
+        public var message: Swift.String?
+        /// The name of the setting that MediaConvert has applied an override to.
+        public var name: Swift.String?
+        /// The current value of the service override that MediaConvert has applied.
+        public var overrideValue: Swift.String?
+        /// The value of the setting that you configured, prior to any overrides that MediaConvert has applied.
+        public var value: Swift.String?
+
+        public init(
+            message: Swift.String? = nil,
+            name: Swift.String? = nil,
+            overrideValue: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.message = message
+            self.name = name
+            self.overrideValue = overrideValue
+            self.value = value
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Queues can be ACTIVE or PAUSED. If you pause a queue, jobs in that queue won't begin. Jobs that are running when you pause a queue continue to run until they finish or result in an error.
     public enum QueueStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
@@ -21609,6 +21637,8 @@ extension MediaConvertClientTypes {
     public struct Queue: Swift.Sendable {
         /// An identifier for this resource that is unique within all of AWS.
         public var arn: Swift.String?
+        /// The maximum number of jobs your queue can process concurrently.
+        public var concurrentJobs: Swift.Int?
         /// The timestamp in epoch seconds for when you created the queue.
         public var createdAt: Foundation.Date?
         /// An optional description that you create for each queue.
@@ -21624,6 +21654,8 @@ extension MediaConvertClientTypes {
         public var progressingJobsCount: Swift.Int?
         /// Details about the pricing plan for your reserved queue. Required for reserved queues and not applicable to on-demand queues.
         public var reservationPlan: MediaConvertClientTypes.ReservationPlan?
+        /// A list of any service overrides applied by MediaConvert to the settings that you have configured. If you see any overrides, we recommend that you contact AWS Support.
+        public var serviceOverrides: [MediaConvertClientTypes.ServiceOverride]?
         /// Queues can be ACTIVE or PAUSED. If you pause a queue, the service won't begin processing jobs in that queue. Jobs that are running when you pause the queue continue to run until they finish or result in an error.
         public var status: MediaConvertClientTypes.QueueStatus?
         /// The estimated number of jobs with a SUBMITTED status.
@@ -21633,6 +21665,7 @@ extension MediaConvertClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            concurrentJobs: Swift.Int? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             lastUpdated: Foundation.Date? = nil,
@@ -21640,12 +21673,14 @@ extension MediaConvertClientTypes {
             pricingPlan: MediaConvertClientTypes.PricingPlan? = nil,
             progressingJobsCount: Swift.Int? = nil,
             reservationPlan: MediaConvertClientTypes.ReservationPlan? = nil,
+            serviceOverrides: [MediaConvertClientTypes.ServiceOverride]? = nil,
             status: MediaConvertClientTypes.QueueStatus? = nil,
             submittedJobsCount: Swift.Int? = nil,
             type: MediaConvertClientTypes.ModelType? = nil
         )
         {
             self.arn = arn
+            self.concurrentJobs = concurrentJobs
             self.createdAt = createdAt
             self.description = description
             self.lastUpdated = lastUpdated
@@ -21653,6 +21688,7 @@ extension MediaConvertClientTypes {
             self.pricingPlan = pricingPlan
             self.progressingJobsCount = progressingJobsCount
             self.reservationPlan = reservationPlan
+            self.serviceOverrides = serviceOverrides
             self.status = status
             self.submittedJobsCount = submittedJobsCount
             self.type = type
@@ -22050,6 +22086,8 @@ extension MediaConvertClientTypes {
 }
 
 public struct CreateQueueInput: Swift.Sendable {
+    /// Specify the maximum number of jobs your queue can process concurrently. For on-demand queues, the value you enter is constrained by your service quotas for Maximum concurrent jobs, per on-demand queue and Maximum concurrent jobs, per account. For reserved queues, specify the number of jobs you can process concurrently in your reservation plan instead.
+    public var concurrentJobs: Swift.Int?
     /// Optional. A description of the queue that you are creating.
     public var description: Swift.String?
     /// The name of the queue that you are creating.
@@ -22065,6 +22103,7 @@ public struct CreateQueueInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        concurrentJobs: Swift.Int? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         pricingPlan: MediaConvertClientTypes.PricingPlan? = nil,
@@ -22073,6 +22112,7 @@ public struct CreateQueueInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     )
     {
+        self.concurrentJobs = concurrentJobs
         self.description = description
         self.name = name
         self.pricingPlan = pricingPlan
@@ -22704,14 +22744,22 @@ public struct ListQueuesOutput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// List of queues.
     public var queues: [MediaConvertClientTypes.Queue]?
+    /// The maximum number of jobs that MediaConvert can process at one time, across all of your on-demand queues in the current AWS Region.
+    public var totalConcurrentJobs: Swift.Int?
+    /// The remaining number of concurrent jobs that are not associated with a queue and are available to allocate to a queue. You can allocate these jobs when you create or update a queue.
+    public var unallocatedConcurrentJobs: Swift.Int?
 
     public init(
         nextToken: Swift.String? = nil,
-        queues: [MediaConvertClientTypes.Queue]? = nil
+        queues: [MediaConvertClientTypes.Queue]? = nil,
+        totalConcurrentJobs: Swift.Int? = nil,
+        unallocatedConcurrentJobs: Swift.Int? = nil
     )
     {
         self.nextToken = nextToken
         self.queues = queues
+        self.totalConcurrentJobs = totalConcurrentJobs
+        self.unallocatedConcurrentJobs = unallocatedConcurrentJobs
     }
 }
 
@@ -23005,6 +23053,8 @@ public struct UpdatePresetOutput: Swift.Sendable {
 }
 
 public struct UpdateQueueInput: Swift.Sendable {
+    /// Specify the maximum number of jobs your queue can process concurrently. For on-demand queues, the value you enter is constrained by your service quotas for Maximum concurrent jobs, per on-demand queue and Maximum concurrent jobs, per account. For reserved queues, update your reservation plan instead in order to increase your yearly commitment.
+    public var concurrentJobs: Swift.Int?
     /// The new description for the queue, if you are changing it.
     public var description: Swift.String?
     /// The name of the queue that you are modifying.
@@ -23016,12 +23066,14 @@ public struct UpdateQueueInput: Swift.Sendable {
     public var status: MediaConvertClientTypes.QueueStatus?
 
     public init(
+        concurrentJobs: Swift.Int? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         reservationPlanSettings: MediaConvertClientTypes.ReservationPlanSettings? = nil,
         status: MediaConvertClientTypes.QueueStatus? = nil
     )
     {
+        self.concurrentJobs = concurrentJobs
         self.description = description
         self.name = name
         self.reservationPlanSettings = reservationPlanSettings
@@ -23511,6 +23563,7 @@ extension CreateQueueInput {
 
     static func write(value: CreateQueueInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["concurrentJobs"].write(value.concurrentJobs)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["pricingPlan"].write(value.pricingPlan)
@@ -23584,6 +23637,7 @@ extension UpdateQueueInput {
 
     static func write(value: UpdateQueueInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["concurrentJobs"].write(value.concurrentJobs)
         try writer["description"].write(value.description)
         try writer["reservationPlanSettings"].write(value.reservationPlanSettings, with: MediaConvertClientTypes.ReservationPlanSettings.write(value:to:))
         try writer["status"].write(value.status)
@@ -23808,6 +23862,8 @@ extension ListQueuesOutput {
         var value = ListQueuesOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.queues = try reader["queues"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.Queue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalConcurrentJobs = try reader["totalConcurrentJobs"].readIfPresent()
+        value.unallocatedConcurrentJobs = try reader["unallocatedConcurrentJobs"].readIfPresent()
         return value
     }
 }
@@ -29173,6 +29229,7 @@ extension MediaConvertClientTypes.Queue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.Queue()
         value.arn = try reader["arn"].readIfPresent()
+        value.concurrentJobs = try reader["concurrentJobs"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -29180,9 +29237,23 @@ extension MediaConvertClientTypes.Queue {
         value.pricingPlan = try reader["pricingPlan"].readIfPresent()
         value.progressingJobsCount = try reader["progressingJobsCount"].readIfPresent()
         value.reservationPlan = try reader["reservationPlan"].readIfPresent(with: MediaConvertClientTypes.ReservationPlan.read(from:))
+        value.serviceOverrides = try reader["serviceOverrides"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.ServiceOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
         value.submittedJobsCount = try reader["submittedJobsCount"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.ServiceOverride {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ServiceOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ServiceOverride()
+        value.message = try reader["message"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.overrideValue = try reader["overrideValue"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
         return value
     }
 }

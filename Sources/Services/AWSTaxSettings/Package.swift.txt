@@ -61,6 +61,10 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
+                    name: "SmithyTimestamps",
+                    package: "smithy-swift"
+                ),
+                .product(
                     name: "SmithyIdentity",
                     package: "smithy-swift"
                 ),

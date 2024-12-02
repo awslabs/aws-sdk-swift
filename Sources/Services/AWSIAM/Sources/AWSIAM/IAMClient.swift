@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IAMClient: ClientRuntime.Client {
     public static let clientName = "IAMClient"
-    public static let version = "1.0.35"
+    public static let version = "1.0.51"
     let client: ClientRuntime.SdkHttpClient
     let config: IAMClient.IAMClientConfiguration
     let serviceName = "IAM"
@@ -3709,6 +3709,150 @@ extension IAMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisableOrganizationsRootCredentialsManagement` operation on the `AWSIdentityManagementV20100508` service.
+    ///
+    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer manage root user credentials for member accounts in your organization.
+    ///
+    /// - Parameter DisableOrganizationsRootCredentialsManagementInput : [no documentation found]
+    ///
+    /// - Returns: `DisableOrganizationsRootCredentialsManagementOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccountNotManagementOrDelegatedAdministratorException` : The request was rejected because the account making the request is not the management account or delegated administrator account for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management).
+    /// - `OrganizationNotFoundException` : The request was rejected because no organization is associated with your account.
+    /// - `OrganizationNotInAllFeaturesModeException` : The request was rejected because your organization does not have All features enabled. For more information, see [Available feature sets](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set) in the Organizations User Guide.
+    /// - `ServiceAccessNotEnabledException` : The request was rejected because trusted access is not enabled for IAM in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    public func disableOrganizationsRootCredentialsManagement(input: DisableOrganizationsRootCredentialsManagementInput) async throws -> DisableOrganizationsRootCredentialsManagementOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableOrganizationsRootCredentialsManagement")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput>(DisableOrganizationsRootCredentialsManagementInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOrganizationsRootCredentialsManagementOutput>(DisableOrganizationsRootCredentialsManagementOutput.httpOutput(from:), DisableOrganizationsRootCredentialsManagementOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisableOrganizationsRootCredentialsManagementOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisableOrganizationsRootCredentialsManagementOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisableOrganizationsRootCredentialsManagementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableOrganizationsRootCredentialsManagementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableOrganizationsRootCredentialsManagementInput, DisableOrganizationsRootCredentialsManagementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableOrganizationsRootCredentialsManagement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisableOrganizationsRootSessions` operation on the `AWSIdentityManagementV20100508` service.
+    ///
+    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer perform privileged tasks on member accounts in your organization.
+    ///
+    /// - Parameter DisableOrganizationsRootSessionsInput : [no documentation found]
+    ///
+    /// - Returns: `DisableOrganizationsRootSessionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccountNotManagementOrDelegatedAdministratorException` : The request was rejected because the account making the request is not the management account or delegated administrator account for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management).
+    /// - `OrganizationNotFoundException` : The request was rejected because no organization is associated with your account.
+    /// - `OrganizationNotInAllFeaturesModeException` : The request was rejected because your organization does not have All features enabled. For more information, see [Available feature sets](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set) in the Organizations User Guide.
+    /// - `ServiceAccessNotEnabledException` : The request was rejected because trusted access is not enabled for IAM in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    public func disableOrganizationsRootSessions(input: DisableOrganizationsRootSessionsInput) async throws -> DisableOrganizationsRootSessionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableOrganizationsRootSessions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput>(DisableOrganizationsRootSessionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOrganizationsRootSessionsOutput>(DisableOrganizationsRootSessionsOutput.httpOutput(from:), DisableOrganizationsRootSessionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisableOrganizationsRootSessionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisableOrganizationsRootSessionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisableOrganizationsRootSessionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableOrganizationsRootSessionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableOrganizationsRootSessionsInput, DisableOrganizationsRootSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableOrganizationsRootSessions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `EnableMFADevice` operation on the `AWSIdentityManagementV20100508` service.
     ///
     /// Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device.
@@ -3772,6 +3916,160 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableMFADevice")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `EnableOrganizationsRootCredentialsManagement` operation on the `AWSIdentityManagementV20100508` service.
+    ///
+    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management), the management account and the delegated admininstrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:
+    ///
+    /// * You must manage your Amazon Web Services accounts in [Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html).
+    ///
+    /// * Enable trusted access for Identity and Access Management in Organizations. For details, see [IAM and Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-ra.html) in the Organizations User Guide.
+    ///
+    /// - Parameter EnableOrganizationsRootCredentialsManagementInput : [no documentation found]
+    ///
+    /// - Returns: `EnableOrganizationsRootCredentialsManagementOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccountNotManagementOrDelegatedAdministratorException` : The request was rejected because the account making the request is not the management account or delegated administrator account for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management).
+    /// - `CallerIsNotManagementAccountException` : The request was rejected because the account making the request is not the management account for the organization.
+    /// - `OrganizationNotFoundException` : The request was rejected because no organization is associated with your account.
+    /// - `OrganizationNotInAllFeaturesModeException` : The request was rejected because your organization does not have All features enabled. For more information, see [Available feature sets](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set) in the Organizations User Guide.
+    /// - `ServiceAccessNotEnabledException` : The request was rejected because trusted access is not enabled for IAM in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    public func enableOrganizationsRootCredentialsManagement(input: EnableOrganizationsRootCredentialsManagementInput) async throws -> EnableOrganizationsRootCredentialsManagementOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableOrganizationsRootCredentialsManagement")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput>(EnableOrganizationsRootCredentialsManagementInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOrganizationsRootCredentialsManagementOutput>(EnableOrganizationsRootCredentialsManagementOutput.httpOutput(from:), EnableOrganizationsRootCredentialsManagementOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableOrganizationsRootCredentialsManagementOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<EnableOrganizationsRootCredentialsManagementOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: EnableOrganizationsRootCredentialsManagementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableOrganizationsRootCredentialsManagementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableOrganizationsRootCredentialsManagementInput, EnableOrganizationsRootCredentialsManagementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableOrganizationsRootCredentialsManagement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `EnableOrganizationsRootSessions` operation on the `AWSIdentityManagementV20100508` service.
+    ///
+    /// Allows the management account or delegated administrator to perform privileged tasks on member accounts in your organization. For more information, see [Centrally manage root access for member accounts](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management) in the Identity and Access Management User Guide. Before you enable this feature, you must have an account configured with the following settings:
+    ///
+    /// * You must manage your Amazon Web Services accounts in [Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html).
+    ///
+    /// * Enable trusted access for Identity and Access Management in Organizations. For details, see [IAM and Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-ra.html) in the Organizations User Guide.
+    ///
+    /// - Parameter EnableOrganizationsRootSessionsInput : [no documentation found]
+    ///
+    /// - Returns: `EnableOrganizationsRootSessionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccountNotManagementOrDelegatedAdministratorException` : The request was rejected because the account making the request is not the management account or delegated administrator account for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management).
+    /// - `CallerIsNotManagementAccountException` : The request was rejected because the account making the request is not the management account for the organization.
+    /// - `OrganizationNotFoundException` : The request was rejected because no organization is associated with your account.
+    /// - `OrganizationNotInAllFeaturesModeException` : The request was rejected because your organization does not have All features enabled. For more information, see [Available feature sets](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set) in the Organizations User Guide.
+    /// - `ServiceAccessNotEnabledException` : The request was rejected because trusted access is not enabled for IAM in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    public func enableOrganizationsRootSessions(input: EnableOrganizationsRootSessionsInput) async throws -> EnableOrganizationsRootSessionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableOrganizationsRootSessions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput>(EnableOrganizationsRootSessionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOrganizationsRootSessionsOutput>(EnableOrganizationsRootSessionsOutput.httpOutput(from:), EnableOrganizationsRootSessionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableOrganizationsRootSessionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<EnableOrganizationsRootSessionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: EnableOrganizationsRootSessionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableOrganizationsRootSessionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableOrganizationsRootSessionsInput, EnableOrganizationsRootSessionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableOrganizationsRootSessions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5929,7 +6227,7 @@ extension IAMClient {
 
     /// Performs the `ListAccountAliases` operation on the `AWSIdentityManagementV20100508` service.
     ///
-    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#CreateAccountAlias) in the IAM User Guide.
+    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see [Creating, deleting, and listing an Amazon Web Services account alias](https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html) in the Amazon Web Services Sign-In User Guide.
     ///
     /// - Parameter ListAccountAliasesInput : [no documentation found]
     ///
@@ -6967,6 +7265,78 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOpenIDConnectProviders")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListOrganizationsFeatures` operation on the `AWSIdentityManagementV20100508` service.
+    ///
+    /// Lists the centralized root access features enabled for your organization. For more information, see [Centrally manage root access for member accounts](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management).
+    ///
+    /// - Parameter ListOrganizationsFeaturesInput : [no documentation found]
+    ///
+    /// - Returns: `ListOrganizationsFeaturesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccountNotManagementOrDelegatedAdministratorException` : The request was rejected because the account making the request is not the management account or delegated administrator account for [centralized root access](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management).
+    /// - `OrganizationNotFoundException` : The request was rejected because no organization is associated with your account.
+    /// - `OrganizationNotInAllFeaturesModeException` : The request was rejected because your organization does not have All features enabled. For more information, see [Available feature sets](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set) in the Organizations User Guide.
+    /// - `ServiceAccessNotEnabledException` : The request was rejected because trusted access is not enabled for IAM in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    public func listOrganizationsFeatures(input: ListOrganizationsFeaturesInput) async throws -> ListOrganizationsFeaturesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listOrganizationsFeatures")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput>(ListOrganizationsFeaturesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationsFeaturesOutput>(ListOrganizationsFeaturesOutput.httpOutput(from:), ListOrganizationsFeaturesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationsFeaturesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListOrganizationsFeaturesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ListOrganizationsFeaturesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOrganizationsFeaturesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOrganizationsFeaturesInput, ListOrganizationsFeaturesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOrganizationsFeatures")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

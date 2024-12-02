@@ -7282,6 +7282,155 @@ public struct ListGeneratedTemplatesOutput: Swift.Sendable {
     }
 }
 
+/// The specified target doesn't have any requested Hook invocations.
+public struct HookResultNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "HookResultNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum ListHookResultsTargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case changeSet
+        case cloudControl
+        case resource
+        case stack
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListHookResultsTargetType] {
+            return [
+                .changeSet,
+                .cloudControl,
+                .resource,
+                .stack
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .changeSet: return "CHANGE_SET"
+            case .cloudControl: return "CLOUD_CONTROL"
+            case .resource: return "RESOURCE"
+            case .stack: return "STACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListHookResultsInput: Swift.Sendable {
+    /// A string that identifies the next page of events that you want to retrieve.
+    public var nextToken: Swift.String?
+    /// The logical ID of the target the operation is acting on by the Hook. If the target is a change set, it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HookRequestToken returned by the Cloud Control API operation request. For more information on the HookRequestToken, see [ProgressEvent](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_ProgressEvent.html).
+    /// This member is required.
+    public var targetId: Swift.String?
+    /// The type of operation being targeted by the Hook.
+    /// This member is required.
+    public var targetType: CloudFormationClientTypes.ListHookResultsTargetType?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        targetId: Swift.String? = nil,
+        targetType: CloudFormationClientTypes.ListHookResultsTargetType? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.targetId = targetId
+        self.targetType = targetType
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// Describes a Hook invocation, its status, and the reason for its status.
+    public struct HookResultSummary: Swift.Sendable {
+        /// The failure mode of the invocation. The following are potential modes:
+        ///
+        /// * FAIL: If the hook invocation returns a failure, then the requested target operation should fail.
+        ///
+        /// * WARN: If the hook invocation returns a failure, then the requested target operation should warn.
+        public var failureMode: CloudFormationClientTypes.HookFailureMode?
+        /// A description of the Hook results status. For example, if the Hook result is in a FAILED state, this may contain additional information for the FAILED state.
+        public var hookStatusReason: Swift.String?
+        /// The exact point in the provisioning logic where the Hook runs.
+        public var invocationPoint: CloudFormationClientTypes.HookInvocationPoint?
+        /// The state of the Hook invocation.
+        public var status: CloudFormationClientTypes.HookStatus?
+        /// The version of the Hook type configuration.
+        public var typeConfigurationVersionId: Swift.String?
+        /// The type name of the Hook being invoked.
+        public var typeName: Swift.String?
+        /// The version of the Hook being invoked.
+        public var typeVersionId: Swift.String?
+
+        public init(
+            failureMode: CloudFormationClientTypes.HookFailureMode? = nil,
+            hookStatusReason: Swift.String? = nil,
+            invocationPoint: CloudFormationClientTypes.HookInvocationPoint? = nil,
+            status: CloudFormationClientTypes.HookStatus? = nil,
+            typeConfigurationVersionId: Swift.String? = nil,
+            typeName: Swift.String? = nil,
+            typeVersionId: Swift.String? = nil
+        )
+        {
+            self.failureMode = failureMode
+            self.hookStatusReason = hookStatusReason
+            self.invocationPoint = invocationPoint
+            self.status = status
+            self.typeConfigurationVersionId = typeConfigurationVersionId
+            self.typeName = typeName
+            self.typeVersionId = typeVersionId
+        }
+    }
+}
+
+public struct ListHookResultsOutput: Swift.Sendable {
+    /// A list of HookResultSummary structures that provides the status and Hook status reason for each Hook invocation for the specified target.
+    public var hookResults: [CloudFormationClientTypes.HookResultSummary]?
+    /// Pagination token, null or empty if no more results.
+    public var nextToken: Swift.String?
+    /// The logical ID of the target the operation is acting on by the Hook. If the target is a change set, it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HooksRequestToken returned by the Cloud Control API operation request. For more information on the HooksRequestToken, see [ProgressEvent](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_ProgressEvent.html).
+    public var targetId: Swift.String?
+    /// The type of operation being targeted by the Hook.
+    public var targetType: CloudFormationClientTypes.ListHookResultsTargetType?
+
+    public init(
+        hookResults: [CloudFormationClientTypes.HookResultSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        targetId: Swift.String? = nil,
+        targetType: CloudFormationClientTypes.ListHookResultsTargetType? = nil
+    )
+    {
+        self.hookResults = hookResults
+        self.nextToken = nextToken
+        self.targetId = targetId
+        self.targetType = targetType
+    }
+}
+
 public struct ListImportsInput: Swift.Sendable {
     /// The name of the exported output value. CloudFormation returns the stack names that are importing this value.
     /// This member is required.
@@ -10387,6 +10536,13 @@ extension ListGeneratedTemplatesInput {
     }
 }
 
+extension ListHookResultsInput {
+
+    static func urlPathProvider(_ value: ListHookResultsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListImportsInput {
 
     static func urlPathProvider(_ value: ListImportsInput) -> Swift.String? {
@@ -11246,6 +11402,18 @@ extension ListGeneratedTemplatesInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Action"].write("ListGeneratedTemplates")
+        try writer["Version"].write("2010-05-15")
+    }
+}
+
+extension ListHookResultsInput {
+
+    static func write(value: ListHookResultsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["NextToken"].write(value.nextToken)
+        try writer["TargetId"].write(value.targetId)
+        try writer["TargetType"].write(value.targetType)
+        try writer["Action"].write("ListHookResults")
         try writer["Version"].write("2010-05-15")
     }
 }
@@ -12358,6 +12526,21 @@ extension ListGeneratedTemplatesOutput {
     }
 }
 
+extension ListHookResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListHookResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ListHookResultsResult"]
+        var value = ListHookResultsOutput()
+        value.hookResults = try reader["HookResults"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.HookResultSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.targetType = try reader["TargetType"].readIfPresent()
+        return value
+    }
+}
+
 extension ListImportsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListImportsOutput {
@@ -13461,6 +13644,20 @@ enum ListGeneratedTemplatesOutputError {
     }
 }
 
+enum ListHookResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "HookResultNotFound": return try HookResultNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListImportsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14231,6 +14428,19 @@ extension StackNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StackNotFoundException {
         let reader = baseError.errorBodyReader
         var value = StackNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension HookResultNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HookResultNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = HookResultNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15094,6 +15304,22 @@ extension CloudFormationClientTypes.TemplateSummary {
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.numberOfResources = try reader["NumberOfResources"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.HookResultSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.HookResultSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.HookResultSummary()
+        value.invocationPoint = try reader["InvocationPoint"].readIfPresent()
+        value.failureMode = try reader["FailureMode"].readIfPresent()
+        value.typeName = try reader["TypeName"].readIfPresent()
+        value.typeVersionId = try reader["TypeVersionId"].readIfPresent()
+        value.typeConfigurationVersionId = try reader["TypeConfigurationVersionId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.hookStatusReason = try reader["HookStatusReason"].readIfPresent()
         return value
     }
 }

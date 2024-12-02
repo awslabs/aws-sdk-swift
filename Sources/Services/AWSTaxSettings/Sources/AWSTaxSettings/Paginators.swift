@@ -41,6 +41,36 @@ extension PaginatorSequence where OperationStackInput == ListSupplementalTaxRegi
     }
 }
 extension TaxSettingsClient {
+    /// Paginate over `[ListTaxExemptionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTaxExemptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTaxExemptionsOutput`
+    public func listTaxExemptionsPaginated(input: ListTaxExemptionsInput) -> ClientRuntime.PaginatorSequence<ListTaxExemptionsInput, ListTaxExemptionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTaxExemptionsInput, ListTaxExemptionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTaxExemptions(input:))
+    }
+}
+
+extension ListTaxExemptionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTaxExemptionsInput {
+        return ListTaxExemptionsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTaxExemptionsInput, OperationStackOutput == ListTaxExemptionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTaxExemptionsPaginated`
+    /// to access the nested member `[(String, TaxSettingsClientTypes.TaxExemptionDetails)]`
+    /// - Returns: `[(String, TaxSettingsClientTypes.TaxExemptionDetails)]`
+    public func taxExemptionDetailsMap() async throws -> [(String, TaxSettingsClientTypes.TaxExemptionDetails)] {
+        return try await self.asyncCompactMap { item in item.taxExemptionDetailsMap?.map { ($0, $1) } }
+    }
+}
+extension TaxSettingsClient {
     /// Paginate over `[ListTaxRegistrationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

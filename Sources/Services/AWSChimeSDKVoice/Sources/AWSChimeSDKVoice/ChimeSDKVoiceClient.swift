@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKVoiceClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKVoiceClient"
-    public static let version = "1.0.35"
+    public static let version = "1.0.51"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKVoiceClient.ChimeSDKVoiceClientConfiguration
     let serviceName = "Chime SDK Voice"
@@ -1613,6 +1613,78 @@ extension ChimeSDKVoiceClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ChimeSDKVoice")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVoiceConnectorEmergencyCallingConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteVoiceConnectorExternalSystemsConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
+    /// Deletes the external systems configuration for a Voice Connector.
+    ///
+    /// - Parameter DeleteVoiceConnectorExternalSystemsConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVoiceConnectorExternalSystemsConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    public func deleteVoiceConnectorExternalSystemsConfiguration(input: DeleteVoiceConnectorExternalSystemsConfigurationInput) async throws -> DeleteVoiceConnectorExternalSystemsConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteVoiceConnectorExternalSystemsConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteVoiceConnectorExternalSystemsConfigurationInput, DeleteVoiceConnectorExternalSystemsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationInput, DeleteVoiceConnectorExternalSystemsConfigurationOutput>(DeleteVoiceConnectorExternalSystemsConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationInput, DeleteVoiceConnectorExternalSystemsConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationOutput>(DeleteVoiceConnectorExternalSystemsConfigurationOutput.httpOutput(from:), DeleteVoiceConnectorExternalSystemsConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationInput, DeleteVoiceConnectorExternalSystemsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationInput, DeleteVoiceConnectorExternalSystemsConfigurationOutput>(serviceID: serviceName, version: ChimeSDKVoiceClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationInput, DeleteVoiceConnectorExternalSystemsConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVoiceConnectorExternalSystemsConfigurationInput, DeleteVoiceConnectorExternalSystemsConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ChimeSDKVoice")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVoiceConnectorExternalSystemsConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3215,6 +3287,78 @@ extension ChimeSDKVoiceClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ChimeSDKVoice")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVoiceConnectorEmergencyCallingConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetVoiceConnectorExternalSystemsConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
+    /// Gets information about an external systems configuration for a Voice Connector.
+    ///
+    /// - Parameter GetVoiceConnectorExternalSystemsConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceConnectorExternalSystemsConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    public func getVoiceConnectorExternalSystemsConfiguration(input: GetVoiceConnectorExternalSystemsConfigurationInput) async throws -> GetVoiceConnectorExternalSystemsConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getVoiceConnectorExternalSystemsConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetVoiceConnectorExternalSystemsConfigurationInput, GetVoiceConnectorExternalSystemsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetVoiceConnectorExternalSystemsConfigurationInput, GetVoiceConnectorExternalSystemsConfigurationOutput>(GetVoiceConnectorExternalSystemsConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVoiceConnectorExternalSystemsConfigurationInput, GetVoiceConnectorExternalSystemsConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVoiceConnectorExternalSystemsConfigurationOutput>(GetVoiceConnectorExternalSystemsConfigurationOutput.httpOutput(from:), GetVoiceConnectorExternalSystemsConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVoiceConnectorExternalSystemsConfigurationInput, GetVoiceConnectorExternalSystemsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetVoiceConnectorExternalSystemsConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetVoiceConnectorExternalSystemsConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetVoiceConnectorExternalSystemsConfigurationInput, GetVoiceConnectorExternalSystemsConfigurationOutput>(serviceID: serviceName, version: ChimeSDKVoiceClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVoiceConnectorExternalSystemsConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetVoiceConnectorExternalSystemsConfigurationInput, GetVoiceConnectorExternalSystemsConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetVoiceConnectorExternalSystemsConfigurationInput, GetVoiceConnectorExternalSystemsConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ChimeSDKVoice")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVoiceConnectorExternalSystemsConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5106,6 +5250,82 @@ extension ChimeSDKVoiceClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ChimeSDKVoice")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutVoiceConnectorEmergencyCallingConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutVoiceConnectorExternalSystemsConfiguration` operation on the `ChimeSDKTelephonyService` service.
+    ///
+    /// Adds an external systems configuration to a Voice Connector.
+    ///
+    /// - Parameter PutVoiceConnectorExternalSystemsConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutVoiceConnectorExternalSystemsConfigurationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : Multiple instances of the same request were made simultaneously.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : The requested resource couldn't be found.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The number of customer requests exceeds the request rate limit.
+    /// - `UnauthorizedClientException` : The client isn't authorized to request a resource.
+    public func putVoiceConnectorExternalSystemsConfiguration(input: PutVoiceConnectorExternalSystemsConfigurationInput) async throws -> PutVoiceConnectorExternalSystemsConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putVoiceConnectorExternalSystemsConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput>(PutVoiceConnectorExternalSystemsConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutVoiceConnectorExternalSystemsConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVoiceConnectorExternalSystemsConfigurationOutput>(PutVoiceConnectorExternalSystemsConfigurationOutput.httpOutput(from:), PutVoiceConnectorExternalSystemsConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutVoiceConnectorExternalSystemsConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutVoiceConnectorExternalSystemsConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput>(serviceID: serviceName, version: ChimeSDKVoiceClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutVoiceConnectorExternalSystemsConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutVoiceConnectorExternalSystemsConfigurationInput, PutVoiceConnectorExternalSystemsConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ChimeSDKVoice")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutVoiceConnectorExternalSystemsConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

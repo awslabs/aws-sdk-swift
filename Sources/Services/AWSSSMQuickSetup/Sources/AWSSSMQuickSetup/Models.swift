@@ -761,7 +761,7 @@ extension SSMQuickSetupClientTypes {
         ///
         /// * RebootOption
         ///
-        /// * Description: (Optional) A boolean value that determines whether instances are rebooted after patches are installed. The default value is "false".
+        /// * Description: (Optional) Determines whether instances are rebooted after patches are installed. Valid values are RebootIfNeeded and NoReboot.
         ///
         ///
         ///
@@ -1065,6 +1065,58 @@ extension SSMQuickSetupClientTypes {
     }
 }
 
+extension SSMQuickSetupClientTypes {
+
+    /// Details for a Quick Setup configuration.
+    public struct ConfigurationSummary: Swift.Sendable {
+        /// The ID of the Amazon Web Services account where the configuration was deployed.
+        public var account: Swift.String?
+        /// The ID of the configuration definition.
+        public var configurationDefinitionId: Swift.String?
+        /// The datetime stamp when the configuration was created.
+        public var createdAt: Foundation.Date?
+        /// The common parameters and values for the configuration definition.
+        public var firstClassParameters: [Swift.String: Swift.String]?
+        /// A service generated identifier for the configuration.
+        public var id: Swift.String?
+        /// The ARN of the configuration manager.
+        public var managerArn: Swift.String?
+        /// The Amazon Web Services Region where the configuration was deployed.
+        public var region: Swift.String?
+        /// A summary of the state of the configuration manager. This includes deployment statuses, association statuses, drift statuses, health checks, and more.
+        public var statusSummaries: [SSMQuickSetupClientTypes.StatusSummary]?
+        /// The type of the Quick Setup configuration.
+        public var type: Swift.String?
+        /// The version of the Quick Setup type used.
+        public var typeVersion: Swift.String?
+
+        public init(
+            account: Swift.String? = nil,
+            configurationDefinitionId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            firstClassParameters: [Swift.String: Swift.String]? = nil,
+            id: Swift.String? = nil,
+            managerArn: Swift.String? = nil,
+            region: Swift.String? = nil,
+            statusSummaries: [SSMQuickSetupClientTypes.StatusSummary]? = nil,
+            type: Swift.String? = nil,
+            typeVersion: Swift.String? = nil
+        )
+        {
+            self.account = account
+            self.configurationDefinitionId = configurationDefinitionId
+            self.createdAt = createdAt
+            self.firstClassParameters = firstClassParameters
+            self.id = id
+            self.managerArn = managerArn
+            self.region = region
+            self.statusSummaries = statusSummaries
+            self.type = type
+            self.typeVersion = typeVersion
+        }
+    }
+}
+
 /// Another request is being processed. Wait a few minutes and try again.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1264,6 +1316,71 @@ extension SSMQuickSetupClientTypes {
     }
 }
 
+public struct GetConfigurationInput: Swift.Sendable {
+    /// A service generated identifier for the configuration.
+    /// This member is required.
+    public var configurationId: Swift.String?
+
+    public init(
+        configurationId: Swift.String? = nil
+    )
+    {
+        self.configurationId = configurationId
+    }
+}
+
+public struct GetConfigurationOutput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account where the configuration was deployed.
+    public var account: Swift.String?
+    /// The ID of the configuration definition.
+    public var configurationDefinitionId: Swift.String?
+    /// The datetime stamp when the configuration manager was created.
+    public var createdAt: Foundation.Date?
+    /// A service generated identifier for the configuration.
+    public var id: Swift.String?
+    /// The datetime stamp when the configuration manager was last updated.
+    public var lastModifiedAt: Foundation.Date?
+    /// The ARN of the configuration manager.
+    public var managerArn: Swift.String?
+    /// The parameters for the configuration definition type.
+    public var parameters: [Swift.String: Swift.String]?
+    /// The Amazon Web Services Region where the configuration was deployed.
+    public var region: Swift.String?
+    /// A summary of the state of the configuration manager. This includes deployment statuses, association statuses, drift statuses, health checks, and more.
+    public var statusSummaries: [SSMQuickSetupClientTypes.StatusSummary]?
+    /// The type of the Quick Setup configuration.
+    public var type: Swift.String?
+    /// The version of the Quick Setup type used.
+    public var typeVersion: Swift.String?
+
+    public init(
+        account: Swift.String? = nil,
+        configurationDefinitionId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        id: Swift.String? = nil,
+        lastModifiedAt: Foundation.Date? = nil,
+        managerArn: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil,
+        region: Swift.String? = nil,
+        statusSummaries: [SSMQuickSetupClientTypes.StatusSummary]? = nil,
+        type: Swift.String? = nil,
+        typeVersion: Swift.String? = nil
+    )
+    {
+        self.account = account
+        self.configurationDefinitionId = configurationDefinitionId
+        self.createdAt = createdAt
+        self.id = id
+        self.lastModifiedAt = lastModifiedAt
+        self.managerArn = managerArn
+        self.parameters = parameters
+        self.region = region
+        self.statusSummaries = statusSummaries
+        self.type = type
+        self.typeVersion = typeVersion
+    }
+}
+
 public struct GetConfigurationManagerInput: Swift.Sendable {
     /// The ARN of the configuration manager.
     /// This member is required.
@@ -1383,6 +1500,50 @@ public struct ListConfigurationManagersOutput: Swift.Sendable {
     )
     {
         self.configurationManagersList = configurationManagersList
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConfigurationsInput: Swift.Sendable {
+    /// The ID of the configuration definition.
+    public var configurationDefinitionId: Swift.String?
+    /// Filters the results returned by the request.
+    public var filters: [SSMQuickSetupClientTypes.Filter]?
+    /// The ARN of the configuration manager.
+    public var managerArn: Swift.String?
+    /// Specifies the maximum number of configurations that are returned by the request.
+    public var maxItems: Swift.Int?
+    /// The token to use when requesting a specific set of items from a list.
+    public var startingToken: Swift.String?
+
+    public init(
+        configurationDefinitionId: Swift.String? = nil,
+        filters: [SSMQuickSetupClientTypes.Filter]? = nil,
+        managerArn: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        startingToken: Swift.String? = nil
+    )
+    {
+        self.configurationDefinitionId = configurationDefinitionId
+        self.filters = filters
+        self.managerArn = managerArn
+        self.maxItems = maxItems
+        self.startingToken = startingToken
+    }
+}
+
+public struct ListConfigurationsOutput: Swift.Sendable {
+    /// An array of configurations.
+    public var configurationsList: [SSMQuickSetupClientTypes.ConfigurationSummary]?
+    /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
+    public var nextToken: Swift.String?
+
+    public init(
+        configurationsList: [SSMQuickSetupClientTypes.ConfigurationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.configurationsList = configurationsList
         self.nextToken = nextToken
     }
 }
@@ -1600,6 +1761,16 @@ extension DeleteConfigurationManagerInput {
     }
 }
 
+extension GetConfigurationInput {
+
+    static func urlPathProvider(_ value: GetConfigurationInput) -> Swift.String? {
+        guard let configurationId = value.configurationId else {
+            return nil
+        }
+        return "/getConfiguration/\(configurationId.urlPercentEncoding())"
+    }
+}
+
 extension GetConfigurationManagerInput {
 
     static func urlPathProvider(_ value: GetConfigurationManagerInput) -> Swift.String? {
@@ -1621,6 +1792,13 @@ extension ListConfigurationManagersInput {
 
     static func urlPathProvider(_ value: ListConfigurationManagersInput) -> Swift.String? {
         return "/listConfigurationManagers"
+    }
+}
+
+extension ListConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListConfigurationsInput) -> Swift.String? {
+        return "/listConfigurations"
     }
 }
 
@@ -1728,6 +1906,18 @@ extension ListConfigurationManagersInput {
     }
 }
 
+extension ListConfigurationsInput {
+
+    static func write(value: ListConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationDefinitionId"].write(value.configurationDefinitionId)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: SSMQuickSetupClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ManagerArn"].write(value.managerArn)
+        try writer["MaxItems"].write(value.maxItems)
+        try writer["StartingToken"].write(value.startingToken)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -1783,6 +1973,28 @@ extension DeleteConfigurationManagerOutput {
     }
 }
 
+extension GetConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConfigurationOutput()
+        value.account = try reader["Account"].readIfPresent()
+        value.configurationDefinitionId = try reader["ConfigurationDefinitionId"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["Id"].readIfPresent()
+        value.lastModifiedAt = try reader["LastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.managerArn = try reader["ManagerArn"].readIfPresent()
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.region = try reader["Region"].readIfPresent()
+        value.statusSummaries = try reader["StatusSummaries"].readListIfPresent(memberReadingClosure: SSMQuickSetupClientTypes.StatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
+        value.typeVersion = try reader["TypeVersion"].readIfPresent()
+        return value
+    }
+}
+
 extension GetConfigurationManagerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConfigurationManagerOutput {
@@ -1822,6 +2034,19 @@ extension ListConfigurationManagersOutput {
         let reader = responseReader
         var value = ListConfigurationManagersOutput()
         value.configurationManagersList = try reader["ConfigurationManagersList"].readListIfPresent(memberReadingClosure: SSMQuickSetupClientTypes.ConfigurationManagerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConfigurationsOutput()
+        value.configurationsList = try reader["ConfigurationsList"].readListIfPresent(memberReadingClosure: SSMQuickSetupClientTypes.ConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -1923,6 +2148,25 @@ enum DeleteConfigurationManagerOutputError {
     }
 }
 
+enum GetConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetConfigurationManagerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1970,6 +2214,24 @@ enum ListConfigurationManagersOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2247,6 +2509,25 @@ extension SSMQuickSetupClientTypes.ConfigurationDefinitionSummary {
         value.type = try reader["Type"].readIfPresent()
         value.typeVersion = try reader["TypeVersion"].readIfPresent()
         value.firstClassParameters = try reader["FirstClassParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SSMQuickSetupClientTypes.ConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.ConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMQuickSetupClientTypes.ConfigurationSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.managerArn = try reader["ManagerArn"].readIfPresent()
+        value.configurationDefinitionId = try reader["ConfigurationDefinitionId"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.typeVersion = try reader["TypeVersion"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.account = try reader["Account"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.firstClassParameters = try reader["FirstClassParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.statusSummaries = try reader["StatusSummaries"].readListIfPresent(memberReadingClosure: SSMQuickSetupClientTypes.StatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

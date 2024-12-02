@@ -977,6 +977,14 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
         case mlG612xlarge
         case mlG616xlarge
         case mlG624xlarge
@@ -1024,6 +1032,15 @@ extension SageMakerClientTypes {
         case mlM6g8xlarge
         case mlM6gLarge
         case mlM6gXlarge
+        case mlM6i12xlarge
+        case mlM6i16xlarge
+        case mlM6i24xlarge
+        case mlM6i2xlarge
+        case mlM6i32xlarge
+        case mlM6i4xlarge
+        case mlM6i8xlarge
+        case mlM6iLarge
+        case mlM6iXlarge
         case mlM7i12xlarge
         case mlM7i16xlarge
         case mlM7i24xlarge
@@ -1041,6 +1058,7 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5e48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
         case mlR5d24xlarge
@@ -1068,6 +1086,15 @@ extension SageMakerClientTypes {
         case mlR6g8xlarge
         case mlR6gLarge
         case mlR6gXlarge
+        case mlR6i12xlarge
+        case mlR6i16xlarge
+        case mlR6i24xlarge
+        case mlR6i2xlarge
+        case mlR6i32xlarge
+        case mlR6i4xlarge
+        case mlR6i8xlarge
+        case mlR6iLarge
+        case mlR6iXlarge
         case mlR7i12xlarge
         case mlR7i16xlarge
         case mlR7i24xlarge
@@ -1084,6 +1111,7 @@ extension SageMakerClientTypes {
         case mlTrn1n32xlarge
         case mlTrn12xlarge
         case mlTrn132xlarge
+        case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProductionVariantInstanceType] {
@@ -1166,6 +1194,14 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
                 .mlG612xlarge,
                 .mlG616xlarge,
                 .mlG624xlarge,
@@ -1213,6 +1249,15 @@ extension SageMakerClientTypes {
                 .mlM6g8xlarge,
                 .mlM6gLarge,
                 .mlM6gXlarge,
+                .mlM6i12xlarge,
+                .mlM6i16xlarge,
+                .mlM6i24xlarge,
+                .mlM6i2xlarge,
+                .mlM6i32xlarge,
+                .mlM6i4xlarge,
+                .mlM6i8xlarge,
+                .mlM6iLarge,
+                .mlM6iXlarge,
                 .mlM7i12xlarge,
                 .mlM7i16xlarge,
                 .mlM7i24xlarge,
@@ -1230,6 +1275,7 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5e48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
                 .mlR5d24xlarge,
@@ -1257,6 +1303,15 @@ extension SageMakerClientTypes {
                 .mlR6g8xlarge,
                 .mlR6gLarge,
                 .mlR6gXlarge,
+                .mlR6i12xlarge,
+                .mlR6i16xlarge,
+                .mlR6i24xlarge,
+                .mlR6i2xlarge,
+                .mlR6i32xlarge,
+                .mlR6i4xlarge,
+                .mlR6i8xlarge,
+                .mlR6iLarge,
+                .mlR6iXlarge,
                 .mlR7i12xlarge,
                 .mlR7i16xlarge,
                 .mlR7i24xlarge,
@@ -1272,7 +1327,8 @@ extension SageMakerClientTypes {
                 .mlT2Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn12xlarge,
-                .mlTrn132xlarge
+                .mlTrn132xlarge,
+                .mlTrn248xlarge
             ]
         }
 
@@ -1361,6 +1417,14 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
             case .mlG612xlarge: return "ml.g6.12xlarge"
             case .mlG616xlarge: return "ml.g6.16xlarge"
             case .mlG624xlarge: return "ml.g6.24xlarge"
@@ -1408,6 +1472,15 @@ extension SageMakerClientTypes {
             case .mlM6g8xlarge: return "ml.m6g.8xlarge"
             case .mlM6gLarge: return "ml.m6g.large"
             case .mlM6gXlarge: return "ml.m6g.xlarge"
+            case .mlM6i12xlarge: return "ml.m6i.12xlarge"
+            case .mlM6i16xlarge: return "ml.m6i.16xlarge"
+            case .mlM6i24xlarge: return "ml.m6i.24xlarge"
+            case .mlM6i2xlarge: return "ml.m6i.2xlarge"
+            case .mlM6i32xlarge: return "ml.m6i.32xlarge"
+            case .mlM6i4xlarge: return "ml.m6i.4xlarge"
+            case .mlM6i8xlarge: return "ml.m6i.8xlarge"
+            case .mlM6iLarge: return "ml.m6i.large"
+            case .mlM6iXlarge: return "ml.m6i.xlarge"
             case .mlM7i12xlarge: return "ml.m7i.12xlarge"
             case .mlM7i16xlarge: return "ml.m7i.16xlarge"
             case .mlM7i24xlarge: return "ml.m7i.24xlarge"
@@ -1425,6 +1498,7 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d24xlarge: return "ml.r5d.24xlarge"
@@ -1452,6 +1526,15 @@ extension SageMakerClientTypes {
             case .mlR6g8xlarge: return "ml.r6g.8xlarge"
             case .mlR6gLarge: return "ml.r6g.large"
             case .mlR6gXlarge: return "ml.r6g.xlarge"
+            case .mlR6i12xlarge: return "ml.r6i.12xlarge"
+            case .mlR6i16xlarge: return "ml.r6i.16xlarge"
+            case .mlR6i24xlarge: return "ml.r6i.24xlarge"
+            case .mlR6i2xlarge: return "ml.r6i.2xlarge"
+            case .mlR6i32xlarge: return "ml.r6i.32xlarge"
+            case .mlR6i4xlarge: return "ml.r6i.4xlarge"
+            case .mlR6i8xlarge: return "ml.r6i.8xlarge"
+            case .mlR6iLarge: return "ml.r6i.large"
+            case .mlR6iXlarge: return "ml.r6i.xlarge"
             case .mlR7i12xlarge: return "ml.r7i.12xlarge"
             case .mlR7i16xlarge: return "ml.r7i.16xlarge"
             case .mlR7i24xlarge: return "ml.r7i.24xlarge"
@@ -1468,6 +1551,7 @@ extension SageMakerClientTypes {
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn12xlarge: return "ml.trn1.2xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1518,6 +1602,10 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlInf224xlarge
+        case mlInf248xlarge
+        case mlInf28xlarge
+        case mlInf2Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -1616,6 +1704,10 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlInf224xlarge,
+                .mlInf248xlarge,
+                .mlInf28xlarge,
+                .mlInf2Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -1720,6 +1812,10 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlInf224xlarge: return "ml.inf2.24xlarge"
+            case .mlInf248xlarge: return "ml.inf2.48xlarge"
+            case .mlInf28xlarge: return "ml.inf2.8xlarge"
+            case .mlInf2Xlarge: return "ml.inf2.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -9961,6 +10057,8 @@ extension SageMakerClientTypes {
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
+        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The number of instances you specified to add to the instance group of a SageMaker HyperPod cluster.
         public var targetCount: Swift.Int?
         /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
@@ -9974,6 +10072,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
+            overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
             targetCount: Swift.Int? = nil,
             threadsPerCore: Swift.Int? = nil
         )
@@ -9985,6 +10084,7 @@ extension SageMakerClientTypes {
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
+            self.overrideVpcConfig = overrideVpcConfig
             self.targetCount = targetCount
             self.threadsPerCore = threadsPerCore
         }
@@ -10014,6 +10114,8 @@ extension SageMakerClientTypes {
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
+        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
 
@@ -10025,6 +10127,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
+            overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
             threadsPerCore: Swift.Int? = nil
         )
         {
@@ -10035,6 +10138,7 @@ extension SageMakerClientTypes {
             self.instanceType = instanceType
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
+            self.overrideVpcConfig = overrideVpcConfig
             self.threadsPerCore = threadsPerCore
         }
     }
@@ -10140,6 +10244,8 @@ extension SageMakerClientTypes {
         public var launchTime: Foundation.Date?
         /// The LifeCycle configuration applied to the instance.
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
+        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The placement details of the SageMaker HyperPod cluster node.
         public var placement: SageMakerClientTypes.ClusterInstancePlacement?
         /// The private DNS hostname of the SageMaker HyperPod cluster node.
@@ -10157,6 +10263,7 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             launchTime: Foundation.Date? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
+            overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
             placement: SageMakerClientTypes.ClusterInstancePlacement? = nil,
             privateDnsHostname: Swift.String? = nil,
             privatePrimaryIp: Swift.String? = nil,
@@ -10170,6 +10277,7 @@ extension SageMakerClientTypes {
             self.instanceType = instanceType
             self.launchTime = launchTime
             self.lifeCycleConfig = lifeCycleConfig
+            self.overrideVpcConfig = overrideVpcConfig
             self.placement = placement
             self.privateDnsHostname = privateDnsHostname
             self.privatePrimaryIp = privatePrimaryIp
@@ -17463,7 +17571,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Defines the compute resources to allocate to run a model that you assign to an inference component. These resources include CPU cores, accelerators, and memory.
+    /// Defines the compute resources to allocate to run a model, plus any adapter models, that you assign to an inference component. These resources include CPU cores, accelerators, and memory.
     public struct InferenceComponentComputeResourceRequirements: Swift.Sendable {
         /// The maximum MB of memory to allocate to run a model that you assign to an inference component.
         public var maxMemoryRequiredInMb: Swift.Int?
@@ -17538,8 +17646,9 @@ extension SageMakerClientTypes {
 
     /// Details about the resources to deploy with this inference component, including the model, container, and compute resources.
     public struct InferenceComponentSpecification: Swift.Sendable {
-        /// The compute resources allocated to run the model assigned to the inference component.
-        /// This member is required.
+        /// The name of an existing inference component that is to contain the inference component that you're creating with your request. Specify this parameter only if your request is meant to create an adapter inference component. An adapter inference component contains the path to an adapter model. The purpose of the adapter model is to tailor the inference output of a base foundation model, which is hosted by the base inference component. The adapter inference component uses the compute resources that you assigned to the base inference component. When you create an adapter inference component, use the Container parameter to specify the location of the adapter artifacts. In the parameter value, use the ArtifactUrl parameter of the InferenceComponentContainerSpecification data type. Before you can create an adapter inference component, you must have an existing inference component that contains the foundation model that you want to adapt.
+        public var baseInferenceComponentName: Swift.String?
+        /// The compute resources allocated to run the model, plus any adapter models, that you assign to the inference component. Omit this parameter if your request is meant to create an adapter inference component. An adapter inference component is loaded by a base inference component, and it uses the compute resources of the base inference component.
         public var computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements?
         /// Defines a container that provides the runtime environment for a model that you deploy with an inference component.
         public var container: SageMakerClientTypes.InferenceComponentContainerSpecification?
@@ -17549,12 +17658,14 @@ extension SageMakerClientTypes {
         public var startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters?
 
         public init(
+            baseInferenceComponentName: Swift.String? = nil,
             computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements? = nil,
             container: SageMakerClientTypes.InferenceComponentContainerSpecification? = nil,
             modelName: Swift.String? = nil,
             startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters? = nil
         )
         {
+            self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
             self.modelName = modelName
@@ -17571,7 +17682,6 @@ public struct CreateInferenceComponentInput: Swift.Sendable {
     /// This member is required.
     public var inferenceComponentName: Swift.String?
     /// Runtime settings for a model that is deployed with an inference component.
-    /// This member is required.
     public var runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfig?
     /// Details about the resources to deploy with this inference component, including the model, container, and compute resources.
     /// This member is required.
@@ -17579,7 +17689,6 @@ public struct CreateInferenceComponentInput: Swift.Sendable {
     /// A list of key-value pairs associated with the model. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [SageMakerClientTypes.Tag]?
     /// The name of an existing production variant where you host the inference component.
-    /// This member is required.
     public var variantName: Swift.String?
 
     public init(
@@ -17734,6 +17843,10 @@ extension SageMakerClientTypes {
         case mlInf12xlarge
         case mlInf16xlarge
         case mlInf1Xlarge
+        case mlInf224xlarge
+        case mlInf248xlarge
+        case mlInf28xlarge
+        case mlInf2Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -17832,6 +17945,9 @@ extension SageMakerClientTypes {
         case mlT3Large
         case mlT3Medium
         case mlT3Xlarge
+        case mlTrn1n32xlarge
+        case mlTrn12xlarge
+        case mlTrn132xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InstanceType] {
@@ -17903,6 +18019,10 @@ extension SageMakerClientTypes {
                 .mlInf12xlarge,
                 .mlInf16xlarge,
                 .mlInf1Xlarge,
+                .mlInf224xlarge,
+                .mlInf248xlarge,
+                .mlInf28xlarge,
+                .mlInf2Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -18000,7 +18120,10 @@ extension SageMakerClientTypes {
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
-                .mlT3Xlarge
+                .mlT3Xlarge,
+                .mlTrn1n32xlarge,
+                .mlTrn12xlarge,
+                .mlTrn132xlarge
             ]
         }
 
@@ -18078,6 +18201,10 @@ extension SageMakerClientTypes {
             case .mlInf12xlarge: return "ml.inf1.2xlarge"
             case .mlInf16xlarge: return "ml.inf1.6xlarge"
             case .mlInf1Xlarge: return "ml.inf1.xlarge"
+            case .mlInf224xlarge: return "ml.inf2.24xlarge"
+            case .mlInf248xlarge: return "ml.inf2.48xlarge"
+            case .mlInf28xlarge: return "ml.inf2.8xlarge"
+            case .mlInf2Xlarge: return "ml.inf2.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -18176,6 +18303,9 @@ extension SageMakerClientTypes {
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
             case .mlT3Xlarge: return "ml.t3.xlarge"
+            case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
+            case .mlTrn12xlarge: return "ml.trn1.2xlarge"
+            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -22169,12 +22299,34 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Settings for the model sharding technique that's applied by a model optimization job.
+    public struct ModelShardingConfig: Swift.Sendable {
+        /// The URI of an LMI DLC in Amazon ECR. SageMaker uses this image to run the optimization.
+        public var image: Swift.String?
+        /// Environment variables that override the default ones in the model container.
+        public var overrideEnvironment: [Swift.String: Swift.String]?
+
+        public init(
+            image: Swift.String? = nil,
+            overrideEnvironment: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.image = image
+            self.overrideEnvironment = overrideEnvironment
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Settings for an optimization technique that you apply with a model optimization job.
     public enum OptimizationConfig: Swift.Sendable {
         /// Settings for the model quantization technique that's applied by a model optimization job.
         case modelquantizationconfig(SageMakerClientTypes.ModelQuantizationConfig)
         /// Settings for the model compilation technique that's applied by a model optimization job.
         case modelcompilationconfig(SageMakerClientTypes.ModelCompilationConfig)
+        /// Settings for the model sharding technique that's applied by a model optimization job.
+        case modelshardingconfig(SageMakerClientTypes.ModelShardingConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -29913,7 +30065,9 @@ extension SageMakerClientTypes {
 
     /// Details about the resources that are deployed with this inference component.
     public struct InferenceComponentSpecificationSummary: Swift.Sendable {
-        /// The compute resources allocated to run the model assigned to the inference component.
+        /// The name of the base inference component that contains this inference component.
+        public var baseInferenceComponentName: Swift.String?
+        /// The compute resources allocated to run the model, plus any adapter models, that you assign to the inference component.
         public var computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements?
         /// Details about the container that provides the runtime environment for the model that is deployed with the inference component.
         public var container: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary?
@@ -29923,12 +30077,14 @@ extension SageMakerClientTypes {
         public var startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters?
 
         public init(
+            baseInferenceComponentName: Swift.String? = nil,
             computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements? = nil,
             container: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary? = nil,
             modelName: Swift.String? = nil,
             startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters? = nil
         )
         {
+            self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
             self.modelName = modelName
@@ -66988,6 +67144,7 @@ extension SageMakerClientTypes.ClusterInstanceGroupDetails {
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
         value.instanceStorageConfigs = try reader["InstanceStorageConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.onStartDeepHealthChecks = try reader["OnStartDeepHealthChecks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.overrideVpcConfig = try reader["OverrideVpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         return value
     }
 }
@@ -67089,6 +67246,7 @@ extension SageMakerClientTypes.ClusterNodeDetails {
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lifeCycleConfig = try reader["LifeCycleConfig"].readIfPresent(with: SageMakerClientTypes.ClusterLifeCycleConfig.read(from:))
+        value.overrideVpcConfig = try reader["OverrideVpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
         value.instanceStorageConfigs = try reader["InstanceStorageConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.privatePrimaryIp = try reader["PrivatePrimaryIp"].readIfPresent()
@@ -69926,6 +70084,7 @@ extension SageMakerClientTypes.InferenceComponentSpecificationSummary {
         value.container = try reader["Container"].readIfPresent(with: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary.read(from:))
         value.startupParameters = try reader["StartupParameters"].readIfPresent(with: SageMakerClientTypes.InferenceComponentStartupParameters.read(from:))
         value.computeResourceRequirements = try reader["ComputeResourceRequirements"].readIfPresent(with: SageMakerClientTypes.InferenceComponentComputeResourceRequirements.read(from:))
+        value.baseInferenceComponentName = try reader["BaseInferenceComponentName"].readIfPresent()
         return value
     }
 }
@@ -71739,6 +71898,8 @@ extension SageMakerClientTypes.OptimizationConfig {
                 try writer["ModelCompilationConfig"].write(modelcompilationconfig, with: SageMakerClientTypes.ModelCompilationConfig.write(value:to:))
             case let .modelquantizationconfig(modelquantizationconfig):
                 try writer["ModelQuantizationConfig"].write(modelquantizationconfig, with: SageMakerClientTypes.ModelQuantizationConfig.write(value:to:))
+            case let .modelshardingconfig(modelshardingconfig):
+                try writer["ModelShardingConfig"].write(modelshardingconfig, with: SageMakerClientTypes.ModelShardingConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -71752,9 +71913,28 @@ extension SageMakerClientTypes.OptimizationConfig {
                 return .modelquantizationconfig(try reader["ModelQuantizationConfig"].read(with: SageMakerClientTypes.ModelQuantizationConfig.read(from:)))
             case "ModelCompilationConfig":
                 return .modelcompilationconfig(try reader["ModelCompilationConfig"].read(with: SageMakerClientTypes.ModelCompilationConfig.read(from:)))
+            case "ModelShardingConfig":
+                return .modelshardingconfig(try reader["ModelShardingConfig"].read(with: SageMakerClientTypes.ModelShardingConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SageMakerClientTypes.ModelShardingConfig {
+
+    static func write(value: SageMakerClientTypes.ModelShardingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Image"].write(value.image)
+        try writer["OverrideEnvironment"].writeMap(value.overrideEnvironment, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ModelShardingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ModelShardingConfig()
+        value.image = try reader["Image"].readIfPresent()
+        value.overrideEnvironment = try reader["OverrideEnvironment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 
@@ -75257,6 +75437,7 @@ extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
         try writer["InstanceType"].write(value.instanceType)
         try writer["LifeCycleConfig"].write(value.lifeCycleConfig, with: SageMakerClientTypes.ClusterLifeCycleConfig.write(value:to:))
         try writer["OnStartDeepHealthChecks"].writeList(value.onStartDeepHealthChecks, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OverrideVpcConfig"].write(value.overrideVpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
         try writer["ThreadsPerCore"].write(value.threadsPerCore)
     }
 }
@@ -75293,6 +75474,7 @@ extension SageMakerClientTypes.InferenceComponentSpecification {
 
     static func write(value: SageMakerClientTypes.InferenceComponentSpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BaseInferenceComponentName"].write(value.baseInferenceComponentName)
         try writer["ComputeResourceRequirements"].write(value.computeResourceRequirements, with: SageMakerClientTypes.InferenceComponentComputeResourceRequirements.write(value:to:))
         try writer["Container"].write(value.container, with: SageMakerClientTypes.InferenceComponentContainerSpecification.write(value:to:))
         try writer["ModelName"].write(value.modelName)

@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RDSClient: ClientRuntime.Client {
     public static let clientName = "RDSClient"
-    public static let version = "1.0.35"
+    public static let version = "1.0.51"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSClient.RDSClientConfiguration
     let serviceName = "RDS"
@@ -1140,7 +1140,7 @@ extension RDSClient {
 
     /// Performs the `CreateBlueGreenDeployment` operation on the `AmazonRDSv19` service.
     ///
-    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environment is the current production environment. The green environment is the staging environment. The staging environment stays in sync with the current production environment using logical replication. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version, change database parameters, or make schema changes in the staging environment. You can thoroughly test changes in the green environment. When ready, you can switch over the environments to promote the green environment to be the new production environment. The switchover typically takes under a minute. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    /// Creates a blue/green deployment. A blue/green deployment creates a staging environment that copies the production environment. In a blue/green deployment, the blue environment is the current production environment. The green environment is the staging environment, and it stays in sync with the current production environment. You can make changes to the databases in the green environment without affecting production workloads. For example, you can upgrade the major or minor DB engine version, change database parameters, or make schema changes in the staging environment. You can thoroughly test changes in the green environment. When ready, you can switch over the environments to promote the green environment to be the new production environment. The switchover typically takes under a minute. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
     ///
     /// - Parameter CreateBlueGreenDeploymentInput : [no documentation found]
     ///
@@ -2080,7 +2080,7 @@ extension RDSClient {
     ///
     /// - Parameter CreateDBShardGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateDBShardGroupOutput` : [no documentation found]
+    /// - Returns: `CreateDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3610,7 +3610,7 @@ extension RDSClient {
     ///
     /// - Parameter DeleteDBShardGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteDBShardGroupOutput` : [no documentation found]
+    /// - Returns: `DeleteDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5209,6 +5209,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBInstanceNotReadyFault` : An attempt to download or examine log files didn't succeed because an Aurora Serverless v2 instance was paused.
     public func describeDBLogFiles(input: DescribeDBLogFilesInput) async throws -> DescribeDBLogFilesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7306,7 +7307,7 @@ extension RDSClient {
 
     /// Performs the `DisableHttpEndpoint` operation on the `AmazonRDSv19` service.
     ///
-    /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
+    /// Disables the HTTP endpoint for the specified DB cluster. Disabling this endpoint disables RDS Data API. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
     ///
     /// - Parameter DisableHttpEndpointInput : [no documentation found]
     ///
@@ -7386,6 +7387,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
+    /// - `DBInstanceNotReadyFault` : An attempt to download or examine log files didn't succeed because an Aurora Serverless v2 instance was paused.
     /// - `DBLogFileNotFoundFault` : LogFileName doesn't refer to an existing DB log file.
     public func downloadDBLogFilePortion(input: DownloadDBLogFilePortionInput) async throws -> DownloadDBLogFilePortionOutput {
         let context = Smithy.ContextBuilder()
@@ -7446,7 +7448,7 @@ extension RDSClient {
 
     /// Performs the `EnableHttpEndpoint` operation on the `AmazonRDSv19` service.
     ///
-    /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This operation applies only to Aurora PostgreSQL Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
+    /// Enables the HTTP endpoint for the DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, this endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the EnableHttpEndpoint parameter of the ModifyDBCluster operation.
     ///
     /// - Parameter EnableHttpEndpointInput : [no documentation found]
     ///
@@ -8784,7 +8786,7 @@ extension RDSClient {
     ///
     /// - Parameter ModifyDBShardGroupInput : [no documentation found]
     ///
-    /// - Returns: `ModifyDBShardGroupOutput` : [no documentation found]
+    /// - Returns: `ModifyDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9787,7 +9789,7 @@ extension RDSClient {
     ///
     /// - Parameter RebootDBShardGroupInput : [no documentation found]
     ///
-    /// - Returns: `RebootDBShardGroupOutput` : [no documentation found]
+    /// - Returns: `RebootDBShardGroupOutput` : Contains the details for an Amazon RDS DB shard group.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

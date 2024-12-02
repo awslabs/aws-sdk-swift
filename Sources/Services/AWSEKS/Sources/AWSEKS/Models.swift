@@ -489,6 +489,8 @@ extension EKSClientTypes {
         public var architecture: [Swift.String]?
         /// An object representing the compatibilities of a version.
         public var compatibilities: [EKSClientTypes.Compatibility]?
+        /// Indicates the compute type of the addon version.
+        public var computeTypes: [Swift.String]?
         /// Whether the add-on requires configuration.
         public var requiresConfiguration: Swift.Bool
         /// Indicates if the Addon requires IAM Permissions to operate, such as networking permissions.
@@ -498,6 +500,7 @@ extension EKSClientTypes {
             addonVersion: Swift.String? = nil,
             architecture: [Swift.String]? = nil,
             compatibilities: [EKSClientTypes.Compatibility]? = nil,
+            computeTypes: [Swift.String]? = nil,
             requiresConfiguration: Swift.Bool = false,
             requiresIamPermissions: Swift.Bool = false
         )
@@ -505,6 +508,7 @@ extension EKSClientTypes {
             self.addonVersion = addonVersion
             self.architecture = architecture
             self.compatibilities = compatibilities
+            self.computeTypes = computeTypes
             self.requiresConfiguration = requiresConfiguration
             self.requiresIamPermissions = requiresIamPermissions
         }
@@ -1162,12 +1166,14 @@ extension EKSClientTypes {
         case addonVersion
         case authenticationMode
         case clusterLogging
+        case computeConfig
         case configurationValues
         case desiredSize
         case encryptionConfig
         case endpointPrivateAccess
         case endpointPublicAccess
         case identityProviderConfig
+        case kubernetesNetworkConfig
         case labelsToAdd
         case labelsToRemove
         case launchTemplateName
@@ -1183,6 +1189,7 @@ extension EKSClientTypes {
         case resolveConflicts
         case securityGroups
         case serviceAccountRoleArn
+        case storageConfig
         case subnets
         case taintsToAdd
         case taintsToRemove
@@ -1196,12 +1203,14 @@ extension EKSClientTypes {
                 .addonVersion,
                 .authenticationMode,
                 .clusterLogging,
+                .computeConfig,
                 .configurationValues,
                 .desiredSize,
                 .encryptionConfig,
                 .endpointPrivateAccess,
                 .endpointPublicAccess,
                 .identityProviderConfig,
+                .kubernetesNetworkConfig,
                 .labelsToAdd,
                 .labelsToRemove,
                 .launchTemplateName,
@@ -1217,6 +1226,7 @@ extension EKSClientTypes {
                 .resolveConflicts,
                 .securityGroups,
                 .serviceAccountRoleArn,
+                .storageConfig,
                 .subnets,
                 .taintsToAdd,
                 .taintsToRemove,
@@ -1236,12 +1246,14 @@ extension EKSClientTypes {
             case .addonVersion: return "AddonVersion"
             case .authenticationMode: return "AuthenticationMode"
             case .clusterLogging: return "ClusterLogging"
+            case .computeConfig: return "ComputeConfig"
             case .configurationValues: return "ConfigurationValues"
             case .desiredSize: return "DesiredSize"
             case .encryptionConfig: return "EncryptionConfig"
             case .endpointPrivateAccess: return "EndpointPrivateAccess"
             case .endpointPublicAccess: return "EndpointPublicAccess"
             case .identityProviderConfig: return "IdentityProviderConfig"
+            case .kubernetesNetworkConfig: return "KubernetesNetworkConfig"
             case .labelsToAdd: return "LabelsToAdd"
             case .labelsToRemove: return "LabelsToRemove"
             case .launchTemplateName: return "LaunchTemplateName"
@@ -1257,6 +1269,7 @@ extension EKSClientTypes {
             case .resolveConflicts: return "ResolveConflicts"
             case .securityGroups: return "SecurityGroups"
             case .serviceAccountRoleArn: return "ServiceAccountRoleArn"
+            case .storageConfig: return "StorageConfig"
             case .subnets: return "Subnets"
             case .taintsToAdd: return "TaintsToAdd"
             case .taintsToRemove: return "TaintsToRemove"
@@ -1331,6 +1344,7 @@ extension EKSClientTypes {
         case addonUpdate
         case associateEncryptionConfig
         case associateIdentityProviderConfig
+        case autoModeUpdate
         case configUpdate
         case disassociateIdentityProviderConfig
         case endpointAccessUpdate
@@ -1347,6 +1361,7 @@ extension EKSClientTypes {
                 .addonUpdate,
                 .associateEncryptionConfig,
                 .associateIdentityProviderConfig,
+                .autoModeUpdate,
                 .configUpdate,
                 .disassociateIdentityProviderConfig,
                 .endpointAccessUpdate,
@@ -1369,6 +1384,7 @@ extension EKSClientTypes {
             case .addonUpdate: return "AddonUpdate"
             case .associateEncryptionConfig: return "AssociateEncryptionConfig"
             case .associateIdentityProviderConfig: return "AssociateIdentityProviderConfig"
+            case .autoModeUpdate: return "AutoModeUpdate"
             case .configUpdate: return "ConfigUpdate"
             case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
             case .endpointAccessUpdate: return "EndpointAccessUpdate"
@@ -1806,6 +1822,46 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// Request to update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability. For more information, see EKS Auto Mode compute capability in the EKS User Guide.
+    public struct ComputeConfigRequest: Swift.Sendable {
+        /// Request to enable or disable the compute capability on your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account.
+        public var enabled: Swift.Bool?
+        /// Configuration for node pools that defines the compute resources for your EKS Auto Mode cluster. For more information, see EKS Auto Mode Node Pools in the EKS User Guide.
+        public var nodePools: [Swift.String]?
+        /// The ARN of the IAM Role EKS will assign to EC2 Managed Instances in your EKS Auto Mode cluster. This value cannot be changed after the compute capability of EKS Auto Mode is enabled. For more information, see the IAM Reference in the EKS User Guide.
+        public var nodeRoleArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            nodePools: [Swift.String]? = nil,
+            nodeRoleArn: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.nodePools = nodePools
+            self.nodeRoleArn = nodeRoleArn
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Indicates the current configuration of the load balancing capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. For more information, see EKS Auto Mode load balancing capability in the EKS User Guide.
+    public struct ElasticLoadBalancing: Swift.Sendable {
+        /// Indicates if the load balancing capability is enabled on your EKS Auto Mode cluster. If the load balancing capability is enabled, EKS Auto Mode will create and delete load balancers in your Amazon Web Services account.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     public enum IpFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ipv4
         case ipv6
@@ -1837,6 +1893,8 @@ extension EKSClientTypes {
 
     /// The Kubernetes network configuration for the cluster.
     public struct KubernetesNetworkConfigRequest: Swift.Sendable {
+        /// Request to enable or disable the load balancing capability on your EKS Auto Mode cluster. For more information, see EKS Auto Mode load balancing capability in the EKS User Guide.
+        public var elasticLoadBalancing: EKSClientTypes.ElasticLoadBalancing?
         /// Specify which IP family is used to assign Kubernetes pod and service IP addresses. If you don't specify a value, ipv4 is used by default. You can only specify an IP family when you create a cluster and can't change this value once the cluster is created. If you specify ipv6, the VPC and subnets that you specify for cluster creation must have both IPv4 and IPv6 CIDR blocks assigned to them. You can't specify ipv6 for clusters in China Regions. You can only specify ipv6 for 1.21 and later clusters that use version 1.10.1 or later of the Amazon VPC CNI add-on. If you specify ipv6, then ensure that your VPC meets the requirements listed in the considerations listed in [Assigning IPv6 addresses to pods and services](https://docs.aws.amazon.com/eks/latest/userguide/cni-ipv6.html) in the Amazon EKS User Guide. Kubernetes assigns services IPv6 addresses from the unique local address range (fc00::/7). You can't specify a custom IPv6 CIDR block. Pod addresses are assigned from the subnet's IPv6 CIDR.
         public var ipFamily: EKSClientTypes.IpFamily?
         /// Don't specify a value if you select ipv6 for ipFamily. The CIDR block to assign Kubernetes service IP addresses from. If you don't specify a block, Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. We recommend that you specify a block that does not overlap with resources in other networks that are peered or connected to your VPC. The block must meet the following requirements:
@@ -1852,10 +1910,12 @@ extension EKSClientTypes {
         public var serviceIpv4Cidr: Swift.String?
 
         public init(
+            elasticLoadBalancing: EKSClientTypes.ElasticLoadBalancing? = nil,
             ipFamily: EKSClientTypes.IpFamily? = nil,
             serviceIpv4Cidr: Swift.String? = nil
         )
         {
+            self.elasticLoadBalancing = elasticLoadBalancing
             self.ipFamily = ipFamily
             self.serviceIpv4Cidr = serviceIpv4Cidr
         }
@@ -1980,6 +2040,58 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// A network CIDR that can contain hybrid nodes.
+    public struct RemoteNodeNetwork: Swift.Sendable {
+        /// A network CIDR that can contain hybrid nodes.
+        public var cidrs: [Swift.String]?
+
+        public init(
+            cidrs: [Swift.String]? = nil
+        )
+        {
+            self.cidrs = cidrs
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes.
+    public struct RemotePodNetwork: Swift.Sendable {
+        /// A network CIDR that can contain pods that run Kubernetes webhooks on hybrid nodes.
+        public var cidrs: [Swift.String]?
+
+        public init(
+            cidrs: [Swift.String]? = nil
+        )
+        {
+            self.cidrs = cidrs
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+    public struct RemoteNetworkConfigRequest: Swift.Sendable {
+        /// The list of network CIDRs that can contain hybrid nodes.
+        public var remoteNodeNetworks: [EKSClientTypes.RemoteNodeNetwork]?
+        /// The list of network CIDRs that can contain pods that run Kubernetes webhooks on hybrid nodes.
+        public var remotePodNetworks: [EKSClientTypes.RemotePodNetwork]?
+
+        public init(
+            remoteNodeNetworks: [EKSClientTypes.RemoteNodeNetwork]? = nil,
+            remotePodNetworks: [EKSClientTypes.RemotePodNetwork]? = nil
+        )
+        {
+            self.remoteNodeNetworks = remoteNodeNetworks
+            self.remotePodNetworks = remotePodNetworks
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// An object representing the VPC configuration to use for an Amazon EKS cluster.
     public struct VpcConfigRequest: Swift.Sendable {
         /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see [Amazon EKS cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
@@ -2006,6 +2118,38 @@ extension EKSClientTypes {
             self.publicAccessCidrs = publicAccessCidrs
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Indicates the current configuration of the block storage capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account. For more information, see EKS Auto Mode block storage capability in the EKS User Guide.
+    public struct BlockStorage: Swift.Sendable {
+        /// Indicates if the block storage capability is enabled on your EKS Auto Mode cluster. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        )
+        {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Request to update the configuration of the storage capability of your EKS Auto Mode cluster. For example, enable the capability. For more information, see EKS Auto Mode block storage capability in the EKS User Guide.
+    public struct StorageConfigRequest: Swift.Sendable {
+        /// Request to configure EBS Block Storage settings for your EKS Auto Mode cluster.
+        public var blockStorage: EKSClientTypes.BlockStorage?
+
+        public init(
+            blockStorage: EKSClientTypes.BlockStorage? = nil
+        )
+        {
+            self.blockStorage = blockStorage
         }
     }
 }
@@ -2078,6 +2222,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var bootstrapSelfManagedAddons: Swift.Bool?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
+    /// Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
+    public var computeConfig: EKSClientTypes.ComputeConfigRequest?
     /// The encryption configuration for the cluster.
     public var encryptionConfig: [EKSClientTypes.EncryptionConfig]?
     /// The Kubernetes network configuration for the cluster.
@@ -2089,12 +2235,16 @@ public struct CreateClusterInput: Swift.Sendable {
     public var name: Swift.String?
     /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review [Local clusters for Amazon EKS on Amazon Web Services Outposts](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-overview.html) in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
     public var outpostConfig: EKSClientTypes.OutpostConfigRequest?
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+    public var remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigRequest?
     /// The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see [Cluster VPC Considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) and [Cluster Security Group Considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html) in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
     /// This member is required.
     public var resourcesVpcConfig: EKSClientTypes.VpcConfigRequest?
     /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. For more information, see [Amazon EKS Service IAM Role](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html) in the Amazon EKS User Guide .
     /// This member is required.
     public var roleArn: Swift.String?
+    /// Enable or disable the block storage capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account.
+    public var storageConfig: EKSClientTypes.StorageConfigRequest?
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
     public var tags: [Swift.String: Swift.String]?
     /// New clusters, by default, have extended support enabled. You can disable extended support when creating a cluster by setting this value to STANDARD.
@@ -2108,13 +2258,16 @@ public struct CreateClusterInput: Swift.Sendable {
         accessConfig: EKSClientTypes.CreateAccessConfigRequest? = nil,
         bootstrapSelfManagedAddons: Swift.Bool? = nil,
         clientRequestToken: Swift.String? = nil,
+        computeConfig: EKSClientTypes.ComputeConfigRequest? = nil,
         encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil,
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
         logging: EKSClientTypes.Logging? = nil,
         name: Swift.String? = nil,
         outpostConfig: EKSClientTypes.OutpostConfigRequest? = nil,
+        remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigRequest? = nil,
         resourcesVpcConfig: EKSClientTypes.VpcConfigRequest? = nil,
         roleArn: Swift.String? = nil,
+        storageConfig: EKSClientTypes.StorageConfigRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil,
         version: Swift.String? = nil,
@@ -2124,13 +2277,16 @@ public struct CreateClusterInput: Swift.Sendable {
         self.accessConfig = accessConfig
         self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
         self.clientRequestToken = clientRequestToken
+        self.computeConfig = computeConfig
         self.encryptionConfig = encryptionConfig
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
         self.logging = logging
         self.name = name
         self.outpostConfig = outpostConfig
+        self.remoteNetworkConfig = remoteNetworkConfig
         self.resourcesVpcConfig = resourcesVpcConfig
         self.roleArn = roleArn
+        self.storageConfig = storageConfig
         self.tags = tags
         self.upgradePolicy = upgradePolicy
         self.version = version
@@ -2150,6 +2306,30 @@ extension EKSClientTypes {
         )
         {
             self.data = data
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Indicates the status of the request to update the compute capability of your EKS Auto Mode cluster.
+    public struct ComputeConfigResponse: Swift.Sendable {
+        /// Indicates if the compute capability is enabled on your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account.
+        public var enabled: Swift.Bool?
+        /// Indicates the current configuration of node pools in your EKS Auto Mode cluster. For more information, see EKS Auto Mode Node Pools in the EKS User Guide.
+        public var nodePools: [Swift.String]?
+        /// The ARN of the IAM Role EKS will assign to EC2 Managed Instances in your EKS Auto Mode cluster.
+        public var nodeRoleArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            nodePools: [Swift.String]? = nil,
+            nodeRoleArn: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.nodePools = nodePools
+            self.nodeRoleArn = nodeRoleArn
         }
     }
 }
@@ -2342,6 +2522,8 @@ extension EKSClientTypes {
 
     /// The Kubernetes network configuration for the cluster. The response contains a value for serviceIpv6Cidr or serviceIpv4Cidr, but not both.
     public struct KubernetesNetworkConfigResponse: Swift.Sendable {
+        /// Indicates the current configuration of the load balancing capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled.
+        public var elasticLoadBalancing: EKSClientTypes.ElasticLoadBalancing?
         /// The IP family used to assign Kubernetes Pod and Service objects IP addresses. The IP family is always ipv4, unless you have a 1.21 or later cluster running version 1.10.1 or later of the Amazon VPC CNI plugin for Kubernetes and specified ipv6 when you created the cluster.
         public var ipFamily: EKSClientTypes.IpFamily?
         /// The CIDR block that Kubernetes Pod and Service object IP addresses are assigned from. Kubernetes assigns addresses from an IPv4 CIDR block assigned to a subnet that the node is in. If you didn't specify a CIDR block when you created the cluster, then Kubernetes assigns addresses from either the 10.100.0.0/16 or 172.20.0.0/16 CIDR blocks. If this was specified, then it was specified when the cluster was created and it can't be changed.
@@ -2350,11 +2532,13 @@ extension EKSClientTypes {
         public var serviceIpv6Cidr: Swift.String?
 
         public init(
+            elasticLoadBalancing: EKSClientTypes.ElasticLoadBalancing? = nil,
             ipFamily: EKSClientTypes.IpFamily? = nil,
             serviceIpv4Cidr: Swift.String? = nil,
             serviceIpv6Cidr: Swift.String? = nil
         )
         {
+            self.elasticLoadBalancing = elasticLoadBalancing
             self.ipFamily = ipFamily
             self.serviceIpv4Cidr = serviceIpv4Cidr
             self.serviceIpv6Cidr = serviceIpv6Cidr
@@ -2400,6 +2584,26 @@ extension EKSClientTypes {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
             self.outpostArns = outpostArns
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+    public struct RemoteNetworkConfigResponse: Swift.Sendable {
+        /// The list of network CIDRs that can contain hybrid nodes.
+        public var remoteNodeNetworks: [EKSClientTypes.RemoteNodeNetwork]?
+        /// The list of network CIDRs that can contain pods that run Kubernetes webhooks on hybrid nodes.
+        public var remotePodNetworks: [EKSClientTypes.RemotePodNetwork]?
+
+        public init(
+            remoteNodeNetworks: [EKSClientTypes.RemoteNodeNetwork]? = nil,
+            remotePodNetworks: [EKSClientTypes.RemotePodNetwork]? = nil
+        )
+        {
+            self.remoteNodeNetworks = remoteNodeNetworks
+            self.remotePodNetworks = remotePodNetworks
         }
     }
 }
@@ -2487,6 +2691,22 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// Indicates the status of the request to update the block storage capability of your EKS Auto Mode cluster.
+    public struct StorageConfigResponse: Swift.Sendable {
+        /// Indicates the current configuration of the block storage capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled.
+        public var blockStorage: EKSClientTypes.BlockStorage?
+
+        public init(
+            blockStorage: EKSClientTypes.BlockStorage? = nil
+        )
+        {
+            self.blockStorage = blockStorage
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// This value indicates if extended support is enabled or disabled for the cluster. [Learn more about EKS Extended Support in the EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html)
     public struct UpgradePolicyResponse: Swift.Sendable {
         /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support. [Learn more about EKS Extended Support in the EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html)
@@ -2529,6 +2749,8 @@ extension EKSClientTypes {
         public var certificateAuthority: EKSClientTypes.Certificate?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public var clientRequestToken: Swift.String?
+        /// Indicates the current configuration of the compute capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account. For more information, see EKS Auto Mode compute capability in the EKS User Guide.
+        public var computeConfig: EKSClientTypes.ComputeConfigResponse?
         /// The configuration used to connect to a cluster for registration.
         public var connectorConfig: EKSClientTypes.ConnectorConfigResponse?
         /// The Unix epoch timestamp at object creation.
@@ -2553,12 +2775,16 @@ extension EKSClientTypes {
         public var outpostConfig: EKSClientTypes.OutpostConfigResponse?
         /// The platform version of your Amazon EKS cluster. For more information about clusters deployed on the Amazon Web Services Cloud, see [Platform versions](https://docs.aws.amazon.com/eks/latest/userguide/platform-versions.html) in the Amazon EKS User Guide . For more information about local clusters deployed on an Outpost, see [Amazon EKS local cluster platform versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-platform-versions.html) in the Amazon EKS User Guide .
         public var platformVersion: Swift.String?
+        /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+        public var remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigResponse?
         /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see [Cluster VPC considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html) and [Cluster security group considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html) in the Amazon EKS User Guide.
         public var resourcesVpcConfig: EKSClientTypes.VpcConfigResponse?
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf.
         public var roleArn: Swift.String?
         /// The current status of the cluster.
         public var status: EKSClientTypes.ClusterStatus?
+        /// Indicates the current configuration of the block storage capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account. For more information, see EKS Auto Mode block storage capability in the EKS User Guide.
+        public var storageConfig: EKSClientTypes.StorageConfigResponse?
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public var tags: [Swift.String: Swift.String]?
         /// This value indicates if extended support is enabled or disabled for the cluster. [Learn more about EKS Extended Support in the EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/extended-support-control.html)
@@ -2573,6 +2799,7 @@ extension EKSClientTypes {
             arn: Swift.String? = nil,
             certificateAuthority: EKSClientTypes.Certificate? = nil,
             clientRequestToken: Swift.String? = nil,
+            computeConfig: EKSClientTypes.ComputeConfigResponse? = nil,
             connectorConfig: EKSClientTypes.ConnectorConfigResponse? = nil,
             createdAt: Foundation.Date? = nil,
             encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil,
@@ -2585,9 +2812,11 @@ extension EKSClientTypes {
             name: Swift.String? = nil,
             outpostConfig: EKSClientTypes.OutpostConfigResponse? = nil,
             platformVersion: Swift.String? = nil,
+            remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigResponse? = nil,
             resourcesVpcConfig: EKSClientTypes.VpcConfigResponse? = nil,
             roleArn: Swift.String? = nil,
             status: EKSClientTypes.ClusterStatus? = nil,
+            storageConfig: EKSClientTypes.StorageConfigResponse? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             upgradePolicy: EKSClientTypes.UpgradePolicyResponse? = nil,
             version: Swift.String? = nil,
@@ -2598,6 +2827,7 @@ extension EKSClientTypes {
             self.arn = arn
             self.certificateAuthority = certificateAuthority
             self.clientRequestToken = clientRequestToken
+            self.computeConfig = computeConfig
             self.connectorConfig = connectorConfig
             self.createdAt = createdAt
             self.encryptionConfig = encryptionConfig
@@ -2610,9 +2840,11 @@ extension EKSClientTypes {
             self.name = name
             self.outpostConfig = outpostConfig
             self.platformVersion = platformVersion
+            self.remoteNetworkConfig = remoteNetworkConfig
             self.resourcesVpcConfig = resourcesVpcConfig
             self.roleArn = roleArn
             self.status = status
+            self.storageConfig = storageConfig
             self.tags = tags
             self.upgradePolicy = upgradePolicy
             self.version = version
@@ -3323,6 +3555,7 @@ extension EKSClientTypes {
         case autoScalingGroupOptInRequired
         case autoScalingGroupRateLimitExceeded
         case clusterUnreachable
+        case ec2InstanceTypeDoesNotExist
         case ec2LaunchTemplateDeletionFailure
         case ec2LaunchTemplateInvalidConfiguration
         case ec2LaunchTemplateMaxLimitExceeded
@@ -3362,6 +3595,7 @@ extension EKSClientTypes {
                 .autoScalingGroupOptInRequired,
                 .autoScalingGroupRateLimitExceeded,
                 .clusterUnreachable,
+                .ec2InstanceTypeDoesNotExist,
                 .ec2LaunchTemplateDeletionFailure,
                 .ec2LaunchTemplateInvalidConfiguration,
                 .ec2LaunchTemplateMaxLimitExceeded,
@@ -3407,6 +3641,7 @@ extension EKSClientTypes {
             case .autoScalingGroupOptInRequired: return "AutoScalingGroupOptInRequired"
             case .autoScalingGroupRateLimitExceeded: return "AutoScalingGroupRateLimitExceeded"
             case .clusterUnreachable: return "ClusterUnreachable"
+            case .ec2InstanceTypeDoesNotExist: return "Ec2InstanceTypeDoesNotExist"
             case .ec2LaunchTemplateDeletionFailure: return "Ec2LaunchTemplateDeletionFailure"
             case .ec2LaunchTemplateInvalidConfiguration: return "Ec2LaunchTemplateInvalidConfiguration"
             case .ec2LaunchTemplateMaxLimitExceeded: return "Ec2LaunchTemplateMaxLimitExceeded"
@@ -3452,6 +3687,8 @@ extension EKSClientTypes {
         /// * AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.
         ///
         /// * ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.
+        ///
+        /// * Ec2InstanceTypeDoesNotExist: One or more of the supplied Amazon EC2 instance types do not exist. Amazon EKS checked for the instance types that you provided in this Amazon Web Services Region, and one or more aren't available.
         ///
         /// * Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.
         ///
@@ -5875,6 +6112,10 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     public var accessConfig: EKSClientTypes.UpdateAccessConfigRequest?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
+    /// Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
+    public var computeConfig: EKSClientTypes.ComputeConfigRequest?
+    /// The Kubernetes network configuration for the cluster.
+    public var kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest?
     /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
     public var logging: EKSClientTypes.Logging?
     /// The name of the Amazon EKS cluster to update.
@@ -5882,6 +6123,8 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     public var name: Swift.String?
     /// An object representing the VPC configuration to use for an Amazon EKS cluster.
     public var resourcesVpcConfig: EKSClientTypes.VpcConfigRequest?
+    /// Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
+    public var storageConfig: EKSClientTypes.StorageConfigRequest?
     /// You can enable or disable extended support for clusters currently on standard support. You cannot disable extended support once it starts. You must enable extended support before your cluster exits standard support.
     public var upgradePolicy: EKSClientTypes.UpgradePolicyRequest?
     /// Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see [Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/zone-shift.html) in the Amazon EKS User Guide .
@@ -5890,18 +6133,24 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     public init(
         accessConfig: EKSClientTypes.UpdateAccessConfigRequest? = nil,
         clientRequestToken: Swift.String? = nil,
+        computeConfig: EKSClientTypes.ComputeConfigRequest? = nil,
+        kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
         logging: EKSClientTypes.Logging? = nil,
         name: Swift.String? = nil,
         resourcesVpcConfig: EKSClientTypes.VpcConfigRequest? = nil,
+        storageConfig: EKSClientTypes.StorageConfigRequest? = nil,
         upgradePolicy: EKSClientTypes.UpgradePolicyRequest? = nil,
         zonalShiftConfig: EKSClientTypes.ZonalShiftConfigRequest? = nil
     )
     {
         self.accessConfig = accessConfig
         self.clientRequestToken = clientRequestToken
+        self.computeConfig = computeConfig
+        self.kubernetesNetworkConfig = kubernetesNetworkConfig
         self.logging = logging
         self.name = name
         self.resourcesVpcConfig = resourcesVpcConfig
+        self.storageConfig = storageConfig
         self.upgradePolicy = upgradePolicy
         self.zonalShiftConfig = zonalShiftConfig
     }
@@ -7141,13 +7390,16 @@ extension CreateClusterInput {
         try writer["accessConfig"].write(value.accessConfig, with: EKSClientTypes.CreateAccessConfigRequest.write(value:to:))
         try writer["bootstrapSelfManagedAddons"].write(value.bootstrapSelfManagedAddons)
         try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
         try writer["encryptionConfig"].writeList(value.encryptionConfig, memberWritingClosure: EKSClientTypes.EncryptionConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
         try writer["name"].write(value.name)
         try writer["outpostConfig"].write(value.outpostConfig, with: EKSClientTypes.OutpostConfigRequest.write(value:to:))
+        try writer["remoteNetworkConfig"].write(value.remoteNetworkConfig, with: EKSClientTypes.RemoteNetworkConfigRequest.write(value:to:))
         try writer["resourcesVpcConfig"].write(value.resourcesVpcConfig, with: EKSClientTypes.VpcConfigRequest.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
+        try writer["storageConfig"].write(value.storageConfig, with: EKSClientTypes.StorageConfigRequest.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["upgradePolicy"].write(value.upgradePolicy, with: EKSClientTypes.UpgradePolicyRequest.write(value:to:))
         try writer["version"].write(value.version)
@@ -7293,8 +7545,11 @@ extension UpdateClusterConfigInput {
         guard let value else { return }
         try writer["accessConfig"].write(value.accessConfig, with: EKSClientTypes.UpdateAccessConfigRequest.write(value:to:))
         try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
+        try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
         try writer["resourcesVpcConfig"].write(value.resourcesVpcConfig, with: EKSClientTypes.VpcConfigRequest.write(value:to:))
+        try writer["storageConfig"].write(value.storageConfig, with: EKSClientTypes.StorageConfigRequest.write(value:to:))
         try writer["upgradePolicy"].write(value.upgradePolicy, with: EKSClientTypes.UpgradePolicyRequest.write(value:to:))
         try writer["zonalShiftConfig"].write(value.zonalShiftConfig, with: EKSClientTypes.ZonalShiftConfigRequest.write(value:to:))
     }
@@ -9380,6 +9635,87 @@ extension EKSClientTypes.Cluster {
         value.accessConfig = try reader["accessConfig"].readIfPresent(with: EKSClientTypes.AccessConfigResponse.read(from:))
         value.upgradePolicy = try reader["upgradePolicy"].readIfPresent(with: EKSClientTypes.UpgradePolicyResponse.read(from:))
         value.zonalShiftConfig = try reader["zonalShiftConfig"].readIfPresent(with: EKSClientTypes.ZonalShiftConfigResponse.read(from:))
+        value.remoteNetworkConfig = try reader["remoteNetworkConfig"].readIfPresent(with: EKSClientTypes.RemoteNetworkConfigResponse.read(from:))
+        value.computeConfig = try reader["computeConfig"].readIfPresent(with: EKSClientTypes.ComputeConfigResponse.read(from:))
+        value.storageConfig = try reader["storageConfig"].readIfPresent(with: EKSClientTypes.StorageConfigResponse.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.StorageConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.StorageConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.StorageConfigResponse()
+        value.blockStorage = try reader["blockStorage"].readIfPresent(with: EKSClientTypes.BlockStorage.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.BlockStorage {
+
+    static func write(value: EKSClientTypes.BlockStorage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.BlockStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.BlockStorage()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.ComputeConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ComputeConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ComputeConfigResponse()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.nodePools = try reader["nodePools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nodeRoleArn = try reader["nodeRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.RemoteNetworkConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemoteNetworkConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.RemoteNetworkConfigResponse()
+        value.remoteNodeNetworks = try reader["remoteNodeNetworks"].readListIfPresent(memberReadingClosure: EKSClientTypes.RemoteNodeNetwork.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.remotePodNetworks = try reader["remotePodNetworks"].readListIfPresent(memberReadingClosure: EKSClientTypes.RemotePodNetwork.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.RemotePodNetwork {
+
+    static func write(value: EKSClientTypes.RemotePodNetwork?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemotePodNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.RemotePodNetwork()
+        value.cidrs = try reader["cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.RemoteNodeNetwork {
+
+    static func write(value: EKSClientTypes.RemoteNodeNetwork?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidrs"].writeList(value.cidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.RemoteNodeNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.RemoteNodeNetwork()
+        value.cidrs = try reader["cidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9575,6 +9911,22 @@ extension EKSClientTypes.KubernetesNetworkConfigResponse {
         value.serviceIpv4Cidr = try reader["serviceIpv4Cidr"].readIfPresent()
         value.serviceIpv6Cidr = try reader["serviceIpv6Cidr"].readIfPresent()
         value.ipFamily = try reader["ipFamily"].readIfPresent()
+        value.elasticLoadBalancing = try reader["elasticLoadBalancing"].readIfPresent(with: EKSClientTypes.ElasticLoadBalancing.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.ElasticLoadBalancing {
+
+    static func write(value: EKSClientTypes.ElasticLoadBalancing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ElasticLoadBalancing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ElasticLoadBalancing()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -9909,6 +10261,7 @@ extension EKSClientTypes.AddonVersionInfo {
         var value = EKSClientTypes.AddonVersionInfo()
         value.addonVersion = try reader["addonVersion"].readIfPresent()
         value.architecture = try reader["architecture"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.computeTypes = try reader["computeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.compatibilities = try reader["compatibilities"].readListIfPresent(memberReadingClosure: EKSClientTypes.Compatibility.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requiresConfiguration = try reader["requiresConfiguration"].readIfPresent() ?? false
         value.requiresIamPermissions = try reader["requiresIamPermissions"].readIfPresent() ?? false
@@ -10139,6 +10492,7 @@ extension EKSClientTypes.KubernetesNetworkConfigRequest {
 
     static func write(value: EKSClientTypes.KubernetesNetworkConfigRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["elasticLoadBalancing"].write(value.elasticLoadBalancing, with: EKSClientTypes.ElasticLoadBalancing.write(value:to:))
         try writer["ipFamily"].write(value.ipFamily)
         try writer["serviceIpv4Cidr"].write(value.serviceIpv4Cidr)
     }
@@ -10184,6 +10538,33 @@ extension EKSClientTypes.ZonalShiftConfigRequest {
     static func write(value: EKSClientTypes.ZonalShiftConfigRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
+    }
+}
+
+extension EKSClientTypes.RemoteNetworkConfigRequest {
+
+    static func write(value: EKSClientTypes.RemoteNetworkConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["remoteNodeNetworks"].writeList(value.remoteNodeNetworks, memberWritingClosure: EKSClientTypes.RemoteNodeNetwork.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["remotePodNetworks"].writeList(value.remotePodNetworks, memberWritingClosure: EKSClientTypes.RemotePodNetwork.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension EKSClientTypes.ComputeConfigRequest {
+
+    static func write(value: EKSClientTypes.ComputeConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["nodePools"].writeList(value.nodePools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["nodeRoleArn"].write(value.nodeRoleArn)
+    }
+}
+
+extension EKSClientTypes.StorageConfigRequest {
+
+    static func write(value: EKSClientTypes.StorageConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["blockStorage"].write(value.blockStorage, with: EKSClientTypes.BlockStorage.write(value:to:))
     }
 }
 

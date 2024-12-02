@@ -15,8 +15,8 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.89.0"
-let crtVersion: Version = "0.37.0"
+let clientRuntimeVersion: Version = "0.98.0"
+let crtVersion: Version = "0.39.0"
 
 let excludeRuntimeUnitTests = false
 
@@ -55,6 +55,7 @@ let serviceTargets: [String] = [
     "AWSAutoScalingPlans",
     "AWSB2bi",
     "AWSBCMDataExports",
+    "AWSBCMPricingCalculator",
     "AWSBackup",
     "AWSBackupGateway",
     "AWSBatch",
@@ -62,6 +63,7 @@ let serviceTargets: [String] = [
     "AWSBedrockAgent",
     "AWSBedrockAgentRuntime",
     "AWSBedrockRuntime",
+    "AWSBilling",
     "AWSBillingconductor",
     "AWSBraket",
     "AWSBudgets",
@@ -110,6 +112,7 @@ let serviceTargets: [String] = [
     "AWSConfigService",
     "AWSConnect",
     "AWSConnectCampaigns",
+    "AWSConnectCampaignsV2",
     "AWSConnectCases",
     "AWSConnectContactLens",
     "AWSConnectParticipant",
@@ -193,6 +196,7 @@ let serviceTargets: [String] = [
     "AWSInspector2",
     "AWSInspectorScan",
     "AWSInternetMonitor",
+    "AWSInvoicing",
     "AWSIoT",
     "AWSIoT1ClickDevicesService",
     "AWSIoT1ClickProjects",
@@ -277,10 +281,14 @@ let serviceTargets: [String] = [
     "AWSNeptuneGraph",
     "AWSNeptunedata",
     "AWSNetworkFirewall",
+    "AWSNetworkFlowMonitor",
     "AWSNetworkManager",
     "AWSNetworkMonitor",
+    "AWSNotifications",
+    "AWSNotificationsContacts",
     "AWSOAM",
     "AWSOSIS",
+    "AWSObservabilityAdmin",
     "AWSOmics",
     "AWSOpenSearch",
     "AWSOpenSearchServerless",
@@ -291,6 +299,7 @@ let serviceTargets: [String] = [
     "AWSPCS",
     "AWSPI",
     "AWSPanorama",
+    "AWSPartnerCentralSelling",
     "AWSPaymentCryptography",
     "AWSPaymentCryptographyData",
     "AWSPcaConnectorAd",
@@ -366,6 +375,7 @@ let serviceTargets: [String] = [
     "AWSSchemas",
     "AWSSecretsManager",
     "AWSSecurityHub",
+    "AWSSecurityIR",
     "AWSSecurityLake",
     "AWSServerlessApplicationRepository",
     "AWSServiceCatalog",

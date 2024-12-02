@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MemoryDBClient: ClientRuntime.Client {
     public static let clientName = "MemoryDBClient"
-    public static let version = "1.0.35"
+    public static let version = "1.0.51"
     let client: ClientRuntime.SdkHttpClient
     let config: MemoryDBClient.MemoryDBClientConfiguration
     let serviceName = "MemoryDB"
@@ -436,9 +436,11 @@ extension MemoryDBClient {
     /// - `InsufficientClusterCapacityFault` :
     /// - `InvalidACLStateFault` :
     /// - `InvalidCredentialsException` :
+    /// - `InvalidMultiRegionClusterStateFault` : The requested operation cannot be performed on the multi-Region cluster in its current state.
     /// - `InvalidParameterCombinationException` :
     /// - `InvalidParameterValueException` :
     /// - `InvalidVPCNetworkStateFault` :
+    /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     /// - `NodeQuotaForClusterExceededFault` :
     /// - `NodeQuotaForCustomerExceededFault` :
     /// - `ParameterGroupNotFoundFault` :
@@ -492,6 +494,81 @@ extension MemoryDBClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateMultiRegionCluster` operation on the `AmazonMemoryDB` service.
+    ///
+    /// Creates a new multi-Region cluster.
+    ///
+    /// - Parameter CreateMultiRegionClusterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMultiRegionClusterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClusterQuotaForCustomerExceededFault` :
+    /// - `InvalidParameterCombinationException` :
+    /// - `InvalidParameterValueException` :
+    /// - `MultiRegionClusterAlreadyExistsFault` : A multi-Region cluster with the specified name already exists.
+    /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
+    /// - `TagQuotaPerResourceExceeded` :
+    public func createMultiRegionCluster(input: CreateMultiRegionClusterInput) async throws -> CreateMultiRegionClusterOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createMultiRegionCluster")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>(CreateMultiRegionClusterInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMultiRegionClusterOutput>(CreateMultiRegionClusterOutput.httpOutput(from:), CreateMultiRegionClusterOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateMultiRegionClusterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateMultiRegionClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>(serviceID: serviceName, version: MemoryDBClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>(xAmzTarget: "AmazonMemoryDB.CreateMultiRegionCluster"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMultiRegionClusterInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMultiRegionClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMultiRegionClusterInput, CreateMultiRegionClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateMultiRegionCluster")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -882,7 +959,7 @@ extension MemoryDBClient {
 
     /// Performs the `DeleteCluster` operation on the `AmazonMemoryDB` service.
     ///
-    /// Deletes a cluster. It also deletes all associated nodes and node endpoints
+    /// Deletes a cluster. It also deletes all associated nodes and node endpoints. CreateSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception.
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
@@ -943,6 +1020,78 @@ extension MemoryDBClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteMultiRegionCluster` operation on the `AmazonMemoryDB` service.
+    ///
+    /// Deletes an existing multi-Region cluster.
+    ///
+    /// - Parameter DeleteMultiRegionClusterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMultiRegionClusterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidMultiRegionClusterStateFault` : The requested operation cannot be performed on the multi-Region cluster in its current state.
+    /// - `InvalidParameterValueException` :
+    /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
+    public func deleteMultiRegionCluster(input: DeleteMultiRegionClusterInput) async throws -> DeleteMultiRegionClusterOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteMultiRegionCluster")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>(DeleteMultiRegionClusterInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMultiRegionClusterOutput>(DeleteMultiRegionClusterOutput.httpOutput(from:), DeleteMultiRegionClusterOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMultiRegionClusterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteMultiRegionClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>(serviceID: serviceName, version: MemoryDBClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>(xAmzTarget: "AmazonMemoryDB.DeleteMultiRegionCluster"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMultiRegionClusterInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMultiRegionClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMultiRegionClusterInput, DeleteMultiRegionClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMultiRegionCluster")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1249,7 +1398,7 @@ extension MemoryDBClient {
 
     /// Performs the `DescribeACLs` operation on the `AmazonMemoryDB` service.
     ///
-    /// Returns a list of ACLs
+    /// Returns a list of ACLs.
     ///
     /// - Parameter DescribeACLsInput : [no documentation found]
     ///
@@ -1393,7 +1542,7 @@ extension MemoryDBClient {
 
     /// Performs the `DescribeEngineVersions` operation on the `AmazonMemoryDB` service.
     ///
-    /// Returns a list of the available engine versions.
+    /// Returns a list of the available Redis OSS engine versions.
     ///
     /// - Parameter DescribeEngineVersionsInput : [no documentation found]
     ///
@@ -1523,6 +1672,79 @@ extension MemoryDBClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEvents")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeMultiRegionClusters` operation on the `AmazonMemoryDB` service.
+    ///
+    /// Returns details about one or more multi-Region clusters.
+    ///
+    /// - Parameter DescribeMultiRegionClustersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMultiRegionClustersOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClusterNotFoundFault` :
+    /// - `InvalidParameterCombinationException` :
+    /// - `InvalidParameterValueException` :
+    /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
+    public func describeMultiRegionClusters(input: DescribeMultiRegionClustersInput) async throws -> DescribeMultiRegionClustersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeMultiRegionClusters")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>(DescribeMultiRegionClustersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMultiRegionClustersOutput>(DescribeMultiRegionClustersOutput.httpOutput(from:), DescribeMultiRegionClustersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMultiRegionClustersOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeMultiRegionClustersOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>(serviceID: serviceName, version: MemoryDBClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>(xAmzTarget: "AmazonMemoryDB.DescribeMultiRegionClusters"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMultiRegionClustersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMultiRegionClustersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMultiRegionClustersInput, DescribeMultiRegionClustersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMultiRegionClusters")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1829,7 +2051,7 @@ extension MemoryDBClient {
 
     /// Performs the `DescribeServiceUpdates` operation on the `AmazonMemoryDB` service.
     ///
-    /// Returns details of the service updates
+    /// Returns details of the service updates.
     ///
     /// - Parameter DescribeServiceUpdatesInput : [no documentation found]
     ///
@@ -2190,6 +2412,78 @@ extension MemoryDBClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAllowedMultiRegionClusterUpdates` operation on the `AmazonMemoryDB` service.
+    ///
+    /// Lists the allowed updates for a multi-Region cluster.
+    ///
+    /// - Parameter ListAllowedMultiRegionClusterUpdatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAllowedMultiRegionClusterUpdatesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` :
+    /// - `InvalidParameterValueException` :
+    /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
+    public func listAllowedMultiRegionClusterUpdates(input: ListAllowedMultiRegionClusterUpdatesInput) async throws -> ListAllowedMultiRegionClusterUpdatesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAllowedMultiRegionClusterUpdates")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>(ListAllowedMultiRegionClusterUpdatesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAllowedMultiRegionClusterUpdatesOutput>(ListAllowedMultiRegionClusterUpdatesOutput.httpOutput(from:), ListAllowedMultiRegionClusterUpdatesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAllowedMultiRegionClusterUpdatesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAllowedMultiRegionClusterUpdatesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>(serviceID: serviceName, version: MemoryDBClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>(xAmzTarget: "AmazonMemoryDB.ListAllowedMultiRegionClusterUpdates"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAllowedMultiRegionClusterUpdatesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAllowedMultiRegionClusterUpdatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAllowedMultiRegionClusterUpdatesInput, ListAllowedMultiRegionClusterUpdatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAllowedMultiRegionClusterUpdates")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAllowedNodeTypeUpdates` operation on the `AmazonMemoryDB` service.
     ///
     /// Lists all available node types that you can scale to from your cluster's current node type. When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
@@ -2265,7 +2559,7 @@ extension MemoryDBClient {
 
     /// Performs the `ListTags` operation on the `AmazonMemoryDB` service.
     ///
-    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html)
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html).
     ///
     /// - Parameter ListTagsInput : [no documentation found]
     ///
@@ -2278,6 +2572,8 @@ extension MemoryDBClient {
     /// - `ClusterNotFoundFault` :
     /// - `InvalidARNFault` :
     /// - `InvalidClusterStateFault` :
+    /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
+    /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SnapshotNotFoundFault` :
@@ -2506,6 +2802,9 @@ extension MemoryDBClient {
     /// - `ClusterNotFoundFault` :
     /// - `InvalidARNFault` :
     /// - `InvalidClusterStateFault` :
+    /// - `InvalidParameterValueException` :
+    /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
+    /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SnapshotNotFoundFault` :
@@ -2572,7 +2871,7 @@ extension MemoryDBClient {
 
     /// Performs the `UntagResource` operation on the `AmazonMemoryDB` service.
     ///
-    /// Use this operation to remove tags on a resource
+    /// Use this operation to remove tags on a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -2585,6 +2884,9 @@ extension MemoryDBClient {
     /// - `ClusterNotFoundFault` :
     /// - `InvalidARNFault` :
     /// - `InvalidClusterStateFault` :
+    /// - `InvalidParameterValueException` :
+    /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
+    /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
     /// - `ParameterGroupNotFoundFault` :
     /// - `ServiceLinkedRoleNotFoundFault` :
     /// - `SnapshotNotFoundFault` :
@@ -2798,6 +3100,80 @@ extension MemoryDBClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateMultiRegionCluster` operation on the `AmazonMemoryDB` service.
+    ///
+    /// Updates the configuration of an existing multi-Region cluster.
+    ///
+    /// - Parameter UpdateMultiRegionClusterInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMultiRegionClusterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidMultiRegionClusterStateFault` : The requested operation cannot be performed on the multi-Region cluster in its current state.
+    /// - `InvalidParameterCombinationException` :
+    /// - `InvalidParameterValueException` :
+    /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
+    /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
+    public func updateMultiRegionCluster(input: UpdateMultiRegionClusterInput) async throws -> UpdateMultiRegionClusterOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateMultiRegionCluster")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>(UpdateMultiRegionClusterInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMultiRegionClusterOutput>(UpdateMultiRegionClusterOutput.httpOutput(from:), UpdateMultiRegionClusterOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMultiRegionClusterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateMultiRegionClusterOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>(serviceID: serviceName, version: MemoryDBClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>(xAmzTarget: "AmazonMemoryDB.UpdateMultiRegionCluster"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMultiRegionClusterInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMultiRegionClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMultiRegionClusterInput, UpdateMultiRegionClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateMultiRegionCluster")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

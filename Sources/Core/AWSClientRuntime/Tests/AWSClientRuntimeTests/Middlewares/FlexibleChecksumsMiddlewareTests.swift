@@ -267,7 +267,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
             "Stream is not 'chunked eligible'",
             file: file, line: line
         )
-        if let validatedChecksum = self.builtContext.attributes.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated")), validatedChecksum == expectedHeader {
+        if let validatedChecksum = self.builtContext.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated")), validatedChecksum == expectedHeader {
             isChecksumValidated = true
         }
         if expectedChecksum != "" {
@@ -304,7 +304,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
             }
         }
 
-        if let validatedChecksum = self.builtContext.attributes.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated")), validatedChecksum == expectedHeader {
+        if let validatedChecksum = self.builtContext.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated")), validatedChecksum == expectedHeader {
             isChecksumValidated = true
         }
         if expectedChecksum != "" {
@@ -329,7 +329,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
             }
         } else {
             try await handleMiddleware()
-            validatedChecksum = self.builtContext.attributes.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated"))
+            validatedChecksum = self.builtContext.get(key: AttributeKey<String>(name: "ChecksumHeaderValidated"))
             if validatedChecksum != nil && validatedChecksum == expectedValidationHeader {
                 isChecksumValidated = true
             }
@@ -394,8 +394,8 @@ class TestLogger: LogAgent {
         self.level = level
     }
 
-    func log(level: LogAgentLevel = .info, message: String, metadata: [String : String]? = nil, source: String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
-        messages.append((level: level, message: message))
+    func log(level: LogAgentLevel = .info, message: @autoclosure () -> String, metadata: @autoclosure () -> [String : String]? = nil, source: @autoclosure () -> String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
+        messages.append((level: level, message: message()))
     }
 }
 

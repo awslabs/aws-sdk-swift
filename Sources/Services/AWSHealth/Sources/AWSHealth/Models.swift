@@ -123,6 +123,8 @@ extension HealthClientTypes {
         public var awsAccountId: Swift.String?
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K
         public var entityArn: Swift.String?
+        /// Additional metadata about the affected entity.
+        public var entityMetadata: [Swift.String: Swift.String]?
         /// The URL of the affected entity.
         public var entityUrl: Swift.String?
         /// The ID of the affected entity.
@@ -139,6 +141,7 @@ extension HealthClientTypes {
         public init(
             awsAccountId: Swift.String? = nil,
             entityArn: Swift.String? = nil,
+            entityMetadata: [Swift.String: Swift.String]? = nil,
             entityUrl: Swift.String? = nil,
             entityValue: Swift.String? = nil,
             eventArn: Swift.String? = nil,
@@ -149,6 +152,7 @@ extension HealthClientTypes {
         {
             self.awsAccountId = awsAccountId
             self.entityArn = entityArn
+            self.entityMetadata = entityMetadata
             self.entityUrl = entityUrl
             self.entityValue = entityValue
             self.eventArn = eventArn
@@ -239,7 +243,7 @@ extension HealthClientTypes {
 public struct DescribeAffectedAccountsForOrganizationOutput: Swift.Sendable {
     /// A JSON set of elements of the affected accounts.
     public var affectedAccounts: [Swift.String]?
-    /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.
+    /// This parameter specifies if the Health event is a public Amazon Web Services service event or an account-specific event.
     ///
     /// * If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.
     ///
@@ -729,7 +733,7 @@ extension HealthClientTypes {
         public var lastUpdatedTimes: [HealthClientTypes.DateTimeRange]?
         /// A list of Amazon Web Services Regions.
         public var regions: [Swift.String]?
-        /// The Amazon Web Services associated with the event. For example, EC2, RDS.
+        /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
         public var services: [Swift.String]?
         /// A list of dates and times that the event began.
         public var startTimes: [HealthClientTypes.DateTimeRange]?
@@ -888,7 +892,7 @@ extension HealthClientTypes {
         public var availabilityZone: Swift.String?
         /// The date and time that the event ended.
         public var endTime: Foundation.Date?
-        /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.
+        /// This parameter specifies if the Health event is a public Amazon Web Services service event or an account-specific event.
         ///
         /// * If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.
         ///
@@ -904,7 +908,7 @@ extension HealthClientTypes {
         public var lastUpdatedTime: Foundation.Date?
         /// The Amazon Web Services Region name of the event.
         public var region: Swift.String?
-        /// The Amazon Web Service that is affected by the event. For example, EC2, RDS.
+        /// The Amazon Web Services service that is affected by the event. For example, EC2, RDS.
         public var service: Swift.String?
         /// The date and time that the event began.
         public var startTime: Foundation.Date?
@@ -1160,7 +1164,7 @@ extension HealthClientTypes {
         public var lastUpdatedTime: HealthClientTypes.DateTimeRange?
         /// A list of Amazon Web Services Regions.
         public var regions: [Swift.String]?
-        /// The Amazon Web Services associated with the event. For example, EC2, RDS.
+        /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
         public var services: [Swift.String]?
         /// A range of dates and times that is used by the [EventFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EventFilter.html) and [EntityFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html) objects. If from is set and to is set: match items where the timestamp (startTime, endTime, or lastUpdatedTime) is between from and to inclusive. If from is set and to is not set: match items where the timestamp value is equal to or after from. If from is not set and to is set: match items where the timestamp value is equal to or before to.
         public var startTime: HealthClientTypes.DateTimeRange?
@@ -1226,7 +1230,7 @@ extension HealthClientTypes {
         public var arn: Swift.String?
         /// The date and time that the event ended.
         public var endTime: Foundation.Date?
-        /// This parameter specifies if the Health event is a public Amazon Web Service event or an account-specific event.
+        /// This parameter specifies if the Health event is a public Amazon Web Services service event or an account-specific event.
         ///
         /// * If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.
         ///
@@ -1242,7 +1246,7 @@ extension HealthClientTypes {
         public var lastUpdatedTime: Foundation.Date?
         /// The Amazon Web Services Region name of the event.
         public var region: Swift.String?
-        /// The Amazon Web Service that is affected by the event, such as EC2 and RDS.
+        /// The Amazon Web Services service that is affected by the event, such as EC2 and RDS.
         public var service: Swift.String?
         /// The date and time that the event began.
         public var startTime: Foundation.Date?
@@ -1300,7 +1304,7 @@ extension HealthClientTypes {
         public var eventTypeCategories: [HealthClientTypes.EventTypeCategory]?
         /// A list of event type codes.
         public var eventTypeCodes: [Swift.String]?
-        /// The Amazon Web Services associated with the event. For example, EC2, RDS.
+        /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
         public var services: [Swift.String]?
 
         public init(
@@ -1348,7 +1352,7 @@ extension HealthClientTypes {
         public var category: HealthClientTypes.EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public var code: Swift.String?
-        /// The Amazon Web Service that is affected by the event. For example, EC2, RDS.
+        /// The Amazon Web Services service that is affected by the event. For example, EC2, RDS.
         public var service: Swift.String?
 
         public init(
@@ -2069,6 +2073,7 @@ extension HealthClientTypes.AffectedEntity {
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.statusCode = try reader["statusCode"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.entityMetadata = try reader["entityMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

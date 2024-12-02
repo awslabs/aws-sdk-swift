@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LambdaClient: ClientRuntime.Client {
     public static let clientName = "LambdaClient"
-    public static let version = "1.0.35"
+    public static let version = "1.0.51"
     let client: ClientRuntime.SdkHttpClient
     let config: LambdaClient.LambdaClientConfiguration
     let serviceName = "Lambda"
@@ -522,17 +522,20 @@ extension LambdaClient {
     /// * [ Amazon DocumentDB](https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html)
     ///
     ///
-    /// The following error handling options are available only for stream sources (DynamoDB and Kinesis):
+    /// The following error handling options are available only for DynamoDB and Kinesis event sources:
     ///
     /// * BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.
-    ///
-    /// * DestinationConfig – Send discarded records to an Amazon SQS queue or Amazon SNS topic.
     ///
     /// * MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires
     ///
     /// * MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     ///
     /// * ParallelizationFactor – Process multiple batches from each shard concurrently.
+    ///
+    ///
+    /// For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:
+    ///
+    /// * DestinationConfig – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket.
     ///
     ///
     /// For information about which configuration parameters apply to each event source, see the following topics.
@@ -4059,7 +4062,7 @@ extension LambdaClient {
 
     /// Performs the `PutFunctionEventInvokeConfig` operation on the `AWSGirApiService` service.
     ///
-    /// Configures options for [asynchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html) on a function, version, or alias. If a configuration already exists for a function, version, or alias, this operation overwrites it. If you exclude any settings, they are removed. To set one option without affecting existing settings for other options, use [UpdateFunctionEventInvokeConfig]. By default, Lambda retries an asynchronous invocation twice if the function returns an error. It retains events in a queue for up to six hours. When an event fails all processing attempts or stays in the asynchronous invocation queue for too long, Lambda discards it. To retain discarded events, configure a dead-letter queue with [UpdateFunctionConfiguration]. To send an invocation record to a queue, topic, function, or event bus, specify a [destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations). You can configure separate destinations for successful invocations (on-success) and events that fail all processing attempts (on-failure). You can configure destinations in addition to or instead of a dead-letter queue.
+    /// Configures options for [asynchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html) on a function, version, or alias. If a configuration already exists for a function, version, or alias, this operation overwrites it. If you exclude any settings, they are removed. To set one option without affecting existing settings for other options, use [UpdateFunctionEventInvokeConfig]. By default, Lambda retries an asynchronous invocation twice if the function returns an error. It retains events in a queue for up to six hours. When an event fails all processing attempts or stays in the asynchronous invocation queue for too long, Lambda discards it. To retain discarded events, configure a dead-letter queue with [UpdateFunctionConfiguration]. To send an invocation record to a queue, topic, S3 bucket, function, or event bus, specify a [destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations). You can configure separate destinations for successful invocations (on-success) and events that fail all processing attempts (on-failure). You can configure destinations in addition to or instead of a dead-letter queue. S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     ///
     /// - Parameter PutFunctionEventInvokeConfigInput : [no documentation found]
     ///
@@ -4814,17 +4817,20 @@ extension LambdaClient {
     /// * [ Amazon DocumentDB](https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html)
     ///
     ///
-    /// The following error handling options are available only for stream sources (DynamoDB and Kinesis):
+    /// The following error handling options are available only for DynamoDB and Kinesis event sources:
     ///
     /// * BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.
-    ///
-    /// * DestinationConfig – Send discarded records to an Amazon SQS queue or Amazon SNS topic.
     ///
     /// * MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires
     ///
     /// * MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     ///
     /// * ParallelizationFactor – Process multiple batches from each shard concurrently.
+    ///
+    ///
+    /// For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:
+    ///
+    /// * DestinationConfig – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket.
     ///
     ///
     /// For information about which configuration parameters apply to each event source, see the following topics.

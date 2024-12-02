@@ -127,11 +127,12 @@ public class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer {
         let checksumIsPresent = signingProperties.get(key: SigningPropertyKeys.checksum) != nil
         let isChunkedEligibleStream = signingProperties.get(key: SigningPropertyKeys.isChunkedEligibleStream) ?? false
         let preComputedSha256 = signingProperties.get(key: AttributeKey<String>(name: "SignedBodyValue"))
+        let requestedUnsignedBody = signingProperties.get(key: SigningPropertyKeys.requestUnsignedBody)
 
         let signedBodyValue: AWSSignedBodyValue = determineSignedBodyValue(
             checksumIsPresent: checksumIsPresent,
             isChunkedEligbleStream: isChunkedEligibleStream,
-            isUnsignedBody: unsignedBody,
+            isUnsignedBody: requestedUnsignedBody ?? unsignedBody,
             preComputedSha256: preComputedSha256
         )
 

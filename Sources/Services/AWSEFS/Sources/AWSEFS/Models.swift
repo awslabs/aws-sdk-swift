@@ -210,7 +210,7 @@ extension EFSClientTypes {
 
 extension EFSClientTypes {
 
-    /// Specifies the directory on the Amazon EFS file system that the access point provides access to. The access point exposes the specified file system path as the root directory of your file system to applications using the access point. NFS clients using the access point can only access data in the access point's RootDirectory and it's subdirectories.
+    /// Specifies the directory on the Amazon EFS file system that the access point provides access to. The access point exposes the specified file system path as the root directory of your file system to applications using the access point. NFS clients using the access point can only access data in the access point's RootDirectory and its subdirectories.
     public struct RootDirectory: Swift.Sendable {
         /// (Optional) Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory. If the RootDirectory > Path specified does not exist, EFS creates the root directory using the CreationInfo settings when a client connects to an access point. When specifying the CreationInfo, you must provide values for all properties. If you do not provide CreationInfo and the specified RootDirectory > Path does not exist, attempts to mount the file system using the access point will fail.
         public var creationInfo: EFSClientTypes.CreationInfo?
@@ -924,7 +924,7 @@ extension EFSClientTypes {
 }
 
 public struct CreateFileSystemInput: Swift.Sendable {
-    /// Used to create a One Zone file system. It specifies the Amazon Web Services Availability Zone in which to create the file system. Use the format us-east-1a to specify the Availability Zone. For more information about One Zone file systems, see [Using EFS storage classes](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the Amazon EFS User Guide. One Zone file systems are not available in all Availability Zones in Amazon Web Services Regions where Amazon EFS is available.
+    /// For One Zone file systems, specify the Amazon Web Services Availability Zone in which to create the file system. Use the format us-east-1a to specify the Availability Zone. For more information about One Zone file systems, see [EFS file system types](https://docs.aws.amazon.com/efs/latest/ug/availability-durability.html#file-system-type) in the Amazon EFS User Guide. One Zone file systems are not available in all Availability Zones in Amazon Web Services Regions where Amazon EFS is available.
     public var availabilityZoneName: Swift.String?
     /// Specifies whether automatic backups are enabled on the file system that you are creating. Set the value to true to enable automatic backups. If you are creating a One Zone file system, automatic backups are enabled by default. For more information, see [Automatic backups](https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#automatic-backups) in the Amazon EFS User Guide. Default is false. However, if you specify an AvailabilityZoneName, the default is true. Backup is not available in all Amazon Web Services Regions where Amazon EFS is available.
     public var backup: Swift.Bool?
@@ -946,7 +946,7 @@ public struct CreateFileSystemInput: Swift.Sendable {
     ///
     /// If you use KmsKeyId, you must set the [CreateFileSystemRequest$Encrypted] parameter to true. EFS accepts only symmetric KMS keys. You cannot use asymmetric KMS keys with Amazon EFS file systems.
     public var kmsKeyId: Swift.String?
-    /// The Performance mode of the file system. We recommend generalPurpose performance mode for all file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. The maxIO mode is not supported on One Zone file systems. Due to the higher per-operation latencies with Max I/O, we recommend using General Purpose performance mode for all file systems. Default is generalPurpose.
+    /// The performance mode of the file system. We recommend generalPurpose performance mode for all file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. The maxIO mode is not supported on One Zone file systems. Due to the higher per-operation latencies with Max I/O, we recommend using General Purpose performance mode for all file systems. Default is generalPurpose.
     public var performanceMode: EFSClientTypes.PerformanceMode?
     /// The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating. Required if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit depending on Region. To increase this limit, contact Amazon Web Services Support. For more information, see [Amazon EFS quotas that you can increase](https://docs.aws.amazon.com/efs/latest/ug/limits.html#soft-limits) in the Amazon EFS User Guide.
     public var provisionedThroughputInMibps: Swift.Double?
@@ -1103,7 +1103,7 @@ public struct CreateFileSystemOutput: Swift.Sendable {
     /// The Amazon Web Services account that created the file system.
     /// This member is required.
     public var ownerId: Swift.String?
-    /// The Performance mode of the file system.
+    /// The performance mode of the file system.
     /// This member is required.
     public var performanceMode: EFSClientTypes.PerformanceMode?
     /// The amount of provisioned throughput, measured in MiBps, for the file system. Valid for file systems using ThroughputMode set to provisioned.
@@ -1511,35 +1511,45 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 extension EFSClientTypes {
 
     /// Describes the new or existing destination file system for the replication configuration.
+    ///
+    /// * If you want to replicate to a new file system, do not specify the File System ID for the destination file system. Amazon EFS creates a new, empty file system. For One Zone storage, specify the Availability Zone to create the file system in. To use an Key Management Service key other than the default KMS key, then specify it. For more information, see [Configuring replication to new Amazon EFS file system](https://docs.aws.amazon.com/efs/latest/ug/create-replication.html) in the Amazon EFS User Guide. After the file system is created, you cannot change the KMS key or the performance mode.
+    ///
+    /// * If you want to replicate to an existing file system that's in the same account as the source file system, then you need to provide the ID or Amazon Resource Name (ARN) of the file system to which to replicate. The file system's replication overwrite protection must be disabled. For more information, see [Replicating to an existing file system](https://docs.aws.amazon.com/efs/latest/ug/efs-replication#replicate-existing-destination) in the Amazon EFS User Guide.
+    ///
+    /// * If you are replicating the file system to a file system that's in a different account than the source file system (cross-account replication), you need to provide the ARN for the file system and the IAM role that allows Amazon EFS to perform replication on the destination account. The file system's replication overwrite protection must be disabled. For more information, see [Replicating across Amazon Web Services accounts](https://docs.aws.amazon.com/efs/latest/ug/cross-account-replication.html) in the Amazon EFS User Guide.
     public struct DestinationToCreate: Swift.Sendable {
         /// To create a file system that uses One Zone storage, specify the name of the Availability Zone in which to create the destination file system.
         public var availabilityZoneName: Swift.String?
-        /// The ID of the file system to use for the destination. The file system's replication overwrite replication must be disabled. If you do not provide an ID, then EFS creates a new file system for the replication destination.
+        /// The ID or ARN of the file system to use for the destination. For cross-account replication, this must be an ARN. The file system's replication overwrite replication must be disabled. If no ID or ARN is specified, then a new file system is created.
         public var fileSystemId: Swift.String?
         /// Specify the Key Management Service (KMS) key that you want to use to encrypt the destination file system. If you do not specify a KMS key, Amazon EFS uses your default KMS key for Amazon EFS, /aws/elasticfilesystem. This ID can be in one of the following formats:
         ///
         /// * Key ID - The unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.
         ///
-        /// * ARN - The Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+        /// * ARN - The ARN for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         ///
         /// * Key alias - A previously created display name for a key, for example alias/projectKey1.
         ///
         /// * Key alias ARN - The ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.
         public var kmsKeyId: Swift.String?
-        /// To create a file system that uses Regional storage, specify the Amazon Web Services Region in which to create the destination file system.
+        /// To create a file system that uses Regional storage, specify the Amazon Web Services Region in which to create the destination file system. The Region must be enabled for the Amazon Web Services account that owns the source file system. For more information, see [Managing Amazon Web Services Regions](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable) in the Amazon Web Services General Reference Reference Guide.
         public var region: Swift.String?
+        /// Amazon Resource Name (ARN) of the IAM role in the source account that allows Amazon EFS to perform replication on its behalf. This is optional for same-account replication and required for cross-account replication.
+        public var roleArn: Swift.String?
 
         public init(
             availabilityZoneName: Swift.String? = nil,
             fileSystemId: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
-            region: Swift.String? = nil
+            region: Swift.String? = nil,
+            roleArn: Swift.String? = nil
         )
         {
             self.availabilityZoneName = availabilityZoneName
             self.fileSystemId = fileSystemId
             self.kmsKeyId = kmsKeyId
             self.region = region
+            self.roleArn = roleArn
         }
     }
 }
@@ -1612,28 +1622,36 @@ extension EFSClientTypes {
         public var fileSystemId: Swift.String?
         /// The time when the most recent sync was successfully completed on the destination file system. Any changes to data on the source file system that occurred before this time have been successfully replicated to the destination file system. Any changes that occurred after this time might not be fully replicated.
         public var lastReplicatedTimestamp: Foundation.Date?
+        /// ID of the Amazon Web Services account in which the destination file system resides.
+        public var ownerId: Swift.String?
         /// The Amazon Web Services Region in which the destination file system is located.
         /// This member is required.
         public var region: Swift.String?
-        /// Describes the status of the destination EFS file system.
-        ///
-        /// * The Paused state occurs as a result of opting out of the source or destination Region after the replication configuration was created. To resume replication for the file system, you need to again opt in to the Amazon Web Services Region. For more information, see [Managing Amazon Web Services Regions](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable) in the Amazon Web Services General Reference Guide.
-        ///
-        /// * The Error state occurs when either the source or the destination file system (or both) is in a failed state and is unrecoverable. For more information, see [Monitoring replication status](https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#restoring-backup-efsmonitoring-replication-status.html) in the Amazon EFS User Guide. You must delete the replication configuration, and then restore the most recent backup of the failed file system (either the source or the destination) to a new file system.
+        /// Amazon Resource Name (ARN) of the IAM role in the source account that allows Amazon EFS to perform replication on its behalf. This is optional for same-account replication and required for cross-account replication.
+        public var roleArn: Swift.String?
+        /// Describes the status of the replication configuration. For more information about replication status, see [Viewing replication details](https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#restoring-backup-efsmonitoring-replication-status.html) in the Amazon EFS User Guide.
         /// This member is required.
         public var status: EFSClientTypes.ReplicationStatus?
+        /// Message that provides details about the PAUSED or ERRROR state of the replication destination configuration. For more information about replication status messages, see [Viewing replication details](https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#restoring-backup-efsmonitoring-replication-status.html) in the Amazon EFS User Guide.
+        public var statusMessage: Swift.String?
 
         public init(
             fileSystemId: Swift.String? = nil,
             lastReplicatedTimestamp: Foundation.Date? = nil,
+            ownerId: Swift.String? = nil,
             region: Swift.String? = nil,
-            status: EFSClientTypes.ReplicationStatus? = nil
+            roleArn: Swift.String? = nil,
+            status: EFSClientTypes.ReplicationStatus? = nil,
+            statusMessage: Swift.String? = nil
         )
         {
             self.fileSystemId = fileSystemId
             self.lastReplicatedTimestamp = lastReplicatedTimestamp
+            self.ownerId = ownerId
             self.region = region
+            self.roleArn = roleArn
             self.status = status
+            self.statusMessage = statusMessage
         }
     }
 }
@@ -1655,6 +1673,8 @@ public struct CreateReplicationConfigurationOutput: Swift.Sendable {
     /// The ID of the source Amazon EFS file system that is being replicated.
     /// This member is required.
     public var sourceFileSystemId: Swift.String?
+    /// ID of the Amazon Web Services account in which the source file system resides.
+    public var sourceFileSystemOwnerId: Swift.String?
     /// The Amazon Web Services Region in which the source EFS file system is located.
     /// This member is required.
     public var sourceFileSystemRegion: Swift.String?
@@ -1665,6 +1685,7 @@ public struct CreateReplicationConfigurationOutput: Swift.Sendable {
         originalSourceFileSystemArn: Swift.String? = nil,
         sourceFileSystemArn: Swift.String? = nil,
         sourceFileSystemId: Swift.String? = nil,
+        sourceFileSystemOwnerId: Swift.String? = nil,
         sourceFileSystemRegion: Swift.String? = nil
     )
     {
@@ -1673,6 +1694,7 @@ public struct CreateReplicationConfigurationOutput: Swift.Sendable {
         self.originalSourceFileSystemArn = originalSourceFileSystemArn
         self.sourceFileSystemArn = sourceFileSystemArn
         self.sourceFileSystemId = sourceFileSystemId
+        self.sourceFileSystemOwnerId = sourceFileSystemOwnerId
         self.sourceFileSystemRegion = sourceFileSystemRegion
     }
 }
@@ -1840,15 +1862,48 @@ public struct DeleteMountTargetInput: Swift.Sendable {
     }
 }
 
+extension EFSClientTypes {
+
+    public enum DeletionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allConfigurations
+        case localConfigurationOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionMode] {
+            return [
+                .allConfigurations,
+                .localConfigurationOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allConfigurations: return "ALL_CONFIGURATIONS"
+            case .localConfigurationOnly: return "LOCAL_CONFIGURATION_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DeleteReplicationConfigurationInput: Swift.Sendable {
+    /// When replicating across Amazon Web Services accounts or across Amazon Web Services Regions, Amazon EFS deletes the replication configuration from both the source and destination account or Region (ALL_CONFIGURATIONS) by default. If there's a configuration or permissions issue that prevents Amazon EFS from deleting the replication configuration from both sides, you can use the LOCAL_CONFIGURATION_ONLY mode to delete the replication configuration from only the local side (the account or Region from which the delete is performed). Only use the LOCAL_CONFIGURATION_ONLY mode in the case that Amazon EFS is unable to delete the replication configuration in both the source and destination account or Region. Deleting the local configuration leaves the configuration in the other account or Region unrecoverable. Additionally, do not use this mode for same-account, same-region replication as doing so results in a BadRequest exception error.
+    public var deletionMode: EFSClientTypes.DeletionMode?
     /// The ID of the source file system in the replication configuration.
     /// This member is required.
     public var sourceFileSystemId: Swift.String?
 
     public init(
+        deletionMode: EFSClientTypes.DeletionMode? = nil,
         sourceFileSystemId: Swift.String? = nil
     )
     {
+        self.deletionMode = deletionMode
         self.sourceFileSystemId = sourceFileSystemId
     }
 }
@@ -2168,7 +2223,7 @@ extension EFSClientTypes {
         /// The Amazon Web Services account that created the file system.
         /// This member is required.
         public var ownerId: Swift.String?
-        /// The Performance mode of the file system.
+        /// The performance mode of the file system.
         /// This member is required.
         public var performanceMode: EFSClientTypes.PerformanceMode?
         /// The amount of provisioned throughput, measured in MiBps, for the file system. Valid for file systems using ThroughputMode set to provisioned.
@@ -2386,9 +2441,9 @@ extension EFSClientTypes {
 
 extension EFSClientTypes {
 
-    /// Describes a policy used by Lifecycle management that specifies when to transition files into and out of storage classes. For more information, see [Managing file system storage](https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html). When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each transition. For more information, see the request examples in [PutLifecycleConfiguration].
+    /// Describes a policy used by lifecycle management that specifies when to transition files into and out of storage classes. For more information, see [Managing file system storage](https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html). When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each transition. For more information, see the request examples in [PutLifecycleConfiguration].
     public struct LifecyclePolicy: Swift.Sendable {
-        /// The number of days after files were last accessed in primary storage (the Standard storage class) files at which to move them to Archive storage. Metadata operations such as listing the contents of a directory don't count as file access events.
+        /// The number of days after files were last accessed in primary storage (the Standard storage class) at which to move them to Archive storage. Metadata operations such as listing the contents of a directory don't count as file access events.
         public var transitionToArchive: EFSClientTypes.TransitionToArchiveRules?
         /// The number of days after files were last accessed in primary storage (the Standard storage class) at which to move them to Infrequent Access (IA) storage. Metadata operations such as listing the contents of a directory don't count as file access events.
         public var transitionToIA: EFSClientTypes.TransitionToIARules?
@@ -2584,7 +2639,7 @@ public struct DescribeMountTargetSecurityGroupsOutput: Swift.Sendable {
 }
 
 public struct DescribeReplicationConfigurationsInput: Swift.Sendable {
-    /// You can retrieve the replication configuration for a specific file system by providing its file system ID.
+    /// You can retrieve the replication configuration for a specific file system by providing its file system ID. For cross-account,cross-region replication, an account can only describe the replication configuration for a file system in its own Region.
     public var fileSystemId: Swift.String?
     /// (Optional) To limit the number of objects returned in a response, you can specify the MaxItems parameter. The default value is 100.
     public var maxResults: Swift.Int?
@@ -2622,6 +2677,8 @@ extension EFSClientTypes {
         /// The ID of the source Amazon EFS file system that is being replicated.
         /// This member is required.
         public var sourceFileSystemId: Swift.String?
+        /// ID of the Amazon Web Services account in which the source file system resides.
+        public var sourceFileSystemOwnerId: Swift.String?
         /// The Amazon Web Services Region in which the source EFS file system is located.
         /// This member is required.
         public var sourceFileSystemRegion: Swift.String?
@@ -2632,6 +2689,7 @@ extension EFSClientTypes {
             originalSourceFileSystemArn: Swift.String? = nil,
             sourceFileSystemArn: Swift.String? = nil,
             sourceFileSystemId: Swift.String? = nil,
+            sourceFileSystemOwnerId: Swift.String? = nil,
             sourceFileSystemRegion: Swift.String? = nil
         )
         {
@@ -2640,6 +2698,7 @@ extension EFSClientTypes {
             self.originalSourceFileSystemArn = originalSourceFileSystemArn
             self.sourceFileSystemArn = sourceFileSystemArn
             self.sourceFileSystemId = sourceFileSystemId
+            self.sourceFileSystemOwnerId = sourceFileSystemOwnerId
             self.sourceFileSystemRegion = sourceFileSystemRegion
         }
     }
@@ -2850,7 +2909,7 @@ public struct PutFileSystemPolicyInput: Swift.Sendable {
     /// The ID of the EFS file system that you want to create or update the FileSystemPolicy for.
     /// This member is required.
     public var fileSystemId: Swift.String?
-    /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. EFS file system policies have a 20,000 character limit. To find out more about the elements that make up a file system policy, see [EFS Resource-based Policies](https://docs.aws.amazon.com/efs/latest/ug/access-control-overview.html#access-control-manage-access-intro-resource-policies).
+    /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. EFS file system policies have a 20,000 character limit. To find out more about the elements that make up a file system policy, see [Resource-based policies within Amazon EFS](https://docs.aws.amazon.com/efs/latest/ug/security_iam_service-with-iam.html#security_iam_service-with-iam-resource-based-policies).
     /// This member is required.
     public var policy: Swift.String?
 
@@ -2886,11 +2945,11 @@ public struct PutLifecycleConfigurationInput: Swift.Sendable {
     /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
     /// This member is required.
     public var fileSystemId: Swift.String?
-    /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object informs EFS Lifecycle management of the following:
+    /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object informs lifecycle management of the following:
     ///
     /// * TransitionToIA – When to move files in the file system from primary storage (Standard storage class) into the Infrequent Access (IA) storage.
     ///
-    /// * TransitionToArchive – When to move files in the file system from their current storage class (either IA or Standard storage) into the Archive storage. File systems cannot transition into Archive storage before transitioning into IA storage. Therefore, TransitionToArchive must either not be set or must be later than TransitionToIA. The Archive storage class is available only for file systems that use the Elastic Throughput mode and the General Purpose Performance mode.
+    /// * TransitionToArchive – When to move files in the file system from their current storage class (either IA or Standard storage) into the Archive storage. File systems cannot transition into Archive storage before transitioning into IA storage. Therefore, TransitionToArchive must either not be set or must be later than TransitionToIA. The Archive storage class is available only for file systems that use the Elastic throughput mode and the General Purpose performance mode.
     ///
     /// * TransitionToPrimaryStorageClass – Whether to move files in the file system back to primary storage (Standard storage class) after they are accessed in IA or Archive storage.
     ///
@@ -3042,7 +3101,7 @@ public struct UpdateFileSystemOutput: Swift.Sendable {
     /// The Amazon Web Services account that created the file system.
     /// This member is required.
     public var ownerId: Swift.String?
-    /// The Performance mode of the file system.
+    /// The performance mode of the file system.
     /// This member is required.
     public var performanceMode: EFSClientTypes.PerformanceMode?
     /// The amount of provisioned throughput, measured in MiBps, for the file system. Valid for file systems using ThroughputMode set to provisioned.
@@ -3140,7 +3199,7 @@ public struct UpdateFileSystemProtectionInput: Swift.Sendable {
     /// * REPLICATING – The file system is being used as the destination file system in a replication configuration. The file system is read-only and is only modified only by EFS replication.
     ///
     ///
-    /// If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled, the file system becomes writeable.
+    /// If the replication configuration is deleted, the file system's replication overwrite protection is re-enabled and the file system becomes writeable.
     public var replicationOverwriteProtection: EFSClientTypes.ReplicationOverwriteProtection?
 
     public init(
@@ -3263,6 +3322,18 @@ extension DeleteReplicationConfigurationInput {
             return nil
         }
         return "/2015-02-01/file-systems/\(sourceFileSystemId.urlPercentEncoding())/replication-configuration"
+    }
+}
+
+extension DeleteReplicationConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteReplicationConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let deletionMode = value.deletionMode {
+            let deletionModeQueryItem = Smithy.URIQueryItem(name: "deletionMode".urlPercentEncoding(), value: Swift.String(deletionMode.rawValue).urlPercentEncoding())
+            items.append(deletionModeQueryItem)
+        }
+        return items
     }
 }
 
@@ -3823,6 +3894,7 @@ extension CreateReplicationConfigurationOutput {
         value.originalSourceFileSystemArn = try reader["OriginalSourceFileSystemArn"].readIfPresent() ?? ""
         value.sourceFileSystemArn = try reader["SourceFileSystemArn"].readIfPresent() ?? ""
         value.sourceFileSystemId = try reader["SourceFileSystemId"].readIfPresent() ?? ""
+        value.sourceFileSystemOwnerId = try reader["SourceFileSystemOwnerId"].readIfPresent()
         value.sourceFileSystemRegion = try reader["SourceFileSystemRegion"].readIfPresent() ?? ""
         return value
     }
@@ -5238,6 +5310,9 @@ extension EFSClientTypes.Destination {
         value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
         value.region = try reader["Region"].readIfPresent() ?? ""
         value.lastReplicatedTimestamp = try reader["LastReplicatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ownerId = try reader["OwnerId"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
         return value
     }
 }
@@ -5363,6 +5438,7 @@ extension EFSClientTypes.ReplicationConfigurationDescription {
         value.originalSourceFileSystemArn = try reader["OriginalSourceFileSystemArn"].readIfPresent() ?? ""
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: EFSClientTypes.Destination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sourceFileSystemOwnerId = try reader["SourceFileSystemOwnerId"].readIfPresent()
         return value
     }
 }
@@ -5375,6 +5451,7 @@ extension EFSClientTypes.DestinationToCreate {
         try writer["FileSystemId"].write(value.fileSystemId)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["Region"].write(value.region)
+        try writer["RoleArn"].write(value.roleArn)
     }
 }
 

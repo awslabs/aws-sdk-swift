@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.0.35"
+    public static let version = "1.0.51"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -3104,7 +3104,14 @@ extension EC2Client {
 
     /// Performs the `CancelCapacityReservation` operation on the `AmazonEC2` service.
     ///
-    /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes the Capacity Reservation's state to cancelled. Instances running in the reserved capacity continue running until you stop them. Stopped instances that target the Capacity Reservation can no longer launch. Modify these instances to either target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation that has matching attributes and sufficient capacity.
+    /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:
+    ///
+    /// * assessing
+    ///
+    /// * active and there is no commitment duration or the commitment duration has elapsed. You can't cancel a future-dated Capacity Reservation during the commitment duration.
+    ///
+    ///
+    /// If a future-dated Capacity Reservation enters the delayed state, the commitment duration is waived, and you can cancel it as soon as it enters the active state. Instances running in the reserved capacity continue running until you stop them. Stopped instances that target the Capacity Reservation can no longer launch. Modify these instances to either target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation that has matching attributes and sufficient capacity.
     ///
     /// - Parameter CancelCapacityReservationInput : [no documentation found]
     ///
@@ -3288,6 +3295,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelConversionTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CancelDeclarativePoliciesReport` operation on the `AmazonEC2` service.
+    ///
+    /// Cancels the generation of an account status report. You can only cancel a report while it has the running status. Reports with other statuses (complete, cancelled, or error) can't be canceled. For more information, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
+    ///
+    /// - Parameter CancelDeclarativePoliciesReportInput : [no documentation found]
+    ///
+    /// - Returns: `CancelDeclarativePoliciesReportOutput` : [no documentation found]
+    public func cancelDeclarativePoliciesReport(input: CancelDeclarativePoliciesReportInput) async throws -> CancelDeclarativePoliciesReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelDeclarativePoliciesReport")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CancelDeclarativePoliciesReportInput, CancelDeclarativePoliciesReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelDeclarativePoliciesReportInput, CancelDeclarativePoliciesReportOutput>(CancelDeclarativePoliciesReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelDeclarativePoliciesReportInput, CancelDeclarativePoliciesReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDeclarativePoliciesReportInput, CancelDeclarativePoliciesReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelDeclarativePoliciesReportOutput>(CancelDeclarativePoliciesReportOutput.httpOutput(from:), CancelDeclarativePoliciesReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDeclarativePoliciesReportInput, CancelDeclarativePoliciesReportOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelDeclarativePoliciesReportOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CancelDeclarativePoliciesReportOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelDeclarativePoliciesReportInput, CancelDeclarativePoliciesReportOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<CancelDeclarativePoliciesReportInput, CancelDeclarativePoliciesReportOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CancelDeclarativePoliciesReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelDeclarativePoliciesReportInput, CancelDeclarativePoliciesReportOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelDeclarativePoliciesReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelDeclarativePoliciesReportInput, CancelDeclarativePoliciesReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelDeclarativePoliciesReportInput, CancelDeclarativePoliciesReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelDeclarativePoliciesReport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3944,7 +4015,11 @@ extension EC2Client {
 
     /// Performs the `CreateCapacityReservation` operation on the `AmazonEC2` service.
     ///
-    /// Creates a new Capacity Reservation with the specified attributes. Capacity Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. This gives you the flexibility to selectively add capacity reservations and still get the Regional RI discounts for that usage. By creating Capacity Reservations, you ensure that you always have access to Amazon EC2 capacity when you need it, for as long as you need it. For more information, see [Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html) in the Amazon EC2 User Guide. Your request to create a Capacity Reservation could fail if Amazon EC2 does not have sufficient capacity to fulfill the request. If your request fails due to Amazon EC2 capacity constraints, either try again at a later time, try in a different Availability Zone, or request a smaller capacity reservation. If your application is flexible across instance types and sizes, try to create a Capacity Reservation with different instance attributes. Your request could also fail if the requested quantity exceeds your On-Demand Instance limit for the selected instance type. If your request fails due to limit constraints, increase your On-Demand Instance limit for the required instance type and try again. For more information about increasing your instance limits, see [Amazon EC2 Service Quotas](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) in the Amazon EC2 User Guide.
+    /// Creates a new Capacity Reservation with the specified attributes. Capacity Reservations enable you to reserve capacity for your Amazon EC2 instances in a specific Availability Zone for any duration. You can create a Capacity Reservation at any time, and you can choose when it starts. You can create a Capacity Reservation for immediate use or you can request a Capacity Reservation for a future date. For more information, see [ Reserve compute capacity with On-Demand Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-reservations.html) in the Amazon EC2 User Guide. Your request to create a Capacity Reservation could fail if:
+    ///
+    /// * Amazon EC2 does not have sufficient capacity. In this case, try again at a later time, try in a different Availability Zone, or request a smaller Capacity Reservation. If your workload is flexible across instance types and sizes, try with different instance attributes.
+    ///
+    /// * The requested quantity exceeds your On-Demand Instance quota. In this case, increase your On-Demand Instance quota for the requested instance type and try again. For more information, see [ Amazon EC2 Service Quotas](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter CreateCapacityReservationInput : [no documentation found]
     ///
@@ -4008,7 +4083,7 @@ extension EC2Client {
 
     /// Performs the `CreateCapacityReservationBySplitting` operation on the `AmazonEC2` service.
     ///
-    /// Create a new Capacity Reservation by splitting the available capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
+    /// Create a new Capacity Reservation by splitting the capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
     ///
     /// - Parameter CreateCapacityReservationBySplittingInput : [no documentation found]
     ///
@@ -5638,7 +5713,7 @@ extension EC2Client {
 
     /// Performs the `CreateKeyPair` operation on the `AmazonEC2` service.
     ///
-    /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified PEM or PPK format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using [ImportKeyPair]. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using [ImportKeyPair]. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter CreateKeyPairInput : [no documentation found]
     ///
@@ -7065,7 +7140,7 @@ extension EC2Client {
 
     /// Performs the `CreateSecurityGroup` operation on the `AmazonEC2` service.
     ///
-    /// Creates a security group. A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. For more information, see [Amazon EC2 security groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) in the Amazon Elastic Compute Cloud User Guide and [Security groups for your VPC](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html) in the Amazon Virtual Private Cloud User Guide. When you create a security group, you specify a friendly name of your choice. You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't specify a security group when you launch an instance, the instance is launched into the appropriate default security group. A default security group includes a default rule that grants instances unrestricted network access to each other. You can add or remove rules from your security groups using [AuthorizeSecurityGroupIngress], [AuthorizeSecurityGroupEgress], [RevokeSecurityGroupIngress], and [RevokeSecurityGroupEgress]. For more information about VPC security group limits, see [Amazon VPC Limits](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html).
+    /// Creates a security group. A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. For more information, see [Amazon EC2 security groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) in the Amazon EC2 User Guide and [Security groups for your VPC](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html) in the Amazon VPC User Guide. When you create a security group, you specify a friendly name of your choice. You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't specify a security group when you launch an instance, the instance is launched into the appropriate default security group. A default security group includes a default rule that grants instances unrestricted network access to each other. You can add or remove rules from your security groups using [AuthorizeSecurityGroupIngress], [AuthorizeSecurityGroupEgress], [RevokeSecurityGroupIngress], and [RevokeSecurityGroupEgress]. For more information about VPC security group limits, see [Amazon VPC Limits](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html).
     ///
     /// - Parameter CreateSecurityGroupInput : [no documentation found]
     ///
@@ -8916,6 +8991,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpc")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateVpcBlockPublicAccessExclusion` operation on the `AmazonEC2` service.
+    ///
+    /// Create a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
+    ///
+    /// - Parameter CreateVpcBlockPublicAccessExclusionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVpcBlockPublicAccessExclusionOutput` : [no documentation found]
+    public func createVpcBlockPublicAccessExclusion(input: CreateVpcBlockPublicAccessExclusionInput) async throws -> CreateVpcBlockPublicAccessExclusionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createVpcBlockPublicAccessExclusion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateVpcBlockPublicAccessExclusionInput, CreateVpcBlockPublicAccessExclusionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateVpcBlockPublicAccessExclusionInput, CreateVpcBlockPublicAccessExclusionOutput>(CreateVpcBlockPublicAccessExclusionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVpcBlockPublicAccessExclusionInput, CreateVpcBlockPublicAccessExclusionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcBlockPublicAccessExclusionInput, CreateVpcBlockPublicAccessExclusionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcBlockPublicAccessExclusionOutput>(CreateVpcBlockPublicAccessExclusionOutput.httpOutput(from:), CreateVpcBlockPublicAccessExclusionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcBlockPublicAccessExclusionInput, CreateVpcBlockPublicAccessExclusionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcBlockPublicAccessExclusionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<CreateVpcBlockPublicAccessExclusionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateVpcBlockPublicAccessExclusionInput, CreateVpcBlockPublicAccessExclusionOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateVpcBlockPublicAccessExclusionInput, CreateVpcBlockPublicAccessExclusionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateVpcBlockPublicAccessExclusionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcBlockPublicAccessExclusionInput, CreateVpcBlockPublicAccessExclusionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVpcBlockPublicAccessExclusionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVpcBlockPublicAccessExclusionInput, CreateVpcBlockPublicAccessExclusionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVpcBlockPublicAccessExclusionInput, CreateVpcBlockPublicAccessExclusionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpcBlockPublicAccessExclusion")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -13750,6 +13889,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteVpcBlockPublicAccessExclusion` operation on the `AmazonEC2` service.
+    ///
+    /// Delete a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
+    ///
+    /// - Parameter DeleteVpcBlockPublicAccessExclusionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVpcBlockPublicAccessExclusionOutput` : [no documentation found]
+    public func deleteVpcBlockPublicAccessExclusion(input: DeleteVpcBlockPublicAccessExclusionInput) async throws -> DeleteVpcBlockPublicAccessExclusionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteVpcBlockPublicAccessExclusion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteVpcBlockPublicAccessExclusionInput, DeleteVpcBlockPublicAccessExclusionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteVpcBlockPublicAccessExclusionInput, DeleteVpcBlockPublicAccessExclusionOutput>(DeleteVpcBlockPublicAccessExclusionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcBlockPublicAccessExclusionInput, DeleteVpcBlockPublicAccessExclusionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcBlockPublicAccessExclusionInput, DeleteVpcBlockPublicAccessExclusionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcBlockPublicAccessExclusionOutput>(DeleteVpcBlockPublicAccessExclusionOutput.httpOutput(from:), DeleteVpcBlockPublicAccessExclusionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcBlockPublicAccessExclusionInput, DeleteVpcBlockPublicAccessExclusionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcBlockPublicAccessExclusionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteVpcBlockPublicAccessExclusionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteVpcBlockPublicAccessExclusionInput, DeleteVpcBlockPublicAccessExclusionOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteVpcBlockPublicAccessExclusionInput, DeleteVpcBlockPublicAccessExclusionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteVpcBlockPublicAccessExclusionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcBlockPublicAccessExclusionInput, DeleteVpcBlockPublicAccessExclusionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVpcBlockPublicAccessExclusionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVpcBlockPublicAccessExclusionInput, DeleteVpcBlockPublicAccessExclusionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVpcBlockPublicAccessExclusionInput, DeleteVpcBlockPublicAccessExclusionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpcBlockPublicAccessExclusion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteVpcEndpointConnectionNotifications` operation on the `AmazonEC2` service.
     ///
     /// Deletes the specified VPC endpoint connection notifications.
@@ -15301,6 +15504,134 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeCapacityBlockExtensionHistory` operation on the `AmazonEC2` service.
+    ///
+    /// Describes the events for the specified Capacity Block extension during the specified time.
+    ///
+    /// - Parameter DescribeCapacityBlockExtensionHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCapacityBlockExtensionHistoryOutput` : [no documentation found]
+    public func describeCapacityBlockExtensionHistory(input: DescribeCapacityBlockExtensionHistoryInput) async throws -> DescribeCapacityBlockExtensionHistoryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCapacityBlockExtensionHistory")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityBlockExtensionHistoryInput, DescribeCapacityBlockExtensionHistoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCapacityBlockExtensionHistoryInput, DescribeCapacityBlockExtensionHistoryOutput>(DescribeCapacityBlockExtensionHistoryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCapacityBlockExtensionHistoryInput, DescribeCapacityBlockExtensionHistoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCapacityBlockExtensionHistoryInput, DescribeCapacityBlockExtensionHistoryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityBlockExtensionHistoryOutput>(DescribeCapacityBlockExtensionHistoryOutput.httpOutput(from:), DescribeCapacityBlockExtensionHistoryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityBlockExtensionHistoryInput, DescribeCapacityBlockExtensionHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityBlockExtensionHistoryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeCapacityBlockExtensionHistoryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCapacityBlockExtensionHistoryInput, DescribeCapacityBlockExtensionHistoryOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityBlockExtensionHistoryInput, DescribeCapacityBlockExtensionHistoryOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityBlockExtensionHistoryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityBlockExtensionHistoryInput, DescribeCapacityBlockExtensionHistoryOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityBlockExtensionHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCapacityBlockExtensionHistoryInput, DescribeCapacityBlockExtensionHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCapacityBlockExtensionHistoryInput, DescribeCapacityBlockExtensionHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityBlockExtensionHistory")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeCapacityBlockExtensionOfferings` operation on the `AmazonEC2` service.
+    ///
+    /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services Region that you're currently using.
+    ///
+    /// - Parameter DescribeCapacityBlockExtensionOfferingsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCapacityBlockExtensionOfferingsOutput` : [no documentation found]
+    public func describeCapacityBlockExtensionOfferings(input: DescribeCapacityBlockExtensionOfferingsInput) async throws -> DescribeCapacityBlockExtensionOfferingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCapacityBlockExtensionOfferings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityBlockExtensionOfferingsInput, DescribeCapacityBlockExtensionOfferingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCapacityBlockExtensionOfferingsInput, DescribeCapacityBlockExtensionOfferingsOutput>(DescribeCapacityBlockExtensionOfferingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCapacityBlockExtensionOfferingsInput, DescribeCapacityBlockExtensionOfferingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCapacityBlockExtensionOfferingsInput, DescribeCapacityBlockExtensionOfferingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityBlockExtensionOfferingsOutput>(DescribeCapacityBlockExtensionOfferingsOutput.httpOutput(from:), DescribeCapacityBlockExtensionOfferingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityBlockExtensionOfferingsInput, DescribeCapacityBlockExtensionOfferingsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityBlockExtensionOfferingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeCapacityBlockExtensionOfferingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCapacityBlockExtensionOfferingsInput, DescribeCapacityBlockExtensionOfferingsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityBlockExtensionOfferingsInput, DescribeCapacityBlockExtensionOfferingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityBlockExtensionOfferingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityBlockExtensionOfferingsInput, DescribeCapacityBlockExtensionOfferingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityBlockExtensionOfferingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCapacityBlockExtensionOfferingsInput, DescribeCapacityBlockExtensionOfferingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCapacityBlockExtensionOfferingsInput, DescribeCapacityBlockExtensionOfferingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityBlockExtensionOfferings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeCapacityBlockOfferings` operation on the `AmazonEC2` service.
     ///
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a specific instance type for a period of time.
@@ -16185,6 +16516,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCustomerGateways")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeDeclarativePoliciesReports` operation on the `AmazonEC2` service.
+    ///
+    /// Describes the metadata of an account status report, including the status of the report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete status. Reports with other statuses (running, cancelled, or error) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see [Downloading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/download-objects.html) in the Amazon Simple Storage Service User Guide. For more information, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
+    ///
+    /// - Parameter DescribeDeclarativePoliciesReportsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDeclarativePoliciesReportsOutput` : [no documentation found]
+    public func describeDeclarativePoliciesReports(input: DescribeDeclarativePoliciesReportsInput) async throws -> DescribeDeclarativePoliciesReportsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeDeclarativePoliciesReports")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeDeclarativePoliciesReportsInput, DescribeDeclarativePoliciesReportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDeclarativePoliciesReportsInput, DescribeDeclarativePoliciesReportsOutput>(DescribeDeclarativePoliciesReportsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDeclarativePoliciesReportsInput, DescribeDeclarativePoliciesReportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeclarativePoliciesReportsInput, DescribeDeclarativePoliciesReportsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeclarativePoliciesReportsOutput>(DescribeDeclarativePoliciesReportsOutput.httpOutput(from:), DescribeDeclarativePoliciesReportsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeclarativePoliciesReportsInput, DescribeDeclarativePoliciesReportsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeclarativePoliciesReportsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeDeclarativePoliciesReportsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDeclarativePoliciesReportsInput, DescribeDeclarativePoliciesReportsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDeclarativePoliciesReportsInput, DescribeDeclarativePoliciesReportsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDeclarativePoliciesReportsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDeclarativePoliciesReportsInput, DescribeDeclarativePoliciesReportsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDeclarativePoliciesReportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDeclarativePoliciesReportsInput, DescribeDeclarativePoliciesReportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDeclarativePoliciesReportsInput, DescribeDeclarativePoliciesReportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDeclarativePoliciesReports")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -17479,7 +17874,7 @@ extension EC2Client {
 
     /// Performs the `DescribeImages` operation on the `AmazonEC2` service.
     ///
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. When Allowed AMIs is set to enabled, only allowed images are returned in the results, with the imageAllowed field set to true for each image. In audit-mode, the imageAllowed field is set to true for images that meet the account's Allowed AMIs criteria, and false for images that don't meet the criteria. For more information, see [EnableAllowedImagesSettings]. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeImagesInput : [no documentation found]
     ///
@@ -17991,7 +18386,7 @@ extension EC2Client {
 
     /// Performs the `DescribeInstanceImageMetadata` operation on the `AmazonEC2` service.
     ///
-    /// Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, or made private (no longer public or shared with your account). If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. If you specify an instance ID that is not valid, an instance that doesn't exist, or an instance that you do not own, an error (InvalidInstanceID.NotFound) is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. In the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected Availability Zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs that are in an unaffected Availability Zone, the call works normally. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, made private (no longer public or shared with your account), or not allowed. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. If you specify an instance ID that is not valid, an instance that doesn't exist, or an instance that you do not own, an error (InvalidInstanceID.NotFound) is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. In the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected Availability Zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs that are in an unaffected Availability Zone, the call works normally. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeInstanceImageMetadataInput : [no documentation found]
     ///
@@ -18983,7 +19378,7 @@ extension EC2Client {
 
     /// Performs the `DescribeKeyPairs` operation on the `AmazonEC2` service.
     ///
-    /// Describes the specified key pairs or all of your key pairs. For more information about key pairs, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon Elastic Compute Cloud User Guide.
+    /// Describes the specified key pairs or all of your key pairs. For more information about key pairs, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DescribeKeyPairsInput : [no documentation found]
     ///
@@ -23918,6 +24313,134 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeVpcBlockPublicAccessExclusions` operation on the `AmazonEC2` service.
+    ///
+    /// Describe VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
+    ///
+    /// - Parameter DescribeVpcBlockPublicAccessExclusionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeVpcBlockPublicAccessExclusionsOutput` : [no documentation found]
+    public func describeVpcBlockPublicAccessExclusions(input: DescribeVpcBlockPublicAccessExclusionsInput) async throws -> DescribeVpcBlockPublicAccessExclusionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeVpcBlockPublicAccessExclusions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeVpcBlockPublicAccessExclusionsInput, DescribeVpcBlockPublicAccessExclusionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeVpcBlockPublicAccessExclusionsInput, DescribeVpcBlockPublicAccessExclusionsOutput>(DescribeVpcBlockPublicAccessExclusionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVpcBlockPublicAccessExclusionsInput, DescribeVpcBlockPublicAccessExclusionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcBlockPublicAccessExclusionsInput, DescribeVpcBlockPublicAccessExclusionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcBlockPublicAccessExclusionsOutput>(DescribeVpcBlockPublicAccessExclusionsOutput.httpOutput(from:), DescribeVpcBlockPublicAccessExclusionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcBlockPublicAccessExclusionsInput, DescribeVpcBlockPublicAccessExclusionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcBlockPublicAccessExclusionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeVpcBlockPublicAccessExclusionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVpcBlockPublicAccessExclusionsInput, DescribeVpcBlockPublicAccessExclusionsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeVpcBlockPublicAccessExclusionsInput, DescribeVpcBlockPublicAccessExclusionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVpcBlockPublicAccessExclusionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcBlockPublicAccessExclusionsInput, DescribeVpcBlockPublicAccessExclusionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcBlockPublicAccessExclusionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcBlockPublicAccessExclusionsInput, DescribeVpcBlockPublicAccessExclusionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVpcBlockPublicAccessExclusionsInput, DescribeVpcBlockPublicAccessExclusionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcBlockPublicAccessExclusions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeVpcBlockPublicAccessOptions` operation on the `AmazonEC2` service.
+    ///
+    /// Describe VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
+    ///
+    /// - Parameter DescribeVpcBlockPublicAccessOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeVpcBlockPublicAccessOptionsOutput` : [no documentation found]
+    public func describeVpcBlockPublicAccessOptions(input: DescribeVpcBlockPublicAccessOptionsInput) async throws -> DescribeVpcBlockPublicAccessOptionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeVpcBlockPublicAccessOptions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeVpcBlockPublicAccessOptionsInput, DescribeVpcBlockPublicAccessOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeVpcBlockPublicAccessOptionsInput, DescribeVpcBlockPublicAccessOptionsOutput>(DescribeVpcBlockPublicAccessOptionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVpcBlockPublicAccessOptionsInput, DescribeVpcBlockPublicAccessOptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcBlockPublicAccessOptionsInput, DescribeVpcBlockPublicAccessOptionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcBlockPublicAccessOptionsOutput>(DescribeVpcBlockPublicAccessOptionsOutput.httpOutput(from:), DescribeVpcBlockPublicAccessOptionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcBlockPublicAccessOptionsInput, DescribeVpcBlockPublicAccessOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcBlockPublicAccessOptionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeVpcBlockPublicAccessOptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVpcBlockPublicAccessOptionsInput, DescribeVpcBlockPublicAccessOptionsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeVpcBlockPublicAccessOptionsInput, DescribeVpcBlockPublicAccessOptionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVpcBlockPublicAccessOptionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcBlockPublicAccessOptionsInput, DescribeVpcBlockPublicAccessOptionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcBlockPublicAccessOptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcBlockPublicAccessOptionsInput, DescribeVpcBlockPublicAccessOptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVpcBlockPublicAccessOptionsInput, DescribeVpcBlockPublicAccessOptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcBlockPublicAccessOptions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeVpcClassicLink` operation on the `AmazonEC2` service.
     ///
     /// This action is deprecated. Describes the ClassicLink status of the specified VPCs.
@@ -24034,6 +24557,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcClassicLinkDnsSupport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeVpcEndpointAssociations` operation on the `AmazonEC2` service.
+    ///
+    /// Describes the VPC resources, VPC endpoint services, Amazon Lattice services, or service networks associated with the VPC endpoint.
+    ///
+    /// - Parameter DescribeVpcEndpointAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeVpcEndpointAssociationsOutput` : [no documentation found]
+    public func describeVpcEndpointAssociations(input: DescribeVpcEndpointAssociationsInput) async throws -> DescribeVpcEndpointAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeVpcEndpointAssociations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeVpcEndpointAssociationsInput, DescribeVpcEndpointAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeVpcEndpointAssociationsInput, DescribeVpcEndpointAssociationsOutput>(DescribeVpcEndpointAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVpcEndpointAssociationsInput, DescribeVpcEndpointAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcEndpointAssociationsInput, DescribeVpcEndpointAssociationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointAssociationsOutput>(DescribeVpcEndpointAssociationsOutput.httpOutput(from:), DescribeVpcEndpointAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointAssociationsInput, DescribeVpcEndpointAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointAssociationsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DescribeVpcEndpointAssociationsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeVpcEndpointAssociationsInput, DescribeVpcEndpointAssociationsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeVpcEndpointAssociationsInput, DescribeVpcEndpointAssociationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeVpcEndpointAssociationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcEndpointAssociationsInput, DescribeVpcEndpointAssociationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcEndpointAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcEndpointAssociationsInput, DescribeVpcEndpointAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVpcEndpointAssociationsInput, DescribeVpcEndpointAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeVpcEndpointAssociations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -25123,6 +25710,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableAddressTransfer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisableAllowedImagesSettings` operation on the `AmazonEC2` service.
+    ///
+    /// Disables Allowed AMIs for your account in the specified Amazon Web Services Region. When set to disabled, the image criteria in your Allowed AMIs settings do not apply, and no restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any public AMI or AMI shared with your account. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
+    ///
+    /// - Parameter DisableAllowedImagesSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DisableAllowedImagesSettingsOutput` : [no documentation found]
+    public func disableAllowedImagesSettings(input: DisableAllowedImagesSettingsInput) async throws -> DisableAllowedImagesSettingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableAllowedImagesSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableAllowedImagesSettingsInput, DisableAllowedImagesSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableAllowedImagesSettingsInput, DisableAllowedImagesSettingsOutput>(DisableAllowedImagesSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableAllowedImagesSettingsInput, DisableAllowedImagesSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableAllowedImagesSettingsInput, DisableAllowedImagesSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableAllowedImagesSettingsOutput>(DisableAllowedImagesSettingsOutput.httpOutput(from:), DisableAllowedImagesSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableAllowedImagesSettingsInput, DisableAllowedImagesSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisableAllowedImagesSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisableAllowedImagesSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableAllowedImagesSettingsInput, DisableAllowedImagesSettingsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisableAllowedImagesSettingsInput, DisableAllowedImagesSettingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisableAllowedImagesSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableAllowedImagesSettingsInput, DisableAllowedImagesSettingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableAllowedImagesSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableAllowedImagesSettingsInput, DisableAllowedImagesSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableAllowedImagesSettingsInput, DisableAllowedImagesSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableAllowedImagesSettings")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -27256,6 +27907,77 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `EnableAllowedImagesSettings` operation on the `AmazonEC2` service.
+    ///
+    /// Enables Allowed AMIs for your account in the specified Amazon Web Services Region. Two values are accepted:
+    ///
+    /// * enabled: The image criteria in your Allowed AMIs settings are applied. As a result, only AMIs matching these criteria are discoverable and can be used by your account to launch instances.
+    ///
+    /// * audit-mode: The image criteria in your Allowed AMIs settings are not applied. No restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any public AMI or AMI shared with your account. The purpose of audit-mode is to indicate which AMIs will be affected when Allowed AMIs is enabled. In audit-mode, each AMI displays either "ImageAllowed": true or "ImageAllowed": false to indicate whether the AMI will be discoverable and available to users in the account when Allowed AMIs is enabled.
+    ///
+    ///
+    /// The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
+    ///
+    /// - Parameter EnableAllowedImagesSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `EnableAllowedImagesSettingsOutput` : [no documentation found]
+    public func enableAllowedImagesSettings(input: EnableAllowedImagesSettingsInput) async throws -> EnableAllowedImagesSettingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableAllowedImagesSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableAllowedImagesSettingsInput, EnableAllowedImagesSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableAllowedImagesSettingsInput, EnableAllowedImagesSettingsOutput>(EnableAllowedImagesSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableAllowedImagesSettingsInput, EnableAllowedImagesSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableAllowedImagesSettingsInput, EnableAllowedImagesSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableAllowedImagesSettingsOutput>(EnableAllowedImagesSettingsOutput.httpOutput(from:), EnableAllowedImagesSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableAllowedImagesSettingsInput, EnableAllowedImagesSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableAllowedImagesSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<EnableAllowedImagesSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableAllowedImagesSettingsInput, EnableAllowedImagesSettingsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableAllowedImagesSettingsInput, EnableAllowedImagesSettingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: EnableAllowedImagesSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableAllowedImagesSettingsInput, EnableAllowedImagesSettingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableAllowedImagesSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableAllowedImagesSettingsInput, EnableAllowedImagesSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableAllowedImagesSettingsInput, EnableAllowedImagesSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableAllowedImagesSettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `EnableAwsNetworkPerformanceMetricSubscription` operation on the `AmazonEC2` service.
     ///
     /// Enables Infrastructure Performance subscriptions.
@@ -28601,6 +29323,134 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ExportVerifiedAccessInstanceClientConfiguration` operation on the `AmazonEC2` service.
+    ///
+    /// Exports the client configuration for a Verified Access instance.
+    ///
+    /// - Parameter ExportVerifiedAccessInstanceClientConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `ExportVerifiedAccessInstanceClientConfigurationOutput` : [no documentation found]
+    public func exportVerifiedAccessInstanceClientConfiguration(input: ExportVerifiedAccessInstanceClientConfigurationInput) async throws -> ExportVerifiedAccessInstanceClientConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "exportVerifiedAccessInstanceClientConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ExportVerifiedAccessInstanceClientConfigurationInput, ExportVerifiedAccessInstanceClientConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ExportVerifiedAccessInstanceClientConfigurationInput, ExportVerifiedAccessInstanceClientConfigurationOutput>(ExportVerifiedAccessInstanceClientConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportVerifiedAccessInstanceClientConfigurationInput, ExportVerifiedAccessInstanceClientConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportVerifiedAccessInstanceClientConfigurationInput, ExportVerifiedAccessInstanceClientConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportVerifiedAccessInstanceClientConfigurationOutput>(ExportVerifiedAccessInstanceClientConfigurationOutput.httpOutput(from:), ExportVerifiedAccessInstanceClientConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportVerifiedAccessInstanceClientConfigurationInput, ExportVerifiedAccessInstanceClientConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ExportVerifiedAccessInstanceClientConfigurationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ExportVerifiedAccessInstanceClientConfigurationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExportVerifiedAccessInstanceClientConfigurationInput, ExportVerifiedAccessInstanceClientConfigurationOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<ExportVerifiedAccessInstanceClientConfigurationInput, ExportVerifiedAccessInstanceClientConfigurationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ExportVerifiedAccessInstanceClientConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportVerifiedAccessInstanceClientConfigurationInput, ExportVerifiedAccessInstanceClientConfigurationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportVerifiedAccessInstanceClientConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportVerifiedAccessInstanceClientConfigurationInput, ExportVerifiedAccessInstanceClientConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExportVerifiedAccessInstanceClientConfigurationInput, ExportVerifiedAccessInstanceClientConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExportVerifiedAccessInstanceClientConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAllowedImagesSettings` operation on the `AmazonEC2` service.
+    ///
+    /// Gets the current state of the Allowed AMIs setting and the list of Allowed AMIs criteria at the account level in the specified Region. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
+    ///
+    /// - Parameter GetAllowedImagesSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetAllowedImagesSettingsOutput` : [no documentation found]
+    public func getAllowedImagesSettings(input: GetAllowedImagesSettingsInput) async throws -> GetAllowedImagesSettingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAllowedImagesSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAllowedImagesSettingsInput, GetAllowedImagesSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAllowedImagesSettingsInput, GetAllowedImagesSettingsOutput>(GetAllowedImagesSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAllowedImagesSettingsInput, GetAllowedImagesSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAllowedImagesSettingsInput, GetAllowedImagesSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAllowedImagesSettingsOutput>(GetAllowedImagesSettingsOutput.httpOutput(from:), GetAllowedImagesSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAllowedImagesSettingsInput, GetAllowedImagesSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAllowedImagesSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetAllowedImagesSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAllowedImagesSettingsInput, GetAllowedImagesSettingsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetAllowedImagesSettingsInput, GetAllowedImagesSettingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetAllowedImagesSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAllowedImagesSettingsInput, GetAllowedImagesSettingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAllowedImagesSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAllowedImagesSettingsInput, GetAllowedImagesSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAllowedImagesSettingsInput, GetAllowedImagesSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAllowedImagesSettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAssociatedEnclaveCertificateIamRoles` operation on the `AmazonEC2` service.
     ///
     /// Returns the IAM roles that are associated with the specified ACM (ACM) certificate. It also returns the name of the Amazon S3 bucket and the Amazon S3 object key where the certificate, certificate chain, and encrypted private key bundle are stored, and the ARN of the KMS key that's used to encrypt the private key.
@@ -29037,6 +29887,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConsoleScreenshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDeclarativePoliciesReportSummary` operation on the `AmazonEC2` service.
+    ///
+    /// Retrieves a summary of the account status report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete status. Reports with other statuses (running, cancelled, or error) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see [Downloading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/download-objects.html) in the Amazon Simple Storage Service User Guide. For more information, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
+    ///
+    /// - Parameter GetDeclarativePoliciesReportSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeclarativePoliciesReportSummaryOutput` : [no documentation found]
+    public func getDeclarativePoliciesReportSummary(input: GetDeclarativePoliciesReportSummaryInput) async throws -> GetDeclarativePoliciesReportSummaryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDeclarativePoliciesReportSummary")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDeclarativePoliciesReportSummaryInput, GetDeclarativePoliciesReportSummaryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDeclarativePoliciesReportSummaryInput, GetDeclarativePoliciesReportSummaryOutput>(GetDeclarativePoliciesReportSummaryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeclarativePoliciesReportSummaryInput, GetDeclarativePoliciesReportSummaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeclarativePoliciesReportSummaryInput, GetDeclarativePoliciesReportSummaryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeclarativePoliciesReportSummaryOutput>(GetDeclarativePoliciesReportSummaryOutput.httpOutput(from:), GetDeclarativePoliciesReportSummaryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeclarativePoliciesReportSummaryInput, GetDeclarativePoliciesReportSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDeclarativePoliciesReportSummaryOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetDeclarativePoliciesReportSummaryOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDeclarativePoliciesReportSummaryInput, GetDeclarativePoliciesReportSummaryOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetDeclarativePoliciesReportSummaryInput, GetDeclarativePoliciesReportSummaryOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetDeclarativePoliciesReportSummaryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeclarativePoliciesReportSummaryInput, GetDeclarativePoliciesReportSummaryOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeclarativePoliciesReportSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeclarativePoliciesReportSummaryInput, GetDeclarativePoliciesReportSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeclarativePoliciesReportSummaryInput, GetDeclarativePoliciesReportSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDeclarativePoliciesReportSummary")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -31492,6 +32406,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetVerifiedAccessEndpointTargets` operation on the `AmazonEC2` service.
+    ///
+    /// Gets the targets for the specified network CIDR endpoint for Verified Access.
+    ///
+    /// - Parameter GetVerifiedAccessEndpointTargetsInput : [no documentation found]
+    ///
+    /// - Returns: `GetVerifiedAccessEndpointTargetsOutput` : [no documentation found]
+    public func getVerifiedAccessEndpointTargets(input: GetVerifiedAccessEndpointTargetsInput) async throws -> GetVerifiedAccessEndpointTargetsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getVerifiedAccessEndpointTargets")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetVerifiedAccessEndpointTargetsInput, GetVerifiedAccessEndpointTargetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetVerifiedAccessEndpointTargetsInput, GetVerifiedAccessEndpointTargetsOutput>(GetVerifiedAccessEndpointTargetsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVerifiedAccessEndpointTargetsInput, GetVerifiedAccessEndpointTargetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVerifiedAccessEndpointTargetsInput, GetVerifiedAccessEndpointTargetsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVerifiedAccessEndpointTargetsOutput>(GetVerifiedAccessEndpointTargetsOutput.httpOutput(from:), GetVerifiedAccessEndpointTargetsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVerifiedAccessEndpointTargetsInput, GetVerifiedAccessEndpointTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetVerifiedAccessEndpointTargetsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetVerifiedAccessEndpointTargetsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetVerifiedAccessEndpointTargetsInput, GetVerifiedAccessEndpointTargetsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetVerifiedAccessEndpointTargetsInput, GetVerifiedAccessEndpointTargetsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetVerifiedAccessEndpointTargetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVerifiedAccessEndpointTargetsInput, GetVerifiedAccessEndpointTargetsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVerifiedAccessEndpointTargetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetVerifiedAccessEndpointTargetsInput, GetVerifiedAccessEndpointTargetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetVerifiedAccessEndpointTargetsInput, GetVerifiedAccessEndpointTargetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVerifiedAccessEndpointTargets")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetVerifiedAccessGroupPolicy` operation on the `AmazonEC2` service.
     ///
     /// Shows the contents of the Verified Access policy associated with the group.
@@ -31942,7 +32920,7 @@ extension EC2Client {
 
     /// Performs the `ImportKeyPair` operation on the `AmazonEC2` service.
     ///
-    /// Imports the public key from an RSA or ED25519 key pair that you created with a third-party tool. Compare this with [CreateKeyPair], in which Amazon Web Services creates the key pair and gives the keys to you (Amazon Web Services keeps a copy of the public key). With ImportKeyPair, you create the key pair and give Amazon Web Services just the public key. The private key is never transferred between you and Amazon Web Services. For more information about key pairs, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon Elastic Compute Cloud User Guide.
+    /// Imports the public key from an RSA or ED25519 key pair that you created using a third-party tool. You give Amazon Web Services only the public key. The private key is never transferred between you and Amazon Web Services. For more information about the requirements for importing a key pair, see [Create a key pair and import the public key to Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws) in the Amazon EC2 User Guide.
     ///
     /// - Parameter ImportKeyPairInput : [no documentation found]
     ///
@@ -32460,7 +33438,17 @@ extension EC2Client {
 
     /// Performs the `ModifyCapacityReservation` operation on the `AmazonEC2` service.
     ///
-    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Capacity Reservation's instance type, EBS optimization, platform, instance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with the required attributes. For more information, see [Modify an active Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-reservations-modify.html).
+    /// Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under which it is to be released. You can't modify a Capacity Reservation's instance type, EBS optimization, platform, instance store settings, Availability Zone, or tenancy. If you need to modify any of these attributes, we recommend that you cancel the Capacity Reservation, and then create a new one with the required attributes. For more information, see [ Modify an active Capacity Reservation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-reservations-modify.html). The allowed modifications depend on the state of the Capacity Reservation:
+    ///
+    /// * assessing or scheduled state - You can modify the tags only.
+    ///
+    /// * pending state - You can't modify the Capacity Reservation in any way.
+    ///
+    /// * active state but still within the commitment duration - You can't decrease the instance count or set an end date that is within the commitment duration. All other modifications are allowed.
+    ///
+    /// * active state with no commitment duration or elapsed commitment duration - All modifications are allowed.
+    ///
+    /// * expired, cancelled, unsupported, or failed state - You can't modify the Capacity Reservation in any way.
     ///
     /// - Parameter ModifyCapacityReservationInput : [no documentation found]
     ///
@@ -33228,7 +34216,7 @@ extension EC2Client {
 
     /// Performs the `ModifyInstanceCapacityReservationAttributes` operation on the `AmazonEC2` service.
     ///
-    /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attributes, or run On-Demand Instance capacity.
+    /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attributes, run in On-Demand Instance capacity, or only run in a Capacity Reservation.
     ///
     /// - Parameter ModifyInstanceCapacityReservationAttributesInput : [no documentation found]
     ///
@@ -35879,6 +36867,134 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ModifyVpcBlockPublicAccessExclusion` operation on the `AmazonEC2` service.
+    ///
+    /// Modify VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on.
+    ///
+    /// - Parameter ModifyVpcBlockPublicAccessExclusionInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyVpcBlockPublicAccessExclusionOutput` : [no documentation found]
+    public func modifyVpcBlockPublicAccessExclusion(input: ModifyVpcBlockPublicAccessExclusionInput) async throws -> ModifyVpcBlockPublicAccessExclusionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyVpcBlockPublicAccessExclusion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyVpcBlockPublicAccessExclusionInput, ModifyVpcBlockPublicAccessExclusionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyVpcBlockPublicAccessExclusionInput, ModifyVpcBlockPublicAccessExclusionOutput>(ModifyVpcBlockPublicAccessExclusionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyVpcBlockPublicAccessExclusionInput, ModifyVpcBlockPublicAccessExclusionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyVpcBlockPublicAccessExclusionInput, ModifyVpcBlockPublicAccessExclusionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcBlockPublicAccessExclusionOutput>(ModifyVpcBlockPublicAccessExclusionOutput.httpOutput(from:), ModifyVpcBlockPublicAccessExclusionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcBlockPublicAccessExclusionInput, ModifyVpcBlockPublicAccessExclusionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcBlockPublicAccessExclusionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ModifyVpcBlockPublicAccessExclusionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyVpcBlockPublicAccessExclusionInput, ModifyVpcBlockPublicAccessExclusionOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyVpcBlockPublicAccessExclusionInput, ModifyVpcBlockPublicAccessExclusionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyVpcBlockPublicAccessExclusionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyVpcBlockPublicAccessExclusionInput, ModifyVpcBlockPublicAccessExclusionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyVpcBlockPublicAccessExclusionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyVpcBlockPublicAccessExclusionInput, ModifyVpcBlockPublicAccessExclusionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyVpcBlockPublicAccessExclusionInput, ModifyVpcBlockPublicAccessExclusionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcBlockPublicAccessExclusion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyVpcBlockPublicAccessOptions` operation on the `AmazonEC2` service.
+    ///
+    /// Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
+    ///
+    /// - Parameter ModifyVpcBlockPublicAccessOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyVpcBlockPublicAccessOptionsOutput` : [no documentation found]
+    public func modifyVpcBlockPublicAccessOptions(input: ModifyVpcBlockPublicAccessOptionsInput) async throws -> ModifyVpcBlockPublicAccessOptionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyVpcBlockPublicAccessOptions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyVpcBlockPublicAccessOptionsInput, ModifyVpcBlockPublicAccessOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyVpcBlockPublicAccessOptionsInput, ModifyVpcBlockPublicAccessOptionsOutput>(ModifyVpcBlockPublicAccessOptionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyVpcBlockPublicAccessOptionsInput, ModifyVpcBlockPublicAccessOptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyVpcBlockPublicAccessOptionsInput, ModifyVpcBlockPublicAccessOptionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcBlockPublicAccessOptionsOutput>(ModifyVpcBlockPublicAccessOptionsOutput.httpOutput(from:), ModifyVpcBlockPublicAccessOptionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcBlockPublicAccessOptionsInput, ModifyVpcBlockPublicAccessOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcBlockPublicAccessOptionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ModifyVpcBlockPublicAccessOptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyVpcBlockPublicAccessOptionsInput, ModifyVpcBlockPublicAccessOptionsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyVpcBlockPublicAccessOptionsInput, ModifyVpcBlockPublicAccessOptionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyVpcBlockPublicAccessOptionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyVpcBlockPublicAccessOptionsInput, ModifyVpcBlockPublicAccessOptionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyVpcBlockPublicAccessOptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyVpcBlockPublicAccessOptionsInput, ModifyVpcBlockPublicAccessOptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyVpcBlockPublicAccessOptionsInput, ModifyVpcBlockPublicAccessOptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcBlockPublicAccessOptions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ModifyVpcEndpoint` operation on the `AmazonEC2` service.
     ///
     /// Modifies attributes of a specified VPC endpoint. The attributes that you can modify depend on the type of VPC endpoint (interface, gateway, or Gateway Load Balancer). For more information, see the [Amazon Web Services PrivateLink Guide](https://docs.aws.amazon.com/vpc/latest/privatelink/).
@@ -36009,7 +37125,7 @@ extension EC2Client {
 
     /// Performs the `ModifyVpcEndpointServiceConfiguration` operation on the `AmazonEC2` service.
     ///
-    /// Modifies the attributes of your VPC endpoint service configuration. You can change the Network Load Balancers or Gateway Load Balancers for your service, and you can specify whether acceptance is required for requests to connect to your endpoint service through an interface VPC endpoint. If you set or modify the private DNS name, you must prove that you own the private DNS domain name.
+    /// Modifies the attributes of the specified VPC endpoint service configuration. If you set or modify the private DNS name, you must prove that you own the private DNS domain name.
     ///
     /// - Parameter ModifyVpcEndpointServiceConfigurationInput : [no documentation found]
     ///
@@ -37184,6 +38300,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PurchaseCapacityBlockExtension` operation on the `AmazonEC2` service.
+    ///
+    /// Purchase the Capacity Block extension for use with your account. You must specify the ID of the Capacity Block extension offering you are purchasing.
+    ///
+    /// - Parameter PurchaseCapacityBlockExtensionInput : [no documentation found]
+    ///
+    /// - Returns: `PurchaseCapacityBlockExtensionOutput` : [no documentation found]
+    public func purchaseCapacityBlockExtension(input: PurchaseCapacityBlockExtensionInput) async throws -> PurchaseCapacityBlockExtensionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "purchaseCapacityBlockExtension")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PurchaseCapacityBlockExtensionInput, PurchaseCapacityBlockExtensionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PurchaseCapacityBlockExtensionInput, PurchaseCapacityBlockExtensionOutput>(PurchaseCapacityBlockExtensionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PurchaseCapacityBlockExtensionInput, PurchaseCapacityBlockExtensionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurchaseCapacityBlockExtensionInput, PurchaseCapacityBlockExtensionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseCapacityBlockExtensionOutput>(PurchaseCapacityBlockExtensionOutput.httpOutput(from:), PurchaseCapacityBlockExtensionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseCapacityBlockExtensionInput, PurchaseCapacityBlockExtensionOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseCapacityBlockExtensionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PurchaseCapacityBlockExtensionOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PurchaseCapacityBlockExtensionInput, PurchaseCapacityBlockExtensionOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<PurchaseCapacityBlockExtensionInput, PurchaseCapacityBlockExtensionOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: PurchaseCapacityBlockExtensionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PurchaseCapacityBlockExtensionInput, PurchaseCapacityBlockExtensionOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PurchaseCapacityBlockExtensionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PurchaseCapacityBlockExtensionInput, PurchaseCapacityBlockExtensionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PurchaseCapacityBlockExtensionInput, PurchaseCapacityBlockExtensionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PurchaseCapacityBlockExtension")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PurchaseHostReservation` operation on the `AmazonEC2` service.
     ///
     /// Purchase a reservation with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This action results in the specified reservation being purchased and charged to your account.
@@ -38325,6 +39505,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplaceIamInstanceProfileAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ReplaceImageCriteriaInAllowedImagesSettings` operation on the `AmazonEC2` service.
+    ///
+    /// Sets or replaces the criteria for Allowed AMIs. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
+    ///
+    /// - Parameter ReplaceImageCriteriaInAllowedImagesSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `ReplaceImageCriteriaInAllowedImagesSettingsOutput` : [no documentation found]
+    public func replaceImageCriteriaInAllowedImagesSettings(input: ReplaceImageCriteriaInAllowedImagesSettingsInput) async throws -> ReplaceImageCriteriaInAllowedImagesSettingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "replaceImageCriteriaInAllowedImagesSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ReplaceImageCriteriaInAllowedImagesSettingsInput, ReplaceImageCriteriaInAllowedImagesSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsInput, ReplaceImageCriteriaInAllowedImagesSettingsOutput>(ReplaceImageCriteriaInAllowedImagesSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsInput, ReplaceImageCriteriaInAllowedImagesSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsInput, ReplaceImageCriteriaInAllowedImagesSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsOutput>(ReplaceImageCriteriaInAllowedImagesSettingsOutput.httpOutput(from:), ReplaceImageCriteriaInAllowedImagesSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsInput, ReplaceImageCriteriaInAllowedImagesSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsInput, ReplaceImageCriteriaInAllowedImagesSettingsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsInput, ReplaceImageCriteriaInAllowedImagesSettingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ReplaceImageCriteriaInAllowedImagesSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsInput, ReplaceImageCriteriaInAllowedImagesSettingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsInput, ReplaceImageCriteriaInAllowedImagesSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ReplaceImageCriteriaInAllowedImagesSettingsInput, ReplaceImageCriteriaInAllowedImagesSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ReplaceImageCriteriaInAllowedImagesSettings")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -40260,6 +41504,81 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendDiagnosticInterrupt")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartDeclarativePoliciesReport` operation on the `AmazonEC2` service.
+    ///
+    /// Generates an account status report. The report is generated asynchronously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId, which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Organization). The report is saved to your specified S3 bucket, using the following path structure (with the italicized placeholders representing your specific values): s3://amzn-s3-demo-bucket/your-optional-s3-prefix/ec2_targetId_reportId_yyyyMMddThhmmZ.csv Prerequisites for generating a report
+    ///
+    /// * The StartDeclarativePoliciesReport API can only be called by the management account or delegated administrators for the organization.
+    ///
+    /// * An S3 bucket must be available before generating the report (you can create a new one or use an existing one), and it must have an appropriate bucket policy. For a sample S3 policy, see Sample Amazon S3 policy under .
+    ///
+    /// * Trusted access must be enabled for the service for which the declarative policy will enforce a baseline configuration. If you use the Amazon Web Services Organizations console, this is done automatically when you enable declarative policies. The API uses the following service principal to identify the EC2 service: ec2.amazonaws.com. For more information on how to enable trusted access with the Amazon Web Services CLI and Amazon Web Services SDKs, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Amazon Web Services Organizations User Guide.
+    ///
+    /// * Only one report per organization can be generated at a time. Attempting to generate a report while another is in progress will result in an error.
+    ///
+    ///
+    /// For more information, including the required IAM permissions to run this API, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
+    ///
+    /// - Parameter StartDeclarativePoliciesReportInput : [no documentation found]
+    ///
+    /// - Returns: `StartDeclarativePoliciesReportOutput` : [no documentation found]
+    public func startDeclarativePoliciesReport(input: StartDeclarativePoliciesReportInput) async throws -> StartDeclarativePoliciesReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startDeclarativePoliciesReport")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartDeclarativePoliciesReportInput, StartDeclarativePoliciesReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartDeclarativePoliciesReportInput, StartDeclarativePoliciesReportOutput>(StartDeclarativePoliciesReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDeclarativePoliciesReportInput, StartDeclarativePoliciesReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDeclarativePoliciesReportInput, StartDeclarativePoliciesReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDeclarativePoliciesReportOutput>(StartDeclarativePoliciesReportOutput.httpOutput(from:), StartDeclarativePoliciesReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDeclarativePoliciesReportInput, StartDeclarativePoliciesReportOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartDeclarativePoliciesReportOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<StartDeclarativePoliciesReportOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartDeclarativePoliciesReportInput, StartDeclarativePoliciesReportOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartDeclarativePoliciesReportInput, StartDeclarativePoliciesReportOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: StartDeclarativePoliciesReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartDeclarativePoliciesReportInput, StartDeclarativePoliciesReportOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartDeclarativePoliciesReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartDeclarativePoliciesReportInput, StartDeclarativePoliciesReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartDeclarativePoliciesReportInput, StartDeclarativePoliciesReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartDeclarativePoliciesReport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
