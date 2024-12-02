@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentClient"
-    public static let version = "1.0.50"
+    public static let version = "1.0.51"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentClient.BedrockAgentClientConfiguration
     let serviceName = "Bedrock Agent"
@@ -519,7 +519,7 @@ extension BedrockAgentClient {
 
     /// Performs the `CreateDataSource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Creates a data source connector for a knowledge base. You can't change the chunkingConfiguration after you create the data source connector.
+    /// Connects a knowledge base to a data source. You specify the configuration for the specific data source service in the dataSourceConfiguration field. You can't change the chunkingConfiguration after you create the data source connector.
     ///
     /// - Parameter CreateDataSourceInput : [no documentation found]
     ///
@@ -1705,6 +1705,81 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteKnowledgeBaseDocuments` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    ///
+    /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
+    ///
+    /// - Parameter DeleteKnowledgeBaseDocumentsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKnowledgeBaseDocumentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func deleteKnowledgeBaseDocuments(input: DeleteKnowledgeBaseDocumentsInput) async throws -> DeleteKnowledgeBaseDocumentsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteKnowledgeBaseDocuments")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput>(DeleteKnowledgeBaseDocumentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteKnowledgeBaseDocumentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKnowledgeBaseDocumentsOutput>(DeleteKnowledgeBaseDocumentsOutput.httpOutput(from:), DeleteKnowledgeBaseDocumentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKnowledgeBaseDocumentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteKnowledgeBaseDocumentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteKnowledgeBaseDocumentsInput, DeleteKnowledgeBaseDocumentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteKnowledgeBaseDocuments")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeletePrompt` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
     /// Deletes a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see [Delete prompts from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-delete.html) and [Delete a version of a prompt from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-delete.html) in the Amazon Bedrock User Guide.
@@ -2618,6 +2693,80 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetKnowledgeBaseDocuments` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    ///
+    /// Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
+    ///
+    /// - Parameter GetKnowledgeBaseDocumentsInput : [no documentation found]
+    ///
+    /// - Returns: `GetKnowledgeBaseDocumentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func getKnowledgeBaseDocuments(input: GetKnowledgeBaseDocumentsInput) async throws -> GetKnowledgeBaseDocumentsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getKnowledgeBaseDocuments")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetKnowledgeBaseDocumentsInput, GetKnowledgeBaseDocumentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetKnowledgeBaseDocumentsInput, GetKnowledgeBaseDocumentsOutput>(GetKnowledgeBaseDocumentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKnowledgeBaseDocumentsInput, GetKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetKnowledgeBaseDocumentsInput, GetKnowledgeBaseDocumentsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetKnowledgeBaseDocumentsInput, GetKnowledgeBaseDocumentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetKnowledgeBaseDocumentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetKnowledgeBaseDocumentsInput, GetKnowledgeBaseDocumentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKnowledgeBaseDocumentsOutput>(GetKnowledgeBaseDocumentsOutput.httpOutput(from:), GetKnowledgeBaseDocumentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKnowledgeBaseDocumentsInput, GetKnowledgeBaseDocumentsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetKnowledgeBaseDocumentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetKnowledgeBaseDocumentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetKnowledgeBaseDocumentsInput, GetKnowledgeBaseDocumentsOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetKnowledgeBaseDocumentsInput, GetKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetKnowledgeBaseDocumentsInput, GetKnowledgeBaseDocumentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetKnowledgeBaseDocuments")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetPrompt` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
     /// Retrieves information about the working draft (DRAFT version) of a prompt or a version of it, depending on whether you include the promptVersion field or not. For more information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html) and [View information about a version of your prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-view.html) in the Amazon Bedrock User Guide.
@@ -2677,6 +2826,81 @@ extension BedrockAgentClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPrompt")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `IngestKnowledgeBaseDocuments` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    ///
+    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
+    ///
+    /// - Parameter IngestKnowledgeBaseDocumentsInput : [no documentation found]
+    ///
+    /// - Returns: `IngestKnowledgeBaseDocumentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func ingestKnowledgeBaseDocuments(input: IngestKnowledgeBaseDocumentsInput) async throws -> IngestKnowledgeBaseDocumentsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "ingestKnowledgeBaseDocuments")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput>(IngestKnowledgeBaseDocumentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: IngestKnowledgeBaseDocumentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<IngestKnowledgeBaseDocumentsOutput>(IngestKnowledgeBaseDocumentsOutput.httpOutput(from:), IngestKnowledgeBaseDocumentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<IngestKnowledgeBaseDocumentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<IngestKnowledgeBaseDocumentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<IngestKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<IngestKnowledgeBaseDocumentsInput, IngestKnowledgeBaseDocumentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "IngestKnowledgeBaseDocuments")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3399,6 +3623,80 @@ extension BedrockAgentClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIngestionJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListKnowledgeBaseDocuments` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
+    ///
+    /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see [Ingest documents into a knowledge base in real-time](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html) in the Amazon Bedrock User Guide.
+    ///
+    /// - Parameter ListKnowledgeBaseDocumentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListKnowledgeBaseDocumentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func listKnowledgeBaseDocuments(input: ListKnowledgeBaseDocumentsInput) async throws -> ListKnowledgeBaseDocumentsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listKnowledgeBaseDocuments")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListKnowledgeBaseDocumentsInput, ListKnowledgeBaseDocumentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListKnowledgeBaseDocumentsInput, ListKnowledgeBaseDocumentsOutput>(ListKnowledgeBaseDocumentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListKnowledgeBaseDocumentsInput, ListKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListKnowledgeBaseDocumentsInput, ListKnowledgeBaseDocumentsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListKnowledgeBaseDocumentsInput, ListKnowledgeBaseDocumentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListKnowledgeBaseDocumentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListKnowledgeBaseDocumentsInput, ListKnowledgeBaseDocumentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKnowledgeBaseDocumentsOutput>(ListKnowledgeBaseDocumentsOutput.httpOutput(from:), ListKnowledgeBaseDocumentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKnowledgeBaseDocumentsInput, ListKnowledgeBaseDocumentsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListKnowledgeBaseDocumentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListKnowledgeBaseDocumentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListKnowledgeBaseDocumentsInput, ListKnowledgeBaseDocumentsOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListKnowledgeBaseDocumentsInput, ListKnowledgeBaseDocumentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListKnowledgeBaseDocumentsInput, ListKnowledgeBaseDocumentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListKnowledgeBaseDocuments")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

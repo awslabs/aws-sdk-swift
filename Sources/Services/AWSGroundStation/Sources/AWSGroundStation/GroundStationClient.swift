@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GroundStationClient: ClientRuntime.Client {
     public static let clientName = "GroundStationClient"
-    public static let version = "1.0.50"
+    public static let version = "1.0.51"
     let client: ClientRuntime.SdkHttpClient
     let config: GroundStationClient.GroundStationClientConfiguration
     let serviceName = "GroundStation"

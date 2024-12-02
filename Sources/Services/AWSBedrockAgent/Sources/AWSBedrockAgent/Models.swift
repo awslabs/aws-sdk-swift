@@ -2903,6 +2903,7 @@ extension BedrockAgentClientTypes {
 
     public enum DataSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case confluence
+        case custom
         case s3
         case salesforce
         case sharepoint
@@ -2912,6 +2913,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [DataSourceType] {
             return [
                 .confluence,
+                .custom,
                 .s3,
                 .salesforce,
                 .sharepoint,
@@ -2927,6 +2929,7 @@ extension BedrockAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .confluence: return "CONFLUENCE"
+            case .custom: return "CUSTOM"
             case .s3: return "S3"
             case .salesforce: return "SALESFORCE"
             case .sharepoint: return "SHAREPOINT"
@@ -7295,6 +7298,796 @@ public struct StopIngestionJobOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentClientTypes {
+
+    /// Contains information about the identifier of the document to ingest into a custom data source.
+    public struct CustomDocumentIdentifier: Swift.Sendable {
+        /// The identifier of the document to ingest into a custom data source.
+        /// This member is required.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        )
+        {
+            self.id = id
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum ContentDataSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentDataSourceType] {
+            return [
+                .custom,
+                .s3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information that identifies the document.
+    public struct DocumentIdentifier: Swift.Sendable {
+        /// Contains information that identifies the document in a custom data source.
+        public var custom: BedrockAgentClientTypes.CustomDocumentIdentifier?
+        /// The type of data source connected to the knowledge base that contains the document.
+        /// This member is required.
+        public var dataSourceType: BedrockAgentClientTypes.ContentDataSourceType?
+        /// Contains information that identifies the document in an S3 data source.
+        public var s3: BedrockAgentClientTypes.S3Location?
+
+        public init(
+            custom: BedrockAgentClientTypes.CustomDocumentIdentifier? = nil,
+            dataSourceType: BedrockAgentClientTypes.ContentDataSourceType? = nil,
+            s3: BedrockAgentClientTypes.S3Location? = nil
+        )
+        {
+            self.custom = custom
+            self.dataSourceType = dataSourceType
+            self.s3 = s3
+        }
+    }
+}
+
+public struct DeleteKnowledgeBaseDocumentsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The unique identifier of the data source that contains the documents.
+    /// This member is required.
+    public var dataSourceId: Swift.String?
+    /// A list of objects, each of which contains information to identify a document to delete.
+    /// This member is required.
+    public var documentIdentifiers: [BedrockAgentClientTypes.DocumentIdentifier]?
+    /// The unique identifier of the knowledge base that is connected to the data source.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dataSourceId: Swift.String? = nil,
+        documentIdentifiers: [BedrockAgentClientTypes.DocumentIdentifier]? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.dataSourceId = dataSourceId
+        self.documentIdentifiers = documentIdentifiers
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum DocumentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleteInProgress
+        case deleting
+        case failed
+        case ignored
+        case indexed
+        case inProgress
+        case metadataPartiallyIndexed
+        case metadataUpdateFailed
+        case notFound
+        case partiallyIndexed
+        case pending
+        case starting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DocumentStatus] {
+            return [
+                .deleteInProgress,
+                .deleting,
+                .failed,
+                .ignored,
+                .indexed,
+                .inProgress,
+                .metadataPartiallyIndexed,
+                .metadataUpdateFailed,
+                .notFound,
+                .partiallyIndexed,
+                .pending,
+                .starting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .ignored: return "IGNORED"
+            case .indexed: return "INDEXED"
+            case .inProgress: return "IN_PROGRESS"
+            case .metadataPartiallyIndexed: return "METADATA_PARTIALLY_INDEXED"
+            case .metadataUpdateFailed: return "METADATA_UPDATE_FAILED"
+            case .notFound: return "NOT_FOUND"
+            case .partiallyIndexed: return "PARTIALLY_INDEXED"
+            case .pending: return "PENDING"
+            case .starting: return "STARTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains the details for a document that was ingested or deleted.
+    public struct KnowledgeBaseDocumentDetail: Swift.Sendable {
+        /// The identifier of the data source connected to the knowledge base that the document was ingested into or deleted from.
+        /// This member is required.
+        public var dataSourceId: Swift.String?
+        /// Contains information that identifies the document.
+        /// This member is required.
+        public var identifier: BedrockAgentClientTypes.DocumentIdentifier?
+        /// The identifier of the knowledge base that the document was ingested into or deleted from.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The ingestion status of the document. The following statuses are possible:
+        ///
+        /// * STARTED – You submitted the ingestion job containing the document.
+        ///
+        /// * PENDING – The document is waiting to be ingested.
+        ///
+        /// * IN_PROGRESS – The document is being ingested.
+        ///
+        /// * INDEXED – The document was successfully indexed.
+        ///
+        /// * PARTIALLY_INDEXED – The document was partially indexed.
+        ///
+        /// * METADATA_PARTIALLY_INDEXED – You submitted metadata for an existing document and it was partially indexed.
+        ///
+        /// * METADATA_UPDATE_FAILED – You submitted a metadata update for an existing document but it failed.
+        ///
+        /// * FAILED – The document failed to be ingested.
+        ///
+        /// * NOT_FOUND – The document wasn't found.
+        ///
+        /// * IGNORED – The document was ignored during ingestion.
+        ///
+        /// * DELETING – You submitted the delete job containing the document.
+        ///
+        /// * DELETE_IN_PROGRESS – The document is being deleted.
+        /// This member is required.
+        public var status: BedrockAgentClientTypes.DocumentStatus?
+        /// The reason for the status. Appears alongside the status IGNORED.
+        public var statusReason: Swift.String?
+        /// The date and time at which the document was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            dataSourceId: Swift.String? = nil,
+            identifier: BedrockAgentClientTypes.DocumentIdentifier? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            status: BedrockAgentClientTypes.DocumentStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        )
+        {
+            self.dataSourceId = dataSourceId
+            self.identifier = identifier
+            self.knowledgeBaseId = knowledgeBaseId
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct DeleteKnowledgeBaseDocumentsOutput: Swift.Sendable {
+    /// A list of objects, each of which contains information about the documents that were deleted.
+    public var documentDetails: [BedrockAgentClientTypes.KnowledgeBaseDocumentDetail]?
+
+    public init(
+        documentDetails: [BedrockAgentClientTypes.KnowledgeBaseDocumentDetail]? = nil
+    )
+    {
+        self.documentDetails = documentDetails
+    }
+}
+
+public struct GetKnowledgeBaseDocumentsInput: Swift.Sendable {
+    /// The unique identifier of the data source that contains the documents.
+    /// This member is required.
+    public var dataSourceId: Swift.String?
+    /// A list of objects, each of which contains information to identify a document for which to retrieve information.
+    /// This member is required.
+    public var documentIdentifiers: [BedrockAgentClientTypes.DocumentIdentifier]?
+    /// The unique identifier of the knowledge base that is connected to the data source.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        dataSourceId: Swift.String? = nil,
+        documentIdentifiers: [BedrockAgentClientTypes.DocumentIdentifier]? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    )
+    {
+        self.dataSourceId = dataSourceId
+        self.documentIdentifiers = documentIdentifiers
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+public struct GetKnowledgeBaseDocumentsOutput: Swift.Sendable {
+    /// A list of objects, each of which contains information about the documents that were retrieved.
+    public var documentDetails: [BedrockAgentClientTypes.KnowledgeBaseDocumentDetail]?
+
+    public init(
+        documentDetails: [BedrockAgentClientTypes.KnowledgeBaseDocumentDetail]? = nil
+    )
+    {
+        self.documentDetails = documentDetails
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about content defined inline in bytes.
+    public struct ByteContentDoc: Swift.Sendable {
+        /// The base64-encoded string of the content.
+        /// This member is required.
+        public var data: Foundation.Data?
+        /// The MIME type of the content. For a list of MIME types, see [Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml). The following MIME types are supported:
+        ///
+        /// * text/plain
+        ///
+        /// * text/html
+        ///
+        /// * text/csv
+        ///
+        /// * text/vtt
+        ///
+        /// * message/rfc822
+        ///
+        /// * application/xhtml+xml
+        ///
+        /// * application/pdf
+        ///
+        /// * application/msword
+        ///
+        /// * application/vnd.ms-word.document.macroenabled.12
+        ///
+        /// * application/vnd.ms-word.template.macroenabled.12
+        ///
+        /// * application/vnd.ms-excel
+        ///
+        /// * application/vnd.ms-excel.addin.macroenabled.12
+        ///
+        /// * application/vnd.ms-excel.sheet.macroenabled.12
+        ///
+        /// * application/vnd.ms-excel.template.macroenabled.12
+        ///
+        /// * application/vnd.ms-excel.sheet.binary.macroenabled.12
+        ///
+        /// * application/vnd.ms-spreadsheetml
+        ///
+        /// * application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+        ///
+        /// * application/vnd.openxmlformats-officedocument.spreadsheetml.template
+        ///
+        /// * application/vnd.openxmlformats-officedocument.wordprocessingml.document
+        ///
+        /// * application/vnd.openxmlformats-officedocument.wordprocessingml.template
+        /// This member is required.
+        public var mimeType: Swift.String?
+
+        public init(
+            data: Foundation.Data? = nil,
+            mimeType: Swift.String? = nil
+        )
+        {
+            self.data = data
+            self.mimeType = mimeType
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.ByteContentDoc: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ByteContentDoc(mimeType: \(Swift.String(describing: mimeType)), data: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about content defined inline in text.
+    public struct TextContentDoc: Swift.Sendable {
+        /// The text of the content.
+        /// This member is required.
+        public var data: Swift.String?
+
+        public init(
+            data: Swift.String? = nil
+        )
+        {
+            self.data = data
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.TextContentDoc: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TextContentDoc(data: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum InlineContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case byte
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InlineContentType] {
+            return [
+                .byte,
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .byte: return "BYTE"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about content defined inline to ingest into a data source. Choose a type and include the field that corresponds to it.
+    public struct InlineContent: Swift.Sendable {
+        /// Contains information about content defined inline in bytes.
+        public var byteContent: BedrockAgentClientTypes.ByteContentDoc?
+        /// Contains information about content defined inline in text.
+        public var textContent: BedrockAgentClientTypes.TextContentDoc?
+        /// The type of inline content to define.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.InlineContentType?
+
+        public init(
+            byteContent: BedrockAgentClientTypes.ByteContentDoc? = nil,
+            textContent: BedrockAgentClientTypes.TextContentDoc? = nil,
+            type: BedrockAgentClientTypes.InlineContentType? = nil
+        )
+        {
+            self.byteContent = byteContent
+            self.textContent = textContent
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about the Amazon S3 location of the file containing the content to ingest into a knowledge base connected to a custom data source.
+    public struct CustomS3Location: Swift.Sendable {
+        /// The identifier of the Amazon Web Services account that owns the S3 bucket containing the content to ingest.
+        public var bucketOwnerAccountId: Swift.String?
+        /// The S3 URI of the file containing the content to ingest.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            bucketOwnerAccountId: Swift.String? = nil,
+            uri: Swift.String? = nil
+        )
+        {
+            self.bucketOwnerAccountId = bucketOwnerAccountId
+            self.uri = uri
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum CustomSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inLine
+        case s3Location
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomSourceType] {
+            return [
+                .inLine,
+                .s3Location
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inLine: return "IN_LINE"
+            case .s3Location: return "S3_LOCATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about the content to ingest into a knowledge base connected to a custom data source. Choose a sourceType and include the field that corresponds to it.
+    public struct CustomContent: Swift.Sendable {
+        /// A unique identifier for the document.
+        /// This member is required.
+        public var customDocumentIdentifier: BedrockAgentClientTypes.CustomDocumentIdentifier?
+        /// Contains information about content defined inline to ingest into a knowledge base.
+        public var inlineContent: BedrockAgentClientTypes.InlineContent?
+        /// Contains information about the Amazon S3 location of the file from which to ingest data.
+        public var s3Location: BedrockAgentClientTypes.CustomS3Location?
+        /// The source of the data to ingest.
+        /// This member is required.
+        public var sourceType: BedrockAgentClientTypes.CustomSourceType?
+
+        public init(
+            customDocumentIdentifier: BedrockAgentClientTypes.CustomDocumentIdentifier? = nil,
+            inlineContent: BedrockAgentClientTypes.InlineContent? = nil,
+            s3Location: BedrockAgentClientTypes.CustomS3Location? = nil,
+            sourceType: BedrockAgentClientTypes.CustomSourceType? = nil
+        )
+        {
+            self.customDocumentIdentifier = customDocumentIdentifier
+            self.inlineContent = inlineContent
+            self.s3Location = s3Location
+            self.sourceType = sourceType
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about the content to ingest into a knowledge base connected to an Amazon S3 data source.
+    public struct S3Content: Swift.Sendable {
+        /// The S3 location of the file containing the content to ingest.
+        /// This member is required.
+        public var s3Location: BedrockAgentClientTypes.S3Location?
+
+        public init(
+            s3Location: BedrockAgentClientTypes.S3Location? = nil
+        )
+        {
+            self.s3Location = s3Location
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about the content of a document. Choose a dataSourceType and include the field that corresponds to it.
+    public struct DocumentContent: Swift.Sendable {
+        /// Contains information about the content to ingest into a knowledge base connected to a custom data source.
+        public var custom: BedrockAgentClientTypes.CustomContent?
+        /// The type of data source that is connected to the knowledge base to which to ingest this document.
+        /// This member is required.
+        public var dataSourceType: BedrockAgentClientTypes.ContentDataSourceType?
+        /// Contains information about the content to ingest into a knowledge base connected to an Amazon S3 data source
+        public var s3: BedrockAgentClientTypes.S3Content?
+
+        public init(
+            custom: BedrockAgentClientTypes.CustomContent? = nil,
+            dataSourceType: BedrockAgentClientTypes.ContentDataSourceType? = nil,
+            s3: BedrockAgentClientTypes.S3Content? = nil
+        )
+        {
+            self.custom = custom
+            self.dataSourceType = dataSourceType
+            self.s3 = s3
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum MetadataValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case boolean
+        case number
+        case string
+        case stringList
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetadataValueType] {
+            return [
+                .boolean,
+                .number,
+                .string,
+                .stringList
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .boolean: return "BOOLEAN"
+            case .number: return "NUMBER"
+            case .string: return "STRING"
+            case .stringList: return "STRING_LIST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains the value of the metadata attribute. Choose a type and include the field that corresponds to it.
+    public struct MetadataAttributeValue: Swift.Sendable {
+        /// The value of the Boolean metadata attribute.
+        public var booleanValue: Swift.Bool?
+        /// The value of the numeric metadata attribute.
+        public var numberValue: Swift.Double?
+        /// An array of strings that define the value of the metadata attribute.
+        public var stringListValue: [Swift.String]?
+        /// The value of the string metadata attribute.
+        public var stringValue: Swift.String?
+        /// The type of the metadata attribute.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.MetadataValueType?
+
+        public init(
+            booleanValue: Swift.Bool? = nil,
+            numberValue: Swift.Double? = nil,
+            stringListValue: [Swift.String]? = nil,
+            stringValue: Swift.String? = nil,
+            type: BedrockAgentClientTypes.MetadataValueType? = nil
+        )
+        {
+            self.booleanValue = booleanValue
+            self.numberValue = numberValue
+            self.stringListValue = stringListValue
+            self.stringValue = stringValue
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.MetadataAttributeValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MetadataAttributeValue(booleanValue: \(Swift.String(describing: booleanValue)), type: \(Swift.String(describing: type)), numberValue: \"CONTENT_REDACTED\", stringListValue: \"CONTENT_REDACTED\", stringValue: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about a metadata attribute.
+    public struct MetadataAttribute: Swift.Sendable {
+        /// The key of the metadata attribute.
+        /// This member is required.
+        public var key: Swift.String?
+        /// Contains the value of the metadata attribute.
+        /// This member is required.
+        public var value: BedrockAgentClientTypes.MetadataAttributeValue?
+
+        public init(
+            key: Swift.String? = nil,
+            value: BedrockAgentClientTypes.MetadataAttributeValue? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.MetadataAttribute: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MetadataAttribute(value: \(Swift.String(describing: value)), key: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum MetadataSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inLineAttribute
+        case s3Location
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetadataSourceType] {
+            return [
+                .inLineAttribute,
+                .s3Location
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inLineAttribute: return "IN_LINE_ATTRIBUTE"
+            case .s3Location: return "S3_LOCATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about the metadata associate with the content to ingest into a knowledge base. Choose a type and include the field that corresponds to it.
+    public struct DocumentMetadata: Swift.Sendable {
+        /// An array of objects, each of which defines a metadata attribute to associate with the content to ingest. You define the attributes inline.
+        public var inlineAttributes: [BedrockAgentClientTypes.MetadataAttribute]?
+        /// The Amazon S3 location of the file containing metadata to associate with the content to ingest.
+        public var s3Location: BedrockAgentClientTypes.CustomS3Location?
+        /// The type of the source source from which to add metadata.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.MetadataSourceType?
+
+        public init(
+            inlineAttributes: [BedrockAgentClientTypes.MetadataAttribute]? = nil,
+            s3Location: BedrockAgentClientTypes.CustomS3Location? = nil,
+            type: BedrockAgentClientTypes.MetadataSourceType? = nil
+        )
+        {
+            self.inlineAttributes = inlineAttributes
+            self.s3Location = s3Location
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about a document to ingest into a knowledge base and metadata to associate with it.
+    public struct KnowledgeBaseDocument: Swift.Sendable {
+        /// Contains the content of the document.
+        /// This member is required.
+        public var content: BedrockAgentClientTypes.DocumentContent?
+        /// Contains the metadata to associate with the document.
+        public var metadata: BedrockAgentClientTypes.DocumentMetadata?
+
+        public init(
+            content: BedrockAgentClientTypes.DocumentContent? = nil,
+            metadata: BedrockAgentClientTypes.DocumentMetadata? = nil
+        )
+        {
+            self.content = content
+            self.metadata = metadata
+        }
+    }
+}
+
+public struct IngestKnowledgeBaseDocumentsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The unique identifier of the data source connected to the knowledge base that you're adding documents to.
+    /// This member is required.
+    public var dataSourceId: Swift.String?
+    /// A list of objects, each of which contains information about the documents to add.
+    /// This member is required.
+    public var documents: [BedrockAgentClientTypes.KnowledgeBaseDocument]?
+    /// The unique identifier of the knowledge base to ingest the documents into.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dataSourceId: Swift.String? = nil,
+        documents: [BedrockAgentClientTypes.KnowledgeBaseDocument]? = nil,
+        knowledgeBaseId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.dataSourceId = dataSourceId
+        self.documents = documents
+        self.knowledgeBaseId = knowledgeBaseId
+    }
+}
+
+public struct IngestKnowledgeBaseDocumentsOutput: Swift.Sendable {
+    /// A list of objects, each of which contains information about the documents that were ingested.
+    public var documentDetails: [BedrockAgentClientTypes.KnowledgeBaseDocumentDetail]?
+
+    public init(
+        documentDetails: [BedrockAgentClientTypes.KnowledgeBaseDocumentDetail]? = nil
+    )
+    {
+        self.documentDetails = documentDetails
+    }
+}
+
+public struct ListKnowledgeBaseDocumentsInput: Swift.Sendable {
+    /// The unique identifier of the data source that contains the documents.
+    /// This member is required.
+    public var dataSourceId: Swift.String?
+    /// The unique identifier of the knowledge base that is connected to the data source.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    public var maxResults: Swift.Int?
+    /// If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataSourceId: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.dataSourceId = dataSourceId
+        self.knowledgeBaseId = knowledgeBaseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListKnowledgeBaseDocumentsOutput: Swift.Sendable {
+    /// A list of objects, each of which contains information about the documents that were retrieved.
+    /// This member is required.
+    public var documentDetails: [BedrockAgentClientTypes.KnowledgeBaseDocumentDetail]?
+    /// If the total number of results is greater than the maxResults value provided in the request, use this token when making another request in the nextToken field to return the next batch of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        documentDetails: [BedrockAgentClientTypes.KnowledgeBaseDocumentDetail]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.documentDetails = documentDetails
+        self.nextToken = nextToken
+    }
+}
+
 public struct AssociateAgentKnowledgeBaseInput: Swift.Sendable {
     /// The unique identifier of the agent with which you want to associate the knowledge base.
     /// This member is required.
@@ -7368,7 +8161,6 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Bedrock models embedding data type. Can be either float32 or binary
     public enum EmbeddingDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case binary
         case float32
@@ -9436,6 +10228,19 @@ extension DeleteKnowledgeBaseInput {
     }
 }
 
+extension DeleteKnowledgeBaseDocumentsInput {
+
+    static func urlPathProvider(_ value: DeleteKnowledgeBaseDocumentsInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let dataSourceId = value.dataSourceId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/documents/deleteDocuments"
+    }
+}
+
 extension DeletePromptInput {
 
     static func urlPathProvider(_ value: DeletePromptInput) -> Swift.String? {
@@ -9617,6 +10422,19 @@ extension GetKnowledgeBaseInput {
     }
 }
 
+extension GetKnowledgeBaseDocumentsInput {
+
+    static func urlPathProvider(_ value: GetKnowledgeBaseDocumentsInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let dataSourceId = value.dataSourceId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/documents/getDocuments"
+    }
+}
+
 extension GetPromptInput {
 
     static func urlPathProvider(_ value: GetPromptInput) -> Swift.String? {
@@ -9636,6 +10454,19 @@ extension GetPromptInput {
             items.append(promptVersionQueryItem)
         }
         return items
+    }
+}
+
+extension IngestKnowledgeBaseDocumentsInput {
+
+    static func urlPathProvider(_ value: IngestKnowledgeBaseDocumentsInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let dataSourceId = value.dataSourceId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/documents"
     }
 }
 
@@ -9787,6 +10618,19 @@ extension ListIngestionJobsInput {
             return nil
         }
         return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/ingestionjobs"
+    }
+}
+
+extension ListKnowledgeBaseDocumentsInput {
+
+    static func urlPathProvider(_ value: ListKnowledgeBaseDocumentsInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        guard let dataSourceId = value.dataSourceId else {
+            return nil
+        }
+        return "/knowledgebases/\(knowledgeBaseId.urlPercentEncoding())/datasources/\(dataSourceId.urlPercentEncoding())/documents"
     }
 }
 
@@ -10182,6 +11026,32 @@ extension CreatePromptVersionInput {
     }
 }
 
+extension DeleteKnowledgeBaseDocumentsInput {
+
+    static func write(value: DeleteKnowledgeBaseDocumentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["documentIdentifiers"].writeList(value.documentIdentifiers, memberWritingClosure: BedrockAgentClientTypes.DocumentIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetKnowledgeBaseDocumentsInput {
+
+    static func write(value: GetKnowledgeBaseDocumentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["documentIdentifiers"].writeList(value.documentIdentifiers, memberWritingClosure: BedrockAgentClientTypes.DocumentIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IngestKnowledgeBaseDocumentsInput {
+
+    static func write(value: IngestKnowledgeBaseDocumentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["documents"].writeList(value.documents, memberWritingClosure: BedrockAgentClientTypes.KnowledgeBaseDocument.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ListAgentActionGroupsInput {
 
     static func write(value: ListAgentActionGroupsInput?, to writer: SmithyJSON.Writer) throws {
@@ -10244,6 +11114,15 @@ extension ListIngestionJobsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["sortBy"].write(value.sortBy, with: BedrockAgentClientTypes.IngestionJobSortBy.write(value:to:))
+    }
+}
+
+extension ListKnowledgeBaseDocumentsInput {
+
+    static func write(value: ListKnowledgeBaseDocumentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -10681,6 +11560,18 @@ extension DeleteKnowledgeBaseOutput {
     }
 }
 
+extension DeleteKnowledgeBaseDocumentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteKnowledgeBaseDocumentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteKnowledgeBaseDocumentsOutput()
+        value.documentDetails = try reader["documentDetails"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.KnowledgeBaseDocumentDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DeletePromptOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePromptOutput {
@@ -10860,6 +11751,18 @@ extension GetKnowledgeBaseOutput {
     }
 }
 
+extension GetKnowledgeBaseDocumentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetKnowledgeBaseDocumentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetKnowledgeBaseDocumentsOutput()
+        value.documentDetails = try reader["documentDetails"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.KnowledgeBaseDocumentDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GetPromptOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPromptOutput {
@@ -10877,6 +11780,18 @@ extension GetPromptOutput {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.variants = try reader["variants"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IngestKnowledgeBaseDocumentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> IngestKnowledgeBaseDocumentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = IngestKnowledgeBaseDocumentsOutput()
+        value.documentDetails = try reader["documentDetails"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.KnowledgeBaseDocumentDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11006,6 +11921,19 @@ extension ListIngestionJobsOutput {
         let reader = responseReader
         var value = ListIngestionJobsOutput()
         value.ingestionJobSummaries = try reader["ingestionJobSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.IngestionJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListKnowledgeBaseDocumentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListKnowledgeBaseDocumentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListKnowledgeBaseDocumentsOutput()
+        value.documentDetails = try reader["documentDetails"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.KnowledgeBaseDocumentDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -11647,6 +12575,25 @@ enum DeleteKnowledgeBaseOutputError {
     }
 }
 
+enum DeleteKnowledgeBaseDocumentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeletePromptOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11883,6 +12830,25 @@ enum GetKnowledgeBaseOutputError {
     }
 }
 
+enum GetKnowledgeBaseDocumentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetPromptOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11894,6 +12860,25 @@ enum GetPromptOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum IngestKnowledgeBaseDocumentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12072,6 +13057,25 @@ enum ListIngestionJobsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListKnowledgeBaseDocumentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14902,6 +15906,55 @@ extension BedrockAgentClientTypes.PromptMetadataEntry {
     }
 }
 
+extension BedrockAgentClientTypes.KnowledgeBaseDocumentDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBaseDocumentDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.KnowledgeBaseDocumentDetail()
+        value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
+        value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.identifier = try reader["identifier"].readIfPresent(with: BedrockAgentClientTypes.DocumentIdentifier.read(from:))
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.DocumentIdentifier {
+
+    static func write(value: BedrockAgentClientTypes.DocumentIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["custom"].write(value.custom, with: BedrockAgentClientTypes.CustomDocumentIdentifier.write(value:to:))
+        try writer["dataSourceType"].write(value.dataSourceType)
+        try writer["s3"].write(value.s3, with: BedrockAgentClientTypes.S3Location.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.DocumentIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.DocumentIdentifier()
+        value.dataSourceType = try reader["dataSourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.s3 = try reader["s3"].readIfPresent(with: BedrockAgentClientTypes.S3Location.read(from:))
+        value.custom = try reader["custom"].readIfPresent(with: BedrockAgentClientTypes.CustomDocumentIdentifier.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.CustomDocumentIdentifier {
+
+    static func write(value: BedrockAgentClientTypes.CustomDocumentIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.CustomDocumentIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.CustomDocumentIdentifier()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentClientTypes.AgentVersion {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentVersion {
@@ -15489,6 +16542,111 @@ extension BedrockAgentClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension BedrockAgentClientTypes.KnowledgeBaseDocument {
+
+    static func write(value: BedrockAgentClientTypes.KnowledgeBaseDocument?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content, with: BedrockAgentClientTypes.DocumentContent.write(value:to:))
+        try writer["metadata"].write(value.metadata, with: BedrockAgentClientTypes.DocumentMetadata.write(value:to:))
+    }
+}
+
+extension BedrockAgentClientTypes.DocumentContent {
+
+    static func write(value: BedrockAgentClientTypes.DocumentContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["custom"].write(value.custom, with: BedrockAgentClientTypes.CustomContent.write(value:to:))
+        try writer["dataSourceType"].write(value.dataSourceType)
+        try writer["s3"].write(value.s3, with: BedrockAgentClientTypes.S3Content.write(value:to:))
+    }
+}
+
+extension BedrockAgentClientTypes.S3Content {
+
+    static func write(value: BedrockAgentClientTypes.S3Content?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Location"].write(value.s3Location, with: BedrockAgentClientTypes.S3Location.write(value:to:))
+    }
+}
+
+extension BedrockAgentClientTypes.CustomContent {
+
+    static func write(value: BedrockAgentClientTypes.CustomContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customDocumentIdentifier"].write(value.customDocumentIdentifier, with: BedrockAgentClientTypes.CustomDocumentIdentifier.write(value:to:))
+        try writer["inlineContent"].write(value.inlineContent, with: BedrockAgentClientTypes.InlineContent.write(value:to:))
+        try writer["s3Location"].write(value.s3Location, with: BedrockAgentClientTypes.CustomS3Location.write(value:to:))
+        try writer["sourceType"].write(value.sourceType)
+    }
+}
+
+extension BedrockAgentClientTypes.InlineContent {
+
+    static func write(value: BedrockAgentClientTypes.InlineContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["byteContent"].write(value.byteContent, with: BedrockAgentClientTypes.ByteContentDoc.write(value:to:))
+        try writer["textContent"].write(value.textContent, with: BedrockAgentClientTypes.TextContentDoc.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockAgentClientTypes.TextContentDoc {
+
+    static func write(value: BedrockAgentClientTypes.TextContentDoc?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["data"].write(value.data)
+    }
+}
+
+extension BedrockAgentClientTypes.ByteContentDoc {
+
+    static func write(value: BedrockAgentClientTypes.ByteContentDoc?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["data"].write(value.data)
+        try writer["mimeType"].write(value.mimeType)
+    }
+}
+
+extension BedrockAgentClientTypes.CustomS3Location {
+
+    static func write(value: BedrockAgentClientTypes.CustomS3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketOwnerAccountId"].write(value.bucketOwnerAccountId)
+        try writer["uri"].write(value.uri)
+    }
+}
+
+extension BedrockAgentClientTypes.DocumentMetadata {
+
+    static func write(value: BedrockAgentClientTypes.DocumentMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["inlineAttributes"].writeList(value.inlineAttributes, memberWritingClosure: BedrockAgentClientTypes.MetadataAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["s3Location"].write(value.s3Location, with: BedrockAgentClientTypes.CustomS3Location.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockAgentClientTypes.MetadataAttribute {
+
+    static func write(value: BedrockAgentClientTypes.MetadataAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value, with: BedrockAgentClientTypes.MetadataAttributeValue.write(value:to:))
+    }
+}
+
+extension BedrockAgentClientTypes.MetadataAttributeValue {
+
+    static func write(value: BedrockAgentClientTypes.MetadataAttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["booleanValue"].write(value.booleanValue)
+        try writer["numberValue"].write(value.numberValue)
+        try writer["stringListValue"].writeList(value.stringListValue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["stringValue"].write(value.stringValue)
+        try writer["type"].write(value.type)
     }
 }
 

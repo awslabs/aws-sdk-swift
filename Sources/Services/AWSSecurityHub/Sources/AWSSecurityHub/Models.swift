@@ -1011,6 +1011,139 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    public enum ActorSessionMfaStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActorSessionMfaStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about the authenticated session used by the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    public struct ActorSession: Swift.Sendable {
+        /// The timestamp for when the session was created. In CloudTrail, you can find this value as userIdentity.sessionContext.attributes.creationDate.
+        public var createdTime: Swift.Int?
+        /// The issuer of the session. In CloudTrail, you can find this value as userIdentity.sessionContext.sessionIssuer.arn.
+        public var issuer: Swift.String?
+        /// Indicates whether multi-factor authentication (MFA) was used for authentication during the session. In CloudTrail, you can find this value as userIdentity.sessionContext.attributes.mfaAuthenticated.
+        public var mfaStatus: SecurityHubClientTypes.ActorSessionMfaStatus?
+        /// Unique identifier of the session.
+        public var uid: Swift.String?
+
+        public init(
+            createdTime: Swift.Int? = nil,
+            issuer: Swift.String? = nil,
+            mfaStatus: SecurityHubClientTypes.ActorSessionMfaStatus? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.createdTime = createdTime
+            self.issuer = issuer
+            self.mfaStatus = mfaStatus
+            self.uid = uid
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Provides Amazon Web Services account information of the user involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    public struct UserAccount: Swift.Sendable {
+        /// The name of the user account involved in the attack sequence.
+        public var name: Swift.String?
+        /// The unique identifier of the user account involved in the attack sequence.
+        public var uid: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.uid = uid
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about the credentials used by the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    public struct ActorUser: Swift.Sendable {
+        /// The account of the threat actor.
+        public var account: SecurityHubClientTypes.UserAccount?
+        /// Unique identifier of the threat actor’s user credentials.
+        public var credentialUid: Swift.String?
+        /// The name of the threat actor.
+        public var name: Swift.String?
+        /// The type of user.
+        public var type: Swift.String?
+        /// The unique identifier of the threat actor.
+        public var uid: Swift.String?
+
+        public init(
+            account: SecurityHubClientTypes.UserAccount? = nil,
+            credentialUid: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: Swift.String? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.account = account
+            self.credentialUid = credentialUid
+            self.name = name
+            self.type = type
+            self.uid = uid
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Information about the threat actor identified in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    public struct Actor: Swift.Sendable {
+        /// The ID of the threat actor.
+        public var id: Swift.String?
+        /// Contains information about the user session where the activity initiated.
+        public var session: SecurityHubClientTypes.ActorSession?
+        /// Contains information about the user credentials used by the threat actor.
+        public var user: SecurityHubClientTypes.ActorUser?
+
+        public init(
+            id: Swift.String? = nil,
+            session: SecurityHubClientTypes.ActorSession? = nil,
+            user: SecurityHubClientTypes.ActorUser? = nil
+        )
+        {
+            self.id = id
+            self.session = session
+            self.user = user
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// An adjustment to the CVSS metric.
     public struct Adjustment: Swift.Sendable {
         /// The metric to adjust.
@@ -17726,7 +17859,7 @@ extension SecurityHubClientTypes {
     public struct StatusReason: Swift.Sendable {
         /// The corresponding description for the status reason code.
         public var description: Swift.String?
-        /// A code that represents a reason for the control status. For the list of status reason codes and their meanings, see [Standards-related information in the ASFF](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-results.html#securityhub-standards-results-asff) in the Security Hub User Guide.
+        /// A code that represents a reason for the control status. For the list of status reason codes and their meanings, see [Compliance details for control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-asff-compliance) in the Security Hub User Guide.
         /// This member is required.
         public var reasonCode: Swift.String?
 
@@ -17782,6 +17915,293 @@ extension SecurityHubClientTypes {
             self.securityControlParameters = securityControlParameters
             self.status = status
             self.statusReasons = statusReasons
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about the Autonomous System (AS) of the network endpoints involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    public struct NetworkAutonomousSystem: Swift.Sendable {
+        /// The name associated with the AS.
+        public var name: Swift.String?
+        /// The unique number that identifies the AS.
+        public var number: Swift.Int?
+
+        public init(
+            name: Swift.String? = nil,
+            number: Swift.Int? = nil
+        )
+        {
+            self.name = name
+            self.number = number
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ConnectionDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inbound
+        case outbound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionDirection] {
+            return [
+                .inbound,
+                .outbound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inbound: return "INBOUND"
+            case .outbound: return "OUTBOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about the network connection involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    public struct NetworkConnection: Swift.Sendable {
+        /// The direction in which the network traffic is flowing.
+        public var direction: SecurityHubClientTypes.ConnectionDirection?
+
+        public init(
+            direction: SecurityHubClientTypes.ConnectionDirection? = nil
+        )
+        {
+            self.direction = direction
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about the location of a network endpoint involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    public struct NetworkGeoLocation: Swift.Sendable {
+        /// The name of the city.
+        public var city: Swift.String?
+        /// The name of the country.
+        public var country: Swift.String?
+        /// The latitude information of the endpoint location.
+        public var lat: Swift.Double?
+        /// The longitude information of the endpoint location.
+        public var lon: Swift.Double?
+
+        public init(
+            city: Swift.String? = nil,
+            country: Swift.String? = nil,
+            lat: Swift.Double? = nil,
+            lon: Swift.Double? = nil
+        )
+        {
+            self.city = city
+            self.country = country
+            self.lat = lat
+            self.lon = lon
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about network endpoints involved in an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide. This field can provide information about the network endpoints associated with the resource in the attack sequence finding, or about a specific network endpoint used for the attack.
+    public struct NetworkEndpoint: Swift.Sendable {
+        /// The Autonomous System Number (ASN) of the network endpoint.
+        public var autonomousSystem: SecurityHubClientTypes.NetworkAutonomousSystem?
+        /// Information about the network connection.
+        public var connection: SecurityHubClientTypes.NetworkConnection?
+        /// The domain information for the network endpoint.
+        public var domain: Swift.String?
+        /// The identifier of the network endpoint involved in the attack sequence.
+        public var id: Swift.String?
+        /// The IP address used in the network endpoint.
+        public var ip: Swift.String?
+        /// Information about the location of the network endpoint.
+        public var location: SecurityHubClientTypes.NetworkGeoLocation?
+        /// The port number associated with the network endpoint.
+        public var port: Swift.Int?
+
+        public init(
+            autonomousSystem: SecurityHubClientTypes.NetworkAutonomousSystem? = nil,
+            connection: SecurityHubClientTypes.NetworkConnection? = nil,
+            domain: Swift.String? = nil,
+            id: Swift.String? = nil,
+            ip: Swift.String? = nil,
+            location: SecurityHubClientTypes.NetworkGeoLocation? = nil,
+            port: Swift.Int? = nil
+        )
+        {
+            self.autonomousSystem = autonomousSystem
+            self.connection = connection
+            self.domain = domain
+            self.id = id
+            self.ip = ip
+            self.location = location
+            self.port = port
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about the indicators observed in an Amazon GuardDuty Extended Threat Detection attack sequence. Indicators include a set of signals, which can be API activities or findings that GuardDuty uses to detect an attack sequence finding. GuardDuty generates an attack sequence finding when multiple signals align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    public struct Indicator: Swift.Sendable {
+        /// The name of the indicator that’s present in the attack sequence finding.
+        public var key: Swift.String?
+        /// The title describing the indicator.
+        public var title: Swift.String?
+        /// The type of indicator.
+        public var type: Swift.String?
+        /// Values associated with each indicator key. For example, if the indicator key is SUSPICIOUS_NETWORK, then the value will be the name of the network. If the indicator key is ATTACK_TACTIC, then the value will be one of the MITRE tactics.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            title: Swift.String? = nil,
+            type: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.key = key
+            self.title = title
+            self.type = type
+            self.values = values
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about the signals involved in an Amazon GuardDuty Extended Threat Detection attack sequence. An attack sequence is a type of threat detected by GuardDuty. GuardDuty generates an attack sequence finding when multiple events, or signals, align to a potentially suspicious activity. When GuardDuty and Security Hub are integrated, GuardDuty sends attack sequence findings to Security Hub. A signal can be an API activity or a finding that GuardDuty uses to detect an attack sequence finding.
+    public struct Signal: Swift.Sendable {
+        /// The IDs of the threat actors involved in the signal.
+        public var actorIds: [Swift.String]?
+        /// The number of times this signal was observed.
+        public var count: Swift.Int?
+        /// The timestamp when the first finding or activity related to this signal was observed.
+        public var createdAt: Swift.Int?
+        /// Information about the endpoint IDs associated with this signal.
+        public var endpointIds: [Swift.String]?
+        /// The timestamp when the first finding or activity related to this signal was observed.
+        public var firstSeenAt: Swift.Int?
+        /// The identifier of the signal.
+        public var id: Swift.String?
+        /// The timestamp when the last finding or activity related to this signal was observed.
+        public var lastSeenAt: Swift.Int?
+        /// The name of the GuardDuty signal. For example, when signal type is FINDING, the signal name is the name of the finding.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the product that generated the signal.
+        public var productArn: Swift.String?
+        /// The ARN or ID of the Amazon Web Services resource associated with the signal.
+        public var resourceIds: [Swift.String]?
+        /// The severity associated with the signal. For more information about severity, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
+        public var severity: Swift.Double?
+        /// Contains information about the indicators associated with the signals in this attack sequence finding. The values for SignalIndicators are a subset of the values for [SequenceIndicators](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_Sequence.html), but the values for these fields don't always match 1:1.
+        public var signalIndicators: [SecurityHubClientTypes.Indicator]?
+        /// The description of the GuardDuty finding.
+        public var title: Swift.String?
+        /// The type of the signal used to identify an attack sequence. Signals can be GuardDuty findings or activities observed in data sources that GuardDuty monitors. For more information, see [GuardDuty foundational data sources](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_data-sources.html) in the Amazon GuardDuty User Guide. A signal type can be one of the following values. Here are the related descriptions:
+        ///
+        /// * FINDING - Individually generated GuardDuty finding.
+        ///
+        /// * CLOUD_TRAIL - Activity observed from CloudTrail logs
+        ///
+        /// * S3_DATA_EVENTS - Activity observed from CloudTrail data events for Amazon Simple Storage Service (S3). Activities associated with this type will show up only when you have enabled GuardDuty S3 Protection feature in your account. For more information about S3 Protection and the steps to enable it, see [S3 Protection](https://docs.aws.amazon.com/guardduty/latest/ug/s3-protection.html) in the Amazon GuardDuty User Guide.
+        public var type: Swift.String?
+        /// The timestamp when this signal was last observed.
+        public var updatedAt: Swift.Int?
+
+        public init(
+            actorIds: [Swift.String]? = nil,
+            count: Swift.Int? = nil,
+            createdAt: Swift.Int? = nil,
+            endpointIds: [Swift.String]? = nil,
+            firstSeenAt: Swift.Int? = nil,
+            id: Swift.String? = nil,
+            lastSeenAt: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            productArn: Swift.String? = nil,
+            resourceIds: [Swift.String]? = nil,
+            severity: Swift.Double? = nil,
+            signalIndicators: [SecurityHubClientTypes.Indicator]? = nil,
+            title: Swift.String? = nil,
+            type: Swift.String? = nil,
+            updatedAt: Swift.Int? = nil
+        )
+        {
+            self.actorIds = actorIds
+            self.count = count
+            self.createdAt = createdAt
+            self.endpointIds = endpointIds
+            self.firstSeenAt = firstSeenAt
+            self.id = id
+            self.lastSeenAt = lastSeenAt
+            self.name = name
+            self.productArn = productArn
+            self.resourceIds = resourceIds
+            self.severity = severity
+            self.signalIndicators = signalIndicators
+            self.title = title
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains information about an Amazon GuardDuty Extended Threat Detection attack sequence finding. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    public struct Sequence: Swift.Sendable {
+        /// Provides information about the actors involved in the attack sequence.
+        public var actors: [SecurityHubClientTypes.Actor]?
+        /// Contains information about the network endpoints that were used in the attack sequence.
+        public var endpoints: [SecurityHubClientTypes.NetworkEndpoint]?
+        /// Contains information about the indicators observed in the attack sequence. The values for [SignalIndicators](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_Signal.html) are a subset of the values for SequenceIndicators, but the values for these fields don't always match 1:1.
+        public var sequenceIndicators: [SecurityHubClientTypes.Indicator]?
+        /// Contains information about the signals involved in the attack sequence.
+        public var signals: [SecurityHubClientTypes.Signal]?
+        /// Unique identifier of the attack sequence.
+        public var uid: Swift.String?
+
+        public init(
+            actors: [SecurityHubClientTypes.Actor]? = nil,
+            endpoints: [SecurityHubClientTypes.NetworkEndpoint]? = nil,
+            sequenceIndicators: [SecurityHubClientTypes.Indicator]? = nil,
+            signals: [SecurityHubClientTypes.Signal]? = nil,
+            uid: Swift.String? = nil
+        )
+        {
+            self.actors = actors
+            self.endpoints = endpoints
+            self.sequenceIndicators = sequenceIndicators
+            self.signals = signals
+            self.uid = uid
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A top-level object field that provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+    public struct Detection: Swift.Sendable {
+        /// Provides details about an attack sequence.
+        public var sequence: SecurityHubClientTypes.Sequence?
+
+        public init(
+            sequence: SecurityHubClientTypes.Sequence? = nil
+        )
+        {
+            self.sequence = sequence
         }
     }
 }
@@ -21325,6 +21745,8 @@ extension SecurityHubClientTypes {
         /// A finding's description. Description is a required property. Length Constraints: Minimum length of 1. Maximum length of 1024.
         /// This member is required.
         public var description: Swift.String?
+        /// Provides details about an Amazon GuardDuty Extended Threat Detection attack sequence. GuardDuty generates an attack sequence finding when multiple events align to a potentially suspicious activity. To receive GuardDuty attack sequence findings in Security Hub, you must have GuardDuty and GuardDuty S3 Protection enabled. For more information, see [GuardDuty Extended Threat Detection ](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-extended-threat-detection.html) in the Amazon GuardDuty User Guide.
+        public var detection: SecurityHubClientTypes.Detection?
         /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update their own values for confidence, criticality, related findings, severity, and types.
         public var findingProviderFields: SecurityHubClientTypes.FindingProviderFields?
         /// Indicates when the security findings provider first observed the potential security issue that a finding captured. This field accepts only the specified formats. Timestamps can end with Z or ("+" / "-") time-hour [":" time-minute]. The time-secfrac after seconds is limited to a maximum of 9 digits. The offset is bounded by +/-18:00. Here are valid timestamp formats with examples:
@@ -21454,6 +21876,7 @@ extension SecurityHubClientTypes {
             createdAt: Swift.String? = nil,
             criticality: Swift.Int? = nil,
             description: Swift.String? = nil,
+            detection: SecurityHubClientTypes.Detection? = nil,
             findingProviderFields: SecurityHubClientTypes.FindingProviderFields? = nil,
             firstObservedAt: Swift.String? = nil,
             generatorDetails: SecurityHubClientTypes.GeneratorDetails? = nil,
@@ -21500,6 +21923,7 @@ extension SecurityHubClientTypes {
             self.createdAt = createdAt
             self.criticality = criticality
             self.description = description
+            self.detection = detection
             self.findingProviderFields = findingProviderFields
             self.firstObservedAt = firstObservedAt
             self.generatorDetails = generatorDetails
@@ -31295,6 +31719,7 @@ extension SecurityHubClientTypes.AwsSecurityFinding {
         try writer["CreatedAt"].write(value.createdAt)
         try writer["Criticality"].write(value.criticality)
         try writer["Description"].write(value.description)
+        try writer["Detection"].write(value.detection, with: SecurityHubClientTypes.Detection.write(value:to:))
         try writer["FindingProviderFields"].write(value.findingProviderFields, with: SecurityHubClientTypes.FindingProviderFields.write(value:to:))
         try writer["FirstObservedAt"].write(value.firstObservedAt)
         try writer["GeneratorDetails"].write(value.generatorDetails, with: SecurityHubClientTypes.GeneratorDetails.write(value:to:))
@@ -31379,6 +31804,269 @@ extension SecurityHubClientTypes.AwsSecurityFinding {
         value.generatorDetails = try reader["GeneratorDetails"].readIfPresent(with: SecurityHubClientTypes.GeneratorDetails.read(from:))
         value.processedAt = try reader["ProcessedAt"].readIfPresent()
         value.awsAccountName = try reader["AwsAccountName"].readIfPresent()
+        value.detection = try reader["Detection"].readIfPresent(with: SecurityHubClientTypes.Detection.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.Detection {
+
+    static func write(value: SecurityHubClientTypes.Detection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Sequence"].write(value.sequence, with: SecurityHubClientTypes.Sequence.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Detection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.Detection()
+        value.sequence = try reader["Sequence"].readIfPresent(with: SecurityHubClientTypes.Sequence.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.Sequence {
+
+    static func write(value: SecurityHubClientTypes.Sequence?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actors"].writeList(value.actors, memberWritingClosure: SecurityHubClientTypes.Actor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Endpoints"].writeList(value.endpoints, memberWritingClosure: SecurityHubClientTypes.NetworkEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SequenceIndicators"].writeList(value.sequenceIndicators, memberWritingClosure: SecurityHubClientTypes.Indicator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Signals"].writeList(value.signals, memberWritingClosure: SecurityHubClientTypes.Signal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Uid"].write(value.uid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Sequence {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.Sequence()
+        value.uid = try reader["Uid"].readIfPresent()
+        value.actors = try reader["Actors"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Actor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.NetworkEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signals = try reader["Signals"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Signal.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sequenceIndicators = try reader["SequenceIndicators"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Indicator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.Indicator {
+
+    static func write(value: SecurityHubClientTypes.Indicator?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Title"].write(value.title)
+        try writer["Type"].write(value.type)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Indicator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.Indicator()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.title = try reader["Title"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.Signal {
+
+    static func write(value: SecurityHubClientTypes.Signal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActorIds"].writeList(value.actorIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Count"].write(value.count)
+        try writer["CreatedAt"].write(value.createdAt)
+        try writer["EndpointIds"].writeList(value.endpointIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FirstSeenAt"].write(value.firstSeenAt)
+        try writer["Id"].write(value.id)
+        try writer["LastSeenAt"].write(value.lastSeenAt)
+        try writer["Name"].write(value.name)
+        try writer["ProductArn"].write(value.productArn)
+        try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Severity"].write(value.severity)
+        try writer["SignalIndicators"].writeList(value.signalIndicators, memberWritingClosure: SecurityHubClientTypes.Indicator.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Title"].write(value.title)
+        try writer["Type"].write(value.type)
+        try writer["UpdatedAt"].write(value.updatedAt)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Signal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.Signal()
+        value.type = try reader["Type"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        value.productArn = try reader["ProductArn"].readIfPresent()
+        value.resourceIds = try reader["ResourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signalIndicators = try reader["SignalIndicators"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.Indicator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readIfPresent()
+        value.firstSeenAt = try reader["FirstSeenAt"].readIfPresent()
+        value.lastSeenAt = try reader["LastSeenAt"].readIfPresent()
+        value.severity = try reader["Severity"].readIfPresent()
+        value.count = try reader["Count"].readIfPresent()
+        value.actorIds = try reader["ActorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpointIds = try reader["EndpointIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.NetworkEndpoint {
+
+    static func write(value: SecurityHubClientTypes.NetworkEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutonomousSystem"].write(value.autonomousSystem, with: SecurityHubClientTypes.NetworkAutonomousSystem.write(value:to:))
+        try writer["Connection"].write(value.connection, with: SecurityHubClientTypes.NetworkConnection.write(value:to:))
+        try writer["Domain"].write(value.domain)
+        try writer["Id"].write(value.id)
+        try writer["Ip"].write(value.ip)
+        try writer["Location"].write(value.location, with: SecurityHubClientTypes.NetworkGeoLocation.write(value:to:))
+        try writer["Port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.NetworkEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.NetworkEndpoint()
+        value.id = try reader["Id"].readIfPresent()
+        value.ip = try reader["Ip"].readIfPresent()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent(with: SecurityHubClientTypes.NetworkGeoLocation.read(from:))
+        value.autonomousSystem = try reader["AutonomousSystem"].readIfPresent(with: SecurityHubClientTypes.NetworkAutonomousSystem.read(from:))
+        value.connection = try reader["Connection"].readIfPresent(with: SecurityHubClientTypes.NetworkConnection.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.NetworkConnection {
+
+    static func write(value: SecurityHubClientTypes.NetworkConnection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Direction"].write(value.direction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.NetworkConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.NetworkConnection()
+        value.direction = try reader["Direction"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.NetworkAutonomousSystem {
+
+    static func write(value: SecurityHubClientTypes.NetworkAutonomousSystem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Number"].write(value.number)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.NetworkAutonomousSystem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.NetworkAutonomousSystem()
+        value.name = try reader["Name"].readIfPresent()
+        value.number = try reader["Number"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.NetworkGeoLocation {
+
+    static func write(value: SecurityHubClientTypes.NetworkGeoLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["City"].write(value.city)
+        try writer["Country"].write(value.country)
+        try writer["Lat"].write(value.lat)
+        try writer["Lon"].write(value.lon)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.NetworkGeoLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.NetworkGeoLocation()
+        value.city = try reader["City"].readIfPresent()
+        value.country = try reader["Country"].readIfPresent()
+        value.lat = try reader["Lat"].readIfPresent()
+        value.lon = try reader["Lon"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.Actor {
+
+    static func write(value: SecurityHubClientTypes.Actor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Session"].write(value.session, with: SecurityHubClientTypes.ActorSession.write(value:to:))
+        try writer["User"].write(value.user, with: SecurityHubClientTypes.ActorUser.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Actor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.Actor()
+        value.id = try reader["Id"].readIfPresent()
+        value.user = try reader["User"].readIfPresent(with: SecurityHubClientTypes.ActorUser.read(from:))
+        value.session = try reader["Session"].readIfPresent(with: SecurityHubClientTypes.ActorSession.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ActorSession {
+
+    static func write(value: SecurityHubClientTypes.ActorSession?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreatedTime"].write(value.createdTime)
+        try writer["Issuer"].write(value.issuer)
+        try writer["MfaStatus"].write(value.mfaStatus)
+        try writer["Uid"].write(value.uid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ActorSession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ActorSession()
+        value.uid = try reader["Uid"].readIfPresent()
+        value.mfaStatus = try reader["MfaStatus"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readIfPresent()
+        value.issuer = try reader["Issuer"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ActorUser {
+
+    static func write(value: SecurityHubClientTypes.ActorUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Account"].write(value.account, with: SecurityHubClientTypes.UserAccount.write(value:to:))
+        try writer["CredentialUid"].write(value.credentialUid)
+        try writer["Name"].write(value.name)
+        try writer["Type"].write(value.type)
+        try writer["Uid"].write(value.uid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ActorUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ActorUser()
+        value.name = try reader["Name"].readIfPresent()
+        value.uid = try reader["Uid"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.credentialUid = try reader["CredentialUid"].readIfPresent()
+        value.account = try reader["Account"].readIfPresent(with: SecurityHubClientTypes.UserAccount.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.UserAccount {
+
+    static func write(value: SecurityHubClientTypes.UserAccount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Uid"].write(value.uid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.UserAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.UserAccount()
+        value.uid = try reader["Uid"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
