@@ -43,6 +43,39 @@ extension PaginatorSequence where OperationStackInput == GetChatControlsConfigur
     }
 }
 extension QBusinessClient {
+    /// Paginate over `[ListAttachmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAttachmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAttachmentsOutput`
+    public func listAttachmentsPaginated(input: ListAttachmentsInput) -> ClientRuntime.PaginatorSequence<ListAttachmentsInput, ListAttachmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAttachmentsInput, ListAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttachments(input:))
+    }
+}
+
+extension ListAttachmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAttachmentsInput {
+        return ListAttachmentsInput(
+            applicationId: self.applicationId,
+            conversationId: self.conversationId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            userId: self.userId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAttachmentsInput, OperationStackOutput == ListAttachmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAttachmentsPaginated`
+    /// to access the nested member `[QBusinessClientTypes.Attachment]`
+    /// - Returns: `[QBusinessClientTypes.Attachment]`
+    public func attachments() async throws -> [QBusinessClientTypes.Attachment] {
+        return try await self.asyncCompactMap { item in item.attachments }
+    }
+}
+extension QBusinessClient {
     /// Paginate over `[ListConversationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
