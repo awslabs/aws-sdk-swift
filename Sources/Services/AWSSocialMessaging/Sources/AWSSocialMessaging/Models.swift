@@ -250,12 +250,16 @@ extension SocialMessagingClientTypes {
         /// The ARN of the event destination.
         /// This member is required.
         public var eventDestinationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of an Identity and Access Management role that is able to import phone numbers and write events.
+        public var roleArn: Swift.String?
 
         public init(
-            eventDestinationArn: Swift.String? = nil
+            eventDestinationArn: Swift.String? = nil,
+            roleArn: Swift.String? = nil
         )
         {
             self.eventDestinationArn = eventDestinationArn
+            self.roleArn = roleArn
         }
     }
 }
@@ -438,16 +442,20 @@ extension SocialMessagingClientTypes {
         public var registrationStatus: SocialMessagingClientTypes.RegistrationStatus?
         /// The details for unregistered WhatsApp phone numbers.
         public var unregisteredWhatsAppPhoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberDetail]?
+        /// The Amazon Resource Name (ARN) of the WhatsApp Business Account ID.
+        public var wabaId: Swift.String?
 
         public init(
             accountName: Swift.String? = nil,
             registrationStatus: SocialMessagingClientTypes.RegistrationStatus? = nil,
-            unregisteredWhatsAppPhoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberDetail]? = nil
+            unregisteredWhatsAppPhoneNumbers: [SocialMessagingClientTypes.WhatsAppPhoneNumberDetail]? = nil,
+            wabaId: Swift.String? = nil
         )
         {
             self.accountName = accountName
             self.registrationStatus = registrationStatus
             self.unregisteredWhatsAppPhoneNumbers = unregisteredWhatsAppPhoneNumbers
+            self.wabaId = wabaId
         }
     }
 }
@@ -1913,6 +1921,7 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData {
         value.accountName = try reader["accountName"].readIfPresent()
         value.registrationStatus = try reader["registrationStatus"].readIfPresent()
         value.unregisteredWhatsAppPhoneNumbers = try reader["unregisteredWhatsAppPhoneNumbers"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppPhoneNumberDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.wabaId = try reader["wabaId"].readIfPresent()
         return value
     }
 }
@@ -1971,12 +1980,14 @@ extension SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
     static func write(value: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["eventDestinationArn"].write(value.eventDestinationArn)
+        try writer["roleArn"].write(value.roleArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination()
         value.eventDestinationArn = try reader["eventDestinationArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent()
         return value
     }
 }

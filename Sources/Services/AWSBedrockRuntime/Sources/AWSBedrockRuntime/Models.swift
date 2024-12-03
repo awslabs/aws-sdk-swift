@@ -37,7 +37,7 @@ import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
 
-/// The request is denied because of missing access permissions.
+/// The request is denied because you do not have sufficient permissions to perform the requested action. For troubleshooting this error, see [AccessDeniedException](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-access-denied) in the Amazon Bedrock User Guide
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -61,7 +61,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// An internal server error occurred. Retry your request.
+/// An internal server error occurred. For troubleshooting this error, see [InternalFailure](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-internal-failure) in the Amazon Bedrock User Guide
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -85,7 +85,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The specified resource ARN was not found. Check the ARN and try your request again.
+/// The specified resource ARN was not found. For troubleshooting this error, see [ResourceNotFound](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-resource-not-found) in the Amazon Bedrock User Guide
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -133,7 +133,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-/// Your request was throttled because of service-wide limitations. Resubmit your request later or in a different region. You can also purchase [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) to increase the rate or number of tokens you can process.
+/// Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see [ThrottlingException](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-throttling-exception) in the Amazon Bedrock User Guide
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -157,7 +157,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// Input validation failed. Check your request parameters and retry the request.
+/// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error, see [ValidationError](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-validation-error) in the Amazon Bedrock User Guide
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1329,7 +1329,7 @@ public struct ModelTimeoutException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// The service isn't currently available. Try again later.
+/// The service isn't currently available. For troubleshooting this error, see [ServiceUnavailable](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-service-unavailable) in the Amazon Bedrock User Guide
 public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1845,6 +1845,51 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    public enum PerformanceConfigLatency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case optimized
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerformanceConfigLatency] {
+            return [
+                .optimized,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optimized: return "optimized"
+            case .standard: return "standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Performance settings for a model.
+    public struct PerformanceConfiguration: Swift.Sendable {
+        /// To use a latency-optimized version of the model, set to optimized.
+        public var latency: BedrockRuntimeClientTypes.PerformanceConfigLatency?
+
+        public init(
+            latency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = .standard
+        )
+        {
+            self.latency = latency
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// Contains a map of variables in a prompt from Prompt management to an object containing the values to fill in for them when running model invocation. For more information, see [How Prompt management works](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-how.html).
     public enum PromptVariableValues: Swift.Sendable {
         /// The text value that the variable maps to.
@@ -2002,12 +2047,14 @@ public struct ConverseInput: Swift.Sendable {
     ///
     /// * If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
     ///
-    /// * To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.
+    /// * To include a prompt that was defined in [Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html), specify the ARN of the prompt version to use.
     ///
     ///
     /// The Converse API doesn't support [imported models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html).
     /// This member is required.
     public var modelId: Swift.String?
+    /// Model performance settings for the request.
+    public var performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration?
     /// Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
     public var promptVariables: [Swift.String: BedrockRuntimeClientTypes.PromptVariableValues]?
     /// A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
@@ -2022,6 +2069,7 @@ public struct ConverseInput: Swift.Sendable {
         inferenceConfig: BedrockRuntimeClientTypes.InferenceConfiguration? = nil,
         messages: [BedrockRuntimeClientTypes.Message]? = nil,
         modelId: Swift.String? = nil,
+        performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration? = nil,
         promptVariables: [Swift.String: BedrockRuntimeClientTypes.PromptVariableValues]? = nil,
         system: [BedrockRuntimeClientTypes.SystemContentBlock]? = nil,
         toolConfig: BedrockRuntimeClientTypes.ToolConfiguration? = nil
@@ -2033,6 +2081,7 @@ public struct ConverseInput: Swift.Sendable {
         self.inferenceConfig = inferenceConfig
         self.messages = messages
         self.modelId = modelId
+        self.performanceConfig = performanceConfig
         self.promptVariables = promptVariables
         self.system = system
         self.toolConfig = toolConfig
@@ -2041,7 +2090,7 @@ public struct ConverseInput: Swift.Sendable {
 
 extension ConverseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ConverseInput(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), additionalModelResponseFieldPaths: \(Swift.String(describing: additionalModelResponseFieldPaths)), guardrailConfig: \(Swift.String(describing: guardrailConfig)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), messages: \(Swift.String(describing: messages)), modelId: \(Swift.String(describing: modelId)), system: \(Swift.String(describing: system)), toolConfig: \(Swift.String(describing: toolConfig)), promptVariables: \"CONTENT_REDACTED\")"}
+        "ConverseInput(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), additionalModelResponseFieldPaths: \(Swift.String(describing: additionalModelResponseFieldPaths)), guardrailConfig: \(Swift.String(describing: guardrailConfig)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), messages: \(Swift.String(describing: messages)), modelId: \(Swift.String(describing: modelId)), performanceConfig: \(Swift.String(describing: performanceConfig)), system: \(Swift.String(describing: system)), toolConfig: \(Swift.String(describing: toolConfig)), promptVariables: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockRuntimeClientTypes {
@@ -2188,6 +2237,8 @@ public struct ConverseOutput: Swift.Sendable {
     /// The result from the call to Converse.
     /// This member is required.
     public var output: BedrockRuntimeClientTypes.ConverseOutput?
+    /// Model performance settings for the request.
+    public var performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration?
     /// The reason why the model stopped generating output.
     /// This member is required.
     public var stopReason: BedrockRuntimeClientTypes.StopReason?
@@ -2201,6 +2252,7 @@ public struct ConverseOutput: Swift.Sendable {
         additionalModelResponseFields: Smithy.Document? = nil,
         metrics: BedrockRuntimeClientTypes.ConverseMetrics? = nil,
         output: BedrockRuntimeClientTypes.ConverseOutput? = nil,
+        performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration? = nil,
         stopReason: BedrockRuntimeClientTypes.StopReason? = nil,
         trace: BedrockRuntimeClientTypes.ConverseTrace? = nil,
         usage: BedrockRuntimeClientTypes.TokenUsage? = nil
@@ -2209,6 +2261,7 @@ public struct ConverseOutput: Swift.Sendable {
         self.additionalModelResponseFields = additionalModelResponseFields
         self.metrics = metrics
         self.output = output
+        self.performanceConfig = performanceConfig
         self.stopReason = stopReason
         self.trace = trace
         self.usage = usage
@@ -2295,12 +2348,14 @@ public struct ConverseStreamInput: Swift.Sendable {
     ///
     /// * If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
     ///
-    /// * To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.
+    /// * To include a prompt that was defined in [Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html), specify the ARN of the prompt version to use.
     ///
     ///
     /// The Converse API doesn't support [imported models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html).
     /// This member is required.
     public var modelId: Swift.String?
+    /// Model performance settings for the request.
+    public var performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration?
     /// Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
     public var promptVariables: [Swift.String: BedrockRuntimeClientTypes.PromptVariableValues]?
     /// A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
@@ -2315,6 +2370,7 @@ public struct ConverseStreamInput: Swift.Sendable {
         inferenceConfig: BedrockRuntimeClientTypes.InferenceConfiguration? = nil,
         messages: [BedrockRuntimeClientTypes.Message]? = nil,
         modelId: Swift.String? = nil,
+        performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration? = nil,
         promptVariables: [Swift.String: BedrockRuntimeClientTypes.PromptVariableValues]? = nil,
         system: [BedrockRuntimeClientTypes.SystemContentBlock]? = nil,
         toolConfig: BedrockRuntimeClientTypes.ToolConfiguration? = nil
@@ -2326,6 +2382,7 @@ public struct ConverseStreamInput: Swift.Sendable {
         self.inferenceConfig = inferenceConfig
         self.messages = messages
         self.modelId = modelId
+        self.performanceConfig = performanceConfig
         self.promptVariables = promptVariables
         self.system = system
         self.toolConfig = toolConfig
@@ -2334,7 +2391,7 @@ public struct ConverseStreamInput: Swift.Sendable {
 
 extension ConverseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ConverseStreamInput(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), additionalModelResponseFieldPaths: \(Swift.String(describing: additionalModelResponseFieldPaths)), guardrailConfig: \(Swift.String(describing: guardrailConfig)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), messages: \(Swift.String(describing: messages)), modelId: \(Swift.String(describing: modelId)), system: \(Swift.String(describing: system)), toolConfig: \(Swift.String(describing: toolConfig)), promptVariables: \"CONTENT_REDACTED\")"}
+        "ConverseStreamInput(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), additionalModelResponseFieldPaths: \(Swift.String(describing: additionalModelResponseFieldPaths)), guardrailConfig: \(Swift.String(describing: guardrailConfig)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), messages: \(Swift.String(describing: messages)), modelId: \(Swift.String(describing: modelId)), performanceConfig: \(Swift.String(describing: performanceConfig)), system: \(Swift.String(describing: system)), toolConfig: \(Swift.String(describing: toolConfig)), promptVariables: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockRuntimeClientTypes {
@@ -2537,6 +2594,8 @@ extension BedrockRuntimeClientTypes {
         /// The metrics for the conversation stream metadata event.
         /// This member is required.
         public var metrics: BedrockRuntimeClientTypes.ConverseStreamMetrics?
+        /// Model performance configuration metadata for the conversation stream event.
+        public var performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration?
         /// The trace object in the response from [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) that contains information about the guardrail behavior.
         public var trace: BedrockRuntimeClientTypes.ConverseStreamTrace?
         /// Usage information for the conversation stream event.
@@ -2545,11 +2604,13 @@ extension BedrockRuntimeClientTypes {
 
         public init(
             metrics: BedrockRuntimeClientTypes.ConverseStreamMetrics? = nil,
+            performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration? = nil,
             trace: BedrockRuntimeClientTypes.ConverseStreamTrace? = nil,
             usage: BedrockRuntimeClientTypes.TokenUsage? = nil
         )
         {
             self.metrics = metrics
+            self.performanceConfig = performanceConfig
             self.trace = trace
             self.usage = usage
         }
@@ -2666,9 +2727,11 @@ public struct InvokeModelInput: Swift.Sendable {
     public var guardrailIdentifier: Swift.String?
     /// The version number for the guardrail. The value can also be DRAFT.
     public var guardrailVersion: Swift.String?
-    /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:
+    /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:
     ///
     /// * If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see [Supported Regions and models for cross-region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference-support.html) in the Amazon Bedrock User Guide.
     ///
     /// * If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html) in the Amazon Bedrock User Guide.
     ///
@@ -2677,6 +2740,8 @@ public struct InvokeModelInput: Swift.Sendable {
     /// * If you use an [imported model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html), specify the ARN of the imported model. You can get the model ARN from a successful call to [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html) or from the Imported models page in the Amazon Bedrock console.
     /// This member is required.
     public var modelId: Swift.String?
+    /// Model performance settings for the request.
+    public var performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency?
     /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
     public var trace: BedrockRuntimeClientTypes.Trace?
 
@@ -2687,6 +2752,7 @@ public struct InvokeModelInput: Swift.Sendable {
         guardrailIdentifier: Swift.String? = nil,
         guardrailVersion: Swift.String? = nil,
         modelId: Swift.String? = nil,
+        performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = nil,
         trace: BedrockRuntimeClientTypes.Trace? = nil
     )
     {
@@ -2696,13 +2762,14 @@ public struct InvokeModelInput: Swift.Sendable {
         self.guardrailIdentifier = guardrailIdentifier
         self.guardrailVersion = guardrailVersion
         self.modelId = modelId
+        self.performanceConfigLatency = performanceConfigLatency
         self.trace = trace
     }
 }
 
 extension InvokeModelInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeModelInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), guardrailVersion: \(Swift.String(describing: guardrailVersion)), modelId: \(Swift.String(describing: modelId)), trace: \(Swift.String(describing: trace)), body: \"CONTENT_REDACTED\")"}
+        "InvokeModelInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), guardrailVersion: \(Swift.String(describing: guardrailVersion)), modelId: \(Swift.String(describing: modelId)), performanceConfigLatency: \(Swift.String(describing: performanceConfigLatency)), trace: \(Swift.String(describing: trace)), body: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeModelOutput: Swift.Sendable {
@@ -2712,20 +2779,24 @@ public struct InvokeModelOutput: Swift.Sendable {
     /// The MIME type of the inference result.
     /// This member is required.
     public var contentType: Swift.String?
+    /// Model performance settings for the request.
+    public var performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency?
 
     public init(
         body: Foundation.Data? = nil,
-        contentType: Swift.String? = nil
+        contentType: Swift.String? = nil,
+        performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = nil
     )
     {
         self.body = body
         self.contentType = contentType
+        self.performanceConfigLatency = performanceConfigLatency
     }
 }
 
 extension InvokeModelOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeModelOutput(contentType: \(Swift.String(describing: contentType)), body: \"CONTENT_REDACTED\")"}
+        "InvokeModelOutput(contentType: \(Swift.String(describing: contentType)), performanceConfigLatency: \(Swift.String(describing: performanceConfigLatency)), body: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
@@ -2745,9 +2816,11 @@ public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
     public var guardrailIdentifier: Swift.String?
     /// The version number for the guardrail. The value can also be DRAFT.
     public var guardrailVersion: Swift.String?
-    /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model that you use:
+    /// The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:
     ///
     /// * If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see [Amazon Bedrock base model IDs (on-demand throughput)](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns) in the Amazon Bedrock User Guide.
+    ///
+    /// * If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see [Supported Regions and models for cross-region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference-support.html) in the Amazon Bedrock User Guide.
     ///
     /// * If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html) in the Amazon Bedrock User Guide.
     ///
@@ -2756,6 +2829,8 @@ public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
     /// * If you use an [imported model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html), specify the ARN of the imported model. You can get the model ARN from a successful call to [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html) or from the Imported models page in the Amazon Bedrock console.
     /// This member is required.
     public var modelId: Swift.String?
+    /// Model performance settings for the request.
+    public var performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency?
     /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
     public var trace: BedrockRuntimeClientTypes.Trace?
 
@@ -2766,6 +2841,7 @@ public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
         guardrailIdentifier: Swift.String? = nil,
         guardrailVersion: Swift.String? = nil,
         modelId: Swift.String? = nil,
+        performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = nil,
         trace: BedrockRuntimeClientTypes.Trace? = nil
     )
     {
@@ -2775,13 +2851,14 @@ public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
         self.guardrailIdentifier = guardrailIdentifier
         self.guardrailVersion = guardrailVersion
         self.modelId = modelId
+        self.performanceConfigLatency = performanceConfigLatency
         self.trace = trace
     }
 }
 
 extension InvokeModelWithResponseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeModelWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), guardrailVersion: \(Swift.String(describing: guardrailVersion)), modelId: \(Swift.String(describing: modelId)), trace: \(Swift.String(describing: trace)), body: \"CONTENT_REDACTED\")"}
+        "InvokeModelWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), guardrailIdentifier: \(Swift.String(describing: guardrailIdentifier)), guardrailVersion: \(Swift.String(describing: guardrailVersion)), modelId: \(Swift.String(describing: modelId)), performanceConfigLatency: \(Swift.String(describing: performanceConfigLatency)), trace: \(Swift.String(describing: trace)), body: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockRuntimeClientTypes {
@@ -2823,14 +2900,18 @@ public struct InvokeModelWithResponseStreamOutput: Swift.Sendable {
     /// The MIME type of the inference result.
     /// This member is required.
     public var contentType: Swift.String?
+    /// Model performance settings for the request.
+    public var performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency?
 
     public init(
         body: AsyncThrowingStream<BedrockRuntimeClientTypes.ResponseStream, Swift.Error>? = nil,
-        contentType: Swift.String? = nil
+        contentType: Swift.String? = nil,
+        performanceConfigLatency: BedrockRuntimeClientTypes.PerformanceConfigLatency? = nil
     )
     {
         self.body = body
         self.contentType = contentType
+        self.performanceConfigLatency = performanceConfigLatency
     }
 }
 
@@ -2893,6 +2974,9 @@ extension InvokeModelInput {
         if let guardrailVersion = value.guardrailVersion {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-GuardrailVersion", value: Swift.String(guardrailVersion)))
         }
+        if let performanceConfigLatency = value.performanceConfigLatency {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-PerformanceConfig-Latency", value: Swift.String(performanceConfigLatency.rawValue)))
+        }
         if let trace = value.trace {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-Trace", value: Swift.String(trace.rawValue)))
         }
@@ -2926,6 +3010,9 @@ extension InvokeModelWithResponseStreamInput {
         if let guardrailVersion = value.guardrailVersion {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-GuardrailVersion", value: Swift.String(guardrailVersion)))
         }
+        if let performanceConfigLatency = value.performanceConfigLatency {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-PerformanceConfig-Latency", value: Swift.String(performanceConfigLatency.rawValue)))
+        }
         if let trace = value.trace {
             items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Bedrock-Trace", value: Swift.String(trace.rawValue)))
         }
@@ -2951,6 +3038,7 @@ extension ConverseInput {
         try writer["guardrailConfig"].write(value.guardrailConfig, with: BedrockRuntimeClientTypes.GuardrailConfiguration.write(value:to:))
         try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockRuntimeClientTypes.InferenceConfiguration.write(value:to:))
         try writer["messages"].writeList(value.messages, memberWritingClosure: BedrockRuntimeClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["performanceConfig"].write(value.performanceConfig, with: BedrockRuntimeClientTypes.PerformanceConfiguration.write(value:to:))
         try writer["promptVariables"].writeMap(value.promptVariables, valueWritingClosure: BedrockRuntimeClientTypes.PromptVariableValues.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["system"].writeList(value.system, memberWritingClosure: BedrockRuntimeClientTypes.SystemContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["toolConfig"].write(value.toolConfig, with: BedrockRuntimeClientTypes.ToolConfiguration.write(value:to:))
@@ -2966,6 +3054,7 @@ extension ConverseStreamInput {
         try writer["guardrailConfig"].write(value.guardrailConfig, with: BedrockRuntimeClientTypes.GuardrailStreamConfiguration.write(value:to:))
         try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockRuntimeClientTypes.InferenceConfiguration.write(value:to:))
         try writer["messages"].writeList(value.messages, memberWritingClosure: BedrockRuntimeClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["performanceConfig"].write(value.performanceConfig, with: BedrockRuntimeClientTypes.PerformanceConfiguration.write(value:to:))
         try writer["promptVariables"].writeMap(value.promptVariables, valueWritingClosure: BedrockRuntimeClientTypes.PromptVariableValues.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["system"].writeList(value.system, memberWritingClosure: BedrockRuntimeClientTypes.SystemContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["toolConfig"].write(value.toolConfig, with: BedrockRuntimeClientTypes.ToolConfiguration.write(value:to:))
@@ -3014,6 +3103,7 @@ extension ConverseOutput {
         value.additionalModelResponseFields = try reader["additionalModelResponseFields"].readIfPresent()
         value.metrics = try reader["metrics"].readIfPresent(with: BedrockRuntimeClientTypes.ConverseMetrics.read(from:))
         value.output = try reader["output"].readIfPresent(with: BedrockRuntimeClientTypes.ConverseOutput.read(from:))
+        value.performanceConfig = try reader["performanceConfig"].readIfPresent(with: BedrockRuntimeClientTypes.PerformanceConfiguration.read(from:))
         value.stopReason = try reader["stopReason"].readIfPresent() ?? .sdkUnknown("")
         value.trace = try reader["trace"].readIfPresent(with: BedrockRuntimeClientTypes.ConverseTrace.read(from:))
         value.usage = try reader["usage"].readIfPresent(with: BedrockRuntimeClientTypes.TokenUsage.read(from:))
@@ -3041,6 +3131,9 @@ extension InvokeModelOutput {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             value.contentType = contentTypeHeaderValue
         }
+        if let performanceConfigLatencyHeaderValue = httpResponse.headers.value(for: "X-Amzn-Bedrock-PerformanceConfig-Latency") {
+            value.performanceConfigLatency = BedrockRuntimeClientTypes.PerformanceConfigLatency(rawValue: performanceConfigLatencyHeaderValue)
+        }
         switch httpResponse.body {
         case .data(let data):
             value.body = data
@@ -3059,6 +3152,9 @@ extension InvokeModelWithResponseStreamOutput {
         var value = InvokeModelWithResponseStreamOutput()
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "X-Amzn-Bedrock-Content-Type") {
             value.contentType = contentTypeHeaderValue
+        }
+        if let performanceConfigLatencyHeaderValue = httpResponse.headers.value(for: "X-Amzn-Bedrock-PerformanceConfig-Latency") {
+            value.performanceConfigLatency = BedrockRuntimeClientTypes.PerformanceConfigLatency(rawValue: performanceConfigLatencyHeaderValue)
         }
         if case .stream(let stream) = httpResponse.body {
             let messageDecoder = SmithyEventStreams.DefaultMessageDecoder()
@@ -3967,6 +4063,21 @@ extension BedrockRuntimeClientTypes.GuardrailTraceAssessment {
     }
 }
 
+extension BedrockRuntimeClientTypes.PerformanceConfiguration {
+
+    static func write(value: BedrockRuntimeClientTypes.PerformanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["latency"].write(value.latency)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.PerformanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.PerformanceConfiguration()
+        value.latency = try reader["latency"].readIfPresent() ?? .standard
+        return value
+    }
+}
+
 extension ServiceUnavailableException {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceUnavailableException {
@@ -4027,6 +4138,7 @@ extension BedrockRuntimeClientTypes.ConverseStreamMetadataEvent {
         value.usage = try reader["usage"].readIfPresent(with: BedrockRuntimeClientTypes.TokenUsage.read(from:))
         value.metrics = try reader["metrics"].readIfPresent(with: BedrockRuntimeClientTypes.ConverseStreamMetrics.read(from:))
         value.trace = try reader["trace"].readIfPresent(with: BedrockRuntimeClientTypes.ConverseStreamTrace.read(from:))
+        value.performanceConfig = try reader["performanceConfig"].readIfPresent(with: BedrockRuntimeClientTypes.PerformanceConfiguration.read(from:))
         return value
     }
 }
