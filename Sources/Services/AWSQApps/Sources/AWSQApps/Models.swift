@@ -316,20 +316,42 @@ extension QAppsClientTypes {
 extension QAppsClientTypes {
 
     public enum PluginType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asana
+        case atlassianConfluence
         case custom
+        case googleCalendar
         case jira
+        case jiraCloud
+        case microsoftExchange
+        case microsoftTeams
+        case pagerdutyAdvance
         case salesforce
+        case salesforceCrm
+        case servicenowNowPlatform
         case serviceNow
+        case smartsheet
         case zendesk
+        case zendeskSuite
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PluginType] {
             return [
+                .asana,
+                .atlassianConfluence,
                 .custom,
+                .googleCalendar,
                 .jira,
+                .jiraCloud,
+                .microsoftExchange,
+                .microsoftTeams,
+                .pagerdutyAdvance,
                 .salesforce,
+                .salesforceCrm,
+                .servicenowNowPlatform,
                 .serviceNow,
-                .zendesk
+                .smartsheet,
+                .zendesk,
+                .zendeskSuite
             ]
         }
 
@@ -340,11 +362,22 @@ extension QAppsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .asana: return "ASANA"
+            case .atlassianConfluence: return "ATLASSIAN_CONFLUENCE"
             case .custom: return "CUSTOM"
+            case .googleCalendar: return "GOOGLE_CALENDAR"
             case .jira: return "JIRA"
+            case .jiraCloud: return "JIRA_CLOUD"
+            case .microsoftExchange: return "MICROSOFT_EXCHANGE"
+            case .microsoftTeams: return "MICROSOFT_TEAMS"
+            case .pagerdutyAdvance: return "PAGERDUTY_ADVANCE"
             case .salesforce: return "SALESFORCE"
+            case .salesforceCrm: return "SALESFORCE_CRM"
+            case .servicenowNowPlatform: return "SERVICENOW_NOW_PLATFORM"
             case .serviceNow: return "SERVICE_NOW"
+            case .smartsheet: return "SMARTSHEET"
             case .zendesk: return "ZENDESK"
+            case .zendeskSuite: return "ZENDESK_SUITE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -355,6 +388,8 @@ extension QAppsClientTypes {
 
     /// A card in an Q App that integrates with a third-party plugin or service.
     public struct QPluginCard: Swift.Sendable {
+        /// The action identifier of the action to be performed by the plugin card.
+        public var actionIdentifier: Swift.String?
         /// Any dependencies or requirements for the plugin card.
         /// This member is required.
         public var dependencies: [Swift.String]?
@@ -378,6 +413,7 @@ extension QAppsClientTypes {
         public var type: QAppsClientTypes.CardType?
 
         public init(
+            actionIdentifier: Swift.String? = nil,
             dependencies: [Swift.String]? = nil,
             id: Swift.String? = nil,
             pluginId: Swift.String? = nil,
@@ -387,6 +423,7 @@ extension QAppsClientTypes {
             type: QAppsClientTypes.CardType? = nil
         )
         {
+            self.actionIdentifier = actionIdentifier
             self.dependencies = dependencies
             self.id = id
             self.pluginId = pluginId
@@ -584,6 +621,8 @@ extension QAppsClientTypes {
 
     /// The input shape for defining a plugin card in an Amazon Q App.
     public struct QPluginCardInput: Swift.Sendable {
+        /// The action identifier of the action to be performed by the plugin card.
+        public var actionIdentifier: Swift.String?
         /// The unique identifier of the plugin card.
         /// This member is required.
         public var id: Swift.String?
@@ -601,6 +640,7 @@ extension QAppsClientTypes {
         public var type: QAppsClientTypes.CardType?
 
         public init(
+            actionIdentifier: Swift.String? = nil,
             id: Swift.String? = nil,
             pluginId: Swift.String? = nil,
             prompt: Swift.String? = nil,
@@ -608,6 +648,7 @@ extension QAppsClientTypes {
             type: QAppsClientTypes.CardType? = .qPlugin
         )
         {
+            self.actionIdentifier = actionIdentifier
             self.id = id
             self.pluginId = pluginId
             self.prompt = prompt
@@ -5774,6 +5815,7 @@ extension QAppsClientTypes.QPluginCard {
         value.prompt = try reader["prompt"].readIfPresent() ?? ""
         value.pluginType = try reader["pluginType"].readIfPresent() ?? .sdkUnknown("")
         value.pluginId = try reader["pluginId"].readIfPresent() ?? ""
+        value.actionIdentifier = try reader["actionIdentifier"].readIfPresent()
         return value
     }
 }
@@ -6123,6 +6165,7 @@ extension QAppsClientTypes.QPluginCardInput {
 
     static func write(value: QAppsClientTypes.QPluginCardInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["actionIdentifier"].write(value.actionIdentifier)
         try writer["id"].write(value.id)
         try writer["pluginId"].write(value.pluginId)
         try writer["prompt"].write(value.prompt)
@@ -6138,6 +6181,7 @@ extension QAppsClientTypes.QPluginCardInput {
         value.type = try reader["type"].readIfPresent() ?? .qPlugin
         value.prompt = try reader["prompt"].readIfPresent() ?? ""
         value.pluginId = try reader["pluginId"].readIfPresent() ?? ""
+        value.actionIdentifier = try reader["actionIdentifier"].readIfPresent()
         return value
     }
 }

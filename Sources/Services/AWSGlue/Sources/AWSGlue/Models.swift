@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -255,6 +256,27 @@ extension GlueClientTypes {
             self.groups = groups
             self.inputs = inputs
             self.name = name
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An object representing a value allowed for a property.
+    public struct AllowedValue: Swift.Sendable {
+        /// A description of the allowed value.
+        public var description: Swift.String?
+        /// The value allowed for the property.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.value = value
         }
     }
 }
@@ -697,9 +719,154 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum DataOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case read
+        case write
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataOperation] {
+            return [
+                .read,
+                .write
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .read: return "READ"
+            case .write: return "WRITE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum PropertyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case readOnly
+        case secret
+        case secretOrUserInput
+        case unused
+        case userInput
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropertyType] {
+            return [
+                .readOnly,
+                .secret,
+                .secretOrUserInput,
+                .unused,
+                .userInput
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .readOnly: return "READ_ONLY"
+            case .secret: return "SECRET"
+            case .secretOrUserInput: return "SECRET_OR_USER_INPUT"
+            case .unused: return "UNUSED"
+            case .userInput: return "USER_INPUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An object that defines a connection type for a compute environment.
+    public struct Property: Swift.Sendable {
+        /// A list of AllowedValue objects representing the values allowed for the property.
+        public var allowedValues: [GlueClientTypes.AllowedValue]?
+        /// Indicates which data operations are applicable to the property.
+        public var dataOperationScopes: [GlueClientTypes.DataOperation]?
+        /// The default value for the property.
+        public var defaultValue: Swift.String?
+        /// A description of the property.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The name of the property.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Describes the type of property.
+        /// This member is required.
+        public var propertyTypes: [GlueClientTypes.PropertyType]?
+        /// Indicates whether the property is required.
+        /// This member is required.
+        public var `required`: Swift.Bool?
+
+        public init(
+            allowedValues: [GlueClientTypes.AllowedValue]? = nil,
+            dataOperationScopes: [GlueClientTypes.DataOperation]? = nil,
+            defaultValue: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            propertyTypes: [GlueClientTypes.PropertyType]? = [],
+            `required`: Swift.Bool? = nil
+        )
+        {
+            self.allowedValues = allowedValues
+            self.dataOperationScopes = dataOperationScopes
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+            self.propertyTypes = propertyTypes
+            self.`required` = `required`
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The authentication configuration for a connection returned by the DescribeConnectionType API.
+    public struct AuthConfiguration: Swift.Sendable {
+        /// The type of authentication for a connection.
+        /// This member is required.
+        public var authenticationType: GlueClientTypes.Property?
+        /// A map of key-value pairs for the OAuth2 properties. Each value is a a Property object.
+        public var basicAuthenticationProperties: [Swift.String: GlueClientTypes.Property]?
+        /// A map of key-value pairs for the custom authentication properties. Each value is a a Property object.
+        public var customAuthenticationProperties: [Swift.String: GlueClientTypes.Property]?
+        /// A map of key-value pairs for the OAuth2 properties. Each value is a a Property object.
+        public var oAuth2Properties: [Swift.String: GlueClientTypes.Property]?
+        /// The Amazon Resource Name (ARN) for the Secrets Manager.
+        public var secretArn: GlueClientTypes.Property?
+
+        public init(
+            authenticationType: GlueClientTypes.Property? = nil,
+            basicAuthenticationProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+            customAuthenticationProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+            oAuth2Properties: [Swift.String: GlueClientTypes.Property]? = nil,
+            secretArn: GlueClientTypes.Property? = nil
+        )
+        {
+            self.authenticationType = authenticationType
+            self.basicAuthenticationProperties = basicAuthenticationProperties
+            self.customAuthenticationProperties = customAuthenticationProperties
+            self.oAuth2Properties = oAuth2Properties
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basic
         case custom
+        case iam
         case oauth2
         case sdkUnknown(Swift.String)
 
@@ -707,6 +874,7 @@ extension GlueClientTypes {
             return [
                 .basic,
                 .custom,
+                .iam,
                 .oauth2
             ]
         }
@@ -720,6 +888,7 @@ extension GlueClientTypes {
             switch self {
             case .basic: return "BASIC"
             case .custom: return "CUSTOM"
+            case .iam: return "IAM"
             case .oauth2: return "OAUTH2"
             case let .sdkUnknown(s): return s
             }
@@ -833,6 +1002,31 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// For supplying basic auth credentials when not providing a SecretArn value.
+    public struct BasicAuthenticationCredentials: Swift.Sendable {
+        /// The password to connect to the data source.
+        public var password: Swift.String?
+        /// The username to connect to the data source.
+        public var username: Swift.String?
+
+        public init(
+            password: Swift.String? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.password = password
+            self.username = username
+        }
+    }
+}
+
+extension GlueClientTypes.BasicAuthenticationCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BasicAuthenticationCredentials(username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+}
+
+extension GlueClientTypes {
+
     /// The set of properties required for the the OAuth2 AUTHORIZATION_CODE grant type workflow.
     public struct AuthorizationCodeProperties: Swift.Sendable {
         /// An authorization code to be used in the third leg of the AUTHORIZATION_CODE grant workflow. This is a single-use code which becomes invalid once exchanged for an access token, thus it is acceptable to have this value as a request parameter.
@@ -858,12 +1052,47 @@ extension GlueClientTypes.AuthorizationCodeProperties: Swift.CustomDebugStringCo
 
 extension GlueClientTypes {
 
+    /// The credentials used when the authentication type is OAuth2 authentication.
+    public struct OAuth2Credentials: Swift.Sendable {
+        /// The access token used when the authentication type is OAuth2.
+        public var accessToken: Swift.String?
+        /// The JSON Web Token (JWT) used when the authentication type is OAuth2.
+        public var jwtToken: Swift.String?
+        /// The refresh token used when the authentication type is OAuth2.
+        public var refreshToken: Swift.String?
+        /// The client application client secret if the client application is user managed.
+        public var userManagedClientApplicationClientSecret: Swift.String?
+
+        public init(
+            accessToken: Swift.String? = nil,
+            jwtToken: Swift.String? = nil,
+            refreshToken: Swift.String? = nil,
+            userManagedClientApplicationClientSecret: Swift.String? = nil
+        )
+        {
+            self.accessToken = accessToken
+            self.jwtToken = jwtToken
+            self.refreshToken = refreshToken
+            self.userManagedClientApplicationClientSecret = userManagedClientApplicationClientSecret
+        }
+    }
+}
+
+extension GlueClientTypes.OAuth2Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OAuth2Credentials(accessToken: \"CONTENT_REDACTED\", jwtToken: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\", userManagedClientApplicationClientSecret: \"CONTENT_REDACTED\")"}
+}
+
+extension GlueClientTypes {
+
     /// A structure containing properties for OAuth2 in the CreateConnection request.
     public struct OAuth2PropertiesInput: Swift.Sendable {
         /// The set of properties required for the the OAuth2 AUTHORIZATION_CODE grant type.
         public var authorizationCodeProperties: GlueClientTypes.AuthorizationCodeProperties?
         /// The client application type in the CreateConnection request. For example, AWS_MANAGED or USER_MANAGED.
         public var oAuth2ClientApplication: GlueClientTypes.OAuth2ClientApplication?
+        /// The credentials used when the authentication type is OAuth2 authentication.
+        public var oAuth2Credentials: GlueClientTypes.OAuth2Credentials?
         /// The OAuth2 grant type in the CreateConnection request. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
         public var oAuth2GrantType: GlueClientTypes.OAuth2GrantType?
         /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
@@ -874,6 +1103,7 @@ extension GlueClientTypes {
         public init(
             authorizationCodeProperties: GlueClientTypes.AuthorizationCodeProperties? = nil,
             oAuth2ClientApplication: GlueClientTypes.OAuth2ClientApplication? = nil,
+            oAuth2Credentials: GlueClientTypes.OAuth2Credentials? = nil,
             oAuth2GrantType: GlueClientTypes.OAuth2GrantType? = nil,
             tokenUrl: Swift.String? = nil,
             tokenUrlParametersMap: [Swift.String: Swift.String]? = nil
@@ -881,6 +1111,7 @@ extension GlueClientTypes {
         {
             self.authorizationCodeProperties = authorizationCodeProperties
             self.oAuth2ClientApplication = oAuth2ClientApplication
+            self.oAuth2Credentials = oAuth2Credentials
             self.oAuth2GrantType = oAuth2GrantType
             self.tokenUrl = tokenUrl
             self.tokenUrlParametersMap = tokenUrlParametersMap
@@ -894,6 +1125,12 @@ extension GlueClientTypes {
     public struct AuthenticationConfigurationInput: Swift.Sendable {
         /// A structure containing the authentication configuration in the CreateConnection request.
         public var authenticationType: GlueClientTypes.AuthenticationType?
+        /// The credentials used when the authentication type is basic authentication.
+        public var basicAuthenticationCredentials: GlueClientTypes.BasicAuthenticationCredentials?
+        /// The credentials used when the authentication type is custom authentication.
+        public var customAuthenticationCredentials: [Swift.String: Swift.String]?
+        /// The ARN of the KMS key used to encrypt the connection. Only taken an as input in the request and stored in the Secret Manager.
+        public var kmsKeyArn: Swift.String?
         /// The properties for OAuth2 authentication in the CreateConnection request.
         public var oAuth2Properties: GlueClientTypes.OAuth2PropertiesInput?
         /// The secret manager ARN to store credentials in the CreateConnection request.
@@ -901,15 +1138,26 @@ extension GlueClientTypes {
 
         public init(
             authenticationType: GlueClientTypes.AuthenticationType? = nil,
+            basicAuthenticationCredentials: GlueClientTypes.BasicAuthenticationCredentials? = nil,
+            customAuthenticationCredentials: [Swift.String: Swift.String]? = nil,
+            kmsKeyArn: Swift.String? = nil,
             oAuth2Properties: GlueClientTypes.OAuth2PropertiesInput? = nil,
             secretArn: Swift.String? = nil
         )
         {
             self.authenticationType = authenticationType
+            self.basicAuthenticationCredentials = basicAuthenticationCredentials
+            self.customAuthenticationCredentials = customAuthenticationCredentials
+            self.kmsKeyArn = kmsKeyArn
             self.oAuth2Properties = oAuth2Properties
             self.secretArn = secretArn
         }
     }
+}
+
+extension GlueClientTypes.AuthenticationConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AuthenticationConfigurationInput(authenticationType: \(Swift.String(describing: authenticationType)), basicAuthenticationCredentials: \(Swift.String(describing: basicAuthenticationCredentials)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), oAuth2Properties: \(Swift.String(describing: oAuth2Properties)), secretArn: \(Swift.String(describing: secretArn)), customAuthenticationCredentials: \"CONTENT_REDACTED\")"}
 }
 
 /// A specified entity does not exist
@@ -9799,6 +10047,298 @@ public struct CreateBlueprintOutput: Swift.Sendable {
     }
 }
 
+/// Two processes are trying to modify a resource simultaneously.
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModificationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// A federated resource already exists.
+public struct FederatedResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// The associated Glue resource already exists.
+        public internal(set) var associatedGlueResource: Swift.String? = nil
+        /// The message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FederatedResourceAlreadyExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        associatedGlueResource: Swift.String? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.associatedGlueResource = associatedGlueResource
+        self.properties.message = message
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Input properties to configure data lake access for your catalog resource in the Glue Data Catalog.
+    public struct DataLakeAccessProperties: Swift.Sendable {
+        /// Specifies a federated catalog type for the native catalog resource. The currently supported type is aws:redshift.
+        public var catalogType: Swift.String?
+        /// Turns on or off data lake access for Apache Spark applications that access Amazon Redshift databases in the Data Catalog from any non-Redshift engine, such as Amazon Athena, Amazon EMR, or Glue ETL.
+        public var dataLakeAccess: Swift.Bool
+        /// A role that will be assumed by Glue for transferring data into/out of the staging bucket during a query.
+        public var dataTransferRole: Swift.String?
+        /// An encryption key that will be used for the staging bucket that will be created along with the catalog.
+        public var kmsKey: Swift.String?
+
+        public init(
+            catalogType: Swift.String? = nil,
+            dataLakeAccess: Swift.Bool = false,
+            dataTransferRole: Swift.String? = nil,
+            kmsKey: Swift.String? = nil
+        )
+        {
+            self.catalogType = catalogType
+            self.dataLakeAccess = dataLakeAccess
+            self.dataTransferRole = dataTransferRole
+            self.kmsKey = kmsKey
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure that specifies data lake access properties and other custom properties.
+    public struct CatalogProperties: Swift.Sendable {
+        /// Additional key-value properties for the catalog, such as column statistics optimizations.
+        public var customProperties: [Swift.String: Swift.String]?
+        /// A DataLakeAccessProperties object that specifies properties to configure data lake access for your catalog resource in the Glue Data Catalog.
+        public var dataLakeAccessProperties: GlueClientTypes.DataLakeAccessProperties?
+
+        public init(
+            customProperties: [Swift.String: Swift.String]? = nil,
+            dataLakeAccessProperties: GlueClientTypes.DataLakeAccessProperties? = nil
+        )
+        {
+            self.customProperties = customProperties
+            self.dataLakeAccessProperties = dataLakeAccessProperties
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum Permission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case alter
+        case createDatabase
+        case createTable
+        case dataLocationAccess
+        case delete
+        case drop
+        case insert
+        case select
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Permission] {
+            return [
+                .all,
+                .alter,
+                .createDatabase,
+                .createTable,
+                .dataLocationAccess,
+                .delete,
+                .drop,
+                .insert,
+                .select
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .alter: return "ALTER"
+            case .createDatabase: return "CREATE_DATABASE"
+            case .createTable: return "CREATE_TABLE"
+            case .dataLocationAccess: return "DATA_LOCATION_ACCESS"
+            case .delete: return "DELETE"
+            case .drop: return "DROP"
+            case .insert: return "INSERT"
+            case .select: return "SELECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The Lake Formation principal.
+    public struct DataLakePrincipal: Swift.Sendable {
+        /// An identifier for the Lake Formation principal.
+        public var dataLakePrincipalIdentifier: Swift.String?
+
+        public init(
+            dataLakePrincipalIdentifier: Swift.String? = nil
+        )
+        {
+            self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Permissions granted to a principal.
+    public struct PrincipalPermissions: Swift.Sendable {
+        /// The permissions that are granted to the principal.
+        public var permissions: [GlueClientTypes.Permission]?
+        /// The principal who is granted permissions.
+        public var principal: GlueClientTypes.DataLakePrincipal?
+
+        public init(
+            permissions: [GlueClientTypes.Permission]? = nil,
+            principal: GlueClientTypes.DataLakePrincipal? = nil
+        )
+        {
+            self.permissions = permissions
+            self.principal = principal
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A catalog that points to an entity outside the Glue Data Catalog.
+    public struct FederatedCatalog: Swift.Sendable {
+        /// The name of the connection to an external data source, for example a Redshift-federated catalog.
+        public var connectionName: Swift.String?
+        /// A unique identifier for the federated catalog.
+        public var identifier: Swift.String?
+
+        public init(
+            connectionName: Swift.String? = nil,
+            identifier: Swift.String? = nil
+        )
+        {
+            self.connectionName = connectionName
+            self.identifier = identifier
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure that describes a target catalog for resource linking.
+    public struct TargetRedshiftCatalog: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the catalog resource.
+        /// This member is required.
+        public var catalogArn: Swift.String?
+
+        public init(
+            catalogArn: Swift.String? = nil
+        )
+        {
+            self.catalogArn = catalogArn
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure that describes catalog properties.
+    public struct CatalogInput: Swift.Sendable {
+        /// A CatalogProperties object that specifies data lake access properties and other custom properties.
+        public var catalogProperties: GlueClientTypes.CatalogProperties?
+        /// An array of PrincipalPermissions objects. Creates a set of default permissions on the database(s) for principals. Used by Amazon Web Services Lake Formation. Typically should be explicitly set as an empty list.
+        public var createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
+        /// An array of PrincipalPermissions objects. Creates a set of default permissions on the table(s) for principals. Used by Amazon Web Services Lake Formation. Typically should be explicitly set as an empty list.
+        public var createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
+        /// Description string, not more than 2048 bytes long, matching the URI address multi-line string pattern. A description of the catalog.
+        public var description: Swift.String?
+        /// A FederatedCatalog object. A FederatedCatalog structure that references an entity outside the Glue Data Catalog, for example a Redshift database.
+        public var federatedCatalog: GlueClientTypes.FederatedCatalog?
+        /// A map array of key-value pairs that define the parameters and properties of the catalog.
+        public var parameters: [Swift.String: Swift.String]?
+        /// A TargetRedshiftCatalog object that describes a target catalog for resource linking.
+        public var targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog?
+
+        public init(
+            catalogProperties: GlueClientTypes.CatalogProperties? = nil,
+            createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
+            createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
+            description: Swift.String? = nil,
+            federatedCatalog: GlueClientTypes.FederatedCatalog? = nil,
+            parameters: [Swift.String: Swift.String]? = nil,
+            targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil
+        )
+        {
+            self.catalogProperties = catalogProperties
+            self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
+            self.createTableDefaultPermissions = createTableDefaultPermissions
+            self.description = description
+            self.federatedCatalog = federatedCatalog
+            self.parameters = parameters
+            self.targetRedshiftCatalog = targetRedshiftCatalog
+        }
+    }
+}
+
+public struct CreateCatalogInput: Swift.Sendable {
+    /// A CatalogInput object that defines the metadata for the catalog.
+    /// This member is required.
+    public var catalogInput: GlueClientTypes.CatalogInput?
+    /// The name of the catalog to create.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A map array of key-value pairs, not more than 50 pairs. Each key is a UTF-8 string, not less than 1 or more than 128 bytes long. Each value is a UTF-8 string, not more than 256 bytes long. The tags you assign to the catalog.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        catalogInput: GlueClientTypes.CatalogInput? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.catalogInput = catalogInput
+        self.name = name
+        self.tags = tags
+    }
+}
+
+public struct CreateCatalogOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension GlueClientTypes {
 
     public enum CsvHeaderOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -10118,6 +10658,8 @@ extension GlueClientTypes {
         case encryptedKafkaSaslPlainPassword
         case encryptedKafkaSaslScramPassword
         case encryptedPassword
+        case endpoint
+        case endpointType
         case host
         case instanceId
         case jdbcConnectionUrl
@@ -10169,6 +10711,8 @@ extension GlueClientTypes {
                 .encryptedKafkaSaslPlainPassword,
                 .encryptedKafkaSaslScramPassword,
                 .encryptedPassword,
+                .endpoint,
+                .endpointType,
                 .host,
                 .instanceId,
                 .jdbcConnectionUrl,
@@ -10226,6 +10770,8 @@ extension GlueClientTypes {
             case .encryptedKafkaSaslPlainPassword: return "ENCRYPTED_KAFKA_SASL_PLAIN_PASSWORD"
             case .encryptedKafkaSaslScramPassword: return "ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD"
             case .encryptedPassword: return "ENCRYPTED_PASSWORD"
+            case .endpoint: return "ENDPOINT"
+            case .endpointType: return "ENDPOINT_TYPE"
             case .host: return "HOST"
             case .instanceId: return "INSTANCE_ID"
             case .jdbcConnectionUrl: return "JDBC_CONNECTION_URL"
@@ -10269,29 +10815,67 @@ extension GlueClientTypes {
 
     public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case custom
+        case facebookads
+        case googleads
+        case googleanalytics4
+        case googlesheets
+        case hubspot
+        case instagramads
+        case intercom
         case jdbc
+        case jiracloud
         case kafka
+        case marketo
         case marketplace
         case mongodb
+        case netsuiteerp
         case network
         case salesforce
+        case salesforcemarketingcloud
+        case salesforcepardot
+        case sapodata
+        case servicenow
         case sftp
+        case slack
+        case snapchatads
+        case stripe
         case viewValidationAthena
         case viewValidationRedshift
+        case zendesk
+        case zohocrm
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectionType] {
             return [
                 .custom,
+                .facebookads,
+                .googleads,
+                .googleanalytics4,
+                .googlesheets,
+                .hubspot,
+                .instagramads,
+                .intercom,
                 .jdbc,
+                .jiracloud,
                 .kafka,
+                .marketo,
                 .marketplace,
                 .mongodb,
+                .netsuiteerp,
                 .network,
                 .salesforce,
+                .salesforcemarketingcloud,
+                .salesforcepardot,
+                .sapodata,
+                .servicenow,
                 .sftp,
+                .slack,
+                .snapchatads,
+                .stripe,
                 .viewValidationAthena,
-                .viewValidationRedshift
+                .viewValidationRedshift,
+                .zendesk,
+                .zohocrm
             ]
         }
 
@@ -10303,15 +10887,34 @@ extension GlueClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .custom: return "CUSTOM"
+            case .facebookads: return "FACEBOOKADS"
+            case .googleads: return "GOOGLEADS"
+            case .googleanalytics4: return "GOOGLEANALYTICS4"
+            case .googlesheets: return "GOOGLESHEETS"
+            case .hubspot: return "HUBSPOT"
+            case .instagramads: return "INSTAGRAMADS"
+            case .intercom: return "INTERCOM"
             case .jdbc: return "JDBC"
+            case .jiracloud: return "JIRACLOUD"
             case .kafka: return "KAFKA"
+            case .marketo: return "MARKETO"
             case .marketplace: return "MARKETPLACE"
             case .mongodb: return "MONGODB"
+            case .netsuiteerp: return "NETSUITEERP"
             case .network: return "NETWORK"
             case .salesforce: return "SALESFORCE"
+            case .salesforcemarketingcloud: return "SALESFORCEMARKETINGCLOUD"
+            case .salesforcepardot: return "SALESFORCEPARDOT"
+            case .sapodata: return "SAPODATA"
+            case .servicenow: return "SERVICENOW"
             case .sftp: return "SFTP"
+            case .slack: return "SLACK"
+            case .snapchatads: return "SNAPCHATADS"
+            case .stripe: return "STRIPE"
             case .viewValidationAthena: return "VIEW_VALIDATION_ATHENA"
             case .viewValidationRedshift: return "VIEW_VALIDATION_REDSHIFT"
+            case .zendesk: return "ZENDESK"
+            case .zohocrm: return "ZOHOCRM"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10344,11 +10947,43 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum ComputeEnvironment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case athena
+        case python
+        case spark
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeEnvironment] {
+            return [
+                .athena,
+                .python,
+                .spark
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .athena: return "ATHENA"
+            case .python: return "PYTHON"
+            case .spark: return "SPARK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// A structure that is used to specify a connection to create or update.
     public struct ConnectionInput: Swift.Sendable {
-        /// This field is not currently used.
+        /// Connection properties specific to the Athena compute environment.
         public var athenaProperties: [Swift.String: Swift.String]?
-        /// The authentication properties of the connection. Used for a Salesforce connection.
+        /// The authentication properties of the connection.
         public var authenticationConfiguration: GlueClientTypes.AuthenticationConfigurationInput?
         /// These key-value pairs define parameters for the connection.
         /// This member is required.
@@ -10392,13 +11027,6 @@ extension GlueClientTypes {
         ///
         ///
         ///
-        /// * SALESFORCE - Designates a connection to Salesforce using OAuth authencation.
-        ///
-        /// * Requires the AuthenticationConfiguration member to be configured.
-        ///
-        ///
-        ///
-        ///
         /// * VIEW_VALIDATION_REDSHIFT - Designates a connection used for view validation by Amazon Redshift.
         ///
         /// * VIEW_VALIDATION_ATHENA - Designates a connection used for view validation by Amazon Athena.
@@ -10417,7 +11045,50 @@ extension GlueClientTypes {
         /// * CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.
         ///
         ///
-        /// SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult [Glue connection properties](https://docs.aws.amazon.com/glue/latest/dg/connection-defining.html). For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult [Using connectors and connections](https://docs.aws.amazon.com/glue/latest/ug/connectors-chapter.html).
+        /// Additionally, a ConnectionType for the following SaaS connectors is supported:
+        ///
+        /// * FACEBOOKADS - Designates a connection to Facebook Ads.
+        ///
+        /// * GOOGLEADS - Designates a connection to Google Ads.
+        ///
+        /// * GOOGLESHEETS - Designates a connection to Google Sheets.
+        ///
+        /// * GOOGLEANALYTICS4 - Designates a connection to Google Analytics 4.
+        ///
+        /// * HUBSPOT - Designates a connection to HubSpot.
+        ///
+        /// * INSTAGRAMADS - Designates a connection to Instagram Ads.
+        ///
+        /// * INTERCOM - Designates a connection to Intercom.
+        ///
+        /// * JIRACLOUD - Designates a connection to Jira Cloud.
+        ///
+        /// * MARKETO - Designates a connection to Adobe Marketo Engage.
+        ///
+        /// * NETSUITEERP - Designates a connection to Oracle NetSuite.
+        ///
+        /// * SALESFORCE - Designates a connection to Salesforce using OAuth authentication.
+        ///
+        /// * SALESFORCEMARKETINGCLOUD - Designates a connection to Salesforce Marketing Cloud.
+        ///
+        /// * SALESFORCEPARDOT - Designates a connection to Salesforce Marketing Cloud Account Engagement (MCAE).
+        ///
+        /// * SAPODATA - Designates a connection to SAP OData.
+        ///
+        /// * SERVICENOW - Designates a connection to ServiceNow.
+        ///
+        /// * SLACK - Designates a connection to Slack.
+        ///
+        /// * SNAPCHATADS - Designates a connection to Snapchat Ads.
+        ///
+        /// * STRIPE - Designates a connection to Stripe.
+        ///
+        /// * ZENDESK - Designates a connection to Zendesk.
+        ///
+        /// * ZOHOCRM - Designates a connection to Zoho CRM.
+        ///
+        ///
+        /// For more information on the connection parameters needed for a particular connector, see the documentation for the connector in [Adding an Glue connection](https://docs.aws.amazon.com/glue/latest/dg/console-connections.html)in the Glue User Guide. SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult [Glue connection properties](https://docs.aws.amazon.com/glue/latest/dg/connection-defining.html). For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult [Using connectors and connections](https://docs.aws.amazon.com/glue/latest/ug/connectors-chapter.html).
         /// This member is required.
         public var connectionType: GlueClientTypes.ConnectionType?
         /// The description of the connection.
@@ -10429,8 +11100,14 @@ extension GlueClientTypes {
         public var name: Swift.String?
         /// The physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to successfully make this connection.
         public var physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements?
-        /// A flag to validate the credentials during create connection. Used for a Salesforce connection. Default is true.
+        /// Connection properties specific to the Python compute environment.
+        public var pythonProperties: [Swift.String: Swift.String]?
+        /// Connection properties specific to the Spark compute environment.
+        public var sparkProperties: [Swift.String: Swift.String]?
+        /// A flag to validate the credentials during create connection. Default is true.
         public var validateCredentials: Swift.Bool
+        /// The compute environments that the specified connection properties are validated against.
+        public var validateForComputeEnvironments: [GlueClientTypes.ComputeEnvironment]?
 
         public init(
             athenaProperties: [Swift.String: Swift.String]? = nil,
@@ -10441,7 +11118,10 @@ extension GlueClientTypes {
             matchCriteria: [Swift.String]? = nil,
             name: Swift.String? = nil,
             physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements? = nil,
-            validateCredentials: Swift.Bool = false
+            pythonProperties: [Swift.String: Swift.String]? = nil,
+            sparkProperties: [Swift.String: Swift.String]? = nil,
+            validateCredentials: Swift.Bool = false,
+            validateForComputeEnvironments: [GlueClientTypes.ComputeEnvironment]? = nil
         )
         {
             self.athenaProperties = athenaProperties
@@ -10452,7 +11132,10 @@ extension GlueClientTypes {
             self.matchCriteria = matchCriteria
             self.name = name
             self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.pythonProperties = pythonProperties
+            self.sparkProperties = sparkProperties
             self.validateCredentials = validateCredentials
+            self.validateForComputeEnvironments = validateForComputeEnvironments
         }
     }
 }
@@ -10658,146 +11341,6 @@ public struct CreateCustomEntityTypeOutput: Swift.Sendable {
     )
     {
         self.name = name
-    }
-}
-
-/// Two processes are trying to modify a resource simultaneously.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConcurrentModificationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// A federated resource already exists.
-public struct FederatedResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// The associated Glue resource already exists.
-        public internal(set) var associatedGlueResource: Swift.String? = nil
-        /// The message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "FederatedResourceAlreadyExistsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        associatedGlueResource: Swift.String? = nil,
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.associatedGlueResource = associatedGlueResource
-        self.properties.message = message
-    }
-}
-
-extension GlueClientTypes {
-
-    public enum Permission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case all
-        case alter
-        case createDatabase
-        case createTable
-        case dataLocationAccess
-        case delete
-        case drop
-        case insert
-        case select
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Permission] {
-            return [
-                .all,
-                .alter,
-                .createDatabase,
-                .createTable,
-                .dataLocationAccess,
-                .delete,
-                .drop,
-                .insert,
-                .select
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .all: return "ALL"
-            case .alter: return "ALTER"
-            case .createDatabase: return "CREATE_DATABASE"
-            case .createTable: return "CREATE_TABLE"
-            case .dataLocationAccess: return "DATA_LOCATION_ACCESS"
-            case .delete: return "DELETE"
-            case .drop: return "DROP"
-            case .insert: return "INSERT"
-            case .select: return "SELECT"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension GlueClientTypes {
-
-    /// The Lake Formation principal.
-    public struct DataLakePrincipal: Swift.Sendable {
-        /// An identifier for the Lake Formation principal.
-        public var dataLakePrincipalIdentifier: Swift.String?
-
-        public init(
-            dataLakePrincipalIdentifier: Swift.String? = nil
-        )
-        {
-            self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
-        }
-    }
-}
-
-extension GlueClientTypes {
-
-    /// Permissions granted to a principal.
-    public struct PrincipalPermissions: Swift.Sendable {
-        /// The permissions that are granted to the principal.
-        public var permissions: [GlueClientTypes.Permission]?
-        /// The principal who is granted permissions.
-        public var principal: GlueClientTypes.DataLakePrincipal?
-
-        public init(
-            permissions: [GlueClientTypes.Permission]? = nil,
-            principal: GlueClientTypes.DataLakePrincipal? = nil
-        )
-        {
-            self.permissions = permissions
-            self.principal = principal
-        }
     }
 }
 
@@ -11179,6 +11722,580 @@ public struct CreateDevEndpointOutput: Swift.Sendable {
         self.yarnEndpointAddress = yarnEndpointAddress
         self.zeppelinRemoteSparkInterpreterPort = zeppelinRemoteSparkInterpreterPort
     }
+}
+
+/// The CreatePartitions API was called on a table that has indexes enabled.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The requested operation conflicts with another operation.
+public struct IntegrationConflictOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationConflictOperationFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The data processed through your integration exceeded your quota.
+public struct IntegrationQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationQuotaExceededFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// An internal server error occurred.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The KMS key specified is not accessible.
+public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSKeyNotAccessibleFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The resource could not be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The Tag object represents a label that you can assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. For more information about tags, and controlling access to resources in Glue, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html) and [Specifying Glue Resource ARNs](https://docs.aws.amazon.com/glue/latest/dg/glue-specifying-resource-arns.html) in the developer guide.
+    public struct Tag: Swift.Sendable {
+        /// The tag key. The key is required when you create a tag on an object. The key is case-sensitive, and must not contain the prefix aws.
+        public var key: Swift.String?
+        /// The tag value. The value is optional when you create a tag on an object. The value is case-sensitive, and must not contain the prefix aws.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct CreateIntegrationInput: Swift.Sendable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption. This can only be provided if KMSKeyId is provided.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// Selects source tables for the integration using Maxwell filter syntax.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// A unique name for an integration in Glue.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The ARN of a KMS key used for encrypting the channel.
+    public var kmsKeyId: Swift.String?
+    /// The ARN of the source resource for the integration.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// Metadata assigned to the resource consisting of a list of key-value pairs.
+    public var tags: [GlueClientTypes.Tag]?
+    /// The ARN of the target resource for the integration.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        tags: [GlueClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.dataFilter = dataFilter
+        self.description = description
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An error associated with a zero-ETL integration.
+    public struct IntegrationError: Swift.Sendable {
+        /// The code associated with this error.
+        public var errorCode: Swift.String?
+        /// A message describing the error.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum IntegrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case modifying
+        case needsAttention
+        case syncing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .modifying,
+                .needsAttention,
+                .syncing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .modifying: return "MODIFYING"
+            case .needsAttention: return "NEEDS_ATTENTION"
+            case .syncing: return "SYNCING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateIntegrationOutput: Swift.Sendable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// The time when the integration was created, in UTC.
+    /// This member is required.
+    public var createTime: Foundation.Date?
+    /// Selects source tables for the integration using Maxwell filter syntax.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// A list of errors associated with the integration creation.
+    public var errors: [GlueClientTypes.IntegrationError]?
+    /// The Amazon Resource Name (ARN) for the created integration.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// A unique name for an integration in Glue.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The ARN of a KMS key used for encrypting the channel.
+    public var kmsKeyId: Swift.String?
+    /// The ARN of the source resource for the integration.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// The status of the integration being created. The possible statuses are:
+    ///
+    /// * CREATING: The integration is being created.
+    ///
+    /// * ACTIVE: The integration creation succeeds.
+    ///
+    /// * MODIFYING: The integration is being modified.
+    ///
+    /// * FAILED: The integration creation fails.
+    ///
+    /// * DELETING: The integration is deleted.
+    ///
+    /// * SYNCING: The integration is synchronizing.
+    ///
+    /// * NEEDS_ATTENTION: The integration needs attention, such as synchronization.
+    /// This member is required.
+    public var status: GlueClientTypes.IntegrationStatus?
+    /// Metadata assigned to the resource consisting of a list of key-value pairs.
+    public var tags: [GlueClientTypes.Tag]?
+    /// The ARN of the target resource for the integration.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        createTime: Foundation.Date? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        errors: [GlueClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: GlueClientTypes.IntegrationStatus? = nil,
+        tags: [GlueClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.dataFilter = dataFilter
+        self.description = description
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The resource properties associated with the integration source.
+    public struct SourceProcessingProperties: Swift.Sendable {
+        /// The IAM role to access the Glue connection.
+        public var roleArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The resource properties associated with the integration target.
+    public struct TargetProcessingProperties: Swift.Sendable {
+        /// The Glue network connection to configure the Glue job running in the customer VPC.
+        public var connectionName: Swift.String?
+        /// The ARN of an Eventbridge event bus to receive the integration status notification.
+        public var eventBusArn: Swift.String?
+        /// The ARN of the KMS key used for encryption.
+        public var kmsArn: Swift.String?
+        /// The IAM role to access the Glue database.
+        public var roleArn: Swift.String?
+
+        public init(
+            connectionName: Swift.String? = nil,
+            eventBusArn: Swift.String? = nil,
+            kmsArn: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.connectionName = connectionName
+            self.eventBusArn = eventBusArn
+            self.kmsArn = kmsArn
+            self.roleArn = roleArn
+        }
+    }
+}
+
+public struct CreateIntegrationResourcePropertyInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The resource properties associated with the integration source.
+    public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// The resource properties associated with the integration target.
+    public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.sourceProcessingProperties = sourceProcessingProperties
+        self.targetProcessingProperties = targetProcessingProperties
+    }
+}
+
+public struct CreateIntegrationResourcePropertyOutput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The resource properties associated with the integration source.
+    public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// The resource properties associated with the integration target.
+    public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.sourceProcessingProperties = sourceProcessingProperties
+        self.targetProcessingProperties = targetProcessingProperties
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Properties used by the source leg to process data from the source.
+    public struct SourceTableConfig: Swift.Sendable {
+        /// A list of fields used for column-level filtering.
+        public var fields: [Swift.String]?
+        /// A condition clause used for row-level filtering.
+        public var filterPredicate: Swift.String?
+        /// Unique identifier of a record.
+        public var primaryKey: [Swift.String]?
+        /// Incremental pull timestamp-based field.
+        public var recordUpdateField: Swift.String?
+
+        public init(
+            fields: [Swift.String]? = nil,
+            filterPredicate: Swift.String? = nil,
+            primaryKey: [Swift.String]? = nil,
+            recordUpdateField: Swift.String? = nil
+        )
+        {
+            self.fields = fields
+            self.filterPredicate = filterPredicate
+            self.primaryKey = primaryKey
+            self.recordUpdateField = recordUpdateField
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure that describes how data is partitioned on the target.
+    public struct IntegrationPartition: Swift.Sendable {
+        /// The field name used to partition data on the target.
+        public var fieldName: Swift.String?
+        /// Specifies a function used to partition data on the target.
+        public var functionSpec: Swift.String?
+
+        public init(
+            fieldName: Swift.String? = nil,
+            functionSpec: Swift.String? = nil
+        )
+        {
+            self.fieldName = fieldName
+            self.functionSpec = functionSpec
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum UnnestSpec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case nounnest
+        case toplevel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnnestSpec] {
+            return [
+                .full,
+                .nounnest,
+                .toplevel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .nounnest: return "NOUNNEST"
+            case .toplevel: return "TOPLEVEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Properties used by the target leg to partition the data on the target.
+    public struct TargetTableConfig: Swift.Sendable {
+        /// Determines the file layout on the target.
+        public var partitionSpec: [GlueClientTypes.IntegrationPartition]?
+        /// The optional name of a target table.
+        public var targetTableName: Swift.String?
+        /// Specifies how nested objects are flattened to top-level elements. Valid values are: "TOPLEVEL", "FULL", or "NOUNNEST".
+        public var unnestSpec: GlueClientTypes.UnnestSpec?
+
+        public init(
+            partitionSpec: [GlueClientTypes.IntegrationPartition]? = nil,
+            targetTableName: Swift.String? = nil,
+            unnestSpec: GlueClientTypes.UnnestSpec? = nil
+        )
+        {
+            self.partitionSpec = partitionSpec
+            self.targetTableName = targetTableName
+            self.unnestSpec = unnestSpec
+        }
+    }
+}
+
+public struct CreateIntegrationTablePropertiesInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A structure for the source table configuration.
+    public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
+    /// The name of the table to be replicated.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// A structure for the target table configuration.
+    public var targetTableConfig: GlueClientTypes.TargetTableConfig?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceTableConfig: GlueClientTypes.SourceTableConfig? = nil,
+        tableName: Swift.String? = nil,
+        targetTableConfig: GlueClientTypes.TargetTableConfig? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.sourceTableConfig = sourceTableConfig
+        self.tableName = tableName
+        self.targetTableConfig = targetTableConfig
+    }
+}
+
+public struct CreateIntegrationTablePropertiesOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct CreateJobOutput: Swift.Sendable {
@@ -13148,6 +14265,24 @@ public struct DeleteBlueprintOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteCatalogInput: Swift.Sendable {
+    /// The ID of the catalog.
+    /// This member is required.
+    public var catalogId: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil
+    )
+    {
+        self.catalogId = catalogId
+    }
+}
+
+public struct DeleteCatalogOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteClassifierInput: Swift.Sendable {
     /// Name of the classifier to remove.
     /// This member is required.
@@ -13431,6 +14566,168 @@ public struct DeleteDevEndpointOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The specified integration could not be found.
+public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IntegrationNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The integration is in an invalid state.
+public struct InvalidIntegrationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidIntegrationStateFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteIntegrationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for the integration.
+    /// This member is required.
+    public var integrationIdentifier: Swift.String?
+
+    public init(
+        integrationIdentifier: Swift.String? = nil
+    )
+    {
+        self.integrationIdentifier = integrationIdentifier
+    }
+}
+
+public struct DeleteIntegrationOutput: Swift.Sendable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// The time when the integration was created, in UTC.
+    /// This member is required.
+    public var createTime: Foundation.Date?
+    /// Selects source tables for the integration using Maxwell filter syntax.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// A list of errors associated with the integration.
+    public var errors: [GlueClientTypes.IntegrationError]?
+    /// The Amazon Resource Name (ARN) for the integration.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// A unique name for an integration in Glue.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The ARN of a KMS key used for encrypting the channel.
+    public var kmsKeyId: Swift.String?
+    /// The ARN of the source for the integration.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// The status of the integration being deleted. The possible statuses are:
+    ///
+    /// * CREATING: The integration is being created.
+    ///
+    /// * ACTIVE: The integration creation succeeds.
+    ///
+    /// * MODIFYING: The integration is being modified.
+    ///
+    /// * FAILED: The integration creation fails.
+    ///
+    /// * DELETING: The integration is deleted.
+    ///
+    /// * SYNCING: The integration is synchronizing.
+    ///
+    /// * NEEDS_ATTENTION: The integration needs attention, such as synchronization.
+    /// This member is required.
+    public var status: GlueClientTypes.IntegrationStatus?
+    /// Metadata assigned to the resource consisting of a list of key-value pairs.
+    public var tags: [GlueClientTypes.Tag]?
+    /// The ARN of the target for the integration.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        createTime: Foundation.Date? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        errors: [GlueClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: GlueClientTypes.IntegrationStatus? = nil,
+        tags: [GlueClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.dataFilter = dataFilter
+        self.description = description
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+public struct DeleteIntegrationTablePropertiesInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The name of the table to be replicated.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tableName = tableName
+    }
+}
+
+public struct DeleteIntegrationTablePropertiesOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteJobInput: Swift.Sendable {
     /// The name of the job definition to delete.
     /// This member is required.
@@ -13511,31 +14808,6 @@ public struct DeletePartitionInput: Swift.Sendable {
 public struct DeletePartitionOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The CreatePartitions API was called on a table that has indexes enabled.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
 }
 
 public struct DeletePartitionIndexInput: Swift.Sendable {
@@ -14023,6 +15295,665 @@ public struct DeleteWorkflowOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeConnectionTypeInput: Swift.Sendable {
+    /// The name of the connection type to be described.
+    /// This member is required.
+    public var connectionType: Swift.String?
+
+    public init(
+        connectionType: Swift.String? = nil
+    )
+    {
+        self.connectionType = connectionType
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Specifies the supported authentication types returned by the DescribeConnectionType API.
+    public struct Capabilities: Swift.Sendable {
+        /// A list of supported authentication types.
+        /// This member is required.
+        public var supportedAuthenticationTypes: [GlueClientTypes.AuthenticationType]?
+        /// A list of supported compute environments.
+        /// This member is required.
+        public var supportedComputeEnvironments: [GlueClientTypes.ComputeEnvironment]?
+        /// A list of supported data operations.
+        /// This member is required.
+        public var supportedDataOperations: [GlueClientTypes.DataOperation]?
+
+        public init(
+            supportedAuthenticationTypes: [GlueClientTypes.AuthenticationType]? = nil,
+            supportedComputeEnvironments: [GlueClientTypes.ComputeEnvironment]? = nil,
+            supportedDataOperations: [GlueClientTypes.DataOperation]? = nil
+        )
+        {
+            self.supportedAuthenticationTypes = supportedAuthenticationTypes
+            self.supportedComputeEnvironments = supportedComputeEnvironments
+            self.supportedDataOperations = supportedDataOperations
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An object containing configuration for a compute environment (such as Spark, Python or Athena) returned by the DescribeConnectionType API.
+    public struct ComputeEnvironmentConfiguration: Swift.Sendable {
+        /// The type of compute environment.
+        /// This member is required.
+        public var computeEnvironment: GlueClientTypes.ComputeEnvironment?
+        /// The connection option name overrides for the compute environment.
+        /// This member is required.
+        public var connectionOptionNameOverrides: [Swift.String: Swift.String]?
+        /// The parameters used as connection options for the compute environment.
+        /// This member is required.
+        public var connectionOptions: [Swift.String: GlueClientTypes.Property]?
+        /// The connection properties that are required as overrides for the compute environment.
+        /// This member is required.
+        public var connectionPropertiesRequiredOverrides: [Swift.String]?
+        /// The connection property name overrides for the compute environment.
+        /// This member is required.
+        public var connectionPropertyNameOverrides: [Swift.String: Swift.String]?
+        /// A description of the compute environment.
+        /// This member is required.
+        public var description: Swift.String?
+        /// A name for the compute environment configuration.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Indicates whether PhysicalConnectionProperties are required for the compute environment.
+        public var physicalConnectionPropertiesRequired: Swift.Bool?
+        /// The supported authentication types for the compute environment.
+        /// This member is required.
+        public var supportedAuthenticationTypes: [GlueClientTypes.AuthenticationType]?
+
+        public init(
+            computeEnvironment: GlueClientTypes.ComputeEnvironment? = nil,
+            connectionOptionNameOverrides: [Swift.String: Swift.String]? = nil,
+            connectionOptions: [Swift.String: GlueClientTypes.Property]? = nil,
+            connectionPropertiesRequiredOverrides: [Swift.String]? = [],
+            connectionPropertyNameOverrides: [Swift.String: Swift.String]? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            physicalConnectionPropertiesRequired: Swift.Bool? = nil,
+            supportedAuthenticationTypes: [GlueClientTypes.AuthenticationType]? = nil
+        )
+        {
+            self.computeEnvironment = computeEnvironment
+            self.connectionOptionNameOverrides = connectionOptionNameOverrides
+            self.connectionOptions = connectionOptions
+            self.connectionPropertiesRequiredOverrides = connectionPropertiesRequiredOverrides
+            self.connectionPropertyNameOverrides = connectionPropertyNameOverrides
+            self.description = description
+            self.name = name
+            self.physicalConnectionPropertiesRequired = physicalConnectionPropertiesRequired
+            self.supportedAuthenticationTypes = supportedAuthenticationTypes
+        }
+    }
+}
+
+public struct DescribeConnectionTypeOutput: Swift.Sendable {
+    /// Connection properties specific to the Athena compute environment.
+    public var athenaConnectionProperties: [Swift.String: GlueClientTypes.Property]?
+    /// The type of authentication used for the connection.
+    public var authenticationConfiguration: GlueClientTypes.AuthConfiguration?
+    /// The supported authentication types, data interface types (compute environments), and data operations of the connector.
+    public var capabilities: GlueClientTypes.Capabilities?
+    /// The compute environments that are supported by the connection.
+    public var computeEnvironmentConfigurations: [Swift.String: GlueClientTypes.ComputeEnvironmentConfiguration]?
+    /// Returns properties that can be set when creating a connection in the ConnectionInput.ConnectionProperties. ConnectionOptions defines parameters that can be set in a Spark ETL script in the connection options map passed to a dataframe.
+    public var connectionOptions: [Swift.String: GlueClientTypes.Property]?
+    /// Connection properties which are common across compute environments.
+    public var connectionProperties: [Swift.String: GlueClientTypes.Property]?
+    /// The name of the connection type.
+    public var connectionType: Swift.String?
+    /// A description of the connection type.
+    public var description: Swift.String?
+    /// Physical requirements for a connection, such as VPC, Subnet and Security Group specifications.
+    public var physicalConnectionRequirements: [Swift.String: GlueClientTypes.Property]?
+    /// Connection properties specific to the Python compute environment.
+    public var pythonConnectionProperties: [Swift.String: GlueClientTypes.Property]?
+    /// Connection properties specific to the Spark compute environment.
+    public var sparkConnectionProperties: [Swift.String: GlueClientTypes.Property]?
+
+    public init(
+        athenaConnectionProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+        authenticationConfiguration: GlueClientTypes.AuthConfiguration? = nil,
+        capabilities: GlueClientTypes.Capabilities? = nil,
+        computeEnvironmentConfigurations: [Swift.String: GlueClientTypes.ComputeEnvironmentConfiguration]? = nil,
+        connectionOptions: [Swift.String: GlueClientTypes.Property]? = nil,
+        connectionProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+        connectionType: Swift.String? = nil,
+        description: Swift.String? = nil,
+        physicalConnectionRequirements: [Swift.String: GlueClientTypes.Property]? = nil,
+        pythonConnectionProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+        sparkConnectionProperties: [Swift.String: GlueClientTypes.Property]? = nil
+    )
+    {
+        self.athenaConnectionProperties = athenaConnectionProperties
+        self.authenticationConfiguration = authenticationConfiguration
+        self.capabilities = capabilities
+        self.computeEnvironmentConfigurations = computeEnvironmentConfigurations
+        self.connectionOptions = connectionOptions
+        self.connectionProperties = connectionProperties
+        self.connectionType = connectionType
+        self.description = description
+        self.physicalConnectionRequirements = physicalConnectionRequirements
+        self.pythonConnectionProperties = pythonConnectionProperties
+        self.sparkConnectionProperties = sparkConnectionProperties
+    }
+}
+
+public struct DescribeEntityInput: Swift.Sendable {
+    /// The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    public var catalogId: Swift.String?
+    /// The name of the connection that contains the connection type credentials.
+    /// This member is required.
+    public var connectionName: Swift.String?
+    /// The version of the API used for the data store.
+    public var dataStoreApiVersion: Swift.String?
+    /// The name of the entity that you want to describe from the connection type.
+    /// This member is required.
+    public var entityName: Swift.String?
+    /// A continuation token, included if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        connectionName: Swift.String? = nil,
+        dataStoreApiVersion: Swift.String? = nil,
+        entityName: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.connectionName = connectionName
+        self.dataStoreApiVersion = dataStoreApiVersion
+        self.entityName = entityName
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum FieldDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case array
+        case bigint
+        case boolean
+        case byte
+        case date
+        case decimal
+        case double
+        case float
+        case int
+        case long
+        case map
+        case short
+        case smallint
+        case string
+        case `struct`
+        case timestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldDataType] {
+            return [
+                .array,
+                .bigint,
+                .boolean,
+                .byte,
+                .date,
+                .decimal,
+                .double,
+                .float,
+                .int,
+                .long,
+                .map,
+                .short,
+                .smallint,
+                .string,
+                .struct,
+                .timestamp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .array: return "ARRAY"
+            case .bigint: return "BIGINT"
+            case .boolean: return "BOOLEAN"
+            case .byte: return "BYTE"
+            case .date: return "DATE"
+            case .decimal: return "DECIMAL"
+            case .double: return "DOUBLE"
+            case .float: return "FLOAT"
+            case .int: return "INT"
+            case .long: return "LONG"
+            case .map: return "MAP"
+            case .short: return "SHORT"
+            case .smallint: return "SMALLINT"
+            case .string: return "STRING"
+            case .struct: return "STRUCT"
+            case .timestamp: return "TIMESTAMP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum FieldFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case between
+        case contains
+        case equalTo
+        case greaterThan
+        case greaterThanOrEqualTo
+        case lessThan
+        case lessThanOrEqualTo
+        case notEqualTo
+        case orderBy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldFilterOperator] {
+            return [
+                .between,
+                .contains,
+                .equalTo,
+                .greaterThan,
+                .greaterThanOrEqualTo,
+                .lessThan,
+                .lessThanOrEqualTo,
+                .notEqualTo,
+                .orderBy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .between: return "BETWEEN"
+            case .contains: return "CONTAINS"
+            case .equalTo: return "EQUAL_TO"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEqualTo: return "GREATER_THAN_OR_EQUAL_TO"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEqualTo: return "LESS_THAN_OR_EQUAL_TO"
+            case .notEqualTo: return "NOT_EQUAL_TO"
+            case .orderBy: return "ORDER_BY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The Field object has information about the different properties associated with a field in the connector.
+    public struct Field: Swift.Sendable {
+        /// Optional map of keys which may be returned.
+        public var customProperties: [Swift.String: Swift.String]?
+        /// A description of the field.
+        public var description: Swift.String?
+        /// A unique identifier for the field.
+        public var fieldName: Swift.String?
+        /// The type of data in the field.
+        public var fieldType: GlueClientTypes.FieldDataType?
+        /// Indicates whether this field can be created as part of a destination write.
+        public var isCreateable: Swift.Bool?
+        /// Indicates whether this field is populated automatically when the object is created, such as a created at timestamp.
+        public var isDefaultOnCreate: Swift.Bool?
+        /// Indicates whether this field can used in a filter clause (WHERE clause) of a SQL statement when querying data.
+        public var isFilterable: Swift.Bool?
+        /// Indicates whether this field can be nullable or not.
+        public var isNullable: Swift.Bool?
+        /// Indicates whether a given field can be used in partitioning the query made to SaaS.
+        public var isPartitionable: Swift.Bool?
+        /// Indicates whether this field can used as a primary key for the given entity.
+        public var isPrimaryKey: Swift.Bool?
+        /// Indicates whether this field can be added in Select clause of SQL query or whether it is retrievable or not.
+        public var isRetrievable: Swift.Bool?
+        /// Indicates whether this field can be updated as part of a destination write.
+        public var isUpdateable: Swift.Bool?
+        /// Indicates whether this field can be upserted as part of a destination write.
+        public var isUpsertable: Swift.Bool?
+        /// A readable label used for the field.
+        public var label: Swift.String?
+        /// The data type returned by the SaaS API, such as “picklist” or “textarea” from Salesforce.
+        public var nativeDataType: Swift.String?
+        /// A parent field name for a nested field.
+        public var parentField: Swift.String?
+        /// Indicates the support filter operators for this field.
+        public var supportedFilterOperators: [GlueClientTypes.FieldFilterOperator]?
+        /// A list of supported values for the field.
+        public var supportedValues: [Swift.String]?
+
+        public init(
+            customProperties: [Swift.String: Swift.String]? = nil,
+            description: Swift.String? = nil,
+            fieldName: Swift.String? = nil,
+            fieldType: GlueClientTypes.FieldDataType? = nil,
+            isCreateable: Swift.Bool? = nil,
+            isDefaultOnCreate: Swift.Bool? = nil,
+            isFilterable: Swift.Bool? = nil,
+            isNullable: Swift.Bool? = nil,
+            isPartitionable: Swift.Bool? = nil,
+            isPrimaryKey: Swift.Bool? = nil,
+            isRetrievable: Swift.Bool? = nil,
+            isUpdateable: Swift.Bool? = nil,
+            isUpsertable: Swift.Bool? = nil,
+            label: Swift.String? = nil,
+            nativeDataType: Swift.String? = nil,
+            parentField: Swift.String? = nil,
+            supportedFilterOperators: [GlueClientTypes.FieldFilterOperator]? = nil,
+            supportedValues: [Swift.String]? = nil
+        )
+        {
+            self.customProperties = customProperties
+            self.description = description
+            self.fieldName = fieldName
+            self.fieldType = fieldType
+            self.isCreateable = isCreateable
+            self.isDefaultOnCreate = isDefaultOnCreate
+            self.isFilterable = isFilterable
+            self.isNullable = isNullable
+            self.isPartitionable = isPartitionable
+            self.isPrimaryKey = isPrimaryKey
+            self.isRetrievable = isRetrievable
+            self.isUpdateable = isUpdateable
+            self.isUpsertable = isUpsertable
+            self.label = label
+            self.nativeDataType = nativeDataType
+            self.parentField = parentField
+            self.supportedFilterOperators = supportedFilterOperators
+            self.supportedValues = supportedValues
+        }
+    }
+}
+
+public struct DescribeEntityOutput: Swift.Sendable {
+    /// Describes the fields for that connector entity. This is the list of Field objects. Field is very similar to column in a database. The Field object has information about different properties associated with fields in the connector.
+    public var fields: [GlueClientTypes.Field]?
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        fields: [GlueClientTypes.Field]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.fields = fields
+        self.nextToken = nextToken
+    }
+}
+
+/// The target resource could not be found.
+public struct TargetResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TargetResourceNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct DescribeInboundIntegrationsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the integration.
+    public var integrationArn: Swift.String?
+    /// A token to specify where to start paginating. This is the marker from a previously truncated response.
+    public var marker: Swift.String?
+    /// The total number of items to return in the output.
+    public var maxRecords: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the target resource in the integration.
+    public var targetArn: Swift.String?
+
+    public init(
+        integrationArn: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.integrationArn = integrationArn
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.targetArn = targetArn
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure for an integration that writes data into a resource.
+    public struct InboundIntegration: Swift.Sendable {
+        /// The time that the integration was created, in UTC.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// A list of errors associated with the integration.
+        public var errors: [GlueClientTypes.IntegrationError]?
+        /// The ARN of the zero-ETL integration.
+        /// This member is required.
+        public var integrationArn: Swift.String?
+        /// The ARN of the source resource for the integration.
+        /// This member is required.
+        public var sourceArn: Swift.String?
+        /// The possible statuses are:
+        ///
+        /// * CREATING: The integration is being created.
+        ///
+        /// * ACTIVE: The integration creation succeeds.
+        ///
+        /// * MODIFYING: The integration is being modified.
+        ///
+        /// * FAILED: The integration creation fails.
+        ///
+        /// * DELETING: The integration is deleted.
+        ///
+        /// * SYNCING: The integration is synchronizing.
+        ///
+        /// * NEEDS_ATTENTION: The integration needs attention, such as synchronization.
+        /// This member is required.
+        public var status: GlueClientTypes.IntegrationStatus?
+        /// The ARN of the target resource for the integration.
+        /// This member is required.
+        public var targetArn: Swift.String?
+
+        public init(
+            createTime: Foundation.Date? = nil,
+            errors: [GlueClientTypes.IntegrationError]? = nil,
+            integrationArn: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            status: GlueClientTypes.IntegrationStatus? = nil,
+            targetArn: Swift.String? = nil
+        )
+        {
+            self.createTime = createTime
+            self.errors = errors
+            self.integrationArn = integrationArn
+            self.sourceArn = sourceArn
+            self.status = status
+            self.targetArn = targetArn
+        }
+    }
+}
+
+public struct DescribeInboundIntegrationsOutput: Swift.Sendable {
+    /// A list of inbound integrations.
+    public var inboundIntegrations: [GlueClientTypes.InboundIntegration]?
+    /// A value that indicates the starting point for the next set of response records in a subsequent request.
+    public var marker: Swift.String?
+
+    public init(
+        inboundIntegrations: [GlueClientTypes.InboundIntegration]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.inboundIntegrations = inboundIntegrations
+        self.marker = marker
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A filter that can be used when invoking a DescribeIntegrations request.
+    public struct IntegrationFilter: Swift.Sendable {
+        /// The name of the filter.
+        public var name: Swift.String?
+        /// A list of filter values.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct DescribeIntegrationsInput: Swift.Sendable {
+    /// A list of key and values, to filter down the results. Supported keys are "Status", "IntegrationName", and "SourceArn". IntegrationName is limited to only one value.
+    public var filters: [GlueClientTypes.IntegrationFilter]?
+    /// The Amazon Resource Name (ARN) for the integration.
+    public var integrationIdentifier: Swift.String?
+    /// A value that indicates the starting point for the next set of response records in a subsequent request.
+    public var marker: Swift.String?
+    /// The total number of items to return in the output.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [GlueClientTypes.IntegrationFilter]? = nil,
+        integrationIdentifier: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.filters = filters
+        self.integrationIdentifier = integrationIdentifier
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Describes a zero-ETL integration.
+    public struct Integration: Swift.Sendable {
+        /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption. This can only be provided if KMSKeyId is provided.
+        public var additionalEncryptionContext: [Swift.String: Swift.String]?
+        /// The time that the integration was created, in UTC.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// Selects source tables for the integration using Maxwell filter syntax.
+        public var dataFilter: Swift.String?
+        /// A description for the integration.
+        public var description: Swift.String?
+        /// A list of errors associated with the integration.
+        public var errors: [GlueClientTypes.IntegrationError]?
+        /// The Amazon Resource Name (ARN) for the integration.
+        /// This member is required.
+        public var integrationArn: Swift.String?
+        /// A unique name for the integration.
+        /// This member is required.
+        public var integrationName: Swift.String?
+        /// The ARN of a KMS key used for encrypting the channel.
+        public var kmsKeyId: Swift.String?
+        /// The ARN for the source of the integration.
+        /// This member is required.
+        public var sourceArn: Swift.String?
+        /// The possible statuses are:
+        ///
+        /// * CREATING: The integration is being created.
+        ///
+        /// * ACTIVE: The integration creation succeeds.
+        ///
+        /// * MODIFYING: The integration is being modified.
+        ///
+        /// * FAILED: The integration creation fails.
+        ///
+        /// * DELETING: The integration is deleted.
+        ///
+        /// * SYNCING: The integration is synchronizing.
+        ///
+        /// * NEEDS_ATTENTION: The integration needs attention, such as synchronization.
+        /// This member is required.
+        public var status: GlueClientTypes.IntegrationStatus?
+        /// Metadata assigned to the resource consisting of a list of key-value pairs.
+        public var tags: [GlueClientTypes.Tag]?
+        /// The ARN for the target of the integration.
+        /// This member is required.
+        public var targetArn: Swift.String?
+
+        public init(
+            additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+            createTime: Foundation.Date? = nil,
+            dataFilter: Swift.String? = nil,
+            description: Swift.String? = nil,
+            errors: [GlueClientTypes.IntegrationError]? = nil,
+            integrationArn: Swift.String? = nil,
+            integrationName: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            sourceArn: Swift.String? = nil,
+            status: GlueClientTypes.IntegrationStatus? = nil,
+            tags: [GlueClientTypes.Tag]? = nil,
+            targetArn: Swift.String? = nil
+        )
+        {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.createTime = createTime
+            self.dataFilter = dataFilter
+            self.description = description
+            self.errors = errors
+            self.integrationArn = integrationArn
+            self.integrationName = integrationName
+            self.kmsKeyId = kmsKeyId
+            self.sourceArn = sourceArn
+            self.status = status
+            self.tags = tags
+            self.targetArn = targetArn
+        }
+    }
+}
+
+public struct DescribeIntegrationsOutput: Swift.Sendable {
+    /// A list of zero-ETL integrations.
+    public var integrations: [GlueClientTypes.Integration]?
+    /// A value that indicates the starting point for the next set of response records in a subsequent request.
+    public var marker: Swift.String?
+
+    public init(
+        integrations: [GlueClientTypes.Integration]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.integrations = integrations
+        self.marker = marker
+    }
+}
+
 public struct GetBlueprintInput: Swift.Sendable {
     /// Specifies whether or not to include the blueprint in the response.
     public var includeBlueprint: Swift.Bool?
@@ -14218,6 +16149,156 @@ public struct GetBlueprintRunsOutput: Swift.Sendable {
     }
 }
 
+public struct GetCatalogInput: Swift.Sendable {
+    /// The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by default.
+    /// This member is required.
+    public var catalogId: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil
+    )
+    {
+        self.catalogId = catalogId
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The output properties of the data lake access configuration for your catalog resource in the Glue Data Catalog.
+    public struct DataLakeAccessPropertiesOutput: Swift.Sendable {
+        /// Specifies a federated catalog type for the native catalog resource. The currently supported type is aws:redshift.
+        public var catalogType: Swift.String?
+        /// Turns on or off data lake access for Apache Spark applications that access Amazon Redshift databases in the Data Catalog.
+        public var dataLakeAccess: Swift.Bool
+        /// A role that will be assumed by Glue for transferring data into/out of the staging bucket during a query.
+        public var dataTransferRole: Swift.String?
+        /// An encryption key that will be used for the staging bucket that will be created along with the catalog.
+        public var kmsKey: Swift.String?
+        /// The managed Redshift Serverless compute name that is created for your catalog resource.
+        public var managedWorkgroupName: Swift.String?
+        /// The managed Redshift Serverless compute status.
+        public var managedWorkgroupStatus: Swift.String?
+        /// The default Redshift database resource name in the managed compute.
+        public var redshiftDatabaseName: Swift.String?
+        /// A message that gives more detailed information about the managed workgroup status.
+        public var statusMessage: Swift.String?
+
+        public init(
+            catalogType: Swift.String? = nil,
+            dataLakeAccess: Swift.Bool = false,
+            dataTransferRole: Swift.String? = nil,
+            kmsKey: Swift.String? = nil,
+            managedWorkgroupName: Swift.String? = nil,
+            managedWorkgroupStatus: Swift.String? = nil,
+            redshiftDatabaseName: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.catalogType = catalogType
+            self.dataLakeAccess = dataLakeAccess
+            self.dataTransferRole = dataTransferRole
+            self.kmsKey = kmsKey
+            self.managedWorkgroupName = managedWorkgroupName
+            self.managedWorkgroupStatus = managedWorkgroupStatus
+            self.redshiftDatabaseName = redshiftDatabaseName
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Property attributes that include configuration properties for the catalog resource.
+    public struct CatalogPropertiesOutput: Swift.Sendable {
+        /// Additional key-value properties for the catalog, such as column statistics optimizations.
+        public var customProperties: [Swift.String: Swift.String]?
+        /// A DataLakeAccessProperties object with input properties to configure data lake access for your catalog resource in the Glue Data Catalog.
+        public var dataLakeAccessProperties: GlueClientTypes.DataLakeAccessPropertiesOutput?
+
+        public init(
+            customProperties: [Swift.String: Swift.String]? = nil,
+            dataLakeAccessProperties: GlueClientTypes.DataLakeAccessPropertiesOutput? = nil
+        )
+        {
+            self.customProperties = customProperties
+            self.dataLakeAccessProperties = dataLakeAccessProperties
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The catalog object represents a logical grouping of databases in the Glue Data Catalog or a federated source. You can now create a Redshift-federated catalog or a catalog containing resource links to Redshift databases in another account or region.
+    public struct Catalog: Swift.Sendable {
+        /// The ID of the catalog. To grant access to the default catalog, this field should not be provided.
+        public var catalogId: Swift.String?
+        /// A CatalogProperties object that specifies data lake access properties and other custom properties.
+        public var catalogProperties: GlueClientTypes.CatalogPropertiesOutput?
+        /// An array of PrincipalPermissions objects. Creates a set of default permissions on the database(s) for principals. Used by Amazon Web Services Lake Formation. Not used in the normal course of Glue operations.
+        public var createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
+        /// An array of PrincipalPermissions objects. Creates a set of default permissions on the table(s) for principals. Used by Amazon Web Services Lake Formation. Not used in the normal course of Glue operations.
+        public var createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
+        /// The time at which the catalog was created.
+        public var createTime: Foundation.Date?
+        /// Description string, not more than 2048 bytes long, matching the URI address multi-line string pattern. A description of the catalog.
+        public var description: Swift.String?
+        /// A FederatedCatalog object that points to an entity outside the Glue Data Catalog.
+        public var federatedCatalog: GlueClientTypes.FederatedCatalog?
+        /// The name of the catalog. Cannot be the same as the account ID.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A map array of key-value pairs that define parameters and properties of the catalog.
+        public var parameters: [Swift.String: Swift.String]?
+        /// The Amazon Resource Name (ARN) assigned to the catalog resource.
+        public var resourceArn: Swift.String?
+        /// A TargetRedshiftCatalog object that describes a target catalog for database resource linking.
+        public var targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog?
+        /// The time at which the catalog was last updated.
+        public var updateTime: Foundation.Date?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            catalogProperties: GlueClientTypes.CatalogPropertiesOutput? = nil,
+            createDatabaseDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
+            createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]? = nil,
+            createTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            federatedCatalog: GlueClientTypes.FederatedCatalog? = nil,
+            name: Swift.String? = nil,
+            parameters: [Swift.String: Swift.String]? = nil,
+            resourceArn: Swift.String? = nil,
+            targetRedshiftCatalog: GlueClientTypes.TargetRedshiftCatalog? = nil,
+            updateTime: Foundation.Date? = nil
+        )
+        {
+            self.catalogId = catalogId
+            self.catalogProperties = catalogProperties
+            self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
+            self.createTableDefaultPermissions = createTableDefaultPermissions
+            self.createTime = createTime
+            self.description = description
+            self.federatedCatalog = federatedCatalog
+            self.name = name
+            self.parameters = parameters
+            self.resourceArn = resourceArn
+            self.targetRedshiftCatalog = targetRedshiftCatalog
+            self.updateTime = updateTime
+        }
+    }
+}
+
+public struct GetCatalogOutput: Swift.Sendable {
+    /// A Catalog object. The definition of the specified catalog in the Glue Data Catalog.
+    public var catalog: GlueClientTypes.Catalog?
+
+    public init(
+        catalog: GlueClientTypes.Catalog? = nil
+    )
+    {
+        self.catalog = catalog
+    }
+}
+
 public struct GetCatalogImportStatusInput: Swift.Sendable {
     /// The ID of the catalog to migrate. Currently, this should be the Amazon Web Services account ID.
     public var catalogId: Swift.String?
@@ -14263,6 +16344,47 @@ public struct GetCatalogImportStatusOutput: Swift.Sendable {
     )
     {
         self.importStatus = importStatus
+    }
+}
+
+public struct GetCatalogsInput: Swift.Sendable {
+    /// The maximum number of catalogs to return in one response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by default.
+    public var parentCatalogId: Swift.String?
+    /// When specified as true, iterates through the account and returns all catalog resources (including top-level resources and child resources)
+    public var recursive: Swift.Bool?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        parentCatalogId: Swift.String? = nil,
+        recursive: Swift.Bool? = false
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.parentCatalogId = parentCatalogId
+        self.recursive = recursive
+    }
+}
+
+public struct GetCatalogsOutput: Swift.Sendable {
+    /// An array of Catalog objects. A list of Catalog objects from the specified parent catalog.
+    /// This member is required.
+    public var catalogList: [GlueClientTypes.Catalog]?
+    /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        catalogList: [GlueClientTypes.Catalog]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.catalogList = catalogList
+        self.nextToken = nextToken
     }
 }
 
@@ -15233,6 +17355,121 @@ public struct GetColumnStatisticsTaskSettingsInput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    public enum ExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case started
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionStatus] {
+            return [
+                .failed,
+                .started
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .started: return "STARTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A run attempt for a column statistics task run.
+    public struct ExecutionAttempt: Swift.Sendable {
+        /// A task run ID for the last column statistics task run.
+        public var columnStatisticsTaskRunId: Swift.String?
+        /// An error message associated with the last column statistics task run.
+        public var errorMessage: Swift.String?
+        /// A timestamp when the last column statistics task run occurred.
+        public var executionTimestamp: Foundation.Date?
+        /// The status of the last column statistics task run.
+        public var status: GlueClientTypes.ExecutionStatus?
+
+        public init(
+            columnStatisticsTaskRunId: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            executionTimestamp: Foundation.Date? = nil,
+            status: GlueClientTypes.ExecutionStatus? = nil
+        )
+        {
+            self.columnStatisticsTaskRunId = columnStatisticsTaskRunId
+            self.errorMessage = errorMessage
+            self.executionTimestamp = executionTimestamp
+            self.status = status
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum ScheduleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case cron
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleType] {
+            return [
+                .auto,
+                .cron
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .cron: return "CRON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum SettingSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case catalog
+        case table
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SettingSource] {
+            return [
+                .catalog,
+                .table
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .catalog: return "CATALOG"
+            case .table: return "TABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// The settings for a column statistics task.
     public struct ColumnStatisticsTaskSettings: Swift.Sendable {
         /// The ID of the Data Catalog in which the database resides.
@@ -15241,14 +17478,20 @@ extension GlueClientTypes {
         public var columnNameList: [Swift.String]?
         /// The name of the database where the table resides.
         public var databaseName: Swift.String?
+        /// The last ExecutionAttempt for the column statistics task run.
+        public var lastExecutionAttempt: GlueClientTypes.ExecutionAttempt?
         /// The role used for running the column statistics.
         public var role: Swift.String?
         /// The percentage of data to sample.
         public var sampleSize: Swift.Double
         /// A schedule for running the column statistics, specified in CRON syntax.
         public var schedule: GlueClientTypes.Schedule?
+        /// The type of schedule for a column statistics task. Possible values may be CRON or AUTO.
+        public var scheduleType: GlueClientTypes.ScheduleType?
         /// Name of the security configuration that is used to encrypt CloudWatch logs.
         public var securityConfiguration: Swift.String?
+        /// The source of setting the column statistics task. Possible values may be CATALOG or TABLE.
+        public var settingSource: GlueClientTypes.SettingSource?
         /// The name of the table for which to generate column statistics.
         public var tableName: Swift.String?
 
@@ -15256,20 +17499,26 @@ extension GlueClientTypes {
             catalogID: Swift.String? = nil,
             columnNameList: [Swift.String]? = nil,
             databaseName: Swift.String? = nil,
+            lastExecutionAttempt: GlueClientTypes.ExecutionAttempt? = nil,
             role: Swift.String? = nil,
             sampleSize: Swift.Double = 0.0,
             schedule: GlueClientTypes.Schedule? = nil,
+            scheduleType: GlueClientTypes.ScheduleType? = nil,
             securityConfiguration: Swift.String? = nil,
+            settingSource: GlueClientTypes.SettingSource? = nil,
             tableName: Swift.String? = nil
         )
         {
             self.catalogID = catalogID
             self.columnNameList = columnNameList
             self.databaseName = databaseName
+            self.lastExecutionAttempt = lastExecutionAttempt
             self.role = role
             self.sampleSize = sampleSize
             self.schedule = schedule
+            self.scheduleType = scheduleType
             self.securityConfiguration = securityConfiguration
+            self.settingSource = settingSource
             self.tableName = tableName
         }
     }
@@ -15288,6 +17537,8 @@ public struct GetColumnStatisticsTaskSettingsOutput: Swift.Sendable {
 }
 
 public struct GetConnectionInput: Swift.Sendable {
+    /// For connections that may be used in multiple services, specifies returning properties for the specified compute environment.
+    public var applyOverrideForComputeEnvironment: GlueClientTypes.ComputeEnvironment?
     /// The ID of the Data Catalog in which the connection resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// Allows you to retrieve the connection metadata without returning the password. For instance, the Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
@@ -15297,11 +17548,13 @@ public struct GetConnectionInput: Swift.Sendable {
     public var name: Swift.String?
 
     public init(
+        applyOverrideForComputeEnvironment: GlueClientTypes.ComputeEnvironment? = nil,
         catalogId: Swift.String? = nil,
         hidePassword: Swift.Bool? = false,
         name: Swift.String? = nil
     )
     {
+        self.applyOverrideForComputeEnvironment = applyOverrideForComputeEnvironment
         self.catalogId = catalogId
         self.hidePassword = hidePassword
         self.name = name
@@ -15312,11 +17565,13 @@ extension GlueClientTypes {
 
     /// Defines a connection to a data source.
     public struct Connection: Swift.Sendable {
-        /// This field is not currently used.
+        /// Connection properties specific to the Athena compute environment.
         public var athenaProperties: [Swift.String: Swift.String]?
         /// The authentication properties of the connection.
         public var authenticationConfiguration: GlueClientTypes.AuthenticationConfiguration?
-        /// These key-value pairs define parameters for the connection:
+        /// A list of compute environments compatible with the connection.
+        public var compatibleComputeEnvironments: [GlueClientTypes.ComputeEnvironment]?
+        /// These key-value pairs define parameters for the connection when using the version 1 Connection schema:
         ///
         /// * HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.
         ///
@@ -15412,6 +17667,8 @@ extension GlueClientTypes {
         ///
         /// * DATABASE - The Amazon Redshift database that you are connecting to.
         public var connectionProperties: [Swift.String: Swift.String]?
+        /// The version of the connection schema for this connection. Version 2 supports properties for specific compute environments.
+        public var connectionSchemaVersion: Swift.Int?
         /// The type of the connection. Currently, SFTP is not supported.
         public var connectionType: GlueClientTypes.ConnectionType?
         /// The timestamp of the time that this connection definition was created.
@@ -15430,6 +17687,10 @@ extension GlueClientTypes {
         public var name: Swift.String?
         /// The physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to make this connection successfully.
         public var physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements?
+        /// Connection properties specific to the Python compute environment.
+        public var pythonProperties: [Swift.String: Swift.String]?
+        /// Connection properties specific to the Spark compute environment.
+        public var sparkProperties: [Swift.String: Swift.String]?
         /// The status of the connection. Can be one of: READY, IN_PROGRESS, or FAILED.
         public var status: GlueClientTypes.ConnectionStatus?
         /// The reason for the connection status.
@@ -15438,7 +17699,9 @@ extension GlueClientTypes {
         public init(
             athenaProperties: [Swift.String: Swift.String]? = nil,
             authenticationConfiguration: GlueClientTypes.AuthenticationConfiguration? = nil,
+            compatibleComputeEnvironments: [GlueClientTypes.ComputeEnvironment]? = nil,
             connectionProperties: [Swift.String: Swift.String]? = nil,
+            connectionSchemaVersion: Swift.Int? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -15448,13 +17711,17 @@ extension GlueClientTypes {
             matchCriteria: [Swift.String]? = nil,
             name: Swift.String? = nil,
             physicalConnectionRequirements: GlueClientTypes.PhysicalConnectionRequirements? = nil,
+            pythonProperties: [Swift.String: Swift.String]? = nil,
+            sparkProperties: [Swift.String: Swift.String]? = nil,
             status: GlueClientTypes.ConnectionStatus? = nil,
             statusReason: Swift.String? = nil
         )
         {
             self.athenaProperties = athenaProperties
             self.authenticationConfiguration = authenticationConfiguration
+            self.compatibleComputeEnvironments = compatibleComputeEnvironments
             self.connectionProperties = connectionProperties
+            self.connectionSchemaVersion = connectionSchemaVersion
             self.connectionType = connectionType
             self.creationTime = creationTime
             self.description = description
@@ -15464,6 +17731,8 @@ extension GlueClientTypes {
             self.matchCriteria = matchCriteria
             self.name = name
             self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.pythonProperties = pythonProperties
+            self.sparkProperties = sparkProperties
             self.status = status
             self.statusReason = statusReason
         }
@@ -15486,16 +17755,20 @@ extension GlueClientTypes {
 
     /// Filters the connection definitions that are returned by the GetConnections API operation.
     public struct GetConnectionsFilter: Swift.Sendable {
+        /// Denotes if the connection was created with schema version 1 or 2.
+        public var connectionSchemaVersion: Swift.Int?
         /// The type of connections to return. Currently, SFTP is not supported.
         public var connectionType: GlueClientTypes.ConnectionType?
         /// A criteria string that must match the criteria recorded in the connection definition for that connection definition to be returned.
         public var matchCriteria: [Swift.String]?
 
         public init(
+            connectionSchemaVersion: Swift.Int? = nil,
             connectionType: GlueClientTypes.ConnectionType? = nil,
             matchCriteria: [Swift.String]? = nil
         )
         {
+            self.connectionSchemaVersion = connectionSchemaVersion
             self.connectionType = connectionType
             self.matchCriteria = matchCriteria
         }
@@ -16591,6 +18864,152 @@ public struct GetDevEndpointsOutput: Swift.Sendable {
     {
         self.devEndpoints = devEndpoints
         self.nextToken = nextToken
+    }
+}
+
+public struct GetEntityRecordsInput: Swift.Sendable {
+    /// The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    public var catalogId: Swift.String?
+    /// The name of the connection that contains the connection type credentials.
+    public var connectionName: Swift.String?
+    /// Connector options that are required to query the data.
+    public var connectionOptions: [Swift.String: Swift.String]?
+    /// The API version of the SaaS connector.
+    public var dataStoreApiVersion: Swift.String?
+    /// Name of the entity that we want to query the preview data from the given connection type.
+    /// This member is required.
+    public var entityName: Swift.String?
+    /// A filter predicate that you can apply in the query request.
+    public var filterPredicate: Swift.String?
+    /// Limits the number of records fetched with the request.
+    /// This member is required.
+    public var limit: Swift.Int?
+    /// A continuation token, included if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// A parameter that orders the response preview data.
+    public var orderBy: Swift.String?
+    /// List of fields that we want to fetch as part of preview data.
+    public var selectedFields: [Swift.String]?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        connectionName: Swift.String? = nil,
+        connectionOptions: [Swift.String: Swift.String]? = nil,
+        dataStoreApiVersion: Swift.String? = nil,
+        entityName: Swift.String? = nil,
+        filterPredicate: Swift.String? = nil,
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        orderBy: Swift.String? = nil,
+        selectedFields: [Swift.String]? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.connectionName = connectionName
+        self.connectionOptions = connectionOptions
+        self.dataStoreApiVersion = dataStoreApiVersion
+        self.entityName = entityName
+        self.filterPredicate = filterPredicate
+        self.limit = limit
+        self.nextToken = nextToken
+        self.orderBy = orderBy
+        self.selectedFields = selectedFields
+    }
+}
+
+public struct GetEntityRecordsOutput: Swift.Sendable {
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+    /// A list of the requested objects.
+    public var records: [Smithy.Document]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        records: [Smithy.Document]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.records = records
+    }
+}
+
+extension GetEntityRecordsOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetEntityRecordsOutput(nextToken: \(Swift.String(describing: nextToken)), records: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetIntegrationResourcePropertyInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetIntegrationResourcePropertyOutput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    public var resourceArn: Swift.String?
+    /// The resource properties associated with the integration source.
+    public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// The resource properties associated with the integration target.
+    public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.sourceProcessingProperties = sourceProcessingProperties
+        self.targetProcessingProperties = targetProcessingProperties
+    }
+}
+
+public struct GetIntegrationTablePropertiesInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The name of the table to be replicated.
+    /// This member is required.
+    public var tableName: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tableName: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tableName = tableName
+    }
+}
+
+public struct GetIntegrationTablePropertiesOutput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    public var resourceArn: Swift.String?
+    /// A structure for the source table configuration.
+    public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
+    /// The name of the table to be replicated.
+    public var tableName: Swift.String?
+    /// A structure for the target table configuration.
+    public var targetTableConfig: GlueClientTypes.TargetTableConfig?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceTableConfig: GlueClientTypes.SourceTableConfig? = nil,
+        tableName: Swift.String? = nil,
+        targetTableConfig: GlueClientTypes.TargetTableConfig? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.sourceTableConfig = sourceTableConfig
+        self.tableName = tableName
+        self.targetTableConfig = targetTableConfig
     }
 }
 
@@ -20192,6 +22611,62 @@ public struct ListColumnStatisticsTaskRunsOutput: Swift.Sendable {
     }
 }
 
+public struct ListConnectionTypesInput: Swift.Sendable {
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Brief information about a supported connection type returned by the ListConnectionTypes API.
+    public struct ConnectionTypeBrief: Swift.Sendable {
+        /// The supported authentication types, data interface types (compute environments), and data operations of the connector.
+        public var capabilities: GlueClientTypes.Capabilities?
+        /// The name of the connection type.
+        public var connectionType: GlueClientTypes.ConnectionType?
+        /// A description of the connection type.
+        public var description: Swift.String?
+
+        public init(
+            capabilities: GlueClientTypes.Capabilities? = nil,
+            connectionType: GlueClientTypes.ConnectionType? = nil,
+            description: Swift.String? = nil
+        )
+        {
+            self.capabilities = capabilities
+            self.connectionType = connectionType
+            self.description = description
+        }
+    }
+}
+
+public struct ListConnectionTypesOutput: Swift.Sendable {
+    /// A list of ConnectionTypeBrief objects containing brief information about the supported connection types.
+    public var connectionTypes: [GlueClientTypes.ConnectionTypeBrief]?
+    /// A continuation token, if the current list segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectionTypes: [GlueClientTypes.ConnectionTypeBrief]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.connectionTypes = connectionTypes
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListCrawlersInput: Swift.Sendable {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
@@ -21171,6 +23646,86 @@ public struct ListDevEndpointsOutput: Swift.Sendable {
     }
 }
 
+public struct ListEntitiesInput: Swift.Sendable {
+    /// The catalog ID of the catalog that contains the connection. This can be null, By default, the Amazon Web Services Account ID is the catalog ID.
+    public var catalogId: Swift.String?
+    /// A name for the connection that has required credentials to query any connection type.
+    public var connectionName: Swift.String?
+    /// The API version of the SaaS connector.
+    public var dataStoreApiVersion: Swift.String?
+    /// A continuation token, included if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// Name of the parent entity for which you want to list the children. This parameter takes a fully-qualified path of the entity in order to list the child entities.
+    public var parentEntityName: Swift.String?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        connectionName: Swift.String? = nil,
+        dataStoreApiVersion: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        parentEntityName: Swift.String? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.connectionName = connectionName
+        self.dataStoreApiVersion = dataStoreApiVersion
+        self.nextToken = nextToken
+        self.parentEntityName = parentEntityName
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An entity supported by a given ConnectionType.
+    public struct Entity: Swift.Sendable {
+        /// The type of entities that are present in the response. This value depends on the source connection. For example this is SObjects for Salesforce and databases or schemas or tables for sources like Amazon Redshift.
+        public var category: Swift.String?
+        /// An optional map of keys which may be returned for an entity by a connector.
+        public var customProperties: [Swift.String: Swift.String]?
+        /// A description of the entity.
+        public var description: Swift.String?
+        /// The name of the entity.
+        public var entityName: Swift.String?
+        /// A Boolean value which helps to determine whether there are sub objects that can be listed.
+        public var isParentEntity: Swift.Bool?
+        /// Label used for the entity.
+        public var label: Swift.String?
+
+        public init(
+            category: Swift.String? = nil,
+            customProperties: [Swift.String: Swift.String]? = nil,
+            description: Swift.String? = nil,
+            entityName: Swift.String? = nil,
+            isParentEntity: Swift.Bool? = nil,
+            label: Swift.String? = nil
+        )
+        {
+            self.category = category
+            self.customProperties = customProperties
+            self.description = description
+            self.entityName = entityName
+            self.isParentEntity = isParentEntity
+            self.label = label
+        }
+    }
+}
+
+public struct ListEntitiesOutput: Swift.Sendable {
+    /// A list of Entity objects.
+    public var entities: [GlueClientTypes.Entity]?
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        entities: [GlueClientTypes.Entity]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.entities = entities
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListJobsInput: Swift.Sendable {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
@@ -21743,6 +24298,107 @@ public struct ListWorkflowsOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.workflows = workflows
+    }
+}
+
+public struct ModifyIntegrationInput: Swift.Sendable {
+    /// Selects source tables for the integration using Maxwell filter syntax.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) for the integration.
+    /// This member is required.
+    public var integrationIdentifier: Swift.String?
+    /// A unique name for an integration in Glue.
+    public var integrationName: Swift.String?
+
+    public init(
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        integrationIdentifier: Swift.String? = nil,
+        integrationName: Swift.String? = nil
+    )
+    {
+        self.dataFilter = dataFilter
+        self.description = description
+        self.integrationIdentifier = integrationIdentifier
+        self.integrationName = integrationName
+    }
+}
+
+public struct ModifyIntegrationOutput: Swift.Sendable {
+    /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// The time when the integration was created, in UTC.
+    /// This member is required.
+    public var createTime: Foundation.Date?
+    /// Selects source tables for the integration using Maxwell filter syntax.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// A list of errors associated with the integration modification.
+    public var errors: [GlueClientTypes.IntegrationError]?
+    /// The Amazon Resource Name (ARN) for the integration.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// A unique name for an integration in Glue.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The ARN of a KMS key used for encrypting the channel.
+    public var kmsKeyId: Swift.String?
+    /// The ARN of the source for the integration.
+    /// This member is required.
+    public var sourceArn: Swift.String?
+    /// The status of the integration being modified. The possible statuses are:
+    ///
+    /// * CREATING: The integration is being created.
+    ///
+    /// * ACTIVE: The integration creation succeeds.
+    ///
+    /// * MODIFYING: The integration is being modified.
+    ///
+    /// * FAILED: The integration creation fails.
+    ///
+    /// * DELETING: The integration is deleted.
+    ///
+    /// * SYNCING: The integration is synchronizing.
+    ///
+    /// * NEEDS_ATTENTION: The integration needs attention, such as synchronization.
+    /// This member is required.
+    public var status: GlueClientTypes.IntegrationStatus?
+    /// Metadata assigned to the resource consisting of a list of key-value pairs.
+    public var tags: [GlueClientTypes.Tag]?
+    /// The ARN of the target for the integration.
+    /// This member is required.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        createTime: Foundation.Date? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        errors: [GlueClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: GlueClientTypes.IntegrationStatus? = nil,
+        tags: [GlueClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.dataFilter = dataFilter
+        self.description = description
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
     }
 }
 
@@ -23475,16 +26131,20 @@ extension GlueClientTypes {
 }
 
 public struct TestConnectionInput: Swift.Sendable {
+    /// The catalog ID where the connection resides.
+    public var catalogId: Swift.String?
     /// Optional. The name of the connection to test. If only name is provided, the operation will get the connection and use that for testing.
     public var connectionName: Swift.String?
     /// A structure that is used to specify testing a connection to a service.
     public var testConnectionInput: GlueClientTypes.TestConnectionInput?
 
     public init(
+        catalogId: Swift.String? = nil,
         connectionName: Swift.String? = nil,
         testConnectionInput: GlueClientTypes.TestConnectionInput? = nil
     )
     {
+        self.catalogId = catalogId
         self.connectionName = connectionName
         self.testConnectionInput = testConnectionInput
     }
@@ -23550,6 +26210,29 @@ public struct UpdateBlueprintOutput: Swift.Sendable {
     {
         self.name = name
     }
+}
+
+public struct UpdateCatalogInput: Swift.Sendable {
+    /// The ID of the catalog.
+    /// This member is required.
+    public var catalogId: Swift.String?
+    /// A CatalogInput object specifying the new properties of an existing catalog.
+    /// This member is required.
+    public var catalogInput: GlueClientTypes.CatalogInput?
+
+    public init(
+        catalogId: Swift.String? = nil,
+        catalogInput: GlueClientTypes.CatalogInput? = nil
+    )
+    {
+        self.catalogId = catalogId
+        self.catalogInput = catalogInput
+    }
+}
+
+public struct UpdateCatalogOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// There was a version conflict.
@@ -24138,6 +26821,78 @@ public struct UpdateDevEndpointInput: Swift.Sendable {
 }
 
 public struct UpdateDevEndpointOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateIntegrationResourcePropertyInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The resource properties associated with the integration source.
+    public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// The resource properties associated with the integration target.
+    public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.sourceProcessingProperties = sourceProcessingProperties
+        self.targetProcessingProperties = targetProcessingProperties
+    }
+}
+
+public struct UpdateIntegrationResourcePropertyOutput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    public var resourceArn: Swift.String?
+    /// The resource properties associated with the integration source.
+    public var sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties?
+    /// The resource properties associated with the integration target.
+    public var targetProcessingProperties: GlueClientTypes.TargetProcessingProperties?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceProcessingProperties: GlueClientTypes.SourceProcessingProperties? = nil,
+        targetProcessingProperties: GlueClientTypes.TargetProcessingProperties? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.sourceProcessingProperties = sourceProcessingProperties
+        self.targetProcessingProperties = targetProcessingProperties
+    }
+}
+
+public struct UpdateIntegrationTablePropertiesInput: Swift.Sendable {
+    /// The connection ARN of the source, or the database ARN of the target.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A structure for the source table configuration.
+    public var sourceTableConfig: GlueClientTypes.SourceTableConfig?
+    /// The name of the table to be replicated.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// A structure for the target table configuration.
+    public var targetTableConfig: GlueClientTypes.TargetTableConfig?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        sourceTableConfig: GlueClientTypes.SourceTableConfig? = nil,
+        tableName: Swift.String? = nil,
+        targetTableConfig: GlueClientTypes.TargetTableConfig? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.sourceTableConfig = sourceTableConfig
+        self.tableName = tableName
+        self.targetTableConfig = targetTableConfig
+    }
+}
+
+public struct UpdateIntegrationTablePropertiesOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -26076,6 +28831,13 @@ extension CreateBlueprintInput {
     }
 }
 
+extension CreateCatalogInput {
+
+    static func urlPathProvider(_ value: CreateCatalogInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateClassifierInput {
 
     static func urlPathProvider(_ value: CreateClassifierInput) -> Swift.String? {
@@ -26128,6 +28890,27 @@ extension CreateDataQualityRulesetInput {
 extension CreateDevEndpointInput {
 
     static func urlPathProvider(_ value: CreateDevEndpointInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateIntegrationInput {
+
+    static func urlPathProvider(_ value: CreateIntegrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateIntegrationResourcePropertyInput {
+
+    static func urlPathProvider(_ value: CreateIntegrationResourcePropertyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateIntegrationTablePropertiesInput {
+
+    static func urlPathProvider(_ value: CreateIntegrationTablePropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26244,6 +29027,13 @@ extension DeleteBlueprintInput {
     }
 }
 
+extension DeleteCatalogInput {
+
+    static func urlPathProvider(_ value: DeleteCatalogInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteClassifierInput {
 
     static func urlPathProvider(_ value: DeleteClassifierInput) -> Swift.String? {
@@ -26310,6 +29100,20 @@ extension DeleteDataQualityRulesetInput {
 extension DeleteDevEndpointInput {
 
     static func urlPathProvider(_ value: DeleteDevEndpointInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteIntegrationInput {
+
+    static func urlPathProvider(_ value: DeleteIntegrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteIntegrationTablePropertiesInput {
+
+    static func urlPathProvider(_ value: DeleteIntegrationTablePropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26433,6 +29237,34 @@ extension DeleteWorkflowInput {
     }
 }
 
+extension DescribeConnectionTypeInput {
+
+    static func urlPathProvider(_ value: DescribeConnectionTypeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeEntityInput {
+
+    static func urlPathProvider(_ value: DescribeEntityInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeInboundIntegrationsInput {
+
+    static func urlPathProvider(_ value: DescribeInboundIntegrationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeIntegrationsInput {
+
+    static func urlPathProvider(_ value: DescribeIntegrationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetBlueprintInput {
 
     static func urlPathProvider(_ value: GetBlueprintInput) -> Swift.String? {
@@ -26454,9 +29286,23 @@ extension GetBlueprintRunsInput {
     }
 }
 
+extension GetCatalogInput {
+
+    static func urlPathProvider(_ value: GetCatalogInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetCatalogImportStatusInput {
 
     static func urlPathProvider(_ value: GetCatalogImportStatusInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetCatalogsInput {
+
+    static func urlPathProvider(_ value: GetCatalogsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26632,6 +29478,27 @@ extension GetDevEndpointInput {
 extension GetDevEndpointsInput {
 
     static func urlPathProvider(_ value: GetDevEndpointsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetEntityRecordsInput {
+
+    static func urlPathProvider(_ value: GetEntityRecordsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIntegrationResourcePropertyInput {
+
+    static func urlPathProvider(_ value: GetIntegrationResourcePropertyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIntegrationTablePropertiesInput {
+
+    static func urlPathProvider(_ value: GetIntegrationTablePropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -26958,6 +29825,13 @@ extension ListColumnStatisticsTaskRunsInput {
     }
 }
 
+extension ListConnectionTypesInput {
+
+    static func urlPathProvider(_ value: ListConnectionTypesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListCrawlersInput {
 
     static func urlPathProvider(_ value: ListCrawlersInput) -> Swift.String? {
@@ -27024,6 +29898,13 @@ extension ListDataQualityStatisticsInput {
 extension ListDevEndpointsInput {
 
     static func urlPathProvider(_ value: ListDevEndpointsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListEntitiesInput {
+
+    static func urlPathProvider(_ value: ListEntitiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27101,6 +29982,13 @@ extension ListUsageProfilesInput {
 extension ListWorkflowsInput {
 
     static func urlPathProvider(_ value: ListWorkflowsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyIntegrationInput {
+
+    static func urlPathProvider(_ value: ModifyIntegrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27364,6 +30252,13 @@ extension UpdateBlueprintInput {
     }
 }
 
+extension UpdateCatalogInput {
+
+    static func urlPathProvider(_ value: UpdateCatalogInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateClassifierInput {
 
     static func urlPathProvider(_ value: UpdateClassifierInput) -> Swift.String? {
@@ -27430,6 +30325,20 @@ extension UpdateDataQualityRulesetInput {
 extension UpdateDevEndpointInput {
 
     static func urlPathProvider(_ value: UpdateDevEndpointInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateIntegrationResourcePropertyInput {
+
+    static func urlPathProvider(_ value: UpdateIntegrationResourcePropertyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateIntegrationTablePropertiesInput {
+
+    static func urlPathProvider(_ value: UpdateIntegrationTablePropertiesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -27748,6 +30657,16 @@ extension CreateBlueprintInput {
     }
 }
 
+extension CreateCatalogInput {
+
+    static func write(value: CreateCatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogInput"].write(value.catalogInput, with: GlueClientTypes.CatalogInput.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateClassifierInput {
 
     static func write(value: CreateClassifierInput?, to writer: SmithyJSON.Writer) throws {
@@ -27861,6 +30780,42 @@ extension CreateDevEndpointInput {
         try writer["SubnetId"].write(value.subnetId)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["WorkerType"].write(value.workerType)
+    }
+}
+
+extension CreateIntegrationInput {
+
+    static func write(value: CreateIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DataFilter"].write(value.dataFilter)
+        try writer["Description"].write(value.description)
+        try writer["IntegrationName"].write(value.integrationName)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["SourceArn"].write(value.sourceArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: GlueClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetArn"].write(value.targetArn)
+    }
+}
+
+extension CreateIntegrationResourcePropertyInput {
+
+    static func write(value: CreateIntegrationResourcePropertyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["SourceProcessingProperties"].write(value.sourceProcessingProperties, with: GlueClientTypes.SourceProcessingProperties.write(value:to:))
+        try writer["TargetProcessingProperties"].write(value.targetProcessingProperties, with: GlueClientTypes.TargetProcessingProperties.write(value:to:))
+    }
+}
+
+extension CreateIntegrationTablePropertiesInput {
+
+    static func write(value: CreateIntegrationTablePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["SourceTableConfig"].write(value.sourceTableConfig, with: GlueClientTypes.SourceTableConfig.write(value:to:))
+        try writer["TableName"].write(value.tableName)
+        try writer["TargetTableConfig"].write(value.targetTableConfig, with: GlueClientTypes.TargetTableConfig.write(value:to:))
     }
 }
 
@@ -28086,6 +31041,14 @@ extension DeleteBlueprintInput {
     }
 }
 
+extension DeleteCatalogInput {
+
+    static func write(value: DeleteCatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+    }
+}
+
 extension DeleteClassifierInput {
 
     static func write(value: DeleteClassifierInput?, to writer: SmithyJSON.Writer) throws {
@@ -28173,6 +31136,23 @@ extension DeleteDevEndpointInput {
     static func write(value: DeleteDevEndpointInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EndpointName"].write(value.endpointName)
+    }
+}
+
+extension DeleteIntegrationInput {
+
+    static func write(value: DeleteIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntegrationIdentifier"].write(value.integrationIdentifier)
+    }
+}
+
+extension DeleteIntegrationTablePropertiesInput {
+
+    static func write(value: DeleteIntegrationTablePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["TableName"].write(value.tableName)
     }
 }
 
@@ -28332,6 +31312,48 @@ extension DeleteWorkflowInput {
     }
 }
 
+extension DescribeConnectionTypeInput {
+
+    static func write(value: DescribeConnectionTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionType"].write(value.connectionType)
+    }
+}
+
+extension DescribeEntityInput {
+
+    static func write(value: DescribeEntityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["DataStoreApiVersion"].write(value.dataStoreApiVersion)
+        try writer["EntityName"].write(value.entityName)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension DescribeInboundIntegrationsInput {
+
+    static func write(value: DescribeInboundIntegrationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntegrationArn"].write(value.integrationArn)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["TargetArn"].write(value.targetArn)
+    }
+}
+
+extension DescribeIntegrationsInput {
+
+    static func write(value: DescribeIntegrationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: GlueClientTypes.IntegrationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IntegrationIdentifier"].write(value.integrationIdentifier)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+    }
+}
+
 extension GetBlueprintInput {
 
     static func write(value: GetBlueprintInput?, to writer: SmithyJSON.Writer) throws {
@@ -28361,11 +31383,30 @@ extension GetBlueprintRunsInput {
     }
 }
 
+extension GetCatalogInput {
+
+    static func write(value: GetCatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+    }
+}
+
 extension GetCatalogImportStatusInput {
 
     static func write(value: GetCatalogImportStatusInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CatalogId"].write(value.catalogId)
+    }
+}
+
+extension GetCatalogsInput {
+
+    static func write(value: GetCatalogsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ParentCatalogId"].write(value.parentCatalogId)
+        try writer["Recursive"].write(value.recursive)
     }
 }
 
@@ -28441,6 +31482,7 @@ extension GetConnectionInput {
 
     static func write(value: GetConnectionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ApplyOverrideForComputeEnvironment"].write(value.applyOverrideForComputeEnvironment)
         try writer["CatalogId"].write(value.catalogId)
         try writer["HidePassword"].write(value.hidePassword)
         try writer["Name"].write(value.name)
@@ -28595,6 +31637,40 @@ extension GetDevEndpointsInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension GetEntityRecordsInput {
+
+    static func write(value: GetEntityRecordsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionOptions"].writeMap(value.connectionOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DataStoreApiVersion"].write(value.dataStoreApiVersion)
+        try writer["EntityName"].write(value.entityName)
+        try writer["FilterPredicate"].write(value.filterPredicate)
+        try writer["Limit"].write(value.limit)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["OrderBy"].write(value.orderBy)
+        try writer["SelectedFields"].writeList(value.selectedFields, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetIntegrationResourcePropertyInput {
+
+    static func write(value: GetIntegrationResourcePropertyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
+extension GetIntegrationTablePropertiesInput {
+
+    static func write(value: GetIntegrationTablePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["TableName"].write(value.tableName)
     }
 }
 
@@ -29081,6 +32157,15 @@ extension ListColumnStatisticsTaskRunsInput {
     }
 }
 
+extension ListConnectionTypesInput {
+
+    static func write(value: ListConnectionTypesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListCrawlersInput {
 
     static func write(value: ListCrawlersInput?, to writer: SmithyJSON.Writer) throws {
@@ -29184,6 +32269,18 @@ extension ListDevEndpointsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension ListEntitiesInput {
+
+    static func write(value: ListEntitiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["DataStoreApiVersion"].write(value.dataStoreApiVersion)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ParentEntityName"].write(value.parentEntityName)
     }
 }
 
@@ -29298,6 +32395,17 @@ extension ListWorkflowsInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ModifyIntegrationInput {
+
+    static func write(value: ModifyIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataFilter"].write(value.dataFilter)
+        try writer["Description"].write(value.description)
+        try writer["IntegrationIdentifier"].write(value.integrationIdentifier)
+        try writer["IntegrationName"].write(value.integrationName)
     }
 }
 
@@ -29652,6 +32760,7 @@ extension TestConnectionInput {
 
     static func write(value: TestConnectionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
         try writer["ConnectionName"].write(value.connectionName)
         try writer["TestConnectionInput"].write(value.testConnectionInput, with: GlueClientTypes.TestConnectionInput.write(value:to:))
     }
@@ -29673,6 +32782,15 @@ extension UpdateBlueprintInput {
         try writer["BlueprintLocation"].write(value.blueprintLocation)
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension UpdateCatalogInput {
+
+    static func write(value: UpdateCatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["CatalogInput"].write(value.catalogInput, with: GlueClientTypes.CatalogInput.write(value:to:))
     }
 }
 
@@ -29797,6 +32915,27 @@ extension UpdateDevEndpointInput {
         try writer["EndpointName"].write(value.endpointName)
         try writer["PublicKey"].write(value.publicKey)
         try writer["UpdateEtlLibraries"].write(value.updateEtlLibraries)
+    }
+}
+
+extension UpdateIntegrationResourcePropertyInput {
+
+    static func write(value: UpdateIntegrationResourcePropertyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["SourceProcessingProperties"].write(value.sourceProcessingProperties, with: GlueClientTypes.SourceProcessingProperties.write(value:to:))
+        try writer["TargetProcessingProperties"].write(value.targetProcessingProperties, with: GlueClientTypes.TargetProcessingProperties.write(value:to:))
+    }
+}
+
+extension UpdateIntegrationTablePropertiesInput {
+
+    static func write(value: UpdateIntegrationTablePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["SourceTableConfig"].write(value.sourceTableConfig, with: GlueClientTypes.SourceTableConfig.write(value:to:))
+        try writer["TableName"].write(value.tableName)
+        try writer["TargetTableConfig"].write(value.targetTableConfig, with: GlueClientTypes.TargetTableConfig.write(value:to:))
     }
 }
 
@@ -30247,6 +33386,13 @@ extension CreateBlueprintOutput {
     }
 }
 
+extension CreateCatalogOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCatalogOutput {
+        return CreateCatalogOutput()
+    }
+}
+
 extension CreateClassifierOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateClassifierOutput {
@@ -30338,6 +33484,50 @@ extension CreateDevEndpointOutput {
         value.yarnEndpointAddress = try reader["YarnEndpointAddress"].readIfPresent()
         value.zeppelinRemoteSparkInterpreterPort = try reader["ZeppelinRemoteSparkInterpreterPort"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension CreateIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIntegrationOutput()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataFilter = try reader["DataFilter"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateIntegrationResourcePropertyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntegrationResourcePropertyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIntegrationResourcePropertyOutput()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
+        value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
+        return value
+    }
+}
+
+extension CreateIntegrationTablePropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntegrationTablePropertiesOutput {
+        return CreateIntegrationTablePropertiesOutput()
     }
 }
 
@@ -30526,6 +33716,13 @@ extension DeleteBlueprintOutput {
     }
 }
 
+extension DeleteCatalogOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCatalogOutput {
+        return DeleteCatalogOutput()
+    }
+}
+
 extension DeleteClassifierOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteClassifierOutput {
@@ -30598,6 +33795,36 @@ extension DeleteDevEndpointOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDevEndpointOutput {
         return DeleteDevEndpointOutput()
+    }
+}
+
+extension DeleteIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteIntegrationOutput()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataFilter = try reader["DataFilter"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteIntegrationTablePropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIntegrationTablePropertiesOutput {
+        return DeleteIntegrationTablePropertiesOutput()
     }
 }
 
@@ -30764,6 +33991,67 @@ extension DeleteWorkflowOutput {
     }
 }
 
+extension DescribeConnectionTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeConnectionTypeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeConnectionTypeOutput()
+        value.athenaConnectionProperties = try reader["AthenaConnectionProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: GlueClientTypes.AuthConfiguration.read(from:))
+        value.capabilities = try reader["Capabilities"].readIfPresent(with: GlueClientTypes.Capabilities.read(from:))
+        value.computeEnvironmentConfigurations = try reader["ComputeEnvironmentConfigurations"].readMapIfPresent(valueReadingClosure: GlueClientTypes.ComputeEnvironmentConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connectionOptions = try reader["ConnectionOptions"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connectionProperties = try reader["ConnectionProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.physicalConnectionRequirements = try reader["PhysicalConnectionRequirements"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pythonConnectionProperties = try reader["PythonConnectionProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sparkConnectionProperties = try reader["SparkConnectionProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeEntityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEntityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeEntityOutput()
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: GlueClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeInboundIntegrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeInboundIntegrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeInboundIntegrationsOutput()
+        value.inboundIntegrations = try reader["InboundIntegrations"].readListIfPresent(memberReadingClosure: GlueClientTypes.InboundIntegration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeIntegrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeIntegrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeIntegrationsOutput()
+        value.integrations = try reader["Integrations"].readListIfPresent(memberReadingClosure: GlueClientTypes.Integration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
 extension GetBlueprintOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBlueprintOutput {
@@ -30801,6 +34089,18 @@ extension GetBlueprintRunsOutput {
     }
 }
 
+extension GetCatalogOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCatalogOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCatalogOutput()
+        value.catalog = try reader["Catalog"].readIfPresent(with: GlueClientTypes.Catalog.read(from:))
+        return value
+    }
+}
+
 extension GetCatalogImportStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCatalogImportStatusOutput {
@@ -30809,6 +34109,19 @@ extension GetCatalogImportStatusOutput {
         let reader = responseReader
         var value = GetCatalogImportStatusOutput()
         value.importStatus = try reader["ImportStatus"].readIfPresent(with: GlueClientTypes.CatalogImportStatus.read(from:))
+        return value
+    }
+}
+
+extension GetCatalogsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCatalogsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCatalogsOutput()
+        value.catalogList = try reader["CatalogList"].readListIfPresent(memberReadingClosure: GlueClientTypes.Catalog.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -31172,6 +34485,48 @@ extension GetDevEndpointsOutput {
         var value = GetDevEndpointsOutput()
         value.devEndpoints = try reader["DevEndpoints"].readListIfPresent(memberReadingClosure: GlueClientTypes.DevEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetEntityRecordsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEntityRecordsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEntityRecordsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.records = try reader["Records"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetIntegrationResourcePropertyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIntegrationResourcePropertyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIntegrationResourcePropertyOutput()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
+        value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
+        return value
+    }
+}
+
+extension GetIntegrationTablePropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIntegrationTablePropertiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIntegrationTablePropertiesOutput()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.sourceTableConfig = try reader["SourceTableConfig"].readIfPresent(with: GlueClientTypes.SourceTableConfig.read(from:))
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.targetTableConfig = try reader["TargetTableConfig"].readIfPresent(with: GlueClientTypes.TargetTableConfig.read(from:))
         return value
     }
 }
@@ -31815,6 +35170,19 @@ extension ListColumnStatisticsTaskRunsOutput {
     }
 }
 
+extension ListConnectionTypesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectionTypesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectionTypesOutput()
+        value.connectionTypes = try reader["ConnectionTypes"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConnectionTypeBrief.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCrawlersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCrawlersOutput {
@@ -31940,6 +35308,19 @@ extension ListDevEndpointsOutput {
         let reader = responseReader
         var value = ListDevEndpointsOutput()
         value.devEndpointNames = try reader["DevEndpointNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEntitiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEntitiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEntitiesOutput()
+        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: GlueClientTypes.Entity.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -32088,6 +35469,29 @@ extension ListWorkflowsOutput {
         var value = ListWorkflowsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.workflows = try reader["Workflows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ModifyIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyIntegrationOutput()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataFilter = try reader["DataFilter"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -32486,6 +35890,13 @@ extension UpdateBlueprintOutput {
     }
 }
 
+extension UpdateCatalogOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCatalogOutput {
+        return UpdateCatalogOutput()
+    }
+}
+
 extension UpdateClassifierOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateClassifierOutput {
@@ -32570,6 +35981,27 @@ extension UpdateDevEndpointOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDevEndpointOutput {
         return UpdateDevEndpointOutput()
+    }
+}
+
+extension UpdateIntegrationResourcePropertyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIntegrationResourcePropertyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateIntegrationResourcePropertyOutput()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
+        value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
+        return value
+    }
+}
+
+extension UpdateIntegrationTablePropertiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIntegrationTablePropertiesOutput {
+        return UpdateIntegrationTablePropertiesOutput()
     }
 }
 
@@ -33122,6 +36554,30 @@ enum CreateBlueprintOutputError {
     }
 }
 
+enum CreateCatalogOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederatedResourceAlreadyExistsException": return try FederatedResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateClassifierOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33224,6 +36680,8 @@ enum CreateDatabaseOutputError {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "FederatedResourceAlreadyExistsException": return try FederatedResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -33267,6 +36725,72 @@ enum CreateDevEndpointOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
+            case "IntegrationQuotaExceededFault": return try IntegrationQuotaExceededFault.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateIntegrationResourcePropertyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateIntegrationTablePropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -33458,6 +36982,8 @@ enum CreateTableOutputError {
             case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -33576,6 +37102,27 @@ enum DeleteBlueprintOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCatalogOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
@@ -33711,6 +37258,8 @@ enum DeleteDatabaseOutputError {
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
@@ -33748,6 +37297,50 @@ enum DeleteDevEndpointOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "InvalidIntegrationStateFault": return try InvalidIntegrationStateFault.makeError(baseError: baseError)
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIntegrationTablePropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -33937,6 +37530,8 @@ enum DeleteTableOutputError {
         switch baseError.code {
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
@@ -34049,6 +37644,85 @@ enum DeleteWorkflowOutputError {
     }
 }
 
+enum DescribeConnectionTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeEntityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeInboundIntegrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
+            case "TargetResourceNotFound": return try TargetResourceNotFound.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeIntegrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetBlueprintOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34099,6 +37773,27 @@ enum GetBlueprintRunsOutputError {
     }
 }
 
+enum GetCatalogOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetCatalogImportStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34108,6 +37803,27 @@ enum GetCatalogImportStatusOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCatalogsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -34330,6 +38046,7 @@ enum GetDatabaseOutputError {
         switch baseError.code {
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -34347,6 +38064,9 @@ enum GetDatabasesOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -34519,6 +38239,66 @@ enum GetDevEndpointsOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetEntityRecordsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIntegrationResourcePropertyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIntegrationTablePropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -35337,6 +39117,21 @@ enum ListColumnStatisticsTaskRunsOutputError {
     }
 }
 
+enum ListConnectionTypesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCrawlersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35491,6 +39286,26 @@ enum ListDevEndpointsOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEntitiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -35680,6 +39495,30 @@ enum ListWorkflowsOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "IntegrationConflictOperationFault": return try IntegrationConflictOperationFault.makeError(baseError: baseError)
+            case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "InvalidIntegrationStateFault": return try InvalidIntegrationStateFault.makeError(baseError: baseError)
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -36347,6 +40186,27 @@ enum UpdateBlueprintOutputError {
     }
 }
 
+enum UpdateCatalogOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateClassifierOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -36479,8 +40339,11 @@ enum UpdateDatabaseOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -36522,6 +40385,46 @@ enum UpdateDevEndpointOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateIntegrationResourcePropertyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateIntegrationTablePropertiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -36666,8 +40569,11 @@ enum UpdateTableOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "FederationSourceException": return try FederationSourceException.makeError(baseError: baseError)
+            case "FederationSourceRetryableException": return try FederationSourceRetryableException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -36957,32 +40863,6 @@ extension IllegalSessionStateException {
     }
 }
 
-extension ColumnStatisticsTaskRunningException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ColumnStatisticsTaskRunningException {
-        let reader = baseError.errorBodyReader
-        var value = ColumnStatisticsTaskRunningException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IdempotentParameterMismatchException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatchException {
-        let reader = baseError.errorBodyReader
-        var value = IdempotentParameterMismatchException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConcurrentModificationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
@@ -37010,11 +40890,115 @@ extension FederatedResourceAlreadyExistsException {
     }
 }
 
+extension ColumnStatisticsTaskRunningException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ColumnStatisticsTaskRunningException {
+        let reader = baseError.errorBodyReader
+        var value = ColumnStatisticsTaskRunningException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IdempotentParameterMismatchException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotentParameterMismatchException {
+        let reader = baseError.errorBodyReader
+        var value = IdempotentParameterMismatchException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IntegrationConflictOperationFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IntegrationConflictOperationFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationConflictOperationFault()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IntegrationQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IntegrationQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = IntegrationQuotaExceededFault()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSKeyNotAccessibleFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSKeyNotAccessibleFault {
+        let reader = baseError.errorBodyReader
+        var value = KMSKeyNotAccessibleFault()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -37062,11 +41046,24 @@ extension CrawlerRunningException {
     }
 }
 
-extension ConflictException {
+extension IntegrationNotFoundFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IntegrationNotFoundFault {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = IntegrationNotFoundFault()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidIntegrationStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIntegrationStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidIntegrationStateFault()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -37080,6 +41077,19 @@ extension ConditionCheckFailureException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConditionCheckFailureException {
         let reader = baseError.errorBodyReader
         var value = ConditionCheckFailureException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TargetResourceNotFound {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TargetResourceNotFound {
+        let reader = baseError.errorBodyReader
+        var value = TargetResourceNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -41309,6 +45319,70 @@ extension GlueClientTypes.BatchUpdatePartitionFailureEntry {
     }
 }
 
+extension GlueClientTypes.Tag {
+
+    static func write(value: GlueClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.IntegrationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IntegrationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.SourceProcessingProperties {
+
+    static func write(value: GlueClientTypes.SourceProcessingProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SourceProcessingProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SourceProcessingProperties()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TargetProcessingProperties {
+
+    static func write(value: GlueClientTypes.TargetProcessingProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["EventBusArn"].write(value.eventBusArn)
+        try writer["KmsArn"].write(value.kmsArn)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetProcessingProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TargetProcessingProperties()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.kmsArn = try reader["KmsArn"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.eventBusArn = try reader["EventBusArn"].readIfPresent()
+        return value
+    }
+}
+
 extension GlueClientTypes.Session {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Session {
@@ -41377,6 +45451,140 @@ extension GlueClientTypes.ErrorDetails {
     }
 }
 
+extension GlueClientTypes.Capabilities {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Capabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Capabilities()
+        value.supportedAuthenticationTypes = try reader["SupportedAuthenticationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.AuthenticationType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.supportedDataOperations = try reader["SupportedDataOperations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.DataOperation>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.supportedComputeEnvironments = try reader["SupportedComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.ComputeEnvironment>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.Property {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Property {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Property()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.`required` = try reader["Required"].readIfPresent() ?? false
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.propertyTypes = try reader["PropertyTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.PropertyType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: GlueClientTypes.AllowedValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataOperationScopes = try reader["DataOperationScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.DataOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.AllowedValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AllowedValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AllowedValue()
+        value.description = try reader["Description"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.AuthConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AuthConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AuthConfiguration()
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent(with: GlueClientTypes.Property.read(from:))
+        value.secretArn = try reader["SecretArn"].readIfPresent(with: GlueClientTypes.Property.read(from:))
+        value.oAuth2Properties = try reader["OAuth2Properties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.basicAuthenticationProperties = try reader["BasicAuthenticationProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.customAuthenticationProperties = try reader["CustomAuthenticationProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ComputeEnvironmentConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ComputeEnvironmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ComputeEnvironmentConfiguration()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.computeEnvironment = try reader["ComputeEnvironment"].readIfPresent() ?? .sdkUnknown("")
+        value.supportedAuthenticationTypes = try reader["SupportedAuthenticationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.AuthenticationType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.connectionOptions = try reader["ConnectionOptions"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.connectionPropertyNameOverrides = try reader["ConnectionPropertyNameOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.connectionOptionNameOverrides = try reader["ConnectionOptionNameOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.connectionPropertiesRequiredOverrides = try reader["ConnectionPropertiesRequiredOverrides"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.physicalConnectionPropertiesRequired = try reader["PhysicalConnectionPropertiesRequired"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Field {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Field {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Field()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.fieldType = try reader["FieldType"].readIfPresent()
+        value.isPrimaryKey = try reader["IsPrimaryKey"].readIfPresent()
+        value.isNullable = try reader["IsNullable"].readIfPresent()
+        value.isRetrievable = try reader["IsRetrievable"].readIfPresent()
+        value.isFilterable = try reader["IsFilterable"].readIfPresent()
+        value.isPartitionable = try reader["IsPartitionable"].readIfPresent()
+        value.isCreateable = try reader["IsCreateable"].readIfPresent()
+        value.isUpdateable = try reader["IsUpdateable"].readIfPresent()
+        value.isUpsertable = try reader["IsUpsertable"].readIfPresent()
+        value.isDefaultOnCreate = try reader["IsDefaultOnCreate"].readIfPresent()
+        value.supportedValues = try reader["SupportedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedFilterOperators = try reader["SupportedFilterOperators"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.FieldFilterOperator>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parentField = try reader["ParentField"].readIfPresent()
+        value.nativeDataType = try reader["NativeDataType"].readIfPresent()
+        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.InboundIntegration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.InboundIntegration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.InboundIntegration()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.Integration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Integration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Integration()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataFilter = try reader["DataFilter"].readIfPresent()
+        return value
+    }
+}
+
 extension GlueClientTypes.BlueprintRun {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BlueprintRun {
@@ -41392,6 +45600,119 @@ extension GlueClientTypes.BlueprintRun {
         value.rollbackErrorMessage = try reader["RollbackErrorMessage"].readIfPresent()
         value.parameters = try reader["Parameters"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Catalog {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Catalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Catalog()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.targetRedshiftCatalog = try reader["TargetRedshiftCatalog"].readIfPresent(with: GlueClientTypes.TargetRedshiftCatalog.read(from:))
+        value.federatedCatalog = try reader["FederatedCatalog"].readIfPresent(with: GlueClientTypes.FederatedCatalog.read(from:))
+        value.catalogProperties = try reader["CatalogProperties"].readIfPresent(with: GlueClientTypes.CatalogPropertiesOutput.read(from:))
+        value.createTableDefaultPermissions = try reader["CreateTableDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createDatabaseDefaultPermissions = try reader["CreateDatabaseDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.PrincipalPermissions {
+
+    static func write(value: GlueClientTypes.PrincipalPermissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Principal"].write(value.principal, with: GlueClientTypes.DataLakePrincipal.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PrincipalPermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PrincipalPermissions()
+        value.principal = try reader["Principal"].readIfPresent(with: GlueClientTypes.DataLakePrincipal.read(from:))
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.DataLakePrincipal {
+
+    static func write(value: GlueClientTypes.DataLakePrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataLakePrincipalIdentifier"].write(value.dataLakePrincipalIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataLakePrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataLakePrincipal()
+        value.dataLakePrincipalIdentifier = try reader["DataLakePrincipalIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.CatalogPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CatalogPropertiesOutput()
+        value.dataLakeAccessProperties = try reader["DataLakeAccessProperties"].readIfPresent(with: GlueClientTypes.DataLakeAccessPropertiesOutput.read(from:))
+        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.DataLakeAccessPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataLakeAccessPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataLakeAccessPropertiesOutput()
+        value.dataLakeAccess = try reader["DataLakeAccess"].readIfPresent() ?? false
+        value.dataTransferRole = try reader["DataTransferRole"].readIfPresent()
+        value.kmsKey = try reader["KmsKey"].readIfPresent()
+        value.managedWorkgroupName = try reader["ManagedWorkgroupName"].readIfPresent()
+        value.managedWorkgroupStatus = try reader["ManagedWorkgroupStatus"].readIfPresent()
+        value.redshiftDatabaseName = try reader["RedshiftDatabaseName"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.catalogType = try reader["CatalogType"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.FederatedCatalog {
+
+    static func write(value: GlueClientTypes.FederatedCatalog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["Identifier"].write(value.identifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FederatedCatalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.FederatedCatalog()
+        value.identifier = try reader["Identifier"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TargetRedshiftCatalog {
+
+    static func write(value: GlueClientTypes.TargetRedshiftCatalog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogArn"].write(value.catalogArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetRedshiftCatalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TargetRedshiftCatalog()
+        value.catalogArn = try reader["CatalogArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -41750,6 +46071,22 @@ extension GlueClientTypes.ColumnStatisticsTaskSettings {
         value.role = try reader["Role"].readIfPresent()
         value.sampleSize = try reader["SampleSize"].readIfPresent() ?? 0
         value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
+        value.scheduleType = try reader["ScheduleType"].readIfPresent()
+        value.settingSource = try reader["SettingSource"].readIfPresent()
+        value.lastExecutionAttempt = try reader["LastExecutionAttempt"].readIfPresent(with: GlueClientTypes.ExecutionAttempt.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ExecutionAttempt {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExecutionAttempt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ExecutionAttempt()
+        value.status = try reader["Status"].readIfPresent()
+        value.columnStatisticsTaskRunId = try reader["ColumnStatisticsTaskRunId"].readIfPresent()
+        value.executionTimestamp = try reader["ExecutionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
@@ -41764,7 +46101,9 @@ extension GlueClientTypes.Connection {
         value.connectionType = try reader["ConnectionType"].readIfPresent()
         value.matchCriteria = try reader["MatchCriteria"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.connectionProperties = try reader["ConnectionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sparkProperties = try reader["SparkProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.athenaProperties = try reader["AthenaProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pythonProperties = try reader["PythonProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.physicalConnectionRequirements = try reader["PhysicalConnectionRequirements"].readIfPresent(with: GlueClientTypes.PhysicalConnectionRequirements.read(from:))
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -41773,6 +46112,8 @@ extension GlueClientTypes.Connection {
         value.statusReason = try reader["StatusReason"].readIfPresent()
         value.lastConnectionValidationTime = try reader["LastConnectionValidationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: GlueClientTypes.AuthenticationConfiguration.read(from:))
+        value.connectionSchemaVersion = try reader["ConnectionSchemaVersion"].readIfPresent()
+        value.compatibleComputeEnvironments = try reader["CompatibleComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.ComputeEnvironment>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -41905,38 +46246,6 @@ extension GlueClientTypes.DatabaseIdentifier {
         value.catalogId = try reader["CatalogId"].readIfPresent()
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.region = try reader["Region"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.PrincipalPermissions {
-
-    static func write(value: GlueClientTypes.PrincipalPermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Principal"].write(value.principal, with: GlueClientTypes.DataLakePrincipal.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PrincipalPermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PrincipalPermissions()
-        value.principal = try reader["Principal"].readIfPresent(with: GlueClientTypes.DataLakePrincipal.read(from:))
-        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.DataLakePrincipal {
-
-    static func write(value: GlueClientTypes.DataLakePrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataLakePrincipalIdentifier"].write(value.dataLakePrincipalIdentifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataLakePrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataLakePrincipal()
-        value.dataLakePrincipalIdentifier = try reader["DataLakePrincipalIdentifier"].readIfPresent()
         return value
     }
 }
@@ -42102,6 +46411,63 @@ extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions {
         value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent()
         value.resultsS3Prefix = try reader["ResultsS3Prefix"].readIfPresent()
         value.compositeRuleEvaluationMethod = try reader["CompositeRuleEvaluationMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.SourceTableConfig {
+
+    static func write(value: GlueClientTypes.SourceTableConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fields"].writeList(value.fields, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FilterPredicate"].write(value.filterPredicate)
+        try writer["PrimaryKey"].writeList(value.primaryKey, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RecordUpdateField"].write(value.recordUpdateField)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SourceTableConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SourceTableConfig()
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filterPredicate = try reader["FilterPredicate"].readIfPresent()
+        value.primaryKey = try reader["PrimaryKey"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recordUpdateField = try reader["RecordUpdateField"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TargetTableConfig {
+
+    static func write(value: GlueClientTypes.TargetTableConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PartitionSpec"].writeList(value.partitionSpec, memberWritingClosure: GlueClientTypes.IntegrationPartition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetTableName"].write(value.targetTableName)
+        try writer["UnnestSpec"].write(value.unnestSpec)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetTableConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TargetTableConfig()
+        value.unnestSpec = try reader["UnnestSpec"].readIfPresent()
+        value.partitionSpec = try reader["PartitionSpec"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationPartition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetTableName = try reader["TargetTableName"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.IntegrationPartition {
+
+    static func write(value: GlueClientTypes.IntegrationPartition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["FunctionSpec"].write(value.functionSpec)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationPartition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IntegrationPartition()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.functionSpec = try reader["FunctionSpec"].readIfPresent()
         return value
     }
 }
@@ -42804,6 +47170,18 @@ extension GlueClientTypes.ResourceUri {
     }
 }
 
+extension GlueClientTypes.ConnectionTypeBrief {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionTypeBrief {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConnectionTypeBrief()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.capabilities = try reader["Capabilities"].readIfPresent(with: GlueClientTypes.Capabilities.read(from:))
+        return value
+    }
+}
+
 extension GlueClientTypes.CrawlerHistory {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerHistory {
@@ -42930,6 +47308,21 @@ extension GlueClientTypes.RunIdentifier {
         var value = GlueClientTypes.RunIdentifier()
         value.runId = try reader["RunId"].readIfPresent()
         value.jobRunId = try reader["JobRunId"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Entity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Entity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Entity()
+        value.entityName = try reader["EntityName"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
+        value.isParentEntity = try reader["IsParentEntity"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.category = try reader["Category"].readIfPresent()
+        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -43068,6 +47461,40 @@ extension GlueClientTypes.BatchUpdatePartitionRequestEntry {
     }
 }
 
+extension GlueClientTypes.CatalogInput {
+
+    static func write(value: GlueClientTypes.CatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogProperties"].write(value.catalogProperties, with: GlueClientTypes.CatalogProperties.write(value:to:))
+        try writer["CreateDatabaseDefaultPermissions"].writeList(value.createDatabaseDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CreateTableDefaultPermissions"].writeList(value.createTableDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["FederatedCatalog"].write(value.federatedCatalog, with: GlueClientTypes.FederatedCatalog.write(value:to:))
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TargetRedshiftCatalog"].write(value.targetRedshiftCatalog, with: GlueClientTypes.TargetRedshiftCatalog.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.CatalogProperties {
+
+    static func write(value: GlueClientTypes.CatalogProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomProperties"].writeMap(value.customProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DataLakeAccessProperties"].write(value.dataLakeAccessProperties, with: GlueClientTypes.DataLakeAccessProperties.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.DataLakeAccessProperties {
+
+    static func write(value: GlueClientTypes.DataLakeAccessProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogType"].write(value.catalogType)
+        try writer["DataLakeAccess"].write(value.dataLakeAccess)
+        try writer["DataTransferRole"].write(value.dataTransferRole)
+        try writer["KmsKey"].write(value.kmsKey)
+    }
+}
+
 extension GlueClientTypes.CreateGrokClassifierRequest {
 
     static func write(value: GlueClientTypes.CreateGrokClassifierRequest?, to writer: SmithyJSON.Writer) throws {
@@ -43127,7 +47554,10 @@ extension GlueClientTypes.ConnectionInput {
         try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["PhysicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: GlueClientTypes.PhysicalConnectionRequirements.write(value:to:))
+        try writer["PythonProperties"].writeMap(value.pythonProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SparkProperties"].writeMap(value.sparkProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ValidateCredentials"].write(value.validateCredentials)
+        try writer["ValidateForComputeEnvironments"].writeList(value.validateForComputeEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.ComputeEnvironment>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -43136,8 +47566,20 @@ extension GlueClientTypes.AuthenticationConfigurationInput {
     static func write(value: GlueClientTypes.AuthenticationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["BasicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: GlueClientTypes.BasicAuthenticationCredentials.write(value:to:))
+        try writer["CustomAuthenticationCredentials"].writeMap(value.customAuthenticationCredentials, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
         try writer["OAuth2Properties"].write(value.oAuth2Properties, with: GlueClientTypes.OAuth2PropertiesInput.write(value:to:))
         try writer["SecretArn"].write(value.secretArn)
+    }
+}
+
+extension GlueClientTypes.BasicAuthenticationCredentials {
+
+    static func write(value: GlueClientTypes.BasicAuthenticationCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Password"].write(value.password)
+        try writer["Username"].write(value.username)
     }
 }
 
@@ -43147,9 +47589,21 @@ extension GlueClientTypes.OAuth2PropertiesInput {
         guard let value else { return }
         try writer["AuthorizationCodeProperties"].write(value.authorizationCodeProperties, with: GlueClientTypes.AuthorizationCodeProperties.write(value:to:))
         try writer["OAuth2ClientApplication"].write(value.oAuth2ClientApplication, with: GlueClientTypes.OAuth2ClientApplication.write(value:to:))
+        try writer["OAuth2Credentials"].write(value.oAuth2Credentials, with: GlueClientTypes.OAuth2Credentials.write(value:to:))
         try writer["OAuth2GrantType"].write(value.oAuth2GrantType)
         try writer["TokenUrl"].write(value.tokenUrl)
         try writer["TokenUrlParametersMap"].writeMap(value.tokenUrlParametersMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.OAuth2Credentials {
+
+    static func write(value: GlueClientTypes.OAuth2Credentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessToken"].write(value.accessToken)
+        try writer["JwtToken"].write(value.jwtToken)
+        try writer["RefreshToken"].write(value.refreshToken)
+        try writer["UserManagedClientApplicationClientSecret"].write(value.userManagedClientApplicationClientSecret)
     }
 }
 
@@ -43267,10 +47721,20 @@ extension GlueClientTypes.UserDefinedFunctionInput {
     }
 }
 
+extension GlueClientTypes.IntegrationFilter {
+
+    static func write(value: GlueClientTypes.IntegrationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension GlueClientTypes.GetConnectionsFilter {
 
     static func write(value: GlueClientTypes.GetConnectionsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ConnectionSchemaVersion"].write(value.connectionSchemaVersion)
         try writer["ConnectionType"].write(value.connectionType)
         try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockClient: ClientRuntime.Client {
     public static let clientName = "BedrockClient"
-    public static let version = "1.0.52"
+    public static let version = "1.0.53"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockClient.BedrockClientConfiguration
     let serviceName = "Bedrock"
@@ -359,7 +359,7 @@ extension BedrockClient {
     /// * Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom regex in user inputs and model responses.
     ///
     ///
-    /// In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see [Guardrails for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html) in the Amazon Bedrock User Guide.
+    /// In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see [Amazon Bedrock Guardrails](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html) in the Amazon Bedrock User Guide.
     ///
     /// - Parameter CreateGuardrailInput : [no documentation found]
     ///
@@ -2026,7 +2026,7 @@ extension BedrockClient {
 
     /// Performs the `GetModelInvocationJob` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// Gets details about a batch inference job. For more information, see [View details about a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-view)
+    /// Gets details about a batch inference job. For more information, see [Monitor batch inference jobs](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-monitor)
     ///
     /// - Parameter GetModelInvocationJobInput : [no documentation found]
     ///
@@ -2866,7 +2866,7 @@ extension BedrockClient {
 
     /// Performs the `ListModelInvocationJobs` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// Lists all batch inference jobs in the account. For more information, see [View details about a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-view).
+    /// Lists all batch inference jobs in the account. For more information, see [View details about a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-view.html).
     ///
     /// - Parameter ListModelInvocationJobsInput : [no documentation found]
     ///
@@ -3293,7 +3293,7 @@ extension BedrockClient {
 
     /// Performs the `StopModelInvocationJob` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see [Stop a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-stop).
+    /// Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see [Stop a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-stop.html).
     ///
     /// - Parameter StopModelInvocationJobInput : [no documentation found]
     ///

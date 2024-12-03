@@ -279,6 +279,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSDLM](../../../../../swift/api/awsdlm/latest)
 
+[AWSDSQL](../../../../../swift/api/awsdsql/latest)
+
 [AWSDataBrew](../../../../../swift/api/awsdatabrew/latest)
 
 [AWSDataExchange](../../../../../swift/api/awsdataexchange/latest)
@@ -726,6 +728,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSS3Control](../../../../../swift/api/awss3control/latest)
 
 [AWSS3Outposts](../../../../../swift/api/awss3outposts/latest)
+
+[AWSS3Tables](../../../../../swift/api/awss3tables/latest)
 
 [AWSSES](../../../../../swift/api/awsses/latest)
 

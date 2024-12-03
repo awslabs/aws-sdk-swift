@@ -399,7 +399,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// ENUM to check if action requires user confirmation
+    /// Whether the action requires user confirmation.
     public enum RequireConfirmation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -864,6 +864,38 @@ public struct UpdateAgentActionGroupOutput: Swift.Sendable {
 
 extension BedrockAgentClientTypes {
 
+    public enum AgentCollaboration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case supervisor
+        case supervisorRouter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentCollaboration] {
+            return [
+                .disabled,
+                .supervisor,
+                .supervisorRouter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .supervisor: return "SUPERVISOR"
+            case .supervisorRouter: return "SUPERVISOR_ROUTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     public enum AgentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creating
         case deleting
@@ -1162,6 +1194,8 @@ extension BedrockAgentClientTypes {
     public struct PromptConfiguration: Swift.Sendable {
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html). For more information, see [Configure the prompt templates](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts-configure.html).
         public var basePromptTemplate: Swift.String?
+        /// The agent's foundation model.
+        public var foundationModel: Swift.String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
         public var inferenceConfiguration: BedrockAgentClientTypes.InferenceConfiguration?
         /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDEN, the overrideLambda field in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) must be specified with the ARN of a Lambda function.
@@ -1183,6 +1217,7 @@ extension BedrockAgentClientTypes {
 
         public init(
             basePromptTemplate: Swift.String? = nil,
+            foundationModel: Swift.String? = nil,
             inferenceConfiguration: BedrockAgentClientTypes.InferenceConfiguration? = nil,
             parserMode: BedrockAgentClientTypes.CreationMode? = nil,
             promptCreationMode: BedrockAgentClientTypes.CreationMode? = nil,
@@ -1191,6 +1226,7 @@ extension BedrockAgentClientTypes {
         )
         {
             self.basePromptTemplate = basePromptTemplate
+            self.foundationModel = foundationModel
             self.inferenceConfiguration = inferenceConfiguration
             self.parserMode = parserMode
             self.promptCreationMode = promptCreationMode
@@ -1202,7 +1238,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.PromptConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PromptConfiguration(inferenceConfiguration: \(Swift.String(describing: inferenceConfiguration)), parserMode: \(Swift.String(describing: parserMode)), promptCreationMode: \(Swift.String(describing: promptCreationMode)), promptState: \(Swift.String(describing: promptState)), promptType: \(Swift.String(describing: promptType)), basePromptTemplate: \"CONTENT_REDACTED\")"}
+        "PromptConfiguration(foundationModel: \(Swift.String(describing: foundationModel)), inferenceConfiguration: \(Swift.String(describing: inferenceConfiguration)), parserMode: \(Swift.String(describing: parserMode)), promptCreationMode: \(Swift.String(describing: promptCreationMode)), promptState: \(Swift.String(describing: promptState)), promptType: \(Swift.String(describing: promptType)), basePromptTemplate: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -1239,6 +1275,8 @@ extension BedrockAgentClientTypes {
         /// The Amazon Resource Name (ARN) of the agent.
         /// This member is required.
         public var agentArn: Swift.String?
+        /// The agent's collaboration settings.
+        public var agentCollaboration: BedrockAgentClientTypes.AgentCollaboration?
         /// The unique identifier of the agent.
         /// This member is required.
         public var agentId: Swift.String?
@@ -1306,6 +1344,7 @@ extension BedrockAgentClientTypes {
 
         public init(
             agentArn: Swift.String? = nil,
+            agentCollaboration: BedrockAgentClientTypes.AgentCollaboration? = nil,
             agentId: Swift.String? = nil,
             agentName: Swift.String? = nil,
             agentResourceRoleArn: Swift.String? = nil,
@@ -1330,6 +1369,7 @@ extension BedrockAgentClientTypes {
         )
         {
             self.agentArn = agentArn
+            self.agentCollaboration = agentCollaboration
             self.agentId = agentId
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
@@ -1357,7 +1397,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.Agent: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Agent(agentArn: \(Swift.String(describing: agentArn)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), agentStatus: \(Swift.String(describing: agentStatus)), agentVersion: \(Swift.String(describing: agentVersion)), clientToken: \(Swift.String(describing: clientToken)), createdAt: \(Swift.String(describing: createdAt)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), failureReasons: \(Swift.String(describing: failureReasons)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), orchestrationType: \(Swift.String(describing: orchestrationType)), preparedAt: \(Swift.String(describing: preparedAt)), recommendedActions: \(Swift.String(describing: recommendedActions)), updatedAt: \(Swift.String(describing: updatedAt)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "Agent(agentArn: \(Swift.String(describing: agentArn)), agentCollaboration: \(Swift.String(describing: agentCollaboration)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), agentStatus: \(Swift.String(describing: agentStatus)), agentVersion: \(Swift.String(describing: agentVersion)), clientToken: \(Swift.String(describing: clientToken)), createdAt: \(Swift.String(describing: createdAt)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), failureReasons: \(Swift.String(describing: failureReasons)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), orchestrationType: \(Swift.String(describing: orchestrationType)), preparedAt: \(Swift.String(describing: preparedAt)), recommendedActions: \(Swift.String(describing: recommendedActions)), updatedAt: \(Swift.String(describing: updatedAt)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -1567,6 +1607,404 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// An agent descriptor.
+    public struct AgentDescriptor: Swift.Sendable {
+        /// The agent's alias ARN.
+        public var aliasArn: Swift.String?
+
+        public init(
+            aliasArn: Swift.String? = nil
+        )
+        {
+            self.aliasArn = aliasArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum RelayConversationHistory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case toCollaborator
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RelayConversationHistory] {
+            return [
+                .disabled,
+                .toCollaborator
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .toCollaborator: return "TO_COLLABORATOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// An agent collaborator.
+    public struct AgentCollaborator: Swift.Sendable {
+        /// The collaborator's agent descriptor.
+        /// This member is required.
+        public var agentDescriptor: BedrockAgentClientTypes.AgentDescriptor?
+        /// The collaborator's agent ID.
+        /// This member is required.
+        public var agentId: Swift.String?
+        /// The collaborator's agent version.
+        /// This member is required.
+        public var agentVersion: Swift.String?
+        /// The collaborator's client token.
+        public var clientToken: Swift.String?
+        /// The collaborator's instructions.
+        /// This member is required.
+        public var collaborationInstruction: Swift.String?
+        /// The collaborator's collaborator ID.
+        /// This member is required.
+        public var collaboratorId: Swift.String?
+        /// The collaborator's collaborator name.
+        /// This member is required.
+        public var collaboratorName: Swift.String?
+        /// When the collaborator was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// When the collaborator was updated.
+        /// This member is required.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The collaborator's relay conversation history.
+        public var relayConversationHistory: BedrockAgentClientTypes.RelayConversationHistory?
+
+        public init(
+            agentDescriptor: BedrockAgentClientTypes.AgentDescriptor? = nil,
+            agentId: Swift.String? = nil,
+            agentVersion: Swift.String? = nil,
+            clientToken: Swift.String? = nil,
+            collaborationInstruction: Swift.String? = nil,
+            collaboratorId: Swift.String? = nil,
+            collaboratorName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            relayConversationHistory: BedrockAgentClientTypes.RelayConversationHistory? = nil
+        )
+        {
+            self.agentDescriptor = agentDescriptor
+            self.agentId = agentId
+            self.agentVersion = agentVersion
+            self.clientToken = clientToken
+            self.collaborationInstruction = collaborationInstruction
+            self.collaboratorId = collaboratorId
+            self.collaboratorName = collaboratorName
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.relayConversationHistory = relayConversationHistory
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.AgentCollaborator: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AgentCollaborator(agentDescriptor: \(Swift.String(describing: agentDescriptor)), agentId: \(Swift.String(describing: agentId)), agentVersion: \(Swift.String(describing: agentVersion)), clientToken: \(Swift.String(describing: clientToken)), collaboratorId: \(Swift.String(describing: collaboratorId)), collaboratorName: \(Swift.String(describing: collaboratorName)), createdAt: \(Swift.String(describing: createdAt)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), relayConversationHistory: \(Swift.String(describing: relayConversationHistory)), collaborationInstruction: \"CONTENT_REDACTED\")"}
+}
+
+public struct AssociateAgentCollaboratorInput: Swift.Sendable {
+    /// The alias of the collaborator agent.
+    /// This member is required.
+    public var agentDescriptor: BedrockAgentClientTypes.AgentDescriptor?
+    /// The agent's ID.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// An agent version.
+    /// This member is required.
+    public var agentVersion: Swift.String?
+    /// A client token.
+    public var clientToken: Swift.String?
+    /// Instruction for the collaborator.
+    /// This member is required.
+    public var collaborationInstruction: Swift.String?
+    /// A name for the collaborator.
+    /// This member is required.
+    public var collaboratorName: Swift.String?
+    /// A relay conversation history for the collaborator.
+    public var relayConversationHistory: BedrockAgentClientTypes.RelayConversationHistory?
+
+    public init(
+        agentDescriptor: BedrockAgentClientTypes.AgentDescriptor? = nil,
+        agentId: Swift.String? = nil,
+        agentVersion: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        collaborationInstruction: Swift.String? = nil,
+        collaboratorName: Swift.String? = nil,
+        relayConversationHistory: BedrockAgentClientTypes.RelayConversationHistory? = nil
+    )
+    {
+        self.agentDescriptor = agentDescriptor
+        self.agentId = agentId
+        self.agentVersion = agentVersion
+        self.clientToken = clientToken
+        self.collaborationInstruction = collaborationInstruction
+        self.collaboratorName = collaboratorName
+        self.relayConversationHistory = relayConversationHistory
+    }
+}
+
+extension AssociateAgentCollaboratorInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssociateAgentCollaboratorInput(agentDescriptor: \(Swift.String(describing: agentDescriptor)), agentId: \(Swift.String(describing: agentId)), agentVersion: \(Swift.String(describing: agentVersion)), clientToken: \(Swift.String(describing: clientToken)), collaboratorName: \(Swift.String(describing: collaboratorName)), relayConversationHistory: \(Swift.String(describing: relayConversationHistory)), collaborationInstruction: \"CONTENT_REDACTED\")"}
+}
+
+public struct AssociateAgentCollaboratorOutput: Swift.Sendable {
+    /// Details about the collaborator.
+    /// This member is required.
+    public var agentCollaborator: BedrockAgentClientTypes.AgentCollaborator?
+
+    public init(
+        agentCollaborator: BedrockAgentClientTypes.AgentCollaborator? = nil
+    )
+    {
+        self.agentCollaborator = agentCollaborator
+    }
+}
+
+public struct DisassociateAgentCollaboratorInput: Swift.Sendable {
+    /// An agent ID.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The agent's version.
+    /// This member is required.
+    public var agentVersion: Swift.String?
+    /// The collaborator's ID.
+    /// This member is required.
+    public var collaboratorId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        agentVersion: Swift.String? = nil,
+        collaboratorId: Swift.String? = nil
+    )
+    {
+        self.agentId = agentId
+        self.agentVersion = agentVersion
+        self.collaboratorId = collaboratorId
+    }
+}
+
+public struct DisassociateAgentCollaboratorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetAgentCollaboratorInput: Swift.Sendable {
+    /// The agent's ID.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The agent's version.
+    /// This member is required.
+    public var agentVersion: Swift.String?
+    /// The collaborator's ID.
+    /// This member is required.
+    public var collaboratorId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        agentVersion: Swift.String? = nil,
+        collaboratorId: Swift.String? = nil
+    )
+    {
+        self.agentId = agentId
+        self.agentVersion = agentVersion
+        self.collaboratorId = collaboratorId
+    }
+}
+
+public struct GetAgentCollaboratorOutput: Swift.Sendable {
+    /// Details about the collaborator.
+    /// This member is required.
+    public var agentCollaborator: BedrockAgentClientTypes.AgentCollaborator?
+
+    public init(
+        agentCollaborator: BedrockAgentClientTypes.AgentCollaborator? = nil
+    )
+    {
+        self.agentCollaborator = agentCollaborator
+    }
+}
+
+public struct ListAgentCollaboratorsInput: Swift.Sendable {
+    /// The agent's ID.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The agent's version.
+    /// This member is required.
+    public var agentVersion: Swift.String?
+    /// The maximum number of agent collaborators to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        agentVersion: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.agentId = agentId
+        self.agentVersion = agentVersion
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// An agent collaborator summary.
+    public struct AgentCollaboratorSummary: Swift.Sendable {
+        /// The collaborator's agent descriptor.
+        /// This member is required.
+        public var agentDescriptor: BedrockAgentClientTypes.AgentDescriptor?
+        /// The collaborator's agent ID.
+        /// This member is required.
+        public var agentId: Swift.String?
+        /// The collaborator's agent version.
+        /// This member is required.
+        public var agentVersion: Swift.String?
+        /// The collaborator's collaboration instruction.
+        /// This member is required.
+        public var collaborationInstruction: Swift.String?
+        /// The collaborator's ID.
+        /// This member is required.
+        public var collaboratorId: Swift.String?
+        /// The collaborator's name.
+        /// This member is required.
+        public var collaboratorName: Swift.String?
+        /// When the collaborator was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// When the collaborator was last updated.
+        /// This member is required.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The collaborator's relay conversation history.
+        /// This member is required.
+        public var relayConversationHistory: BedrockAgentClientTypes.RelayConversationHistory?
+
+        public init(
+            agentDescriptor: BedrockAgentClientTypes.AgentDescriptor? = nil,
+            agentId: Swift.String? = nil,
+            agentVersion: Swift.String? = nil,
+            collaborationInstruction: Swift.String? = nil,
+            collaboratorId: Swift.String? = nil,
+            collaboratorName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            relayConversationHistory: BedrockAgentClientTypes.RelayConversationHistory? = nil
+        )
+        {
+            self.agentDescriptor = agentDescriptor
+            self.agentId = agentId
+            self.agentVersion = agentVersion
+            self.collaborationInstruction = collaborationInstruction
+            self.collaboratorId = collaboratorId
+            self.collaboratorName = collaboratorName
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.relayConversationHistory = relayConversationHistory
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.AgentCollaboratorSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AgentCollaboratorSummary(agentDescriptor: \(Swift.String(describing: agentDescriptor)), agentId: \(Swift.String(describing: agentId)), agentVersion: \(Swift.String(describing: agentVersion)), collaboratorId: \(Swift.String(describing: collaboratorId)), collaboratorName: \(Swift.String(describing: collaboratorName)), createdAt: \(Swift.String(describing: createdAt)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), relayConversationHistory: \(Swift.String(describing: relayConversationHistory)), collaborationInstruction: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListAgentCollaboratorsOutput: Swift.Sendable {
+    /// A list of collaborator summaries.
+    /// This member is required.
+    public var agentCollaboratorSummaries: [BedrockAgentClientTypes.AgentCollaboratorSummary]?
+    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        agentCollaboratorSummaries: [BedrockAgentClientTypes.AgentCollaboratorSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.agentCollaboratorSummaries = agentCollaboratorSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateAgentCollaboratorInput: Swift.Sendable {
+    /// An agent descriptor for the agent collaborator.
+    /// This member is required.
+    public var agentDescriptor: BedrockAgentClientTypes.AgentDescriptor?
+    /// The agent's ID.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// The agent's version.
+    /// This member is required.
+    public var agentVersion: Swift.String?
+    /// Instruction for the collaborator.
+    /// This member is required.
+    public var collaborationInstruction: Swift.String?
+    /// The collaborator's ID.
+    /// This member is required.
+    public var collaboratorId: Swift.String?
+    /// The collaborator's name.
+    /// This member is required.
+    public var collaboratorName: Swift.String?
+    /// A relay conversation history for the collaborator.
+    public var relayConversationHistory: BedrockAgentClientTypes.RelayConversationHistory?
+
+    public init(
+        agentDescriptor: BedrockAgentClientTypes.AgentDescriptor? = nil,
+        agentId: Swift.String? = nil,
+        agentVersion: Swift.String? = nil,
+        collaborationInstruction: Swift.String? = nil,
+        collaboratorId: Swift.String? = nil,
+        collaboratorName: Swift.String? = nil,
+        relayConversationHistory: BedrockAgentClientTypes.RelayConversationHistory? = nil
+    )
+    {
+        self.agentDescriptor = agentDescriptor
+        self.agentId = agentId
+        self.agentVersion = agentVersion
+        self.collaborationInstruction = collaborationInstruction
+        self.collaboratorId = collaboratorId
+        self.collaboratorName = collaboratorName
+        self.relayConversationHistory = relayConversationHistory
+    }
+}
+
+extension UpdateAgentCollaboratorInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAgentCollaboratorInput(agentDescriptor: \(Swift.String(describing: agentDescriptor)), agentId: \(Swift.String(describing: agentId)), agentVersion: \(Swift.String(describing: agentVersion)), collaboratorId: \(Swift.String(describing: collaboratorId)), collaboratorName: \(Swift.String(describing: collaboratorName)), relayConversationHistory: \(Swift.String(describing: relayConversationHistory)), collaborationInstruction: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateAgentCollaboratorOutput: Swift.Sendable {
+    /// Details about the collaborator.
+    /// This member is required.
+    public var agentCollaborator: BedrockAgentClientTypes.AgentCollaborator?
+
+    public init(
+        agentCollaborator: BedrockAgentClientTypes.AgentCollaborator? = nil
+    )
+    {
+        self.agentCollaborator = agentCollaborator
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Defines an agent node in your flow. You specify the agent to invoke at this point in the flow. For more information, see [Node types in Amazon Bedrock works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
     public struct AgentFlowNodeConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the alias of the agent to invoke.
@@ -1690,6 +2128,8 @@ extension BedrockAgentClientTypes {
 }
 
 public struct CreateAgentInput: Swift.Sendable {
+    /// The agent's collaboration role.
+    public var agentCollaboration: BedrockAgentClientTypes.AgentCollaboration?
     /// A name for the agent that you create.
     /// This member is required.
     public var agentName: Swift.String?
@@ -1731,6 +2171,7 @@ public struct CreateAgentInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        agentCollaboration: BedrockAgentClientTypes.AgentCollaboration? = nil,
         agentName: Swift.String? = nil,
         agentResourceRoleArn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
@@ -1747,6 +2188,7 @@ public struct CreateAgentInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     )
     {
+        self.agentCollaboration = agentCollaboration
         self.agentName = agentName
         self.agentResourceRoleArn = agentResourceRoleArn
         self.clientToken = clientToken
@@ -1766,7 +2208,7 @@ public struct CreateAgentInput: Swift.Sendable {
 
 extension CreateAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAgentInput(agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), clientToken: \(Swift.String(describing: clientToken)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), orchestrationType: \(Swift.String(describing: orchestrationType)), tags: \(Swift.String(describing: tags)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "CreateAgentInput(agentCollaboration: \(Swift.String(describing: agentCollaboration)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), clientToken: \(Swift.String(describing: clientToken)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), orchestrationType: \(Swift.String(describing: orchestrationType)), tags: \(Swift.String(describing: tags)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAgentOutput: Swift.Sendable {
@@ -1962,6 +2404,8 @@ public struct PrepareAgentOutput: Swift.Sendable {
 }
 
 public struct UpdateAgentInput: Swift.Sendable {
+    /// The agent's collaboration role.
+    public var agentCollaboration: BedrockAgentClientTypes.AgentCollaboration?
     /// The unique identifier of the agent.
     /// This member is required.
     public var agentId: Swift.String?
@@ -2004,6 +2448,7 @@ public struct UpdateAgentInput: Swift.Sendable {
     public var promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration?
 
     public init(
+        agentCollaboration: BedrockAgentClientTypes.AgentCollaboration? = nil,
         agentId: Swift.String? = nil,
         agentName: Swift.String? = nil,
         agentResourceRoleArn: Swift.String? = nil,
@@ -2019,6 +2464,7 @@ public struct UpdateAgentInput: Swift.Sendable {
         promptOverrideConfiguration: BedrockAgentClientTypes.PromptOverrideConfiguration? = nil
     )
     {
+        self.agentCollaboration = agentCollaboration
         self.agentId = agentId
         self.agentName = agentName
         self.agentResourceRoleArn = agentResourceRoleArn
@@ -2037,7 +2483,7 @@ public struct UpdateAgentInput: Swift.Sendable {
 
 extension UpdateAgentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAgentInput(agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), orchestrationType: \(Swift.String(describing: orchestrationType)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "UpdateAgentInput(agentCollaboration: \(Swift.String(describing: agentCollaboration)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), customOrchestration: \(Swift.String(describing: customOrchestration)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), orchestrationType: \(Swift.String(describing: orchestrationType)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateAgentOutput: Swift.Sendable {
@@ -2060,6 +2506,8 @@ extension BedrockAgentClientTypes {
         /// The Amazon Resource Name (ARN) of the agent that the version belongs to.
         /// This member is required.
         public var agentArn: Swift.String?
+        /// The agent's collaboration settings.
+        public var agentCollaboration: BedrockAgentClientTypes.AgentCollaboration?
         /// The unique identifier of the agent that the version belongs to.
         /// This member is required.
         public var agentId: Swift.String?
@@ -2105,6 +2553,7 @@ extension BedrockAgentClientTypes {
 
         public init(
             agentArn: Swift.String? = nil,
+            agentCollaboration: BedrockAgentClientTypes.AgentCollaboration? = nil,
             agentId: Swift.String? = nil,
             agentName: Swift.String? = nil,
             agentResourceRoleArn: Swift.String? = nil,
@@ -2125,6 +2574,7 @@ extension BedrockAgentClientTypes {
         )
         {
             self.agentArn = agentArn
+            self.agentCollaboration = agentCollaboration
             self.agentId = agentId
             self.agentName = agentName
             self.agentResourceRoleArn = agentResourceRoleArn
@@ -2148,7 +2598,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.AgentVersion: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AgentVersion(agentArn: \(Swift.String(describing: agentArn)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), agentStatus: \(Swift.String(describing: agentStatus)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), failureReasons: \(Swift.String(describing: failureReasons)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), recommendedActions: \(Swift.String(describing: recommendedActions)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
+        "AgentVersion(agentArn: \(Swift.String(describing: agentArn)), agentCollaboration: \(Swift.String(describing: agentCollaboration)), agentId: \(Swift.String(describing: agentId)), agentName: \(Swift.String(describing: agentName)), agentResourceRoleArn: \(Swift.String(describing: agentResourceRoleArn)), agentStatus: \(Swift.String(describing: agentStatus)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), failureReasons: \(Swift.String(describing: failureReasons)), foundationModel: \(Swift.String(describing: foundationModel)), guardrailConfiguration: \(Swift.String(describing: guardrailConfiguration)), idleSessionTTLInSeconds: \(Swift.String(describing: idleSessionTTLInSeconds)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), recommendedActions: \(Swift.String(describing: recommendedActions)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), instruction: \"CONTENT_REDACTED\", promptOverrideConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -8161,6 +8611,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Bedrock models embedding data type. Can be either float32 or binary.
     public enum EmbeddingDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case binary
         case float32
@@ -9953,6 +10404,19 @@ public struct ListAgentVersionsOutput: Swift.Sendable {
     }
 }
 
+extension AssociateAgentCollaboratorInput {
+
+    static func urlPathProvider(_ value: AssociateAgentCollaboratorInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        guard let agentVersion = value.agentVersion else {
+            return nil
+        }
+        return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/agentcollaborators"
+    }
+}
+
 extension AssociateAgentKnowledgeBaseInput {
 
     static func urlPathProvider(_ value: AssociateAgentKnowledgeBaseInput) -> Swift.String? {
@@ -10263,6 +10727,22 @@ extension DeletePromptInput {
     }
 }
 
+extension DisassociateAgentCollaboratorInput {
+
+    static func urlPathProvider(_ value: DisassociateAgentCollaboratorInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        guard let agentVersion = value.agentVersion else {
+            return nil
+        }
+        guard let collaboratorId = value.collaboratorId else {
+            return nil
+        }
+        return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/agentcollaborators/\(collaboratorId.urlPercentEncoding())"
+    }
+}
+
 extension DisassociateAgentKnowledgeBaseInput {
 
     static func urlPathProvider(_ value: DisassociateAgentKnowledgeBaseInput) -> Swift.String? {
@@ -10315,6 +10795,22 @@ extension GetAgentAliasInput {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentaliases/\(agentAliasId.urlPercentEncoding())"
+    }
+}
+
+extension GetAgentCollaboratorInput {
+
+    static func urlPathProvider(_ value: GetAgentCollaboratorInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        guard let agentVersion = value.agentVersion else {
+            return nil
+        }
+        guard let collaboratorId = value.collaboratorId else {
+            return nil
+        }
+        return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/agentcollaborators/\(collaboratorId.urlPercentEncoding())"
     }
 }
 
@@ -10490,6 +10986,19 @@ extension ListAgentAliasesInput {
             return nil
         }
         return "/agents/\(agentId.urlPercentEncoding())/agentaliases"
+    }
+}
+
+extension ListAgentCollaboratorsInput {
+
+    static func urlPathProvider(_ value: ListAgentCollaboratorsInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        guard let agentVersion = value.agentVersion else {
+            return nil
+        }
+        return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/agentcollaborators"
     }
 }
 
@@ -10802,6 +11311,22 @@ extension UpdateAgentAliasInput {
     }
 }
 
+extension UpdateAgentCollaboratorInput {
+
+    static func urlPathProvider(_ value: UpdateAgentCollaboratorInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        guard let agentVersion = value.agentVersion else {
+            return nil
+        }
+        guard let collaboratorId = value.collaboratorId else {
+            return nil
+        }
+        return "/agents/\(agentId.urlPercentEncoding())/agentversions/\(agentVersion.urlPercentEncoding())/agentcollaborators/\(collaboratorId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateAgentKnowledgeBaseInput {
 
     static func urlPathProvider(_ value: UpdateAgentKnowledgeBaseInput) -> Swift.String? {
@@ -10881,6 +11406,18 @@ extension ValidateFlowDefinitionInput {
     }
 }
 
+extension AssociateAgentCollaboratorInput {
+
+    static func write(value: AssociateAgentCollaboratorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentDescriptor"].write(value.agentDescriptor, with: BedrockAgentClientTypes.AgentDescriptor.write(value:to:))
+        try writer["clientToken"].write(value.clientToken)
+        try writer["collaborationInstruction"].write(value.collaborationInstruction)
+        try writer["collaboratorName"].write(value.collaboratorName)
+        try writer["relayConversationHistory"].write(value.relayConversationHistory)
+    }
+}
+
 extension AssociateAgentKnowledgeBaseInput {
 
     static func write(value: AssociateAgentKnowledgeBaseInput?, to writer: SmithyJSON.Writer) throws {
@@ -10895,6 +11432,7 @@ extension CreateAgentInput {
 
     static func write(value: CreateAgentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["agentCollaboration"].write(value.agentCollaboration)
         try writer["agentName"].write(value.agentName)
         try writer["agentResourceRoleArn"].write(value.agentResourceRoleArn)
         try writer["clientToken"].write(value.clientToken)
@@ -11070,6 +11608,15 @@ extension ListAgentAliasesInput {
     }
 }
 
+extension ListAgentCollaboratorsInput {
+
+    static func write(value: ListAgentCollaboratorsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListAgentKnowledgeBasesInput {
 
     static func write(value: ListAgentKnowledgeBasesInput?, to writer: SmithyJSON.Writer) throws {
@@ -11156,6 +11703,7 @@ extension UpdateAgentInput {
 
     static func write(value: UpdateAgentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["agentCollaboration"].write(value.agentCollaboration)
         try writer["agentName"].write(value.agentName)
         try writer["agentResourceRoleArn"].write(value.agentResourceRoleArn)
         try writer["customOrchestration"].write(value.customOrchestration, with: BedrockAgentClientTypes.CustomOrchestration.write(value:to:))
@@ -11192,6 +11740,17 @@ extension UpdateAgentAliasInput {
         try writer["agentAliasName"].write(value.agentAliasName)
         try writer["description"].write(value.description)
         try writer["routingConfiguration"].writeList(value.routingConfiguration, memberWritingClosure: BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateAgentCollaboratorInput {
+
+    static func write(value: UpdateAgentCollaboratorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentDescriptor"].write(value.agentDescriptor, with: BedrockAgentClientTypes.AgentDescriptor.write(value:to:))
+        try writer["collaborationInstruction"].write(value.collaborationInstruction)
+        try writer["collaboratorName"].write(value.collaboratorName)
+        try writer["relayConversationHistory"].write(value.relayConversationHistory)
     }
 }
 
@@ -11268,6 +11827,18 @@ extension ValidateFlowDefinitionInput {
     static func write(value: ValidateFlowDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["definition"].write(value.definition, with: BedrockAgentClientTypes.FlowDefinition.write(value:to:))
+    }
+}
+
+extension AssociateAgentCollaboratorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateAgentCollaboratorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateAgentCollaboratorOutput()
+        value.agentCollaborator = try reader["agentCollaborator"].readIfPresent(with: BedrockAgentClientTypes.AgentCollaborator.read(from:))
+        return value
     }
 }
 
@@ -11585,6 +12156,13 @@ extension DeletePromptOutput {
     }
 }
 
+extension DisassociateAgentCollaboratorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateAgentCollaboratorOutput {
+        return DisassociateAgentCollaboratorOutput()
+    }
+}
+
 extension DisassociateAgentKnowledgeBaseOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateAgentKnowledgeBaseOutput {
@@ -11624,6 +12202,18 @@ extension GetAgentAliasOutput {
         let reader = responseReader
         var value = GetAgentAliasOutput()
         value.agentAlias = try reader["agentAlias"].readIfPresent(with: BedrockAgentClientTypes.AgentAlias.read(from:))
+        return value
+    }
+}
+
+extension GetAgentCollaboratorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgentCollaboratorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgentCollaboratorOutput()
+        value.agentCollaborator = try reader["agentCollaborator"].readIfPresent(with: BedrockAgentClientTypes.AgentCollaborator.read(from:))
         return value
     }
 }
@@ -11817,6 +12407,19 @@ extension ListAgentAliasesOutput {
         let reader = responseReader
         var value = ListAgentAliasesOutput()
         value.agentAliasSummaries = try reader["agentAliasSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentAliasSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAgentCollaboratorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAgentCollaboratorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAgentCollaboratorsOutput()
+        value.agentCollaboratorSummaries = try reader["agentCollaboratorSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentCollaboratorSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -12079,6 +12682,18 @@ extension UpdateAgentAliasOutput {
     }
 }
 
+extension UpdateAgentCollaboratorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentCollaboratorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAgentCollaboratorOutput()
+        value.agentCollaborator = try reader["agentCollaborator"].readIfPresent(with: BedrockAgentClientTypes.AgentCollaborator.read(from:))
+        return value
+    }
+}
+
 extension UpdateAgentKnowledgeBaseOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAgentKnowledgeBaseOutput {
@@ -12186,6 +12801,26 @@ extension ValidateFlowDefinitionOutput {
         var value = ValidateFlowDefinitionOutput()
         value.validations = try reader["validations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowValidation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+enum AssociateAgentCollaboratorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -12613,6 +13248,25 @@ enum DeletePromptOutputError {
     }
 }
 
+enum DisassociateAgentCollaboratorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateAgentKnowledgeBaseOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12669,6 +13323,24 @@ enum GetAgentActionGroupOutputError {
 }
 
 enum GetAgentAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAgentCollaboratorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12905,6 +13577,24 @@ enum ListAgentActionGroupsOutputError {
 }
 
 enum ListAgentAliasesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAgentCollaboratorsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13312,6 +14002,26 @@ enum UpdateAgentAliasOutputError {
     }
 }
 
+enum UpdateAgentCollaboratorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateAgentKnowledgeBaseOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13538,6 +14248,40 @@ extension AccessDeniedException {
     }
 }
 
+extension BedrockAgentClientTypes.AgentCollaborator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentCollaborator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.AgentCollaborator()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentVersion = try reader["agentVersion"].readIfPresent() ?? ""
+        value.agentDescriptor = try reader["agentDescriptor"].readIfPresent(with: BedrockAgentClientTypes.AgentDescriptor.read(from:))
+        value.collaboratorId = try reader["collaboratorId"].readIfPresent() ?? ""
+        value.collaborationInstruction = try reader["collaborationInstruction"].readIfPresent() ?? ""
+        value.collaboratorName = try reader["collaboratorName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.relayConversationHistory = try reader["relayConversationHistory"].readIfPresent()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.AgentDescriptor {
+
+    static func write(value: BedrockAgentClientTypes.AgentDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aliasArn"].write(value.aliasArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.AgentDescriptor()
+        value.aliasArn = try reader["aliasArn"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentClientTypes.AgentKnowledgeBase {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentKnowledgeBase {
@@ -13581,6 +14325,7 @@ extension BedrockAgentClientTypes.Agent {
         value.promptOverrideConfiguration = try reader["promptOverrideConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptOverrideConfiguration.read(from:))
         value.guardrailConfiguration = try reader["guardrailConfiguration"].readIfPresent(with: BedrockAgentClientTypes.GuardrailConfiguration.read(from:))
         value.memoryConfiguration = try reader["memoryConfiguration"].readIfPresent(with: BedrockAgentClientTypes.MemoryConfiguration.read(from:))
+        value.agentCollaboration = try reader["agentCollaboration"].readIfPresent()
         return value
     }
 }
@@ -13641,6 +14386,7 @@ extension BedrockAgentClientTypes.PromptConfiguration {
     static func write(value: BedrockAgentClientTypes.PromptConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["basePromptTemplate"].write(value.basePromptTemplate)
+        try writer["foundationModel"].write(value.foundationModel)
         try writer["inferenceConfiguration"].write(value.inferenceConfiguration, with: BedrockAgentClientTypes.InferenceConfiguration.write(value:to:))
         try writer["parserMode"].write(value.parserMode)
         try writer["promptCreationMode"].write(value.promptCreationMode)
@@ -13657,6 +14403,7 @@ extension BedrockAgentClientTypes.PromptConfiguration {
         value.basePromptTemplate = try reader["basePromptTemplate"].readIfPresent()
         value.inferenceConfiguration = try reader["inferenceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.InferenceConfiguration.read(from:))
         value.parserMode = try reader["parserMode"].readIfPresent()
+        value.foundationModel = try reader["foundationModel"].readIfPresent()
         return value
     }
 }
@@ -15978,6 +16725,7 @@ extension BedrockAgentClientTypes.AgentVersion {
         value.promptOverrideConfiguration = try reader["promptOverrideConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptOverrideConfiguration.read(from:))
         value.guardrailConfiguration = try reader["guardrailConfiguration"].readIfPresent(with: BedrockAgentClientTypes.GuardrailConfiguration.read(from:))
         value.memoryConfiguration = try reader["memoryConfiguration"].readIfPresent(with: BedrockAgentClientTypes.MemoryConfiguration.read(from:))
+        value.agentCollaboration = try reader["agentCollaboration"].readIfPresent()
         return value
     }
 }
@@ -16375,6 +17123,24 @@ extension BedrockAgentClientTypes.AgentAliasSummary {
         value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.AgentCollaboratorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AgentCollaboratorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.AgentCollaboratorSummary()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.agentVersion = try reader["agentVersion"].readIfPresent() ?? ""
+        value.collaboratorId = try reader["collaboratorId"].readIfPresent() ?? ""
+        value.agentDescriptor = try reader["agentDescriptor"].readIfPresent(with: BedrockAgentClientTypes.AgentDescriptor.read(from:))
+        value.collaborationInstruction = try reader["collaborationInstruction"].readIfPresent() ?? ""
+        value.relayConversationHistory = try reader["relayConversationHistory"].readIfPresent() ?? .sdkUnknown("")
+        value.collaboratorName = try reader["collaboratorName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
