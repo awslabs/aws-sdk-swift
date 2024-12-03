@@ -49,6 +49,7 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SignerMiddleware
@@ -63,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentRuntimeClient"
-    public static let version = "1.0.52"
+    public static let version = "1.0.53"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentRuntimeClient.BedrockAgentRuntimeClientConfiguration
     let serviceName = "Bedrock Agent Runtime"
@@ -411,6 +412,7 @@ extension BedrockAgentRuntimeClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<InvokeAgentInput, InvokeAgentOutput>(InvokeAgentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InvokeAgentInput, InvokeAgentOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<InvokeAgentInput, InvokeAgentOutput>(InvokeAgentInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InvokeAgentInput, InvokeAgentOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<InvokeAgentInput, InvokeAgentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: InvokeAgentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeAgentInput, InvokeAgentOutput>())

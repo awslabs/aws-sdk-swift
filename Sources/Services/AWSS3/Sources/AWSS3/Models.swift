@@ -70,6 +70,11 @@ import struct SmithyRetries.DefaultRetryStrategy
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
 
 
+public struct CreateBucketMetadataTableConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteBucketAnalyticsConfigurationOutput: Swift.Sendable {
 
     public init() { }
@@ -96,6 +101,11 @@ public struct DeleteBucketInventoryConfigurationOutput: Swift.Sendable {
 }
 
 public struct DeleteBucketLifecycleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteBucketMetadataTableConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1949,6 +1959,75 @@ public struct CreateBucketOutput: Swift.Sendable {
     }
 }
 
+extension S3ClientTypes {
+
+    /// The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+    public struct S3TablesDestination: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket.
+        /// This member is required.
+        public var tableBucketArn: Swift.String?
+        /// The name for the metadata table in your metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+        /// This member is required.
+        public var tableName: Swift.String?
+
+        public init(
+            tableBucketArn: Swift.String? = nil,
+            tableName: Swift.String? = nil
+        )
+        {
+            self.tableBucketArn = tableBucketArn
+            self.tableName = tableName
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The metadata table configuration for a general purpose bucket.
+    public struct MetadataTableConfiguration: Swift.Sendable {
+        /// The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+        /// This member is required.
+        public var s3TablesDestination: S3ClientTypes.S3TablesDestination?
+
+        public init(
+            s3TablesDestination: S3ClientTypes.S3TablesDestination? = nil
+        )
+        {
+            self.s3TablesDestination = s3TablesDestination
+        }
+    }
+}
+
+public struct CreateBucketMetadataTableConfigurationInput: Swift.Sendable {
+    /// The general purpose bucket that you want to create the metadata table configuration in.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The checksum algorithm to use with your metadata table configuration.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// The Content-MD5 header for the metadata table configuration.
+    public var contentMD5: Swift.String?
+    /// The expected owner of the general purpose bucket that contains your metadata table configuration.
+    public var expectedBucketOwner: Swift.String?
+    /// The contents of your metadata table configuration.
+    /// This member is required.
+    public var metadataTableConfiguration: S3ClientTypes.MetadataTableConfiguration?
+
+    public init(
+        bucket: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        contentMD5: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        metadataTableConfiguration: S3ClientTypes.MetadataTableConfiguration? = nil
+    )
+    {
+        self.bucket = bucket
+        self.checksumAlgorithm = checksumAlgorithm
+        self.contentMD5 = contentMD5
+        self.expectedBucketOwner = expectedBucketOwner
+        self.metadataTableConfiguration = metadataTableConfiguration
+    }
+}
+
 public struct CreateMultipartUploadInput: Swift.Sendable {
     /// The canned ACL to apply to the object. Amazon S3 supports a set of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions. For more information, see [Canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL) in the Amazon S3 User Guide. By default, all objects are private. Only the owner has full access control. When uploading an object, you can grant access permissions to individual Amazon Web Services accounts or to predefined groups defined by Amazon S3. These permissions are then added to the access control list (ACL) on the new object. For more information, see [Using ACLs](https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html). One way to grant the permissions using the request headers is to specify a canned ACL with the x-amz-acl request header.
     ///
@@ -2557,6 +2636,23 @@ public struct DeleteBucketLifecycleInput: Swift.Sendable {
     /// This member is required.
     public var bucket: Swift.String?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). This parameter applies to general purpose buckets only. It is not supported for directory bucket lifecycle configurations.
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+public struct DeleteBucketMetadataTableConfigurationInput: Swift.Sendable {
+    /// The general purpose bucket that you want to remove the metadata table configuration from.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The expected bucket owner of the general purpose bucket that you want to remove the metadata table configuration from.
     public var expectedBucketOwner: Swift.String?
 
     public init(
@@ -5662,6 +5758,160 @@ public struct GetBucketLoggingOutput: Swift.Sendable {
     )
     {
         self.loggingEnabled = loggingEnabled
+    }
+}
+
+public struct GetBucketMetadataTableConfigurationInput: Swift.Sendable {
+    /// The general purpose bucket that contains the metadata table configuration that you want to retrieve.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The expected owner of the general purpose bucket that you want to retrieve the metadata table configuration from.
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    )
+    {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension S3ClientTypes {
+
+    /// If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code and error message.
+    public struct ErrorDetails: Swift.Sendable {
+        /// If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code. The possible error codes and error messages are as follows:
+        ///
+        /// * AccessDeniedCreatingResources - You don't have sufficient permissions to create the required resources. Make sure that you have s3tables:CreateNamespace, s3tables:CreateTable, s3tables:GetTable and s3tables:PutTablePolicy permissions, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * AccessDeniedWritingToTable - Unable to write to the metadata table because of missing resource permissions. To fix the resource policy, Amazon S3 needs to create a new metadata table. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * DestinationTableNotFound - The destination table doesn't exist. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * ServerInternalError - An internal error has occurred. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * TableAlreadyExists - The table that you specified already exists in the table bucket's namespace. Specify a different table name. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * TableBucketNotFound - The table bucket that you specified doesn't exist in this Amazon Web Services Region and account. Create or choose a different table bucket. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        public var errorCode: Swift.String?
+        /// If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error message. The possible error codes and error messages are as follows:
+        ///
+        /// * AccessDeniedCreatingResources - You don't have sufficient permissions to create the required resources. Make sure that you have s3tables:CreateNamespace, s3tables:CreateTable, s3tables:GetTable and s3tables:PutTablePolicy permissions, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * AccessDeniedWritingToTable - Unable to write to the metadata table because of missing resource permissions. To fix the resource policy, Amazon S3 needs to create a new metadata table. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * DestinationTableNotFound - The destination table doesn't exist. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * ServerInternalError - An internal error has occurred. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * TableAlreadyExists - The table that you specified already exists in the table bucket's namespace. Specify a different table name. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * TableBucketNotFound - The table bucket that you specified doesn't exist in this Amazon Web Services Region and account. Create or choose a different table bucket. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+    public struct S3TablesDestinationResult: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the metadata table in the metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+        /// This member is required.
+        public var tableArn: Swift.String?
+        /// The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket.
+        /// This member is required.
+        public var tableBucketArn: Swift.String?
+        /// The name for the metadata table in your metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// The table bucket namespace for the metadata table in your metadata table configuration. This value is always aws_s3_metadata.
+        /// This member is required.
+        public var tableNamespace: Swift.String?
+
+        public init(
+            tableArn: Swift.String? = nil,
+            tableBucketArn: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            tableNamespace: Swift.String? = nil
+        )
+        {
+            self.tableArn = tableArn
+            self.tableBucketArn = tableBucketArn
+            self.tableName = tableName
+            self.tableNamespace = tableNamespace
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The metadata table configuration for a general purpose bucket. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+    public struct MetadataTableConfigurationResult: Swift.Sendable {
+        /// The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+        /// This member is required.
+        public var s3TablesDestinationResult: S3ClientTypes.S3TablesDestinationResult?
+
+        public init(
+            s3TablesDestinationResult: S3ClientTypes.S3TablesDestinationResult? = nil
+        )
+        {
+            self.s3TablesDestinationResult = s3TablesDestinationResult
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The metadata table configuration for a general purpose bucket.
+    public struct GetBucketMetadataTableConfigurationResult: Swift.Sendable {
+        /// If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code and error message.
+        public var error: S3ClientTypes.ErrorDetails?
+        /// The metadata table configuration for a general purpose bucket.
+        /// This member is required.
+        public var metadataTableConfigurationResult: S3ClientTypes.MetadataTableConfigurationResult?
+        /// The status of the metadata table. The status values are:
+        ///
+        /// * CREATING - The metadata table is in the process of being created in the specified table bucket.
+        ///
+        /// * ACTIVE - The metadata table has been created successfully and records are being delivered to the table.
+        ///
+        /// * FAILED - Amazon S3 is unable to create the metadata table, or Amazon S3 is unable to deliver records. See ErrorDetails for details.
+        /// This member is required.
+        public var status: Swift.String?
+
+        public init(
+            error: S3ClientTypes.ErrorDetails? = nil,
+            metadataTableConfigurationResult: S3ClientTypes.MetadataTableConfigurationResult? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.error = error
+            self.metadataTableConfigurationResult = metadataTableConfigurationResult
+            self.status = status
+        }
+    }
+}
+
+public struct GetBucketMetadataTableConfigurationOutput: Swift.Sendable {
+    /// The metadata table configuration for the general purpose bucket.
+    public var getBucketMetadataTableConfigurationResult: S3ClientTypes.GetBucketMetadataTableConfigurationResult?
+
+    public init(
+        getBucketMetadataTableConfigurationResult: S3ClientTypes.GetBucketMetadataTableConfigurationResult? = nil
+    )
+    {
+        self.getBucketMetadataTableConfigurationResult = getBucketMetadataTableConfigurationResult
     }
 }
 
@@ -13078,6 +13328,39 @@ extension CreateBucketInput {
     }
 }
 
+extension CreateBucketMetadataTableConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateBucketMetadataTableConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateBucketMetadataTableConfigurationInput {
+
+    static func headerProvider(_ value: CreateBucketMetadataTableConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let checksumAlgorithm = value.checksumAlgorithm {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let contentMD5 = value.contentMD5 {
+            items.add(SmithyHTTPAPI.Header(name: "Content-MD5", value: Swift.String(contentMD5)))
+        }
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension CreateBucketMetadataTableConfigurationInput {
+
+    static func queryItemProvider(_ value: CreateBucketMetadataTableConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metadataTable", value: nil))
+        return items
+    }
+}
+
 extension CreateMultipartUploadInput {
 
     static func urlPathProvider(_ value: CreateMultipartUploadInput) -> Swift.String? {
@@ -13413,6 +13696,33 @@ extension DeleteBucketLifecycleInput {
     static func queryItemProvider(_ value: DeleteBucketLifecycleInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "lifecycle", value: nil))
+        return items
+    }
+}
+
+extension DeleteBucketMetadataTableConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteBucketMetadataTableConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteBucketMetadataTableConfigurationInput {
+
+    static func headerProvider(_ value: DeleteBucketMetadataTableConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketMetadataTableConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteBucketMetadataTableConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metadataTable", value: nil))
         return items
     }
 }
@@ -14016,6 +14326,33 @@ extension GetBucketLoggingInput {
     static func queryItemProvider(_ value: GetBucketLoggingInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "logging", value: nil))
+        return items
+    }
+}
+
+extension GetBucketMetadataTableConfigurationInput {
+
+    static func urlPathProvider(_ value: GetBucketMetadataTableConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetBucketMetadataTableConfigurationInput {
+
+    static func headerProvider(_ value: GetBucketMetadataTableConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension GetBucketMetadataTableConfigurationInput {
+
+    static func queryItemProvider(_ value: GetBucketMetadataTableConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metadataTable", value: nil))
         return items
     }
 }
@@ -16656,6 +16993,14 @@ extension CreateBucketInput {
     }
 }
 
+extension CreateBucketMetadataTableConfigurationInput {
+
+    static func write(value: CreateBucketMetadataTableConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["MetadataTableConfiguration"].write(value.metadataTableConfiguration, with: S3ClientTypes.MetadataTableConfiguration.write(value:to:))
+    }
+}
+
 extension DeleteObjectsInput {
 
     static func write(value: DeleteObjectsInput?, to writer: SmithyXML.Writer) throws {
@@ -17002,6 +17347,13 @@ extension CreateBucketOutput {
     }
 }
 
+extension CreateBucketMetadataTableConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBucketMetadataTableConfigurationOutput {
+        return CreateBucketMetadataTableConfigurationOutput()
+    }
+}
+
 extension CreateMultipartUploadOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMultipartUploadOutput {
@@ -17116,6 +17468,13 @@ extension DeleteBucketLifecycleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBucketLifecycleOutput {
         return DeleteBucketLifecycleOutput()
+    }
+}
+
+extension DeleteBucketMetadataTableConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBucketMetadataTableConfigurationOutput {
+        return DeleteBucketMetadataTableConfigurationOutput()
     }
 }
 
@@ -17335,6 +17694,18 @@ extension GetBucketLoggingOutput {
         let reader = responseReader
         var value = GetBucketLoggingOutput()
         value.loggingEnabled = try reader["LoggingEnabled"].readIfPresent(with: S3ClientTypes.LoggingEnabled.read(from:))
+        return value
+    }
+}
+
+extension GetBucketMetadataTableConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBucketMetadataTableConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketMetadataTableConfigurationOutput()
+        value.getBucketMetadataTableConfigurationResult = try reader.readIfPresent(with: S3ClientTypes.GetBucketMetadataTableConfigurationResult.read(from:))
         return value
     }
 }
@@ -18503,6 +18874,20 @@ enum CreateBucketOutputError {
     }
 }
 
+enum CreateBucketMetadataTableConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateMultipartUploadOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18617,6 +19002,20 @@ enum DeleteBucketInventoryConfigurationOutputError {
 }
 
 enum DeleteBucketLifecycleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteBucketMetadataTableConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -18897,6 +19296,20 @@ enum GetBucketLocationOutputError {
 }
 
 enum GetBucketLoggingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetBucketMetadataTableConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -20799,6 +21212,52 @@ extension S3ClientTypes.TargetGrant {
     }
 }
 
+extension S3ClientTypes.GetBucketMetadataTableConfigurationResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.GetBucketMetadataTableConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.GetBucketMetadataTableConfigurationResult()
+        value.metadataTableConfigurationResult = try reader["MetadataTableConfigurationResult"].readIfPresent(with: S3ClientTypes.MetadataTableConfigurationResult.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.error = try reader["Error"].readIfPresent(with: S3ClientTypes.ErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension S3ClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.ErrorDetails()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ClientTypes.MetadataTableConfigurationResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.MetadataTableConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.MetadataTableConfigurationResult()
+        value.s3TablesDestinationResult = try reader["S3TablesDestinationResult"].readIfPresent(with: S3ClientTypes.S3TablesDestinationResult.read(from:))
+        return value
+    }
+}
+
+extension S3ClientTypes.S3TablesDestinationResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.S3TablesDestinationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.S3TablesDestinationResult()
+        value.tableBucketArn = try reader["TableBucketArn"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.tableArn = try reader["TableArn"].readIfPresent() ?? ""
+        value.tableNamespace = try reader["TableNamespace"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension S3ClientTypes.MetricsConfiguration {
 
     static func write(value: S3ClientTypes.MetricsConfiguration?, to writer: SmithyXML.Writer) throws {
@@ -21810,6 +22269,23 @@ extension S3ClientTypes.LocationInfo {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Type"].write(value.type)
+    }
+}
+
+extension S3ClientTypes.MetadataTableConfiguration {
+
+    static func write(value: S3ClientTypes.MetadataTableConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["S3TablesDestination"].write(value.s3TablesDestination, with: S3ClientTypes.S3TablesDestination.write(value:to:))
+    }
+}
+
+extension S3ClientTypes.S3TablesDestination {
+
+    static func write(value: S3ClientTypes.S3TablesDestination?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["TableBucketArn"].write(value.tableBucketArn)
+        try writer["TableName"].write(value.tableName)
     }
 }
 

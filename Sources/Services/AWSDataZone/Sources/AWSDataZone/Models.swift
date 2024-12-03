@@ -18,6 +18,8 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listWritingClosure
 @_spi(SmithyReadWrite) import func SmithyReadWrite.mapReadingClosure
 @_spi(SmithyReadWrite) import func SmithyReadWrite.mapWritingClosure
 import protocol AWSClientRuntime.AWSServiceError
@@ -28,6 +30,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+import struct SmithyHTTPAPI.Header
+import struct SmithyHTTPAPI.Headers
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -1077,6 +1082,26 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// Specifies whether to create a project from project profile policy grant details.
+    public struct CreateProjectFromProjectProfilePolicyGrantDetail: Swift.Sendable {
+        /// Specifies whether to include child domain units when creating a project from project profile policy grant details
+        public var includeChildDomainUnits: Swift.Bool?
+        /// Specifies project profiles when creating a project from project profile policy grant details
+        public var projectProfiles: [Swift.String]?
+
+        public init(
+            includeChildDomainUnits: Swift.Bool? = nil,
+            projectProfiles: [Swift.String]? = nil
+        )
+        {
+            self.includeChildDomainUnits = includeChildDomainUnits
+            self.projectProfiles = projectProfiles
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The grant details of the override domain unit owners policy.
     public struct OverrideDomainUnitOwnersPolicyGrantDetail: Swift.Sendable {
         /// Specifies whether the policy is inherited by child domain units.
@@ -1133,6 +1158,10 @@ extension DataZoneClientTypes {
         case delegatecreateenvironmentprofile(DataZoneClientTypes.Unit)
         /// Specifies that this is a create environment policy.
         case createenvironment(DataZoneClientTypes.Unit)
+        /// The details of the policy of creating an environment.
+        case createenvironmentfromblueprint(DataZoneClientTypes.Unit)
+        /// Specifies whether to create a project from project profile.
+        case createprojectfromprojectprofile(DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1176,10 +1205,12 @@ extension DataZoneClientTypes {
         case createAssetType
         case createDomainUnit
         case createEnvironment
+        case createEnvironmentFromBlueprint
         case createEnvironmentProfile
         case createFormType
         case createGlossary
         case createProject
+        case createProjectFromProjectProfile
         case delegateCreateEnvironmentProfile
         case overrideDomainUnitOwners
         case overrideProjectOwners
@@ -1191,10 +1222,12 @@ extension DataZoneClientTypes {
                 .createAssetType,
                 .createDomainUnit,
                 .createEnvironment,
+                .createEnvironmentFromBlueprint,
                 .createEnvironmentProfile,
                 .createFormType,
                 .createGlossary,
                 .createProject,
+                .createProjectFromProjectProfile,
                 .delegateCreateEnvironmentProfile,
                 .overrideDomainUnitOwners,
                 .overrideProjectOwners
@@ -1212,10 +1245,12 @@ extension DataZoneClientTypes {
             case .createAssetType: return "CREATE_ASSET_TYPE"
             case .createDomainUnit: return "CREATE_DOMAIN_UNIT"
             case .createEnvironment: return "CREATE_ENVIRONMENT"
+            case .createEnvironmentFromBlueprint: return "CREATE_ENVIRONMENT_FROM_BLUEPRINT"
             case .createEnvironmentProfile: return "CREATE_ENVIRONMENT_PROFILE"
             case .createFormType: return "CREATE_FORM_TYPE"
             case .createGlossary: return "CREATE_GLOSSARY"
             case .createProject: return "CREATE_PROJECT"
+            case .createProjectFromProjectProfile: return "CREATE_PROJECT_FROM_PROJECT_PROFILE"
             case .delegateCreateEnvironmentProfile: return "DELEGATE_CREATE_ENVIRONMENT_PROFILE"
             case .overrideDomainUnitOwners: return "OVERRIDE_DOMAIN_UNIT_OWNERS"
             case .overrideProjectOwners: return "OVERRIDE_PROJECT_OWNERS"
@@ -1656,7 +1691,7 @@ public struct CreateAssetInput: Swift.Sendable {
 
 extension CreateAssetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAssetInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", formsInput: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAssetInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", formsInput: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -1792,7 +1827,7 @@ public struct CreateAssetOutput: Swift.Sendable {
 
 extension CreateAssetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAssetRevisionInput: Swift.Sendable {
@@ -1941,7 +1976,7 @@ public struct CreateAssetRevisionOutput: Swift.Sendable {
 
 extension CreateAssetRevisionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAssetRevisionOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAssetRevisionOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteAssetInput: Swift.Sendable {
@@ -2079,7 +2114,7 @@ public struct GetAssetOutput: Swift.Sendable {
 
 extension GetAssetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -2574,7 +2609,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.AssetItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssetItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), owningProjectId: \(Swift.String(describing: owningProjectId)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "AssetItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), owningProjectId: \(Swift.String(describing: owningProjectId)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -3184,6 +3219,349 @@ public struct AssociateEnvironmentRoleOutput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
+    /// The Amazon Athena properties of a connection.
+    public struct AthenaPropertiesInput: Swift.Sendable {
+        /// The Amazon Athena workgroup name of a connection.
+        public var workgroupName: Swift.String?
+
+        public init(
+            workgroupName: Swift.String? = nil
+        )
+        {
+            self.workgroupName = workgroupName
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Athena properties of a connection.
+    public struct AthenaPropertiesOutput: Swift.Sendable {
+        /// The Amazon Athena workgroup name of a connection.
+        public var workgroupName: Swift.String?
+
+        public init(
+            workgroupName: Swift.String? = nil
+        )
+        {
+            self.workgroupName = workgroupName
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Athena properties patch of a connection.
+    public struct AthenaPropertiesPatch: Swift.Sendable {
+        /// The Amazon Athena workgroup name of a connection.
+        public var workgroupName: Swift.String?
+
+        public init(
+            workgroupName: Swift.String? = nil
+        )
+        {
+            self.workgroupName = workgroupName
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case basic
+        case custom
+        case oauth2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthenticationType] {
+            return [
+                .basic,
+                .custom,
+                .oauth2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .basic: return "BASIC"
+            case .custom: return "CUSTOM"
+            case .oauth2: return "OAUTH2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The authorization code properties of a connection.
+    public struct AuthorizationCodeProperties: Swift.Sendable {
+        /// The authorization code of a connection.
+        public var authorizationCode: Swift.String?
+        /// The redirect URI of a connection.
+        public var redirectUri: Swift.String?
+
+        public init(
+            authorizationCode: Swift.String? = nil,
+            redirectUri: Swift.String? = nil
+        )
+        {
+            self.authorizationCode = authorizationCode
+            self.redirectUri = redirectUri
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The OAuth2Client application.
+    public struct OAuth2ClientApplication: Swift.Sendable {
+        /// The Amazon Web Services managed client application reference in the OAuth2Client application.
+        public var aWSManagedClientApplicationReference: Swift.String?
+        /// The user managed client application client ID in the OAuth2Client application.
+        public var userManagedClientApplicationClientId: Swift.String?
+
+        public init(
+            aWSManagedClientApplicationReference: Swift.String? = nil,
+            userManagedClientApplicationClientId: Swift.String? = nil
+        )
+        {
+            self.aWSManagedClientApplicationReference = aWSManagedClientApplicationReference
+            self.userManagedClientApplicationClientId = userManagedClientApplicationClientId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The GlueOAuth2 credentials of a connection.
+    public struct GlueOAuth2Credentials: Swift.Sendable {
+        /// The access token of a connection.
+        public var accessToken: Swift.String?
+        /// The jwt token of the connection.
+        public var jwtToken: Swift.String?
+        /// The refresh token of the connection.
+        public var refreshToken: Swift.String?
+        /// The user managed client application client secret of the connection.
+        public var userManagedClientApplicationClientSecret: Swift.String?
+
+        public init(
+            accessToken: Swift.String? = nil,
+            jwtToken: Swift.String? = nil,
+            refreshToken: Swift.String? = nil,
+            userManagedClientApplicationClientSecret: Swift.String? = nil
+        )
+        {
+            self.accessToken = accessToken
+            self.jwtToken = jwtToken
+            self.refreshToken = refreshToken
+            self.userManagedClientApplicationClientSecret = userManagedClientApplicationClientSecret
+        }
+    }
+}
+
+extension DataZoneClientTypes.GlueOAuth2Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum OAuth2GrantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authorizationCode
+        case clientCredentials
+        case jwtBearer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OAuth2GrantType] {
+            return [
+                .authorizationCode,
+                .clientCredentials,
+                .jwtBearer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .authorizationCode: return "AUTHORIZATION_CODE"
+            case .clientCredentials: return "CLIENT_CREDENTIALS"
+            case .jwtBearer: return "JWT_BEARER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The OAuth2 properties.
+    public struct OAuth2Properties: Swift.Sendable {
+        /// The authorization code properties of the OAuth2 properties.
+        public var authorizationCodeProperties: DataZoneClientTypes.AuthorizationCodeProperties?
+        /// The OAuth2 client application of the OAuth2 properties.
+        public var oAuth2ClientApplication: DataZoneClientTypes.OAuth2ClientApplication?
+        /// The OAuth2 credentials of the OAuth2 properties.
+        public var oAuth2Credentials: DataZoneClientTypes.GlueOAuth2Credentials?
+        /// The OAuth2 grant type of the OAuth2 properties.
+        public var oAuth2GrantType: DataZoneClientTypes.OAuth2GrantType?
+        /// The OAuth2 token URL of the OAuth2 properties.
+        public var tokenUrl: Swift.String?
+        /// The OAuth2 token URL parameter map of the OAuth2 properties.
+        public var tokenUrlParametersMap: [Swift.String: Swift.String]?
+
+        public init(
+            authorizationCodeProperties: DataZoneClientTypes.AuthorizationCodeProperties? = nil,
+            oAuth2ClientApplication: DataZoneClientTypes.OAuth2ClientApplication? = nil,
+            oAuth2Credentials: DataZoneClientTypes.GlueOAuth2Credentials? = nil,
+            oAuth2GrantType: DataZoneClientTypes.OAuth2GrantType? = nil,
+            tokenUrl: Swift.String? = nil,
+            tokenUrlParametersMap: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.authorizationCodeProperties = authorizationCodeProperties
+            self.oAuth2ClientApplication = oAuth2ClientApplication
+            self.oAuth2Credentials = oAuth2Credentials
+            self.oAuth2GrantType = oAuth2GrantType
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParametersMap = tokenUrlParametersMap
+        }
+    }
+}
+
+extension DataZoneClientTypes.OAuth2Properties: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OAuth2Properties(authorizationCodeProperties: \(Swift.String(describing: authorizationCodeProperties)), oAuth2ClientApplication: \(Swift.String(describing: oAuth2ClientApplication)), oAuth2GrantType: \(Swift.String(describing: oAuth2GrantType)), tokenUrl: \(Swift.String(describing: tokenUrl)), tokenUrlParametersMap: \(Swift.String(describing: tokenUrlParametersMap)), oAuth2Credentials: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The authentication configuration of a connection.
+    public struct AuthenticationConfiguration: Swift.Sendable {
+        /// The authentication type of a connection.
+        public var authenticationType: DataZoneClientTypes.AuthenticationType?
+        /// The oAuth2 properties of a connection.
+        public var oAuth2Properties: DataZoneClientTypes.OAuth2Properties?
+        /// The secret ARN of a connection.
+        public var secretArn: Swift.String?
+
+        public init(
+            authenticationType: DataZoneClientTypes.AuthenticationType? = nil,
+            oAuth2Properties: DataZoneClientTypes.OAuth2Properties? = nil,
+            secretArn: Swift.String? = nil
+        )
+        {
+            self.authenticationType = authenticationType
+            self.oAuth2Properties = oAuth2Properties
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The basic authentication credentials of a connection.
+    public struct BasicAuthenticationCredentials: Swift.Sendable {
+        /// The password for a connection.
+        public var password: Swift.String?
+        /// The user name for the connecion.
+        public var userName: Swift.String?
+
+        public init(
+            password: Swift.String? = nil,
+            userName: Swift.String? = nil
+        )
+        {
+            self.password = password
+            self.userName = userName
+        }
+    }
+}
+
+extension DataZoneClientTypes.BasicAuthenticationCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The authentication configuration of a connection.
+    public struct AuthenticationConfigurationInput: Swift.Sendable {
+        /// The authentication type of a connection.
+        public var authenticationType: DataZoneClientTypes.AuthenticationType?
+        /// The basic authentication credentials of a connection.
+        public var basicAuthenticationCredentials: DataZoneClientTypes.BasicAuthenticationCredentials?
+        /// The custom authentication credentials of a connection.
+        public var customAuthenticationCredentials: [Swift.String: Swift.String]?
+        /// The KMS key ARN of a connection.
+        public var kmsKeyArn: Swift.String?
+        /// The oAuth2 properties of a connection.
+        public var oAuth2Properties: DataZoneClientTypes.OAuth2Properties?
+        /// The secret ARN of a connection.
+        public var secretArn: Swift.String?
+
+        public init(
+            authenticationType: DataZoneClientTypes.AuthenticationType? = nil,
+            basicAuthenticationCredentials: DataZoneClientTypes.BasicAuthenticationCredentials? = nil,
+            customAuthenticationCredentials: [Swift.String: Swift.String]? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            oAuth2Properties: DataZoneClientTypes.OAuth2Properties? = nil,
+            secretArn: Swift.String? = nil
+        )
+        {
+            self.authenticationType = authenticationType
+            self.basicAuthenticationCredentials = basicAuthenticationCredentials
+            self.customAuthenticationCredentials = customAuthenticationCredentials
+            self.kmsKeyArn = kmsKeyArn
+            self.oAuth2Properties = oAuth2Properties
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension DataZoneClientTypes.AuthenticationConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AuthenticationConfigurationInput(authenticationType: \(Swift.String(describing: authenticationType)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), oAuth2Properties: \(Swift.String(describing: oAuth2Properties)), secretArn: \(Swift.String(describing: secretArn)), basicAuthenticationCredentials: \"CONTENT_REDACTED\", customAuthenticationCredentials: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The authentication configuration patch of a connection.
+    public struct AuthenticationConfigurationPatch: Swift.Sendable {
+        /// The basic authentication credentials of a connection.
+        public var basicAuthenticationCredentials: DataZoneClientTypes.BasicAuthenticationCredentials?
+        /// The secret ARN of a connection.
+        public var secretArn: Swift.String?
+
+        public init(
+            basicAuthenticationCredentials: DataZoneClientTypes.BasicAuthenticationCredentials? = nil,
+            secretArn: Swift.String? = nil
+        )
+        {
+            self.basicAuthenticationCredentials = basicAuthenticationCredentials
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension DataZoneClientTypes.AuthenticationConfigurationPatch: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AuthenticationConfigurationPatch(secretArn: \(Swift.String(describing: secretArn)), basicAuthenticationCredentials: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
     public enum AuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case iamIdc
@@ -3207,6 +3585,46 @@ extension DataZoneClientTypes {
             case .iamIdc: return "IAM_IDC"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The account ID of a project.
+    public enum AwsAccount: Swift.Sendable {
+        /// The account ID of a project.
+        case awsaccountid(Swift.String)
+        /// The account ID path of a project.
+        case awsaccountidpath(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The location of a project.
+    public struct AwsLocation: Swift.Sendable {
+        /// The access role of a connection.
+        public var accessRole: Swift.String?
+        /// The account ID of a connection.
+        public var awsAccountId: Swift.String?
+        /// The Region of a connection.
+        public var awsRegion: Swift.String?
+        /// The IAM connection ID of a connection.
+        public var iamConnectionId: Swift.String?
+
+        public init(
+            accessRole: Swift.String? = nil,
+            awsAccountId: Swift.String? = nil,
+            awsRegion: Swift.String? = nil,
+            iamConnectionId: Swift.String? = nil
+        )
+        {
+            self.accessRole = accessRole
+            self.awsAccountId = awsAccountId
+            self.awsRegion = awsRegion
+            self.iamConnectionId = iamConnectionId
         }
     }
 }
@@ -3392,6 +3810,38 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    public enum ComputeEnvironments: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case athena
+        case python
+        case spark
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeEnvironments] {
+            return [
+                .athena,
+                .python,
+                .spark
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .athena: return "ATHENA"
+            case .python: return "PYTHON"
+            case .spark: return "SPARK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The details of the parameters for the configurable environment action.
     public struct ConfigurableActionParameter: Swift.Sendable {
         /// The key of the configurable action parameter.
@@ -3463,6 +3913,1424 @@ extension DataZoneClientTypes {
             self.type = type
         }
     }
+}
+
+extension DataZoneClientTypes {
+
+    /// The credentials of a connection.
+    public struct ConnectionCredentials: Swift.Sendable {
+        /// The access key ID of a connection.
+        public var accessKeyId: Swift.String?
+        /// The expiration of the connection credentials.
+        public var expiration: Foundation.Date?
+        /// The secret access key of a connection.
+        public var secretAccessKey: Swift.String?
+        /// The session token of a connection credentials.
+        public var sessionToken: Swift.String?
+
+        public init(
+            accessKeyId: Swift.String? = nil,
+            expiration: Foundation.Date? = nil,
+            secretAccessKey: Swift.String? = nil,
+            sessionToken: Swift.String? = nil
+        )
+        {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+    }
+}
+
+extension DataZoneClientTypes.ConnectionCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum GlueConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bigquery
+        case documentdb
+        case dynamodb
+        case mysql
+        case opensearch
+        case oracle
+        case postgresql
+        case redshift
+        case saphana
+        case snowflake
+        case sqlserver
+        case teradata
+        case vertica
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlueConnectionType] {
+            return [
+                .bigquery,
+                .documentdb,
+                .dynamodb,
+                .mysql,
+                .opensearch,
+                .oracle,
+                .postgresql,
+                .redshift,
+                .saphana,
+                .snowflake,
+                .sqlserver,
+                .teradata,
+                .vertica
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bigquery: return "BIGQUERY"
+            case .documentdb: return "DOCUMENTDB"
+            case .dynamodb: return "DYNAMODB"
+            case .mysql: return "MYSQL"
+            case .opensearch: return "OPENSEARCH"
+            case .oracle: return "ORACLE"
+            case .postgresql: return "POSTGRESQL"
+            case .redshift: return "REDSHIFT"
+            case .saphana: return "SAPHANA"
+            case .snowflake: return "SNOWFLAKE"
+            case .sqlserver: return "SQLSERVER"
+            case .teradata: return "TERADATA"
+            case .vertica: return "VERTICA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Physical connection requirements of a connection.
+    public struct PhysicalConnectionRequirements: Swift.Sendable {
+        /// The availability zone of the physical connection requirements of a connection.
+        public var availabilityZone: Swift.String?
+        /// The group ID list of the physical connection requirements of a connection.
+        public var securityGroupIdList: [Swift.String]?
+        /// The subnet ID of the physical connection requirements of a connection.
+        public var subnetId: Swift.String?
+        /// The subnet ID list of the physical connection requirements of a connection.
+        public var subnetIdList: [Swift.String]?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            securityGroupIdList: [Swift.String]? = nil,
+            subnetId: Swift.String? = nil,
+            subnetIdList: [Swift.String]? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.securityGroupIdList = securityGroupIdList
+            self.subnetId = subnetId
+            self.subnetIdList = subnetIdList
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Web Services Glue connecton input.
+    public struct GlueConnectionInput: Swift.Sendable {
+        /// The Amazon Athena properties of the Amazon Web Services Glue connection.
+        public var athenaProperties: [Swift.String: Swift.String]?
+        /// The authentication configuration of the Amazon Web Services Glue connection.
+        public var authenticationConfiguration: DataZoneClientTypes.AuthenticationConfigurationInput?
+        /// The connection properties of the Amazon Web Services Glue connection.
+        public var connectionProperties: [Swift.String: Swift.String]?
+        /// The connection type of the Amazon Web Services Glue connection.
+        public var connectionType: DataZoneClientTypes.GlueConnectionType?
+        /// The description of the Amazon Web Services Glue connection.
+        public var description: Swift.String?
+        /// The match criteria of the Amazon Web Services Glue connection.
+        public var matchCriteria: Swift.String?
+        /// The name of the Amazon Web Services Glue connection.
+        public var name: Swift.String?
+        /// The physical connection requirements for the Amazon Web Services Glue connection.
+        public var physicalConnectionRequirements: DataZoneClientTypes.PhysicalConnectionRequirements?
+        /// The Python properties of the Amazon Web Services Glue connection.
+        public var pythonProperties: [Swift.String: Swift.String]?
+        /// The Spark properties of the Amazon Web Services Glue connection.
+        public var sparkProperties: [Swift.String: Swift.String]?
+        /// Speciefies whether to validate credentials of the Amazon Web Services Glue connection.
+        public var validateCredentials: Swift.Bool?
+        /// Speciefies whether to validate for compute environments of the Amazon Web Services Glue connection.
+        public var validateForComputeEnvironments: [DataZoneClientTypes.ComputeEnvironments]?
+
+        public init(
+            athenaProperties: [Swift.String: Swift.String]? = nil,
+            authenticationConfiguration: DataZoneClientTypes.AuthenticationConfigurationInput? = nil,
+            connectionProperties: [Swift.String: Swift.String]? = nil,
+            connectionType: DataZoneClientTypes.GlueConnectionType? = nil,
+            description: Swift.String? = nil,
+            matchCriteria: Swift.String? = nil,
+            name: Swift.String? = nil,
+            physicalConnectionRequirements: DataZoneClientTypes.PhysicalConnectionRequirements? = nil,
+            pythonProperties: [Swift.String: Swift.String]? = nil,
+            sparkProperties: [Swift.String: Swift.String]? = nil,
+            validateCredentials: Swift.Bool? = nil,
+            validateForComputeEnvironments: [DataZoneClientTypes.ComputeEnvironments]? = nil
+        )
+        {
+            self.athenaProperties = athenaProperties
+            self.authenticationConfiguration = authenticationConfiguration
+            self.connectionProperties = connectionProperties
+            self.connectionType = connectionType
+            self.description = description
+            self.matchCriteria = matchCriteria
+            self.name = name
+            self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.pythonProperties = pythonProperties
+            self.sparkProperties = sparkProperties
+            self.validateCredentials = validateCredentials
+            self.validateForComputeEnvironments = validateForComputeEnvironments
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Web Services Glue properties of a connection.
+    public struct GluePropertiesInput: Swift.Sendable {
+        /// The Amazon Web Services Glue connection.
+        public var glueConnectionInput: DataZoneClientTypes.GlueConnectionInput?
+
+        public init(
+            glueConnectionInput: DataZoneClientTypes.GlueConnectionInput? = nil
+        )
+        {
+            self.glueConnectionInput = glueConnectionInput
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The hyper pod properties of a Amazon Web Services Glue properties patch.
+    public struct HyperPodPropertiesInput: Swift.Sendable {
+        /// The cluster name the hyper pod properties.
+        /// This member is required.
+        public var clusterName: Swift.String?
+
+        public init(
+            clusterName: Swift.String? = nil
+        )
+        {
+            self.clusterName = clusterName
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The IAM properties of a connection.
+    public struct IamPropertiesInput: Swift.Sendable {
+        /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a connection.
+        public var glueLineageSyncEnabled: Swift.Bool?
+
+        public init(
+            glueLineageSyncEnabled: Swift.Bool? = nil
+        )
+        {
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The username and password of a connection.
+    public struct UsernamePassword: Swift.Sendable {
+        /// The password of a connection.
+        /// This member is required.
+        public var password: Swift.String?
+        /// The username of a connection.
+        /// This member is required.
+        public var username: Swift.String?
+
+        public init(
+            password: Swift.String? = nil,
+            username: Swift.String? = nil
+        )
+        {
+            self.password = password
+            self.username = username
+        }
+    }
+}
+
+extension DataZoneClientTypes.UsernamePassword: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Amazon Redshift credentials of a connection.
+    public enum RedshiftCredentials: Swift.Sendable {
+        /// The secret ARN of the Amazon Redshift credentials of a connection.
+        case secretarn(Swift.String)
+        /// The username and password of the Amazon Redshift credentials of a connection.
+        case usernamepassword(DataZoneClientTypes.UsernamePassword)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The lineage sync schedule.
+    public struct LineageSyncSchedule: Swift.Sendable {
+        /// The lineage sync schedule.
+        public var schedule: Swift.String?
+
+        public init(
+            schedule: Swift.String? = nil
+        )
+        {
+            self.schedule = schedule
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amaon Redshift lineage sync configuration.
+    public struct RedshiftLineageSyncConfigurationInput: Swift.Sendable {
+        /// Specifies whether the Amaon Redshift lineage sync configuration is enabled.
+        public var enabled: Swift.Bool?
+        /// The schedule of the Amaon Redshift lineage sync configuration.
+        public var schedule: DataZoneClientTypes.LineageSyncSchedule?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            schedule: DataZoneClientTypes.LineageSyncSchedule? = nil
+        )
+        {
+            self.enabled = enabled
+            self.schedule = schedule
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Redshift storage properties.
+    public enum RedshiftStorageProperties: Swift.Sendable {
+        /// The cluster name in the Amazon Redshift storage properties.
+        case clustername(Swift.String)
+        /// The workgroup name in the Amazon Redshift storage properties.
+        case workgroupname(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Redshift properties.
+    public struct RedshiftPropertiesInput: Swift.Sendable {
+        /// The Amaon Redshift credentials.
+        public var credentials: DataZoneClientTypes.RedshiftCredentials?
+        /// The Amazon Redshift database name.
+        public var databaseName: Swift.String?
+        /// The Amazon Redshift host.
+        public var host: Swift.String?
+        /// The lineage sync of the Amazon Redshift.
+        public var lineageSync: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput?
+        /// The Amaon Redshift port.
+        public var port: Swift.Int?
+        /// The Amazon Redshift storage.
+        public var storage: DataZoneClientTypes.RedshiftStorageProperties?
+
+        public init(
+            credentials: DataZoneClientTypes.RedshiftCredentials? = nil,
+            databaseName: Swift.String? = nil,
+            host: Swift.String? = nil,
+            lineageSync: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput? = nil,
+            port: Swift.Int? = nil,
+            storage: DataZoneClientTypes.RedshiftStorageProperties? = nil
+        )
+        {
+            self.credentials = credentials
+            self.databaseName = databaseName
+            self.host = host
+            self.lineageSync = lineageSync
+            self.port = port
+            self.storage = storage
+        }
+    }
+}
+
+extension DataZoneClientTypes.RedshiftPropertiesInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RedshiftPropertiesInput(databaseName: \(Swift.String(describing: databaseName)), host: \(Swift.String(describing: host)), lineageSync: \(Swift.String(describing: lineageSync)), port: \(Swift.String(describing: port)), storage: \(Swift.String(describing: storage)), credentials: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The Spark EMR properties.
+    public struct SparkEmrPropertiesInput: Swift.Sendable {
+        /// The compute ARN of Spark EMR.
+        public var computeArn: Swift.String?
+        /// The instance profile ARN of Spark EMR.
+        public var instanceProfileArn: Swift.String?
+        /// The java virtual env of the Spark EMR.
+        public var javaVirtualEnv: Swift.String?
+        /// The log URI of the Spark EMR.
+        public var logUri: Swift.String?
+        /// The Python virtual env of the Spark EMR.
+        public var pythonVirtualEnv: Swift.String?
+        /// The runtime role of the Spark EMR.
+        public var runtimeRole: Swift.String?
+        /// The certificates S3 URI of the Spark EMR.
+        public var trustedCertificatesS3Uri: Swift.String?
+
+        public init(
+            computeArn: Swift.String? = nil,
+            instanceProfileArn: Swift.String? = nil,
+            javaVirtualEnv: Swift.String? = nil,
+            logUri: Swift.String? = nil,
+            pythonVirtualEnv: Swift.String? = nil,
+            runtimeRole: Swift.String? = nil,
+            trustedCertificatesS3Uri: Swift.String? = nil
+        )
+        {
+            self.computeArn = computeArn
+            self.instanceProfileArn = instanceProfileArn
+            self.javaVirtualEnv = javaVirtualEnv
+            self.logUri = logUri
+            self.pythonVirtualEnv = pythonVirtualEnv
+            self.runtimeRole = runtimeRole
+            self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Spark Amazon Web Services Glue args.
+    public struct SparkGlueArgs: Swift.Sendable {
+        /// The connection in the Spark Amazon Web Services Glue args.
+        public var connection: Swift.String?
+
+        public init(
+            connection: Swift.String? = nil
+        )
+        {
+            self.connection = connection
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Spark Amazon Web Services Glue properties.
+    public struct SparkGluePropertiesInput: Swift.Sendable {
+        /// The additional args in the Spark Amazon Web Services Glue properties.
+        public var additionalArgs: DataZoneClientTypes.SparkGlueArgs?
+        /// The Amazon Web Services Glue connection name in the Spark Amazon Web Services Glue properties.
+        public var glueConnectionName: Swift.String?
+        /// The Amazon Web Services Glue version in the Spark Amazon Web Services Glue properties.
+        public var glueVersion: Swift.String?
+        /// The idle timeout in the Spark Amazon Web Services Glue properties.
+        public var idleTimeout: Swift.Int?
+        /// The Java virtual env in the Spark Amazon Web Services Glue properties.
+        public var javaVirtualEnv: Swift.String?
+        /// The number of workers in the Spark Amazon Web Services Glue properties.
+        public var numberOfWorkers: Swift.Int?
+        /// The Python virtual env in the Spark Amazon Web Services Glue properties.
+        public var pythonVirtualEnv: Swift.String?
+        /// The worker type in the Spark Amazon Web Services Glue properties.
+        public var workerType: Swift.String?
+
+        public init(
+            additionalArgs: DataZoneClientTypes.SparkGlueArgs? = nil,
+            glueConnectionName: Swift.String? = nil,
+            glueVersion: Swift.String? = nil,
+            idleTimeout: Swift.Int? = nil,
+            javaVirtualEnv: Swift.String? = nil,
+            numberOfWorkers: Swift.Int? = nil,
+            pythonVirtualEnv: Swift.String? = nil,
+            workerType: Swift.String? = nil
+        )
+        {
+            self.additionalArgs = additionalArgs
+            self.glueConnectionName = glueConnectionName
+            self.glueVersion = glueVersion
+            self.idleTimeout = idleTimeout
+            self.javaVirtualEnv = javaVirtualEnv
+            self.numberOfWorkers = numberOfWorkers
+            self.pythonVirtualEnv = pythonVirtualEnv
+            self.workerType = workerType
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The properties of a connection.
+    public enum ConnectionPropertiesInput: Swift.Sendable {
+        /// The Amazon Athena properties of a connection.
+        case athenaproperties(DataZoneClientTypes.AthenaPropertiesInput)
+        /// The Amazon Web Services Glue properties of a connection.
+        case glueproperties(DataZoneClientTypes.GluePropertiesInput)
+        /// The hyper pod properties of a connection.
+        case hyperpodproperties(DataZoneClientTypes.HyperPodPropertiesInput)
+        /// The IAM properties of a connection.
+        case iamproperties(DataZoneClientTypes.IamPropertiesInput)
+        /// The Amazon Redshift properties of a connection.
+        case redshiftproperties(DataZoneClientTypes.RedshiftPropertiesInput)
+        /// The Spark EMR properties of a connection.
+        case sparkemrproperties(DataZoneClientTypes.SparkEmrPropertiesInput)
+        /// The Spark Amazon Web Services Glue properties of a connection.
+        case sparkglueproperties(DataZoneClientTypes.SparkGluePropertiesInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum ConnectionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createFailed
+        case creating
+        case deleted
+        case deleteFailed
+        case deleting
+        case ready
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionStatus] {
+            return [
+                .createFailed,
+                .creating,
+                .deleted,
+                .deleteFailed,
+                .deleting,
+                .ready,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .ready: return "READY"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The properties of the Amazon Web Services Glue connection.
+    public struct GluePropertiesOutput: Swift.Sendable {
+        /// The error message generated if the action is not completed successfully.
+        public var errorMessage: Swift.String?
+        /// The status of a connection.
+        public var status: DataZoneClientTypes.ConnectionStatus?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            status: DataZoneClientTypes.ConnectionStatus? = nil
+        )
+        {
+            self.errorMessage = errorMessage
+            self.status = status
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum HyperPodOrchestrator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eks
+        case slurm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HyperPodOrchestrator] {
+            return [
+                .eks,
+                .slurm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eks: return "EKS"
+            case .slurm: return "SLURM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The hyper pod properties of a Amazon Web Services Glue properties patch.
+    public struct HyperPodPropertiesOutput: Swift.Sendable {
+        /// The cluster ARN of the hyper pod properties.
+        public var clusterArn: Swift.String?
+        /// The cluster name the hyper pod properties.
+        /// This member is required.
+        public var clusterName: Swift.String?
+        /// The orchestrator of the hyper pod properties.
+        public var orchestrator: DataZoneClientTypes.HyperPodOrchestrator?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            clusterName: Swift.String? = nil,
+            orchestrator: DataZoneClientTypes.HyperPodOrchestrator? = nil
+        )
+        {
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
+            self.orchestrator = orchestrator
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The IAM properties of a connection.
+    public struct IamPropertiesOutput: Swift.Sendable {
+        /// The environment ID of the connection.
+        public var environmentId: Swift.String?
+        /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a connection.
+        public var glueLineageSyncEnabled: Swift.Bool?
+
+        public init(
+            environmentId: Swift.String? = nil,
+            glueLineageSyncEnabled: Swift.Bool? = nil
+        )
+        {
+            self.environmentId = environmentId
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amaon Redshift lineage sync configuration.
+    public struct RedshiftLineageSyncConfigurationOutput: Swift.Sendable {
+        /// Specifies whether the Amaon Redshift lineage sync configuration is enabled.
+        public var enabled: Swift.Bool?
+        /// The lineage job ID of the Amaon Redshift lineage sync configuration.
+        public var lineageJobId: Swift.String?
+        /// The schedule of teh Amaon Redshift lineage sync configuration.
+        public var schedule: DataZoneClientTypes.LineageSyncSchedule?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            lineageJobId: Swift.String? = nil,
+            schedule: DataZoneClientTypes.LineageSyncSchedule? = nil
+        )
+        {
+            self.enabled = enabled
+            self.lineageJobId = lineageJobId
+            self.schedule = schedule
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Redshift properties.
+    public struct RedshiftPropertiesOutput: Swift.Sendable {
+        /// The Amazon Redshift credentials.
+        public var credentials: DataZoneClientTypes.RedshiftCredentials?
+        /// The Amazon Redshift database name.
+        public var databaseName: Swift.String?
+        /// Specifies whether Amaon Redshift properties has a provisioned secret.
+        public var isProvisionedSecret: Swift.Bool?
+        /// The jdbcIam URL of the Amazon Redshift properties.
+        public var jdbcIamUrl: Swift.String?
+        /// The jdbcURL of the Amazon Redshift properties.
+        public var jdbcUrl: Swift.String?
+        /// The lineage syn of the Amazon Redshift properties.
+        public var lineageSync: DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput?
+        /// The redshiftTempDir of the Amazon Redshift properties.
+        public var redshiftTempDir: Swift.String?
+        /// The status in the Amazon Redshift properties.
+        public var status: DataZoneClientTypes.ConnectionStatus?
+        /// The storage in the Amazon Redshift properties.
+        public var storage: DataZoneClientTypes.RedshiftStorageProperties?
+
+        public init(
+            credentials: DataZoneClientTypes.RedshiftCredentials? = nil,
+            databaseName: Swift.String? = nil,
+            isProvisionedSecret: Swift.Bool? = nil,
+            jdbcIamUrl: Swift.String? = nil,
+            jdbcUrl: Swift.String? = nil,
+            lineageSync: DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput? = nil,
+            redshiftTempDir: Swift.String? = nil,
+            status: DataZoneClientTypes.ConnectionStatus? = nil,
+            storage: DataZoneClientTypes.RedshiftStorageProperties? = nil
+        )
+        {
+            self.credentials = credentials
+            self.databaseName = databaseName
+            self.isProvisionedSecret = isProvisionedSecret
+            self.jdbcIamUrl = jdbcIamUrl
+            self.jdbcUrl = jdbcUrl
+            self.lineageSync = lineageSync
+            self.redshiftTempDir = redshiftTempDir
+            self.status = status
+            self.storage = storage
+        }
+    }
+}
+
+extension DataZoneClientTypes.RedshiftPropertiesOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RedshiftPropertiesOutput(databaseName: \(Swift.String(describing: databaseName)), isProvisionedSecret: \(Swift.String(describing: isProvisionedSecret)), jdbcIamUrl: \(Swift.String(describing: jdbcIamUrl)), jdbcUrl: \(Swift.String(describing: jdbcUrl)), lineageSync: \(Swift.String(describing: lineageSync)), redshiftTempDir: \(Swift.String(describing: redshiftTempDir)), status: \(Swift.String(describing: status)), storage: \(Swift.String(describing: storage)), credentials: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    public enum GovernanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsManaged
+        case userManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GovernanceType] {
+            return [
+                .awsManaged,
+                .userManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "AWS_MANAGED"
+            case .userManaged: return "USER_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Spark EMR properties.
+    public struct SparkEmrPropertiesOutput: Swift.Sendable {
+        /// The compute ARN of the Spark EMR.
+        public var computeArn: Swift.String?
+        /// The credentials of the Spark EMR.
+        public var credentials: DataZoneClientTypes.UsernamePassword?
+        /// The credential expiration of the Spark EMR.
+        public var credentialsExpiration: Foundation.Date?
+        /// The governance type of the Spark EMR.
+        public var governanceType: DataZoneClientTypes.GovernanceType?
+        /// The instance profile ARN of the Spark EMR.
+        public var instanceProfileArn: Swift.String?
+        /// The Java virtual env of the Spark EMR.
+        public var javaVirtualEnv: Swift.String?
+        /// The livy endpoint of the Spark EMR.
+        public var livyEndpoint: Swift.String?
+        /// The log URI of the Spark EMR.
+        public var logUri: Swift.String?
+        /// The Python virtual env of the Spark EMR.
+        public var pythonVirtualEnv: Swift.String?
+        /// The runtime role of the Spark EMR.
+        public var runtimeRole: Swift.String?
+        /// The trusted certificate S3 URL of the Spark EMR.
+        public var trustedCertificatesS3Uri: Swift.String?
+
+        public init(
+            computeArn: Swift.String? = nil,
+            credentials: DataZoneClientTypes.UsernamePassword? = nil,
+            credentialsExpiration: Foundation.Date? = nil,
+            governanceType: DataZoneClientTypes.GovernanceType? = nil,
+            instanceProfileArn: Swift.String? = nil,
+            javaVirtualEnv: Swift.String? = nil,
+            livyEndpoint: Swift.String? = nil,
+            logUri: Swift.String? = nil,
+            pythonVirtualEnv: Swift.String? = nil,
+            runtimeRole: Swift.String? = nil,
+            trustedCertificatesS3Uri: Swift.String? = nil
+        )
+        {
+            self.computeArn = computeArn
+            self.credentials = credentials
+            self.credentialsExpiration = credentialsExpiration
+            self.governanceType = governanceType
+            self.instanceProfileArn = instanceProfileArn
+            self.javaVirtualEnv = javaVirtualEnv
+            self.livyEndpoint = livyEndpoint
+            self.logUri = logUri
+            self.pythonVirtualEnv = pythonVirtualEnv
+            self.runtimeRole = runtimeRole
+            self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
+        }
+    }
+}
+
+extension DataZoneClientTypes.SparkEmrPropertiesOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SparkEmrPropertiesOutput(computeArn: \(Swift.String(describing: computeArn)), credentialsExpiration: \(Swift.String(describing: credentialsExpiration)), governanceType: \(Swift.String(describing: governanceType)), instanceProfileArn: \(Swift.String(describing: instanceProfileArn)), javaVirtualEnv: \(Swift.String(describing: javaVirtualEnv)), livyEndpoint: \(Swift.String(describing: livyEndpoint)), logUri: \(Swift.String(describing: logUri)), pythonVirtualEnv: \(Swift.String(describing: pythonVirtualEnv)), runtimeRole: \(Swift.String(describing: runtimeRole)), trustedCertificatesS3Uri: \(Swift.String(describing: trustedCertificatesS3Uri)), credentials: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The Spark Amazon Web Services Glue properties.
+    public struct SparkGluePropertiesOutput: Swift.Sendable {
+        /// The additional args in the Spark Amazon Web Services Glue properties.
+        public var additionalArgs: DataZoneClientTypes.SparkGlueArgs?
+        /// The Amazon Web Services Glue connection name in the Spark Amazon Web Services Glue properties.
+        public var glueConnectionName: Swift.String?
+        /// The Amazon Web Services Glue version in the Spark Amazon Web Services Glue properties.
+        public var glueVersion: Swift.String?
+        /// The idle timeout in the Spark Amazon Web Services Glue properties.
+        public var idleTimeout: Swift.Int?
+        /// The Java virtual env in the Spark Amazon Web Services Glue properties.
+        public var javaVirtualEnv: Swift.String?
+        /// The number of workers in the Spark Amazon Web Services Glue properties.
+        public var numberOfWorkers: Swift.Int?
+        /// The Python virtual env in the Spark Amazon Web Services Glue properties.
+        public var pythonVirtualEnv: Swift.String?
+        /// The worker type in the Spark Amazon Web Services Glue properties.
+        public var workerType: Swift.String?
+
+        public init(
+            additionalArgs: DataZoneClientTypes.SparkGlueArgs? = nil,
+            glueConnectionName: Swift.String? = nil,
+            glueVersion: Swift.String? = nil,
+            idleTimeout: Swift.Int? = nil,
+            javaVirtualEnv: Swift.String? = nil,
+            numberOfWorkers: Swift.Int? = nil,
+            pythonVirtualEnv: Swift.String? = nil,
+            workerType: Swift.String? = nil
+        )
+        {
+            self.additionalArgs = additionalArgs
+            self.glueConnectionName = glueConnectionName
+            self.glueVersion = glueVersion
+            self.idleTimeout = idleTimeout
+            self.javaVirtualEnv = javaVirtualEnv
+            self.numberOfWorkers = numberOfWorkers
+            self.pythonVirtualEnv = pythonVirtualEnv
+            self.workerType = workerType
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The properties of a connection.
+    public enum ConnectionPropertiesOutput: Swift.Sendable {
+        /// The Amazon Athena properties of a connection.
+        case athenaproperties(DataZoneClientTypes.AthenaPropertiesOutput)
+        /// The Amazon Web Services Glue properties of a connection.
+        case glueproperties(DataZoneClientTypes.GluePropertiesOutput)
+        /// The hyper pod properties of a connection.
+        case hyperpodproperties(DataZoneClientTypes.HyperPodPropertiesOutput)
+        /// The IAM properties of a connection.
+        case iamproperties(DataZoneClientTypes.IamPropertiesOutput)
+        /// The Amazon Redshift properties of a connection.
+        case redshiftproperties(DataZoneClientTypes.RedshiftPropertiesOutput)
+        /// The Spark EMR properties of a connection.
+        case sparkemrproperties(DataZoneClientTypes.SparkEmrPropertiesOutput)
+        /// The Spark Amazon Web Services Glue properties of a connection.
+        case sparkglueproperties(DataZoneClientTypes.SparkGluePropertiesOutput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Web Services Glue connection patch.
+    public struct GlueConnectionPatch: Swift.Sendable {
+        /// The authentication configuration of the Amazon Web Services Glue connection patch.
+        public var authenticationConfiguration: DataZoneClientTypes.AuthenticationConfigurationPatch?
+        /// The properties of the Amazon Web Services Glue connection patch.
+        public var connectionProperties: [Swift.String: Swift.String]?
+        /// The description of the Amazon Web Services Glue connection patch.
+        public var description: Swift.String?
+
+        public init(
+            authenticationConfiguration: DataZoneClientTypes.AuthenticationConfigurationPatch? = nil,
+            connectionProperties: [Swift.String: Swift.String]? = nil,
+            description: Swift.String? = nil
+        )
+        {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.connectionProperties = connectionProperties
+            self.description = description
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Web Services Glue properties patch of a connection.
+    public struct GluePropertiesPatch: Swift.Sendable {
+        /// The Amazon Web Services Glue properties patch of a connection.
+        public var glueConnectionInput: DataZoneClientTypes.GlueConnectionPatch?
+
+        public init(
+            glueConnectionInput: DataZoneClientTypes.GlueConnectionPatch? = nil
+        )
+        {
+            self.glueConnectionInput = glueConnectionInput
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The IAM properties patch of a connection.
+    public struct IamPropertiesPatch: Swift.Sendable {
+        /// Specifies whether Amazon Web Services Glue lineage sync is enabled for a connection.
+        public var glueLineageSyncEnabled: Swift.Bool?
+
+        public init(
+            glueLineageSyncEnabled: Swift.Bool? = nil
+        )
+        {
+            self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Amazon Redshift properties patch.
+    public struct RedshiftPropertiesPatch: Swift.Sendable {
+        /// The credentials in the Amazon Redshift properties patch.
+        public var credentials: DataZoneClientTypes.RedshiftCredentials?
+        /// The name in the Amazon Redshift properties patch.
+        public var databaseName: Swift.String?
+        /// The host in the Amazon Redshift properties patch.
+        public var host: Swift.String?
+        /// The lineage sync in the Amazon Redshift properties patch.
+        public var lineageSync: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput?
+        /// The port in the Amazon Redshift properties patch.
+        public var port: Swift.Int?
+        /// The storage in the Amazon Redshift properties patch.
+        public var storage: DataZoneClientTypes.RedshiftStorageProperties?
+
+        public init(
+            credentials: DataZoneClientTypes.RedshiftCredentials? = nil,
+            databaseName: Swift.String? = nil,
+            host: Swift.String? = nil,
+            lineageSync: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput? = nil,
+            port: Swift.Int? = nil,
+            storage: DataZoneClientTypes.RedshiftStorageProperties? = nil
+        )
+        {
+            self.credentials = credentials
+            self.databaseName = databaseName
+            self.host = host
+            self.lineageSync = lineageSync
+            self.port = port
+            self.storage = storage
+        }
+    }
+}
+
+extension DataZoneClientTypes.RedshiftPropertiesPatch: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RedshiftPropertiesPatch(databaseName: \(Swift.String(describing: databaseName)), host: \(Swift.String(describing: host)), lineageSync: \(Swift.String(describing: lineageSync)), port: \(Swift.String(describing: port)), storage: \(Swift.String(describing: storage)), credentials: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The Spark EMR properties patch.
+    public struct SparkEmrPropertiesPatch: Swift.Sendable {
+        /// The compute ARN in the Spark EMR properties patch.
+        public var computeArn: Swift.String?
+        /// The instance profile ARN in the Spark EMR properties patch.
+        public var instanceProfileArn: Swift.String?
+        /// The Java virtual evn in the Spark EMR properties patch.
+        public var javaVirtualEnv: Swift.String?
+        /// The log URI in the Spark EMR properties patch.
+        public var logUri: Swift.String?
+        /// The Python virtual env in the Spark EMR properties patch.
+        public var pythonVirtualEnv: Swift.String?
+        /// The runtime role in the Spark EMR properties patch.
+        public var runtimeRole: Swift.String?
+        /// The trusted certificates S3 URI in the Spark EMR properties patch.
+        public var trustedCertificatesS3Uri: Swift.String?
+
+        public init(
+            computeArn: Swift.String? = nil,
+            instanceProfileArn: Swift.String? = nil,
+            javaVirtualEnv: Swift.String? = nil,
+            logUri: Swift.String? = nil,
+            pythonVirtualEnv: Swift.String? = nil,
+            runtimeRole: Swift.String? = nil,
+            trustedCertificatesS3Uri: Swift.String? = nil
+        )
+        {
+            self.computeArn = computeArn
+            self.instanceProfileArn = instanceProfileArn
+            self.javaVirtualEnv = javaVirtualEnv
+            self.logUri = logUri
+            self.pythonVirtualEnv = pythonVirtualEnv
+            self.runtimeRole = runtimeRole
+            self.trustedCertificatesS3Uri = trustedCertificatesS3Uri
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The connection properties patch.
+    public enum ConnectionPropertiesPatch: Swift.Sendable {
+        /// The Amazon Athena properties of a connection properties patch.
+        case athenaproperties(DataZoneClientTypes.AthenaPropertiesPatch)
+        /// The Amazon Web Services Glue properties of a connection properties patch.
+        case glueproperties(DataZoneClientTypes.GluePropertiesPatch)
+        /// The IAM properties of a connection properties patch.
+        case iamproperties(DataZoneClientTypes.IamPropertiesPatch)
+        /// The Amazon Redshift properties of a connection properties patch.
+        case redshiftproperties(DataZoneClientTypes.RedshiftPropertiesPatch)
+        /// The Spark EMR properties of a connection properties patch.
+        case sparkemrproperties(DataZoneClientTypes.SparkEmrPropertiesPatch)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case athena
+        case bigquery
+        case databricks
+        case documentdb
+        case dynamodb
+        case hyperpod
+        case iam
+        case mysql
+        case opensearch
+        case oracle
+        case postgresql
+        case redshift
+        case saphana
+        case snowflake
+        case spark
+        case sqlserver
+        case teradata
+        case vertica
+        case workflowsMwaa
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionType] {
+            return [
+                .athena,
+                .bigquery,
+                .databricks,
+                .documentdb,
+                .dynamodb,
+                .hyperpod,
+                .iam,
+                .mysql,
+                .opensearch,
+                .oracle,
+                .postgresql,
+                .redshift,
+                .saphana,
+                .snowflake,
+                .spark,
+                .sqlserver,
+                .teradata,
+                .vertica,
+                .workflowsMwaa
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .athena: return "ATHENA"
+            case .bigquery: return "BIGQUERY"
+            case .databricks: return "DATABRICKS"
+            case .documentdb: return "DOCUMENTDB"
+            case .dynamodb: return "DYNAMODB"
+            case .hyperpod: return "HYPERPOD"
+            case .iam: return "IAM"
+            case .mysql: return "MYSQL"
+            case .opensearch: return "OPENSEARCH"
+            case .oracle: return "ORACLE"
+            case .postgresql: return "POSTGRESQL"
+            case .redshift: return "REDSHIFT"
+            case .saphana: return "SAPHANA"
+            case .snowflake: return "SNOWFLAKE"
+            case .spark: return "SPARK"
+            case .sqlserver: return "SQLSERVER"
+            case .teradata: return "TERADATA"
+            case .vertica: return "VERTICA"
+            case .workflowsMwaa: return "WORKFLOWS_MWAA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Web Services Glue connection.
+    public struct GlueConnection: Swift.Sendable {
+        /// The Amazon Athena properties of the Amazon Web Services Glue connection.
+        public var athenaProperties: [Swift.String: Swift.String]?
+        /// The authentication configuration of the Amazon Web Services Glue connection.
+        public var authenticationConfiguration: DataZoneClientTypes.AuthenticationConfiguration?
+        /// The compatible compute environments of the Amazon Web Services Glue connection.
+        public var compatibleComputeEnvironments: [DataZoneClientTypes.ComputeEnvironments]?
+        /// The properties of the Amazon Web Services Glue connection.
+        public var connectionProperties: [Swift.String: Swift.String]?
+        /// The connection schema version of the Amazon Web Services Glue connection.
+        public var connectionSchemaVersion: Swift.Int?
+        /// The type of the Amazon Web Services Glue connection.
+        public var connectionType: DataZoneClientTypes.ConnectionType?
+        /// The creation time of the Amazon Web Services Glue connection.
+        public var creationTime: Foundation.Date?
+        /// The description of the Amazon Web Services Glue connection.
+        public var description: Swift.String?
+        /// The last validation time of the Amazon Web Services Glue connection.
+        public var lastConnectionValidationTime: Foundation.Date?
+        /// The user who last updated the Amazon Web Services Glue connection.
+        public var lastUpdatedBy: Swift.String?
+        /// The timestamp at which the Amazon Web Services Glue connection was last updated.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The match criteria of the Amazon Web Services Glue connection.
+        public var matchCriteria: [Swift.String]?
+        /// The name of the Amazon Web Services Glue connection.
+        public var name: Swift.String?
+        /// The physical connection requirements of the Amazon Web Services Glue connection.
+        public var physicalConnectionRequirements: DataZoneClientTypes.PhysicalConnectionRequirements?
+        /// The Python properties of the Amazon Web Services Glue connection.
+        public var pythonProperties: [Swift.String: Swift.String]?
+        /// The Spark properties of the Amazon Web Services Glue connection.
+        public var sparkProperties: [Swift.String: Swift.String]?
+        /// The status of the Amazon Web Services Glue connection.
+        public var status: DataZoneClientTypes.ConnectionStatus?
+        /// The status reason of the Amazon Web Services Glue connection.
+        public var statusReason: Swift.String?
+
+        public init(
+            athenaProperties: [Swift.String: Swift.String]? = nil,
+            authenticationConfiguration: DataZoneClientTypes.AuthenticationConfiguration? = nil,
+            compatibleComputeEnvironments: [DataZoneClientTypes.ComputeEnvironments]? = nil,
+            connectionProperties: [Swift.String: Swift.String]? = nil,
+            connectionSchemaVersion: Swift.Int? = nil,
+            connectionType: DataZoneClientTypes.ConnectionType? = nil,
+            creationTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            lastConnectionValidationTime: Foundation.Date? = nil,
+            lastUpdatedBy: Swift.String? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            matchCriteria: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            physicalConnectionRequirements: DataZoneClientTypes.PhysicalConnectionRequirements? = nil,
+            pythonProperties: [Swift.String: Swift.String]? = nil,
+            sparkProperties: [Swift.String: Swift.String]? = nil,
+            status: DataZoneClientTypes.ConnectionStatus? = nil,
+            statusReason: Swift.String? = nil
+        )
+        {
+            self.athenaProperties = athenaProperties
+            self.authenticationConfiguration = authenticationConfiguration
+            self.compatibleComputeEnvironments = compatibleComputeEnvironments
+            self.connectionProperties = connectionProperties
+            self.connectionSchemaVersion = connectionSchemaVersion
+            self.connectionType = connectionType
+            self.creationTime = creationTime
+            self.description = description
+            self.lastConnectionValidationTime = lastConnectionValidationTime
+            self.lastUpdatedBy = lastUpdatedBy
+            self.lastUpdatedTime = lastUpdatedTime
+            self.matchCriteria = matchCriteria
+            self.name = name
+            self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.pythonProperties = pythonProperties
+            self.sparkProperties = sparkProperties
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case athena
+        case glueInteractiveSession
+        case https
+        case jdbc
+        case livy
+        case odbc
+        case prism
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelProtocol] {
+            return [
+                .athena,
+                .glueInteractiveSession,
+                .https,
+                .jdbc,
+                .livy,
+                .odbc,
+                .prism
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .athena: return "ATHENA"
+            case .glueInteractiveSession: return "GLUE_INTERACTIVE_SESSION"
+            case .https: return "HTTPS"
+            case .jdbc: return "JDBC"
+            case .livy: return "LIVY"
+            case .odbc: return "ODBC"
+            case .prism: return "PRISM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The physical endpoints of a connection.
+    public struct PhysicalEndpoint: Swift.Sendable {
+        /// The location of a connection.
+        public var awsLocation: DataZoneClientTypes.AwsLocation?
+        /// The Amazon Web Services Glue connection.
+        public var glueConnection: DataZoneClientTypes.GlueConnection?
+        /// The Amazon Web Services Glue connection name.
+        public var glueConnectionName: Swift.String?
+        /// The host in the physical endpoints of a connection.
+        public var host: Swift.String?
+        /// The port in the physical endpoints of a connection.
+        public var port: Swift.Int?
+        /// The protocol in the physical endpoints of a connection.
+        public var `protocol`: DataZoneClientTypes.ModelProtocol?
+        /// The stage in the physical endpoints of a connection.
+        public var stage: Swift.String?
+
+        public init(
+            awsLocation: DataZoneClientTypes.AwsLocation? = nil,
+            glueConnection: DataZoneClientTypes.GlueConnection? = nil,
+            glueConnectionName: Swift.String? = nil,
+            host: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: DataZoneClientTypes.ModelProtocol? = nil,
+            stage: Swift.String? = nil
+        )
+        {
+            self.awsLocation = awsLocation
+            self.glueConnection = glueConnection
+            self.glueConnectionName = glueConnectionName
+            self.host = host
+            self.port = port
+            self.`protocol` = `protocol`
+            self.stage = stage
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The summary of a connection.
+    public struct ConnectionSummary: Swift.Sendable {
+        /// The ID of a connection.
+        /// This member is required.
+        public var connectionId: Swift.String?
+        /// The domain ID of a connection.
+        /// This member is required.
+        public var domainId: Swift.String?
+        /// The domain unit ID of a connection.
+        /// This member is required.
+        public var domainUnitId: Swift.String?
+        /// The environment ID of a connection.
+        public var environmentId: Swift.String?
+        /// The connection name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The connection physical endpoints.
+        /// This member is required.
+        public var physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]?
+        /// The connection project ID.
+        public var projectId: Swift.String?
+        /// The connection props.
+        public var props: DataZoneClientTypes.ConnectionPropertiesOutput?
+        /// The connection type.
+        /// This member is required.
+        public var type: DataZoneClientTypes.ConnectionType?
+
+        public init(
+            connectionId: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            domainUnitId: Swift.String? = nil,
+            environmentId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]? = nil,
+            projectId: Swift.String? = nil,
+            props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
+            type: DataZoneClientTypes.ConnectionType? = nil
+        )
+        {
+            self.connectionId = connectionId
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.environmentId = environmentId
+            self.name = name
+            self.physicalEndpoints = physicalEndpoints
+            self.projectId = projectId
+            self.props = props
+            self.type = type
+        }
+    }
+}
+
+public struct CreateConnectionInput: Swift.Sendable {
+    /// The location where the connection is created.
+    public var awsLocation: DataZoneClientTypes.AwsLocation?
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// A connection description.
+    public var description: Swift.String?
+    /// The ID of the domain where the connection is created.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the environment where the connection is created.
+    /// This member is required.
+    public var environmentIdentifier: Swift.String?
+    /// The connection name.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The connection props.
+    public var props: DataZoneClientTypes.ConnectionPropertiesInput?
+
+    public init(
+        awsLocation: DataZoneClientTypes.AwsLocation? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        environmentIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        props: DataZoneClientTypes.ConnectionPropertiesInput? = nil
+    )
+    {
+        self.awsLocation = awsLocation
+        self.clientToken = clientToken
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.environmentIdentifier = environmentIdentifier
+        self.name = name
+        self.props = props
+    }
+}
+
+extension CreateConnectionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateConnectionInput(awsLocation: \(Swift.String(describing: awsLocation)), clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), name: \(Swift.String(describing: name)), props: \(Swift.String(describing: props)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateConnectionOutput: Swift.Sendable {
+    /// The ID of the connection.
+    /// This member is required.
+    public var connectionId: Swift.String?
+    /// The connection description.
+    public var description: Swift.String?
+    /// The ID of the domain where the connection is created.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The ID of the domain unit where the connection is created.
+    /// This member is required.
+    public var domainUnitId: Swift.String?
+    /// The ID of the environment where the connection is created.
+    public var environmentId: Swift.String?
+    /// The connection name.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The physical endpoints of the connection.
+    /// This member is required.
+    public var physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]?
+    /// The ID of the project where the connection is created.
+    public var projectId: Swift.String?
+    /// The connection props.
+    public var props: DataZoneClientTypes.ConnectionPropertiesOutput?
+    /// The connection type.
+    /// This member is required.
+    public var type: DataZoneClientTypes.ConnectionType?
+
+    public init(
+        connectionId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]? = nil,
+        projectId: Swift.String? = nil,
+        props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
+        type: DataZoneClientTypes.ConnectionType? = nil
+    )
+    {
+        self.connectionId = connectionId
+        self.description = description
+        self.domainId = domainId
+        self.domainUnitId = domainUnitId
+        self.environmentId = environmentId
+        self.name = name
+        self.physicalEndpoints = physicalEndpoints
+        self.projectId = projectId
+        self.props = props
+        self.type = type
+    }
+}
+
+extension CreateConnectionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -3881,6 +5749,8 @@ extension DataZoneClientTypes {
     public struct GlueRunConfigurationInput: Swift.Sendable {
         /// Specifies whether to automatically import data quality metrics as part of the data source run.
         public var autoImportDataQualityResult: Swift.Bool?
+        /// The catalog name in the Amazon Web Services Glue run configuration.
+        public var catalogName: Swift.String?
         /// The data access role included in the configuration details of the Amazon Web Services Glue data source.
         public var dataAccessRole: Swift.String?
         /// The relational filter configurations included in the configuration details of the Amazon Web Services Glue data source.
@@ -3889,11 +5759,13 @@ extension DataZoneClientTypes {
 
         public init(
             autoImportDataQualityResult: Swift.Bool? = nil,
+            catalogName: Swift.String? = nil,
             dataAccessRole: Swift.String? = nil,
             relationalFilterConfigurations: [DataZoneClientTypes.RelationalFilterConfiguration]? = nil
         )
         {
             self.autoImportDataQualityResult = autoImportDataQualityResult
+            self.catalogName = catalogName
             self.dataAccessRole = dataAccessRole
             self.relationalFilterConfigurations = relationalFilterConfigurations
         }
@@ -3970,10 +5842,8 @@ extension DataZoneClientTypes {
         /// The data access role included in the configuration details of the Amazon Redshift data source.
         public var dataAccessRole: Swift.String?
         /// The details of the credentials required to access an Amazon Redshift cluster.
-        /// This member is required.
         public var redshiftCredentialConfiguration: DataZoneClientTypes.RedshiftCredentialConfiguration?
         /// The details of the Amazon Redshift storage as part of the configuration of an Amazon Redshift data source run.
-        /// This member is required.
         public var redshiftStorage: DataZoneClientTypes.RedshiftStorage?
         /// The relational filger configurations included in the configuration details of the Amazon Redshift data source.
         /// This member is required.
@@ -3996,12 +5866,31 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The Amazon SageMaker run configuration.
+    public struct SageMakerRunConfigurationInput: Swift.Sendable {
+        /// The tracking assets of the Amazon SageMaker run.
+        /// This member is required.
+        public var trackingAssets: [Swift.String: [Swift.String]]?
+
+        public init(
+            trackingAssets: [Swift.String: [Swift.String]]? = nil
+        )
+        {
+            self.trackingAssets = trackingAssets
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The configuration of the data source.
     public enum DataSourceConfigurationInput: Swift.Sendable {
         /// The configuration of the Amazon Web Services Glue data source.
         case gluerunconfiguration(DataZoneClientTypes.GlueRunConfigurationInput)
         /// The configuration of the Amazon Redshift data source.
         case redshiftrunconfiguration(DataZoneClientTypes.RedshiftRunConfigurationInput)
+        /// The Amazon SageMaker run configuration.
+        case sagemakerrunconfiguration(DataZoneClientTypes.SageMakerRunConfigurationInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4299,6 +6188,8 @@ public struct CreateDataSourceInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// Specifies the configuration of the data source. It can be set to either glueRunConfiguration or redshiftRunConfiguration.
     public var configuration: DataZoneClientTypes.DataSourceConfigurationInput?
+    /// The ID of the connection.
+    public var connectionIdentifier: Swift.String?
     /// The description of the data source.
     public var description: Swift.String?
     /// The ID of the Amazon DataZone domain where the data source is created.
@@ -4307,7 +6198,6 @@ public struct CreateDataSourceInput: Swift.Sendable {
     /// Specifies whether the data source is enabled.
     public var enableSetting: DataZoneClientTypes.EnableSetting?
     /// The unique identifier of the Amazon DataZone environment to which the data source publishes assets.
-    /// This member is required.
     public var environmentIdentifier: Swift.String?
     /// The name of the data source.
     /// This member is required.
@@ -4329,6 +6219,7 @@ public struct CreateDataSourceInput: Swift.Sendable {
         assetFormsInput: [DataZoneClientTypes.FormInput]? = nil,
         clientToken: Swift.String? = nil,
         configuration: DataZoneClientTypes.DataSourceConfigurationInput? = nil,
+        connectionIdentifier: Swift.String? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         enableSetting: DataZoneClientTypes.EnableSetting? = nil,
@@ -4344,6 +6235,7 @@ public struct CreateDataSourceInput: Swift.Sendable {
         self.assetFormsInput = assetFormsInput
         self.clientToken = clientToken
         self.configuration = configuration
+        self.connectionIdentifier = connectionIdentifier
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.enableSetting = enableSetting
@@ -4359,7 +6251,7 @@ public struct CreateDataSourceInput: Swift.Sendable {
 
 extension CreateDataSourceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDataSourceInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), enableSetting: \(Swift.String(describing: enableSetting)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), projectIdentifier: \(Swift.String(describing: projectIdentifier)), publishOnImport: \(Swift.String(describing: publishOnImport)), recommendation: \(Swift.String(describing: recommendation)), type: \(Swift.String(describing: type)), assetFormsInput: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
+        "CreateDataSourceInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), connectionIdentifier: \(Swift.String(describing: connectionIdentifier)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), enableSetting: \(Swift.String(describing: enableSetting)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), projectIdentifier: \(Swift.String(describing: projectIdentifier)), publishOnImport: \(Swift.String(describing: publishOnImport)), recommendation: \(Swift.String(describing: recommendation)), type: \(Swift.String(describing: type)), assetFormsInput: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -4370,6 +6262,8 @@ extension DataZoneClientTypes {
         public var accountId: Swift.String?
         /// Specifies whether to automatically import data quality metrics as part of the data source run.
         public var autoImportDataQualityResult: Swift.Bool?
+        /// The catalog name in the Amazon Web Services Glue run configuration.
+        public var catalogName: Swift.String?
         /// The data access role included in the configuration details of the Amazon Web Services Glue data source.
         public var dataAccessRole: Swift.String?
         /// The Amazon Web Services region included in the configuration details of the Amazon Web Services Glue data source.
@@ -4381,6 +6275,7 @@ extension DataZoneClientTypes {
         public init(
             accountId: Swift.String? = nil,
             autoImportDataQualityResult: Swift.Bool? = nil,
+            catalogName: Swift.String? = nil,
             dataAccessRole: Swift.String? = nil,
             region: Swift.String? = nil,
             relationalFilterConfigurations: [DataZoneClientTypes.RelationalFilterConfiguration]? = nil
@@ -4388,6 +6283,7 @@ extension DataZoneClientTypes {
         {
             self.accountId = accountId
             self.autoImportDataQualityResult = autoImportDataQualityResult
+            self.catalogName = catalogName
             self.dataAccessRole = dataAccessRole
             self.region = region
             self.relationalFilterConfigurations = relationalFilterConfigurations
@@ -4404,7 +6300,6 @@ extension DataZoneClientTypes {
         /// The data access role included in the configuration details of the Amazon Redshift data source.
         public var dataAccessRole: Swift.String?
         /// The details of the credentials required to access an Amazon Redshift cluster.
-        /// This member is required.
         public var redshiftCredentialConfiguration: DataZoneClientTypes.RedshiftCredentialConfiguration?
         /// The details of the Amazon Redshift storage as part of the configuration of an Amazon Redshift data source run.
         /// This member is required.
@@ -4436,12 +6331,39 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The Amazon SageMaker run configuration.
+    public struct SageMakerRunConfigurationOutput: Swift.Sendable {
+        /// The Amazon SageMaker account ID.
+        public var accountId: Swift.String?
+        /// The Amazon SageMaker Region.
+        public var region: Swift.String?
+        /// The tracking assets of the Amazon SageMaker.
+        /// This member is required.
+        public var trackingAssets: [Swift.String: [Swift.String]]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            region: Swift.String? = nil,
+            trackingAssets: [Swift.String: [Swift.String]]? = nil
+        )
+        {
+            self.accountId = accountId
+            self.region = region
+            self.trackingAssets = trackingAssets
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The configuration of the data source.
     public enum DataSourceConfigurationOutput: Swift.Sendable {
         /// The configuration of the Amazon Web Services Glue data source.
         case gluerunconfiguration(DataZoneClientTypes.GlueRunConfigurationOutput)
         /// The configuration of the Amazon Redshift data source.
         case redshiftrunconfiguration(DataZoneClientTypes.RedshiftRunConfigurationOutput)
+        /// The Amazon SageMaker run configuration.
+        case sagemakerrunconfiguration(DataZoneClientTypes.SageMakerRunConfigurationOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4601,6 +6523,8 @@ public struct CreateDataSourceOutput: Swift.Sendable {
     public var assetFormsOutput: [DataZoneClientTypes.FormOutput]?
     /// Specifies the configuration of the data source. It can be set to either glueRunConfiguration or redshiftRunConfiguration.
     public var configuration: DataZoneClientTypes.DataSourceConfigurationOutput?
+    /// The ID of the connection.
+    public var connectionId: Swift.String?
     /// The timestamp of when the data source was created.
     public var createdAt: Foundation.Date?
     /// The description of the data source.
@@ -4611,7 +6535,6 @@ public struct CreateDataSourceOutput: Swift.Sendable {
     /// Specifies whether the data source is enabled.
     public var enableSetting: DataZoneClientTypes.EnableSetting?
     /// The unique identifier of the Amazon DataZone environment to which the data source publishes assets.
-    /// This member is required.
     public var environmentId: Swift.String?
     /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var errorMessage: DataZoneClientTypes.DataSourceErrorMessage?
@@ -4646,6 +6569,7 @@ public struct CreateDataSourceOutput: Swift.Sendable {
     public init(
         assetFormsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         configuration: DataZoneClientTypes.DataSourceConfigurationOutput? = nil,
+        connectionId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
@@ -4668,6 +6592,7 @@ public struct CreateDataSourceOutput: Swift.Sendable {
     {
         self.assetFormsOutput = assetFormsOutput
         self.configuration = configuration
+        self.connectionId = connectionId
         self.createdAt = createdAt
         self.description = description
         self.domainId = domainId
@@ -4691,7 +6616,36 @@ public struct CreateDataSourceOutput: Swift.Sendable {
 
 extension CreateDataSourceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDataSourceOutput(assetFormsOutput: \(Swift.String(describing: assetFormsOutput)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), errorMessage: \(Swift.String(describing: errorMessage)), id: \(Swift.String(describing: id)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), projectId: \(Swift.String(describing: projectId)), publishOnImport: \(Swift.String(describing: publishOnImport)), recommendation: \(Swift.String(describing: recommendation)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
+        "CreateDataSourceOutput(assetFormsOutput: \(Swift.String(describing: assetFormsOutput)), configuration: \(Swift.String(describing: configuration)), connectionId: \(Swift.String(describing: connectionId)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), errorMessage: \(Swift.String(describing: errorMessage)), id: \(Swift.String(describing: id)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), projectId: \(Swift.String(describing: projectId)), publishOnImport: \(Swift.String(describing: publishOnImport)), recommendation: \(Swift.String(describing: recommendation)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    public enum DomainVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case v1
+        case v2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainVersion] {
+            return [
+                .v1,
+                .v2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .v1: return "V1"
+            case .v2: return "V2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 extension DataZoneClientTypes {
@@ -4751,11 +6705,15 @@ public struct CreateDomainInput: Swift.Sendable {
     /// The domain execution role that is created when an Amazon DataZone domain is created. The domain execution role is created in the Amazon Web Services account that houses the Amazon DataZone domain.
     /// This member is required.
     public var domainExecutionRole: Swift.String?
+    /// The version of the domain that is created.
+    public var domainVersion: DataZoneClientTypes.DomainVersion?
     /// The identifier of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt the Amazon DataZone domain, metadata, and reporting data.
     public var kmsKeyIdentifier: Swift.String?
     /// The name of the Amazon DataZone domain.
     /// This member is required.
     public var name: Swift.String?
+    /// The service role of the domain that is created.
+    public var serviceRole: Swift.String?
     /// The single-sign on configuration of the Amazon DataZone domain.
     public var singleSignOn: DataZoneClientTypes.SingleSignOn?
     /// The tags specified for the Amazon DataZone domain.
@@ -4765,8 +6723,10 @@ public struct CreateDomainInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         domainExecutionRole: Swift.String? = nil,
+        domainVersion: DataZoneClientTypes.DomainVersion? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
+        serviceRole: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil,
         tags: [Swift.String: Swift.String]? = nil
     )
@@ -4774,8 +6734,10 @@ public struct CreateDomainInput: Swift.Sendable {
         self.clientToken = clientToken
         self.description = description
         self.domainExecutionRole = domainExecutionRole
+        self.domainVersion = domainVersion
         self.kmsKeyIdentifier = kmsKeyIdentifier
         self.name = name
+        self.serviceRole = serviceRole
         self.singleSignOn = singleSignOn
         self.tags = tags
     }
@@ -4829,6 +6791,8 @@ public struct CreateDomainOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The domain execution role that is created when an Amazon DataZone domain is created. The domain execution role is created in the Amazon Web Services account that houses the Amazon DataZone domain.
     public var domainExecutionRole: Swift.String?
+    /// The version of the domain that is created.
+    public var domainVersion: DataZoneClientTypes.DomainVersion?
     /// The identifier of the Amazon DataZone domain.
     /// This member is required.
     public var id: Swift.String?
@@ -4840,6 +6804,8 @@ public struct CreateDomainOutput: Swift.Sendable {
     public var portalUrl: Swift.String?
     /// The ID of the root domain unit.
     public var rootDomainUnitId: Swift.String?
+    /// Te service role of the domain that is created.
+    public var serviceRole: Swift.String?
     /// The single-sign on configuration of the Amazon DataZone domain.
     public var singleSignOn: DataZoneClientTypes.SingleSignOn?
     /// The status of the Amazon DataZone domain.
@@ -4851,11 +6817,13 @@ public struct CreateDomainOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
         domainExecutionRole: Swift.String? = nil,
+        domainVersion: DataZoneClientTypes.DomainVersion? = nil,
         id: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         portalUrl: Swift.String? = nil,
         rootDomainUnitId: Swift.String? = nil,
+        serviceRole: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil,
         status: DataZoneClientTypes.DomainStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -4864,11 +6832,13 @@ public struct CreateDomainOutput: Swift.Sendable {
         self.arn = arn
         self.description = description
         self.domainExecutionRole = domainExecutionRole
+        self.domainVersion = domainVersion
         self.id = id
         self.kmsKeyIdentifier = kmsKeyIdentifier
         self.name = name
         self.portalUrl = portalUrl
         self.rootDomainUnitId = rootDomainUnitId
+        self.serviceRole = serviceRole
         self.singleSignOn = singleSignOn
         self.status = status
         self.tags = tags
@@ -5030,6 +7000,8 @@ extension DataZoneClientTypes {
 }
 
 public struct CreateEnvironmentInput: Swift.Sendable {
+    /// The deployment order of the environment.
+    public var deploymentOrder: Swift.Int?
     /// The description of the Amazon DataZone environment.
     public var description: Swift.String?
     /// The identifier of the Amazon DataZone domain in which the environment is created.
@@ -5041,6 +7013,8 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var environmentAccountRegion: Swift.String?
     /// The ID of the blueprint with which the environment is being created.
     public var environmentBlueprintIdentifier: Swift.String?
+    /// The configuration ID of the environment.
+    public var environmentConfigurationId: Swift.String?
     /// The identifier of the environment profile that is used to create this Amazon DataZone environment.
     /// This member is required.
     public var environmentProfileIdentifier: Swift.String?
@@ -5056,11 +7030,13 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var userParameters: [DataZoneClientTypes.EnvironmentParameter]?
 
     public init(
+        deploymentOrder: Swift.Int? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         environmentAccountIdentifier: Swift.String? = nil,
         environmentAccountRegion: Swift.String? = nil,
         environmentBlueprintIdentifier: Swift.String? = nil,
+        environmentConfigurationId: Swift.String? = nil,
         environmentProfileIdentifier: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
         name: Swift.String? = nil,
@@ -5068,11 +7044,13 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         userParameters: [DataZoneClientTypes.EnvironmentParameter]? = nil
     )
     {
+        self.deploymentOrder = deploymentOrder
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.environmentAccountIdentifier = environmentAccountIdentifier
         self.environmentAccountRegion = environmentAccountRegion
         self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
+        self.environmentConfigurationId = environmentConfigurationId
         self.environmentProfileIdentifier = environmentProfileIdentifier
         self.glossaryTerms = glossaryTerms
         self.name = name
@@ -6205,6 +8183,31 @@ public struct CreateListingChangeSetOutput: Swift.Sendable {
     }
 }
 
+extension DataZoneClientTypes {
+
+    /// The environment configuration user parameters.
+    public struct EnvironmentConfigurationUserParameter: Swift.Sendable {
+        /// The environment configuration name.
+        public var environmentConfigurationName: Swift.String?
+        /// The environment parameters.
+        public var environmentParameters: [DataZoneClientTypes.EnvironmentParameter]?
+
+        public init(
+            environmentConfigurationName: Swift.String? = nil,
+            environmentParameters: [DataZoneClientTypes.EnvironmentParameter]? = nil
+        )
+        {
+            self.environmentConfigurationName = environmentConfigurationName
+            self.environmentParameters = environmentParameters
+        }
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfigurationUserParameter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EnvironmentConfigurationUserParameter(environmentParameters: \(Swift.String(describing: environmentParameters)), environmentConfigurationName: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateProjectInput: Swift.Sendable {
     /// The description of the Amazon DataZone project.
     public var description: Swift.String?
@@ -6218,13 +8221,19 @@ public struct CreateProjectInput: Swift.Sendable {
     /// The name of the Amazon DataZone project.
     /// This member is required.
     public var name: Swift.String?
+    /// The ID of the project profile.
+    public var projectProfileId: Swift.String?
+    /// The user parameters of the project.
+    public var userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]?
 
     public init(
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         domainUnitId: Swift.String? = nil,
         glossaryTerms: [Swift.String]? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        projectProfileId: Swift.String? = nil,
+        userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
     )
     {
         self.description = description
@@ -6232,12 +8241,72 @@ public struct CreateProjectInput: Swift.Sendable {
         self.domainUnitId = domainUnitId
         self.glossaryTerms = glossaryTerms
         self.name = name
+        self.projectProfileId = projectProfileId
+        self.userParameters = userParameters
     }
 }
 
 extension CreateProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), projectProfileId: \(Swift.String(describing: projectProfileId)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    public enum OverallDeploymentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failedDeployment
+        case failedValidation
+        case inProgress
+        case pendingDeployment
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OverallDeploymentStatus] {
+            return [
+                .failedDeployment,
+                .failedValidation,
+                .inProgress,
+                .pendingDeployment,
+                .successful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedDeployment: return "FAILED_DEPLOYMENT"
+            case .failedValidation: return "FAILED_VALIDATION"
+            case .inProgress: return "IN_PROGRESS"
+            case .pendingDeployment: return "PENDING_DEPLOYMENT"
+            case .successful: return "SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The environment deployment details.
+    public struct EnvironmentDeploymentDetails: Swift.Sendable {
+        /// Environment failure reasons.
+        public var environmentFailureReasons: [Swift.String: [DataZoneClientTypes.EnvironmentError]]?
+        /// The overall deployment status of the environment.
+        public var overallDeploymentStatus: DataZoneClientTypes.OverallDeploymentStatus?
+
+        public init(
+            environmentFailureReasons: [Swift.String: [DataZoneClientTypes.EnvironmentError]]? = nil,
+            overallDeploymentStatus: DataZoneClientTypes.OverallDeploymentStatus? = nil
+        )
+        {
+            self.environmentFailureReasons = environmentFailureReasons
+            self.overallDeploymentStatus = overallDeploymentStatus
+        }
+    }
 }
 
 extension DataZoneClientTypes {
@@ -6305,6 +8374,8 @@ public struct CreateProjectOutput: Swift.Sendable {
     public var domainId: Swift.String?
     /// The ID of the domain unit.
     public var domainUnitId: Swift.String?
+    /// The environment deployment details.
+    public var environmentDeploymentDetails: DataZoneClientTypes.EnvironmentDeploymentDetails?
     /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The glossary terms that can be used in the project.
@@ -6317,8 +8388,12 @@ public struct CreateProjectOutput: Swift.Sendable {
     /// The name of the project.
     /// This member is required.
     public var name: Swift.String?
+    /// The project profile ID.
+    public var projectProfileId: Swift.String?
     /// The status of the Amazon DataZone project that was created.
     public var projectStatus: DataZoneClientTypes.ProjectStatus?
+    /// The user parameters of the project.
+    public var userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]?
 
     public init(
         createdAt: Foundation.Date? = nil,
@@ -6326,12 +8401,15 @@ public struct CreateProjectOutput: Swift.Sendable {
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
         domainUnitId: Swift.String? = nil,
+        environmentDeploymentDetails: DataZoneClientTypes.EnvironmentDeploymentDetails? = nil,
         failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
-        projectStatus: DataZoneClientTypes.ProjectStatus? = nil
+        projectProfileId: Swift.String? = nil,
+        projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
+        userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
     )
     {
         self.createdAt = createdAt
@@ -6339,18 +8417,21 @@ public struct CreateProjectOutput: Swift.Sendable {
         self.description = description
         self.domainId = domainId
         self.domainUnitId = domainUnitId
+        self.environmentDeploymentDetails = environmentDeploymentDetails
         self.failureReasons = failureReasons
         self.glossaryTerms = glossaryTerms
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
+        self.userParameters = userParameters
     }
 }
 
 extension CreateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -6434,6 +8515,277 @@ public struct CreateProjectMembershipInput: Swift.Sendable {
 public struct CreateProjectMembershipOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Web Services Region.
+    public enum Region: Swift.Sendable {
+        /// The Amazon Web Services Region name.
+        case regionname(Swift.String)
+        /// The region name path.
+        case regionnamepath(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The environment configuration parameter.
+    public struct EnvironmentConfigurationParameter: Swift.Sendable {
+        /// Specifies whether the environment parameter is editable.
+        public var isEditable: Swift.Bool?
+        /// The name of the environment configuration parameter.
+        public var name: Swift.String?
+        /// The value of the environment configuration parameter.
+        public var value: Swift.String?
+
+        public init(
+            isEditable: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.isEditable = isEditable
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The details of the environment configuration parameter.
+    public struct EnvironmentConfigurationParametersDetails: Swift.Sendable {
+        /// The parameter overrides.
+        public var parameterOverrides: [DataZoneClientTypes.EnvironmentConfigurationParameter]?
+        /// The resolved environment configuration parameters.
+        public var resolvedParameters: [DataZoneClientTypes.EnvironmentConfigurationParameter]?
+        /// Ssm path environment configuration parameters.
+        public var ssmPath: Swift.String?
+
+        public init(
+            parameterOverrides: [DataZoneClientTypes.EnvironmentConfigurationParameter]? = nil,
+            resolvedParameters: [DataZoneClientTypes.EnvironmentConfigurationParameter]? = nil,
+            ssmPath: Swift.String? = nil
+        )
+        {
+            self.parameterOverrides = parameterOverrides
+            self.resolvedParameters = resolvedParameters
+            self.ssmPath = ssmPath
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum DeploymentMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onCreate
+        case onDemand
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentMode] {
+            return [
+                .onCreate,
+                .onDemand
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onCreate: return "ON_CREATE"
+            case .onDemand: return "ON_DEMAND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The configuration of an environment.
+    public struct EnvironmentConfiguration: Swift.Sendable {
+        /// The Amazon Web Services account of the environment.
+        /// This member is required.
+        public var awsAccount: DataZoneClientTypes.AwsAccount?
+        /// The Amazon Web Services Region of the environment.
+        /// This member is required.
+        public var awsRegion: DataZoneClientTypes.Region?
+        /// The configuration parameters of the environment.
+        public var configurationParameters: DataZoneClientTypes.EnvironmentConfigurationParametersDetails?
+        /// The deployment mode of the environment.
+        public var deploymentMode: DataZoneClientTypes.DeploymentMode?
+        /// The deployment order of the environment.
+        public var deploymentOrder: Swift.Int?
+        /// The environment description.
+        public var description: Swift.String?
+        /// The environment blueprint ID.
+        /// This member is required.
+        public var environmentBlueprintId: Swift.String?
+        /// The environment ID.
+        public var id: Swift.String?
+        /// The environment name.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            awsAccount: DataZoneClientTypes.AwsAccount? = nil,
+            awsRegion: DataZoneClientTypes.Region? = nil,
+            configurationParameters: DataZoneClientTypes.EnvironmentConfigurationParametersDetails? = nil,
+            deploymentMode: DataZoneClientTypes.DeploymentMode? = nil,
+            deploymentOrder: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            environmentBlueprintId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.awsAccount = awsAccount
+            self.awsRegion = awsRegion
+            self.configurationParameters = configurationParameters
+            self.deploymentMode = deploymentMode
+            self.deploymentOrder = deploymentOrder
+            self.description = description
+            self.environmentBlueprintId = environmentBlueprintId
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EnvironmentConfiguration(awsAccount: \(Swift.String(describing: awsAccount)), awsRegion: \(Swift.String(describing: awsRegion)), configurationParameters: \(Swift.String(describing: configurationParameters)), deploymentMode: \(Swift.String(describing: deploymentMode)), deploymentOrder: \(Swift.String(describing: deploymentOrder)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), description: \"CONTENT_REDACTED\", id: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateProjectProfileInput: Swift.Sendable {
+    /// A description of a project profile.
+    public var description: Swift.String?
+    /// A domain ID of the project profile.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// A domain unit ID of the project profile.
+    public var domainUnitIdentifier: Swift.String?
+    /// Environment configurations of the project profile.
+    public var environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]?
+    /// Project profile name.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Project profile status.
+    public var status: DataZoneClientTypes.Status?
+
+    public init(
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        domainUnitIdentifier: Swift.String? = nil,
+        environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]? = nil,
+        name: Swift.String? = nil,
+        status: DataZoneClientTypes.Status? = nil
+    )
+    {
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.domainUnitIdentifier = domainUnitIdentifier
+        self.environmentConfigurations = environmentConfigurations
+        self.name = name
+        self.status = status
+    }
+}
+
+extension CreateProjectProfileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateProjectProfileInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitIdentifier: \(Swift.String(describing: domainUnitIdentifier)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateProjectProfileOutput: Swift.Sendable {
+    /// A timestamp at which a project profile is created.
+    public var createdAt: Foundation.Date?
+    /// A user who created a project profile.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// A project profile description.
+    public var description: Swift.String?
+    /// The ID of the domain where a project profile is created.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The ID of the domain unit where a project profile is created.
+    public var domainUnitId: Swift.String?
+    /// Environment configurations of a project profile.
+    public var environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]?
+    /// Project profile ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// A timestamp when a project profile was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// Project profile name.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Project profile status.
+    public var status: DataZoneClientTypes.Status?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
+        environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        status: DataZoneClientTypes.Status? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.domainUnitId = domainUnitId
+        self.environmentConfigurations = environmentConfigurations
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.status = status
+    }
+}
+
+extension CreateProjectProfileOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateProjectProfileOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -6802,7 +9154,6 @@ public struct CreateSubscriptionGrantInput: Swift.Sendable {
     /// This member is required.
     public var grantedEntity: DataZoneClientTypes.GrantedEntityInput?
     /// The ID of the subscription target for which the subscription grant is created.
-    /// This member is required.
     public var subscriptionTargetIdentifier: Swift.String?
 
     public init(
@@ -7338,7 +9689,6 @@ public struct CreateSubscriptionTargetOutput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The manage access role with which the subscription target was created.
-    /// This member is required.
     public var manageAccessRole: Swift.String?
     /// The name of the subscription target.
     /// This member is required.
@@ -8043,6 +10393,7 @@ extension DataZoneClientTypes {
 
 public struct DeleteDataSourceInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    @available(*, deprecated, message: "This field is no longer required for idempotency. API deprecated since 2024-12-02")
     public var clientToken: Swift.String?
     /// The ID of the Amazon DataZone domain in which the data source is deleted.
     /// This member is required.
@@ -8192,6 +10543,8 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
     public var assetFormsOutput: [DataZoneClientTypes.FormOutput]?
     /// The configuration of the data source that is deleted.
     public var configuration: DataZoneClientTypes.DataSourceConfigurationOutput?
+    /// The ID of the connection that is deleted.
+    public var connectionId: Swift.String?
     /// The timestamp of when this data source was created.
     public var createdAt: Foundation.Date?
     /// The description of the data source that is deleted.
@@ -8202,7 +10555,6 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
     /// The enable setting of the data source that specifies whether the data source is enabled or disabled.
     public var enableSetting: DataZoneClientTypes.EnableSetting?
     /// The ID of the environemnt associated with this data source.
-    /// This member is required.
     public var environmentId: Swift.String?
     /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var errorMessage: DataZoneClientTypes.DataSourceErrorMessage?
@@ -8239,6 +10591,7 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
     public init(
         assetFormsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         configuration: DataZoneClientTypes.DataSourceConfigurationOutput? = nil,
+        connectionId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
@@ -8262,6 +10615,7 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
     {
         self.assetFormsOutput = assetFormsOutput
         self.configuration = configuration
+        self.connectionId = connectionId
         self.createdAt = createdAt
         self.description = description
         self.domainId = domainId
@@ -8286,7 +10640,7 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
 
 extension DeleteDataSourceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DeleteDataSourceOutput(assetFormsOutput: \(Swift.String(describing: assetFormsOutput)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), errorMessage: \(Swift.String(describing: errorMessage)), id: \(Swift.String(describing: id)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), projectId: \(Swift.String(describing: projectId)), publishOnImport: \(Swift.String(describing: publishOnImport)), retainPermissionsOnRevokeFailure: \(Swift.String(describing: retainPermissionsOnRevokeFailure)), selfGrantStatus: \(Swift.String(describing: selfGrantStatus)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
+        "DeleteDataSourceOutput(assetFormsOutput: \(Swift.String(describing: assetFormsOutput)), configuration: \(Swift.String(describing: configuration)), connectionId: \(Swift.String(describing: connectionId)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), errorMessage: \(Swift.String(describing: errorMessage)), id: \(Swift.String(describing: id)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), projectId: \(Swift.String(describing: projectId)), publishOnImport: \(Swift.String(describing: publishOnImport)), retainPermissionsOnRevokeFailure: \(Swift.String(describing: retainPermissionsOnRevokeFailure)), selfGrantStatus: \(Swift.String(describing: selfGrantStatus)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDataSourceInput: Swift.Sendable {
@@ -8312,6 +10666,8 @@ public struct GetDataSourceOutput: Swift.Sendable {
     public var assetFormsOutput: [DataZoneClientTypes.FormOutput]?
     /// The configuration of the data source.
     public var configuration: DataZoneClientTypes.DataSourceConfigurationOutput?
+    /// The ID of the connection.
+    public var connectionId: Swift.String?
     /// The timestamp of when the data source was created.
     public var createdAt: Foundation.Date?
     /// The description of the data source.
@@ -8322,7 +10678,6 @@ public struct GetDataSourceOutput: Swift.Sendable {
     /// Specifies whether this data source is enabled or not.
     public var enableSetting: DataZoneClientTypes.EnableSetting?
     /// The ID of the environment where this data source creates and publishes assets,
-    /// This member is required.
     public var environmentId: Swift.String?
     /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var errorMessage: DataZoneClientTypes.DataSourceErrorMessage?
@@ -8361,6 +10716,7 @@ public struct GetDataSourceOutput: Swift.Sendable {
     public init(
         assetFormsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         configuration: DataZoneClientTypes.DataSourceConfigurationOutput? = nil,
+        connectionId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
@@ -8385,6 +10741,7 @@ public struct GetDataSourceOutput: Swift.Sendable {
     {
         self.assetFormsOutput = assetFormsOutput
         self.configuration = configuration
+        self.connectionId = connectionId
         self.createdAt = createdAt
         self.description = description
         self.domainId = domainId
@@ -8410,10 +10767,12 @@ public struct GetDataSourceOutput: Swift.Sendable {
 
 extension GetDataSourceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDataSourceOutput(assetFormsOutput: \(Swift.String(describing: assetFormsOutput)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), errorMessage: \(Swift.String(describing: errorMessage)), id: \(Swift.String(describing: id)), lastRunAssetCount: \(Swift.String(describing: lastRunAssetCount)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), projectId: \(Swift.String(describing: projectId)), publishOnImport: \(Swift.String(describing: publishOnImport)), recommendation: \(Swift.String(describing: recommendation)), selfGrantStatus: \(Swift.String(describing: selfGrantStatus)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
+        "GetDataSourceOutput(assetFormsOutput: \(Swift.String(describing: assetFormsOutput)), configuration: \(Swift.String(describing: configuration)), connectionId: \(Swift.String(describing: connectionId)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), errorMessage: \(Swift.String(describing: errorMessage)), id: \(Swift.String(describing: id)), lastRunAssetCount: \(Swift.String(describing: lastRunAssetCount)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), projectId: \(Swift.String(describing: projectId)), publishOnImport: \(Swift.String(describing: publishOnImport)), recommendation: \(Swift.String(describing: recommendation)), selfGrantStatus: \(Swift.String(describing: selfGrantStatus)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDataSourcesInput: Swift.Sendable {
+    /// The ID of the connection.
+    public var connectionIdentifier: Swift.String?
     /// The identifier of the Amazon DataZone domain in which to list the data sources.
     /// This member is required.
     public var domainIdentifier: Swift.String?
@@ -8434,6 +10793,7 @@ public struct ListDataSourcesInput: Swift.Sendable {
     public var type: Swift.String?
 
     public init(
+        connectionIdentifier: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         environmentIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -8444,6 +10804,7 @@ public struct ListDataSourcesInput: Swift.Sendable {
         type: Swift.String? = nil
     )
     {
+        self.connectionIdentifier = connectionIdentifier
         self.domainIdentifier = domainIdentifier
         self.environmentIdentifier = environmentIdentifier
         self.maxResults = maxResults
@@ -8457,25 +10818,28 @@ public struct ListDataSourcesInput: Swift.Sendable {
 
 extension ListDataSourcesInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListDataSourcesInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), projectIdentifier: \(Swift.String(describing: projectIdentifier)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
+        "ListDataSourcesInput(connectionIdentifier: \(Swift.String(describing: connectionIdentifier)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), projectIdentifier: \(Swift.String(describing: projectIdentifier)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
 
     /// The details of the data source.
     public struct DataSourceSummary: Swift.Sendable {
+        /// The connection ID that's part of the data source summary.
+        public var connectionId: Swift.String?
         /// The timestamp of when the data source was created.
         public var createdAt: Foundation.Date?
         /// The ID of the data source.
         /// This member is required.
         public var dataSourceId: Swift.String?
+        /// The data source description.
+        public var description: Swift.String?
         /// The ID of the Amazon DataZone domain in which the data source exists.
         /// This member is required.
         public var domainId: Swift.String?
         /// Specifies whether the data source is enabled.
         public var enableSetting: DataZoneClientTypes.EnableSetting?
         /// The ID of the environment in which the data source exists.
-        /// This member is required.
         public var environmentId: Swift.String?
         /// The count of the assets created during the last data source run.
         public var lastRunAssetCount: Swift.Int?
@@ -8500,8 +10864,10 @@ extension DataZoneClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            connectionId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             dataSourceId: Swift.String? = nil,
+            description: Swift.String? = nil,
             domainId: Swift.String? = nil,
             enableSetting: DataZoneClientTypes.EnableSetting? = nil,
             environmentId: Swift.String? = nil,
@@ -8516,8 +10882,10 @@ extension DataZoneClientTypes {
             updatedAt: Foundation.Date? = nil
         )
         {
+            self.connectionId = connectionId
             self.createdAt = createdAt
             self.dataSourceId = dataSourceId
+            self.description = description
             self.domainId = domainId
             self.enableSetting = enableSetting
             self.environmentId = environmentId
@@ -8536,7 +10904,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.DataSourceSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataSourceSummary(createdAt: \(Swift.String(describing: createdAt)), dataSourceId: \(Swift.String(describing: dataSourceId)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), lastRunAssetCount: \(Swift.String(describing: lastRunAssetCount)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
+        "DataSourceSummary(connectionId: \(Swift.String(describing: connectionId)), createdAt: \(Swift.String(describing: createdAt)), dataSourceId: \(Swift.String(describing: dataSourceId)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), lastRunAssetCount: \(Swift.String(describing: lastRunAssetCount)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDataSourcesOutput: Swift.Sendable {
@@ -8620,6 +10988,8 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
     public var assetFormsOutput: [DataZoneClientTypes.FormOutput]?
     /// The configuration to be updated as part of the UpdateDataSource action.
     public var configuration: DataZoneClientTypes.DataSourceConfigurationOutput?
+    /// The connection ID.
+    public var connectionId: Swift.String?
     /// The timestamp of when the data source was updated.
     public var createdAt: Foundation.Date?
     /// The description to be updated as part of the UpdateDataSource action.
@@ -8630,7 +11000,6 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
     /// The enable setting to be updated as part of the UpdateDataSource action.
     public var enableSetting: DataZoneClientTypes.EnableSetting?
     /// The identifier of the environment in which a data source is to be updated.
-    /// This member is required.
     public var environmentId: Swift.String?
     /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var errorMessage: DataZoneClientTypes.DataSourceErrorMessage?
@@ -8669,6 +11038,7 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
     public init(
         assetFormsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         configuration: DataZoneClientTypes.DataSourceConfigurationOutput? = nil,
+        connectionId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
@@ -8693,6 +11063,7 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
     {
         self.assetFormsOutput = assetFormsOutput
         self.configuration = configuration
+        self.connectionId = connectionId
         self.createdAt = createdAt
         self.description = description
         self.domainId = domainId
@@ -8718,7 +11089,58 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
 
 extension UpdateDataSourceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateDataSourceOutput(assetFormsOutput: \(Swift.String(describing: assetFormsOutput)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), errorMessage: \(Swift.String(describing: errorMessage)), id: \(Swift.String(describing: id)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), projectId: \(Swift.String(describing: projectId)), publishOnImport: \(Swift.String(describing: publishOnImport)), recommendation: \(Swift.String(describing: recommendation)), retainPermissionsOnRevokeFailure: \(Swift.String(describing: retainPermissionsOnRevokeFailure)), selfGrantStatus: \(Swift.String(describing: selfGrantStatus)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
+        "UpdateDataSourceOutput(assetFormsOutput: \(Swift.String(describing: assetFormsOutput)), configuration: \(Swift.String(describing: configuration)), connectionId: \(Swift.String(describing: connectionId)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), errorMessage: \(Swift.String(describing: errorMessage)), id: \(Swift.String(describing: id)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), projectId: \(Swift.String(describing: projectId)), publishOnImport: \(Swift.String(describing: publishOnImport)), recommendation: \(Swift.String(describing: recommendation)), retainPermissionsOnRevokeFailure: \(Swift.String(describing: retainPermissionsOnRevokeFailure)), selfGrantStatus: \(Swift.String(describing: selfGrantStatus)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    public enum LineageImportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case partiallySucceeded
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LineageImportStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .partiallySucceeded,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .partiallySucceeded: return "PARTIALLY_SUCCEEDED"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The run lineage summary of a data source.
+    public struct DataSourceRunLineageSummary: Swift.Sendable {
+        /// The import status that's part of the run lineage summary of a data source.
+        public var importStatus: DataZoneClientTypes.LineageImportStatus?
+
+        public init(
+            importStatus: DataZoneClientTypes.LineageImportStatus? = nil
+        )
+        {
+            self.importStatus = importStatus
+        }
+    }
 }
 
 extension DataZoneClientTypes {
@@ -8817,6 +11239,8 @@ public struct GetDataSourceRunOutput: Swift.Sendable {
     /// The ID of the data source run.
     /// This member is required.
     public var id: Swift.String?
+    /// The summary of the data lineage.
+    public var lineageSummary: DataZoneClientTypes.DataSourceRunLineageSummary?
     /// The ID of the project in which this data source run occured.
     /// This member is required.
     public var projectId: Swift.String?
@@ -8843,6 +11267,7 @@ public struct GetDataSourceRunOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         errorMessage: DataZoneClientTypes.DataSourceErrorMessage? = nil,
         id: Swift.String? = nil,
+        lineageSummary: DataZoneClientTypes.DataSourceRunLineageSummary? = nil,
         projectId: Swift.String? = nil,
         runStatisticsForAssets: DataZoneClientTypes.RunStatisticsForAssets? = nil,
         startedAt: Foundation.Date? = nil,
@@ -8858,6 +11283,7 @@ public struct GetDataSourceRunOutput: Swift.Sendable {
         self.domainId = domainId
         self.errorMessage = errorMessage
         self.id = id
+        self.lineageSummary = lineageSummary
         self.projectId = projectId
         self.runStatisticsForAssets = runStatisticsForAssets
         self.startedAt = startedAt
@@ -8913,6 +11339,8 @@ extension DataZoneClientTypes {
         /// The identifier of the data source run.
         /// This member is required.
         public var id: Swift.String?
+        /// The run lineage summary of a data source.
+        public var lineageSummary: DataZoneClientTypes.DataSourceRunLineageSummary?
         /// The project ID of the data source run.
         /// This member is required.
         public var projectId: Swift.String?
@@ -8937,6 +11365,7 @@ extension DataZoneClientTypes {
             dataSourceId: Swift.String? = nil,
             errorMessage: DataZoneClientTypes.DataSourceErrorMessage? = nil,
             id: Swift.String? = nil,
+            lineageSummary: DataZoneClientTypes.DataSourceRunLineageSummary? = nil,
             projectId: Swift.String? = nil,
             runStatisticsForAssets: DataZoneClientTypes.RunStatisticsForAssets? = nil,
             startedAt: Foundation.Date? = nil,
@@ -8950,6 +11379,7 @@ extension DataZoneClientTypes {
             self.dataSourceId = dataSourceId
             self.errorMessage = errorMessage
             self.id = id
+            self.lineageSummary = lineageSummary
             self.projectId = projectId
             self.runStatisticsForAssets = runStatisticsForAssets
             self.startedAt = startedAt
@@ -9070,6 +11500,65 @@ public struct StartDataSourceRunOutput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
+    public enum LineageEventProcessingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case processing
+        case requested
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LineageEventProcessingStatus] {
+            return [
+                .failed,
+                .processing,
+                .requested,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case .requested: return "REQUESTED"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The data lineage information.
+    public struct LineageInfo: Swift.Sendable {
+        /// The data lineage error message.
+        public var errorMessage: Swift.String?
+        /// The data lineage event ID.
+        public var eventId: Swift.String?
+        /// The data lineage event status.
+        public var eventStatus: DataZoneClientTypes.LineageEventProcessingStatus?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            eventId: Swift.String? = nil,
+            eventStatus: DataZoneClientTypes.LineageEventProcessingStatus? = nil
+        )
+        {
+            self.errorMessage = errorMessage
+            self.eventId = eventId
+            self.eventStatus = eventStatus
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The activity details of the data source run.
     public struct DataSourceRunActivity: Swift.Sendable {
         /// The timestamp of when data source run activity was created.
@@ -9088,6 +11577,8 @@ extension DataZoneClientTypes {
         public var database: Swift.String?
         /// The details of the error message that is returned if the operation cannot be successfully completed.
         public var errorMessage: DataZoneClientTypes.DataSourceErrorMessage?
+        /// The data lineage summary.
+        public var lineageSummary: DataZoneClientTypes.LineageInfo?
         /// The project ID included in the data source run activity.
         /// This member is required.
         public var projectId: Swift.String?
@@ -9107,6 +11598,7 @@ extension DataZoneClientTypes {
             dataSourceRunId: Swift.String? = nil,
             database: Swift.String? = nil,
             errorMessage: DataZoneClientTypes.DataSourceErrorMessage? = nil,
+            lineageSummary: DataZoneClientTypes.LineageInfo? = nil,
             projectId: Swift.String? = nil,
             technicalDescription: Swift.String? = nil,
             technicalName: Swift.String? = nil,
@@ -9119,6 +11611,7 @@ extension DataZoneClientTypes {
             self.dataSourceRunId = dataSourceRunId
             self.database = database
             self.errorMessage = errorMessage
+            self.lineageSummary = lineageSummary
             self.projectId = projectId
             self.technicalDescription = technicalDescription
             self.technicalName = technicalName
@@ -9129,7 +11622,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.DataSourceRunActivity: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataSourceRunActivity(createdAt: \(Swift.String(describing: createdAt)), dataAssetId: \(Swift.String(describing: dataAssetId)), dataAssetStatus: \(Swift.String(describing: dataAssetStatus)), dataSourceRunId: \(Swift.String(describing: dataSourceRunId)), errorMessage: \(Swift.String(describing: errorMessage)), projectId: \(Swift.String(describing: projectId)), updatedAt: \(Swift.String(describing: updatedAt)), database: \"CONTENT_REDACTED\", technicalDescription: \"CONTENT_REDACTED\", technicalName: \"CONTENT_REDACTED\")"}
+        "DataSourceRunActivity(createdAt: \(Swift.String(describing: createdAt)), dataAssetId: \(Swift.String(describing: dataAssetId)), dataAssetStatus: \(Swift.String(describing: dataAssetStatus)), dataSourceRunId: \(Swift.String(describing: dataSourceRunId)), errorMessage: \(Swift.String(describing: errorMessage)), lineageSummary: \(Swift.String(describing: lineageSummary)), projectId: \(Swift.String(describing: projectId)), updatedAt: \(Swift.String(describing: updatedAt)), database: \"CONTENT_REDACTED\", technicalDescription: \"CONTENT_REDACTED\", technicalName: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteAssetFilterInput: Swift.Sendable {
@@ -9152,6 +11645,36 @@ public struct DeleteAssetFilterInput: Swift.Sendable {
         self.assetIdentifier = assetIdentifier
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
+    }
+}
+
+public struct DeleteConnectionInput: Swift.Sendable {
+    /// The ID of the domain where the connection is deleted.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the connection that is deleted.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteConnectionOutput: Swift.Sendable {
+    /// The status of the action.
+    public var status: Swift.String?
+
+    public init(
+        status: Swift.String? = nil
+    )
+    {
+        self.status = status
     }
 }
 
@@ -9265,6 +11788,29 @@ public struct DeleteProjectMembershipInput: Swift.Sendable {
 }
 
 public struct DeleteProjectMembershipOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteProjectProfileInput: Swift.Sendable {
+    /// The ID of the domain where a project profile is deleted.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the project profile that is deleted.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteProjectProfileOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -9540,6 +12086,8 @@ public struct GetDomainOutput: Swift.Sendable {
     /// The domain execution role with which the Amazon DataZone domain is created.
     /// This member is required.
     public var domainExecutionRole: Swift.String?
+    /// The version of the domain.
+    public var domainVersion: DataZoneClientTypes.DomainVersion?
     /// The identifier of the specified Amazon DataZone domain.
     /// This member is required.
     public var id: Swift.String?
@@ -9553,6 +12101,8 @@ public struct GetDomainOutput: Swift.Sendable {
     public var portalUrl: Swift.String?
     /// The ID of the root domain in Amazon Datazone.
     public var rootDomainUnitId: Swift.String?
+    /// The service role of the domain.
+    public var serviceRole: Swift.String?
     /// The single sing-on option of the specified Amazon DataZone domain.
     public var singleSignOn: DataZoneClientTypes.SingleSignOn?
     /// The status of the specified Amazon DataZone domain.
@@ -9566,12 +12116,14 @@ public struct GetDomainOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         domainExecutionRole: Swift.String? = nil,
+        domainVersion: DataZoneClientTypes.DomainVersion? = nil,
         id: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         portalUrl: Swift.String? = nil,
         rootDomainUnitId: Swift.String? = nil,
+        serviceRole: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil,
         status: DataZoneClientTypes.DomainStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -9581,12 +12133,14 @@ public struct GetDomainOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.description = description
         self.domainExecutionRole = domainExecutionRole
+        self.domainVersion = domainVersion
         self.id = id
         self.kmsKeyIdentifier = kmsKeyIdentifier
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.portalUrl = portalUrl
         self.rootDomainUnitId = rootDomainUnitId
+        self.serviceRole = serviceRole
         self.singleSignOn = singleSignOn
         self.status = status
         self.tags = tags
@@ -9625,6 +12179,8 @@ extension DataZoneClientTypes {
         public var createdAt: Foundation.Date?
         /// A description of an Amazon DataZone domain.
         public var description: Swift.String?
+        /// The domain version.
+        public var domainVersion: DataZoneClientTypes.DomainVersion?
         /// The ID of the Amazon DataZone domain.
         /// This member is required.
         public var id: Swift.String?
@@ -9646,6 +12202,7 @@ extension DataZoneClientTypes {
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            domainVersion: DataZoneClientTypes.DomainVersion? = nil,
             id: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             managedAccountId: Swift.String? = nil,
@@ -9657,6 +12214,7 @@ extension DataZoneClientTypes {
             self.arn = arn
             self.createdAt = createdAt
             self.description = description
+            self.domainVersion = domainVersion
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.managedAccountId = managedAccountId
@@ -9669,7 +12227,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.DomainSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DomainSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), managedAccountId: \(Swift.String(describing: managedAccountId)), portalUrl: \(Swift.String(describing: portalUrl)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "DomainSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), domainVersion: \(Swift.String(describing: domainVersion)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), managedAccountId: \(Swift.String(describing: managedAccountId)), portalUrl: \(Swift.String(describing: portalUrl)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDomainsOutput: Swift.Sendable {
@@ -9701,6 +12259,8 @@ public struct UpdateDomainInput: Swift.Sendable {
     public var identifier: Swift.String?
     /// The name to be updated as part of the UpdateDomain action.
     public var name: Swift.String?
+    /// The service role of the domain.
+    public var serviceRole: Swift.String?
     /// The single sign-on option to be updated as part of the UpdateDomain action.
     public var singleSignOn: DataZoneClientTypes.SingleSignOn?
 
@@ -9710,6 +12270,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         domainExecutionRole: Swift.String? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
+        serviceRole: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil
     )
     {
@@ -9718,6 +12279,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         self.domainExecutionRole = domainExecutionRole
         self.identifier = identifier
         self.name = name
+        self.serviceRole = serviceRole
         self.singleSignOn = singleSignOn
     }
 }
@@ -9736,6 +12298,8 @@ public struct UpdateDomainOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The ID of the root domain unit.
     public var rootDomainUnitId: Swift.String?
+    /// The service role of the domain.
+    public var serviceRole: Swift.String?
     /// The single sign-on option of the Amazon DataZone domain.
     public var singleSignOn: DataZoneClientTypes.SingleSignOn?
 
@@ -9746,6 +12310,7 @@ public struct UpdateDomainOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         rootDomainUnitId: Swift.String? = nil,
+        serviceRole: Swift.String? = nil,
         singleSignOn: DataZoneClientTypes.SingleSignOn? = nil
     )
     {
@@ -9755,6 +12320,7 @@ public struct UpdateDomainOutput: Swift.Sendable {
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.rootDomainUnitId = rootDomainUnitId
+        self.serviceRole = serviceRole
         self.singleSignOn = singleSignOn
     }
 }
@@ -10092,6 +12658,8 @@ public struct GetEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
     /// The ID of the blueprint.
     /// This member is required.
     public var environmentBlueprintId: Swift.String?
+    /// The environment role permissions boundary.
+    public var environmentRolePermissionBoundary: Swift.String?
     /// The ARN of the manage access role with which this blueprint is created.
     public var manageAccessRoleArn: Swift.String?
     /// The provisioning configuration of a blueprint.
@@ -10108,6 +12676,7 @@ public struct GetEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         enabledRegions: [Swift.String]? = nil,
         environmentBlueprintId: Swift.String? = nil,
+        environmentRolePermissionBoundary: Swift.String? = nil,
         manageAccessRoleArn: Swift.String? = nil,
         provisioningConfigurations: [DataZoneClientTypes.ProvisioningConfiguration]? = nil,
         provisioningRoleArn: Swift.String? = nil,
@@ -10119,6 +12688,7 @@ public struct GetEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
         self.domainId = domainId
         self.enabledRegions = enabledRegions
         self.environmentBlueprintId = environmentBlueprintId
+        self.environmentRolePermissionBoundary = environmentRolePermissionBoundary
         self.manageAccessRoleArn = manageAccessRoleArn
         self.provisioningConfigurations = provisioningConfigurations
         self.provisioningRoleArn = provisioningRoleArn
@@ -10162,6 +12732,8 @@ extension DataZoneClientTypes {
         /// The identifier of the environment blueprint.
         /// This member is required.
         public var environmentBlueprintId: Swift.String?
+        /// The environment role permission boundary.
+        public var environmentRolePermissionBoundary: Swift.String?
         /// The ARN of the manage access role specified in the environment blueprint configuration.
         public var manageAccessRoleArn: Swift.String?
         /// The provisioning configuration of a blueprint.
@@ -10178,6 +12750,7 @@ extension DataZoneClientTypes {
             domainId: Swift.String? = nil,
             enabledRegions: [Swift.String]? = nil,
             environmentBlueprintId: Swift.String? = nil,
+            environmentRolePermissionBoundary: Swift.String? = nil,
             manageAccessRoleArn: Swift.String? = nil,
             provisioningConfigurations: [DataZoneClientTypes.ProvisioningConfiguration]? = nil,
             provisioningRoleArn: Swift.String? = nil,
@@ -10189,6 +12762,7 @@ extension DataZoneClientTypes {
             self.domainId = domainId
             self.enabledRegions = enabledRegions
             self.environmentBlueprintId = environmentBlueprintId
+            self.environmentRolePermissionBoundary = environmentRolePermissionBoundary
             self.manageAccessRoleArn = manageAccessRoleArn
             self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
@@ -10224,6 +12798,8 @@ public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
     /// The identifier of the environment blueprint.
     /// This member is required.
     public var environmentBlueprintIdentifier: Swift.String?
+    /// The environment role permissions boundary.
+    public var environmentRolePermissionBoundary: Swift.String?
     /// The ARN of the manage access role.
     public var manageAccessRoleArn: Swift.String?
     /// The provisioning configuration of a blueprint.
@@ -10237,6 +12813,7 @@ public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         enabledRegions: [Swift.String]? = nil,
         environmentBlueprintIdentifier: Swift.String? = nil,
+        environmentRolePermissionBoundary: Swift.String? = nil,
         manageAccessRoleArn: Swift.String? = nil,
         provisioningConfigurations: [DataZoneClientTypes.ProvisioningConfiguration]? = nil,
         provisioningRoleArn: Swift.String? = nil,
@@ -10246,6 +12823,7 @@ public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
         self.domainIdentifier = domainIdentifier
         self.enabledRegions = enabledRegions
         self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
+        self.environmentRolePermissionBoundary = environmentRolePermissionBoundary
         self.manageAccessRoleArn = manageAccessRoleArn
         self.provisioningConfigurations = provisioningConfigurations
         self.provisioningRoleArn = provisioningRoleArn
@@ -10264,6 +12842,8 @@ public struct PutEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
     /// The identifier of the environment blueprint.
     /// This member is required.
     public var environmentBlueprintId: Swift.String?
+    /// The environment role permissions boundary.
+    public var environmentRolePermissionBoundary: Swift.String?
     /// The ARN of the manage access role.
     public var manageAccessRoleArn: Swift.String?
     /// The provisioning configuration of a blueprint.
@@ -10280,6 +12860,7 @@ public struct PutEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
         domainId: Swift.String? = nil,
         enabledRegions: [Swift.String]? = nil,
         environmentBlueprintId: Swift.String? = nil,
+        environmentRolePermissionBoundary: Swift.String? = nil,
         manageAccessRoleArn: Swift.String? = nil,
         provisioningConfigurations: [DataZoneClientTypes.ProvisioningConfiguration]? = nil,
         provisioningRoleArn: Swift.String? = nil,
@@ -10291,6 +12872,7 @@ public struct PutEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
         self.domainId = domainId
         self.enabledRegions = enabledRegions
         self.environmentBlueprintId = environmentBlueprintId
+        self.environmentRolePermissionBoundary = environmentRolePermissionBoundary
         self.manageAccessRoleArn = manageAccessRoleArn
         self.provisioningConfigurations = provisioningConfigurations
         self.provisioningRoleArn = provisioningRoleArn
@@ -10457,6 +13039,95 @@ public struct GetAssetFilterInput: Swift.Sendable {
         self.domainIdentifier = domainIdentifier
         self.identifier = identifier
     }
+}
+
+public struct GetConnectionInput: Swift.Sendable {
+    /// The ID of the domain where we get the connection.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The connection ID.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// Specifies whether a connection has a secret.
+    public var withSecret: Swift.Bool?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        withSecret: Swift.Bool? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+        self.withSecret = withSecret
+    }
+}
+
+public struct GetConnectionOutput: Swift.Sendable {
+    /// Connection credentials.
+    public var connectionCredentials: DataZoneClientTypes.ConnectionCredentials?
+    /// The ID of the connection.
+    /// This member is required.
+    public var connectionId: Swift.String?
+    /// Connection description.
+    public var description: Swift.String?
+    /// The domain ID of the connection.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The domain unit ID of the connection.
+    /// This member is required.
+    public var domainUnitId: Swift.String?
+    /// The ID of the environment.
+    public var environmentId: Swift.String?
+    /// The environment user role.
+    public var environmentUserRole: Swift.String?
+    /// The name of the connection.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The physical endpoints of the connection.
+    /// This member is required.
+    public var physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]?
+    /// The ID of the project.
+    public var projectId: Swift.String?
+    /// Connection props.
+    public var props: DataZoneClientTypes.ConnectionPropertiesOutput?
+    /// The type of the connection.
+    /// This member is required.
+    public var type: DataZoneClientTypes.ConnectionType?
+
+    public init(
+        connectionCredentials: DataZoneClientTypes.ConnectionCredentials? = nil,
+        connectionId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        environmentUserRole: Swift.String? = nil,
+        name: Swift.String? = nil,
+        physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]? = nil,
+        projectId: Swift.String? = nil,
+        props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
+        type: DataZoneClientTypes.ConnectionType? = nil
+    )
+    {
+        self.connectionCredentials = connectionCredentials
+        self.connectionId = connectionId
+        self.description = description
+        self.domainId = domainId
+        self.domainUnitId = domainUnitId
+        self.environmentId = environmentId
+        self.environmentUserRole = environmentUserRole
+        self.name = name
+        self.physicalEndpoints = physicalEndpoints
+        self.projectId = projectId
+        self.props = props
+        self.type = type
+    }
+}
+
+extension GetConnectionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), environmentUserRole: \(Swift.String(describing: environmentUserRole)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), type: \(Swift.String(describing: type)), connectionCredentials: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetEnvironmentInput: Swift.Sendable {
@@ -10923,6 +13594,316 @@ public struct GetIamPortalLoginUrlOutput: Swift.Sendable {
     }
 }
 
+public struct GetJobRunInput: Swift.Sendable {
+    /// The ID of the domain.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the job run.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The SQL query run details of a data lineage run.
+    public struct LineageSqlQueryRunDetails: Swift.Sendable {
+        /// The error message of the SQL query run details of a data lineage run.
+        public var errorMessages: [Swift.String]?
+        /// The number of queries that failed in the SQL query run details of a data lineage run.
+        public var numQueriesFailed: Swift.Int?
+        /// The query end time in the SQL query run details of a data lineage run.
+        public var queryEndTime: Foundation.Date?
+        /// The query start time in the SQL query run details of a data lineage run.
+        public var queryStartTime: Foundation.Date?
+        /// The total queries processed in the SQL query run details of a data lineage run.
+        public var totalQueriesProcessed: Swift.Int?
+
+        public init(
+            errorMessages: [Swift.String]? = nil,
+            numQueriesFailed: Swift.Int? = nil,
+            queryEndTime: Foundation.Date? = nil,
+            queryStartTime: Foundation.Date? = nil,
+            totalQueriesProcessed: Swift.Int? = nil
+        )
+        {
+            self.errorMessages = errorMessages
+            self.numQueriesFailed = numQueriesFailed
+            self.queryEndTime = queryEndTime
+            self.queryStartTime = queryStartTime
+            self.totalQueriesProcessed = totalQueriesProcessed
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The data lineage run details.
+    public struct LineageRunDetails: Swift.Sendable {
+        /// The SQL query run details of a data lineage run.
+        public var sqlQueryRunDetails: DataZoneClientTypes.LineageSqlQueryRunDetails?
+
+        public init(
+            sqlQueryRunDetails: DataZoneClientTypes.LineageSqlQueryRunDetails? = nil
+        )
+        {
+            self.sqlQueryRunDetails = sqlQueryRunDetails
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The details of a job run.
+    public enum JobRunDetails: Swift.Sendable {
+        /// The data lineage details of a job run.
+        case lineagerundetails(DataZoneClientTypes.LineageRunDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The job run error.
+    public struct JobRunError: Swift.Sendable {
+        /// The job run error message.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        )
+        {
+            self.message = message
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum JobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lineage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobType] {
+            return [
+                .lineage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lineage: return "LINEAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum JobRunMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemand
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobRunMode] {
+            return [
+                .onDemand,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "ON_DEMAND"
+            case .scheduled: return "SCHEDULED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum JobRunStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aborted
+        case canceled
+        case failed
+        case inProgress
+        case partiallySucceeded
+        case scheduled
+        case success
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobRunStatus] {
+            return [
+                .aborted,
+                .canceled,
+                .failed,
+                .inProgress,
+                .partiallySucceeded,
+                .scheduled,
+                .success,
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aborted: return "ABORTED"
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .partiallySucceeded: return "PARTIALLY_SUCCEEDED"
+            case .scheduled: return "SCHEDULED"
+            case .success: return "SUCCESS"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetJobRunOutput: Swift.Sendable {
+    /// The timestamp of when the job run was created.
+    public var createdAt: Foundation.Date?
+    /// The user who created the job run.
+    public var createdBy: Swift.String?
+    /// The details of the job run.
+    public var details: DataZoneClientTypes.JobRunDetails?
+    /// The ID of the domain.
+    public var domainId: Swift.String?
+    /// The timestamp of when the job run ended.
+    public var endTime: Foundation.Date?
+    /// The error generated if the action is not completed successfully.
+    public var error: DataZoneClientTypes.JobRunError?
+    /// The ID of the job run.
+    public var id: Swift.String?
+    /// The ID of the job run.
+    public var jobId: Swift.String?
+    /// The type of the job run.
+    public var jobType: DataZoneClientTypes.JobType?
+    /// The mode of the job run.
+    public var runMode: DataZoneClientTypes.JobRunMode?
+    /// The timestamp of when the job run started.
+    public var startTime: Foundation.Date?
+    /// The status of the job run.
+    public var status: DataZoneClientTypes.JobRunStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        details: DataZoneClientTypes.JobRunDetails? = nil,
+        domainId: Swift.String? = nil,
+        endTime: Foundation.Date? = nil,
+        error: DataZoneClientTypes.JobRunError? = nil,
+        id: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        jobType: DataZoneClientTypes.JobType? = nil,
+        runMode: DataZoneClientTypes.JobRunMode? = nil,
+        startTime: Foundation.Date? = nil,
+        status: DataZoneClientTypes.JobRunStatus? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.details = details
+        self.domainId = domainId
+        self.endTime = endTime
+        self.error = error
+        self.id = id
+        self.jobId = jobId
+        self.jobType = jobType
+        self.runMode = runMode
+        self.startTime = startTime
+        self.status = status
+    }
+}
+
+public struct GetLineageEventInput: Swift.Sendable {
+    /// The ID of the domain.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the lineage event.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct GetLineageEventOutput: Swift.Sendable {
+    /// The timestamp of when the lineage event was created.
+    public var createdAt: Foundation.Date?
+    /// The user who created the lineage event.
+    public var createdBy: Swift.String?
+    /// The ID of the domain.
+    public var domainId: Swift.String?
+    /// The lineage event details.
+    public var event: Foundation.Data?
+    /// The time of the lineage event.
+    public var eventTime: Foundation.Date?
+    /// The ID of the lineage event.
+    public var id: Swift.String?
+    /// The progressing status of the lineage event.
+    public var processingStatus: DataZoneClientTypes.LineageEventProcessingStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        event: Foundation.Data? = nil,
+        eventTime: Foundation.Date? = nil,
+        id: Swift.String? = nil,
+        processingStatus: DataZoneClientTypes.LineageEventProcessingStatus? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.event = event
+        self.eventTime = eventTime
+        self.id = id
+        self.processingStatus = processingStatus
+    }
+}
+
+extension GetLineageEventOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetLineageEventOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), eventTime: \(Swift.String(describing: eventTime)), id: \(Swift.String(describing: id)), processingStatus: \(Swift.String(describing: processingStatus)), event: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetLineageNodeInput: Swift.Sendable {
     /// The ID of the domain in which you want to get the data lineage node.
     /// This member is required.
@@ -11067,6 +14048,8 @@ public struct GetProjectOutput: Swift.Sendable {
     public var domainId: Swift.String?
     /// The ID of the domain unit.
     public var domainUnitId: Swift.String?
+    /// The environment deployment status of a project.
+    public var environmentDeploymentDetails: DataZoneClientTypes.EnvironmentDeploymentDetails?
     /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The business glossary terms that can be used in the project.
@@ -11079,8 +14062,12 @@ public struct GetProjectOutput: Swift.Sendable {
     /// The name of the project.
     /// This member is required.
     public var name: Swift.String?
+    /// The ID of the project profile of a project.
+    public var projectProfileId: Swift.String?
     /// The status of the project.
     public var projectStatus: DataZoneClientTypes.ProjectStatus?
+    /// The user parameters of a project.
+    public var userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]?
 
     public init(
         createdAt: Foundation.Date? = nil,
@@ -11088,12 +14075,15 @@ public struct GetProjectOutput: Swift.Sendable {
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
         domainUnitId: Swift.String? = nil,
+        environmentDeploymentDetails: DataZoneClientTypes.EnvironmentDeploymentDetails? = nil,
         failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
-        projectStatus: DataZoneClientTypes.ProjectStatus? = nil
+        projectProfileId: Swift.String? = nil,
+        projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
+        userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
     )
     {
         self.createdAt = createdAt
@@ -11101,18 +14091,96 @@ public struct GetProjectOutput: Swift.Sendable {
         self.description = description
         self.domainId = domainId
         self.domainUnitId = domainUnitId
+        self.environmentDeploymentDetails = environmentDeploymentDetails
         self.failureReasons = failureReasons
         self.glossaryTerms = glossaryTerms
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
+        self.userParameters = userParameters
     }
 }
 
 extension GetProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetProjectProfileInput: Swift.Sendable {
+    /// The ID of the domain.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the project profile.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct GetProjectProfileOutput: Swift.Sendable {
+    /// The timestamp of when the project profile was created.
+    public var createdAt: Foundation.Date?
+    /// The user who created the project profile.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the project profile.
+    public var description: Swift.String?
+    /// The ID of the domain of the project profile.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The ID of the domain unit of the project profile.
+    public var domainUnitId: Swift.String?
+    /// The environment configurations of the project profile.
+    public var environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]?
+    /// The ID of the project profile.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp of when project profile was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the project profile.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the project profile.
+    public var status: DataZoneClientTypes.Status?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
+        environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        status: DataZoneClientTypes.Status? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.domainUnitId = domainUnitId
+        self.environmentConfigurations = environmentConfigurations
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.status = status
+    }
+}
+
+extension GetProjectProfileOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetProjectProfileOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSubscriptionInput: Swift.Sendable {
@@ -11414,7 +14482,6 @@ public struct GetSubscriptionTargetOutput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The manage access role with which the subscription target was created.
-    /// This member is required.
     public var manageAccessRole: Swift.String?
     /// The name of the subscription target.
     /// This member is required.
@@ -12091,6 +15158,124 @@ public struct ListAssetRevisionsOutput: Swift.Sendable {
 
     public init(
         items: [DataZoneClientTypes.AssetRevision]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum SortFieldConnection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortFieldConnection] {
+            return [
+                .name
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListConnectionsInput: Swift.Sendable {
+    /// The ID of the domain where you want to list connections.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the environment where you want to list connections.
+    public var environmentIdentifier: Swift.String?
+    /// The maximum number of connections to return in a single call to ListConnections. When the number of connections to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListConnections to list the next set of connections.
+    public var maxResults: Swift.Int?
+    /// The name of the connection.
+    public var name: Swift.String?
+    /// When the number of connections is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of connections, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListConnections to list the next set of connections.
+    public var nextToken: Swift.String?
+    /// The ID of the project where you want to list connections.
+    /// This member is required.
+    public var projectIdentifier: Swift.String?
+    /// Specifies how you want to sort the listed connections.
+    public var sortBy: DataZoneClientTypes.SortFieldConnection?
+    /// Specifies the sort order for the listed connections.
+    public var sortOrder: DataZoneClientTypes.SortOrder?
+    /// The type of connection.
+    public var type: DataZoneClientTypes.ConnectionType?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        environmentIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        projectIdentifier: Swift.String? = nil,
+        sortBy: DataZoneClientTypes.SortFieldConnection? = nil,
+        sortOrder: DataZoneClientTypes.SortOrder? = nil,
+        type: DataZoneClientTypes.ConnectionType? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.environmentIdentifier = environmentIdentifier
+        self.maxResults = maxResults
+        self.name = name
+        self.nextToken = nextToken
+        self.projectIdentifier = projectIdentifier
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.type = type
+    }
+}
+
+public struct ListConnectionsOutput: Swift.Sendable {
+    /// The results of the ListConnections action.
+    /// This member is required.
+    public var items: [DataZoneClientTypes.ConnectionSummary]?
+    /// When the number of connections is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of connections, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListConnections to list the next set of connections.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.ConnectionSummary]? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -12850,6 +16035,308 @@ extension GetListingOutput: Swift.CustomDebugStringConvertible {
         "GetListingOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), item: \(Swift.String(describing: item)), listingRevision: \(Swift.String(describing: listingRevision)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
 }
 
+public struct ListJobRunsInput: Swift.Sendable {
+    /// The ID of the domain where you want to list job runs.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the job run.
+    /// This member is required.
+    public var jobIdentifier: Swift.String?
+    /// The maximum number of job runs to return in a single call to ListJobRuns. When the number of job runs to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListJobRuns to list the next set of job runs.
+    public var maxResults: Swift.Int?
+    /// When the number of job runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of job runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListJobRuns to list the next set of job runs.
+    public var nextToken: Swift.String?
+    /// Specifies the order in which job runs are to be sorted.
+    public var sortOrder: DataZoneClientTypes.SortOrder?
+    /// The status of a job run.
+    public var status: DataZoneClientTypes.JobRunStatus?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        jobIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortOrder: DataZoneClientTypes.SortOrder? = nil,
+        status: DataZoneClientTypes.JobRunStatus? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.jobIdentifier = jobIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortOrder = sortOrder
+        self.status = status
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The job run summary.
+    public struct JobRunSummary: Swift.Sendable {
+        /// The timestamp at which job run was created.
+        public var createdAt: Foundation.Date?
+        /// The user who created the job run.
+        public var createdBy: Swift.String?
+        /// The domain ID of the job run.
+        public var domainId: Swift.String?
+        /// The end time of a job run.
+        public var endTime: Foundation.Date?
+        /// The error of a job run.
+        public var error: DataZoneClientTypes.JobRunError?
+        /// The job ID of a job run.
+        public var jobId: Swift.String?
+        /// The job type of a job run.
+        public var jobType: DataZoneClientTypes.JobType?
+        /// The run ID of a job run.
+        public var runId: Swift.String?
+        /// The run mode of a job run.
+        public var runMode: DataZoneClientTypes.JobRunMode?
+        /// The start time of a job run.
+        public var startTime: Foundation.Date?
+        /// The status of a job run.
+        public var status: DataZoneClientTypes.JobRunStatus?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            error: DataZoneClientTypes.JobRunError? = nil,
+            jobId: Swift.String? = nil,
+            jobType: DataZoneClientTypes.JobType? = nil,
+            runId: Swift.String? = nil,
+            runMode: DataZoneClientTypes.JobRunMode? = nil,
+            startTime: Foundation.Date? = nil,
+            status: DataZoneClientTypes.JobRunStatus? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.endTime = endTime
+            self.error = error
+            self.jobId = jobId
+            self.jobType = jobType
+            self.runId = runId
+            self.runMode = runMode
+            self.startTime = startTime
+            self.status = status
+        }
+    }
+}
+
+public struct ListJobRunsOutput: Swift.Sendable {
+    /// The results of the ListJobRuns action.
+    public var items: [DataZoneClientTypes.JobRunSummary]?
+    /// When the number of job runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of job runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListJobRuns to list the next set of job runs.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.JobRunSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListLineageEventsInput: Swift.Sendable {
+    /// The ID of the domain where you want to list lineage events.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The maximum number of lineage events to return in a single call to ListLineageEvents. When the number of lineage events to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListLineageEvents to list the next set of lineage events.
+    public var maxResults: Swift.Int?
+    /// When the number of lineage events is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of lineage events, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListLineageEvents to list the next set of lineage events.
+    public var nextToken: Swift.String?
+    /// The processing status of a lineage event.
+    public var processingStatus: DataZoneClientTypes.LineageEventProcessingStatus?
+    /// The sort order of the lineage events.
+    public var sortOrder: DataZoneClientTypes.SortOrder?
+    /// The after timestamp of a lineage event.
+    public var timestampAfter: Foundation.Date?
+    /// The before timestamp of a lineage event.
+    public var timestampBefore: Foundation.Date?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        processingStatus: DataZoneClientTypes.LineageEventProcessingStatus? = nil,
+        sortOrder: DataZoneClientTypes.SortOrder? = nil,
+        timestampAfter: Foundation.Date? = nil,
+        timestampBefore: Foundation.Date? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.processingStatus = processingStatus
+        self.sortOrder = sortOrder
+        self.timestampAfter = timestampAfter
+        self.timestampBefore = timestampBefore
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum OpenLineageRunState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case abort
+        case complete
+        case fail
+        case other
+        case running
+        case start
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OpenLineageRunState] {
+            return [
+                .abort,
+                .complete,
+                .fail,
+                .other,
+                .running,
+                .start
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .abort: return "ABORT"
+            case .complete: return "COMPLETE"
+            case .fail: return "FAIL"
+            case .other: return "OTHER"
+            case .running: return "RUNNING"
+            case .start: return "START"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The name identifier.
+    public struct NameIdentifier: Swift.Sendable {
+        /// The name in the name identifier.
+        public var name: Swift.String?
+        /// The namespace in the name identifier.
+        public var namespace: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            namespace: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.namespace = namespace
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The open lineage run event summary.
+    public struct OpenLineageRunEventSummary: Swift.Sendable {
+        /// The event type of the open lineage run event summary.
+        public var eventType: DataZoneClientTypes.OpenLineageRunState?
+        /// The inputs of the open lineage run event summary.
+        public var inputs: [DataZoneClientTypes.NameIdentifier]?
+        /// The job of the open lineage run event summary.
+        public var job: DataZoneClientTypes.NameIdentifier?
+        /// The outputs of the open lineage run event summary.
+        public var outputs: [DataZoneClientTypes.NameIdentifier]?
+        /// The runID of the open lineage run event summary.
+        public var runId: Swift.String?
+
+        public init(
+            eventType: DataZoneClientTypes.OpenLineageRunState? = nil,
+            inputs: [DataZoneClientTypes.NameIdentifier]? = nil,
+            job: DataZoneClientTypes.NameIdentifier? = nil,
+            outputs: [DataZoneClientTypes.NameIdentifier]? = nil,
+            runId: Swift.String? = nil
+        )
+        {
+            self.eventType = eventType
+            self.inputs = inputs
+            self.job = job
+            self.outputs = outputs
+            self.runId = runId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The event summary.
+    public enum EventSummary: Swift.Sendable {
+        /// The open lineage run event summary.
+        case openlineageruneventsummary(DataZoneClientTypes.OpenLineageRunEventSummary)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The data lineage event summary.
+    public struct LineageEventSummary: Swift.Sendable {
+        /// The timestamp at which data lineage event was created.
+        public var createdAt: Foundation.Date?
+        /// The user who created the data lineage event.
+        public var createdBy: Swift.String?
+        /// The domain ID of the lineage event.
+        public var domainId: Swift.String?
+        /// The summary of the data lineate event.
+        public var eventSummary: DataZoneClientTypes.EventSummary?
+        /// The time of the data lineage event.
+        public var eventTime: Foundation.Date?
+        /// The ID of the data lineage event.
+        public var id: Swift.String?
+        /// The processing status of the data lineage event.
+        public var processingStatus: DataZoneClientTypes.LineageEventProcessingStatus?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            eventSummary: DataZoneClientTypes.EventSummary? = nil,
+            eventTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            processingStatus: DataZoneClientTypes.LineageEventProcessingStatus? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.eventSummary = eventSummary
+            self.eventTime = eventTime
+            self.id = id
+            self.processingStatus = processingStatus
+        }
+    }
+}
+
+public struct ListLineageEventsOutput: Swift.Sendable {
+    /// The results of the ListLineageEvents action.
+    public var items: [DataZoneClientTypes.LineageEventSummary]?
+    /// When the number of lineage events is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of lineage events, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListLineageEvents to list the next set of lineage events.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.LineageEventSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 extension DataZoneClientTypes {
 
     public enum EdgeDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -12873,35 +16360,6 @@ extension DataZoneClientTypes {
             switch self {
             case .downstream: return "DOWNSTREAM"
             case .upstream: return "UPSTREAM"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DataZoneClientTypes {
-
-    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ascending
-        case descending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortOrder] {
-            return [
-                .ascending,
-                .descending
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ascending: return "ASCENDING"
-            case .descending: return "DESCENDING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13558,6 +17016,117 @@ public struct ListProjectMembershipsOutput: Swift.Sendable {
     }
 }
 
+public struct ListProjectProfilesInput: Swift.Sendable {
+    /// The ID of the domain where you want to list project profiles.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The maximum number of project profiles to return in a single call to ListProjectProfiles. When the number of project profiles to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListProjectProfiles to list the next set of project profiles.
+    public var maxResults: Swift.Int?
+    /// The name of a project profile.
+    public var name: Swift.String?
+    /// When the number of project profiles is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of project profiles, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjectProfiles to list the next set of project profiles.
+    public var nextToken: Swift.String?
+    /// Specifies by what to sort project profiles.
+    public var sortBy: DataZoneClientTypes.SortFieldProject?
+    /// Specifies the sort order of the project profiles.
+    public var sortOrder: DataZoneClientTypes.SortOrder?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: DataZoneClientTypes.SortFieldProject? = nil,
+        sortOrder: DataZoneClientTypes.SortOrder? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.maxResults = maxResults
+        self.name = name
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+extension ListProjectProfilesInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListProjectProfilesInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), sortBy: \(Swift.String(describing: sortBy)), sortOrder: \(Swift.String(describing: sortOrder)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The summary of a project profile.
+    public struct ProjectProfileSummary: Swift.Sendable {
+        /// The timestamp of when the project profile was created.
+        public var createdAt: Foundation.Date?
+        /// The user who created the project profile.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The description of the project profile.
+        public var description: Swift.String?
+        /// The domain ID of the project profile.
+        /// This member is required.
+        public var domainId: Swift.String?
+        /// The domain unit ID of the project profile.
+        public var domainUnitId: Swift.String?
+        /// The ID of the project profile.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The timestamp at which a project profile was last updated.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The name of a project profile.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of a project profile.
+        public var status: DataZoneClientTypes.Status?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            domainUnitId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: DataZoneClientTypes.Status? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.id = id
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension DataZoneClientTypes.ProjectProfileSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ProjectProfileSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListProjectProfilesOutput: Swift.Sendable {
+    /// The results of the ListProjectProfiles action.
+    public var items: [DataZoneClientTypes.ProjectProfileSummary]?
+    /// When the number of project profiles is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of project profiles, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjectProfiles to list the next set of project profiles.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.ProjectProfileSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListProjectsInput: Swift.Sendable {
     /// The identifier of the Amazon DataZone domain.
     /// This member is required.
@@ -14198,7 +17767,6 @@ extension DataZoneClientTypes {
         /// This member is required.
         public var id: Swift.String?
         /// The manage access role specified in the subscription target.
-        /// This member is required.
         public var manageAccessRole: Swift.String?
         /// The name of the subscription target.
         /// This member is required.
@@ -14731,8 +18299,19 @@ extension PostLineageEventInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct PostLineageEventOutput: Swift.Sendable {
+    /// The ID of the domain.
+    public var domainId: Swift.String?
+    /// The ID of the lineage event.
+    public var id: Swift.String?
 
-    public init() { }
+    public init(
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.id = id
+    }
 }
 
 extension DataZoneClientTypes {
@@ -16405,6 +19984,100 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateConnectionInput: Swift.Sendable {
+    /// The location where a connection is to be updated.
+    public var awsLocation: DataZoneClientTypes.AwsLocation?
+    /// The description of a connection.
+    public var description: Swift.String?
+    /// The ID of the domain where a connection is to be updated.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the connection to be updated.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The connection props.
+    public var props: DataZoneClientTypes.ConnectionPropertiesPatch?
+
+    public init(
+        awsLocation: DataZoneClientTypes.AwsLocation? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        props: DataZoneClientTypes.ConnectionPropertiesPatch? = nil
+    )
+    {
+        self.awsLocation = awsLocation
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+        self.props = props
+    }
+}
+
+extension UpdateConnectionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateConnectionInput(awsLocation: \(Swift.String(describing: awsLocation)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), identifier: \(Swift.String(describing: identifier)), props: \(Swift.String(describing: props)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateConnectionOutput: Swift.Sendable {
+    /// The ID of the connection.
+    /// This member is required.
+    public var connectionId: Swift.String?
+    /// The connection description.
+    public var description: Swift.String?
+    /// The ID of the domain where a connection is to be updated.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The ID of the domain unit where a connection is to be updated.
+    /// This member is required.
+    public var domainUnitId: Swift.String?
+    /// The ID of the environment where a connection is to be updated.
+    public var environmentId: Swift.String?
+    /// The name of the connection.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The physical endpoints of the connection.
+    /// This member is required.
+    public var physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]?
+    /// The project ID of the connection.
+    public var projectId: Swift.String?
+    /// The connection props.
+    public var props: DataZoneClientTypes.ConnectionPropertiesOutput?
+    /// The connection type.
+    /// This member is required.
+    public var type: DataZoneClientTypes.ConnectionType?
+
+    public init(
+        connectionId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]? = nil,
+        projectId: Swift.String? = nil,
+        props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
+        type: DataZoneClientTypes.ConnectionType? = nil
+    )
+    {
+        self.connectionId = connectionId
+        self.description = description
+        self.domainId = domainId
+        self.domainUnitId = domainUnitId
+        self.environmentId = environmentId
+        self.name = name
+        self.physicalEndpoints = physicalEndpoints
+        self.projectId = projectId
+        self.props = props
+        self.type = type
+    }
+}
+
+extension UpdateConnectionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateEnvironmentInput: Swift.Sendable {
     /// The description to be updated as part of the UpdateEnvironment action.
     public var description: Swift.String?
@@ -16776,6 +20449,8 @@ public struct UpdateProjectInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain where a project is being updated.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The environment deployment details of the project.
+    public var environmentDeploymentDetails: DataZoneClientTypes.EnvironmentDeploymentDetails?
     /// The glossary terms to be updated as part of the UpdateProject action.
     public var glossaryTerms: [Swift.String]?
     /// The identifier of the project that is to be updated.
@@ -16787,6 +20462,7 @@ public struct UpdateProjectInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
+        environmentDeploymentDetails: DataZoneClientTypes.EnvironmentDeploymentDetails? = nil,
         glossaryTerms: [Swift.String]? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
@@ -16794,6 +20470,7 @@ public struct UpdateProjectInput: Swift.Sendable {
     {
         self.description = description
         self.domainIdentifier = domainIdentifier
+        self.environmentDeploymentDetails = environmentDeploymentDetails
         self.glossaryTerms = glossaryTerms
         self.identifier = identifier
         self.name = name
@@ -16802,7 +20479,7 @@ public struct UpdateProjectInput: Swift.Sendable {
 
 extension UpdateProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProjectOutput: Swift.Sendable {
@@ -16818,6 +20495,8 @@ public struct UpdateProjectOutput: Swift.Sendable {
     public var domainId: Swift.String?
     /// The ID of the domain unit.
     public var domainUnitId: Swift.String?
+    /// The environment deployment details of the project.
+    public var environmentDeploymentDetails: DataZoneClientTypes.EnvironmentDeploymentDetails?
     /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The glossary terms of the project that are to be updated.
@@ -16830,8 +20509,12 @@ public struct UpdateProjectOutput: Swift.Sendable {
     /// The name of the project that is to be updated.
     /// This member is required.
     public var name: Swift.String?
+    /// The ID of the project profile.
+    public var projectProfileId: Swift.String?
     /// The status of the project.
     public var projectStatus: DataZoneClientTypes.ProjectStatus?
+    /// The user parameters of the project.
+    public var userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]?
 
     public init(
         createdAt: Foundation.Date? = nil,
@@ -16839,12 +20522,15 @@ public struct UpdateProjectOutput: Swift.Sendable {
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
         domainUnitId: Swift.String? = nil,
+        environmentDeploymentDetails: DataZoneClientTypes.EnvironmentDeploymentDetails? = nil,
         failureReasons: [DataZoneClientTypes.ProjectDeletionError]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
-        projectStatus: DataZoneClientTypes.ProjectStatus? = nil
+        projectProfileId: Swift.String? = nil,
+        projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
+        userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
     )
     {
         self.createdAt = createdAt
@@ -16852,18 +20538,121 @@ public struct UpdateProjectOutput: Swift.Sendable {
         self.description = description
         self.domainId = domainId
         self.domainUnitId = domainUnitId
+        self.environmentDeploymentDetails = environmentDeploymentDetails
         self.failureReasons = failureReasons
         self.glossaryTerms = glossaryTerms
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
+        self.userParameters = userParameters
     }
 }
 
 extension UpdateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectStatus: \(Swift.String(describing: projectStatus)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateProjectProfileInput: Swift.Sendable {
+    /// The description of a project profile.
+    public var description: Swift.String?
+    /// The ID of the domain where a project profile is to be updated.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the domain unit where a project profile is to be updated.
+    public var domainUnitIdentifier: Swift.String?
+    /// The environment configurations of a project profile.
+    public var environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]?
+    /// The ID of a project profile that is to be updated.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of a project profile.
+    public var name: Swift.String?
+    /// The status of a project profile.
+    public var status: DataZoneClientTypes.Status?
+
+    public init(
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        domainUnitIdentifier: Swift.String? = nil,
+        environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: DataZoneClientTypes.Status? = nil
+    )
+    {
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.domainUnitIdentifier = domainUnitIdentifier
+        self.environmentConfigurations = environmentConfigurations
+        self.identifier = identifier
+        self.name = name
+        self.status = status
+    }
+}
+
+extension UpdateProjectProfileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateProjectProfileInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitIdentifier: \(Swift.String(describing: domainUnitIdentifier)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), identifier: \(Swift.String(describing: identifier)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateProjectProfileOutput: Swift.Sendable {
+    /// The timestamp at which a project profile is created.
+    public var createdAt: Foundation.Date?
+    /// The user who created a project profile.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of a project profile.
+    public var description: Swift.String?
+    /// The ID of the domain where project profile is to be updated.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The domain unit ID of the project profile to be updated.
+    public var domainUnitId: Swift.String?
+    /// The environment configurations of a project profile.
+    public var environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]?
+    /// The ID of the project profile.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The timestamp at which a project profile was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the project profile.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the project profile.
+    public var status: DataZoneClientTypes.Status?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
+        environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        status: DataZoneClientTypes.Status? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.domainUnitId = domainUnitId
+        self.environmentConfigurations = environmentConfigurations
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.status = status
+    }
+}
+
+extension UpdateProjectProfileOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateProjectProfileOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSubscriptionGrantStatusInput: Swift.Sendable {
@@ -17144,7 +20933,6 @@ public struct UpdateSubscriptionTargetOutput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The manage access role to be updated as part of the UpdateSubscriptionTarget action.
-    /// This member is required.
     public var manageAccessRole: Swift.String?
     /// The name to be updated as part of the UpdateSubscriptionTarget action.
     /// This member is required.
@@ -17886,6 +21674,16 @@ extension CreateAssetTypeInput {
     }
 }
 
+extension CreateConnectionInput {
+
+    static func urlPathProvider(_ value: CreateConnectionInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/connections"
+    }
+}
+
 extension CreateDataProductInput {
 
     static func urlPathProvider(_ value: CreateDataProductInput) -> Swift.String? {
@@ -18042,6 +21840,16 @@ extension CreateProjectMembershipInput {
     }
 }
 
+extension CreateProjectProfileInput {
+
+    static func urlPathProvider(_ value: CreateProjectProfileInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/project-profiles"
+    }
+}
+
 extension CreateRuleInput {
 
     static func urlPathProvider(_ value: CreateRuleInput) -> Swift.String? {
@@ -18134,6 +21942,19 @@ extension DeleteAssetTypeInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/asset-types/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteConnectionInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/connections/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -18363,6 +22184,19 @@ extension DeleteProjectMembershipInput {
     }
 }
 
+extension DeleteProjectProfileInput {
+
+    static func urlPathProvider(_ value: DeleteProjectProfileInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/project-profiles/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension DeleteRuleInput {
 
     static func urlPathProvider(_ value: DeleteRuleInput) -> Swift.String? {
@@ -18529,6 +22363,31 @@ extension GetAssetTypeInput {
         if let revision = value.revision {
             let revisionQueryItem = Smithy.URIQueryItem(name: "revision".urlPercentEncoding(), value: Swift.String(revision).urlPercentEncoding())
             items.append(revisionQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetConnectionInput {
+
+    static func urlPathProvider(_ value: GetConnectionInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/connections/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetConnectionInput {
+
+    static func queryItemProvider(_ value: GetConnectionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let withSecret = value.withSecret {
+            let withSecretQueryItem = Smithy.URIQueryItem(name: "withSecret".urlPercentEncoding(), value: Swift.String(withSecret).urlPercentEncoding())
+            items.append(withSecretQueryItem)
         }
         return items
     }
@@ -18763,6 +22622,32 @@ extension GetIamPortalLoginUrlInput {
     }
 }
 
+extension GetJobRunInput {
+
+    static func urlPathProvider(_ value: GetJobRunInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/jobRuns/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetLineageEventInput {
+
+    static func urlPathProvider(_ value: GetLineageEventInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/lineage/events/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension GetLineageNodeInput {
 
     static func urlPathProvider(_ value: GetLineageNodeInput) -> Swift.String? {
@@ -18836,6 +22721,19 @@ extension GetProjectInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/projects/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetProjectProfileInput {
+
+    static func urlPathProvider(_ value: GetProjectProfileInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/project-profiles/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -19039,6 +22937,58 @@ extension ListAssetRevisionsInput {
     }
 }
 
+extension ListConnectionsInput {
+
+    static func urlPathProvider(_ value: ListConnectionsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/connections"
+    }
+}
+
+extension ListConnectionsInput {
+
+    static func queryItemProvider(_ value: ListConnectionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let environmentIdentifier = value.environmentIdentifier {
+            let environmentIdentifierQueryItem = Smithy.URIQueryItem(name: "environmentIdentifier".urlPercentEncoding(), value: Swift.String(environmentIdentifier).urlPercentEncoding())
+            items.append(environmentIdentifierQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        guard let projectIdentifier = value.projectIdentifier else {
+            let message = "Creating a URL Query Item failed. projectIdentifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let projectIdentifierQueryItem = Smithy.URIQueryItem(name: "projectIdentifier".urlPercentEncoding(), value: Swift.String(projectIdentifier).urlPercentEncoding())
+        items.append(projectIdentifierQueryItem)
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListDataProductRevisionsInput {
 
     static func urlPathProvider(_ value: ListDataProductRevisionsInput) -> Swift.String? {
@@ -19163,6 +23113,10 @@ extension ListDataSourcesInput {
         if let name = value.name {
             let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
             items.append(nameQueryItem)
+        }
+        if let connectionIdentifier = value.connectionIdentifier {
+            let connectionIdentifierQueryItem = Smithy.URIQueryItem(name: "connectionIdentifier".urlPercentEncoding(), value: Swift.String(connectionIdentifier).urlPercentEncoding())
+            items.append(connectionIdentifierQueryItem)
         }
         guard let projectIdentifier = value.projectIdentifier else {
             let message = "Creating a URL Query Item failed. projectIdentifier is required and must not be nil."
@@ -19468,6 +23422,85 @@ extension ListEnvironmentsInput {
     }
 }
 
+extension ListJobRunsInput {
+
+    static func urlPathProvider(_ value: ListJobRunsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let jobIdentifier = value.jobIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/jobs/\(jobIdentifier.urlPercentEncoding())/runs"
+    }
+}
+
+extension ListJobRunsInput {
+
+    static func queryItemProvider(_ value: ListJobRunsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListLineageEventsInput {
+
+    static func urlPathProvider(_ value: ListLineageEventsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/lineage/events"
+    }
+}
+
+extension ListLineageEventsInput {
+
+    static func queryItemProvider(_ value: ListLineageEventsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let timestampAfter = value.timestampAfter {
+            let timestampAfterQueryItem = Smithy.URIQueryItem(name: "timestampAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: timestampAfter)).urlPercentEncoding())
+            items.append(timestampAfterQueryItem)
+        }
+        if let processingStatus = value.processingStatus {
+            let processingStatusQueryItem = Smithy.URIQueryItem(name: "processingStatus".urlPercentEncoding(), value: Swift.String(processingStatus.rawValue).urlPercentEncoding())
+            items.append(processingStatusQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let timestampBefore = value.timestampBefore {
+            let timestampBeforeQueryItem = Smithy.URIQueryItem(name: "timestampBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: timestampBefore)).urlPercentEncoding())
+            items.append(timestampBeforeQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListLineageNodeHistoryInput {
 
     static func urlPathProvider(_ value: ListLineageNodeHistoryInput) -> Swift.String? {
@@ -19663,6 +23696,44 @@ extension ListProjectMembershipsInput {
         if let sortOrder = value.sortOrder {
             let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
             items.append(sortOrderQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListProjectProfilesInput {
+
+    static func urlPathProvider(_ value: ListProjectProfilesInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/project-profiles"
+    }
+}
+
+extension ListProjectProfilesInput {
+
+    static func queryItemProvider(_ value: ListProjectProfilesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
         }
         if let sortBy = value.sortBy {
             let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
@@ -20033,11 +24104,10 @@ extension PostLineageEventInput {
 
 extension PostLineageEventInput {
 
-    static func queryItemProvider(_ value: PostLineageEventInput) throws -> [Smithy.URIQueryItem] {
-        var items = [Smithy.URIQueryItem]()
+    static func headerProvider(_ value: PostLineageEventInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
         if let clientToken = value.clientToken {
-            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
-            items.append(clientTokenQueryItem)
+            items.add(SmithyHTTPAPI.Header(name: "Client-Token", value: Swift.String(clientToken)))
         }
         return items
     }
@@ -20280,6 +24350,19 @@ extension UpdateAssetFilterInput {
     }
 }
 
+extension UpdateConnectionInput {
+
+    static func urlPathProvider(_ value: UpdateConnectionInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/connections/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateDataSourceInput {
 
     static func urlPathProvider(_ value: UpdateDataSourceInput) -> Swift.String? {
@@ -20419,6 +24502,19 @@ extension UpdateProjectInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/projects/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateProjectProfileInput {
+
+    static func urlPathProvider(_ value: UpdateProjectProfileInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/project-profiles/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -20585,6 +24681,19 @@ extension CreateAssetTypeInput {
     }
 }
 
+extension CreateConnectionInput {
+
+    static func write(value: CreateConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsLocation"].write(value.awsLocation, with: DataZoneClientTypes.AwsLocation.write(value:to:))
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["environmentIdentifier"].write(value.environmentIdentifier)
+        try writer["name"].write(value.name)
+        try writer["props"].write(value.props, with: DataZoneClientTypes.ConnectionPropertiesInput.write(value:to:))
+    }
+}
+
 extension CreateDataProductInput {
 
     static func write(value: CreateDataProductInput?, to writer: SmithyJSON.Writer) throws {
@@ -20619,6 +24728,7 @@ extension CreateDataSourceInput {
         try writer["assetFormsInput"].writeList(value.assetFormsInput, memberWritingClosure: DataZoneClientTypes.FormInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["configuration"].write(value.configuration, with: DataZoneClientTypes.DataSourceConfigurationInput.write(value:to:))
+        try writer["connectionIdentifier"].write(value.connectionIdentifier)
         try writer["description"].write(value.description)
         try writer["enableSetting"].write(value.enableSetting)
         try writer["environmentIdentifier"].write(value.environmentIdentifier)
@@ -20638,8 +24748,10 @@ extension CreateDomainInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["domainExecutionRole"].write(value.domainExecutionRole)
+        try writer["domainVersion"].write(value.domainVersion)
         try writer["kmsKeyIdentifier"].write(value.kmsKeyIdentifier)
         try writer["name"].write(value.name)
+        try writer["serviceRole"].write(value.serviceRole)
         try writer["singleSignOn"].write(value.singleSignOn, with: DataZoneClientTypes.SingleSignOn.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -20660,10 +24772,12 @@ extension CreateEnvironmentInput {
 
     static func write(value: CreateEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["deploymentOrder"].write(value.deploymentOrder)
         try writer["description"].write(value.description)
         try writer["environmentAccountIdentifier"].write(value.environmentAccountIdentifier)
         try writer["environmentAccountRegion"].write(value.environmentAccountRegion)
         try writer["environmentBlueprintIdentifier"].write(value.environmentBlueprintIdentifier)
+        try writer["environmentConfigurationId"].write(value.environmentConfigurationId)
         try writer["environmentProfileIdentifier"].write(value.environmentProfileIdentifier)
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -20763,6 +24877,8 @@ extension CreateProjectInput {
         try writer["domainUnitId"].write(value.domainUnitId)
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["projectProfileId"].write(value.projectProfileId)
+        try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -20772,6 +24888,18 @@ extension CreateProjectMembershipInput {
         guard let value else { return }
         try writer["designation"].write(value.designation)
         try writer["member"].write(value.member, with: DataZoneClientTypes.Member.write(value:to:))
+    }
+}
+
+extension CreateProjectProfileInput {
+
+    static func write(value: CreateProjectProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["domainUnitIdentifier"].write(value.domainUnitIdentifier)
+        try writer["environmentConfigurations"].writeList(value.environmentConfigurations, memberWritingClosure: DataZoneClientTypes.EnvironmentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
     }
 }
 
@@ -20868,6 +24996,7 @@ extension PutEnvironmentBlueprintConfigurationInput {
     static func write(value: PutEnvironmentBlueprintConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabledRegions"].writeList(value.enabledRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["environmentRolePermissionBoundary"].write(value.environmentRolePermissionBoundary)
         try writer["manageAccessRoleArn"].write(value.manageAccessRoleArn)
         try writer["provisioningConfigurations"].writeList(value.provisioningConfigurations, memberWritingClosure: DataZoneClientTypes.ProvisioningConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["provisioningRoleArn"].write(value.provisioningRoleArn)
@@ -21024,6 +25153,16 @@ extension UpdateAssetFilterInput {
     }
 }
 
+extension UpdateConnectionInput {
+
+    static func write(value: UpdateConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsLocation"].write(value.awsLocation, with: DataZoneClientTypes.AwsLocation.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["props"].write(value.props, with: DataZoneClientTypes.ConnectionPropertiesPatch.write(value:to:))
+    }
+}
+
 extension UpdateDataSourceInput {
 
     static func write(value: UpdateDataSourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -21047,6 +25186,7 @@ extension UpdateDomainInput {
         try writer["description"].write(value.description)
         try writer["domainExecutionRole"].write(value.domainExecutionRole)
         try writer["name"].write(value.name)
+        try writer["serviceRole"].write(value.serviceRole)
         try writer["singleSignOn"].write(value.singleSignOn, with: DataZoneClientTypes.SingleSignOn.write(value:to:))
     }
 }
@@ -21129,8 +25269,21 @@ extension UpdateProjectInput {
     static func write(value: UpdateProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["environmentDeploymentDetails"].write(value.environmentDeploymentDetails, with: DataZoneClientTypes.EnvironmentDeploymentDetails.write(value:to:))
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+    }
+}
+
+extension UpdateProjectProfileInput {
+
+    static func write(value: UpdateProjectProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["domainUnitIdentifier"].write(value.domainUnitIdentifier)
+        try writer["environmentConfigurations"].writeList(value.environmentConfigurations, memberWritingClosure: DataZoneClientTypes.EnvironmentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
     }
 }
 
@@ -21380,6 +25533,27 @@ extension CreateAssetTypeOutput {
     }
 }
 
+extension CreateConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConnectionOutput()
+        value.connectionId = try reader["connectionId"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.physicalEndpoints = try reader["physicalEndpoints"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PhysicalEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.projectId = try reader["projectId"].readIfPresent()
+        value.props = try reader["props"].readIfPresent(with: DataZoneClientTypes.ConnectionPropertiesOutput.read(from:))
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateDataProductOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataProductOutput {
@@ -21439,11 +25613,12 @@ extension CreateDataSourceOutput {
         var value = CreateDataSourceOutput()
         value.assetFormsOutput = try reader["assetFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.DataSourceConfigurationOutput.read(from:))
+        value.connectionId = try reader["connectionId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enableSetting = try reader["enableSetting"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastRunAt = try reader["lastRunAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -21471,11 +25646,13 @@ extension CreateDomainOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.domainExecutionRole = try reader["domainExecutionRole"].readIfPresent()
+        value.domainVersion = try reader["domainVersion"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.portalUrl = try reader["portalUrl"].readIfPresent()
         value.rootDomainUnitId = try reader["rootDomainUnitId"].readIfPresent()
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.singleSignOn = try reader["singleSignOn"].readIfPresent(with: DataZoneClientTypes.SingleSignOn.read(from:))
         value.status = try reader["status"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -21670,12 +25847,15 @@ extension CreateProjectOutput {
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.environmentDeploymentDetails = try reader["environmentDeploymentDetails"].readIfPresent(with: DataZoneClientTypes.EnvironmentDeploymentDetails.read(from:))
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectDeletionError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
+        value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -21684,6 +25864,27 @@ extension CreateProjectMembershipOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProjectMembershipOutput {
         return CreateProjectMembershipOutput()
+    }
+}
+
+extension CreateProjectProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProjectProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateProjectProfileOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.environmentConfigurations = try reader["environmentConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        return value
     }
 }
 
@@ -21770,7 +25971,7 @@ extension CreateSubscriptionTargetOutput {
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent() ?? ""
+        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.provider = try reader["provider"].readIfPresent() ?? ""
@@ -21819,6 +26020,18 @@ extension DeleteAssetTypeOutput {
     }
 }
 
+extension DeleteConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteConnectionOutput()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteDataProductOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataProductOutput {
@@ -21835,11 +26048,12 @@ extension DeleteDataSourceOutput {
         var value = DeleteDataSourceOutput()
         value.assetFormsOutput = try reader["assetFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.DataSourceConfigurationOutput.read(from:))
+        value.connectionId = try reader["connectionId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enableSetting = try reader["enableSetting"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastRunAt = try reader["lastRunAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -21944,6 +26158,13 @@ extension DeleteProjectMembershipOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProjectMembershipOutput {
         return DeleteProjectMembershipOutput()
+    }
+}
+
+extension DeleteProjectProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProjectProfileOutput {
+        return DeleteProjectProfileOutput()
     }
 }
 
@@ -22078,6 +26299,29 @@ extension GetAssetTypeOutput {
     }
 }
 
+extension GetConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConnectionOutput()
+        value.connectionCredentials = try reader["connectionCredentials"].readIfPresent(with: DataZoneClientTypes.ConnectionCredentials.read(from:))
+        value.connectionId = try reader["connectionId"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.environmentUserRole = try reader["environmentUserRole"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.physicalEndpoints = try reader["physicalEndpoints"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PhysicalEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.projectId = try reader["projectId"].readIfPresent()
+        value.props = try reader["props"].readIfPresent(with: DataZoneClientTypes.ConnectionPropertiesOutput.read(from:))
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetDataProductOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataProductOutput {
@@ -22112,11 +26356,12 @@ extension GetDataSourceOutput {
         var value = GetDataSourceOutput()
         value.assetFormsOutput = try reader["assetFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.DataSourceConfigurationOutput.read(from:))
+        value.connectionId = try reader["connectionId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enableSetting = try reader["enableSetting"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastRunAssetCount = try reader["lastRunAssetCount"].readIfPresent()
@@ -22149,6 +26394,7 @@ extension GetDataSourceRunOutput {
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
         value.id = try reader["id"].readIfPresent() ?? ""
+        value.lineageSummary = try reader["lineageSummary"].readIfPresent(with: DataZoneClientTypes.DataSourceRunLineageSummary.read(from:))
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.runStatisticsForAssets = try reader["runStatisticsForAssets"].readIfPresent(with: DataZoneClientTypes.RunStatisticsForAssets.read(from:))
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -22171,12 +26417,14 @@ extension GetDomainOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.domainExecutionRole = try reader["domainExecutionRole"].readIfPresent() ?? ""
+        value.domainVersion = try reader["domainVersion"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.kmsKeyIdentifier = try reader["kmsKeyIdentifier"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent()
         value.portalUrl = try reader["portalUrl"].readIfPresent()
         value.rootDomainUnitId = try reader["rootDomainUnitId"].readIfPresent()
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.singleSignOn = try reader["singleSignOn"].readIfPresent(with: DataZoneClientTypes.SingleSignOn.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -22286,6 +26534,7 @@ extension GetEnvironmentBlueprintConfigurationOutput {
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enabledRegions = try reader["enabledRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
+        value.environmentRolePermissionBoundary = try reader["environmentRolePermissionBoundary"].readIfPresent()
         value.manageAccessRoleArn = try reader["manageAccessRoleArn"].readIfPresent()
         value.provisioningConfigurations = try reader["provisioningConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProvisioningConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.provisioningRoleArn = try reader["provisioningRoleArn"].readIfPresent()
@@ -22428,6 +26677,63 @@ extension GetIamPortalLoginUrlOutput {
     }
 }
 
+extension GetJobRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetJobRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetJobRunOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.details = try reader["details"].readIfPresent(with: DataZoneClientTypes.JobRunDetails.read(from:))
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.JobRunError.read(from:))
+        value.id = try reader["id"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobType = try reader["jobType"].readIfPresent()
+        value.runMode = try reader["runMode"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension GetLineageEventOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLineageEventOutput {
+        var value = GetLineageEventOutput()
+        if let createdAtHeaderValue = httpResponse.headers.value(for: "Created-At") {
+            value.createdAt = SmithyTimestamps.TimestampFormatter(format: .httpDate).date(from: createdAtHeaderValue)
+        }
+        if let createdByHeaderValue = httpResponse.headers.value(for: "Created-By") {
+            value.createdBy = createdByHeaderValue
+        }
+        if let domainIdHeaderValue = httpResponse.headers.value(for: "Domain-Id") {
+            value.domainId = domainIdHeaderValue
+        }
+        if let eventTimeHeaderValue = httpResponse.headers.value(for: "Event-Time") {
+            value.eventTime = SmithyTimestamps.TimestampFormatter(format: .httpDate).date(from: eventTimeHeaderValue)
+        }
+        if let idHeaderValue = httpResponse.headers.value(for: "Id") {
+            value.id = idHeaderValue
+        }
+        if let processingStatusHeaderValue = httpResponse.headers.value(for: "Processing-Status") {
+            value.processingStatus = DataZoneClientTypes.LineageEventProcessingStatus(rawValue: processingStatusHeaderValue)
+        }
+        switch httpResponse.body {
+        case .data(let data):
+            value.event = data
+        case .stream(let stream):
+            value.event = try stream.readToEnd()
+        case .noStream:
+            value.event = nil
+        }
+        return value
+    }
+}
+
 extension GetLineageNodeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLineageNodeOutput {
@@ -22507,12 +26813,36 @@ extension GetProjectOutput {
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.environmentDeploymentDetails = try reader["environmentDeploymentDetails"].readIfPresent(with: DataZoneClientTypes.EnvironmentDeploymentDetails.read(from:))
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectDeletionError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
+        value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetProjectProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetProjectProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetProjectProfileOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.environmentConfigurations = try reader["environmentConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -22625,7 +26955,7 @@ extension GetSubscriptionTargetOutput {
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent() ?? ""
+        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.provider = try reader["provider"].readIfPresent() ?? ""
@@ -22690,6 +27020,19 @@ extension ListAssetRevisionsOutput {
         let reader = responseReader
         var value = ListAssetRevisionsOutput()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AssetRevision.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListConnectionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectionsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ConnectionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -22851,6 +27194,32 @@ extension ListEnvironmentsOutput {
     }
 }
 
+extension ListJobRunsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListJobRunsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListJobRunsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.JobRunSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListLineageEventsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLineageEventsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLineageEventsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.LineageEventSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListLineageNodeHistoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLineageNodeHistoryOutput {
@@ -22911,6 +27280,19 @@ extension ListProjectMembershipsOutput {
         let reader = responseReader
         var value = ListProjectMembershipsOutput()
         value.members = try reader["members"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectMember.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListProjectProfilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProjectProfilesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProjectProfilesOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectProfileSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -23022,7 +27404,13 @@ extension ListTimeSeriesDataPointsOutput {
 extension PostLineageEventOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PostLineageEventOutput {
-        return PostLineageEventOutput()
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PostLineageEventOutput()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
     }
 }
 
@@ -23052,6 +27440,7 @@ extension PutEnvironmentBlueprintConfigurationOutput {
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enabledRegions = try reader["enabledRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
+        value.environmentRolePermissionBoundary = try reader["environmentRolePermissionBoundary"].readIfPresent()
         value.manageAccessRoleArn = try reader["manageAccessRoleArn"].readIfPresent()
         value.provisioningConfigurations = try reader["provisioningConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProvisioningConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.provisioningRoleArn = try reader["provisioningRoleArn"].readIfPresent()
@@ -23282,6 +27671,27 @@ extension UpdateAssetFilterOutput {
     }
 }
 
+extension UpdateConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateConnectionOutput()
+        value.connectionId = try reader["connectionId"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.physicalEndpoints = try reader["physicalEndpoints"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PhysicalEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.projectId = try reader["projectId"].readIfPresent()
+        value.props = try reader["props"].readIfPresent(with: DataZoneClientTypes.ConnectionPropertiesOutput.read(from:))
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension UpdateDataSourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataSourceOutput {
@@ -23291,11 +27701,12 @@ extension UpdateDataSourceOutput {
         var value = UpdateDataSourceOutput()
         value.assetFormsOutput = try reader["assetFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.configuration = try reader["configuration"].readIfPresent(with: DataZoneClientTypes.DataSourceConfigurationOutput.read(from:))
+        value.connectionId = try reader["connectionId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enableSetting = try reader["enableSetting"].readIfPresent()
-        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastRunAt = try reader["lastRunAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -23328,6 +27739,7 @@ extension UpdateDomainOutput {
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent()
         value.rootDomainUnitId = try reader["rootDomainUnitId"].readIfPresent()
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.singleSignOn = try reader["singleSignOn"].readIfPresent(with: DataZoneClientTypes.SingleSignOn.read(from:))
         return value
     }
@@ -23489,12 +27901,36 @@ extension UpdateProjectOutput {
         value.description = try reader["description"].readIfPresent()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.environmentDeploymentDetails = try reader["environmentDeploymentDetails"].readIfPresent(with: DataZoneClientTypes.EnvironmentDeploymentDetails.read(from:))
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProjectDeletionError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
+        value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension UpdateProjectProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProjectProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProjectProfileOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.environmentConfigurations = try reader["environmentConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -23584,7 +28020,7 @@ extension UpdateSubscriptionTargetOutput {
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
-        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent() ?? ""
+        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.provider = try reader["provider"].readIfPresent() ?? ""
@@ -23836,6 +28272,27 @@ enum CreateAssetTypeOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -24147,6 +28604,27 @@ enum CreateProjectMembershipOutputError {
     }
 }
 
+enum CreateProjectProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -24297,6 +28775,25 @@ enum DeleteAssetTypeOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -24581,6 +29078,25 @@ enum DeleteProjectMembershipOutputError {
     }
 }
 
+enum DeleteProjectProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -24739,6 +29255,25 @@ enum GetAssetFilterOutputError {
 }
 
 enum GetAssetTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -25065,6 +29600,44 @@ enum GetIamPortalLoginUrlOutputError {
     }
 }
 
+enum GetJobRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetLineageEventOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetLineageNodeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -25123,6 +29696,25 @@ enum GetMetadataGenerationRunOutputError {
 }
 
 enum GetProjectOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetProjectProfileOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -25304,6 +29896,24 @@ enum ListAssetRevisionsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConnectionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -25541,6 +30151,43 @@ enum ListEnvironmentsOutputError {
     }
 }
 
+enum ListJobRunsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListLineageEventsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListLineageNodeHistoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -25627,6 +30274,24 @@ enum ListProjectMembershipsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListProjectProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -26126,6 +30791,27 @@ enum UpdateAssetFilterOutputError {
     }
 }
 
+enum UpdateConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateDataSourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -26308,6 +30994,27 @@ enum UpdateGroupProfileOutputError {
 }
 
 enum UpdateProjectOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateProjectProfileOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -27095,6 +31802,423 @@ extension DataZoneClientTypes.FormEntryOutput {
     }
 }
 
+extension DataZoneClientTypes.PhysicalEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PhysicalEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.PhysicalEndpoint()
+        value.awsLocation = try reader["awsLocation"].readIfPresent(with: DataZoneClientTypes.AwsLocation.read(from:))
+        value.glueConnectionName = try reader["glueConnectionName"].readIfPresent()
+        value.glueConnection = try reader["glueConnection"].readIfPresent(with: DataZoneClientTypes.GlueConnection.read(from:))
+        value.host = try reader["host"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.stage = try reader["stage"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlueConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlueConnection()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.connectionType = try reader["connectionType"].readIfPresent()
+        value.matchCriteria = try reader["matchCriteria"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionProperties = try reader["connectionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sparkProperties = try reader["sparkProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.athenaProperties = try reader["athenaProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pythonProperties = try reader["pythonProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.physicalConnectionRequirements = try reader["physicalConnectionRequirements"].readIfPresent(with: DataZoneClientTypes.PhysicalConnectionRequirements.read(from:))
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.lastConnectionValidationTime = try reader["lastConnectionValidationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.authenticationConfiguration = try reader["authenticationConfiguration"].readIfPresent(with: DataZoneClientTypes.AuthenticationConfiguration.read(from:))
+        value.connectionSchemaVersion = try reader["connectionSchemaVersion"].readIfPresent()
+        value.compatibleComputeEnvironments = try reader["compatibleComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.ComputeEnvironments>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AuthenticationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AuthenticationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AuthenticationConfiguration()
+        value.authenticationType = try reader["authenticationType"].readIfPresent()
+        value.secretArn = try reader["secretArn"].readIfPresent()
+        value.oAuth2Properties = try reader["oAuth2Properties"].readIfPresent(with: DataZoneClientTypes.OAuth2Properties.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OAuth2Properties {
+
+    static func write(value: DataZoneClientTypes.OAuth2Properties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationCodeProperties"].write(value.authorizationCodeProperties, with: DataZoneClientTypes.AuthorizationCodeProperties.write(value:to:))
+        try writer["oAuth2ClientApplication"].write(value.oAuth2ClientApplication, with: DataZoneClientTypes.OAuth2ClientApplication.write(value:to:))
+        try writer["oAuth2Credentials"].write(value.oAuth2Credentials, with: DataZoneClientTypes.GlueOAuth2Credentials.write(value:to:))
+        try writer["oAuth2GrantType"].write(value.oAuth2GrantType)
+        try writer["tokenUrl"].write(value.tokenUrl)
+        try writer["tokenUrlParametersMap"].writeMap(value.tokenUrlParametersMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OAuth2Properties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OAuth2Properties()
+        value.oAuth2GrantType = try reader["oAuth2GrantType"].readIfPresent()
+        value.oAuth2ClientApplication = try reader["oAuth2ClientApplication"].readIfPresent(with: DataZoneClientTypes.OAuth2ClientApplication.read(from:))
+        value.tokenUrl = try reader["tokenUrl"].readIfPresent()
+        value.tokenUrlParametersMap = try reader["tokenUrlParametersMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.authorizationCodeProperties = try reader["authorizationCodeProperties"].readIfPresent(with: DataZoneClientTypes.AuthorizationCodeProperties.read(from:))
+        value.oAuth2Credentials = try reader["oAuth2Credentials"].readIfPresent(with: DataZoneClientTypes.GlueOAuth2Credentials.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlueOAuth2Credentials {
+
+    static func write(value: DataZoneClientTypes.GlueOAuth2Credentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessToken"].write(value.accessToken)
+        try writer["jwtToken"].write(value.jwtToken)
+        try writer["refreshToken"].write(value.refreshToken)
+        try writer["userManagedClientApplicationClientSecret"].write(value.userManagedClientApplicationClientSecret)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlueOAuth2Credentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlueOAuth2Credentials()
+        value.userManagedClientApplicationClientSecret = try reader["userManagedClientApplicationClientSecret"].readIfPresent()
+        value.accessToken = try reader["accessToken"].readIfPresent()
+        value.refreshToken = try reader["refreshToken"].readIfPresent()
+        value.jwtToken = try reader["jwtToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AuthorizationCodeProperties {
+
+    static func write(value: DataZoneClientTypes.AuthorizationCodeProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationCode"].write(value.authorizationCode)
+        try writer["redirectUri"].write(value.redirectUri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AuthorizationCodeProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AuthorizationCodeProperties()
+        value.authorizationCode = try reader["authorizationCode"].readIfPresent()
+        value.redirectUri = try reader["redirectUri"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.OAuth2ClientApplication {
+
+    static func write(value: DataZoneClientTypes.OAuth2ClientApplication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aWSManagedClientApplicationReference"].write(value.aWSManagedClientApplicationReference)
+        try writer["userManagedClientApplicationClientId"].write(value.userManagedClientApplicationClientId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OAuth2ClientApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OAuth2ClientApplication()
+        value.userManagedClientApplicationClientId = try reader["userManagedClientApplicationClientId"].readIfPresent()
+        value.aWSManagedClientApplicationReference = try reader["aWSManagedClientApplicationReference"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.PhysicalConnectionRequirements {
+
+    static func write(value: DataZoneClientTypes.PhysicalConnectionRequirements?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["availabilityZone"].write(value.availabilityZone)
+        try writer["securityGroupIdList"].writeList(value.securityGroupIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetId"].write(value.subnetId)
+        try writer["subnetIdList"].writeList(value.subnetIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.PhysicalConnectionRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.PhysicalConnectionRequirements()
+        value.subnetId = try reader["subnetId"].readIfPresent()
+        value.subnetIdList = try reader["subnetIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIdList = try reader["securityGroupIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AwsLocation {
+
+    static func write(value: DataZoneClientTypes.AwsLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessRole"].write(value.accessRole)
+        try writer["awsAccountId"].write(value.awsAccountId)
+        try writer["awsRegion"].write(value.awsRegion)
+        try writer["iamConnectionId"].write(value.iamConnectionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AwsLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AwsLocation()
+        value.accessRole = try reader["accessRole"].readIfPresent()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
+        value.awsRegion = try reader["awsRegion"].readIfPresent()
+        value.iamConnectionId = try reader["iamConnectionId"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ConnectionPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConnectionPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "athenaProperties":
+                return .athenaproperties(try reader["athenaProperties"].read(with: DataZoneClientTypes.AthenaPropertiesOutput.read(from:)))
+            case "glueProperties":
+                return .glueproperties(try reader["glueProperties"].read(with: DataZoneClientTypes.GluePropertiesOutput.read(from:)))
+            case "hyperPodProperties":
+                return .hyperpodproperties(try reader["hyperPodProperties"].read(with: DataZoneClientTypes.HyperPodPropertiesOutput.read(from:)))
+            case "iamProperties":
+                return .iamproperties(try reader["iamProperties"].read(with: DataZoneClientTypes.IamPropertiesOutput.read(from:)))
+            case "redshiftProperties":
+                return .redshiftproperties(try reader["redshiftProperties"].read(with: DataZoneClientTypes.RedshiftPropertiesOutput.read(from:)))
+            case "sparkEmrProperties":
+                return .sparkemrproperties(try reader["sparkEmrProperties"].read(with: DataZoneClientTypes.SparkEmrPropertiesOutput.read(from:)))
+            case "sparkGlueProperties":
+                return .sparkglueproperties(try reader["sparkGlueProperties"].read(with: DataZoneClientTypes.SparkGluePropertiesOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.SparkGluePropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SparkGluePropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SparkGluePropertiesOutput()
+        value.additionalArgs = try reader["additionalArgs"].readIfPresent(with: DataZoneClientTypes.SparkGlueArgs.read(from:))
+        value.glueConnectionName = try reader["glueConnectionName"].readIfPresent()
+        value.glueVersion = try reader["glueVersion"].readIfPresent()
+        value.idleTimeout = try reader["idleTimeout"].readIfPresent()
+        value.javaVirtualEnv = try reader["javaVirtualEnv"].readIfPresent()
+        value.numberOfWorkers = try reader["numberOfWorkers"].readIfPresent()
+        value.pythonVirtualEnv = try reader["pythonVirtualEnv"].readIfPresent()
+        value.workerType = try reader["workerType"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SparkGlueArgs {
+
+    static func write(value: DataZoneClientTypes.SparkGlueArgs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connection"].write(value.connection)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SparkGlueArgs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SparkGlueArgs()
+        value.connection = try reader["connection"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SparkEmrPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SparkEmrPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SparkEmrPropertiesOutput()
+        value.computeArn = try reader["computeArn"].readIfPresent()
+        value.credentials = try reader["credentials"].readIfPresent(with: DataZoneClientTypes.UsernamePassword.read(from:))
+        value.credentialsExpiration = try reader["credentialsExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.governanceType = try reader["governanceType"].readIfPresent()
+        value.instanceProfileArn = try reader["instanceProfileArn"].readIfPresent()
+        value.javaVirtualEnv = try reader["javaVirtualEnv"].readIfPresent()
+        value.livyEndpoint = try reader["livyEndpoint"].readIfPresent()
+        value.logUri = try reader["logUri"].readIfPresent()
+        value.pythonVirtualEnv = try reader["pythonVirtualEnv"].readIfPresent()
+        value.runtimeRole = try reader["runtimeRole"].readIfPresent()
+        value.trustedCertificatesS3Uri = try reader["trustedCertificatesS3Uri"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.UsernamePassword {
+
+    static func write(value: DataZoneClientTypes.UsernamePassword?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["password"].write(value.password)
+        try writer["username"].write(value.username)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.UsernamePassword {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.UsernamePassword()
+        value.password = try reader["password"].readIfPresent() ?? ""
+        value.username = try reader["username"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RedshiftPropertiesOutput()
+        value.storage = try reader["storage"].readIfPresent(with: DataZoneClientTypes.RedshiftStorageProperties.read(from:))
+        value.credentials = try reader["credentials"].readIfPresent(with: DataZoneClientTypes.RedshiftCredentials.read(from:))
+        value.isProvisionedSecret = try reader["isProvisionedSecret"].readIfPresent()
+        value.jdbcIamUrl = try reader["jdbcIamUrl"].readIfPresent()
+        value.jdbcUrl = try reader["jdbcUrl"].readIfPresent()
+        value.redshiftTempDir = try reader["redshiftTempDir"].readIfPresent()
+        value.lineageSync = try reader["lineageSync"].readIfPresent(with: DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.databaseName = try reader["databaseName"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.RedshiftLineageSyncConfigurationOutput()
+        value.lineageJobId = try reader["lineageJobId"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.schedule = try reader["schedule"].readIfPresent(with: DataZoneClientTypes.LineageSyncSchedule.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LineageSyncSchedule {
+
+    static func write(value: DataZoneClientTypes.LineageSyncSchedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["schedule"].write(value.schedule)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageSyncSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageSyncSchedule()
+        value.schedule = try reader["schedule"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.RedshiftCredentials {
+
+    static func write(value: DataZoneClientTypes.RedshiftCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .secretarn(secretarn):
+                try writer["secretArn"].write(secretarn)
+            case let .usernamepassword(usernamepassword):
+                try writer["usernamePassword"].write(usernamepassword, with: DataZoneClientTypes.UsernamePassword.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "secretArn":
+                return .secretarn(try reader["secretArn"].read())
+            case "usernamePassword":
+                return .usernamepassword(try reader["usernamePassword"].read(with: DataZoneClientTypes.UsernamePassword.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.RedshiftStorageProperties {
+
+    static func write(value: DataZoneClientTypes.RedshiftStorageProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .clustername(clustername):
+                try writer["clusterName"].write(clustername)
+            case let .workgroupname(workgroupname):
+                try writer["workgroupName"].write(workgroupname)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RedshiftStorageProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "clusterName":
+                return .clustername(try reader["clusterName"].read())
+            case "workgroupName":
+                return .workgroupname(try reader["workgroupName"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.IamPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IamPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.IamPropertiesOutput()
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.glueLineageSyncEnabled = try reader["glueLineageSyncEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.HyperPodPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.HyperPodPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.HyperPodPropertiesOutput()
+        value.clusterName = try reader["clusterName"].readIfPresent() ?? ""
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.orchestrator = try reader["orchestrator"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GluePropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GluePropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GluePropertiesOutput()
+        value.status = try reader["status"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AthenaPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AthenaPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AthenaPropertiesOutput()
+        value.workgroupName = try reader["workgroupName"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.DataProductItem {
 
     static func write(value: DataZoneClientTypes.DataProductItem?, to writer: SmithyJSON.Writer) throws {
@@ -27126,9 +32250,23 @@ extension DataZoneClientTypes.DataSourceConfigurationOutput {
                 return .gluerunconfiguration(try reader["glueRunConfiguration"].read(with: DataZoneClientTypes.GlueRunConfigurationOutput.read(from:)))
             case "redshiftRunConfiguration":
                 return .redshiftrunconfiguration(try reader["redshiftRunConfiguration"].read(with: DataZoneClientTypes.RedshiftRunConfigurationOutput.read(from:)))
+            case "sageMakerRunConfiguration":
+                return .sagemakerrunconfiguration(try reader["sageMakerRunConfiguration"].read(with: DataZoneClientTypes.SageMakerRunConfigurationOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension DataZoneClientTypes.SageMakerRunConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SageMakerRunConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SageMakerRunConfigurationOutput()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        value.trackingAssets = try reader["trackingAssets"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
     }
 }
 
@@ -27266,6 +32404,7 @@ extension DataZoneClientTypes.GlueRunConfigurationOutput {
         value.dataAccessRole = try reader["dataAccessRole"].readIfPresent()
         value.relationalFilterConfigurations = try reader["relationalFilterConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.RelationalFilterConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.autoImportDataQualityResult = try reader["autoImportDataQualityResult"].readIfPresent()
+        value.catalogName = try reader["catalogName"].readIfPresent()
         return value
     }
 }
@@ -27434,6 +32573,12 @@ extension DataZoneClientTypes.Deployment {
 
 extension DataZoneClientTypes.EnvironmentError {
 
+    static func write(value: DataZoneClientTypes.EnvironmentError?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["message"].write(value.message)
+    }
+
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.EnvironmentError()
@@ -27541,6 +32686,182 @@ extension DataZoneClientTypes.ProjectDeletionError {
         var value = DataZoneClientTypes.ProjectDeletionError()
         value.code = try reader["code"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfigurationUserParameter {
+
+    static func write(value: DataZoneClientTypes.EnvironmentConfigurationUserParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["environmentConfigurationName"].write(value.environmentConfigurationName)
+        try writer["environmentParameters"].writeList(value.environmentParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfigurationUserParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentConfigurationUserParameter()
+        value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
+        value.environmentParameters = try reader["environmentParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentParameter {
+
+    static func write(value: DataZoneClientTypes.EnvironmentParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentParameter()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentDeploymentDetails {
+
+    static func write(value: DataZoneClientTypes.EnvironmentDeploymentDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["environmentFailureReasons"].writeMap(value.environmentFailureReasons, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: DataZoneClientTypes.EnvironmentError.write(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["overallDeploymentStatus"].write(value.overallDeploymentStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentDeploymentDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentDeploymentDetails()
+        value.overallDeploymentStatus = try reader["overallDeploymentStatus"].readIfPresent()
+        value.environmentFailureReasons = try reader["environmentFailureReasons"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: DataZoneClientTypes.EnvironmentError.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfiguration {
+
+    static func write(value: DataZoneClientTypes.EnvironmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsAccount"].write(value.awsAccount, with: DataZoneClientTypes.AwsAccount.write(value:to:))
+        try writer["awsRegion"].write(value.awsRegion, with: DataZoneClientTypes.Region.write(value:to:))
+        try writer["configurationParameters"].write(value.configurationParameters, with: DataZoneClientTypes.EnvironmentConfigurationParametersDetails.write(value:to:))
+        try writer["deploymentMode"].write(value.deploymentMode)
+        try writer["deploymentOrder"].write(value.deploymentOrder)
+        try writer["description"].write(value.description)
+        try writer["environmentBlueprintId"].write(value.environmentBlueprintId)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentConfiguration()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent()
+        value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.deploymentMode = try reader["deploymentMode"].readIfPresent()
+        value.configurationParameters = try reader["configurationParameters"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfigurationParametersDetails.read(from:))
+        value.awsAccount = try reader["awsAccount"].readIfPresent(with: DataZoneClientTypes.AwsAccount.read(from:))
+        value.awsRegion = try reader["awsRegion"].readIfPresent(with: DataZoneClientTypes.Region.read(from:))
+        value.deploymentOrder = try reader["deploymentOrder"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.Region {
+
+    static func write(value: DataZoneClientTypes.Region?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .regionname(regionname):
+                try writer["regionName"].write(regionname)
+            case let .regionnamepath(regionnamepath):
+                try writer["regionNamePath"].write(regionnamepath)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Region {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "regionName":
+                return .regionname(try reader["regionName"].read())
+            case "regionNamePath":
+                return .regionnamepath(try reader["regionNamePath"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.AwsAccount {
+
+    static func write(value: DataZoneClientTypes.AwsAccount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .awsaccountid(awsaccountid):
+                try writer["awsAccountId"].write(awsaccountid)
+            case let .awsaccountidpath(awsaccountidpath):
+                try writer["awsAccountIdPath"].write(awsaccountidpath)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AwsAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "awsAccountId":
+                return .awsaccountid(try reader["awsAccountId"].read())
+            case "awsAccountIdPath":
+                return .awsaccountidpath(try reader["awsAccountIdPath"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfigurationParametersDetails {
+
+    static func write(value: DataZoneClientTypes.EnvironmentConfigurationParametersDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["parameterOverrides"].writeList(value.parameterOverrides, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resolvedParameters"].writeList(value.resolvedParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ssmPath"].write(value.ssmPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfigurationParametersDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentConfigurationParametersDetails()
+        value.ssmPath = try reader["ssmPath"].readIfPresent()
+        value.parameterOverrides = try reader["parameterOverrides"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resolvedParameters = try reader["resolvedParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentConfigurationParameter {
+
+    static func write(value: DataZoneClientTypes.EnvironmentConfigurationParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isEditable"].write(value.isEditable)
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfigurationParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentConfigurationParameter()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        value.isEditable = try reader["isEditable"].readIfPresent()
         return value
     }
 }
@@ -27856,6 +33177,19 @@ extension DataZoneClientTypes.GlueSelfGrantStatusOutput {
     }
 }
 
+extension DataZoneClientTypes.ConnectionCredentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConnectionCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ConnectionCredentials()
+        value.accessKeyId = try reader["accessKeyId"].readIfPresent()
+        value.secretAccessKey = try reader["secretAccessKey"].readIfPresent()
+        value.sessionToken = try reader["sessionToken"].readIfPresent()
+        value.expiration = try reader["expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension DataZoneClientTypes.RunStatisticsForAssets {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.RunStatisticsForAssets {
@@ -27866,6 +33200,16 @@ extension DataZoneClientTypes.RunStatisticsForAssets {
         value.unchanged = try reader["unchanged"].readIfPresent()
         value.skipped = try reader["skipped"].readIfPresent()
         value.failed = try reader["failed"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DataSourceRunLineageSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataSourceRunLineageSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DataSourceRunLineageSummary()
+        value.importStatus = try reader["importStatus"].readIfPresent()
         return value
     }
 }
@@ -27942,6 +33286,54 @@ extension DataZoneClientTypes.Import {
         var value = DataZoneClientTypes.Import()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.revision = try reader["revision"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.JobRunDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.JobRunDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "lineageRunDetails":
+                return .lineagerundetails(try reader["lineageRunDetails"].read(with: DataZoneClientTypes.LineageRunDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.LineageRunDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageRunDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageRunDetails()
+        value.sqlQueryRunDetails = try reader["sqlQueryRunDetails"].readIfPresent(with: DataZoneClientTypes.LineageSqlQueryRunDetails.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LineageSqlQueryRunDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageSqlQueryRunDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageSqlQueryRunDetails()
+        value.queryStartTime = try reader["queryStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.queryEndTime = try reader["queryEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.totalQueriesProcessed = try reader["totalQueriesProcessed"].readIfPresent()
+        value.numQueriesFailed = try reader["numQueriesFailed"].readIfPresent()
+        value.errorMessages = try reader["errorMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.JobRunError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.JobRunError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.JobRunError()
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28085,6 +33477,24 @@ extension DataZoneClientTypes.AssetRevision {
     }
 }
 
+extension DataZoneClientTypes.ConnectionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ConnectionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ConnectionSummary()
+        value.connectionId = try reader["connectionId"].readIfPresent() ?? ""
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.physicalEndpoints = try reader["physicalEndpoints"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PhysicalEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.projectId = try reader["projectId"].readIfPresent()
+        value.props = try reader["props"].readIfPresent(with: DataZoneClientTypes.ConnectionPropertiesOutput.read(from:))
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DataZoneClientTypes.DataProductRevision {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductRevision {
@@ -28112,8 +33522,21 @@ extension DataZoneClientTypes.DataSourceRunActivity {
         value.dataAssetId = try reader["dataAssetId"].readIfPresent()
         value.technicalDescription = try reader["technicalDescription"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent(with: DataZoneClientTypes.DataSourceErrorMessage.read(from:))
+        value.lineageSummary = try reader["lineageSummary"].readIfPresent(with: DataZoneClientTypes.LineageInfo.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LineageInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageInfo()
+        value.eventId = try reader["eventId"].readIfPresent()
+        value.eventStatus = try reader["eventStatus"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }
@@ -28134,6 +33557,7 @@ extension DataZoneClientTypes.DataSourceRunSummary {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.stoppedAt = try reader["stoppedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lineageSummary = try reader["lineageSummary"].readIfPresent(with: DataZoneClientTypes.DataSourceRunLineageSummary.read(from:))
         return value
     }
 }
@@ -28144,7 +33568,8 @@ extension DataZoneClientTypes.DataSourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DataSourceSummary()
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
-        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent()
+        value.connectionId = try reader["connectionId"].readIfPresent()
         value.dataSourceId = try reader["dataSourceId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? ""
@@ -28157,6 +33582,7 @@ extension DataZoneClientTypes.DataSourceSummary {
         value.lastRunAssetCount = try reader["lastRunAssetCount"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["description"].readIfPresent()
         return value
     }
 }
@@ -28175,6 +33601,7 @@ extension DataZoneClientTypes.DomainSummary {
         value.portalUrl = try reader["portalUrl"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domainVersion = try reader["domainVersion"].readIfPresent()
         return value
     }
 }
@@ -28249,6 +33676,7 @@ extension DataZoneClientTypes.EnvironmentBlueprintConfigurationItem {
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.environmentBlueprintId = try reader["environmentBlueprintId"].readIfPresent() ?? ""
         value.provisioningRoleArn = try reader["provisioningRoleArn"].readIfPresent()
+        value.environmentRolePermissionBoundary = try reader["environmentRolePermissionBoundary"].readIfPresent()
         value.manageAccessRoleArn = try reader["manageAccessRoleArn"].readIfPresent()
         value.enabledRegions = try reader["enabledRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.regionalParameters = try reader["regionalParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -28313,6 +33741,81 @@ extension DataZoneClientTypes.EnvironmentSummary {
         value.awsAccountRegion = try reader["awsAccountRegion"].readIfPresent()
         value.provider = try reader["provider"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.JobRunSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.JobRunSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.JobRunSummary()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.jobType = try reader["jobType"].readIfPresent()
+        value.runId = try reader["runId"].readIfPresent()
+        value.runMode = try reader["runMode"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.error = try reader["error"].readIfPresent(with: DataZoneClientTypes.JobRunError.read(from:))
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LineageEventSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageEventSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageEventSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.processingStatus = try reader["processingStatus"].readIfPresent()
+        value.eventTime = try reader["eventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.eventSummary = try reader["eventSummary"].readIfPresent(with: DataZoneClientTypes.EventSummary.read(from:))
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EventSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EventSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "openLineageRunEventSummary":
+                return .openlineageruneventsummary(try reader["openLineageRunEventSummary"].read(with: DataZoneClientTypes.OpenLineageRunEventSummary.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.OpenLineageRunEventSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.OpenLineageRunEventSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.OpenLineageRunEventSummary()
+        value.eventType = try reader["eventType"].readIfPresent()
+        value.runId = try reader["runId"].readIfPresent()
+        value.job = try reader["job"].readIfPresent(with: DataZoneClientTypes.NameIdentifier.read(from:))
+        value.inputs = try reader["inputs"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NameIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputs = try reader["outputs"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.NameIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.NameIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.NameIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.NameIdentifier()
+        value.name = try reader["name"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
         return value
     }
 }
@@ -28425,6 +33928,8 @@ extension DataZoneClientTypes.PolicyGrantDetail {
                 try writer["createDomainUnit"].write(createdomainunit, with: DataZoneClientTypes.CreateDomainUnitPolicyGrantDetail.write(value:to:))
             case let .createenvironment(createenvironment):
                 try writer["createEnvironment"].write(createenvironment, with: DataZoneClientTypes.Unit.write(value:to:))
+            case let .createenvironmentfromblueprint(createenvironmentfromblueprint):
+                try writer["createEnvironmentFromBlueprint"].write(createenvironmentfromblueprint, with: DataZoneClientTypes.Unit.write(value:to:))
             case let .createenvironmentprofile(createenvironmentprofile):
                 try writer["createEnvironmentProfile"].write(createenvironmentprofile, with: DataZoneClientTypes.CreateEnvironmentProfilePolicyGrantDetail.write(value:to:))
             case let .createformtype(createformtype):
@@ -28433,6 +33938,8 @@ extension DataZoneClientTypes.PolicyGrantDetail {
                 try writer["createGlossary"].write(createglossary, with: DataZoneClientTypes.CreateGlossaryPolicyGrantDetail.write(value:to:))
             case let .createproject(createproject):
                 try writer["createProject"].write(createproject, with: DataZoneClientTypes.CreateProjectPolicyGrantDetail.write(value:to:))
+            case let .createprojectfromprojectprofile(createprojectfromprojectprofile):
+                try writer["createProjectFromProjectProfile"].write(createprojectfromprojectprofile, with: DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail.write(value:to:))
             case let .delegatecreateenvironmentprofile(delegatecreateenvironmentprofile):
                 try writer["delegateCreateEnvironmentProfile"].write(delegatecreateenvironmentprofile, with: DataZoneClientTypes.Unit.write(value:to:))
             case let .overridedomainunitowners(overridedomainunitowners):
@@ -28470,9 +33977,30 @@ extension DataZoneClientTypes.PolicyGrantDetail {
                 return .delegatecreateenvironmentprofile(try reader["delegateCreateEnvironmentProfile"].read(with: DataZoneClientTypes.Unit.read(from:)))
             case "createEnvironment":
                 return .createenvironment(try reader["createEnvironment"].read(with: DataZoneClientTypes.Unit.read(from:)))
+            case "createEnvironmentFromBlueprint":
+                return .createenvironmentfromblueprint(try reader["createEnvironmentFromBlueprint"].read(with: DataZoneClientTypes.Unit.read(from:)))
+            case "createProjectFromProjectProfile":
+                return .createprojectfromprojectprofile(try reader["createProjectFromProjectProfile"].read(with: DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail {
+
+    static func write(value: DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeChildDomainUnits"].write(value.includeChildDomainUnits)
+        try writer["projectProfiles"].writeList(value.projectProfiles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CreateProjectFromProjectProfilePolicyGrantDetail()
+        value.includeChildDomainUnits = try reader["includeChildDomainUnits"].readIfPresent()
+        value.projectProfiles = try reader["projectProfiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -28888,6 +34416,24 @@ extension DataZoneClientTypes.UserDetails {
     }
 }
 
+extension DataZoneClientTypes.ProjectProfileSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectProfileSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ProjectProfileSummary()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.ProjectSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectSummary {
@@ -29017,7 +34563,7 @@ extension DataZoneClientTypes.SubscriptionTargetSummary {
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent() ?? ""
+        value.manageAccessRole = try reader["manageAccessRole"].readIfPresent()
         value.applicableAssetTypes = try reader["applicableAssetTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.subscriptionTargetConfig = try reader["subscriptionTargetConfig"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SubscriptionTargetForm.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.provider = try reader["provider"].readIfPresent() ?? ""
@@ -29417,6 +34963,155 @@ extension DataZoneClientTypes.FormEntryInput {
     }
 }
 
+extension DataZoneClientTypes.ConnectionPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.ConnectionPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .athenaproperties(athenaproperties):
+                try writer["athenaProperties"].write(athenaproperties, with: DataZoneClientTypes.AthenaPropertiesInput.write(value:to:))
+            case let .glueproperties(glueproperties):
+                try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesInput.write(value:to:))
+            case let .hyperpodproperties(hyperpodproperties):
+                try writer["hyperPodProperties"].write(hyperpodproperties, with: DataZoneClientTypes.HyperPodPropertiesInput.write(value:to:))
+            case let .iamproperties(iamproperties):
+                try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesInput.write(value:to:))
+            case let .redshiftproperties(redshiftproperties):
+                try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesInput.write(value:to:))
+            case let .sparkemrproperties(sparkemrproperties):
+                try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesInput.write(value:to:))
+            case let .sparkglueproperties(sparkglueproperties):
+                try writer["sparkGlueProperties"].write(sparkglueproperties, with: DataZoneClientTypes.SparkGluePropertiesInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DataZoneClientTypes.SparkGluePropertiesInput {
+
+    static func write(value: DataZoneClientTypes.SparkGluePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalArgs"].write(value.additionalArgs, with: DataZoneClientTypes.SparkGlueArgs.write(value:to:))
+        try writer["glueConnectionName"].write(value.glueConnectionName)
+        try writer["glueVersion"].write(value.glueVersion)
+        try writer["idleTimeout"].write(value.idleTimeout)
+        try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
+        try writer["numberOfWorkers"].write(value.numberOfWorkers)
+        try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
+        try writer["workerType"].write(value.workerType)
+    }
+}
+
+extension DataZoneClientTypes.SparkEmrPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.SparkEmrPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeArn"].write(value.computeArn)
+        try writer["instanceProfileArn"].write(value.instanceProfileArn)
+        try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
+        try writer["logUri"].write(value.logUri)
+        try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
+        try writer["runtimeRole"].write(value.runtimeRole)
+        try writer["trustedCertificatesS3Uri"].write(value.trustedCertificatesS3Uri)
+    }
+}
+
+extension DataZoneClientTypes.RedshiftPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.RedshiftPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentials"].write(value.credentials, with: DataZoneClientTypes.RedshiftCredentials.write(value:to:))
+        try writer["databaseName"].write(value.databaseName)
+        try writer["host"].write(value.host)
+        try writer["lineageSync"].write(value.lineageSync, with: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput.write(value:to:))
+        try writer["port"].write(value.port)
+        try writer["storage"].write(value.storage, with: DataZoneClientTypes.RedshiftStorageProperties.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.RedshiftLineageSyncConfigurationInput {
+
+    static func write(value: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["schedule"].write(value.schedule, with: DataZoneClientTypes.LineageSyncSchedule.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.IamPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.IamPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
+    }
+}
+
+extension DataZoneClientTypes.HyperPodPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.HyperPodPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusterName"].write(value.clusterName)
+    }
+}
+
+extension DataZoneClientTypes.GluePropertiesInput {
+
+    static func write(value: DataZoneClientTypes.GluePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueConnectionInput"].write(value.glueConnectionInput, with: DataZoneClientTypes.GlueConnectionInput.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.GlueConnectionInput {
+
+    static func write(value: DataZoneClientTypes.GlueConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["athenaProperties"].writeMap(value.athenaProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: DataZoneClientTypes.AuthenticationConfigurationInput.write(value:to:))
+        try writer["connectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["connectionType"].write(value.connectionType)
+        try writer["description"].write(value.description)
+        try writer["matchCriteria"].write(value.matchCriteria)
+        try writer["name"].write(value.name)
+        try writer["physicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: DataZoneClientTypes.PhysicalConnectionRequirements.write(value:to:))
+        try writer["pythonProperties"].writeMap(value.pythonProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["sparkProperties"].writeMap(value.sparkProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["validateCredentials"].write(value.validateCredentials)
+        try writer["validateForComputeEnvironments"].writeList(value.validateForComputeEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.ComputeEnvironments>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataZoneClientTypes.AuthenticationConfigurationInput {
+
+    static func write(value: DataZoneClientTypes.AuthenticationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authenticationType"].write(value.authenticationType)
+        try writer["basicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: DataZoneClientTypes.BasicAuthenticationCredentials.write(value:to:))
+        try writer["customAuthenticationCredentials"].writeMap(value.customAuthenticationCredentials, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["oAuth2Properties"].write(value.oAuth2Properties, with: DataZoneClientTypes.OAuth2Properties.write(value:to:))
+        try writer["secretArn"].write(value.secretArn)
+    }
+}
+
+extension DataZoneClientTypes.BasicAuthenticationCredentials {
+
+    static func write(value: DataZoneClientTypes.BasicAuthenticationCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["password"].write(value.password)
+        try writer["userName"].write(value.userName)
+    }
+}
+
+extension DataZoneClientTypes.AthenaPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.AthenaPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workgroupName"].write(value.workgroupName)
+    }
+}
+
 extension DataZoneClientTypes.DataSourceConfigurationInput {
 
     static func write(value: DataZoneClientTypes.DataSourceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -29426,9 +35121,19 @@ extension DataZoneClientTypes.DataSourceConfigurationInput {
                 try writer["glueRunConfiguration"].write(gluerunconfiguration, with: DataZoneClientTypes.GlueRunConfigurationInput.write(value:to:))
             case let .redshiftrunconfiguration(redshiftrunconfiguration):
                 try writer["redshiftRunConfiguration"].write(redshiftrunconfiguration, with: DataZoneClientTypes.RedshiftRunConfigurationInput.write(value:to:))
+            case let .sagemakerrunconfiguration(sagemakerrunconfiguration):
+                try writer["sageMakerRunConfiguration"].write(sagemakerrunconfiguration, with: DataZoneClientTypes.SageMakerRunConfigurationInput.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension DataZoneClientTypes.SageMakerRunConfigurationInput {
+
+    static func write(value: DataZoneClientTypes.SageMakerRunConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["trackingAssets"].writeMap(value.trackingAssets, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -29448,17 +35153,9 @@ extension DataZoneClientTypes.GlueRunConfigurationInput {
     static func write(value: DataZoneClientTypes.GlueRunConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["autoImportDataQualityResult"].write(value.autoImportDataQualityResult)
+        try writer["catalogName"].write(value.catalogName)
         try writer["dataAccessRole"].write(value.dataAccessRole)
         try writer["relationalFilterConfigurations"].writeList(value.relationalFilterConfigurations, memberWritingClosure: DataZoneClientTypes.RelationalFilterConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DataZoneClientTypes.EnvironmentParameter {
-
-    static func write(value: DataZoneClientTypes.EnvironmentParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
     }
 }
 
@@ -29607,6 +35304,97 @@ extension DataZoneClientTypes.SearchSort {
         guard let value else { return }
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
+    }
+}
+
+extension DataZoneClientTypes.ConnectionPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.ConnectionPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .athenaproperties(athenaproperties):
+                try writer["athenaProperties"].write(athenaproperties, with: DataZoneClientTypes.AthenaPropertiesPatch.write(value:to:))
+            case let .glueproperties(glueproperties):
+                try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesPatch.write(value:to:))
+            case let .iamproperties(iamproperties):
+                try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesPatch.write(value:to:))
+            case let .redshiftproperties(redshiftproperties):
+                try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesPatch.write(value:to:))
+            case let .sparkemrproperties(sparkemrproperties):
+                try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesPatch.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DataZoneClientTypes.SparkEmrPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.SparkEmrPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeArn"].write(value.computeArn)
+        try writer["instanceProfileArn"].write(value.instanceProfileArn)
+        try writer["javaVirtualEnv"].write(value.javaVirtualEnv)
+        try writer["logUri"].write(value.logUri)
+        try writer["pythonVirtualEnv"].write(value.pythonVirtualEnv)
+        try writer["runtimeRole"].write(value.runtimeRole)
+        try writer["trustedCertificatesS3Uri"].write(value.trustedCertificatesS3Uri)
+    }
+}
+
+extension DataZoneClientTypes.RedshiftPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.RedshiftPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentials"].write(value.credentials, with: DataZoneClientTypes.RedshiftCredentials.write(value:to:))
+        try writer["databaseName"].write(value.databaseName)
+        try writer["host"].write(value.host)
+        try writer["lineageSync"].write(value.lineageSync, with: DataZoneClientTypes.RedshiftLineageSyncConfigurationInput.write(value:to:))
+        try writer["port"].write(value.port)
+        try writer["storage"].write(value.storage, with: DataZoneClientTypes.RedshiftStorageProperties.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.IamPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.IamPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueLineageSyncEnabled"].write(value.glueLineageSyncEnabled)
+    }
+}
+
+extension DataZoneClientTypes.GluePropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.GluePropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["glueConnectionInput"].write(value.glueConnectionInput, with: DataZoneClientTypes.GlueConnectionPatch.write(value:to:))
+    }
+}
+
+extension DataZoneClientTypes.GlueConnectionPatch {
+
+    static func write(value: DataZoneClientTypes.GlueConnectionPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: DataZoneClientTypes.AuthenticationConfigurationPatch.write(value:to:))
+        try writer["connectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["description"].write(value.description)
+    }
+}
+
+extension DataZoneClientTypes.AuthenticationConfigurationPatch {
+
+    static func write(value: DataZoneClientTypes.AuthenticationConfigurationPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["basicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: DataZoneClientTypes.BasicAuthenticationCredentials.write(value:to:))
+        try writer["secretArn"].write(value.secretArn)
+    }
+}
+
+extension DataZoneClientTypes.AthenaPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.AthenaPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workgroupName"].write(value.workgroupName)
     }
 }
 
