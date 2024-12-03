@@ -19,7 +19,7 @@ class S3PresignedURLTests: S3XCTestCase {
         try await putObject(body: originalData, key: key)
         let input = GetObjectInput(bucket: bucketName, key: key)
         let url = try await client.presignedURLForGetObject(input: input, expiration: 600.0)
-        let data = try await perform(urlRequest: URLRequest(url: url))
+        let (data, _) = try await perform(urlRequest: URLRequest(url: url))
         XCTAssertEqual(Data(originalData.utf8), data)
     }
 

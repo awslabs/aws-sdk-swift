@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QBusinessClient: ClientRuntime.Client {
     public static let clientName = "QBusinessClient"
-    public static let version = "1.0.48"
+    public static let version = "1.0.52"
     let client: ClientRuntime.SdkHttpClient
     let config: QBusinessClient.QBusinessClientConfiguration
     let serviceName = "QBusiness"
@@ -211,7 +211,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -294,7 +294,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -369,7 +369,8 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
+    /// - `ExternalResourceException` : An external resource that you configured with your application is returning errors and preventing this operation from succeeding. Fix those errors and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `LicenseNotFoundException` : You don't have permissions to perform the action because your license is inactive. Ask your admin to activate your license and try again after your licence is active.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
@@ -447,7 +448,8 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
+    /// - `ExternalResourceException` : An external resource that you configured with your application is returning errors and preventing this operation from succeeding. Fix those errors and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `LicenseNotFoundException` : You don't have permissions to perform the action because your license is inactive. Ask your admin to activate your license and try again after your licence is active.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
@@ -514,7 +516,7 @@ extension QBusinessClient {
 
     /// Performs the `CreateApplication` operation on the `ExpertQ` service.
     ///
-    /// Creates an Amazon Q Business application. There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#user-sub-tiers). You must use the Amazon Q Business console to assign subscription tiers to users. A Amazon Q Apps service linked role will be created if it's absent in the Amazon Web Services account when the QAppsConfiguration is enabled in the request. For more information, see [ Using service-linked roles for Q Apps ](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles-qapps.html)
+    /// Creates an Amazon Q Business application. There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#user-sub-tiers). You must use the Amazon Q Business console to assign subscription tiers to users. An Amazon Q Apps service linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is enabled in the request. For more information, see [ Using service-linked roles for Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles-qapps.html). When you create an application, Amazon Q Business may securely transmit data for processing from your selected Amazon Web Services region, but within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html).
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
@@ -524,7 +526,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -600,7 +602,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -676,7 +678,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -752,7 +754,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -828,7 +830,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -904,7 +906,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -980,7 +982,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -1056,7 +1058,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -1269,7 +1271,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -1340,7 +1342,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -1412,7 +1414,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -1483,7 +1485,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -1554,7 +1556,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -1625,7 +1627,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -1696,7 +1698,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -1978,7 +1980,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -2096,6 +2098,78 @@ extension QBusinessClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QBusiness")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIndex")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetMedia` operation on the `ExpertQ` service.
+    ///
+    /// Returns the image bytes corresponding to a media object. If you have implemented your own application with the Chat and ChatSync APIs, and have enabled content extraction from visual data in Amazon Q Business, you use the GetMedia API operation to download the images so you can show them in your UI with responses. For more information, see [Extracting semantic meaning from images and visuals](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html).
+    ///
+    /// - Parameter GetMediaInput : [no documentation found]
+    ///
+    /// - Returns: `GetMediaOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `LicenseNotFoundException` : You don't have permissions to perform the action because your license is inactive. Ask your admin to activate your license and try again after your licence is active.
+    /// - `MediaTooLargeException` : The requested media object is too large to be returned.
+    /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
+    public func getMedia(input: GetMediaInput) async throws -> GetMediaOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMedia")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "qbusiness")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetMediaInput, GetMediaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMediaInput, GetMediaOutput>(GetMediaInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMediaInput, GetMediaOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMediaOutput>(GetMediaOutput.httpOutput(from:), GetMediaOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMediaInput, GetMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetMediaOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetMediaOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMediaInput, GetMediaOutput>(serviceID: serviceName, version: QBusinessClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMediaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMediaInput, GetMediaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMediaInput, GetMediaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QBusiness")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetMedia")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2260,7 +2334,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -2391,7 +2465,7 @@ extension QBusinessClient {
 
     /// Performs the `ListApplications` operation on the `ExpertQ` service.
     ///
-    /// Lists Amazon Q Business applications.
+    /// Lists Amazon Q Business applications. Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html).
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
     ///
@@ -2447,6 +2521,78 @@ extension QBusinessClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QBusiness")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListApplications")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListAttachments` operation on the `ExpertQ` service.
+    ///
+    /// Gets a list of attachments associated with an Amazon Q Business web experience or a list of attachements associated with a specific Amazon Q Business conversation.
+    ///
+    /// - Parameter ListAttachmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAttachmentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `LicenseNotFoundException` : You don't have permissions to perform the action because your license is inactive. Ask your admin to activate your license and try again after your licence is active.
+    /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
+    public func listAttachments(input: ListAttachmentsInput) async throws -> ListAttachmentsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAttachments")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "qbusiness")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAttachmentsInput, ListAttachmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAttachmentsInput, ListAttachmentsOutput>(ListAttachmentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAttachmentsInput, ListAttachmentsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAttachmentsInput, ListAttachmentsOutput>(ListAttachmentsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttachmentsOutput>(ListAttachmentsOutput.httpOutput(from:), ListAttachmentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttachmentsInput, ListAttachmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAttachmentsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListAttachmentsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAttachmentsInput, ListAttachmentsOutput>(serviceID: serviceName, version: QBusinessClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAttachmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAttachmentsInput, ListAttachmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAttachmentsInput, ListAttachmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QBusiness")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAttachments")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2543,6 +2689,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -2756,7 +2903,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -3328,7 +3475,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -3403,7 +3550,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -3475,6 +3622,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -3545,7 +3693,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -3680,7 +3828,7 @@ extension QBusinessClient {
 
     /// Performs the `UpdateApplication` operation on the `ExpertQ` service.
     ///
-    /// Updates an existing Amazon Q Business application. A Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when the QAppsConfiguration is enabled in the request. For more information, see [ Using service-linked roles for Q Apps ](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles-qapps.html)
+    /// Updates an existing Amazon Q Business application. Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html). An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is enabled in the request. For more information, see [Using service-linked roles for Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles-qapps.html).
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
     ///
@@ -3690,7 +3838,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -3764,7 +3912,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -3840,7 +3988,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
@@ -3914,7 +4062,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -3989,7 +4137,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -4064,7 +4212,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
@@ -4213,7 +4361,7 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
+    /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistencies with your resources and try again.
     /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
