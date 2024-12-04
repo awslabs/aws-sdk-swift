@@ -9,26 +9,27 @@ await SDKLoggingSystem().initialize(logLevel: .debug)
 Alternatively, if you need finer grain control of instances of SwiftLog, you can call `SDKLoggingSystem::add` to control specific instances of the log handler.  For example:
 ```swift
 import ClientRuntime
+import Logging
 
 let loggingSystem = SDKLoggingSystem()
 
-// Adds custom log handler for S3Client so that only .debug or severe leveled messages get logged for S3Client.
-await loggingSystem.addLogHandlerFactory(logHandlerFactory: S3ClientLogHandlerFactory(logLevel: .debug))
+// Adds custom log handler for S3Client so that only .debug or more severe leveled messages get logged for S3Client.
+await loggingSystem.add(logHandlerFactory: S3ClientLogHandlerFactory(logLevel: .debug))
 await loggingSystem.initialize()
 
 // Example implementation of a service-specific log handler factory.
 public struct S3ClientLogHandlerFactory: SDKLogHandlerFactory {
     // This label value must be the name of the service client you want the log handler to apply to.
     public var label = "S3Client"
-    let logLevel: Logger.Level
+    let logLevel: SDKLogLevel
 
     public func construct(label: String) -> LogHandler {
         var handler = StreamLogHandler.standardOutput(label: label)
-        handler.logLevel = logLevel
+        handler.logLevel = logLevel.toLoggerType()
         return handler
     }
 
-    public init(logLevel: Logger.Level) {
+    public init(logLevel: SDKLogLevel) {
         self.logLevel = logLevel
     }
 }

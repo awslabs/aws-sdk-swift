@@ -16,7 +16,6 @@ import class SmithyStreams.BufferedStream
 import class SmithyChecksums.ChunkedStream
 import enum SmithyChecksums.ChecksumMismatchException
 import AWSClientRuntime
-import Logging
 
 class FlexibleChecksumsMiddlewareTests: XCTestCase {
     private var builtContext: Context!
@@ -383,16 +382,16 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
 }
 
 class TestLogger: LogAgent {
-    var label: String
+    var name: String
 
-    var messages: [(level: Logging.Logger.Level, message: String)] = []
+    var messages: [(level: LogAgentLevel, message: String)] = []
 
-    init(label: String = "Test", messages: [(level: Logging.Logger.Level, message: String)] = [], level: Logging.Logger.Level = .info) {
-        self.label = label
+    init(name: String = "Test", messages: [(level: LogAgentLevel, message: String)] = [], level: LogAgentLevel = .info) {
+        self.name = name
         self.messages = messages
     }
 
-    func log(level: Logging.Logger.Level = .info, message: @autoclosure () -> String, metadata: @autoclosure () -> [String : String]? = nil, source: @autoclosure () -> String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
+    func log(level: LogAgentLevel = .info, message: @autoclosure () -> String, metadata: @autoclosure () -> [String : String]? = nil, source: @autoclosure () -> String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
         messages.append((level: level, message: message()))
     }
 }
