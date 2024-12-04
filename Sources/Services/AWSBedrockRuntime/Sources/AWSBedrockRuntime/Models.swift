@@ -603,6 +603,73 @@ public struct StartAsyncInvokeOutput: Swift.Sendable {
 
 extension BedrockRuntimeClientTypes {
 
+    public enum GuardrailImageFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case jpeg
+        case png
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailImageFormat] {
+            return [
+                .jpeg,
+                .png
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .jpeg: return "jpeg"
+            case .png: return "png"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The image source (image bytes) of the guardrail image source. Object used in independent api.
+    public enum GuardrailImageSource: Swift.Sendable {
+        /// The bytes details of the guardrail image source. Object used in independent api.
+        case bytes(Foundation.Data)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Contain an image which user wants guarded. This block is accepted by the guardrails independent API.
+    public struct GuardrailImageBlock: Swift.Sendable {
+        /// The format details for the file type of the image blocked by the guardrail.
+        /// This member is required.
+        public var format: BedrockRuntimeClientTypes.GuardrailImageFormat?
+        /// The image source (image bytes) details of the image blocked by the guardrail.
+        /// This member is required.
+        public var source: BedrockRuntimeClientTypes.GuardrailImageSource?
+
+        public init(
+            format: BedrockRuntimeClientTypes.GuardrailImageFormat? = nil,
+            source: BedrockRuntimeClientTypes.GuardrailImageSource? = nil
+        )
+        {
+            self.format = format
+            self.source = source
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailImageBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum GuardrailContentQualifier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case groundingSource
         case guardContent
@@ -660,6 +727,8 @@ extension BedrockRuntimeClientTypes {
     public enum GuardrailContentBlock: Swift.Sendable {
         /// Text within content block to be evaluated by the guardrail.
         case text(BedrockRuntimeClientTypes.GuardrailTextBlock)
+        /// Image within guardrail content block to be evaluated by the guardrail.
+        case image(BedrockRuntimeClientTypes.GuardrailImageBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1043,6 +1112,26 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// The details of the guardrail image coverage.
+    public struct GuardrailImageCoverage: Swift.Sendable {
+        /// The count (integer) of images guardrails guarded.
+        public var guarded: Swift.Int?
+        /// Represents the total number of images (integer) that were in the request (guarded and unguarded).
+        public var total: Swift.Int?
+
+        public init(
+            guarded: Swift.Int? = nil,
+            total: Swift.Int? = nil
+        )
+        {
+            self.guarded = guarded
+            self.total = total
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// The guardrail coverage for the text characters.
     public struct GuardrailTextCharactersCoverage: Swift.Sendable {
         /// The text characters that were guarded by the guardrail coverage.
@@ -1065,13 +1154,17 @@ extension BedrockRuntimeClientTypes {
 
     /// The action of the guardrail coverage details.
     public struct GuardrailCoverage: Swift.Sendable {
+        /// The guardrail coverage for images (the number of images that guardrails guarded).
+        public var images: BedrockRuntimeClientTypes.GuardrailImageCoverage?
         /// The text characters of the guardrail coverage details.
         public var textCharacters: BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage?
 
         public init(
+            images: BedrockRuntimeClientTypes.GuardrailImageCoverage? = nil,
             textCharacters: BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage? = nil
         )
         {
+            self.images = images
             self.textCharacters = textCharacters
         }
     }
@@ -1934,6 +2027,73 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    public enum GuardrailConverseImageFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case jpeg
+        case png
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailConverseImageFormat] {
+            return [
+                .jpeg,
+                .png
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .jpeg: return "jpeg"
+            case .png: return "png"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The image source (image bytes) of the guardrail converse image source.
+    public enum GuardrailConverseImageSource: Swift.Sendable {
+        /// The raw image bytes for the image.
+        case bytes(Foundation.Data)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// An image block that contains images that you want to assess with a guardrail.
+    public struct GuardrailConverseImageBlock: Swift.Sendable {
+        /// The format details for the image type of the guardrail converse image block.
+        /// This member is required.
+        public var format: BedrockRuntimeClientTypes.GuardrailConverseImageFormat?
+        /// The image source (image bytes) of the guardrail converse image block.
+        /// This member is required.
+        public var source: BedrockRuntimeClientTypes.GuardrailConverseImageSource?
+
+        public init(
+            format: BedrockRuntimeClientTypes.GuardrailConverseImageFormat? = nil,
+            source: BedrockRuntimeClientTypes.GuardrailConverseImageSource? = nil
+        )
+        {
+            self.format = format
+            self.source = source
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailConverseImageBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum GuardrailConverseContentQualifier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case groundingSource
         case guardContent
@@ -1991,6 +2151,8 @@ extension BedrockRuntimeClientTypes {
     public enum GuardrailConverseContentBlock: Swift.Sendable {
         /// The text to guard.
         case text(BedrockRuntimeClientTypes.GuardrailConverseTextBlock)
+        /// Image within converse content block to be evaluated by the guardrail.
+        case image(BedrockRuntimeClientTypes.GuardrailConverseImageBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2696,16 +2858,36 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// A prompt router trace.
+    public struct PromptRouterTrace: Swift.Sendable {
+        /// The ID of the invoked model.
+        public var invokedModelId: Swift.String?
+
+        public init(
+            invokedModelId: Swift.String? = nil
+        )
+        {
+            self.invokedModelId = invokedModelId
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// The trace object in a response from [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html). Currently, you can only trace guardrails.
     public struct ConverseTrace: Swift.Sendable {
         /// The guardrail trace object.
         public var guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment?
+        /// The request's prompt router.
+        public var promptRouter: BedrockRuntimeClientTypes.PromptRouterTrace?
 
         public init(
-            guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment? = nil
+            guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment? = nil,
+            promptRouter: BedrockRuntimeClientTypes.PromptRouterTrace? = nil
         )
         {
             self.guardrail = guardrail
+            self.promptRouter = promptRouter
         }
     }
 }
@@ -3090,12 +3272,16 @@ extension BedrockRuntimeClientTypes {
     public struct ConverseStreamTrace: Swift.Sendable {
         /// The guardrail trace object.
         public var guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment?
+        /// The request's prompt router.
+        public var promptRouter: BedrockRuntimeClientTypes.PromptRouterTrace?
 
         public init(
-            guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment? = nil
+            guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment? = nil,
+            promptRouter: BedrockRuntimeClientTypes.PromptRouterTrace? = nil
         )
         {
             self.guardrail = guardrail
+            self.promptRouter = promptRouter
         }
     }
 }
@@ -4292,6 +4478,18 @@ extension BedrockRuntimeClientTypes.GuardrailCoverage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.GuardrailCoverage()
         value.textCharacters = try reader["textCharacters"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage.read(from:))
+        value.images = try reader["images"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailImageCoverage.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailImageCoverage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailImageCoverage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailImageCoverage()
+        value.guarded = try reader["guarded"].readIfPresent()
+        value.total = try reader["total"].readIfPresent()
         return value
     }
 }
@@ -4529,6 +4727,8 @@ extension BedrockRuntimeClientTypes.GuardrailConverseContentBlock {
     static func write(value: BedrockRuntimeClientTypes.GuardrailConverseContentBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .image(image):
+                try writer["image"].write(image, with: BedrockRuntimeClientTypes.GuardrailConverseImageBlock.write(value:to:))
             case let .text(text):
                 try writer["text"].write(text, with: BedrockRuntimeClientTypes.GuardrailConverseTextBlock.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -4542,6 +4742,49 @@ extension BedrockRuntimeClientTypes.GuardrailConverseContentBlock {
         switch name {
             case "text":
                 return .text(try reader["text"].read(with: BedrockRuntimeClientTypes.GuardrailConverseTextBlock.read(from:)))
+            case "image":
+                return .image(try reader["image"].read(with: BedrockRuntimeClientTypes.GuardrailConverseImageBlock.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailConverseImageBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailConverseImageBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format)
+        try writer["source"].write(value.source, with: BedrockRuntimeClientTypes.GuardrailConverseImageSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailConverseImageBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailConverseImageBlock()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.source = try reader["source"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailConverseImageSource.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailConverseImageSource {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailConverseImageSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .bytes(bytes):
+                try writer["bytes"].write(bytes)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailConverseImageSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "bytes":
+                return .bytes(try reader["bytes"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -4817,6 +5060,17 @@ extension BedrockRuntimeClientTypes.ConverseTrace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ConverseTrace()
         value.guardrail = try reader["guardrail"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailTraceAssessment.read(from:))
+        value.promptRouter = try reader["promptRouter"].readIfPresent(with: BedrockRuntimeClientTypes.PromptRouterTrace.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.PromptRouterTrace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.PromptRouterTrace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.PromptRouterTrace()
+        value.invokedModelId = try reader["invokedModelId"].readIfPresent()
         return value
     }
 }
@@ -4919,6 +5173,7 @@ extension BedrockRuntimeClientTypes.ConverseStreamTrace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.ConverseStreamTrace()
         value.guardrail = try reader["guardrail"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailTraceAssessment.read(from:))
+        value.promptRouter = try reader["promptRouter"].readIfPresent(with: BedrockRuntimeClientTypes.PromptRouterTrace.read(from:))
         return value
     }
 }
@@ -5123,8 +5378,32 @@ extension BedrockRuntimeClientTypes.GuardrailContentBlock {
     static func write(value: BedrockRuntimeClientTypes.GuardrailContentBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .image(image):
+                try writer["image"].write(image, with: BedrockRuntimeClientTypes.GuardrailImageBlock.write(value:to:))
             case let .text(text):
                 try writer["text"].write(text, with: BedrockRuntimeClientTypes.GuardrailTextBlock.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailImageBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailImageBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format)
+        try writer["source"].write(value.source, with: BedrockRuntimeClientTypes.GuardrailImageSource.write(value:to:))
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailImageSource {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailImageSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .bytes(bytes):
+                try writer["bytes"].write(bytes)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
