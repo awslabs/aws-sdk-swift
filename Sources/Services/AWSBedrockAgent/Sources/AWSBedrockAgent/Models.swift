@@ -3354,6 +3354,7 @@ extension BedrockAgentClientTypes {
     public enum DataSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case confluence
         case custom
+        case redshiftMetadata
         case s3
         case salesforce
         case sharepoint
@@ -3364,6 +3365,7 @@ extension BedrockAgentClientTypes {
             return [
                 .confluence,
                 .custom,
+                .redshiftMetadata,
                 .s3,
                 .salesforce,
                 .sharepoint,
@@ -3380,6 +3382,7 @@ extension BedrockAgentClientTypes {
             switch self {
             case .confluence: return "CONFLUENCE"
             case .custom: return "CUSTOM"
+            case .redshiftMetadata: return "REDSHIFT_METADATA"
             case .s3: return "S3"
             case .salesforce: return "SALESFORCE"
             case .sharepoint: return "SHAREPOINT"
@@ -3891,6 +3894,48 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    public enum ParsingModality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case multimodal
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParsingModality] {
+            return [
+                .multimodal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .multimodal: return "MULTIMODAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for using Amazon Bedrock Data Automation as the parser for ingesting your data sources.
+    public struct BedrockDataAutomationConfiguration: Swift.Sendable {
+        /// Specifies whether to enable parsing of multimodal data, including both text and/or images.
+        public var parsingModality: BedrockAgentClientTypes.ParsingModality?
+
+        public init(
+            parsingModality: BedrockAgentClientTypes.ParsingModality? = nil
+        )
+        {
+            self.parsingModality = parsingModality
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Instructions for interpreting the contents of a document.
     public struct ParsingPrompt: Swift.Sendable {
         /// Instructions for interpreting the contents of a document.
@@ -3910,18 +3955,22 @@ extension BedrockAgentClientTypes {
 
     /// Settings for a foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) used to parse documents for a data source.
     public struct BedrockFoundationModelConfiguration: Swift.Sendable {
-        /// The ARN of the foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html).
+        /// The ARN of the foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) to use for parsing.
         /// This member is required.
         public var modelArn: Swift.String?
+        /// Specifies whether to enable parsing of multimodal data, including both text and/or images.
+        public var parsingModality: BedrockAgentClientTypes.ParsingModality?
         /// Instructions for interpreting the contents of a document.
         public var parsingPrompt: BedrockAgentClientTypes.ParsingPrompt?
 
         public init(
             modelArn: Swift.String? = nil,
+            parsingModality: BedrockAgentClientTypes.ParsingModality? = nil,
             parsingPrompt: BedrockAgentClientTypes.ParsingPrompt? = nil
         )
         {
             self.modelArn = modelArn
+            self.parsingModality = parsingModality
             self.parsingPrompt = parsingPrompt
         }
     }
@@ -3930,11 +3979,13 @@ extension BedrockAgentClientTypes {
 extension BedrockAgentClientTypes {
 
     public enum ParsingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bedrockDataAutomation
         case bedrockFoundationModel
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ParsingStrategy] {
             return [
+                .bedrockDataAutomation,
                 .bedrockFoundationModel
             ]
         }
@@ -3946,6 +3997,7 @@ extension BedrockAgentClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .bedrockDataAutomation: return "BEDROCK_DATA_AUTOMATION"
             case .bedrockFoundationModel: return "BEDROCK_FOUNDATION_MODEL"
             case let .sdkUnknown(s): return s
             }
@@ -3955,26 +4007,23 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Settings for parsing document contents. By default, the service converts the contents of each document into text before splitting it into chunks. To improve processing of PDF files with tables and images, you can configure the data source to convert the pages of text into images and use a model to describe the contents of each page. To use a model to parse PDF documents, set the parsing strategy to BEDROCK_FOUNDATION_MODEL and specify the model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) to use by ARN. You can also override the default parsing prompt with instructions for how to interpret images and tables in your documents. The following models are supported.
-    ///
-    /// * Anthropic Claude 3 Sonnet - anthropic.claude-3-sonnet-20240229-v1:0
-    ///
-    /// * Anthropic Claude 3 Haiku - anthropic.claude-3-haiku-20240307-v1:0
-    ///
-    ///
-    /// You can get the ARN of a model with the [ListFoundationModels](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListFoundationModels.html) action. Standard model usage charges apply for the foundation model parsing strategy.
+    /// Settings for parsing document contents. If you exclude this field, the default parser converts the contents of each document into text before splitting it into chunks. Specify the parsing strategy to use in the parsingStrategy field and include the relevant configuration, or omit it to use the Amazon Bedrock default parser. For more information, see [Parsing options for your data source](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-advanced-parsing.html). If you specify BEDROCK_DATA_AUTOMATION or BEDROCK_FOUNDATION_MODEL and it fails to parse a file, the Amazon Bedrock default parser will be used instead.
     public struct ParsingConfiguration: Swift.Sendable {
-        /// Settings for a foundation model used to parse documents for a data source.
+        /// If you specify BEDROCK_DATA_AUTOMATION as the parsing strategy for ingesting your data source, use this object to modify configurations for using the Amazon Bedrock Data Automation parser.
+        public var bedrockDataAutomationConfiguration: BedrockAgentClientTypes.BedrockDataAutomationConfiguration?
+        /// If you specify BEDROCK_FOUNDATION_MODEL as the parsing strategy for ingesting your data source, use this object to modify configurations for using a foundation model to parse documents.
         public var bedrockFoundationModelConfiguration: BedrockAgentClientTypes.BedrockFoundationModelConfiguration?
         /// The parsing strategy for the data source.
         /// This member is required.
         public var parsingStrategy: BedrockAgentClientTypes.ParsingStrategy?
 
         public init(
+            bedrockDataAutomationConfiguration: BedrockAgentClientTypes.BedrockDataAutomationConfiguration? = nil,
             bedrockFoundationModelConfiguration: BedrockAgentClientTypes.BedrockFoundationModelConfiguration? = nil,
             parsingStrategy: BedrockAgentClientTypes.ParsingStrategy? = nil
         )
         {
+            self.bedrockDataAutomationConfiguration = bedrockDataAutomationConfiguration
             self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
             self.parsingStrategy = parsingStrategy
         }
@@ -3989,7 +4038,7 @@ extension BedrockAgentClientTypes {
         public var chunkingConfiguration: BedrockAgentClientTypes.ChunkingConfiguration?
         /// A custom document transformer for parsed data source documents.
         public var customTransformationConfiguration: BedrockAgentClientTypes.CustomTransformationConfiguration?
-        /// A custom parser for data source documents.
+        /// Configurations for a parser to use for parsing documents in your data source. If you exclude this field, the default parser will be used.
         public var parsingConfiguration: BedrockAgentClientTypes.ParsingConfiguration?
 
         public init(
@@ -8585,12 +8634,554 @@ public struct AssociateAgentKnowledgeBaseOutput: Swift.Sendable {
 
 extension BedrockAgentClientTypes {
 
+    /// Settings for an Amazon Kendra knowledge base.
+    public struct KendraKnowledgeBaseConfiguration: Swift.Sendable {
+        /// The ARN of the Amazon Kendra index.
+        /// This member is required.
+        public var kendraIndexArn: Swift.String?
+
+        public init(
+            kendraIndexArn: Swift.String? = nil
+        )
+        {
+            self.kendraIndexArn = kendraIndexArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum RedshiftProvisionedAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iam
+        case username
+        case usernamePassword
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RedshiftProvisionedAuthType] {
+            return [
+                .iam,
+                .username,
+                .usernamePassword
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iam: return "IAM"
+            case .username: return "USERNAME"
+            case .usernamePassword: return "USERNAME_PASSWORD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for authentication to an Amazon Redshift provisioned data warehouse. Specify the type of authentication to use in the type field and include the corresponding field. If you specify IAM authentication, you don't need to include another field.
+    public struct RedshiftProvisionedAuthConfiguration: Swift.Sendable {
+        /// The database username for authentication to an Amazon Redshift provisioned data warehouse.
+        public var databaseUser: Swift.String?
+        /// The type of authentication to use.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.RedshiftProvisionedAuthType?
+        /// The ARN of an Secrets Manager secret for authentication.
+        public var usernamePasswordSecretArn: Swift.String?
+
+        public init(
+            databaseUser: Swift.String? = nil,
+            type: BedrockAgentClientTypes.RedshiftProvisionedAuthType? = nil,
+            usernamePasswordSecretArn: Swift.String? = nil
+        )
+        {
+            self.databaseUser = databaseUser
+            self.type = type
+            self.usernamePasswordSecretArn = usernamePasswordSecretArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for a provisioned Amazon Redshift query engine.
+    public struct RedshiftProvisionedConfiguration: Swift.Sendable {
+        /// Specifies configurations for authentication to Amazon Redshift.
+        /// This member is required.
+        public var authConfiguration: BedrockAgentClientTypes.RedshiftProvisionedAuthConfiguration?
+        /// The ID of the Amazon Redshift cluster.
+        /// This member is required.
+        public var clusterIdentifier: Swift.String?
+
+        public init(
+            authConfiguration: BedrockAgentClientTypes.RedshiftProvisionedAuthConfiguration? = nil,
+            clusterIdentifier: Swift.String? = nil
+        )
+        {
+            self.authConfiguration = authConfiguration
+            self.clusterIdentifier = clusterIdentifier
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum RedshiftServerlessAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iam
+        case usernamePassword
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RedshiftServerlessAuthType] {
+            return [
+                .iam,
+                .usernamePassword
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iam: return "IAM"
+            case .usernamePassword: return "USERNAME_PASSWORD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Specifies configurations for authentication to a Redshift Serverless. Specify the type of authentication to use in the type field and include the corresponding field. If you specify IAM authentication, you don't need to include another field.
+    public struct RedshiftServerlessAuthConfiguration: Swift.Sendable {
+        /// The type of authentication to use.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.RedshiftServerlessAuthType?
+        /// The ARN of an Secrets Manager secret for authentication.
+        public var usernamePasswordSecretArn: Swift.String?
+
+        public init(
+            type: BedrockAgentClientTypes.RedshiftServerlessAuthType? = nil,
+            usernamePasswordSecretArn: Swift.String? = nil
+        )
+        {
+            self.type = type
+            self.usernamePasswordSecretArn = usernamePasswordSecretArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for authentication to Amazon Redshift Serverless.
+    public struct RedshiftServerlessConfiguration: Swift.Sendable {
+        /// Specifies configurations for authentication to an Amazon Redshift provisioned data warehouse.
+        /// This member is required.
+        public var authConfiguration: BedrockAgentClientTypes.RedshiftServerlessAuthConfiguration?
+        /// The ARN of the Amazon Redshift workgroup.
+        /// This member is required.
+        public var workgroupArn: Swift.String?
+
+        public init(
+            authConfiguration: BedrockAgentClientTypes.RedshiftServerlessAuthConfiguration? = nil,
+            workgroupArn: Swift.String? = nil
+        )
+        {
+            self.authConfiguration = authConfiguration
+            self.workgroupArn = workgroupArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum RedshiftQueryEngineType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case provisioned
+        case serverless
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RedshiftQueryEngineType] {
+            return [
+                .provisioned,
+                .serverless
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .provisioned: return "PROVISIONED"
+            case .serverless: return "SERVERLESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for an Amazon Redshift query engine. Specify the type of query engine in type and include the corresponding field. For more information, see [Build a knowledge base by connecting to a structured data source](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-structured.html) in the Amazon Bedrock User Guide.
+    public struct RedshiftQueryEngineConfiguration: Swift.Sendable {
+        /// Specifies configurations for a provisioned Amazon Redshift query engine.
+        public var provisionedConfiguration: BedrockAgentClientTypes.RedshiftProvisionedConfiguration?
+        /// Specifies configurations for a serverless Amazon Redshift query engine.
+        public var serverlessConfiguration: BedrockAgentClientTypes.RedshiftServerlessConfiguration?
+        /// The type of query engine.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.RedshiftQueryEngineType?
+
+        public init(
+            provisionedConfiguration: BedrockAgentClientTypes.RedshiftProvisionedConfiguration? = nil,
+            serverlessConfiguration: BedrockAgentClientTypes.RedshiftServerlessConfiguration? = nil,
+            type: BedrockAgentClientTypes.RedshiftQueryEngineType? = nil
+        )
+        {
+            self.provisionedConfiguration = provisionedConfiguration
+            self.serverlessConfiguration = serverlessConfiguration
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for a query, each of which defines information about example queries to help the query engine generate appropriate SQL queries.
+    public struct CuratedQuery: Swift.Sendable {
+        /// An example natural language query.
+        /// This member is required.
+        public var naturalLanguage: Swift.String?
+        /// The SQL equivalent of the natural language query.
+        /// This member is required.
+        public var sql: Swift.String?
+
+        public init(
+            naturalLanguage: Swift.String? = nil,
+            sql: Swift.String? = nil
+        )
+        {
+            self.naturalLanguage = naturalLanguage
+            self.sql = sql
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum IncludeExclude: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludeExclude] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about a column in the current table for the query engine to consider.
+    public struct QueryGenerationColumn: Swift.Sendable {
+        /// A description of the column that helps the query engine understand the contents of the column.
+        public var description: Swift.String?
+        /// Specifies whether to include or exclude the column during query generation. If you specify EXCLUDE, the column will be ignored. If you specify INCLUDE, all other columns in the table will be ignored.
+        public var inclusion: BedrockAgentClientTypes.IncludeExclude?
+        /// The name of the column for which the other fields in this object apply.
+        public var name: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            inclusion: BedrockAgentClientTypes.IncludeExclude? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.inclusion = inclusion
+            self.name = name
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about a table for the query engine to consider.
+    public struct QueryGenerationTable: Swift.Sendable {
+        /// An array of objects, each of which defines information about a column in the table.
+        public var columns: [BedrockAgentClientTypes.QueryGenerationColumn]?
+        /// A description of the table that helps the query engine understand the contents of the table.
+        public var description: Swift.String?
+        /// Specifies whether to include or exclude the table during query generation. If you specify EXCLUDE, the table will be ignored. If you specify INCLUDE, all other tables will be ignored.
+        public var inclusion: BedrockAgentClientTypes.IncludeExclude?
+        /// The name of the table for which the other fields in this object apply.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            columns: [BedrockAgentClientTypes.QueryGenerationColumn]? = nil,
+            description: Swift.String? = nil,
+            inclusion: BedrockAgentClientTypes.IncludeExclude? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.columns = columns
+            self.description = description
+            self.inclusion = inclusion
+            self.name = name
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// >Contains configurations for context to use during query generation.
+    public struct QueryGenerationContext: Swift.Sendable {
+        /// An array of objects, each of which defines information about example queries to help the query engine generate appropriate SQL queries.
+        public var curatedQueries: [BedrockAgentClientTypes.CuratedQuery]?
+        /// An array of objects, each of which defines information about a table in the database.
+        public var tables: [BedrockAgentClientTypes.QueryGenerationTable]?
+
+        public init(
+            curatedQueries: [BedrockAgentClientTypes.CuratedQuery]? = nil,
+            tables: [BedrockAgentClientTypes.QueryGenerationTable]? = nil
+        )
+        {
+            self.curatedQueries = curatedQueries
+            self.tables = tables
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.QueryGenerationContext: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for query generation. For more information, see [Build a knowledge base by connecting to a structured data source](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-structured.html) in the Amazon Bedrock User Guide..
+    public struct QueryGenerationConfiguration: Swift.Sendable {
+        /// The time after which query generation will time out.
+        public var executionTimeoutSeconds: Swift.Int?
+        /// Specifies configurations for context to use during query generation.
+        public var generationContext: BedrockAgentClientTypes.QueryGenerationContext?
+
+        public init(
+            executionTimeoutSeconds: Swift.Int? = nil,
+            generationContext: BedrockAgentClientTypes.QueryGenerationContext? = nil
+        )
+        {
+            self.executionTimeoutSeconds = executionTimeoutSeconds
+            self.generationContext = generationContext
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.QueryGenerationConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "QueryGenerationConfiguration(executionTimeoutSeconds: \(Swift.String(describing: executionTimeoutSeconds)), generationContext: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for storage in Glue Data Catalog.
+    public struct RedshiftQueryEngineAwsDataCatalogStorageConfiguration: Swift.Sendable {
+        /// A list of names of the tables to use.
+        /// This member is required.
+        public var tableNames: [Swift.String]?
+
+        public init(
+            tableNames: [Swift.String]? = nil
+        )
+        {
+            self.tableNames = tableNames
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for storage in Amazon Redshift.
+    public struct RedshiftQueryEngineRedshiftStorageConfiguration: Swift.Sendable {
+        /// The name of the Amazon Redshift database.
+        /// This member is required.
+        public var databaseName: Swift.String?
+
+        public init(
+            databaseName: Swift.String? = nil
+        )
+        {
+            self.databaseName = databaseName
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum RedshiftQueryEngineStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsDataCatalog
+        case redshift
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RedshiftQueryEngineStorageType] {
+            return [
+                .awsDataCatalog,
+                .redshift
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsDataCatalog: return "AWS_DATA_CATALOG"
+            case .redshift: return "REDSHIFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for Amazon Redshift data storage. Specify the data storage service to use in the type field and include the corresponding field. For more information, see [Build a knowledge base by connecting to a structured data source](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-structured.html) in the Amazon Bedrock User Guide.
+    public struct RedshiftQueryEngineStorageConfiguration: Swift.Sendable {
+        /// Specifies configurations for storage in Glue Data Catalog.
+        public var awsDataCatalogConfiguration: BedrockAgentClientTypes.RedshiftQueryEngineAwsDataCatalogStorageConfiguration?
+        /// Specifies configurations for storage in Amazon Redshift.
+        public var redshiftConfiguration: BedrockAgentClientTypes.RedshiftQueryEngineRedshiftStorageConfiguration?
+        /// The data storage service to use.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.RedshiftQueryEngineStorageType?
+
+        public init(
+            awsDataCatalogConfiguration: BedrockAgentClientTypes.RedshiftQueryEngineAwsDataCatalogStorageConfiguration? = nil,
+            redshiftConfiguration: BedrockAgentClientTypes.RedshiftQueryEngineRedshiftStorageConfiguration? = nil,
+            type: BedrockAgentClientTypes.RedshiftQueryEngineStorageType? = nil
+        )
+        {
+            self.awsDataCatalogConfiguration = awsDataCatalogConfiguration
+            self.redshiftConfiguration = redshiftConfiguration
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for an Amazon Redshift database. For more information, see [Build a knowledge base by connecting to a structured data source](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-structured.html) in the Amazon Bedrock User Guide.
+    public struct RedshiftConfiguration: Swift.Sendable {
+        /// Specifies configurations for an Amazon Redshift query engine.
+        /// This member is required.
+        public var queryEngineConfiguration: BedrockAgentClientTypes.RedshiftQueryEngineConfiguration?
+        /// Specifies configurations for generating queries.
+        public var queryGenerationConfiguration: BedrockAgentClientTypes.QueryGenerationConfiguration?
+        /// Specifies configurations for Amazon Redshift database storage.
+        /// This member is required.
+        public var storageConfigurations: [BedrockAgentClientTypes.RedshiftQueryEngineStorageConfiguration]?
+
+        public init(
+            queryEngineConfiguration: BedrockAgentClientTypes.RedshiftQueryEngineConfiguration? = nil,
+            queryGenerationConfiguration: BedrockAgentClientTypes.QueryGenerationConfiguration? = nil,
+            storageConfigurations: [BedrockAgentClientTypes.RedshiftQueryEngineStorageConfiguration]? = nil
+        )
+        {
+            self.queryEngineConfiguration = queryEngineConfiguration
+            self.queryGenerationConfiguration = queryGenerationConfiguration
+            self.storageConfigurations = storageConfigurations
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum QueryEngineType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case redshift
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryEngineType] {
+            return [
+                .redshift
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .redshift: return "REDSHIFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for a knowledge base connected to an SQL database. Specify the SQL database type in the type field and include the corresponding field. For more information, see [Build a knowledge base by connecting to a structured data source](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-structured.html) in the Amazon Bedrock User Guide.
+    public struct SqlKnowledgeBaseConfiguration: Swift.Sendable {
+        /// Specifies configurations for a knowledge base connected to an Amazon Redshift database.
+        public var redshiftConfiguration: BedrockAgentClientTypes.RedshiftConfiguration?
+        /// The type of SQL database to connect to the knowledge base.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.QueryEngineType?
+
+        public init(
+            redshiftConfiguration: BedrockAgentClientTypes.RedshiftConfiguration? = nil,
+            type: BedrockAgentClientTypes.QueryEngineType? = nil
+        )
+        {
+            self.redshiftConfiguration = redshiftConfiguration
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     public enum KnowledgeBaseType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kendra
+        case sql
         case vector
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KnowledgeBaseType] {
             return [
+                .kendra,
+                .sql,
                 .vector
             ]
         }
@@ -8602,6 +9193,8 @@ extension BedrockAgentClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .kendra: return "KENDRA"
+            case .sql: return "SQL"
             case .vector: return "VECTOR"
             case let .sdkUnknown(s): return s
             }
@@ -8677,6 +9270,70 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    public enum SupplementalDataStorageLocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupplementalDataStorageLocationType] {
+            return [
+                .s3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains information about a storage location for images extracted from multimodal documents in your data source.
+    public struct SupplementalDataStorageLocation: Swift.Sendable {
+        /// Contains information about the Amazon S3 location for the extracted images.
+        public var s3Location: BedrockAgentClientTypes.S3Location?
+        /// Specifies the storage service used for this location.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.SupplementalDataStorageLocationType?
+
+        public init(
+            s3Location: BedrockAgentClientTypes.S3Location? = nil,
+            type: BedrockAgentClientTypes.SupplementalDataStorageLocationType? = nil
+        )
+        {
+            self.s3Location = s3Location
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Specifies configurations for the storage location of the images extracted from multimodal documents in your data source. These images can be retrieved and returned to the end user.
+    public struct SupplementalDataStorageConfiguration: Swift.Sendable {
+        /// A list of objects specifying storage locations for images extracted from multimodal documents in your data source.
+        /// This member is required.
+        public var storageLocations: [BedrockAgentClientTypes.SupplementalDataStorageLocation]?
+
+        public init(
+            storageLocations: [BedrockAgentClientTypes.SupplementalDataStorageLocation]? = nil
+        )
+        {
+            self.storageLocations = storageLocations
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Contains details about the model used to create vector embeddings for the knowledge base.
     public struct VectorKnowledgeBaseConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the model or inference profile used to create vector embeddings for the knowledge base.
@@ -8684,14 +9341,18 @@ extension BedrockAgentClientTypes {
         public var embeddingModelArn: Swift.String?
         /// The embeddings model configuration details for the vector model used in Knowledge Base.
         public var embeddingModelConfiguration: BedrockAgentClientTypes.EmbeddingModelConfiguration?
+        /// If you include multimodal data from your data source, use this object to specify configurations for the storage location of the images extracted from your documents. These images can be retrieved and returned to the end user. They can also be used in generation when using [RetrieveAndGenerate](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html).
+        public var supplementalDataStorageConfiguration: BedrockAgentClientTypes.SupplementalDataStorageConfiguration?
 
         public init(
             embeddingModelArn: Swift.String? = nil,
-            embeddingModelConfiguration: BedrockAgentClientTypes.EmbeddingModelConfiguration? = nil
+            embeddingModelConfiguration: BedrockAgentClientTypes.EmbeddingModelConfiguration? = nil,
+            supplementalDataStorageConfiguration: BedrockAgentClientTypes.SupplementalDataStorageConfiguration? = nil
         )
         {
             self.embeddingModelArn = embeddingModelArn
             self.embeddingModelConfiguration = embeddingModelConfiguration
+            self.supplementalDataStorageConfiguration = supplementalDataStorageConfiguration
         }
     }
 }
@@ -8700,6 +9361,10 @@ extension BedrockAgentClientTypes {
 
     /// Contains details about the vector embeddings configuration of the knowledge base.
     public struct KnowledgeBaseConfiguration: Swift.Sendable {
+        /// Settings for an Amazon Kendra knowledge base.
+        public var kendraKnowledgeBaseConfiguration: BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration?
+        /// Specifies configurations for a knowledge base connected to an SQL database.
+        public var sqlKnowledgeBaseConfiguration: BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration?
         /// The type of data that the data source is converted into for the knowledge base.
         /// This member is required.
         public var type: BedrockAgentClientTypes.KnowledgeBaseType?
@@ -8707,10 +9372,14 @@ extension BedrockAgentClientTypes {
         public var vectorKnowledgeBaseConfiguration: BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration?
 
         public init(
+            kendraKnowledgeBaseConfiguration: BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration? = nil,
+            sqlKnowledgeBaseConfiguration: BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration? = nil,
             type: BedrockAgentClientTypes.KnowledgeBaseType? = nil,
             vectorKnowledgeBaseConfiguration: BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration? = nil
         )
         {
+            self.kendraKnowledgeBaseConfiguration = kendraKnowledgeBaseConfiguration
+            self.sqlKnowledgeBaseConfiguration = sqlKnowledgeBaseConfiguration
             self.type = type
             self.vectorKnowledgeBaseConfiguration = vectorKnowledgeBaseConfiguration
         }
@@ -9115,7 +9784,6 @@ public struct CreateKnowledgeBaseInput: Swift.Sendable {
     /// This member is required.
     public var roleArn: Swift.String?
     /// Contains details about the configuration of the vector database used for the knowledge base.
-    /// This member is required.
     public var storageConfiguration: BedrockAgentClientTypes.StorageConfiguration?
     /// Specify the key-value pairs for the tags that you want to attach to your knowledge base in this object.
     public var tags: [Swift.String: Swift.String]?
@@ -9221,7 +9889,6 @@ extension BedrockAgentClientTypes {
         /// This member is required.
         public var status: BedrockAgentClientTypes.KnowledgeBaseStatus?
         /// Contains details about the storage configuration of the knowledge base.
-        /// This member is required.
         public var storageConfiguration: BedrockAgentClientTypes.StorageConfiguration?
         /// The time the knowledge base was last updated.
         /// This member is required.
@@ -9562,7 +10229,6 @@ public struct UpdateKnowledgeBaseInput: Swift.Sendable {
     /// This member is required.
     public var roleArn: Swift.String?
     /// Specifies the configuration for the vector store used for the knowledge base. You must use the same configuration as when the knowledge base was created.
-    /// This member is required.
     public var storageConfiguration: BedrockAgentClientTypes.StorageConfiguration?
 
     public init(
@@ -14723,6 +15389,7 @@ extension BedrockAgentClientTypes.ParsingConfiguration {
 
     static func write(value: BedrockAgentClientTypes.ParsingConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["bedrockDataAutomationConfiguration"].write(value.bedrockDataAutomationConfiguration, with: BedrockAgentClientTypes.BedrockDataAutomationConfiguration.write(value:to:))
         try writer["bedrockFoundationModelConfiguration"].write(value.bedrockFoundationModelConfiguration, with: BedrockAgentClientTypes.BedrockFoundationModelConfiguration.write(value:to:))
         try writer["parsingStrategy"].write(value.parsingStrategy)
     }
@@ -14732,6 +15399,22 @@ extension BedrockAgentClientTypes.ParsingConfiguration {
         var value = BedrockAgentClientTypes.ParsingConfiguration()
         value.parsingStrategy = try reader["parsingStrategy"].readIfPresent() ?? .sdkUnknown("")
         value.bedrockFoundationModelConfiguration = try reader["bedrockFoundationModelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.BedrockFoundationModelConfiguration.read(from:))
+        value.bedrockDataAutomationConfiguration = try reader["bedrockDataAutomationConfiguration"].readIfPresent(with: BedrockAgentClientTypes.BedrockDataAutomationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.BedrockDataAutomationConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.BedrockDataAutomationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["parsingModality"].write(value.parsingModality)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.BedrockDataAutomationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.BedrockDataAutomationConfiguration()
+        value.parsingModality = try reader["parsingModality"].readIfPresent()
         return value
     }
 }
@@ -14741,6 +15424,7 @@ extension BedrockAgentClientTypes.BedrockFoundationModelConfiguration {
     static func write(value: BedrockAgentClientTypes.BedrockFoundationModelConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["modelArn"].write(value.modelArn)
+        try writer["parsingModality"].write(value.parsingModality)
         try writer["parsingPrompt"].write(value.parsingPrompt, with: BedrockAgentClientTypes.ParsingPrompt.write(value:to:))
     }
 
@@ -14749,6 +15433,7 @@ extension BedrockAgentClientTypes.BedrockFoundationModelConfiguration {
         var value = BedrockAgentClientTypes.BedrockFoundationModelConfiguration()
         value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
         value.parsingPrompt = try reader["parsingPrompt"].readIfPresent(with: BedrockAgentClientTypes.ParsingPrompt.read(from:))
+        value.parsingModality = try reader["parsingModality"].readIfPresent()
         return value
     }
 }
@@ -16506,6 +17191,8 @@ extension BedrockAgentClientTypes.KnowledgeBaseConfiguration {
 
     static func write(value: BedrockAgentClientTypes.KnowledgeBaseConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["kendraKnowledgeBaseConfiguration"].write(value.kendraKnowledgeBaseConfiguration, with: BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration.write(value:to:))
+        try writer["sqlKnowledgeBaseConfiguration"].write(value.sqlKnowledgeBaseConfiguration, with: BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration.write(value:to:))
         try writer["type"].write(value.type)
         try writer["vectorKnowledgeBaseConfiguration"].write(value.vectorKnowledgeBaseConfiguration, with: BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration.write(value:to:))
     }
@@ -16515,6 +17202,288 @@ extension BedrockAgentClientTypes.KnowledgeBaseConfiguration {
         var value = BedrockAgentClientTypes.KnowledgeBaseConfiguration()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.vectorKnowledgeBaseConfiguration = try reader["vectorKnowledgeBaseConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration.read(from:))
+        value.kendraKnowledgeBaseConfiguration = try reader["kendraKnowledgeBaseConfiguration"].readIfPresent(with: BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration.read(from:))
+        value.sqlKnowledgeBaseConfiguration = try reader["sqlKnowledgeBaseConfiguration"].readIfPresent(with: BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["redshiftConfiguration"].write(value.redshiftConfiguration, with: BedrockAgentClientTypes.RedshiftConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.redshiftConfiguration = try reader["redshiftConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedshiftConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RedshiftConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.RedshiftConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["queryEngineConfiguration"].write(value.queryEngineConfiguration, with: BedrockAgentClientTypes.RedshiftQueryEngineConfiguration.write(value:to:))
+        try writer["queryGenerationConfiguration"].write(value.queryGenerationConfiguration, with: BedrockAgentClientTypes.QueryGenerationConfiguration.write(value:to:))
+        try writer["storageConfigurations"].writeList(value.storageConfigurations, memberWritingClosure: BedrockAgentClientTypes.RedshiftQueryEngineStorageConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedshiftConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RedshiftConfiguration()
+        value.storageConfigurations = try reader["storageConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.RedshiftQueryEngineStorageConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.queryEngineConfiguration = try reader["queryEngineConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedshiftQueryEngineConfiguration.read(from:))
+        value.queryGenerationConfiguration = try reader["queryGenerationConfiguration"].readIfPresent(with: BedrockAgentClientTypes.QueryGenerationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.QueryGenerationConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.QueryGenerationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["executionTimeoutSeconds"].write(value.executionTimeoutSeconds)
+        try writer["generationContext"].write(value.generationContext, with: BedrockAgentClientTypes.QueryGenerationContext.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.QueryGenerationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.QueryGenerationConfiguration()
+        value.executionTimeoutSeconds = try reader["executionTimeoutSeconds"].readIfPresent()
+        value.generationContext = try reader["generationContext"].readIfPresent(with: BedrockAgentClientTypes.QueryGenerationContext.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.QueryGenerationContext {
+
+    static func write(value: BedrockAgentClientTypes.QueryGenerationContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["curatedQueries"].writeList(value.curatedQueries, memberWritingClosure: BedrockAgentClientTypes.CuratedQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tables"].writeList(value.tables, memberWritingClosure: BedrockAgentClientTypes.QueryGenerationTable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.QueryGenerationContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.QueryGenerationContext()
+        value.tables = try reader["tables"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.QueryGenerationTable.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.curatedQueries = try reader["curatedQueries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.CuratedQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.CuratedQuery {
+
+    static func write(value: BedrockAgentClientTypes.CuratedQuery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["naturalLanguage"].write(value.naturalLanguage)
+        try writer["sql"].write(value.sql)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.CuratedQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.CuratedQuery()
+        value.naturalLanguage = try reader["naturalLanguage"].readIfPresent() ?? ""
+        value.sql = try reader["sql"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.QueryGenerationTable {
+
+    static func write(value: BedrockAgentClientTypes.QueryGenerationTable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columns"].writeList(value.columns, memberWritingClosure: BedrockAgentClientTypes.QueryGenerationColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["inclusion"].write(value.inclusion)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.QueryGenerationTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.QueryGenerationTable()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.inclusion = try reader["inclusion"].readIfPresent()
+        value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.QueryGenerationColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.QueryGenerationColumn {
+
+    static func write(value: BedrockAgentClientTypes.QueryGenerationColumn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["inclusion"].write(value.inclusion)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.QueryGenerationColumn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.QueryGenerationColumn()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.inclusion = try reader["inclusion"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RedshiftQueryEngineConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.RedshiftQueryEngineConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["provisionedConfiguration"].write(value.provisionedConfiguration, with: BedrockAgentClientTypes.RedshiftProvisionedConfiguration.write(value:to:))
+        try writer["serverlessConfiguration"].write(value.serverlessConfiguration, with: BedrockAgentClientTypes.RedshiftServerlessConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedshiftQueryEngineConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RedshiftQueryEngineConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.serverlessConfiguration = try reader["serverlessConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedshiftServerlessConfiguration.read(from:))
+        value.provisionedConfiguration = try reader["provisionedConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedshiftProvisionedConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RedshiftProvisionedConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.RedshiftProvisionedConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authConfiguration"].write(value.authConfiguration, with: BedrockAgentClientTypes.RedshiftProvisionedAuthConfiguration.write(value:to:))
+        try writer["clusterIdentifier"].write(value.clusterIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedshiftProvisionedConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RedshiftProvisionedConfiguration()
+        value.clusterIdentifier = try reader["clusterIdentifier"].readIfPresent() ?? ""
+        value.authConfiguration = try reader["authConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedshiftProvisionedAuthConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RedshiftProvisionedAuthConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.RedshiftProvisionedAuthConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["databaseUser"].write(value.databaseUser)
+        try writer["type"].write(value.type)
+        try writer["usernamePasswordSecretArn"].write(value.usernamePasswordSecretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedshiftProvisionedAuthConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RedshiftProvisionedAuthConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.databaseUser = try reader["databaseUser"].readIfPresent()
+        value.usernamePasswordSecretArn = try reader["usernamePasswordSecretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RedshiftServerlessConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.RedshiftServerlessConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authConfiguration"].write(value.authConfiguration, with: BedrockAgentClientTypes.RedshiftServerlessAuthConfiguration.write(value:to:))
+        try writer["workgroupArn"].write(value.workgroupArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedshiftServerlessConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RedshiftServerlessConfiguration()
+        value.workgroupArn = try reader["workgroupArn"].readIfPresent() ?? ""
+        value.authConfiguration = try reader["authConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedshiftServerlessAuthConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RedshiftServerlessAuthConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.RedshiftServerlessAuthConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+        try writer["usernamePasswordSecretArn"].write(value.usernamePasswordSecretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedshiftServerlessAuthConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RedshiftServerlessAuthConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.usernamePasswordSecretArn = try reader["usernamePasswordSecretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RedshiftQueryEngineStorageConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.RedshiftQueryEngineStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsDataCatalogConfiguration"].write(value.awsDataCatalogConfiguration, with: BedrockAgentClientTypes.RedshiftQueryEngineAwsDataCatalogStorageConfiguration.write(value:to:))
+        try writer["redshiftConfiguration"].write(value.redshiftConfiguration, with: BedrockAgentClientTypes.RedshiftQueryEngineRedshiftStorageConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedshiftQueryEngineStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RedshiftQueryEngineStorageConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.awsDataCatalogConfiguration = try reader["awsDataCatalogConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedshiftQueryEngineAwsDataCatalogStorageConfiguration.read(from:))
+        value.redshiftConfiguration = try reader["redshiftConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedshiftQueryEngineRedshiftStorageConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RedshiftQueryEngineRedshiftStorageConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.RedshiftQueryEngineRedshiftStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["databaseName"].write(value.databaseName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedshiftQueryEngineRedshiftStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RedshiftQueryEngineRedshiftStorageConfiguration()
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RedshiftQueryEngineAwsDataCatalogStorageConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.RedshiftQueryEngineAwsDataCatalogStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tableNames"].writeList(value.tableNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RedshiftQueryEngineAwsDataCatalogStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RedshiftQueryEngineAwsDataCatalogStorageConfiguration()
+        value.tableNames = try reader["tableNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kendraIndexArn"].write(value.kendraIndexArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration()
+        value.kendraIndexArn = try reader["kendraIndexArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16525,6 +17494,7 @@ extension BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration {
         guard let value else { return }
         try writer["embeddingModelArn"].write(value.embeddingModelArn)
         try writer["embeddingModelConfiguration"].write(value.embeddingModelConfiguration, with: BedrockAgentClientTypes.EmbeddingModelConfiguration.write(value:to:))
+        try writer["supplementalDataStorageConfiguration"].write(value.supplementalDataStorageConfiguration, with: BedrockAgentClientTypes.SupplementalDataStorageConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration {
@@ -16532,6 +17502,39 @@ extension BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration {
         var value = BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration()
         value.embeddingModelArn = try reader["embeddingModelArn"].readIfPresent() ?? ""
         value.embeddingModelConfiguration = try reader["embeddingModelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.EmbeddingModelConfiguration.read(from:))
+        value.supplementalDataStorageConfiguration = try reader["supplementalDataStorageConfiguration"].readIfPresent(with: BedrockAgentClientTypes.SupplementalDataStorageConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.SupplementalDataStorageConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.SupplementalDataStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageLocations"].writeList(value.storageLocations, memberWritingClosure: BedrockAgentClientTypes.SupplementalDataStorageLocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.SupplementalDataStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.SupplementalDataStorageConfiguration()
+        value.storageLocations = try reader["storageLocations"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.SupplementalDataStorageLocation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.SupplementalDataStorageLocation {
+
+    static func write(value: BedrockAgentClientTypes.SupplementalDataStorageLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Location"].write(value.s3Location, with: BedrockAgentClientTypes.S3Location.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.SupplementalDataStorageLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.SupplementalDataStorageLocation()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Location = try reader["s3Location"].readIfPresent(with: BedrockAgentClientTypes.S3Location.read(from:))
         return value
     }
 }
