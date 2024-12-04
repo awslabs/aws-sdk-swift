@@ -16,7 +16,7 @@ import PackageDescription
 // MARK: - Dynamic Content
 
 let clientRuntimeVersion: Version = "0.98.0"
-let crtVersion: Version = "0.39.0"
+let crtVersion: Version = "0.40.0"
 
 let excludeRuntimeUnitTests = false
 
@@ -124,6 +124,7 @@ let serviceTargets: [String] = [
     "AWSCustomerProfiles",
     "AWSDAX",
     "AWSDLM",
+    "AWSDSQL",
     "AWSDataBrew",
     "AWSDataExchange",
     "AWSDataPipeline",
@@ -348,6 +349,7 @@ let serviceTargets: [String] = [
     "AWSS3",
     "AWSS3Control",
     "AWSS3Outposts",
+    "AWSS3Tables",
     "AWSSES",
     "AWSSESv2",
     "AWSSFN",

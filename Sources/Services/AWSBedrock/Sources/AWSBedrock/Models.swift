@@ -3229,13 +3229,16 @@ extension BedrockClientTypes {
         public var s3Config: BedrockClientTypes.S3Config?
         /// Set to include text data in the log delivery.
         public var textDataDeliveryEnabled: Swift.Bool?
+        /// Set to include video data in the log delivery.
+        public var videoDataDeliveryEnabled: Swift.Bool?
 
         public init(
             cloudWatchConfig: BedrockClientTypes.CloudWatchConfig? = nil,
             embeddingDataDeliveryEnabled: Swift.Bool? = nil,
             imageDataDeliveryEnabled: Swift.Bool? = nil,
             s3Config: BedrockClientTypes.S3Config? = nil,
-            textDataDeliveryEnabled: Swift.Bool? = nil
+            textDataDeliveryEnabled: Swift.Bool? = nil,
+            videoDataDeliveryEnabled: Swift.Bool? = nil
         )
         {
             self.cloudWatchConfig = cloudWatchConfig
@@ -3243,6 +3246,7 @@ extension BedrockClientTypes {
             self.imageDataDeliveryEnabled = imageDataDeliveryEnabled
             self.s3Config = s3Config
             self.textDataDeliveryEnabled = textDataDeliveryEnabled
+            self.videoDataDeliveryEnabled = videoDataDeliveryEnabled
         }
     }
 }
@@ -4176,7 +4180,7 @@ public struct CreateModelInvocationJobInput: Swift.Sendable {
     public var tags: [BedrockClientTypes.Tag]?
     /// The number of hours after which to force the batch inference job to time out.
     public var timeoutDurationInHours: Swift.Int?
-    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc).
+    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-vpc).
     public var vpcConfig: BedrockClientTypes.VpcConfig?
 
     public init(
@@ -4310,14 +4314,43 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
     /// This member is required.
     public var roleArn: Swift.String?
-    /// The status of the batch inference job.
+    /// The status of the batch inference job. The following statuses are possible:
+    ///
+    /// * Submitted – This job has been submitted to a queue for validation.
+    ///
+    /// * Validating – This job is being validated for the requirements described in [Format and upload your batch inference data](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data.html). The criteria include the following:
+    ///
+    /// * Your IAM service role has access to the Amazon S3 buckets containing your files.
+    ///
+    /// * Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.
+    ///
+    /// * Your files fulfill the requirements for file size and number of records. For more information, see [Quotas for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html).
+    ///
+    ///
+    ///
+    ///
+    /// * Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.
+    ///
+    /// * Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.
+    ///
+    /// * InProgress – This job has begun. You can start viewing the results in the output S3 location.
+    ///
+    /// * Completed – This job has successfully completed. View the output files in the output S3 location.
+    ///
+    /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
+    ///
+    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+    ///
+    /// * Stopped – This job was stopped by a user.
+    ///
+    /// * Stopping – This job is being stopped by a user.
     public var status: BedrockClientTypes.ModelInvocationJobStatus?
     /// The time at which the batch inference job was submitted.
     /// This member is required.
     public var submitTime: Foundation.Date?
     /// The number of hours after which batch inference job was set to time out.
     public var timeoutDurationInHours: Swift.Int?
-    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc).
+    /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-vpc).
     public var vpcConfig: BedrockClientTypes.VpcConfig?
 
     public init(
@@ -4372,7 +4405,36 @@ public struct ListModelInvocationJobsInput: Swift.Sendable {
     public var sortBy: BedrockClientTypes.SortJobsBy?
     /// Specifies whether to sort the results by ascending or descending order.
     public var sortOrder: BedrockClientTypes.SortOrder?
-    /// Specify a status to filter for batch inference jobs whose statuses match the string you specify.
+    /// Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:
+    ///
+    /// * Submitted – This job has been submitted to a queue for validation.
+    ///
+    /// * Validating – This job is being validated for the requirements described in [Format and upload your batch inference data](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data.html). The criteria include the following:
+    ///
+    /// * Your IAM service role has access to the Amazon S3 buckets containing your files.
+    ///
+    /// * Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.
+    ///
+    /// * Your files fulfill the requirements for file size and number of records. For more information, see [Quotas for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html).
+    ///
+    ///
+    ///
+    ///
+    /// * Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.
+    ///
+    /// * Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.
+    ///
+    /// * InProgress – This job has begun. You can start viewing the results in the output S3 location.
+    ///
+    /// * Completed – This job has successfully completed. View the output files in the output S3 location.
+    ///
+    /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
+    ///
+    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+    ///
+    /// * Stopped – This job was stopped by a user.
+    ///
+    /// * Stopping – This job is being stopped by a user.
     public var statusEquals: BedrockClientTypes.ModelInvocationJobStatus?
     /// Specify a time to filter for batch inference jobs that were submitted after the time you specify.
     public var submitTimeAfter: Foundation.Date?
@@ -4433,14 +4495,43 @@ extension BedrockClientTypes {
         /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at [Create a service role for batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-iam-sr.html).
         /// This member is required.
         public var roleArn: Swift.String?
-        /// The status of the batch inference job.
+        /// The status of the batch inference job. The following statuses are possible:
+        ///
+        /// * Submitted – This job has been submitted to a queue for validation.
+        ///
+        /// * Validating – This job is being validated for the requirements described in [Format and upload your batch inference data](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data.html). The criteria include the following:
+        ///
+        /// * Your IAM service role has access to the Amazon S3 buckets containing your files.
+        ///
+        /// * Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.
+        ///
+        /// * Your files fulfill the requirements for file size and number of records. For more information, see [Quotas for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/quotas.html).
+        ///
+        ///
+        ///
+        ///
+        /// * Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.
+        ///
+        /// * Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.
+        ///
+        /// * InProgress – This job has begun. You can start viewing the results in the output S3 location.
+        ///
+        /// * Completed – This job has successfully completed. View the output files in the output S3 location.
+        ///
+        /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
+        ///
+        /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
+        ///
+        /// * Stopped – This job was stopped by a user.
+        ///
+        /// * Stopping – This job is being stopped by a user.
         public var status: BedrockClientTypes.ModelInvocationJobStatus?
         /// The time at which the batch inference job was submitted.
         /// This member is required.
         public var submitTime: Foundation.Date?
         /// The number of hours after which the batch inference job was set to time out.
         public var timeoutDurationInHours: Swift.Int?
-        /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-vpc).
+        /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see [Protect batch inference jobs using a VPC](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-vpc).
         public var vpcConfig: BedrockClientTypes.VpcConfig?
 
         public init(
@@ -4552,14 +4643,64 @@ public struct GetCustomModelInput: Swift.Sendable {
 
 extension BedrockClientTypes {
 
+    /// Details about a teacher model used for model customization.
+    public struct TeacherModelConfig: Swift.Sendable {
+        /// The maximum number of tokens requested when the customization job invokes the teacher model.
+        public var maxResponseLengthForInference: Swift.Int?
+        /// The identifier of the teacher model.
+        /// This member is required.
+        public var teacherModelIdentifier: Swift.String?
+
+        public init(
+            maxResponseLengthForInference: Swift.Int? = nil,
+            teacherModelIdentifier: Swift.String? = nil
+        )
+        {
+            self.maxResponseLengthForInference = maxResponseLengthForInference
+            self.teacherModelIdentifier = teacherModelIdentifier
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Settings for distilling a foundation model into a smaller and more efficient model.
+    public struct DistillationConfig: Swift.Sendable {
+        /// The teacher model configuration.
+        /// This member is required.
+        public var teacherModelConfig: BedrockClientTypes.TeacherModelConfig?
+
+        public init(
+            teacherModelConfig: BedrockClientTypes.TeacherModelConfig? = nil
+        )
+        {
+            self.teacherModelConfig = teacherModelConfig
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A model customization configuration
+    public enum CustomizationConfig: Swift.Sendable {
+        /// The distillation configuration for the custom model.
+        case distillationconfig(BedrockClientTypes.DistillationConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
     public enum CustomizationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case continuedPreTraining
+        case distillation
         case fineTuning
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CustomizationType] {
             return [
                 .continuedPreTraining,
+                .distillation,
                 .fineTuning
             ]
         }
@@ -4572,6 +4713,7 @@ extension BedrockClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .continuedPreTraining: return "CONTINUED_PRE_TRAINING"
+            case .distillation: return "DISTILLATION"
             case .fineTuning: return "FINE_TUNING"
             case let .sdkUnknown(s): return s
             }
@@ -4598,16 +4740,95 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// A storage location for invocation logs.
+    public enum InvocationLogSource: Swift.Sendable {
+        /// The URI of an invocation log in a bucket.
+        case s3uri(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// A mapping of a metadata key to a value that it should or should not equal.
+    public struct RequestMetadataBaseFilters: Swift.Sendable {
+        /// Include results where the key equals the value.
+        public var equals: [Swift.String: Swift.String]?
+        /// Include results where the key does not equal the value.
+        public var notEquals: [Swift.String: Swift.String]?
+
+        public init(
+            equals: [Swift.String: Swift.String]? = nil,
+            notEquals: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.equals = equals
+            self.notEquals = notEquals
+        }
+    }
+}
+
+extension BedrockClientTypes.RequestMetadataBaseFilters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RequestMetadataBaseFilters(equals: \"CONTENT_REDACTED\", notEquals: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// Rules for filtering invocation logs. A filter can be a mapping of a metadata key to a value that it should or should not equal (a base filter), or a list of base filters that are all applied with AND or OR logical operators
+    public enum RequestMetadataFilters: Swift.Sendable {
+        /// Include results where the key equals the value.
+        case equals([Swift.String: Swift.String])
+        /// Include results where the key does not equal the value.
+        case notequals([Swift.String: Swift.String])
+        /// Include results where all of the based filters match.
+        case andall([BedrockClientTypes.RequestMetadataBaseFilters])
+        /// Include results where any of the base filters match.
+        case orall([BedrockClientTypes.RequestMetadataBaseFilters])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Settings for using invocation logs to customize a model.
+    public struct InvocationLogsConfig: Swift.Sendable {
+        /// The source of the invocation logs.
+        /// This member is required.
+        public var invocationLogSource: BedrockClientTypes.InvocationLogSource?
+        /// Rules for filtering invocation logs based on request metadata.
+        public var requestMetadataFilters: BedrockClientTypes.RequestMetadataFilters?
+        /// Whether to use the model's response for training, or just the prompt. The default value is False.
+        public var usePromptResponse: Swift.Bool
+
+        public init(
+            invocationLogSource: BedrockClientTypes.InvocationLogSource? = nil,
+            requestMetadataFilters: BedrockClientTypes.RequestMetadataFilters? = nil,
+            usePromptResponse: Swift.Bool = false
+        )
+        {
+            self.invocationLogSource = invocationLogSource
+            self.requestMetadataFilters = requestMetadataFilters
+            self.usePromptResponse = usePromptResponse
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// S3 Location of the training data.
     public struct TrainingDataConfig: Swift.Sendable {
+        /// Settings for using invocation logs to customize a model.
+        public var invocationLogsConfig: BedrockClientTypes.InvocationLogsConfig?
         /// The S3 URI where the training data is stored.
-        /// This member is required.
         public var s3Uri: Swift.String?
 
         public init(
+            invocationLogsConfig: BedrockClientTypes.InvocationLogsConfig? = nil,
             s3Uri: Swift.String? = nil
         )
         {
+            self.invocationLogsConfig = invocationLogsConfig
             self.s3Uri = s3Uri
         }
     }
@@ -4686,6 +4907,8 @@ public struct GetCustomModelOutput: Swift.Sendable {
     /// Creation time of the model.
     /// This member is required.
     public var creationTime: Foundation.Date?
+    /// The customization configuration for the custom model.
+    public var customizationConfig: BedrockClientTypes.CustomizationConfig?
     /// The type of model customization.
     public var customizationType: BedrockClientTypes.CustomizationType?
     /// Hyperparameter values associated with this model. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
@@ -4719,6 +4942,7 @@ public struct GetCustomModelOutput: Swift.Sendable {
     public init(
         baseModelArn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
+        customizationConfig: BedrockClientTypes.CustomizationConfig? = nil,
         customizationType: BedrockClientTypes.CustomizationType? = nil,
         hyperParameters: [Swift.String: Swift.String]? = nil,
         jobArn: Swift.String? = nil,
@@ -4735,6 +4959,7 @@ public struct GetCustomModelOutput: Swift.Sendable {
     {
         self.baseModelArn = baseModelArn
         self.creationTime = creationTime
+        self.customizationConfig = customizationConfig
         self.customizationType = customizationType
         self.hyperParameters = hyperParameters
         self.jobArn = jobArn
@@ -4767,12 +4992,14 @@ extension BedrockClientTypes {
 
     public enum ModelCustomization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case continuedPreTraining
+        case distillation
         case fineTuning
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ModelCustomization] {
             return [
                 .continuedPreTraining,
+                .distillation,
                 .fineTuning
             ]
         }
@@ -4785,6 +5012,7 @@ extension BedrockClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .continuedPreTraining: return "CONTINUED_PRE_TRAINING"
+            case .distillation: return "DISTILLATION"
             case .fineTuning: return "FINE_TUNING"
             case let .sdkUnknown(s): return s
             }
@@ -5649,10 +5877,11 @@ public struct CreateModelCustomizationJobInput: Swift.Sendable {
     public var customModelName: Swift.String?
     /// Tags to attach to the resulting custom model.
     public var customModelTags: [BedrockClientTypes.Tag]?
+    /// The customization configuration for the model customization job.
+    public var customizationConfig: BedrockClientTypes.CustomizationConfig?
     /// The customization type.
     public var customizationType: BedrockClientTypes.CustomizationType?
     /// Parameters related to tuning the model. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
-    /// This member is required.
     public var hyperParameters: [Swift.String: Swift.String]?
     /// A name for the fine-tuning job.
     /// This member is required.
@@ -5679,6 +5908,7 @@ public struct CreateModelCustomizationJobInput: Swift.Sendable {
         customModelKmsKeyId: Swift.String? = nil,
         customModelName: Swift.String? = nil,
         customModelTags: [BedrockClientTypes.Tag]? = nil,
+        customizationConfig: BedrockClientTypes.CustomizationConfig? = nil,
         customizationType: BedrockClientTypes.CustomizationType? = nil,
         hyperParameters: [Swift.String: Swift.String]? = nil,
         jobName: Swift.String? = nil,
@@ -5695,6 +5925,7 @@ public struct CreateModelCustomizationJobInput: Swift.Sendable {
         self.customModelKmsKeyId = customModelKmsKeyId
         self.customModelName = customModelName
         self.customModelTags = customModelTags
+        self.customizationConfig = customizationConfig
         self.customizationType = customizationType
         self.hyperParameters = hyperParameters
         self.jobName = jobName
@@ -5780,6 +6011,8 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
     /// Time that the resource was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
+    /// The customization configuration for the model customization job.
+    public var customizationConfig: BedrockClientTypes.CustomizationConfig?
     /// The type of model customization.
     public var customizationType: BedrockClientTypes.CustomizationType?
     /// Time that the resource transitioned to terminal state.
@@ -5787,7 +6020,6 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
     /// Information about why the job failed.
     public var failureMessage: Swift.String?
     /// The hyperparameter values for the job. For details on the format for different models, see [Custom model hyperparameters](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models-hp.html).
-    /// This member is required.
     public var hyperParameters: [Swift.String: Swift.String]?
     /// The Amazon Resource Name (ARN) of the customization job.
     /// This member is required.
@@ -5829,6 +6061,7 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
         baseModelArn: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
+        customizationConfig: BedrockClientTypes.CustomizationConfig? = nil,
         customizationType: BedrockClientTypes.CustomizationType? = nil,
         endTime: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
@@ -5852,6 +6085,7 @@ public struct GetModelCustomizationJobOutput: Swift.Sendable {
         self.baseModelArn = baseModelArn
         self.clientRequestToken = clientRequestToken
         self.creationTime = creationTime
+        self.customizationConfig = customizationConfig
         self.customizationType = customizationType
         self.endTime = endTime
         self.failureMessage = failureMessage
@@ -7289,6 +7523,7 @@ extension CreateModelCustomizationJobInput {
         try writer["customModelKmsKeyId"].write(value.customModelKmsKeyId)
         try writer["customModelName"].write(value.customModelName)
         try writer["customModelTags"].writeList(value.customModelTags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["customizationConfig"].write(value.customizationConfig, with: BedrockClientTypes.CustomizationConfig.write(value:to:))
         try writer["customizationType"].write(value.customizationType)
         try writer["hyperParameters"].writeMap(value.hyperParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["jobName"].write(value.jobName)
@@ -7583,6 +7818,7 @@ extension GetCustomModelOutput {
         var value = GetCustomModelOutput()
         value.baseModelArn = try reader["baseModelArn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customizationConfig = try reader["customizationConfig"].readIfPresent(with: BedrockClientTypes.CustomizationConfig.read(from:))
         value.customizationType = try reader["customizationType"].readIfPresent()
         value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
@@ -7737,10 +7973,11 @@ extension GetModelCustomizationJobOutput {
         value.baseModelArn = try reader["baseModelArn"].readIfPresent() ?? ""
         value.clientRequestToken = try reader["clientRequestToken"].readIfPresent()
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customizationConfig = try reader["customizationConfig"].readIfPresent(with: BedrockClientTypes.CustomizationConfig.read(from:))
         value.customizationType = try reader["customizationType"].readIfPresent()
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
-        value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.hyperParameters = try reader["hyperParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
         value.jobName = try reader["jobName"].readIfPresent() ?? ""
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -9076,14 +9313,112 @@ extension BedrockClientTypes.TrainingDataConfig {
 
     static func write(value: BedrockClientTypes.TrainingDataConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["invocationLogsConfig"].write(value.invocationLogsConfig, with: BedrockClientTypes.InvocationLogsConfig.write(value:to:))
         try writer["s3Uri"].write(value.s3Uri)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TrainingDataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.TrainingDataConfig()
-        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        value.s3Uri = try reader["s3Uri"].readIfPresent()
+        value.invocationLogsConfig = try reader["invocationLogsConfig"].readIfPresent(with: BedrockClientTypes.InvocationLogsConfig.read(from:))
         return value
+    }
+}
+
+extension BedrockClientTypes.InvocationLogsConfig {
+
+    static func write(value: BedrockClientTypes.InvocationLogsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["invocationLogSource"].write(value.invocationLogSource, with: BedrockClientTypes.InvocationLogSource.write(value:to:))
+        try writer["requestMetadataFilters"].write(value.requestMetadataFilters, with: BedrockClientTypes.RequestMetadataFilters.write(value:to:))
+        try writer["usePromptResponse"].write(value.usePromptResponse)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InvocationLogsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.InvocationLogsConfig()
+        value.usePromptResponse = try reader["usePromptResponse"].readIfPresent() ?? false
+        value.invocationLogSource = try reader["invocationLogSource"].readIfPresent(with: BedrockClientTypes.InvocationLogSource.read(from:))
+        value.requestMetadataFilters = try reader["requestMetadataFilters"].readIfPresent(with: BedrockClientTypes.RequestMetadataFilters.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.RequestMetadataFilters {
+
+    static func write(value: BedrockClientTypes.RequestMetadataFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .andall(andall):
+                try writer["andAll"].writeList(andall, memberWritingClosure: BedrockClientTypes.RequestMetadataBaseFilters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .equals(equals):
+                try writer["equals"].writeMap(equals, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .notequals(notequals):
+                try writer["notEquals"].writeMap(notequals, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .orall(orall):
+                try writer["orAll"].writeList(orall, memberWritingClosure: BedrockClientTypes.RequestMetadataBaseFilters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RequestMetadataFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "equals":
+                return .equals(try reader["equals"].readMap(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            case "notEquals":
+                return .notequals(try reader["notEquals"].readMap(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            case "andAll":
+                return .andall(try reader["andAll"].readList(memberReadingClosure: BedrockClientTypes.RequestMetadataBaseFilters.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "orAll":
+                return .orall(try reader["orAll"].readList(memberReadingClosure: BedrockClientTypes.RequestMetadataBaseFilters.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.RequestMetadataBaseFilters {
+
+    static func write(value: BedrockClientTypes.RequestMetadataBaseFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["equals"].writeMap(value.equals, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["notEquals"].writeMap(value.notEquals, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RequestMetadataBaseFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.RequestMetadataBaseFilters()
+        value.equals = try reader["equals"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.notEquals = try reader["notEquals"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockClientTypes.InvocationLogSource {
+
+    static func write(value: BedrockClientTypes.InvocationLogSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3uri(s3uri):
+                try writer["s3Uri"].write(s3uri)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.InvocationLogSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3Uri":
+                return .s3uri(try reader["s3Uri"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -9148,6 +9483,62 @@ extension BedrockClientTypes.ValidatorMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.ValidatorMetric()
         value.validationLoss = try reader["validationLoss"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.CustomizationConfig {
+
+    static func write(value: BedrockClientTypes.CustomizationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .distillationconfig(distillationconfig):
+                try writer["distillationConfig"].write(distillationconfig, with: BedrockClientTypes.DistillationConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomizationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "distillationConfig":
+                return .distillationconfig(try reader["distillationConfig"].read(with: BedrockClientTypes.DistillationConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.DistillationConfig {
+
+    static func write(value: BedrockClientTypes.DistillationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["teacherModelConfig"].write(value.teacherModelConfig, with: BedrockClientTypes.TeacherModelConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.DistillationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.DistillationConfig()
+        value.teacherModelConfig = try reader["teacherModelConfig"].readIfPresent(with: BedrockClientTypes.TeacherModelConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.TeacherModelConfig {
+
+    static func write(value: BedrockClientTypes.TeacherModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResponseLengthForInference"].write(value.maxResponseLengthForInference)
+        try writer["teacherModelIdentifier"].write(value.teacherModelIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.TeacherModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.TeacherModelConfig()
+        value.teacherModelIdentifier = try reader["teacherModelIdentifier"].readIfPresent() ?? ""
+        value.maxResponseLengthForInference = try reader["maxResponseLengthForInference"].readIfPresent()
         return value
     }
 }
@@ -10220,6 +10611,7 @@ extension BedrockClientTypes.LoggingConfig {
         try writer["imageDataDeliveryEnabled"].write(value.imageDataDeliveryEnabled)
         try writer["s3Config"].write(value.s3Config, with: BedrockClientTypes.S3Config.write(value:to:))
         try writer["textDataDeliveryEnabled"].write(value.textDataDeliveryEnabled)
+        try writer["videoDataDeliveryEnabled"].write(value.videoDataDeliveryEnabled)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.LoggingConfig {
@@ -10230,6 +10622,7 @@ extension BedrockClientTypes.LoggingConfig {
         value.textDataDeliveryEnabled = try reader["textDataDeliveryEnabled"].readIfPresent()
         value.imageDataDeliveryEnabled = try reader["imageDataDeliveryEnabled"].readIfPresent()
         value.embeddingDataDeliveryEnabled = try reader["embeddingDataDeliveryEnabled"].readIfPresent()
+        value.videoDataDeliveryEnabled = try reader["videoDataDeliveryEnabled"].readIfPresent()
         return value
     }
 }
