@@ -23,16 +23,12 @@ final class TranscribeStreamingTests: XCTestCase {
     // such as:
     // code: 2058, message: "The connection has closed or is closing."
     // code: 2087, message: "Stream acquisition failed because stream manager failed to acquire a connection"
-    //
-    // Disable this test on the CRT client until these failures can be investigated & corrected.
-    #if !os(Linux) && !os(Windows)
     func test_25xConcurrent_streamTranscription() async throws {
         // By default the TranscribeStreaming service allows 25 concurrent transcriptions.
         // More than that (which can happen when multiple test runs are being performed) will result
         // in throttling / resource exceeded errors, which may be retried (see retry logic below.)
         try await repeatConcurrently(count: 25, test: attempt)
     }
-    #endif
 
     // MARK: - Private / implementation methods
 

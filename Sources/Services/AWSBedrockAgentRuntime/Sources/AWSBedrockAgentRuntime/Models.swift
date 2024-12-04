@@ -1737,6 +1737,263 @@ public struct InvokeFlowOutput: Swift.Sendable {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    public enum InputQueryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputQueryType] {
+            return [
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about a natural language query to transform into SQL.
+    public struct QueryGenerationInput: Swift.Sendable {
+        /// The text of the query.
+        /// This member is required.
+        public var text: Swift.String?
+        /// The type of the query.
+        /// This member is required.
+        public var type: BedrockAgentRuntimeClientTypes.InputQueryType?
+
+        public init(
+            text: Swift.String? = nil,
+            type: BedrockAgentRuntimeClientTypes.InputQueryType? = nil
+        )
+        {
+            self.text = text
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.QueryGenerationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum QueryTransformationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case textToSql
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryTransformationMode] {
+            return [
+                .textToSql
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .textToSql: return "TEXT_TO_SQL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains configurations for a knowledge base to use in transformation.
+    public struct TextToSqlKnowledgeBaseConfiguration: Swift.Sendable {
+        /// The ARN of the knowledge base
+        /// This member is required.
+        public var knowledgeBaseArn: Swift.String?
+
+        public init(
+            knowledgeBaseArn: Swift.String? = nil
+        )
+        {
+            self.knowledgeBaseArn = knowledgeBaseArn
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum TextToSqlConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case knowledgeBase
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TextToSqlConfigurationType] {
+            return [
+                .knowledgeBase
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .knowledgeBase: return "KNOWLEDGE_BASE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains configurations for transforming text to SQL.
+    public struct TextToSqlConfiguration: Swift.Sendable {
+        /// Specifies configurations for a knowledge base to use in transformation.
+        public var knowledgeBaseConfiguration: BedrockAgentRuntimeClientTypes.TextToSqlKnowledgeBaseConfiguration?
+        /// The type of resource to use in transformation.
+        /// This member is required.
+        public var type: BedrockAgentRuntimeClientTypes.TextToSqlConfigurationType?
+
+        public init(
+            knowledgeBaseConfiguration: BedrockAgentRuntimeClientTypes.TextToSqlKnowledgeBaseConfiguration? = nil,
+            type: BedrockAgentRuntimeClientTypes.TextToSqlConfigurationType? = nil
+        )
+        {
+            self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains configurations for transforming the natural language query into SQL.
+    public struct TransformationConfiguration: Swift.Sendable {
+        /// The mode of the transformation.
+        /// This member is required.
+        public var mode: BedrockAgentRuntimeClientTypes.QueryTransformationMode?
+        /// Specifies configurations for transforming text to SQL.
+        public var textToSqlConfiguration: BedrockAgentRuntimeClientTypes.TextToSqlConfiguration?
+
+        public init(
+            mode: BedrockAgentRuntimeClientTypes.QueryTransformationMode? = nil,
+            textToSqlConfiguration: BedrockAgentRuntimeClientTypes.TextToSqlConfiguration? = nil
+        )
+        {
+            self.mode = mode
+            self.textToSqlConfiguration = textToSqlConfiguration
+        }
+    }
+}
+
+public struct GenerateQueryInput: Swift.Sendable {
+    /// Specifies information about a natural language query to transform into SQL.
+    /// This member is required.
+    public var queryGenerationInput: BedrockAgentRuntimeClientTypes.QueryGenerationInput?
+    /// Specifies configurations for transforming the natural language query into SQL.
+    /// This member is required.
+    public var transformationConfiguration: BedrockAgentRuntimeClientTypes.TransformationConfiguration?
+
+    public init(
+        queryGenerationInput: BedrockAgentRuntimeClientTypes.QueryGenerationInput? = nil,
+        transformationConfiguration: BedrockAgentRuntimeClientTypes.TransformationConfiguration? = nil
+    )
+    {
+        self.queryGenerationInput = queryGenerationInput
+        self.transformationConfiguration = transformationConfiguration
+    }
+}
+
+extension GenerateQueryInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateQueryInput(transformationConfiguration: \(Swift.String(describing: transformationConfiguration)), queryGenerationInput: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum GeneratedQueryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case redshiftSql
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GeneratedQueryType] {
+            return [
+                .redshiftSql
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .redshiftSql: return "REDSHIFT_SQL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about a query generated for a natural language query.
+    public struct GeneratedQuery: Swift.Sendable {
+        /// An SQL query that corresponds to the natural language query.
+        public var sql: Swift.String?
+        /// The type of transformed query.
+        public var type: BedrockAgentRuntimeClientTypes.GeneratedQueryType?
+
+        public init(
+            sql: Swift.String? = nil,
+            type: BedrockAgentRuntimeClientTypes.GeneratedQueryType? = nil
+        )
+        {
+            self.sql = sql
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.GeneratedQuery: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+public struct GenerateQueryOutput: Swift.Sendable {
+    /// A list of objects, each of which defines a generated query that can correspond to the natural language queries.
+    public var queries: [BedrockAgentRuntimeClientTypes.GeneratedQuery]?
+
+    public init(
+        queries: [BedrockAgentRuntimeClientTypes.GeneratedQuery]? = nil
+    )
+    {
+        self.queries = queries
+    }
+}
+
+extension GenerateQueryOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateQueryOutput(queries: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// A content block.
     public enum ContentBlock: Swift.Sendable {
         /// The block's text.
@@ -2392,7 +2649,110 @@ extension BedrockAgentRuntimeClientTypes.GeneratedResponsePart: Swift.CustomDebu
 
 extension BedrockAgentRuntimeClientTypes {
 
-    /// Contains the cited text from the data source. This data type is used in the following API operations:
+    public enum RetrievalResultContentColumnType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blob
+        case boolean
+        case double
+        case long
+        case null
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetrievalResultContentColumnType] {
+            return [
+                .blob,
+                .boolean,
+                .double,
+                .long,
+                .null,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blob: return "BLOB"
+            case .boolean: return "BOOLEAN"
+            case .double: return "DOUBLE"
+            case .long: return "LONG"
+            case .null: return "NULL"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about a column with a cell to return in retrieval.
+    public struct RetrievalResultContentColumn: Swift.Sendable {
+        /// The name of the column.
+        public var columnName: Swift.String?
+        /// The value in the column.
+        public var columnValue: Swift.String?
+        /// The data type of the value.
+        public var type: BedrockAgentRuntimeClientTypes.RetrievalResultContentColumnType?
+
+        public init(
+            columnName: Swift.String? = nil,
+            columnValue: Swift.String? = nil,
+            type: BedrockAgentRuntimeClientTypes.RetrievalResultContentColumnType? = nil
+        )
+        {
+            self.columnName = columnName
+            self.columnValue = columnValue
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    public enum RetrievalResultContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case image
+        case row
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetrievalResultContentType] {
+            return [
+                .image,
+                .row,
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .image: return "IMAGE"
+            case .row: return "ROW"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Contains information about a chunk of text from a data source in the knowledge base. If the result is from a structured data source, the cell in the database and the type of the value is also identified. This data type is used in the following API operations:
     ///
     /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the content field
     ///
@@ -2400,15 +2760,26 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the content field
     public struct RetrievalResultContent: Swift.Sendable {
+        /// A data URI with base64-encoded content from the data source. The URI is in the following format: returned in the following format: data:image/jpeg;base64,${base64-encoded string}.
+        public var byteContent: Swift.String?
+        /// Specifies information about the rows with the cells to return in retrieval.
+        public var row: [BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn]?
         /// The cited text from the data source.
-        /// This member is required.
         public var text: Swift.String?
+        /// The type of content in the retrieval result.
+        public var type: BedrockAgentRuntimeClientTypes.RetrievalResultContentType?
 
         public init(
-            text: Swift.String? = nil
+            byteContent: Swift.String? = nil,
+            row: [BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn]? = nil,
+            text: Swift.String? = "",
+            type: BedrockAgentRuntimeClientTypes.RetrievalResultContentType? = nil
         )
         {
+            self.byteContent = byteContent
+            self.row = row
             self.text = text
+            self.type = type
         }
     }
 }
@@ -2447,6 +2818,22 @@ extension BedrockAgentRuntimeClientTypes {
         )
         {
             self.id = id
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The location of a result in Amazon Kendra.
+    public struct RetrievalResultKendraDocumentLocation: Swift.Sendable {
+        /// The document's uri.
+        public var uri: Swift.String?
+
+        public init(
+            uri: Swift.String? = nil
+        )
+        {
+            self.uri = uri
         }
     }
 }
@@ -2507,12 +2894,30 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// Contains information about the SQL query used to retrieve the result.
+    public struct RetrievalResultSqlLocation: Swift.Sendable {
+        /// The SQL query used to retrieve the result.
+        public var query: Swift.String?
+
+        public init(
+            query: Swift.String? = nil
+        )
+        {
+            self.query = query
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     public enum RetrievalResultLocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case confluence
         case custom
+        case kendra
         case s3
         case salesforce
         case sharepoint
+        case sql
         case web
         case sdkUnknown(Swift.String)
 
@@ -2520,9 +2925,11 @@ extension BedrockAgentRuntimeClientTypes {
             return [
                 .confluence,
                 .custom,
+                .kendra,
                 .s3,
                 .salesforce,
                 .sharepoint,
+                .sql,
                 .web
             ]
         }
@@ -2536,9 +2943,11 @@ extension BedrockAgentRuntimeClientTypes {
             switch self {
             case .confluence: return "CONFLUENCE"
             case .custom: return "CUSTOM"
+            case .kendra: return "KENDRA"
             case .s3: return "S3"
             case .salesforce: return "SALESFORCE"
             case .sharepoint: return "SHAREPOINT"
+            case .sql: return "SQL"
             case .web: return "WEB"
             case let .sdkUnknown(s): return s
             }
@@ -2570,18 +2979,22 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the location field
     ///
-    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the locatino field
+    /// * [InvokeAgent response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax) – in the location field
     public struct RetrievalResultLocation: Swift.Sendable {
         /// The Confluence data source location.
         public var confluenceLocation: BedrockAgentRuntimeClientTypes.RetrievalResultConfluenceLocation?
         /// Specifies the location of a document in a custom data source.
         public var customDocumentLocation: BedrockAgentRuntimeClientTypes.RetrievalResultCustomDocumentLocation?
+        /// The location of a document in Amazon Kendra.
+        public var kendraDocumentLocation: BedrockAgentRuntimeClientTypes.RetrievalResultKendraDocumentLocation?
         /// The S3 data source location.
         public var s3Location: BedrockAgentRuntimeClientTypes.RetrievalResultS3Location?
         /// The Salesforce data source location.
         public var salesforceLocation: BedrockAgentRuntimeClientTypes.RetrievalResultSalesforceLocation?
         /// The SharePoint data source location.
         public var sharePointLocation: BedrockAgentRuntimeClientTypes.RetrievalResultSharePointLocation?
+        /// Specifies information about the SQL query used to retrieve the result.
+        public var sqlLocation: BedrockAgentRuntimeClientTypes.RetrievalResultSqlLocation?
         /// The type of data source location.
         /// This member is required.
         public var type: BedrockAgentRuntimeClientTypes.RetrievalResultLocationType?
@@ -2591,18 +3004,22 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             confluenceLocation: BedrockAgentRuntimeClientTypes.RetrievalResultConfluenceLocation? = nil,
             customDocumentLocation: BedrockAgentRuntimeClientTypes.RetrievalResultCustomDocumentLocation? = nil,
+            kendraDocumentLocation: BedrockAgentRuntimeClientTypes.RetrievalResultKendraDocumentLocation? = nil,
             s3Location: BedrockAgentRuntimeClientTypes.RetrievalResultS3Location? = nil,
             salesforceLocation: BedrockAgentRuntimeClientTypes.RetrievalResultSalesforceLocation? = nil,
             sharePointLocation: BedrockAgentRuntimeClientTypes.RetrievalResultSharePointLocation? = nil,
+            sqlLocation: BedrockAgentRuntimeClientTypes.RetrievalResultSqlLocation? = nil,
             type: BedrockAgentRuntimeClientTypes.RetrievalResultLocationType? = nil,
             webLocation: BedrockAgentRuntimeClientTypes.RetrievalResultWebLocation? = nil
         )
         {
             self.confluenceLocation = confluenceLocation
             self.customDocumentLocation = customDocumentLocation
+            self.kendraDocumentLocation = kendraDocumentLocation
             self.s3Location = s3Location
             self.salesforceLocation = salesforceLocation
             self.sharePointLocation = sharePointLocation
+            self.sqlLocation = sqlLocation
             self.type = type
             self.webLocation = webLocation
         }
@@ -6097,7 +6514,7 @@ extension BedrockAgentRuntimeClientTypes {
     ///
     /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the retrievalResults field
     public struct KnowledgeBaseRetrievalResult: Swift.Sendable {
-        /// Contains a chunk of text from a data source in the knowledge base.
+        /// Contains information about the content of the chunk.
         /// This member is required.
         public var content: BedrockAgentRuntimeClientTypes.RetrievalResultContent?
         /// Contains information about the location of the data source.
@@ -6659,6 +7076,13 @@ extension DeleteAgentMemoryInput {
     }
 }
 
+extension GenerateQueryInput {
+
+    static func urlPathProvider(_ value: GenerateQueryInput) -> Swift.String? {
+        return "/generateQuery"
+    }
+}
+
 extension GetAgentMemoryInput {
 
     static func urlPathProvider(_ value: GetAgentMemoryInput) -> Swift.String? {
@@ -6788,6 +7212,15 @@ extension RetrieveAndGenerateStreamInput {
     }
 }
 
+extension GenerateQueryInput {
+
+    static func write(value: GenerateQueryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["queryGenerationInput"].write(value.queryGenerationInput, with: BedrockAgentRuntimeClientTypes.QueryGenerationInput.write(value:to:))
+        try writer["transformationConfiguration"].write(value.transformationConfiguration, with: BedrockAgentRuntimeClientTypes.TransformationConfiguration.write(value:to:))
+    }
+}
+
 extension InvokeAgentInput {
 
     static func write(value: InvokeAgentInput?, to writer: SmithyJSON.Writer) throws {
@@ -6886,6 +7319,18 @@ extension DeleteAgentMemoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAgentMemoryOutput {
         return DeleteAgentMemoryOutput()
+    }
+}
+
+extension GenerateQueryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateQueryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GenerateQueryOutput()
+        value.queries = try reader["queries"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.GeneratedQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -7028,6 +7473,28 @@ extension RetrieveAndGenerateStreamOutput {
 }
 
 enum DeleteAgentMemoryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DependencyFailedException": return try DependencyFailedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GenerateQueryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7682,6 +8149,17 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateStreamResponseOutput
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.GeneratedQuery {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.GeneratedQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.GeneratedQuery()
+        value.type = try reader["type"].readIfPresent()
+        value.sql = try reader["sql"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes.Memory {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.Memory {
@@ -8215,6 +8693,28 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultLocation {
         value.salesforceLocation = try reader["salesforceLocation"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RetrievalResultSalesforceLocation.read(from:))
         value.sharePointLocation = try reader["sharePointLocation"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RetrievalResultSharePointLocation.read(from:))
         value.customDocumentLocation = try reader["customDocumentLocation"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RetrievalResultCustomDocumentLocation.read(from:))
+        value.kendraDocumentLocation = try reader["kendraDocumentLocation"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RetrievalResultKendraDocumentLocation.read(from:))
+        value.sqlLocation = try reader["sqlLocation"].readIfPresent(with: BedrockAgentRuntimeClientTypes.RetrievalResultSqlLocation.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.RetrievalResultSqlLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.RetrievalResultSqlLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.RetrievalResultSqlLocation()
+        value.query = try reader["query"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.RetrievalResultKendraDocumentLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.RetrievalResultKendraDocumentLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.RetrievalResultKendraDocumentLocation()
+        value.uri = try reader["uri"].readIfPresent()
         return value
     }
 }
@@ -8284,7 +8784,22 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultContent {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.RetrievalResultContent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.RetrievalResultContent()
+        value.type = try reader["type"].readIfPresent()
         value.text = try reader["text"].readIfPresent() ?? ""
+        value.byteContent = try reader["byteContent"].readIfPresent()
+        value.row = try reader["row"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.RetrievalResultContentColumn()
+        value.columnName = try reader["columnName"].readIfPresent()
+        value.columnValue = try reader["columnValue"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -9195,6 +9710,41 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutputEvent {
         var value = BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutputEvent()
         value.text = try reader["text"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.QueryGenerationInput {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.QueryGenerationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["text"].write(value.text)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.TransformationConfiguration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.TransformationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
+        try writer["textToSqlConfiguration"].write(value.textToSqlConfiguration, with: BedrockAgentRuntimeClientTypes.TextToSqlConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.TextToSqlConfiguration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.TextToSqlConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["knowledgeBaseConfiguration"].write(value.knowledgeBaseConfiguration, with: BedrockAgentRuntimeClientTypes.TextToSqlKnowledgeBaseConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.TextToSqlKnowledgeBaseConfiguration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.TextToSqlKnowledgeBaseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["knowledgeBaseArn"].write(value.knowledgeBaseArn)
     }
 }
 
