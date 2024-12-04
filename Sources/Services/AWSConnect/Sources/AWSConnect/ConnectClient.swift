@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.0.48"
+    public static let version = "1.0.53"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -1897,7 +1897,7 @@ extension ConnectClient {
 
     /// Performs the `CreateContact` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Creates a new contact.
     ///
     /// - Parameter CreateContactInput : [no documentation found]
     ///
@@ -2205,7 +2205,7 @@ extension ConnectClient {
 
     /// Performs the `CreateEmailAddress` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Create new email address in the specified Amazon Connect instance. For more information about email addresses, see [Create email addresses](https://docs.aws.amazon.com/connect/latest/adminguide/create-email-address1.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter CreateEmailAddressInput : [no documentation found]
     ///
@@ -4218,7 +4218,7 @@ extension ConnectClient {
 
     /// Performs the `DeleteEmailAddress` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Deletes email address from the specified Amazon Connect instance.
     ///
     /// - Parameter DeleteEmailAddressInput : [no documentation found]
     ///
@@ -5923,7 +5923,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeContactFlow` operation on the `AmazonConnectService` service.
     ///
-    /// Describes the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. Once a contact flow is published, $SAVED needs to be supplied to view saved content that has not been published. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
+    /// Describes the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
     ///
     /// - Parameter DescribeContactFlowInput : [no documentation found]
     ///
@@ -5994,7 +5994,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeContactFlowModule` operation on the `AmazonConnectService` service.
     ///
-    /// Describes the specified flow module. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. Once a contact flow is published, $SAVED needs to be supplied to view saved content that has not been published.
+    /// Describes the specified flow module. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
     /// - Parameter DescribeContactFlowModuleInput : [no documentation found]
     ///
@@ -6065,7 +6065,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeEmailAddress` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Describe email address form the specified Amazon Connect instance.
     ///
     /// - Parameter DescribeEmailAddressInput : [no documentation found]
     ///
@@ -6485,7 +6485,7 @@ extension ConnectClient {
 
     /// Performs the `DescribePhoneNumber` operation on the `AmazonConnectService` service.
     ///
-    /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group. If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group. If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you receive a ResourceNotFoundException.
     ///
     /// - Parameter DescribePhoneNumberInput : [no documentation found]
     ///
@@ -9256,7 +9256,7 @@ extension ConnectClient {
 
     /// Performs the `ImportPhoneNumber` operation on the `AmazonConnectService` service.
     ///
-    /// Imports a claimed phone number from an external service, such as Amazon Pinpoint, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
+    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
     ///
     /// - Parameter ImportPhoneNumberInput : [no documentation found]
     ///
@@ -9544,7 +9544,7 @@ extension ConnectClient {
 
     /// Performs the `ListAssociatedContacts` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Provides information about contact tree, a list of associated contacts with a unique identifier.
     ///
     /// - Parameter ListAssociatedContactsInput : [no documentation found]
     ///
@@ -11408,7 +11408,7 @@ extension ConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `OutputTypeNotFoundException` : Thrown for analyzed content when requested OutputType was not enabled for a given contact. For example, if an OutputType.Raw was requested for a contact that had RedactedOnly Redaction policy set in Contact flow.
+    /// - `OutputTypeNotFoundException` : Thrown for analyzed content when requested OutputType was not enabled for a given contact. For example, if an OutputType.Raw was requested for a contact that had RedactedOnly Redaction policy set in the flow.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func listRealtimeContactAnalysisSegmentsV2(input: ListRealtimeContactAnalysisSegmentsV2Input) async throws -> ListRealtimeContactAnalysisSegmentsV2Output {
@@ -13417,7 +13417,7 @@ extension ConnectClient {
 
     /// Performs the `SearchContactFlows` operation on the `AmazonConnectService` service.
     ///
-    /// Searches the contact flows in an Amazon Connect instance, with optional filtering.
+    /// Searches the flows in an Amazon Connect instance, with optional filtering.
     ///
     /// - Parameter SearchContactFlowsInput : [no documentation found]
     ///
@@ -13563,7 +13563,7 @@ extension ConnectClient {
 
     /// Performs the `SearchEmailAddresses` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Searches email address in an instance, with optional filtering.
     ///
     /// - Parameter SearchEmailAddressesInput : [no documentation found]
     ///
@@ -14447,7 +14447,7 @@ extension ConnectClient {
     /// * ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat
     ///
     ///
-    /// When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created before handling chat action. Access to this API is currently restricted to Amazon Pinpoint for supporting SMS integration.
+    /// When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created before handling chat action. Access to this API is currently restricted to Amazon Web Services End User Messaging for supporting SMS integration.
     ///
     /// - Parameter SendChatIntegrationEventInput : [no documentation found]
     ///
@@ -14520,7 +14520,7 @@ extension ConnectClient {
 
     /// Performs the `SendOutboundEmail` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Send outbound email for outbound campaigns. For more information about outbound campaigns, see [Set up Amazon Connect outbound campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/enable-outbound-campaigns.html). Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API.
     ///
     /// - Parameter SendOutboundEmailInput : [no documentation found]
     ///
@@ -14596,7 +14596,7 @@ extension ConnectClient {
 
     /// Performs the `StartAttachedFileUpload` operation on the `AmazonConnectService` service.
     ///
-    /// Provides a pre-signed Amazon S3 URL in response for uploading your content. You may only use this API to upload attachments to an [Amazon Connect Case](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html).
+    /// Provides a pre-signed Amazon S3 URL in response for uploading your content. You may only use this API to upload attachments to an [Amazon Connect Case](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) or [Amazon Connect Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html).
     ///
     /// - Parameter StartAttachedFileUploadInput : [no documentation found]
     ///
@@ -14989,7 +14989,7 @@ extension ConnectClient {
 
     /// Performs the `StartEmailContact` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of this API provides the ContactId of the email contact created.
     ///
     /// - Parameter StartEmailContactInput : [no documentation found]
     ///
@@ -15065,7 +15065,7 @@ extension ConnectClient {
 
     /// Performs the `StartOutboundChatContact` operation on the `AmazonConnectService` service.
     ///
-    /// Initiates a new outbound SMS contact to a customer. Response of this API provides the ContactId of the outbound SMS contact created. SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new SMS contact created. This API can be used to initiate outbound SMS contacts for an agent or it can also deflect an ongoing contact to an outbound SMS contact by using the [StartOutboundChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartOutboundChatContact.html) Flow Action. For more information about using SMS in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:
+    /// Initiates a new outbound SMS contact to a customer. Response of this API provides the ContactId of the outbound SMS contact created. SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new SMS contact created. This API can be used to initiate outbound SMS contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS contact by using the [StartOutboundChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartOutboundChatContact.html) Flow Action. For more information about using SMS in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:
     ///
     /// * [Set up SMS messaging](https://docs.aws.amazon.com/connect/latest/adminguide/setup-sms-messaging.html)
     ///
@@ -15145,7 +15145,7 @@ extension ConnectClient {
 
     /// Performs the `StartOutboundEmailContact` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Initiates a flow to send an agent reply or outbound email contact (created from the CreateContact API) to a customer.
     ///
     /// - Parameter StartOutboundEmailContactInput : [no documentation found]
     ///
@@ -15990,7 +15990,7 @@ extension ConnectClient {
 
     /// Performs the `TagResource` operation on the `AmazonConnectService` service.
     ///
-    /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, contact flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see [Tagging resources in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html). For sample policies that use tags, see [Amazon Connect Identity-Based Policy Examples](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html) in the Amazon Connect Administrator Guide.
+    /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see [Tagging resources in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html). For sample policies that use tags, see [Amazon Connect Identity-Based Policy Examples](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -16448,6 +16448,8 @@ extension ConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
@@ -16657,7 +16659,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateContactFlowContent` operation on the `AmazonConnectService` service.
     ///
-    /// Updates the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. Once a contact flow is published, $SAVED needs to be supplied to view saved content that has not been published.
+    /// Updates the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
     /// - Parameter UpdateContactFlowContentInput : [no documentation found]
     ///
@@ -16805,7 +16807,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateContactFlowModuleContent` operation on the `AmazonConnectService` service.
     ///
-    /// Updates specified flow module for the specified Amazon Connect instance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. Once a contact flow is published, $SAVED needs to be supplied to view saved content that has not been published.
+    /// Updates specified flow module for the specified Amazon Connect instance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
     /// - Parameter UpdateContactFlowModuleContentInput : [no documentation found]
     ///
@@ -17176,7 +17178,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateEmailAddressMetadata` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Updates an email address metadata. For more information about email addresses, see [Create email addresses](https://docs.aws.amazon.com/connect/latest/adminguide/create-email-address1.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter UpdateEmailAddressMetadataInput : [no documentation found]
     ///
@@ -18230,7 +18232,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueOutboundEmailConfig` operation on the `AmazonConnectService` service.
     ///
-    ///
+    /// Updates the outbound email address Id for a specified queue.
     ///
     /// - Parameter UpdateQueueOutboundEmailConfigInput : [no documentation found]
     ///
@@ -18240,7 +18242,7 @@ extension ConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
-    /// - `ConditionalOperationFailedException` :
+    /// - `ConditionalOperationFailedException` : A conditional check failed.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.

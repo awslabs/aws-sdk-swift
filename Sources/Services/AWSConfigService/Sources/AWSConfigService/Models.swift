@@ -2044,6 +2044,547 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes {
 
+    public enum AggregatorFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AggregatorFilterType] {
+            return [
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// An object to filter the configuration recorders based on the resource types in scope for recording.
+    public struct AggregatorFilterResourceType: Swift.Sendable {
+        /// The type of resource type filter to apply. INCLUDE specifies that the list of resource types in the Value field will be aggregated and no other resource types will be filtered.
+        public var type: ConfigClientTypes.AggregatorFilterType?
+        /// Comma-separate list of resource types to filter your aggregated configuration recorders.
+        public var value: [Swift.String]?
+
+        public init(
+            type: ConfigClientTypes.AggregatorFilterType? = nil,
+            value: [Swift.String]? = nil
+        )
+        {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// An object to filter service-linked configuration recorders in an aggregator based on the linked Amazon Web Services service.
+    public struct AggregatorFilterServicePrincipal: Swift.Sendable {
+        /// The type of service principal filter to apply. INCLUDE specifies that the list of service principals in the Value field will be aggregated and no other service principals will be filtered.
+        public var type: ConfigClientTypes.AggregatorFilterType?
+        /// Comma-separated list of service principals for the linked Amazon Web Services services to filter your aggregated service-linked configuration recorders.
+        public var value: [Swift.String]?
+
+        public init(
+            type: ConfigClientTypes.AggregatorFilterType? = nil,
+            value: [Swift.String]? = nil
+        )
+        {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// An object to filter the data you specify for an aggregator.
+    public struct AggregatorFilters: Swift.Sendable {
+        /// An object to filter the configuration recorders based on the resource types in scope for recording.
+        public var resourceType: ConfigClientTypes.AggregatorFilterResourceType?
+        /// An object to filter service-linked configuration recorders in an aggregator based on the linked Amazon Web Services service.
+        public var servicePrincipal: ConfigClientTypes.AggregatorFilterServicePrincipal?
+
+        public init(
+            resourceType: ConfigClientTypes.AggregatorFilterResourceType? = nil,
+            servicePrincipal: ConfigClientTypes.AggregatorFilterServicePrincipal? = nil
+        )
+        {
+            self.resourceType = resourceType
+            self.servicePrincipal = servicePrincipal
+        }
+    }
+}
+
+/// For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), you cannot create a service-linked recorder because a service-linked recorder already exists for the specified service. For [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html), you cannot delete the service-linked recorder because it is currently in use by the linked Amazon Web Services service. For [DeleteDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteDeliveryChannel.html), you cannot delete the specified delivery channel because the customer managed configuration recorder is running. Use the [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html) operation to stop the customer managed configuration recorder. For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+///
+/// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
+///
+/// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// You have specified a configuration recorder that does not exist.
+public struct NoSuchConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoSuchConfigurationRecorderException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The requested operation is not valid. You will see this exception if there are missing required fields or if the input value fails the validation. For [PutStoredQuery](https://docs.aws.amazon.com/config/latest/APIReference/API_PutStoredQuery.html), one of the following errors:
+///
+/// * There are missing required fields.
+///
+/// * The input value fails the validation.
+///
+/// * You are trying to create more than 300 queries.
+///
+///
+/// For [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) and [DescribeConfigurationRecorderStatus](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorderStatus.html), one of the following errors:
+///
+/// * You have specified more than one configuration recorder.
+///
+/// * You have provided a service principal for service-linked configuration recorder that is not valid.
+///
+///
+/// For [AssociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_AssociateResourceTypes.html) and [DisassociateResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_DisassociateResourceTypes.html), one of the following errors:
+///
+/// * Your configuraiton recorder has a recording strategy that does not allow the association or disassociation of resource types.
+///
+/// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
+///
+/// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Error executing the command
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct AssociateResourceTypesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+    /// This member is required.
+    public var configurationRecorderArn: Swift.String?
+    /// The list of resource types you want to add to the recording group of the specified configuration recorder.
+    /// This member is required.
+    public var resourceTypes: [ConfigClientTypes.ResourceType]?
+
+    public init(
+        configurationRecorderArn: Swift.String? = nil,
+        resourceTypes: [ConfigClientTypes.ResourceType]? = nil
+    )
+    {
+        self.configurationRecorderArn = configurationRecorderArn
+        self.resourceTypes = resourceTypes
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// Specifies whether the configuration recorder excludes certain resource types from being recorded. Use the resourceTypes field to enter a comma-separated list of resource types you want to exclude from recording. By default, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. How to use the exclusion recording strategy To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES. Config will then record configuration changes for all supported resource types, except the resource types that you specify to exclude from being recorded. Global resource types and the exclusion recording strategy Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. For a list of those Regions, see [Recording Amazon Web Services Resources | Global Resources](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all).
+    public struct ExclusionByResourceTypes: Swift.Sendable {
+        /// A comma-separated list of resource types to exclude from recording by the configuration recorder.
+        public var resourceTypes: [ConfigClientTypes.ResourceType]?
+
+        public init(
+            resourceTypes: [ConfigClientTypes.ResourceType]? = nil
+        )
+        {
+            self.resourceTypes = resourceTypes
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    public enum RecordingStrategyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allSupportedResourceTypes
+        case exclusionByResourceTypes
+        case inclusionByResourceTypes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordingStrategyType] {
+            return [
+                .allSupportedResourceTypes,
+                .exclusionByResourceTypes,
+                .inclusionByResourceTypes
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allSupportedResourceTypes: return "ALL_SUPPORTED_RESOURCE_TYPES"
+            case .exclusionByResourceTypes: return "EXCLUSION_BY_RESOURCE_TYPES"
+            case .inclusionByResourceTypes: return "INCLUSION_BY_RESOURCE_TYPES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// Specifies the recording strategy of the configuration recorder.
+    public struct RecordingStrategy: Swift.Sendable {
+        /// The recording strategy for the configuration recorder.
+        ///
+        /// * If you set this option to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported resource types, excluding the global IAM resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new resource type, Config automatically starts recording resources of that type. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide.
+        ///
+        /// * If you set this option to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types that you specify in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
+        ///
+        /// * If you set this option to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types, except the resource types that you specify to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
+        ///
+        ///
+        /// Required and optional fields The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Overriding fields If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global IAM resource types will still be automatically recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes. Global resource types and the exclusion recording strategy By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:
+        ///
+        /// * Asia Pacific (Hyderabad)
+        ///
+        /// * Asia Pacific (Melbourne)
+        ///
+        /// * Canada West (Calgary)
+        ///
+        /// * Europe (Spain)
+        ///
+        /// * Europe (Zurich)
+        ///
+        /// * Israel (Tel Aviv)
+        ///
+        /// * Middle East (UAE)
+        public var useOnly: ConfigClientTypes.RecordingStrategyType?
+
+        public init(
+            useOnly: ConfigClientTypes.RecordingStrategyType? = nil
+        )
+        {
+            self.useOnly = useOnly
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// Specifies which resource types Config records for configuration changes. By default, Config records configuration changes for all current and future supported resource types in the Amazon Web Services Region where you have enabled Config, excluding the global IAM resource types: IAM users, groups, roles, and customer managed policies. In the recording group, you specify whether you want to record all supported current and future supported resource types or to include or exclude specific resources types. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. If you don't want Config to record all current and future supported resource types (excluding the global IAM resource types), use one of the following recording strategies:
+    ///
+    /// * Record all current and future resource types with exclusions (EXCLUSION_BY_RESOURCE_TYPES), or
+    ///
+    /// * Record specific resource types (INCLUSION_BY_RESOURCE_TYPES).
+    ///
+    ///
+    /// If you use the recording strategy to Record all current and future resource types (ALL_SUPPORTED_RESOURCE_TYPES), you can use the flag includeGlobalResourceTypes to include the global IAM resource types in your recording. Aurora global clusters are recorded in all enabled Regions The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use the EXCLUSION_BY_RESOURCE_TYPES or INCLUSION_BY_RESOURCE_TYPES recording strategy.
+    public struct RecordingGroup: Swift.Sendable {
+        /// Specifies whether Config records configuration changes for all supported resource types, excluding the global IAM resource types. If you set this field to true, when Config adds support for a new resource type, Config starts recording resources of that type automatically. If you set this field to true, you cannot enumerate specific resource types to record in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), or to exclude in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Region availability Check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if a resource type is supported in the Amazon Web Services Region where you set up Config.
+        public var allSupported: Swift.Bool
+        /// An object that specifies how Config excludes resource types from being recorded by the configuration recorder. Required fields To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES.
+        public var exclusionByResourceTypes: ConfigClientTypes.ExclusionByResourceTypes?
+        /// This option is a bundle which only applies to the global IAM resource types: IAM users, groups, roles, and customer managed policies. These global IAM resource types can only be recorded by Config in Regions where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. For a list of those Regions, see [Recording Amazon Web Services Resources | Global Resources](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all). Aurora global clusters are recorded in all enabled Regions The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled, even if includeGlobalResourceTypes is setfalse. The includeGlobalResourceTypes option is a bundle which only applies to IAM users, groups, roles, and customer managed policies. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use one of the following recording strategies:
+        ///
+        /// * Record all current and future resource types with exclusions (EXCLUSION_BY_RESOURCE_TYPES), or
+        ///
+        /// * Record specific resource types (INCLUSION_BY_RESOURCE_TYPES).
+        ///
+        ///
+        /// For more information, see [Selecting Which Resources are Recorded](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all) in the Config developer guide. includeGlobalResourceTypes and the exclusion recording strategy The includeGlobalResourceTypes field has no impact on the EXCLUSION_BY_RESOURCE_TYPES recording strategy. This means that the global IAM resource types (IAM users, groups, roles, and customer managed policies) will not be automatically added as exclusions for exclusionByResourceTypes when includeGlobalResourceTypes is set to false. The includeGlobalResourceTypes field should only be used to modify the AllSupported field, as the default for the AllSupported field is to record configuration changes for all supported resource types excluding the global IAM resource types. To include the global IAM resource types when AllSupported is set to true, make sure to set includeGlobalResourceTypes to true. To exclude the global IAM resource types for the EXCLUSION_BY_RESOURCE_TYPES recording strategy, you need to manually add them to the resourceTypes field of exclusionByResourceTypes. Required and optional fields Before you set this field to true, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES. Overriding fields If you set this field to false but list global IAM resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to the global IAM resource types (IAM users, groups, roles, and customer managed policies), make sure to not list them in the resourceTypes field in addition to setting the includeGlobalResourceTypes field to false.
+        public var includeGlobalResourceTypes: Swift.Bool
+        /// An object that specifies the recording strategy for the configuration recorder.
+        ///
+        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported resource types, excluding the global IAM resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new resource type, Config automatically starts recording resources of that type.
+        ///
+        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types you specify in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
+        ///
+        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types except the resource types that you specify to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
+        ///
+        ///
+        /// Required and optional fields The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Overriding fields If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global IAM resource types will still be automatically recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes. Global resources types and the resource exclusion recording strategy By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. For a list of those Regions, see [Recording Amazon Web Services Resources | Global Resources](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all).
+        public var recordingStrategy: ConfigClientTypes.RecordingStrategy?
+        /// A comma-separated list that specifies which resource types Config records. For a list of valid resourceTypes values, see the Resource Type Value column in [Supported Amazon Web Services resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. Required and optional fields Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES. To record all configuration changes, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true, and either omit this field or don't specify any resource types in this field. If you set the allSupported field to false and specify values for resourceTypes, when Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. Region availability Before specifying a resource type for Config to track, check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if the resource type is supported in the Amazon Web Services Region where you set up Config. If a resource type is supported by Config in at least one Region, you can enable the recording of that resource type in all Regions supported by Config, even if the specified resource type is not supported in the Amazon Web Services Region where you set up Config.
+        public var resourceTypes: [ConfigClientTypes.ResourceType]?
+
+        public init(
+            allSupported: Swift.Bool = false,
+            exclusionByResourceTypes: ConfigClientTypes.ExclusionByResourceTypes? = nil,
+            includeGlobalResourceTypes: Swift.Bool = false,
+            recordingStrategy: ConfigClientTypes.RecordingStrategy? = nil,
+            resourceTypes: [ConfigClientTypes.ResourceType]? = nil
+        )
+        {
+            self.allSupported = allSupported
+            self.exclusionByResourceTypes = exclusionByResourceTypes
+            self.includeGlobalResourceTypes = includeGlobalResourceTypes
+            self.recordingStrategy = recordingStrategy
+            self.resourceTypes = resourceTypes
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    public enum RecordingFrequency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case continuous
+        case daily
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordingFrequency] {
+            return [
+                .continuous,
+                .daily
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .continuous: return "CONTINUOUS"
+            case .daily: return "DAILY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// An object for you to specify your overrides for the recording mode.
+    public struct RecordingModeOverride: Swift.Sendable {
+        /// A description that you provide for the override.
+        public var description: Swift.String?
+        /// The recording frequency that will be applied to all the resource types specified in the override.
+        ///
+        /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
+        ///
+        /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
+        ///
+        ///
+        /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous.
+        /// This member is required.
+        public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
+        /// A comma-separated list that specifies which resource types Config includes in the override. Daily recording cannot be specified for the following resource types:
+        ///
+        /// * AWS::Config::ResourceCompliance
+        ///
+        /// * AWS::Config::ConformancePackCompliance
+        ///
+        /// * AWS::Config::ConfigurationRecorder
+        /// This member is required.
+        public var resourceTypes: [ConfigClientTypes.ResourceType]?
+
+        public init(
+            description: Swift.String? = nil,
+            recordingFrequency: ConfigClientTypes.RecordingFrequency? = nil,
+            resourceTypes: [ConfigClientTypes.ResourceType]? = nil
+        )
+        {
+            self.description = description
+            self.recordingFrequency = recordingFrequency
+            self.resourceTypes = resourceTypes
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// Specifies the default recording frequency that Config uses to record configuration changes. Config supports Continuous recording and Daily recording.
+    ///
+    /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
+    ///
+    /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
+    ///
+    ///
+    /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
+    public struct RecordingMode: Swift.Sendable {
+        /// The default recording frequency that Config uses to record configuration changes. Daily recording cannot be specified for the following resource types:
+        ///
+        /// * AWS::Config::ResourceCompliance
+        ///
+        /// * AWS::Config::ConformancePackCompliance
+        ///
+        /// * AWS::Config::ConfigurationRecorder
+        ///
+        ///
+        /// For the allSupported (ALL_SUPPORTED_RESOURCE_TYPES) recording strategy, these resource types will be set to Continuous recording.
+        /// This member is required.
+        public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
+        /// An array of recordingModeOverride objects for you to specify your overrides for the recording mode. The recordingModeOverride object in the recordingModeOverrides array consists of three fields: a description, the new recordingFrequency, and an array of resourceTypes to override.
+        public var recordingModeOverrides: [ConfigClientTypes.RecordingModeOverride]?
+
+        public init(
+            recordingFrequency: ConfigClientTypes.RecordingFrequency? = nil,
+            recordingModeOverrides: [ConfigClientTypes.RecordingModeOverride]? = nil
+        )
+        {
+            self.recordingFrequency = recordingFrequency
+            self.recordingModeOverrides = recordingModeOverrides
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    public enum RecordingScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `internal`
+        case paid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordingScope] {
+            return [
+                .internal,
+                .paid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internal: return "INTERNAL"
+            case .paid: return "PAID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// Records configuration changes to the resource types in scope. For more information about the configuration recorder, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide.
+    public struct ConfigurationRecorder: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+        public var arn: Swift.String?
+        /// The name of the configuration recorder. For customer managed configuration recorders, Config automatically assigns the name of "default" when creating a configuration recorder if you do not specify a name at creation time. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWS" to a new service-linked configuration recorder. Changing the name of a configuration recorder To change the name of the customer managed configuration recorder, you must delete it and create a new customer managed configuration recorder with a new name. You cannot change the name of a service-linked configuration recorder.
+        public var name: Swift.String?
+        /// Specifies which resource types are in scope for the configuration recorder to record. High Number of Config Evaluations You might notice increased activity in your account during your initial month recording with Config when compared to subsequent months. During the initial bootstrapping process, Config runs evaluations on all the resources in your account that you have selected for Config to record. If you are running ephemeral workloads, you may see increased activity from Config as it records configuration changes associated with creating and deleting these temporary resources. An ephemeral workload is a temporary use of computing resources that are loaded and run when needed. Examples include Amazon Elastic Compute Cloud (Amazon EC2) Spot Instances, Amazon EMR jobs, and Auto Scaling. If you want to avoid the increased activity from running ephemeral workloads, you can set up the configuration recorder to exclude these resource types from being recorded, or run these types of workloads in a separate account with Config turned off to avoid increased configuration recording and rule evaluations.
+        public var recordingGroup: ConfigClientTypes.RecordingGroup?
+        /// Specifies the default recording frequency for the configuration recorder. Config supports Continuous recording and Daily recording.
+        ///
+        /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
+        ///
+        /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
+        ///
+        ///
+        /// Some resource types require continuous recording Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
+        public var recordingMode: ConfigClientTypes.RecordingMode?
+        /// Specifies whether the [ConfigurationItems](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html) in scope for the specified configuration recorder are recorded for free (INTERNAL) or if it impacts the costs to your bill (PAID).
+        public var recordingScope: ConfigClientTypes.RecordingScope?
+        /// The Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the specified configuration recorder. The server will reject a request without a defined roleARN for the configuration recorder While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder. Policies and compliance results [IAM policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) and [other policies managed in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html) can impact whether Config has permissions to record configuration changes for your resources. Additionally, rules directly evaluate the configuration of a resource and rules don't take into account these policies when running evaluations. Make sure that the policies in effect align with how you intend to use Config. Keep Minimum Permisions When Reusing an IAM role If you use an Amazon Web Services service that uses Config, such as Security Hub or Control Tower, and an IAM role has already been created, make sure that the IAM role that you use when setting up Config keeps the same minimum permissions as the pre-existing IAM role. You must do this to ensure that the other Amazon Web Services service continues to run as expected. For example, if Control Tower has an IAM role that allows Config to read S3 objects, make sure that the same permissions are granted to the IAM role you use when setting up Config. Otherwise, it may interfere with how Control Tower operates. The service-linked IAM role for Config must be used for service-linked configuration recorders For service-linked configuration recorders, you must use the service-linked IAM role for Config: [AWSServiceRoleForConfig](https://docs.aws.amazon.com/config/latest/developerguide/using-service-linked-roles.html).
+        public var roleARN: Swift.String?
+        /// For service-linked configuration recorders, specifies the linked Amazon Web Services service for the configuration recorder.
+        public var servicePrincipal: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            recordingGroup: ConfigClientTypes.RecordingGroup? = nil,
+            recordingMode: ConfigClientTypes.RecordingMode? = nil,
+            recordingScope: ConfigClientTypes.RecordingScope? = nil,
+            roleARN: Swift.String? = nil,
+            servicePrincipal: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+            self.recordingGroup = recordingGroup
+            self.recordingMode = recordingMode
+            self.recordingScope = recordingScope
+            self.roleARN = roleARN
+            self.servicePrincipal = servicePrincipal
+        }
+    }
+}
+
+public struct AssociateResourceTypesOutput: Swift.Sendable {
+    /// Records configuration changes to the resource types in scope. For more information about the configuration recorder, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide.
+    /// This member is required.
+    public var configurationRecorder: ConfigClientTypes.ConfigurationRecorder?
+
+    public init(
+        configurationRecorder: ConfigClientTypes.ConfigurationRecorder? = nil
+    )
+    {
+        self.configurationRecorder = configurationRecorder
+    }
+}
+
+extension ConfigClientTypes {
+
     public enum ConfigurationItemStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ok
         case resourcedeleted
@@ -2074,35 +2615,6 @@ extension ConfigClientTypes {
             case .resourcedeletednotrecorded: return "ResourceDeletedNotRecorded"
             case .resourcediscovered: return "ResourceDiscovered"
             case .resourcenotrecorded: return "ResourceNotRecorded"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ConfigClientTypes {
-
-    public enum RecordingFrequency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case continuous
-        case daily
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RecordingFrequency] {
-            return [
-                .continuous,
-                .daily
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .continuous: return "CONTINUOUS"
-            case .daily: return "DAILY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2220,31 +2732,6 @@ public struct NoSuchConfigurationAggregatorException: ClientRuntime.ModeledError
     }
 }
 
-/// The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// Error executing the command
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 public struct BatchGetAggregateResourceConfigInput: Swift.Sendable {
     /// The name of the configuration aggregator.
     /// This member is required.
@@ -2279,7 +2766,7 @@ public struct BatchGetAggregateResourceConfigOutput: Swift.Sendable {
     }
 }
 
-/// There are no configuration recorders available to provide the role needed to describe your resources. Create a configuration recorder.
+/// There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
 public struct NoAvailableConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2959,7 +3446,7 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes {
 
-    /// Status information for your Config Managed rules and Config Custom Policy rules. The status includes information such as the last time the rule ran, the last time it failed, and the related error for the last failure. This action does not return status information about Config Custom Lambda rules.
+    /// Status information for your Config Managed rules and Config Custom Policy rules. The status includes information such as the last time the rule ran, the last time it failed, and the related error for the last failure. This operation does not return status information about Config Custom Lambda rules.
     public struct ConfigRuleEvaluationStatus: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Config rule.
         public var configRuleArn: Swift.String?
@@ -3126,6 +3613,8 @@ extension ConfigClientTypes {
     public struct ConfigurationAggregator: Swift.Sendable {
         /// Provides a list of source accounts and regions to be aggregated.
         public var accountAggregationSources: [ConfigClientTypes.AccountAggregationSource]?
+        /// An object to filter the data you specify for an aggregator.
+        public var aggregatorFilters: ConfigClientTypes.AggregatorFilters?
         /// The Amazon Resource Name (ARN) of the aggregator.
         public var configurationAggregatorArn: Swift.String?
         /// The name of the aggregator.
@@ -3141,6 +3630,7 @@ extension ConfigClientTypes {
 
         public init(
             accountAggregationSources: [ConfigClientTypes.AccountAggregationSource]? = nil,
+            aggregatorFilters: ConfigClientTypes.AggregatorFilters? = nil,
             configurationAggregatorArn: Swift.String? = nil,
             configurationAggregatorName: Swift.String? = nil,
             createdBy: Swift.String? = nil,
@@ -3150,6 +3640,7 @@ extension ConfigClientTypes {
         )
         {
             self.accountAggregationSources = accountAggregationSources
+            self.aggregatorFilters = aggregatorFilters
             self.configurationAggregatorArn = configurationAggregatorArn
             self.configurationAggregatorName = configurationAggregatorName
             self.createdBy = createdBy
@@ -3292,47 +3783,13 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes {
 
-    /// Specifies whether the configuration recorder excludes certain resource types from being recorded. Use the resourceTypes field to enter a comma-separated list of resource types you want to exclude from recording. By default, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. How to use the exclusion recording strategy To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES. Config will then record configuration changes for all supported resource types, except the resource types that you specify to exclude from being recorded. Global resource types and the exclusion recording strategy Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:
-    ///
-    /// * Asia Pacific (Hyderabad)
-    ///
-    /// * Asia Pacific (Melbourne)
-    ///
-    /// * Canada West (Calgary)
-    ///
-    /// * Europe (Spain)
-    ///
-    /// * Europe (Zurich)
-    ///
-    /// * Israel (Tel Aviv)
-    ///
-    /// * Middle East (UAE)
-    public struct ExclusionByResourceTypes: Swift.Sendable {
-        /// A comma-separated list of resource types to exclude from recording by the configuration recorder.
-        public var resourceTypes: [ConfigClientTypes.ResourceType]?
-
-        public init(
-            resourceTypes: [ConfigClientTypes.ResourceType]? = nil
-        )
-        {
-            self.resourceTypes = resourceTypes
-        }
-    }
-}
-
-extension ConfigClientTypes {
-
-    public enum RecordingStrategyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case allSupportedResourceTypes
-        case exclusionByResourceTypes
-        case inclusionByResourceTypes
+    public enum ConfigurationRecorderFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case recordingscope
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [RecordingStrategyType] {
+        public static var allCases: [ConfigurationRecorderFilterName] {
             return [
-                .allSupportedResourceTypes,
-                .exclusionByResourceTypes,
-                .inclusionByResourceTypes
+                .recordingscope
             ]
         }
 
@@ -3343,9 +3800,7 @@ extension ConfigClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .allSupportedResourceTypes: return "ALL_SUPPORTED_RESOURCE_TYPES"
-            case .exclusionByResourceTypes: return "EXCLUSION_BY_RESOURCE_TYPES"
-            case .inclusionByResourceTypes: return "INCLUSION_BY_RESOURCE_TYPES"
+            case .recordingscope: return "recordingScope"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3354,236 +3809,20 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes {
 
-    /// Specifies the recording strategy of the configuration recorder.
-    public struct RecordingStrategy: Swift.Sendable {
-        /// The recording strategy for the configuration recorder.
-        ///
-        /// * If you set this option to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported resource types, excluding the global IAM resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new resource type, Config automatically starts recording resources of that type. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide.
-        ///
-        /// * If you set this option to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types that you specify in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
-        ///
-        /// * If you set this option to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types, except the resource types that you specify to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
-        ///
-        ///
-        /// Required and optional fields The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Overriding fields If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global IAM resource types will still be automatically recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes. Global resource types and the exclusion recording strategy By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:
-        ///
-        /// * Asia Pacific (Hyderabad)
-        ///
-        /// * Asia Pacific (Melbourne)
-        ///
-        /// * Canada West (Calgary)
-        ///
-        /// * Europe (Spain)
-        ///
-        /// * Europe (Zurich)
-        ///
-        /// * Israel (Tel Aviv)
-        ///
-        /// * Middle East (UAE)
-        public var useOnly: ConfigClientTypes.RecordingStrategyType?
+    /// Filters configuration recorders by recording scope.
+    public struct ConfigurationRecorderFilter: Swift.Sendable {
+        /// The name of the type of filter. Currently, only recordingScope is supported.
+        public var filterName: ConfigClientTypes.ConfigurationRecorderFilterName?
+        /// The value of the filter. For recordingScope, valid values include: INTERNAL and PAID. INTERNAL indicates that the [ConfigurationItems](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html) in scope for the configuration recorder are recorded for free. PAID indicates that the [ConfigurationItems](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html) in scope for the configuration recorder impact the costs to your bill.
+        public var filterValue: [Swift.String]?
 
         public init(
-            useOnly: ConfigClientTypes.RecordingStrategyType? = nil
+            filterName: ConfigClientTypes.ConfigurationRecorderFilterName? = nil,
+            filterValue: [Swift.String]? = nil
         )
         {
-            self.useOnly = useOnly
-        }
-    }
-}
-
-extension ConfigClientTypes {
-
-    /// Specifies which resource types Config records for configuration changes. By default, Config records configuration changes for all current and future supported resource types in the Amazon Web Services Region where you have enabled Config, excluding the global IAM resource types: IAM users, groups, roles, and customer managed policies. In the recording group, you specify whether you want to record all supported current and future supported resource types or to include or exclude specific resources types. For a list of supported resource types, see [Supported Resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. If you don't want Config to record all current and future supported resource types (excluding the global IAM resource types), use one of the following recording strategies:
-    ///
-    /// * Record all current and future resource types with exclusions (EXCLUSION_BY_RESOURCE_TYPES), or
-    ///
-    /// * Record specific resource types (INCLUSION_BY_RESOURCE_TYPES).
-    ///
-    ///
-    /// If you use the recording strategy to Record all current and future resource types (ALL_SUPPORTED_RESOURCE_TYPES), you can use the flag includeGlobalResourceTypes to include the global IAM resource types in your recording. Aurora global clusters are recorded in all enabled Regions The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use the EXCLUSION_BY_RESOURCE_TYPES or INCLUSION_BY_RESOURCE_TYPES recording strategy.
-    public struct RecordingGroup: Swift.Sendable {
-        /// Specifies whether Config records configuration changes for all supported resource types, excluding the global IAM resource types. If you set this field to true, when Config adds support for a new resource type, Config starts recording resources of that type automatically. If you set this field to true, you cannot enumerate specific resource types to record in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), or to exclude in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Region availability Check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if a resource type is supported in the Amazon Web Services Region where you set up Config.
-        public var allSupported: Swift.Bool
-        /// An object that specifies how Config excludes resource types from being recorded by the configuration recorder. Required fields To use this option, you must set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES.
-        public var exclusionByResourceTypes: ConfigClientTypes.ExclusionByResourceTypes?
-        /// This option is a bundle which only applies to the global IAM resource types: IAM users, groups, roles, and customer managed policies. These global IAM resource types can only be recorded by Config in Regions where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:
-        ///
-        /// * Asia Pacific (Hyderabad)
-        ///
-        /// * Asia Pacific (Melbourne)
-        ///
-        /// * Canada West (Calgary)
-        ///
-        /// * Europe (Spain)
-        ///
-        /// * Europe (Zurich)
-        ///
-        /// * Israel (Tel Aviv)
-        ///
-        /// * Middle East (UAE)
-        ///
-        ///
-        /// Aurora global clusters are recorded in all enabled Regions The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled, even if includeGlobalResourceTypes is setfalse. The includeGlobalResourceTypes option is a bundle which only applies to IAM users, groups, roles, and customer managed policies. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use one of the following recording strategies:
-        ///
-        /// * Record all current and future resource types with exclusions (EXCLUSION_BY_RESOURCE_TYPES), or
-        ///
-        /// * Record specific resource types (INCLUSION_BY_RESOURCE_TYPES).
-        ///
-        ///
-        /// For more information, see [Selecting Which Resources are Recorded](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all) in the Config developer guide. includeGlobalResourceTypes and the exclusion recording strategy The includeGlobalResourceTypes field has no impact on the EXCLUSION_BY_RESOURCE_TYPES recording strategy. This means that the global IAM resource types (IAM users, groups, roles, and customer managed policies) will not be automatically added as exclusions for exclusionByResourceTypes when includeGlobalResourceTypes is set to false. The includeGlobalResourceTypes field should only be used to modify the AllSupported field, as the default for the AllSupported field is to record configuration changes for all supported resource types excluding the global IAM resource types. To include the global IAM resource types when AllSupported is set to true, make sure to set includeGlobalResourceTypes to true. To exclude the global IAM resource types for the EXCLUSION_BY_RESOURCE_TYPES recording strategy, you need to manually add them to the resourceTypes field of exclusionByResourceTypes. Required and optional fields Before you set this field to true, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES. Overriding fields If you set this field to false but list global IAM resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to the global IAM resource types (IAM users, groups, roles, and customer managed policies), make sure to not list them in the resourceTypes field in addition to setting the includeGlobalResourceTypes field to false.
-        public var includeGlobalResourceTypes: Swift.Bool
-        /// An object that specifies the recording strategy for the configuration recorder.
-        ///
-        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES, Config records configuration changes for all supported resource types, excluding the global IAM resource types. You also must set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. When Config adds support for a new resource type, Config automatically starts recording resources of that type.
-        ///
-        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for only the resource types you specify in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html).
-        ///
-        /// * If you set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to EXCLUSION_BY_RESOURCE_TYPES, Config records configuration changes for all supported resource types except the resource types that you specify to exclude from being recorded in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html).
-        ///
-        ///
-        /// Required and optional fields The recordingStrategy field is optional when you set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. The recordingStrategy field is optional when you list resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html). The recordingStrategy field is required if you list resource types to exclude from recording in the resourceTypes field of [ExclusionByResourceTypes](https://docs.aws.amazon.com/config/latest/APIReference/API_ExclusionByResourceTypes.html). Overriding fields If you choose EXCLUSION_BY_RESOURCE_TYPES for the recording strategy, the exclusionByResourceTypes field will override other properties in the request. For example, even if you set includeGlobalResourceTypes to false, global IAM resource types will still be automatically recorded in this option unless those resource types are specifically listed as exclusions in the resourceTypes field of exclusionByResourceTypes. Global resources types and the resource exclusion recording strategy By default, if you choose the EXCLUSION_BY_RESOURCE_TYPES recording strategy, when Config adds support for a new resource type in the Region where you set up the configuration recorder, including global resource types, Config starts recording resources of that type automatically. Unless specifically listed as exclusions, AWS::RDS::GlobalCluster will be recorded automatically in all supported Config Regions were the configuration recorder is enabled. IAM users, groups, roles, and customer managed policies will be recorded in the Region where you set up the configuration recorder if that is a Region where Config was available before February 2022. You cannot be record the global IAM resouce types in Regions supported by Config after February 2022. This list where you cannot record the global IAM resource types includes the following Regions:
-        ///
-        /// * Asia Pacific (Hyderabad)
-        ///
-        /// * Asia Pacific (Melbourne)
-        ///
-        /// * Canada West (Calgary)
-        ///
-        /// * Europe (Spain)
-        ///
-        /// * Europe (Zurich)
-        ///
-        /// * Israel (Tel Aviv)
-        ///
-        /// * Middle East (UAE)
-        public var recordingStrategy: ConfigClientTypes.RecordingStrategy?
-        /// A comma-separated list that specifies which resource types Config records. For a list of valid resourceTypes values, see the Resource Type Value column in [Supported Amazon Web Services resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources) in the Config developer guide. Required and optional fields Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to INCLUSION_BY_RESOURCE_TYPES. To record all configuration changes, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true, and either omit this field or don't specify any resource types in this field. If you set the allSupported field to false and specify values for resourceTypes, when Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. Region availability Before specifying a resource type for Config to track, check [Resource Coverage by Region Availability](https://docs.aws.amazon.com/config/latest/developerguide/what-is-resource-config-coverage.html) to see if the resource type is supported in the Amazon Web Services Region where you set up Config. If a resource type is supported by Config in at least one Region, you can enable the recording of that resource type in all Regions supported by Config, even if the specified resource type is not supported in the Amazon Web Services Region where you set up Config.
-        public var resourceTypes: [ConfigClientTypes.ResourceType]?
-
-        public init(
-            allSupported: Swift.Bool = false,
-            exclusionByResourceTypes: ConfigClientTypes.ExclusionByResourceTypes? = nil,
-            includeGlobalResourceTypes: Swift.Bool = false,
-            recordingStrategy: ConfigClientTypes.RecordingStrategy? = nil,
-            resourceTypes: [ConfigClientTypes.ResourceType]? = nil
-        )
-        {
-            self.allSupported = allSupported
-            self.exclusionByResourceTypes = exclusionByResourceTypes
-            self.includeGlobalResourceTypes = includeGlobalResourceTypes
-            self.recordingStrategy = recordingStrategy
-            self.resourceTypes = resourceTypes
-        }
-    }
-}
-
-extension ConfigClientTypes {
-
-    /// An object for you to specify your overrides for the recording mode.
-    public struct RecordingModeOverride: Swift.Sendable {
-        /// A description that you provide for the override.
-        public var description: Swift.String?
-        /// The recording frequency that will be applied to all the resource types specified in the override.
-        ///
-        /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
-        ///
-        /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
-        ///
-        ///
-        /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous.
-        /// This member is required.
-        public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
-        /// A comma-separated list that specifies which resource types Config includes in the override. Daily recording is not supported for the following resource types:
-        ///
-        /// * AWS::Config::ResourceCompliance
-        ///
-        /// * AWS::Config::ConformancePackCompliance
-        ///
-        /// * AWS::Config::ConfigurationRecorder
-        /// This member is required.
-        public var resourceTypes: [ConfigClientTypes.ResourceType]?
-
-        public init(
-            description: Swift.String? = nil,
-            recordingFrequency: ConfigClientTypes.RecordingFrequency? = nil,
-            resourceTypes: [ConfigClientTypes.ResourceType]? = nil
-        )
-        {
-            self.description = description
-            self.recordingFrequency = recordingFrequency
-            self.resourceTypes = resourceTypes
-        }
-    }
-}
-
-extension ConfigClientTypes {
-
-    /// Specifies the default recording frequency that Config uses to record configuration changes. Config supports Continuous recording and Daily recording.
-    ///
-    /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
-    ///
-    /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
-    ///
-    ///
-    /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
-    public struct RecordingMode: Swift.Sendable {
-        /// The default recording frequency that Config uses to record configuration changes. Daily recording is not supported for the following resource types:
-        ///
-        /// * AWS::Config::ResourceCompliance
-        ///
-        /// * AWS::Config::ConformancePackCompliance
-        ///
-        /// * AWS::Config::ConfigurationRecorder
-        ///
-        ///
-        /// For the allSupported (ALL_SUPPORTED_RESOURCE_TYPES) recording strategy, these resource types will be set to Continuous recording.
-        /// This member is required.
-        public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
-        /// An array of recordingModeOverride objects for you to specify your overrides for the recording mode. The recordingModeOverride object in the recordingModeOverrides array consists of three fields: a description, the new recordingFrequency, and an array of resourceTypes to override.
-        public var recordingModeOverrides: [ConfigClientTypes.RecordingModeOverride]?
-
-        public init(
-            recordingFrequency: ConfigClientTypes.RecordingFrequency? = nil,
-            recordingModeOverrides: [ConfigClientTypes.RecordingModeOverride]? = nil
-        )
-        {
-            self.recordingFrequency = recordingFrequency
-            self.recordingModeOverrides = recordingModeOverrides
-        }
-    }
-}
-
-extension ConfigClientTypes {
-
-    /// Records configuration changes to your specified resource types. For more information about the configuration recorder, see [ Managing the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide.
-    public struct ConfigurationRecorder: Swift.Sendable {
-        /// The name of the configuration recorder. Config automatically assigns the name of "default" when creating the configuration recorder. You cannot change the name of the configuration recorder after it has been created. To change the configuration recorder name, you must delete it and create a new configuration recorder with a new name.
-        public var name: Swift.String?
-        /// Specifies which resource types Config records for configuration changes. High Number of Config Evaluations You may notice increased activity in your account during your initial month recording with Config when compared to subsequent months. During the initial bootstrapping process, Config runs evaluations on all the resources in your account that you have selected for Config to record. If you are running ephemeral workloads, you may see increased activity from Config as it records configuration changes associated with creating and deleting these temporary resources. An ephemeral workload is a temporary use of computing resources that are loaded and run when needed. Examples include Amazon Elastic Compute Cloud (Amazon EC2) Spot Instances, Amazon EMR jobs, and Auto Scaling. If you want to avoid the increased activity from running ephemeral workloads, you can run these types of workloads in a separate account with Config turned off to avoid increased configuration recording and rule evaluations.
-        public var recordingGroup: ConfigClientTypes.RecordingGroup?
-        /// Specifies the default recording frequency that Config uses to record configuration changes. Config supports Continuous recording and Daily recording.
-        ///
-        /// * Continuous recording allows you to record configuration changes continuously whenever a change occurs.
-        ///
-        /// * Daily recording allows you to receive a configuration item (CI) representing the most recent state of your resources over the last 24-hour period, only if it’s different from the previous CI recorded.
-        ///
-        ///
-        /// Firewall Manager depends on continuous recording to monitor your resources. If you are using Firewall Manager, it is recommended that you set the recording frequency to Continuous. You can also override the recording frequency for specific resource types.
-        public var recordingMode: ConfigClientTypes.RecordingMode?
-        /// Amazon Resource Name (ARN) of the IAM role assumed by Config and used by the configuration recorder. While the API model does not require this field, the server will reject a request without a defined roleARN for the configuration recorder. Pre-existing Config role If you have used an Amazon Web Services service that uses Config, such as Security Hub or Control Tower, and an Config role has already been created, make sure that the IAM role that you use when setting up Config keeps the same minimum permissions as the already created Config role. You must do this so that the other Amazon Web Services service continues to run as expected. For example, if Control Tower has an IAM role that allows Config to read Amazon Simple Storage Service (Amazon S3) objects, make sure that the same permissions are granted within the IAM role you use when setting up Config. Otherwise, it may interfere with how Control Tower operates. For more information about IAM roles for Config, see [ Identity and Access Management for Config ](https://docs.aws.amazon.com/config/latest/developerguide/security-iam.html) in the Config Developer Guide.
-        public var roleARN: Swift.String?
-
-        public init(
-            name: Swift.String? = nil,
-            recordingGroup: ConfigClientTypes.RecordingGroup? = nil,
-            recordingMode: ConfigClientTypes.RecordingMode? = nil,
-            roleARN: Swift.String? = nil
-        )
-        {
-            self.name = name
-            self.recordingGroup = recordingGroup
-            self.recordingMode = recordingMode
-            self.roleARN = roleARN
+            self.filterName = filterName
+            self.filterValue = filterValue
         }
     }
 }
@@ -3592,6 +3831,7 @@ extension ConfigClientTypes {
 
     public enum RecorderStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failure
+        case notapplicable
         case pending
         case success
         case sdkUnknown(Swift.String)
@@ -3599,6 +3839,7 @@ extension ConfigClientTypes {
         public static var allCases: [RecorderStatus] {
             return [
                 .failure,
+                .notapplicable,
                 .pending,
                 .success
             ]
@@ -3612,6 +3853,7 @@ extension ConfigClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .failure: return "Failure"
+            case .notapplicable: return "NotApplicable"
             case .pending: return "Pending"
             case .success: return "Success"
             case let .sdkUnknown(s): return s
@@ -3624,6 +3866,8 @@ extension ConfigClientTypes {
 
     /// The current status of the configuration recorder. For a detailed status of recording events over time, add your Config events to CloudWatch metrics and use CloudWatch metrics.
     public struct ConfigurationRecorderStatus: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the configuration recorder.
+        public var arn: Swift.String?
         /// The latest error code from when the recorder last failed.
         public var lastErrorCode: Swift.String?
         /// The latest error message from when the recorder last failed.
@@ -3640,8 +3884,11 @@ extension ConfigClientTypes {
         public var name: Swift.String?
         /// Specifies whether or not the recorder is currently recording.
         public var recording: Swift.Bool
+        /// For service-linked configuration recorders, the service principal of the linked Amazon Web Services service.
+        public var servicePrincipal: Swift.String?
 
         public init(
+            arn: Swift.String? = nil,
             lastErrorCode: Swift.String? = nil,
             lastErrorMessage: Swift.String? = nil,
             lastStartTime: Foundation.Date? = nil,
@@ -3649,9 +3896,11 @@ extension ConfigClientTypes {
             lastStatusChangeTime: Foundation.Date? = nil,
             lastStopTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
-            recording: Swift.Bool = false
+            recording: Swift.Bool = false,
+            servicePrincipal: Swift.String? = nil
         )
         {
+            self.arn = arn
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
             self.lastStartTime = lastStartTime
@@ -3660,6 +3909,38 @@ extension ConfigClientTypes {
             self.lastStopTime = lastStopTime
             self.name = name
             self.recording = recording
+            self.servicePrincipal = servicePrincipal
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
+    /// A summary of a configuration recorder, including the arn, name, servicePrincipal, and recordingScope.
+    public struct ConfigurationRecorderSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the configuration recorder.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The name of the configuration recorder.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Indicates whether the [ConfigurationItems](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html) in scope for the configuration recorder are recorded for free (INTERNAL) or if you are charged a service fee for recording (PAID).
+        /// This member is required.
+        public var recordingScope: ConfigClientTypes.RecordingScope?
+        /// For service-linked configuration recorders, indicates which Amazon Web Services service the configuration recorder is linked to.
+        public var servicePrincipal: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            recordingScope: ConfigClientTypes.RecordingScope? = nil,
+            servicePrincipal: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+            self.recordingScope = recordingScope
+            self.servicePrincipal = servicePrincipal
         }
     }
 }
@@ -4186,8 +4467,8 @@ public struct DeleteConfigurationAggregatorInput: Swift.Sendable {
     }
 }
 
-/// You have specified a configuration recorder that does not exist.
-public struct NoSuchConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+/// The requested operation is not valid. For [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html), you will see this exception because you cannot use this operation to create a service-linked configuration recorder. Use the [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html) operation to create a service-linked configuration recorder. For [DeleteConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html), you will see this exception because you cannot use this operation to delete a service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder. For [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) and [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html), you will see this exception because these operations do not affect service-linked configuration recorders. Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder.
+public struct UnmodifiableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
         /// Error executing the command
@@ -4195,7 +4476,7 @@ public struct NoSuchConfigurationRecorderException: ClientRuntime.ModeledError, 
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NoSuchConfigurationRecorderException" }
+    public static var typeName: Swift.String { "UnmodifiableEntityException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -4211,9 +4492,9 @@ public struct NoSuchConfigurationRecorderException: ClientRuntime.ModeledError, 
     }
 }
 
-/// The request object for the DeleteConfigurationRecorder action.
+/// The request object for the DeleteConfigurationRecorder operation.
 public struct DeleteConfigurationRecorderInput: Swift.Sendable {
-    /// The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
+    /// The name of the customer managed configuration recorder that you want to delete. You can retrieve the name of your configuration recorders by using the [DescribeConfigurationRecorders](https://docs.aws.amazon.com/config/latest/APIReference/API_DescribeConfigurationRecorders.html) operation.
     /// This member is required.
     public var configurationRecorderName: Swift.String?
 
@@ -4263,7 +4544,7 @@ public struct DeleteConformancePackInput: Swift.Sendable {
     }
 }
 
-/// You cannot delete the delivery channel you specified because the configuration recorder is running.
+/// You cannot delete the delivery channel you specified because the customer managed configuration recorder is running.
 public struct LastDeliveryChannelDeleteFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -4315,7 +4596,7 @@ public struct NoSuchDeliveryChannelException: ClientRuntime.ModeledError, AWSCli
 
 /// The input for the [DeleteDeliveryChannel] action. The action accepts the following data, in JSON format.
 public struct DeleteDeliveryChannelInput: Swift.Sendable {
-    /// The name of the delivery channel to delete.
+    /// The name of the delivery channel that you want to delete.
     /// This member is required.
     public var deliveryChannelName: Swift.String?
 
@@ -4380,7 +4661,7 @@ public struct NoSuchOrganizationConfigRuleException: ClientRuntime.ModeledError,
 ///
 /// * The configuration aggregator is associated with a previous Amazon Web Services Organization and Config cannot aggregate data with current Amazon Web Services Organization. Delete this aggregator and create a new one with the current Amazon Web Services Organization.
 ///
-/// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principle name before the delegated administrator creates an aggregator.
+/// * You are not a registered delegated administrator for Config with permissions to call ListDelegatedAdministrators API. Ensure that the management account registers delagated administrator for Config service principal name before the delegated administrator creates an aggregator.
 ///
 ///
 /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
@@ -4479,17 +4760,22 @@ public struct DeletePendingAggregationRequestInput: Swift.Sendable {
 
 /// Indicates one of the following errors:
 ///
-/// * For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
+/// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.
 ///
-/// * For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
+/// * For [PutConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigRule.html), the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.
 ///
-/// * For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
+/// * For [PutOrganizationConfigRule](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConfigRule.html), organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service-linked role.
 ///
-/// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have the following permissions:
+/// * For [PutConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html) and [PutOrganizationConformancePack](https://docs.aws.amazon.com/config/latest/APIReference/API_PutOrganizationConformancePack.html), a conformance pack cannot be created because you do not have the following permissions:
 ///
 /// * You do not have permission to call IAM GetRole action or create a service-linked role.
 ///
 /// * You do not have permission to read Amazon S3 bucket or call SSM:GetDocument.
+///
+///
+///
+///
+/// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
 public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -4759,6 +5045,37 @@ public struct DeleteRetentionConfigurationInput: Swift.Sendable {
     )
     {
         self.retentionConfigurationName = retentionConfigurationName
+    }
+}
+
+public struct DeleteServiceLinkedConfigurationRecorderInput: Swift.Sendable {
+    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to delete.
+    /// This member is required.
+    public var servicePrincipal: Swift.String?
+
+    public init(
+        servicePrincipal: Swift.String? = nil
+    )
+    {
+        self.servicePrincipal = servicePrincipal
+    }
+}
+
+public struct DeleteServiceLinkedConfigurationRecorderOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the specified configuration recorder.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.name = name
     }
 }
 
@@ -5108,7 +5425,7 @@ public struct DescribeComplianceByResourceInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The ID of the Amazon Web Services resource for which you want compliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType.
     public var resourceId: Swift.String?
-    /// The types of Amazon Web Services resources for which you want compliance information (for example, AWS::EC2::Instance). For this action, you can specify that the resource type is an Amazon Web Services account by specifying AWS::::Account.
+    /// The types of Amazon Web Services resources for which you want compliance information (for example, AWS::EC2::Instance). For this operation, you can specify that the resource type is an Amazon Web Services account by specifying AWS::::Account.
     public var resourceType: Swift.String?
 
     public init(
@@ -5321,14 +5638,22 @@ public struct DescribeConfigurationAggregatorSourcesStatusOutput: Swift.Sendable
 
 /// The input for the [DescribeConfigurationRecorders] action.
 public struct DescribeConfigurationRecordersInput: Swift.Sendable {
-    /// A list of configuration recorder names.
+    /// The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
+    public var arn: Swift.String?
+    /// A list of names of the configuration recorders that you want to specify.
     public var configurationRecorderNames: [Swift.String]?
+    /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
+    public var servicePrincipal: Swift.String?
 
     public init(
-        configurationRecorderNames: [Swift.String]? = nil
+        arn: Swift.String? = nil,
+        configurationRecorderNames: [Swift.String]? = nil,
+        servicePrincipal: Swift.String? = nil
     )
     {
+        self.arn = arn
         self.configurationRecorderNames = configurationRecorderNames
+        self.servicePrincipal = servicePrincipal
     }
 }
 
@@ -5347,14 +5672,22 @@ public struct DescribeConfigurationRecordersOutput: Swift.Sendable {
 
 /// The input for the [DescribeConfigurationRecorderStatus] action.
 public struct DescribeConfigurationRecorderStatusInput: Swift.Sendable {
-    /// The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
+    /// The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
+    public var arn: Swift.String?
+    /// The name of the configuration recorder. If the name is not specified, the opertation returns the status for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     public var configurationRecorderNames: [Swift.String]?
+    /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
+    public var servicePrincipal: Swift.String?
 
     public init(
-        configurationRecorderNames: [Swift.String]? = nil
+        arn: Swift.String? = nil,
+        configurationRecorderNames: [Swift.String]? = nil,
+        servicePrincipal: Swift.String? = nil
     )
     {
+        self.arn = arn
         self.configurationRecorderNames = configurationRecorderNames
+        self.servicePrincipal = servicePrincipal
     }
 }
 
@@ -6577,7 +6910,7 @@ public struct DescribeRemediationExceptionsOutput: Swift.Sendable {
 }
 
 public struct DescribeRemediationExecutionStatusInput: Swift.Sendable {
-    /// A list of Config rule names.
+    /// The name of the Config rule.
     /// This member is required.
     public var configRuleName: Swift.String?
     /// The maximum number of RemediationExecutionStatuses returned on each page. The default is maximum. If you specify 0, Config uses the default.
@@ -6799,6 +7132,37 @@ public struct DescribeRetentionConfigurationsOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.retentionConfigurations = retentionConfigurations
+    }
+}
+
+public struct DisassociateResourceTypesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+    /// This member is required.
+    public var configurationRecorderArn: Swift.String?
+    /// The list of resource types you want to remove from the recording group of the specified configuration recorder.
+    /// This member is required.
+    public var resourceTypes: [ConfigClientTypes.ResourceType]?
+
+    public init(
+        configurationRecorderArn: Swift.String? = nil,
+        resourceTypes: [ConfigClientTypes.ResourceType]? = nil
+    )
+    {
+        self.configurationRecorderArn = configurationRecorderArn
+        self.resourceTypes = resourceTypes
+    }
+}
+
+public struct DisassociateResourceTypesOutput: Swift.Sendable {
+    /// Records configuration changes to the resource types in scope. For more information about the configuration recorder, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide.
+    /// This member is required.
+    public var configurationRecorder: ConfigClientTypes.ConfigurationRecorder?
+
+    public init(
+        configurationRecorder: ConfigClientTypes.ConfigurationRecorder? = nil
+    )
+    {
+        self.configurationRecorder = configurationRecorder
     }
 }
 
@@ -8368,7 +8732,7 @@ public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-/// Your Amazon S3 bucket policy does not permit Config to write to it.
+/// Your Amazon S3 bucket policy does not allow Config to write to it.
 public struct InsufficientDeliveryPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8393,7 +8757,7 @@ public struct InsufficientDeliveryPolicyException: ClientRuntime.ModeledError, A
     }
 }
 
-/// You have provided a name for the configuration recorder that is not valid.
+/// You have provided a name for the customer managed configuration recorder that is not valid.
 public struct InvalidConfigurationRecorderNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8468,7 +8832,7 @@ public struct InvalidExpressionException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-/// Indicates one of the following errors:
+/// One of the following errors:
 ///
 /// * You have provided a combination of parameter values that is not valid. For example:
 ///
@@ -8533,7 +8897,7 @@ public struct InvalidResultTokenException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-/// You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the configuration recorder.
+/// You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the customer managed configuration recorder.
 public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8633,7 +8997,7 @@ public struct InvalidSNSTopicARNException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-/// For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
+/// For PutServiceLinkedConfigurationRecorder API, this exception is thrown if the number of service-linked roles in the account exceeds the limit. For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
 public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8729,6 +9093,43 @@ public struct ListAggregateDiscoveredResourcesOutput: Swift.Sendable {
     {
         self.nextToken = nextToken
         self.resourceIdentifiers = resourceIdentifiers
+    }
+}
+
+public struct ListConfigurationRecordersInput: Swift.Sendable {
+    /// Filters the results based on a list of ConfigurationRecorderFilter objects that you specify.
+    public var filters: [ConfigClientTypes.ConfigurationRecorderFilter]?
+    /// The maximum number of results to include in the response.
+    public var maxResults: Swift.Int?
+    /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [ConfigClientTypes.ConfigurationRecorderFilter]? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConfigurationRecordersOutput: Swift.Sendable {
+    /// A list of ConfigurationRecorderSummary objects that includes.
+    /// This member is required.
+    public var configurationRecorderSummaries: [ConfigClientTypes.ConfigurationRecorderSummary]?
+    /// The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    public var nextToken: Swift.String?
+
+    public init(
+        configurationRecorderSummaries: [ConfigClientTypes.ConfigurationRecorderSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.configurationRecorderSummaries = configurationRecorderSummaries
+        self.nextToken = nextToken
     }
 }
 
@@ -9063,7 +9464,7 @@ extension ConfigClientTypes {
 }
 
 public struct ListStoredQueriesOutput: Swift.Sendable {
-    /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this operation again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
     public var nextToken: Swift.String?
     /// A list of StoredQueryMetadata objects.
     public var storedQueryMetadata: [ConfigClientTypes.StoredQueryMetadata]?
@@ -9083,7 +9484,23 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
-    /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
+    /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:
+    ///
+    /// * ConfigurationRecorder
+    ///
+    /// * ConfigRule
+    ///
+    /// * OrganizationConfigRule
+    ///
+    /// * ConformancePack
+    ///
+    /// * OrganizationConformancePack
+    ///
+    /// * ConfigurationAggregator
+    ///
+    /// * AggregationAuthorization
+    ///
+    /// * StoredQuery
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -9576,6 +9993,8 @@ public struct PutConfigRuleInput: Swift.Sendable {
 public struct PutConfigurationAggregatorInput: Swift.Sendable {
     /// A list of AccountAggregationSource object.
     public var accountAggregationSources: [ConfigClientTypes.AccountAggregationSource]?
+    /// An object to filter configuration recorders in an aggregator. Either ResourceType or ServicePrincipal is required.
+    public var aggregatorFilters: ConfigClientTypes.AggregatorFilters?
     /// The name of the configuration aggregator.
     /// This member is required.
     public var configurationAggregatorName: Swift.String?
@@ -9586,12 +10005,14 @@ public struct PutConfigurationAggregatorInput: Swift.Sendable {
 
     public init(
         accountAggregationSources: [ConfigClientTypes.AccountAggregationSource]? = nil,
+        aggregatorFilters: ConfigClientTypes.AggregatorFilters? = nil,
         configurationAggregatorName: Swift.String? = nil,
         organizationAggregationSource: ConfigClientTypes.OrganizationAggregationSource? = nil,
         tags: [ConfigClientTypes.Tag]? = nil
     )
     {
         self.accountAggregationSources = accountAggregationSources
+        self.aggregatorFilters = aggregatorFilters
         self.configurationAggregatorName = configurationAggregatorName
         self.organizationAggregationSource = organizationAggregationSource
         self.tags = tags
@@ -9612,15 +10033,19 @@ public struct PutConfigurationAggregatorOutput: Swift.Sendable {
 
 /// The input for the [PutConfigurationRecorder] action.
 public struct PutConfigurationRecorderInput: Swift.Sendable {
-    /// An object for the configuration recorder to record configuration changes for specified resource types.
+    /// An object for the configuration recorder. A configuration recorder records configuration changes for the resource types in scope.
     /// This member is required.
     public var configurationRecorder: ConfigClientTypes.ConfigurationRecorder?
+    /// The tags for the customer managed configuration recorder. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [ConfigClientTypes.Tag]?
 
     public init(
-        configurationRecorder: ConfigClientTypes.ConfigurationRecorder? = nil
+        configurationRecorder: ConfigClientTypes.ConfigurationRecorder? = nil,
+        tags: [ConfigClientTypes.Tag]? = nil
     )
     {
         self.configurationRecorder = configurationRecorder
+        self.tags = tags
     }
 }
 
@@ -9675,7 +10100,7 @@ public struct PutConformancePackOutput: Swift.Sendable {
 
 /// The input for the [PutDeliveryChannel] action.
 public struct PutDeliveryChannelInput: Swift.Sendable {
-    /// The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket and to an Amazon SNS topic.
+    /// An object for the delivery channel. A delivery channel sends notifications and updated configuration states.
     /// This member is required.
     public var deliveryChannel: ConfigClientTypes.DeliveryChannel?
 
@@ -9959,6 +10384,39 @@ public struct PutRetentionConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct PutServiceLinkedConfigurationRecorderInput: Swift.Sendable {
+    /// The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create.
+    /// This member is required.
+    public var servicePrincipal: Swift.String?
+    /// The tags for a service-linked configuration recorder. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [ConfigClientTypes.Tag]?
+
+    public init(
+        servicePrincipal: Swift.String? = nil,
+        tags: [ConfigClientTypes.Tag]? = nil
+    )
+    {
+        self.servicePrincipal = servicePrincipal
+        self.tags = tags
+    }
+}
+
+public struct PutServiceLinkedConfigurationRecorderOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the specified configuration recorder.
+    public var arn: Swift.String?
+    /// The name of the specified configuration recorder. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWS" to the new service-linked configuration recorder.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.name = name
+    }
+}
+
 /// Two users are trying to modify the same query at the same time. Wait for a moment and try again.
 public struct ResourceConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -10163,9 +10621,9 @@ public struct StartConfigRulesEvaluationOutput: Swift.Sendable {
     public init() { }
 }
 
-/// The input for the [StartConfigurationRecorder] action.
+/// The input for the [StartConfigurationRecorder] operation.
 public struct StartConfigurationRecorderInput: Swift.Sendable {
-    /// The name of the recorder object that records each configuration change made to the resources.
+    /// The name of the customer managed configuration recorder that you want to start.
     /// This member is required.
     public var configurationRecorderName: Swift.String?
 
@@ -10253,9 +10711,9 @@ public struct StartResourceEvaluationOutput: Swift.Sendable {
     }
 }
 
-/// The input for the [StopConfigurationRecorder] action.
+/// The input for the [StopConfigurationRecorder] operation.
 public struct StopConfigurationRecorderInput: Swift.Sendable {
-    /// The name of the recorder object that records each configuration change made to the resources.
+    /// The name of the customer managed configuration recorder that you want to stop.
     /// This member is required.
     public var configurationRecorderName: Swift.String?
 
@@ -10268,7 +10726,23 @@ public struct StopConfigurationRecorderInput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
+    /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:
+    ///
+    /// * ConfigurationRecorder
+    ///
+    /// * ConfigRule
+    ///
+    /// * OrganizationConfigRule
+    ///
+    /// * ConformancePack
+    ///
+    /// * OrganizationConformancePack
+    ///
+    /// * ConfigurationAggregator
+    ///
+    /// * AggregationAuthorization
+    ///
+    /// * StoredQuery
     /// This member is required.
     public var resourceArn: Swift.String?
     /// An array of tag object.
@@ -10286,7 +10760,23 @@ public struct TagResourceInput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
+    /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:
+    ///
+    /// * ConfigurationRecorder
+    ///
+    /// * ConfigRule
+    ///
+    /// * OrganizationConfigRule
+    ///
+    /// * ConformancePack
+    ///
+    /// * OrganizationConformancePack
+    ///
+    /// * ConfigurationAggregator
+    ///
+    /// * AggregationAuthorization
+    ///
+    /// * StoredQuery
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The keys of the tags to be removed.
@@ -10300,6 +10790,13 @@ public struct UntagResourceInput: Swift.Sendable {
     {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
+    }
+}
+
+extension AssociateResourceTypesInput {
+
+    static func urlPathProvider(_ value: AssociateResourceTypesInput) -> Swift.String? {
+        return "/"
     }
 }
 
@@ -10411,6 +10908,13 @@ extension DeleteResourceConfigInput {
 extension DeleteRetentionConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteRetentionConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteServiceLinkedConfigurationRecorderInput {
+
+    static func urlPathProvider(_ value: DeleteServiceLinkedConfigurationRecorderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10604,6 +11108,13 @@ extension DescribeRetentionConfigurationsInput {
     }
 }
 
+extension DisassociateResourceTypesInput {
+
+    static func urlPathProvider(_ value: DisassociateResourceTypesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetAggregateComplianceDetailsByConfigRuleInput {
 
     static func urlPathProvider(_ value: GetAggregateComplianceDetailsByConfigRuleInput) -> Swift.String? {
@@ -10744,6 +11255,13 @@ extension ListAggregateDiscoveredResourcesInput {
     }
 }
 
+extension ListConfigurationRecordersInput {
+
+    static func urlPathProvider(_ value: ListConfigurationRecordersInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListConformancePackComplianceScoresInput {
 
     static func urlPathProvider(_ value: ListConformancePackComplianceScoresInput) -> Swift.String? {
@@ -10877,6 +11395,13 @@ extension PutRetentionConfigurationInput {
     }
 }
 
+extension PutServiceLinkedConfigurationRecorderInput {
+
+    static func urlPathProvider(_ value: PutServiceLinkedConfigurationRecorderInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension PutStoredQueryInput {
 
     static func urlPathProvider(_ value: PutStoredQueryInput) -> Swift.String? {
@@ -10944,6 +11469,15 @@ extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension AssociateResourceTypesInput {
+
+    static func write(value: AssociateResourceTypesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationRecorderArn"].write(value.configurationRecorderArn)
+        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11081,6 +11615,14 @@ extension DeleteRetentionConfigurationInput {
     }
 }
 
+extension DeleteServiceLinkedConfigurationRecorderInput {
+
+    static func write(value: DeleteServiceLinkedConfigurationRecorderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ServicePrincipal"].write(value.servicePrincipal)
+    }
+}
+
 extension DeleteStoredQueryInput {
 
     static func write(value: DeleteStoredQueryInput?, to writer: SmithyJSON.Writer) throws {
@@ -11195,7 +11737,9 @@ extension DescribeConfigurationRecordersInput {
 
     static func write(value: DescribeConfigurationRecordersInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Arn"].write(value.arn)
         try writer["ConfigurationRecorderNames"].writeList(value.configurationRecorderNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ServicePrincipal"].write(value.servicePrincipal)
     }
 }
 
@@ -11203,7 +11747,9 @@ extension DescribeConfigurationRecorderStatusInput {
 
     static func write(value: DescribeConfigurationRecorderStatusInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Arn"].write(value.arn)
         try writer["ConfigurationRecorderNames"].writeList(value.configurationRecorderNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ServicePrincipal"].write(value.servicePrincipal)
     }
 }
 
@@ -11339,6 +11885,15 @@ extension DescribeRetentionConfigurationsInput {
         guard let value else { return }
         try writer["NextToken"].write(value.nextToken)
         try writer["RetentionConfigurationNames"].writeList(value.retentionConfigurationNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DisassociateResourceTypesInput {
+
+    static func write(value: DisassociateResourceTypesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationRecorderArn"].write(value.configurationRecorderArn)
+        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11551,6 +12106,16 @@ extension ListAggregateDiscoveredResourcesInput {
     }
 }
 
+extension ListConfigurationRecordersInput {
+
+    static func write(value: ListConfigurationRecordersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: ConfigClientTypes.ConfigurationRecorderFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListConformancePackComplianceScoresInput {
 
     static func write(value: ListConformancePackComplianceScoresInput?, to writer: SmithyJSON.Writer) throws {
@@ -11629,6 +12194,7 @@ extension PutConfigurationAggregatorInput {
     static func write(value: PutConfigurationAggregatorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccountAggregationSources"].writeList(value.accountAggregationSources, memberWritingClosure: ConfigClientTypes.AccountAggregationSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AggregatorFilters"].write(value.aggregatorFilters, with: ConfigClientTypes.AggregatorFilters.write(value:to:))
         try writer["ConfigurationAggregatorName"].write(value.configurationAggregatorName)
         try writer["OrganizationAggregationSource"].write(value.organizationAggregationSource, with: ConfigClientTypes.OrganizationAggregationSource.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: ConfigClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11640,6 +12206,7 @@ extension PutConfigurationRecorderInput {
     static func write(value: PutConfigurationRecorderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ConfigurationRecorder"].write(value.configurationRecorder, with: ConfigClientTypes.ConfigurationRecorder.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ConfigClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11750,6 +12317,15 @@ extension PutRetentionConfigurationInput {
     }
 }
 
+extension PutServiceLinkedConfigurationRecorderInput {
+
+    static func write(value: PutServiceLinkedConfigurationRecorderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ServicePrincipal"].write(value.servicePrincipal)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ConfigClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension PutStoredQueryInput {
 
     static func write(value: PutStoredQueryInput?, to writer: SmithyJSON.Writer) throws {
@@ -11841,6 +12417,18 @@ extension UntagResourceInput {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension AssociateResourceTypesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateResourceTypesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateResourceTypesOutput()
+        value.configurationRecorder = try reader["ConfigurationRecorder"].readIfPresent(with: ConfigClientTypes.ConfigurationRecorder.read(from:))
+        return value
     }
 }
 
@@ -11970,6 +12558,19 @@ extension DeleteRetentionConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRetentionConfigurationOutput {
         return DeleteRetentionConfigurationOutput()
+    }
+}
+
+extension DeleteServiceLinkedConfigurationRecorderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServiceLinkedConfigurationRecorderOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteServiceLinkedConfigurationRecorderOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -12313,6 +12914,18 @@ extension DescribeRetentionConfigurationsOutput {
     }
 }
 
+extension DisassociateResourceTypesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateResourceTypesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateResourceTypesOutput()
+        value.configurationRecorder = try reader["ConfigurationRecorder"].readIfPresent(with: ConfigClientTypes.ConfigurationRecorder.read(from:))
+        return value
+    }
+}
+
 extension GetAggregateComplianceDetailsByConfigRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAggregateComplianceDetailsByConfigRuleOutput {
@@ -12578,6 +13191,19 @@ extension ListAggregateDiscoveredResourcesOutput {
     }
 }
 
+extension ListConfigurationRecordersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConfigurationRecordersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConfigurationRecordersOutput()
+        value.configurationRecorderSummaries = try reader["ConfigurationRecorderSummaries"].readListIfPresent(memberReadingClosure: ConfigClientTypes.ConfigurationRecorderSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListConformancePackComplianceScoresOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConformancePackComplianceScoresOutput {
@@ -12786,6 +13412,19 @@ extension PutRetentionConfigurationOutput {
     }
 }
 
+extension PutServiceLinkedConfigurationRecorderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutServiceLinkedConfigurationRecorderOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutServiceLinkedConfigurationRecorderOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
 extension PutStoredQueryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutStoredQueryOutput {
@@ -12886,6 +13525,22 @@ extension UntagResourceOutput {
     }
 }
 
+enum AssociateResourceTypesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchGetAggregateResourceConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12968,6 +13623,7 @@ enum DeleteConfigurationRecorderOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
+            case "UnmodifiableEntityException": return try UnmodifiableEntityException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13120,6 +13776,22 @@ enum DeleteRetentionConfigurationOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "NoSuchRetentionConfigurationException": return try NoSuchRetentionConfigurationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteServiceLinkedConfigurationRecorderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13312,6 +13984,7 @@ enum DescribeConfigurationRecordersOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13326,6 +13999,7 @@ enum DescribeConfigurationRecorderStatusOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13549,6 +14223,22 @@ enum DescribeRetentionConfigurationsOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "NoSuchRetentionConfigurationException": return try NoSuchRetentionConfigurationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateResourceTypesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13874,6 +14564,20 @@ enum ListAggregateDiscoveredResourcesOutputError {
     }
 }
 
+enum ListConfigurationRecordersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListConformancePackComplianceScoresOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14018,6 +14722,7 @@ enum PutConfigurationRecorderOutputError {
             case "InvalidRecordingGroupException": return try InvalidRecordingGroupException.makeError(baseError: baseError)
             case "InvalidRoleException": return try InvalidRoleException.makeError(baseError: baseError)
             case "MaxNumberOfConfigurationRecordersExceededException": return try MaxNumberOfConfigurationRecordersExceededException.makeError(baseError: baseError)
+            case "UnmodifiableEntityException": return try UnmodifiableEntityException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14198,6 +14903,23 @@ enum PutRetentionConfigurationOutputError {
     }
 }
 
+enum PutServiceLinkedConfigurationRecorderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutStoredQueryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14274,6 +14996,7 @@ enum StartConfigurationRecorderOutputError {
         switch baseError.code {
             case "NoAvailableDeliveryChannelException": return try NoAvailableDeliveryChannelException.makeError(baseError: baseError)
             case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
+            case "UnmodifiableEntityException": return try UnmodifiableEntityException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14319,6 +15042,7 @@ enum StopConfigurationRecorderOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchConfigurationRecorderException": return try NoSuchConfigurationRecorderException.makeError(baseError: baseError)
+            case "UnmodifiableEntityException": return try UnmodifiableEntityException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14360,6 +15084,32 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchConfigurationRecorderException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConfigurationRecorderException {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchConfigurationRecorderException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14433,11 +15183,11 @@ extension NoSuchConfigRuleException {
     }
 }
 
-extension NoSuchConfigurationRecorderException {
+extension UnmodifiableEntityException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConfigurationRecorderException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnmodifiableEntityException {
         let reader = baseError.errorBodyReader
-        var value = NoSuchConfigurationRecorderException()
+        var value = UnmodifiableEntityException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15057,6 +15807,122 @@ extension IdempotentParameterMismatch {
     }
 }
 
+extension ConfigClientTypes.ConfigurationRecorder {
+
+    static func write(value: ConfigClientTypes.ConfigurationRecorder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["name"].write(value.name)
+        try writer["recordingGroup"].write(value.recordingGroup, with: ConfigClientTypes.RecordingGroup.write(value:to:))
+        try writer["recordingMode"].write(value.recordingMode, with: ConfigClientTypes.RecordingMode.write(value:to:))
+        try writer["recordingScope"].write(value.recordingScope)
+        try writer["roleARN"].write(value.roleARN)
+        try writer["servicePrincipal"].write(value.servicePrincipal)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ConfigurationRecorder()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.roleARN = try reader["roleARN"].readIfPresent()
+        value.recordingGroup = try reader["recordingGroup"].readIfPresent(with: ConfigClientTypes.RecordingGroup.read(from:))
+        value.recordingMode = try reader["recordingMode"].readIfPresent(with: ConfigClientTypes.RecordingMode.read(from:))
+        value.recordingScope = try reader["recordingScope"].readIfPresent()
+        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingMode {
+
+    static func write(value: ConfigClientTypes.RecordingMode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recordingFrequency"].write(value.recordingFrequency)
+        try writer["recordingModeOverrides"].writeList(value.recordingModeOverrides, memberWritingClosure: ConfigClientTypes.RecordingModeOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingMode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingMode()
+        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
+        value.recordingModeOverrides = try reader["recordingModeOverrides"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RecordingModeOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingModeOverride {
+
+    static func write(value: ConfigClientTypes.RecordingModeOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["recordingFrequency"].write(value.recordingFrequency)
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingModeOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingModeOverride()
+        value.description = try reader["description"].readIfPresent()
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingGroup {
+
+    static func write(value: ConfigClientTypes.RecordingGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allSupported"].write(value.allSupported)
+        try writer["exclusionByResourceTypes"].write(value.exclusionByResourceTypes, with: ConfigClientTypes.ExclusionByResourceTypes.write(value:to:))
+        try writer["includeGlobalResourceTypes"].write(value.includeGlobalResourceTypes)
+        try writer["recordingStrategy"].write(value.recordingStrategy, with: ConfigClientTypes.RecordingStrategy.write(value:to:))
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingGroup()
+        value.allSupported = try reader["allSupported"].readIfPresent() ?? false
+        value.includeGlobalResourceTypes = try reader["includeGlobalResourceTypes"].readIfPresent() ?? false
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionByResourceTypes = try reader["exclusionByResourceTypes"].readIfPresent(with: ConfigClientTypes.ExclusionByResourceTypes.read(from:))
+        value.recordingStrategy = try reader["recordingStrategy"].readIfPresent(with: ConfigClientTypes.RecordingStrategy.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.RecordingStrategy {
+
+    static func write(value: ConfigClientTypes.RecordingStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["useOnly"].write(value.useOnly)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.RecordingStrategy()
+        value.useOnly = try reader["useOnly"].readIfPresent()
+        return value
+    }
+}
+
+extension ConfigClientTypes.ExclusionByResourceTypes {
+
+    static func write(value: ConfigClientTypes.ExclusionByResourceTypes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExclusionByResourceTypes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ExclusionByResourceTypes()
+        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ConfigClientTypes.BaseConfigurationItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.BaseConfigurationItem {
@@ -15413,6 +16279,58 @@ extension ConfigClientTypes.ConfigurationAggregator {
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.aggregatorFilters = try reader["AggregatorFilters"].readIfPresent(with: ConfigClientTypes.AggregatorFilters.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregatorFilters {
+
+    static func write(value: ConfigClientTypes.AggregatorFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType, with: ConfigClientTypes.AggregatorFilterResourceType.write(value:to:))
+        try writer["ServicePrincipal"].write(value.servicePrincipal, with: ConfigClientTypes.AggregatorFilterServicePrincipal.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatorFilters()
+        value.resourceType = try reader["ResourceType"].readIfPresent(with: ConfigClientTypes.AggregatorFilterResourceType.read(from:))
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent(with: ConfigClientTypes.AggregatorFilterServicePrincipal.read(from:))
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregatorFilterServicePrincipal {
+
+    static func write(value: ConfigClientTypes.AggregatorFilterServicePrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilterServicePrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatorFilterServicePrincipal()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConfigClientTypes.AggregatorFilterResourceType {
+
+    static func write(value: ConfigClientTypes.AggregatorFilterResourceType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.AggregatorFilterResourceType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.AggregatorFilterResourceType()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15471,121 +16389,12 @@ extension ConfigClientTypes.AggregatedSourceStatus {
     }
 }
 
-extension ConfigClientTypes.ConfigurationRecorder {
-
-    static func write(value: ConfigClientTypes.ConfigurationRecorder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["recordingGroup"].write(value.recordingGroup, with: ConfigClientTypes.RecordingGroup.write(value:to:))
-        try writer["recordingMode"].write(value.recordingMode, with: ConfigClientTypes.RecordingMode.write(value:to:))
-        try writer["roleARN"].write(value.roleARN)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ConfigurationRecorder()
-        value.name = try reader["name"].readIfPresent()
-        value.roleARN = try reader["roleARN"].readIfPresent()
-        value.recordingGroup = try reader["recordingGroup"].readIfPresent(with: ConfigClientTypes.RecordingGroup.read(from:))
-        value.recordingMode = try reader["recordingMode"].readIfPresent(with: ConfigClientTypes.RecordingMode.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.RecordingMode {
-
-    static func write(value: ConfigClientTypes.RecordingMode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["recordingFrequency"].write(value.recordingFrequency)
-        try writer["recordingModeOverrides"].writeList(value.recordingModeOverrides, memberWritingClosure: ConfigClientTypes.RecordingModeOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingMode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingMode()
-        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
-        value.recordingModeOverrides = try reader["recordingModeOverrides"].readListIfPresent(memberReadingClosure: ConfigClientTypes.RecordingModeOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ConfigClientTypes.RecordingModeOverride {
-
-    static func write(value: ConfigClientTypes.RecordingModeOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["recordingFrequency"].write(value.recordingFrequency)
-        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingModeOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingModeOverride()
-        value.description = try reader["description"].readIfPresent()
-        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.recordingFrequency = try reader["recordingFrequency"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ConfigClientTypes.RecordingGroup {
-
-    static func write(value: ConfigClientTypes.RecordingGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allSupported"].write(value.allSupported)
-        try writer["exclusionByResourceTypes"].write(value.exclusionByResourceTypes, with: ConfigClientTypes.ExclusionByResourceTypes.write(value:to:))
-        try writer["includeGlobalResourceTypes"].write(value.includeGlobalResourceTypes)
-        try writer["recordingStrategy"].write(value.recordingStrategy, with: ConfigClientTypes.RecordingStrategy.write(value:to:))
-        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingGroup()
-        value.allSupported = try reader["allSupported"].readIfPresent() ?? false
-        value.includeGlobalResourceTypes = try reader["includeGlobalResourceTypes"].readIfPresent() ?? false
-        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionByResourceTypes = try reader["exclusionByResourceTypes"].readIfPresent(with: ConfigClientTypes.ExclusionByResourceTypes.read(from:))
-        value.recordingStrategy = try reader["recordingStrategy"].readIfPresent(with: ConfigClientTypes.RecordingStrategy.read(from:))
-        return value
-    }
-}
-
-extension ConfigClientTypes.RecordingStrategy {
-
-    static func write(value: ConfigClientTypes.RecordingStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["useOnly"].write(value.useOnly)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.RecordingStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.RecordingStrategy()
-        value.useOnly = try reader["useOnly"].readIfPresent()
-        return value
-    }
-}
-
-extension ConfigClientTypes.ExclusionByResourceTypes {
-
-    static func write(value: ConfigClientTypes.ExclusionByResourceTypes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["resourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConfigClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ExclusionByResourceTypes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConfigClientTypes.ExclusionByResourceTypes()
-        value.resourceTypes = try reader["resourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConfigClientTypes.ResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension ConfigClientTypes.ConfigurationRecorderStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorderStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConfigClientTypes.ConfigurationRecorderStatus()
+        value.arn = try reader["arn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.lastStartTime = try reader["lastStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastStopTime = try reader["lastStopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -15594,6 +16403,7 @@ extension ConfigClientTypes.ConfigurationRecorderStatus {
         value.lastErrorCode = try reader["lastErrorCode"].readIfPresent()
         value.lastErrorMessage = try reader["lastErrorMessage"].readIfPresent()
         value.lastStatusChangeTime = try reader["lastStatusChangeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
         return value
     }
 }
@@ -16380,6 +17190,19 @@ extension ConfigClientTypes.StoredQuery {
     }
 }
 
+extension ConfigClientTypes.ConfigurationRecorderSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConfigurationRecorderSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConfigClientTypes.ConfigurationRecorderSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.servicePrincipal = try reader["servicePrincipal"].readIfPresent()
+        value.recordingScope = try reader["recordingScope"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension ConfigClientTypes.ConformancePackComplianceScore {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConfigClientTypes.ConformancePackComplianceScore {
@@ -16616,6 +17439,15 @@ extension ConfigClientTypes.ResourceFilters {
         try writer["Region"].write(value.region)
         try writer["ResourceId"].write(value.resourceId)
         try writer["ResourceName"].write(value.resourceName)
+    }
+}
+
+extension ConfigClientTypes.ConfigurationRecorderFilter {
+
+    static func write(value: ConfigClientTypes.ConfigurationRecorderFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterName"].write(value.filterName)
+        try writer["filterValue"].writeList(value.filterValue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

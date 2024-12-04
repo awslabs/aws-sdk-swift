@@ -15,8 +15,8 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.96.0"
-let crtVersion: Version = "0.39.0"
+let clientRuntimeVersion: Version = "0.98.0"
+let crtVersion: Version = "0.40.0"
 
 let excludeRuntimeUnitTests = false
 
@@ -124,6 +124,7 @@ let serviceTargets: [String] = [
     "AWSCustomerProfiles",
     "AWSDAX",
     "AWSDLM",
+    "AWSDSQL",
     "AWSDataBrew",
     "AWSDataExchange",
     "AWSDataPipeline",
@@ -196,6 +197,7 @@ let serviceTargets: [String] = [
     "AWSInspector2",
     "AWSInspectorScan",
     "AWSInternetMonitor",
+    "AWSInvoicing",
     "AWSIoT",
     "AWSIoT1ClickDevicesService",
     "AWSIoT1ClickProjects",
@@ -280,12 +282,14 @@ let serviceTargets: [String] = [
     "AWSNeptuneGraph",
     "AWSNeptunedata",
     "AWSNetworkFirewall",
+    "AWSNetworkFlowMonitor",
     "AWSNetworkManager",
     "AWSNetworkMonitor",
     "AWSNotifications",
     "AWSNotificationsContacts",
     "AWSOAM",
     "AWSOSIS",
+    "AWSObservabilityAdmin",
     "AWSOmics",
     "AWSOpenSearch",
     "AWSOpenSearchServerless",
@@ -345,6 +349,7 @@ let serviceTargets: [String] = [
     "AWSS3",
     "AWSS3Control",
     "AWSS3Outposts",
+    "AWSS3Tables",
     "AWSSES",
     "AWSSESv2",
     "AWSSFN",
@@ -372,6 +377,7 @@ let serviceTargets: [String] = [
     "AWSSchemas",
     "AWSSecretsManager",
     "AWSSecurityHub",
+    "AWSSecurityIR",
     "AWSSecurityLake",
     "AWSServerlessApplicationRepository",
     "AWSServiceCatalog",

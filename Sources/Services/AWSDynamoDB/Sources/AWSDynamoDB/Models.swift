@@ -3094,6 +3094,35 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    public enum MultiRegionConsistency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eventual
+        case strong
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultiRegionConsistency] {
+            return [
+                .eventual,
+                .strong
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eventual: return "EVENTUAL"
+            case .strong: return "STRONG"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     /// Contains details for the restore.
     public struct RestoreSummary: Swift.Sendable {
         /// Point in time or source backup time.
@@ -3249,6 +3278,15 @@ extension DynamoDBClientTypes {
         ///
         /// If the table is in the DELETING state, no information about indexes will be returned.
         public var localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndexDescription]?
+        /// Indicates one of the following consistency modes for a global table:
+        ///
+        /// * EVENTUAL: Indicates that the global table is configured for multi-Region eventual consistency.
+        ///
+        /// * STRONG: Indicates that the global table is configured for multi-Region strong consistency (preview). Multi-Region strong consistency (MRSC) is a new DynamoDB global tables capability currently available in preview mode. For more information, see [Global tables multi-Region strong consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PreviewFeatures.html#multi-region-strong-consistency-gt).
+        ///
+        ///
+        /// If you don't specify this field, the global table consistency mode defaults to EVENTUAL.
+        public var multiRegionConsistency: DynamoDBClientTypes.MultiRegionConsistency?
         /// The maximum number of read and write units for the specified on-demand table. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
@@ -3303,6 +3341,7 @@ extension DynamoDBClientTypes {
             latestStreamArn: Swift.String? = nil,
             latestStreamLabel: Swift.String? = nil,
             localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndexDescription]? = nil,
+            multiRegionConsistency: DynamoDBClientTypes.MultiRegionConsistency? = nil,
             onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
             provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription? = nil,
             replicas: [DynamoDBClientTypes.ReplicaDescription]? = nil,
@@ -3330,6 +3369,7 @@ extension DynamoDBClientTypes {
             self.latestStreamArn = latestStreamArn
             self.latestStreamLabel = latestStreamLabel
             self.localSecondaryIndexes = localSecondaryIndexes
+            self.multiRegionConsistency = multiRegionConsistency
             self.onDemandThroughput = onDemandThroughput
             self.provisionedThroughput = provisionedThroughput
             self.replicas = replicas
@@ -3419,6 +3459,30 @@ extension DynamoDBClientTypes {
         {
             self.indexName = indexName
         }
+    }
+}
+
+/// The request was rejected because one or more items in the request are being modified by a request in another Region.
+public struct ReplicatedWriteConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicatedWriteConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
     }
 }
 
@@ -6569,6 +6633,15 @@ public struct UpdateTableInput: Swift.Sendable {
     ///
     /// You can create or delete only one global secondary index per UpdateTable operation. For more information, see [Managing Global Secondary Indexes](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html) in the Amazon DynamoDB Developer Guide.
     public var globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]?
+    /// Specifies the consistency mode for a new global table. This parameter is only valid when you create a global table by specifying one or more [Create](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ReplicationGroupUpdate.html#DDB-Type-ReplicationGroupUpdate-Create) actions in the [ReplicaUpdates](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html#DDB-UpdateTable-request-ReplicaUpdates) action list. You can specify one of the following consistency modes:
+    ///
+    /// * EVENTUAL: Configures a new global table for multi-Region eventual consistency. This is the default consistency mode for global tables.
+    ///
+    /// * STRONG: Configures a new global table for multi-Region strong consistency (preview). Multi-Region strong consistency (MRSC) is a new DynamoDB global tables capability currently available in preview mode. For more information, see [Global tables multi-Region strong consistency](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PreviewFeatures.html#multi-region-strong-consistency-gt).
+    ///
+    ///
+    /// If you don't specify this parameter, the global table consistency mode defaults to EVENTUAL.
+    public var multiRegionConsistency: DynamoDBClientTypes.MultiRegionConsistency?
     /// Updates the maximum number of read and write units for the specified table in on-demand capacity mode. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both.
     public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
     /// The new provisioned throughput settings for the specified table or index.
@@ -6592,6 +6665,7 @@ public struct UpdateTableInput: Swift.Sendable {
         billingMode: DynamoDBClientTypes.BillingMode? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]? = nil,
+        multiRegionConsistency: DynamoDBClientTypes.MultiRegionConsistency? = nil,
         onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
         provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
         replicaUpdates: [DynamoDBClientTypes.ReplicationGroupUpdate]? = nil,
@@ -6606,6 +6680,7 @@ public struct UpdateTableInput: Swift.Sendable {
         self.billingMode = billingMode
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
+        self.multiRegionConsistency = multiRegionConsistency
         self.onDemandThroughput = onDemandThroughput
         self.provisionedThroughput = provisionedThroughput
         self.replicaUpdates = replicaUpdates
@@ -9918,6 +9993,7 @@ extension UpdateTableInput {
         try writer["BillingMode"].write(value.billingMode)
         try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
         try writer["GlobalSecondaryIndexUpdates"].writeList(value.globalSecondaryIndexUpdates, memberWritingClosure: DynamoDBClientTypes.GlobalSecondaryIndexUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MultiRegionConsistency"].write(value.multiRegionConsistency)
         try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
         try writer["ProvisionedThroughput"].write(value.provisionedThroughput, with: DynamoDBClientTypes.ProvisionedThroughput.write(value:to:))
         try writer["ReplicaUpdates"].writeList(value.replicaUpdates, memberWritingClosure: DynamoDBClientTypes.ReplicationGroupUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10817,6 +10893,7 @@ enum DeleteItemOutputError {
             case "InvalidEndpointException": return try InvalidEndpointException.makeError(baseError: baseError)
             case "ItemCollectionSizeLimitExceededException": return try ItemCollectionSizeLimitExceededException.makeError(baseError: baseError)
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
+            case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
@@ -11327,6 +11404,7 @@ enum PutItemOutputError {
             case "InvalidEndpointException": return try InvalidEndpointException.makeError(baseError: baseError)
             case "ItemCollectionSizeLimitExceededException": return try ItemCollectionSizeLimitExceededException.makeError(baseError: baseError)
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
+            case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
@@ -11591,6 +11669,7 @@ enum UpdateItemOutputError {
             case "InvalidEndpointException": return try InvalidEndpointException.makeError(baseError: baseError)
             case "ItemCollectionSizeLimitExceededException": return try ItemCollectionSizeLimitExceededException.makeError(baseError: baseError)
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
+            case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
@@ -11871,6 +11950,19 @@ extension ConditionalCheckFailedException {
         let reader = baseError.errorBodyReader
         var value = ConditionalCheckFailedException()
         value.properties.item = try reader["Item"].readMapIfPresent(valueReadingClosure: DynamoDBClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ReplicatedWriteConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicatedWriteConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ReplicatedWriteConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12452,6 +12544,7 @@ extension DynamoDBClientTypes.TableDescription {
         value.deletionProtectionEnabled = try reader["DeletionProtectionEnabled"].readIfPresent()
         value.onDemandThroughput = try reader["OnDemandThroughput"].readIfPresent(with: DynamoDBClientTypes.OnDemandThroughput.read(from:))
         value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: DynamoDBClientTypes.TableWarmThroughputDescription.read(from:))
+        value.multiRegionConsistency = try reader["MultiRegionConsistency"].readIfPresent()
         return value
     }
 }

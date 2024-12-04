@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockClient: ClientRuntime.Client {
     public static let clientName = "BedrockClient"
-    public static let version = "1.0.48"
+    public static let version = "1.0.53"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockClient.BedrockClientConfiguration
     let serviceName = "Bedrock"
@@ -198,7 +198,7 @@ extension BedrockClient {
 extension BedrockClient {
     /// Performs the `BatchDeleteEvaluationJob` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// Creates a batch deletion job. A model evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
+    /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
     ///
     /// - Parameter BatchDeleteEvaluationJobInput : [no documentation found]
     ///
@@ -272,7 +272,7 @@ extension BedrockClient {
 
     /// Performs the `CreateEvaluationJob` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and model evaluation jobs that use human workers. To learn more about the requirements for creating a model evaluation job see, [Model evaluation](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation.html).
+    /// Creates an evaluation job.
     ///
     /// - Parameter CreateEvaluationJobInput : [no documentation found]
     ///
@@ -359,7 +359,7 @@ extension BedrockClient {
     /// * Sensitive information filters - Block or mask sensitive information such as personally identifiable information (PII) or custom regex in user inputs and model responses.
     ///
     ///
-    /// In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see [Guardrails for Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html) in the Amazon Bedrock User Guide.
+    /// In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see [Amazon Bedrock Guardrails](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html) in the Amazon Bedrock User Guide.
     ///
     /// - Parameter CreateGuardrailInput : [no documentation found]
     ///
@@ -1465,7 +1465,7 @@ extension BedrockClient {
 
     /// Performs the `GetEvaluationJob` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// Retrieves the properties associated with a model evaluation job, including the status of the job. For more information, see [Model evaluation](https://docs.aws.amazon.com/bedrock/latest/userguide/model-evaluation.html).
+    /// Gets information about an evaluation job, such as the status of the job.
     ///
     /// - Parameter GetEvaluationJobInput : [no documentation found]
     ///
@@ -2026,7 +2026,7 @@ extension BedrockClient {
 
     /// Performs the `GetModelInvocationJob` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// Gets details about a batch inference job. For more information, see [View details about a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-view)
+    /// Gets details about a batch inference job. For more information, see [Monitor batch inference jobs](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-monitor)
     ///
     /// - Parameter GetModelInvocationJobInput : [no documentation found]
     ///
@@ -2304,7 +2304,7 @@ extension BedrockClient {
 
     /// Performs the `ListEvaluationJobs` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// Lists model evaluation jobs.
+    /// Lists all existing evaluation jobs.
     ///
     /// - Parameter ListEvaluationJobsInput : [no documentation found]
     ///
@@ -2866,7 +2866,7 @@ extension BedrockClient {
 
     /// Performs the `ListModelInvocationJobs` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// Lists all batch inference jobs in the account. For more information, see [View details about a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-view).
+    /// Lists all batch inference jobs in the account. For more information, see [View details about a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-view.html).
     ///
     /// - Parameter ListModelInvocationJobsInput : [no documentation found]
     ///
@@ -3151,7 +3151,7 @@ extension BedrockClient {
 
     /// Performs the `StopEvaluationJob` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// Stops an in progress model evaluation job.
+    /// Stops an evaluation job that is current being created or running.
     ///
     /// - Parameter StopEvaluationJobInput : [no documentation found]
     ///
@@ -3293,7 +3293,7 @@ extension BedrockClient {
 
     /// Performs the `StopModelInvocationJob` operation on the `AmazonBedrockControlPlaneService` service.
     ///
-    /// Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see [Stop a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-manage.html#batch-inference-stop).
+    /// Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see [Stop a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-stop.html).
     ///
     /// - Parameter StopModelInvocationJobInput : [no documentation found]
     ///

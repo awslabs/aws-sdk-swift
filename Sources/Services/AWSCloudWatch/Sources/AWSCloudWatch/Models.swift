@@ -1952,9 +1952,9 @@ extension CloudWatchClientTypes {
 
     /// An entity associated with metrics, to allow for finding related telemetry. An entity is typically a resource or service within your system. For example, metrics from an Amazon EC2 instance could be associated with that instance as the entity. Similarly, metrics from a service that you own could be associated with that service as the entity.
     public struct Entity: Swift.Sendable {
-        /// Additional attributes of the entity that are not used to specify the identity of the entity. A list of key-value pairs. For details about how to use the attributes, see [How to add related information to telemetry](https://docs.aws.amazon.com/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+        /// Additional attributes of the entity that are not used to specify the identity of the entity. A list of key-value pairs. For details about how to use the attributes, see [How to add related information to telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
         public var attributes: [Swift.String: Swift.String]?
-        /// The attributes of the entity which identify the specific entity, as a list of key-value pairs. Entities with the same KeyAttributes are considered to be the same entity. For an entity to be valid, the KeyAttributes must exist and be formatted correctly. There are five allowed attributes (key names): Type, ResourceType, Identifier, Name, and Environment. For details about how to use the key attributes to specify an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
+        /// The attributes of the entity which identify the specific entity, as a list of key-value pairs. Entities with the same KeyAttributes are considered to be the same entity. For an entity to be valid, the KeyAttributes must exist and be formatted correctly. There are five allowed attributes (key names): Type, ResourceType, Identifier, Name, and Environment. For details about how to use the key attributes to specify an entity, see [How to add related information to telemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html) in the CloudWatch User Guide.
         public var keyAttributes: [Swift.String: Swift.String]?
 
         public init(
@@ -3189,7 +3189,7 @@ public struct PutCompositeAlarmInput: Swift.Sendable {
     /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
     ///
     ///
-    /// Systems Manager actions: arn:aws:ssm:region:account-id:opsitem:severity
+    /// Systems Manager actions: arn:aws:ssm:region:account-id:opsitem:severity  Start a Amazon Q Developer operational investigation arn:aws:aiops:region:account-id:investigation-group:ingestigation-group-id
     public var alarmActions: [Swift.String]?
     /// The description for the composite alarm.
     public var alarmDescription: Swift.String?
@@ -3426,6 +3426,9 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     /// * arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
     ///
     /// * arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
+    ///
+    ///
+    /// Start a Amazon Q Developer operational investigation arn:aws:aiops:region:account-id:investigation-group:ingestigation-group-id
     public var alarmActions: [Swift.String]?
     /// The description for the alarm.
     public var alarmDescription: Swift.String?
