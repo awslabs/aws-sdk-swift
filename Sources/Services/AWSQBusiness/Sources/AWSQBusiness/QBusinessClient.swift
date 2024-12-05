@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QBusinessClient: ClientRuntime.Client {
     public static let clientName = "QBusinessClient"
-    public static let version = "1.0.54"
+    public static let version = "1.0.55"
     let client: ClientRuntime.SdkHttpClient
     let config: QBusinessClient.QBusinessClientConfiguration
     let serviceName = "QBusiness"
@@ -4390,7 +4390,7 @@ extension QBusinessClient {
 
     /// Performs the `SearchRelevantContent` operation on the `ExpertQ` service.
     ///
-    /// Searches for relevant content in a Q Business application based on a query. This operation takes a search query text, the Q Business application identifier, and optional filters (such as user ID, user groups, content source, and maximum results) as input. It returns a list of relevant content items, where each item includes the content text, the unique document identifier, the document title, the document URI, any relevant document attributes, and score attributes indicating the confidence level of the relevance.
+    /// Searches for relevant content in a Q Business application based on a query. This operation takes a search query text, the Q Business application identifier, and optional filters (such as content source and maximum results) as input. It returns a list of relevant content items, where each item includes the content text, the unique document identifier, the document title, the document URI, any relevant document attributes, and score attributes indicating the confidence level of the relevance.
     ///
     /// - Parameter SearchRelevantContentInput : [no documentation found]
     ///
@@ -4433,7 +4433,6 @@ extension QBusinessClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchRelevantContentInput, SearchRelevantContentOutput>(SearchRelevantContentInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchRelevantContentInput, SearchRelevantContentOutput>())
-        builder.serialize(ClientRuntime.QueryItemMiddleware<SearchRelevantContentInput, SearchRelevantContentOutput>(SearchRelevantContentInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchRelevantContentInput, SearchRelevantContentOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<SearchRelevantContentInput, SearchRelevantContentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchRelevantContentInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchRelevantContentInput, SearchRelevantContentOutput>())

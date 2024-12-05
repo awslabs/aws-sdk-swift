@@ -358,9 +358,7 @@ extension SearchRelevantContentInput: ClientRuntime.PaginateToken {
             contentSource: self.contentSource,
             maxResults: self.maxResults,
             nextToken: token,
-            queryText: self.queryText,
-            userGroups: self.userGroups,
-            userId: self.userId
+            queryText: self.queryText
         )}
 }
 
