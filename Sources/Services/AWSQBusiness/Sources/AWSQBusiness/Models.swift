@@ -7893,10 +7893,6 @@ public struct SearchRelevantContentInput: Swift.Sendable {
     /// The text to search for.
     /// This member is required.
     public var queryText: Swift.String?
-    /// The groups the user belongs to. Used for access control.
-    public var userGroups: [Swift.String]?
-    /// The ID of the user performing the search. Used for access control.
-    public var userId: Swift.String?
 
     public init(
         applicationId: Swift.String? = nil,
@@ -7904,9 +7900,7 @@ public struct SearchRelevantContentInput: Swift.Sendable {
         contentSource: QBusinessClientTypes.ContentSource? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        queryText: Swift.String? = nil,
-        userGroups: [Swift.String]? = nil,
-        userId: Swift.String? = nil
+        queryText: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
@@ -7915,8 +7909,6 @@ public struct SearchRelevantContentInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryText = queryText
-        self.userGroups = userGroups
-        self.userId = userId
     }
 }
 
@@ -9205,24 +9197,6 @@ extension SearchRelevantContentInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/relevant-content"
-    }
-}
-
-extension SearchRelevantContentInput {
-
-    static func queryItemProvider(_ value: SearchRelevantContentInput) throws -> [Smithy.URIQueryItem] {
-        var items = [Smithy.URIQueryItem]()
-        if let userGroups = value.userGroups {
-            userGroups.forEach { queryItemValue in
-                let queryItem = Smithy.URIQueryItem(name: "userGroups".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
-                items.append(queryItem)
-            }
-        }
-        if let userId = value.userId {
-            let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
-            items.append(userIdQueryItem)
-        }
-        return items
     }
 }
 

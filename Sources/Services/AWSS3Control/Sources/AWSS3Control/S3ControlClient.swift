@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3ControlClient: ClientRuntime.Client {
     public static let clientName = "S3ControlClient"
-    public static let version = "1.0.54"
+    public static let version = "1.0.55"
     let client: ClientRuntime.SdkHttpClient
     let config: S3ControlClient.S3ControlClientConfiguration
     let serviceName = "S3 Control"
