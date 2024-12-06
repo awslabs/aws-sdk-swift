@@ -37,8 +37,7 @@ class ECSAWSCredentialIdentityResolverTests: XCTestCase {
         )
     }
     
-    // TODO: Re-enable this test once CI is configured to run it. See https://github.com/awslabs/aws-sdk-swift/issues/1310
-    func xtest_ecsAWSCredentialIdentityResolver() async throws {
+    func test_ecsAWSCredentialIdentityResolver() async throws {
         let ecsClient = try await ECSClient()
         
         // create cluster
