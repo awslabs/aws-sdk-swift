@@ -31,6 +31,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 import software.amazon.smithy.swift.codegen.waiters.JMESPathVisitor
@@ -49,11 +50,13 @@ class OperationEndpointResolverMiddleware(
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         renderEndpointParams(ctx, writer, op)
-        renderResolverBlock(writer)
 
         // Write code that saves endpoint params to middleware context for use in auth scheme middleware when using rules-based auth scheme resolvers
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
-            writer.write("context.set(key: \$N<EndpointParams>(name: \"EndpointParams\"), value: paramsBlock(context))", SmithyTypes.AttributeKey)
+            writer.write(
+                "context.set(key: \$N<EndpointParams>(name: \"EndpointParams\"), value: endpointParamsBlock(context))",
+                SmithyTypes.AttributeKey
+            )
         }
 
         super.renderSpecific(ctx, writer, op, operationStackName, "applyEndpoint")
@@ -66,14 +69,10 @@ class OperationEndpointResolverMiddleware(
     ) {
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
         writer.write(
-            "\$N<\$N, EndpointParams>(paramsBlock: paramsBlock, resolverBlock: resolverBlock)",
+            "\$N<\$N, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: \$\$0) })",
             endpointResolverMiddlewareSymbol,
             output
         )
-    }
-
-    private fun renderResolverBlock(writer: SwiftWriter) {
-        writer.write("let resolverBlock = { [config] in try config.endpointResolver.resolve(params: \$\$0) }")
     }
 
     private fun renderEndpointParams(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape) {
@@ -107,8 +106,13 @@ class OperationEndpointResolverMiddleware(
                 }
         }
 
-        writer.openBlock("let paramsBlock = { [config] (context: \$N) in", "}", SmithyTypes.Context) {
-            writer.write("EndpointParams(${params.joinToString(separator = ", ")})")
+        writer.openBlock("let endpointParamsBlock = { [config] (context: \$N) in", "}", SmithyTypes.Context) {
+            writer.openBlock("EndpointParams(", ")") {
+                params.forEach { param ->
+                    val commaOrNot = ",".takeIf { param !== params.last() } ?: ""
+                    writer.write("\$L\$L", param, commaOrNot)
+                }
+            }
         }
     }
 
@@ -173,6 +177,9 @@ class OperationEndpointResolverMiddleware(
             }
             clientContextParam != null -> {
                 when {
+                    param.name.toString() == "AccountId" -> {
+                        writer.format("(context.selectedAuthScheme?.identity as? \$N)?.accountID", SmithyIdentityTypes.AWSCredentialIdentity)
+                    }
                     param.name.toString() == "AccountIdEndpointMode" -> {
                         "config.accountIdEndpointMode?.rawValue"
                     }

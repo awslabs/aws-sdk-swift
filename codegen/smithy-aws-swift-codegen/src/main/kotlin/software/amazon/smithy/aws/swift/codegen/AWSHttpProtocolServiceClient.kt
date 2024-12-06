@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.HttpBearerAuthTrait
@@ -44,8 +45,8 @@ class AWSHttpProtocolServiceClient(
     }
 
     override fun overrideConfigProperties(properties: List<ConfigProperty>): List<ConfigProperty> {
-        return properties.map {
-            when (it.name) {
+        return properties.map { property ->
+            when (property.name) {
                 "authSchemeResolver" -> {
                     ConfigProperty("authSchemeResolver", SmithyHTTPAuthAPITypes.AuthSchemeResolver, authSchemeResolverDefaultProvider)
                 }
@@ -61,7 +62,7 @@ class AWSHttpProtocolServiceClient(
                             true
                         )
                     } else {
-                        it
+                        property
                     }
                 }
                 "retryStrategyOptions" -> {
@@ -100,7 +101,7 @@ class AWSHttpProtocolServiceClient(
                         { it.format("AWSClientConfigDefaultsProvider.httpClientConfiguration()") },
                     )
                 }
-                else -> it
+                else -> property
             }
         }
     }
@@ -152,4 +153,14 @@ class AWSHttpProtocolServiceClient(
         false,
         false
     )
+
+    override fun customizedClientConfigProperty(property: ConfigProperty): ConfigProperty? {
+        return when (property.name) {
+            "accountId" -> null
+            "accountIdEndpointMode" -> {
+                ConfigProperty("accountIdEndpointMode", AWSClientRuntimeTypes.Core.AccountIDEndpointMode.toOptional())
+            }
+            else -> property
+        }
+    }
 }

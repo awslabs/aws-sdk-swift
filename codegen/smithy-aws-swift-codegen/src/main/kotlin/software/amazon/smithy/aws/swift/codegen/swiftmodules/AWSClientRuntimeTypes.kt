@@ -33,6 +33,7 @@ object AWSClientRuntimeTypes {
         val AWSUserAgentMetadata = runtimeSymbol("AWSUserAgentMetadata", SwiftDeclaration.STRUCT)
         val UserAgentMiddleware = runtimeSymbol("UserAgentMiddleware", SwiftDeclaration.STRUCT)
         val AWSEndpointResolverMiddleware = runtimeSymbol("AWSEndpointResolverMiddleware", SwiftDeclaration.STRUCT, listOf("AWSEndpointResolverMiddleware"))
+        val AccountIDEndpointMode = runtimeSymbol("AccountIDEndpointMode", SwiftDeclaration.ENUM)
         val UnknownAWSHTTPServiceError = runtimeSymbol("UnknownAWSHTTPServiceError", SwiftDeclaration.STRUCT, listOf("UnknownAWSHTTPServiceError"))
         val AWSServiceError = runtimeSymbol("AWSServiceError", SwiftDeclaration.PROTOCOL)
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware", SwiftDeclaration.STRUCT)
