@@ -53,8 +53,11 @@ extension GetFooInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFooOutput>())
-        let endpointParams = EndpointParams()
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetFooOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
+        let paramsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams()
+        }
+        let resolverBlock = { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFooOutput, EndpointParams>(paramsBlock: paramsBlock, resolverBlock: resolverBlock))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFooInput, GetFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFooOutput>())
         var metricsAttributes = Smithy.Attributes()
@@ -125,8 +128,11 @@ extension PostFooInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PostFooOutput>())
-        let endpointParams = EndpointParams()
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PostFooOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
+        let paramsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams()
+        }
+        let resolverBlock = { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PostFooOutput, EndpointParams>(paramsBlock: paramsBlock, resolverBlock: resolverBlock))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PostFooInput, PostFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PostFooOutput>())
         var metricsAttributes = Smithy.Attributes()
@@ -197,8 +203,11 @@ extension PutFooInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFooOutput>())
-        let endpointParams = EndpointParams()
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutFooOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
+        let paramsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams()
+        }
+        let resolverBlock = { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutFooOutput, EndpointParams>(paramsBlock: paramsBlock, resolverBlock: resolverBlock))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFooInput, PutFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutFooOutput>())
         var metricsAttributes = Smithy.Attributes()
@@ -269,9 +278,12 @@ extension PutObjectInput {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
-        let endpointParams = EndpointParams()
-        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParams)
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<PutObjectOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
+        let paramsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams()
+        }
+        let resolverBlock = { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: paramsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutObjectOutput, EndpointParams>(paramsBlock: paramsBlock, resolverBlock: resolverBlock))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutObjectInput, PutObjectOutput>(serviceID: serviceName, version: S3Client.version, config: config))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutObjectOutput>())
         var metricsAttributes = Smithy.Attributes()

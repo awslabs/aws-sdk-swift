@@ -36,8 +36,11 @@ class AWSQueryOperationStackTest {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NoInputAndOutputOutput>())
-        let endpointParams = EndpointParams()
-        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<NoInputAndOutputOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }, endpointParams: endpointParams))
+        let paramsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams()
+        }
+        let resolverBlock = { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<NoInputAndOutputOutput, EndpointParams>(paramsBlock: paramsBlock, resolverBlock: resolverBlock))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(serviceID: serviceName, version: QueryProtocolClient.version, config: config))
         builder.serialize(ClientRuntime.BodyMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: NoInputAndOutputInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(contentType: "application/x-www-form-urlencoded"))
