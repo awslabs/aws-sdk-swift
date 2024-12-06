@@ -18,27 +18,26 @@ import enum ClientRuntime.EndpointsAuthScheme
 import protocol ClientRuntime.EndpointsAuthSchemeResolver
 import protocol ClientRuntime.EndpointsRequestContextProviding
 
-public struct EndpointResolverMiddleware<OperationStackOutput, Params: EndpointsRequestContextProviding> {
+@_spi(AWSEndpointResolverMiddleware)
+public struct AWSEndpointResolverMiddleware<OperationStackOutput, Params: EndpointsRequestContextProviding> {
     public let id: Swift.String = "EndpointResolverMiddleware"
-
-    let endpointResolverBlock: (Params) throws -> Endpoint
-
-    let endpointParams: Params
-
+    let paramsBlock: (Context) throws -> Params
+    let resolverBlock: (Params) throws -> Endpoint
     let authSchemeResolver: ClientRuntime.EndpointsAuthSchemeResolver
 
     public init(
-        endpointResolverBlock: @escaping (Params) throws -> Endpoint,
-        endpointParams: Params,
+        paramsBlock: @escaping (Context) throws -> Params,
+        resolverBlock: @escaping (Params) throws -> Endpoint,
         authSchemeResolver: EndpointsAuthSchemeResolver = DefaultEndpointsAuthSchemeResolver()
     ) {
-        self.endpointResolverBlock = endpointResolverBlock
-        self.endpointParams = endpointParams
+        self.paramsBlock = paramsBlock
+        self.resolverBlock = resolverBlock
         self.authSchemeResolver = authSchemeResolver
     }
 }
 
-extension EndpointResolverMiddleware: ApplyEndpoint {
+extension AWSEndpointResolverMiddleware: ApplyEndpoint {
+
     public func apply(
         request: SmithyHTTPAPI.HTTPRequest,
         selectedAuthScheme: SelectedAuthScheme?,
@@ -46,7 +45,7 @@ extension EndpointResolverMiddleware: ApplyEndpoint {
     ) async throws -> SmithyHTTPAPI.HTTPRequest {
         let builder = request.toBuilder()
 
-        let endpoint = try endpointResolverBlock(endpointParams)
+        let endpoint = try resolverBlock(paramsBlock(attributes))
 
         var signingName: String?
         var signingAlgorithm: String?

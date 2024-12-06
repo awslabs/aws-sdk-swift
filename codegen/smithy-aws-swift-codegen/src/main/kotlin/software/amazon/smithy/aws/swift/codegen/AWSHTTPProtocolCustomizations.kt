@@ -67,7 +67,7 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         return AWSHttpProtocolServiceClient(ctx, writer, serviceConfig)
     }
 
-    override val endpointMiddlewareSymbol: Symbol = AWSClientRuntimeTypes.Core.EndpointResolverMiddleware
+    override val endpointMiddlewareSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware
 
     override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
 }

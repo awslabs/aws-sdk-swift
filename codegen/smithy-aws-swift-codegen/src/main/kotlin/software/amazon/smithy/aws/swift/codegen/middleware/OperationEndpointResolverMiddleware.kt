@@ -49,10 +49,11 @@ class OperationEndpointResolverMiddleware(
 
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         renderEndpointParams(ctx, writer, op)
+        renderResolverBlock(writer)
 
         // Write code that saves endpoint params to middleware context for use in auth scheme middleware when using rules-based auth scheme resolvers
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
-            writer.write("context.set(key: \$N<EndpointParams>(name: \"EndpointParams\"), value: endpointParams)", SmithyTypes.AttributeKey)
+            writer.write("context.set(key: \$N<EndpointParams>(name: \"EndpointParams\"), value: paramsBlock(context))", SmithyTypes.AttributeKey)
         }
 
         super.renderSpecific(ctx, writer, op, operationStackName, "applyEndpoint")
@@ -65,14 +66,17 @@ class OperationEndpointResolverMiddleware(
     ) {
         val output = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op)
         writer.write(
-            "\$N<\$N, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: \$\$0) }, endpointParams: endpointParams)",
+            "\$N<\$N, EndpointParams>(paramsBlock: paramsBlock, resolverBlock: resolverBlock)",
             endpointResolverMiddlewareSymbol,
             output
         )
     }
 
+    private fun renderResolverBlock(writer: SwiftWriter) {
+        writer.write("let resolverBlock = { [config] in try config.endpointResolver.resolve(params: \$\$0) }")
+    }
+
     private fun renderEndpointParams(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape) {
-        val outputError = MiddlewareShapeUtils.outputErrorSymbol(op)
         val params = mutableListOf<String>()
         ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { node ->
             val ruleSet = EndpointRuleSet.fromNode(node)
@@ -96,7 +100,6 @@ class OperationEndpointResolverMiddleware(
                         operationContextParams[param.name.toString()],
                         clientContextParams[param.name.toString()],
                         writer,
-                        outputError
                     )
                     value?.let {
                         params.add("$memberName: $it")
@@ -104,7 +107,9 @@ class OperationEndpointResolverMiddleware(
                 }
         }
 
-        writer.write("let endpointParams = EndpointParams(${params.joinToString(separator = ", ")})")
+        writer.openBlock("let paramsBlock = { [config] (context: \$N) in", "}", SmithyTypes.Context) {
+            writer.write("EndpointParams(${params.joinToString(separator = ", ")})")
+        }
     }
 
     /**
@@ -125,7 +130,6 @@ class OperationEndpointResolverMiddleware(
         operationContextParam: OperationContextParamDefinition?,
         clientContextParam: ClientContextParamDefinition?,
         writer: SwiftWriter,
-        outputError: Symbol
     ): String? {
         return when {
             staticContextParam != null -> {
@@ -169,6 +173,9 @@ class OperationEndpointResolverMiddleware(
             }
             clientContextParam != null -> {
                 when {
+                    param.name.toString() == "AccountIdEndpointMode" -> {
+                        "config.accountIdEndpointMode?.rawValue"
+                    }
                     param.default.isPresent -> {
                         "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                     }
