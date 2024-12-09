@@ -135,4 +135,19 @@ public class AWSClientConfigDefaultsProvider {
             rateLimitingMode: resolvedRateLimitingMode
         )
     }
+
+    public static func accountIDEndpointMode(
+        _ accountIDEndpointMode: AccountIDEndpointMode?
+    ) throws -> AccountIDEndpointMode {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        if let accountIDEndpointMode {
+            return accountIDEndpointMode
+        } else {
+            return AWSEndpointConfig.accountIDEndpointMode(
+                configValue: accountIDEndpointMode,
+                profileName: nil,
+                fileBasedConfig: fileBasedConfig
+            )
+        }
+    }
 }

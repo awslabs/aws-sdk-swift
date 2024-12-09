@@ -143,22 +143,35 @@ class AWSHttpProtocolServiceClient(
 
     override fun renderPartitionID() {
         writer.openBlock("public var partitionID: String? {", "}") {
-            writer.write("return \"\\(\$L.clientName) - \\(region ?? \"\")\"", serviceConfig.clientName.toUpperCamelCase())
+            writer.write(
+                "return \"\\(\$L.clientName) - \\(region ?? \"\")\"",
+                serviceConfig.clientName.toUpperCamelCase(),
+            )
         }
         writer.write("")
     }
 
     private val authSchemeResolverDefaultProvider = DefaultProvider(
-        { "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()" },
+        { writer.format("Default\$LAuthSchemeResolver()", AuthSchemeResolverGenerator.getSdkId(ctx)) },
         false,
         false
     )
 
     override fun customizedClientConfigProperty(property: ConfigProperty): ConfigProperty? {
         return when (property.name) {
-            "accountId" -> null
-            "accountIdEndpointMode" -> {
-                ConfigProperty("accountIdEndpointMode", AWSClientRuntimeTypes.Core.AccountIDEndpointMode.toOptional())
+            "accountId" -> null // do not expose accountId as a client config property
+            "accountIdEndpointMode" -> { // expose accountIdEndpointMode as a Swift string-backed enum
+                ConfigProperty(
+                    "accountIdEndpointMode",
+                    AWSClientRuntimeTypes.Core.AccountIDEndpointMode.toOptional(),
+                    { writer ->
+                        writer.format(
+                            "\$N.accountIDEndpointMode(accountIdEndpointMode)",
+                            AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                        )
+                    },
+                    true
+                )
             }
             else -> property
         }

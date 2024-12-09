@@ -31,7 +31,6 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 import software.amazon.smithy.swift.codegen.waiters.JMESPathVisitor
@@ -107,12 +106,7 @@ class OperationEndpointResolverMiddleware(
         }
 
         writer.openBlock("let endpointParamsBlock = { [config] (context: \$N) in", "}", SmithyTypes.Context) {
-            writer.openBlock("EndpointParams(", ")") {
-                params.forEach { param ->
-                    val commaOrNot = ",".takeIf { param !== params.last() } ?: ""
-                    writer.write("\$L\$L", param, commaOrNot)
-                }
-            }
+            writer.write("EndpointParams(\$L)", params.joinToString(", "))
         }
     }
 
@@ -178,7 +172,7 @@ class OperationEndpointResolverMiddleware(
             clientContextParam != null -> {
                 when {
                     param.name.toString() == "AccountId" -> {
-                        writer.format("(context.selectedAuthScheme?.identity as? \$N)?.accountID", SmithyIdentityTypes.AWSCredentialIdentity)
+                        writer.format("context.resolvedAWSAccountID")
                     }
                     param.name.toString() == "AccountIdEndpointMode" -> {
                         "config.accountIdEndpointMode?.rawValue"
