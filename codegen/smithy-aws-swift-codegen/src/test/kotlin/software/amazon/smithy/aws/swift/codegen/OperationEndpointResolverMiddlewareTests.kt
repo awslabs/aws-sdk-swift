@@ -50,11 +50,10 @@ let projection2: [Swift.String]? = objects2?.compactMap { original in
     let id = original.id
     return id
 }
-let paramsBlock = { [config] (context: Smithy.Context) in
+let endpointParamsBlock = { [config] (context: Smithy.Context) in
     EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.boolFoo, endpoint: config.endpoint, flattenedArray: projection, keysFunctionArray: keys, region: region, stringArrayBar: ["five", "six", "seven"], stringBar: "some value", stringBaz: input.buzz, stringFoo: config.stringFoo, subfield: subfield2, wildcardProjectionArray: projection2)
 }
-let resolverBlock = { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }
-builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetThingOutput, EndpointParams>(paramsBlock: paramsBlock, resolverBlock: resolverBlock))
+builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetThingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
 """
         contents.shouldContainOnlyOnce(expected)
     }
