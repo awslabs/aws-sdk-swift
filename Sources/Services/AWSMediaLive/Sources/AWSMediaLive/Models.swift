@@ -16537,6 +16537,36 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// H265 Deblocking
+    public enum H265Deblocking: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265Deblocking] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// H265 Filter Settings
     public struct H265FilterSettings: Swift.Sendable {
         /// Bandwidth Reduction Filter Settings
@@ -17035,6 +17065,8 @@ extension MediaLiveClientTypes {
         public var colorMetadata: MediaLiveClientTypes.H265ColorMetadata?
         /// Color Space settings
         public var colorSpaceSettings: MediaLiveClientTypes.H265ColorSpaceSettings?
+        /// Enable or disable the deblocking filter for this codec. The filter reduces blocking artifacts at block boundaries, which improves overall video quality. If the filter is disabled, visible block edges might appear in the output, especially at lower bitrates.
+        public var deblocking: MediaLiveClientTypes.H265Deblocking?
         /// Optional. Both filters reduce bandwidth by removing imperceptible details. You can enable one of the filters. We recommend that you try both filters and observe the results to decide which one to use. The Temporal Filter reduces bandwidth by removing imperceptible details in the content. It combines perceptual filtering and motion compensated temporal filtering (MCTF). It operates independently of the compression level. The Bandwidth Reduction filter is a perceptual filter located within the encoding loop. It adapts to the current compression level to filter imperceptible signals. This filter works only when the resolution is 1080p or lower.
         public var filterSettings: MediaLiveClientTypes.H265FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
@@ -17116,6 +17148,7 @@ extension MediaLiveClientTypes {
             bufSize: Swift.Int? = nil,
             colorMetadata: MediaLiveClientTypes.H265ColorMetadata? = nil,
             colorSpaceSettings: MediaLiveClientTypes.H265ColorSpaceSettings? = nil,
+            deblocking: MediaLiveClientTypes.H265Deblocking? = nil,
             filterSettings: MediaLiveClientTypes.H265FilterSettings? = nil,
             fixedAfd: MediaLiveClientTypes.FixedAfd? = nil,
             flickerAq: MediaLiveClientTypes.H265FlickerAq? = nil,
@@ -17155,6 +17188,7 @@ extension MediaLiveClientTypes {
             self.bufSize = bufSize
             self.colorMetadata = colorMetadata
             self.colorSpaceSettings = colorSpaceSettings
+            self.deblocking = deblocking
             self.filterSettings = filterSettings
             self.fixedAfd = fixedAfd
             self.flickerAq = flickerAq
@@ -25721,6 +25755,7 @@ public struct UpdateInputSecurityGroupInput: Swift.Sendable {
     /// This member is required.
     public var inputSecurityGroupId: Swift.String?
     /// A collection of key-value pairs.
+    @available(*, deprecated, message: "This API is deprecated. You must use UpdateTagsForResource instead. API deprecated since 2024-11-20")
     public var tags: [Swift.String: Swift.String]?
     /// List of IPv4 CIDR addresses to whitelist
     public var whitelistRules: [MediaLiveClientTypes.InputWhitelistRuleCidr]?
@@ -34118,6 +34153,7 @@ extension MediaLiveClientTypes.H265Settings {
         try writer["bufSize"].write(value.bufSize)
         try writer["colorMetadata"].write(value.colorMetadata)
         try writer["colorSpaceSettings"].write(value.colorSpaceSettings, with: MediaLiveClientTypes.H265ColorSpaceSettings.write(value:to:))
+        try writer["deblocking"].write(value.deblocking)
         try writer["filterSettings"].write(value.filterSettings, with: MediaLiveClientTypes.H265FilterSettings.write(value:to:))
         try writer["fixedAfd"].write(value.fixedAfd)
         try writer["flickerAq"].write(value.flickerAq)
@@ -34190,6 +34226,7 @@ extension MediaLiveClientTypes.H265Settings {
         value.tileWidth = try reader["tileWidth"].readIfPresent()
         value.treeblockSize = try reader["treeblockSize"].readIfPresent()
         value.minQp = try reader["minQp"].readIfPresent()
+        value.deblocking = try reader["deblocking"].readIfPresent()
         return value
     }
 }
