@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.0.55"
+    public static let version = "1.0.56"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -18673,7 +18673,7 @@ extension EC2Client {
     ///
     /// * hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge
     ///
-    /// * p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge
+    /// * p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge
     ///
     /// * trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge
     ///
@@ -34849,6 +34849,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceMetadataOptions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyInstanceNetworkPerformanceOptions` operation on the `AmazonEC2` service.
+    ///
+    /// Change the configuration of the network performance options for an existing instance.
+    ///
+    /// - Parameter ModifyInstanceNetworkPerformanceOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyInstanceNetworkPerformanceOptionsOutput` : [no documentation found]
+    public func modifyInstanceNetworkPerformanceOptions(input: ModifyInstanceNetworkPerformanceOptionsInput) async throws -> ModifyInstanceNetworkPerformanceOptionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyInstanceNetworkPerformanceOptions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyInstanceNetworkPerformanceOptionsInput, ModifyInstanceNetworkPerformanceOptionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyInstanceNetworkPerformanceOptionsInput, ModifyInstanceNetworkPerformanceOptionsOutput>(ModifyInstanceNetworkPerformanceOptionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyInstanceNetworkPerformanceOptionsInput, ModifyInstanceNetworkPerformanceOptionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyInstanceNetworkPerformanceOptionsInput, ModifyInstanceNetworkPerformanceOptionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceNetworkPerformanceOptionsOutput>(ModifyInstanceNetworkPerformanceOptionsOutput.httpOutput(from:), ModifyInstanceNetworkPerformanceOptionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceNetworkPerformanceOptionsInput, ModifyInstanceNetworkPerformanceOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceNetworkPerformanceOptionsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ModifyInstanceNetworkPerformanceOptionsOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyInstanceNetworkPerformanceOptionsInput, ModifyInstanceNetworkPerformanceOptionsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyInstanceNetworkPerformanceOptionsInput, ModifyInstanceNetworkPerformanceOptionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyInstanceNetworkPerformanceOptionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyInstanceNetworkPerformanceOptionsInput, ModifyInstanceNetworkPerformanceOptionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyInstanceNetworkPerformanceOptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyInstanceNetworkPerformanceOptionsInput, ModifyInstanceNetworkPerformanceOptionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyInstanceNetworkPerformanceOptionsInput, ModifyInstanceNetworkPerformanceOptionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceNetworkPerformanceOptions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
