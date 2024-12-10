@@ -2507,6 +2507,101 @@ public struct CreateDeliverabilityTestReportOutput: Swift.Sendable {
 
 extension SESv2ClientTypes {
 
+    public enum DkimSigningAttributesOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsSes
+        case awsSesAfSouth1
+        case awsSesApNortheast1
+        case awsSesApNortheast2
+        case awsSesApNortheast3
+        case awsSesApSoutheast1
+        case awsSesApSoutheast2
+        case awsSesApSoutheast3
+        case awsSesApSouth1
+        case awsSesCaCentral1
+        case awsSesEuCentral1
+        case awsSesEuNorth1
+        case awsSesEuSouth1
+        case awsSesEuWest1
+        case awsSesEuWest2
+        case awsSesEuWest3
+        case awsSesIlCentral1
+        case awsSesMeSouth1
+        case awsSesSaEast1
+        case awsSesUsEast1
+        case awsSesUsEast2
+        case awsSesUsWest1
+        case awsSesUsWest2
+        case external
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DkimSigningAttributesOrigin] {
+            return [
+                .awsSes,
+                .awsSesAfSouth1,
+                .awsSesApNortheast1,
+                .awsSesApNortheast2,
+                .awsSesApNortheast3,
+                .awsSesApSoutheast1,
+                .awsSesApSoutheast2,
+                .awsSesApSoutheast3,
+                .awsSesApSouth1,
+                .awsSesCaCentral1,
+                .awsSesEuCentral1,
+                .awsSesEuNorth1,
+                .awsSesEuSouth1,
+                .awsSesEuWest1,
+                .awsSesEuWest2,
+                .awsSesEuWest3,
+                .awsSesIlCentral1,
+                .awsSesMeSouth1,
+                .awsSesSaEast1,
+                .awsSesUsEast1,
+                .awsSesUsEast2,
+                .awsSesUsWest1,
+                .awsSesUsWest2,
+                .external
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsSes: return "AWS_SES"
+            case .awsSesAfSouth1: return "AWS_SES_AF_SOUTH_1"
+            case .awsSesApNortheast1: return "AWS_SES_AP_NORTHEAST_1"
+            case .awsSesApNortheast2: return "AWS_SES_AP_NORTHEAST_2"
+            case .awsSesApNortheast3: return "AWS_SES_AP_NORTHEAST_3"
+            case .awsSesApSoutheast1: return "AWS_SES_AP_SOUTHEAST_1"
+            case .awsSesApSoutheast2: return "AWS_SES_AP_SOUTHEAST_2"
+            case .awsSesApSoutheast3: return "AWS_SES_AP_SOUTHEAST_3"
+            case .awsSesApSouth1: return "AWS_SES_AP_SOUTH_1"
+            case .awsSesCaCentral1: return "AWS_SES_CA_CENTRAL_1"
+            case .awsSesEuCentral1: return "AWS_SES_EU_CENTRAL_1"
+            case .awsSesEuNorth1: return "AWS_SES_EU_NORTH_1"
+            case .awsSesEuSouth1: return "AWS_SES_EU_SOUTH_1"
+            case .awsSesEuWest1: return "AWS_SES_EU_WEST_1"
+            case .awsSesEuWest2: return "AWS_SES_EU_WEST_2"
+            case .awsSesEuWest3: return "AWS_SES_EU_WEST_3"
+            case .awsSesIlCentral1: return "AWS_SES_IL_CENTRAL_1"
+            case .awsSesMeSouth1: return "AWS_SES_ME_SOUTH_1"
+            case .awsSesSaEast1: return "AWS_SES_SA_EAST_1"
+            case .awsSesUsEast1: return "AWS_SES_US_EAST_1"
+            case .awsSesUsEast2: return "AWS_SES_US_EAST_2"
+            case .awsSesUsWest1: return "AWS_SES_US_WEST_1"
+            case .awsSesUsWest2: return "AWS_SES_US_WEST_2"
+            case .external: return "EXTERNAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     public enum DkimSigningKeyLength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rsa1024Bit
         case rsa2048Bit
@@ -2538,6 +2633,73 @@ extension SESv2ClientTypes {
 
     /// An object that contains configuration for Bring Your Own DKIM (BYODKIM), or, for Easy DKIM
     public struct DkimSigningAttributes: Swift.Sendable {
+        /// The attribute to use for configuring DKIM for the identity depends on the operation:
+        ///
+        /// * For PutEmailIdentityDkimSigningAttributes:
+        ///
+        /// * None of the values are allowed - use the [SigningAttributesOrigin](https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_PutEmailIdentityDkimSigningAttributes.html#SES-PutEmailIdentityDkimSigningAttributes-request-SigningAttributesOrigin) parameter instead
+        ///
+        ///
+        ///
+        ///
+        /// * For CreateEmailIdentity when replicating a parent identity's DKIM configuration:
+        ///
+        /// * Allowed values: All values except AWS_SES and EXTERNAL
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// * AWS_SES – Configure DKIM for the identity by using Easy DKIM.
+        ///
+        /// * EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).
+        ///
+        /// * AWS_SES_AF_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_NORTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_3 – Configure DKIM for the identity by replicating from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_ME_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_IL_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_SA_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_CA_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_EAST_2 – Configure DKIM for the identity by replicating from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
+        public var domainSigningAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
         /// [Bring Your Own DKIM] A private key that's used to generate a DKIM signature. The private key must use 1024 or 2048-bit RSA encryption, and must be encoded using base64 encoding.
         public var domainSigningPrivateKey: Swift.String?
         /// [Bring Your Own DKIM] A string that's used to identify a public key in the DNS configuration for a domain.
@@ -2546,11 +2708,13 @@ extension SESv2ClientTypes {
         public var nextSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength?
 
         public init(
+            domainSigningAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin? = nil,
             domainSigningPrivateKey: Swift.String? = nil,
             domainSigningSelector: Swift.String? = nil,
             nextSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength? = nil
         )
         {
+            self.domainSigningAttributesOrigin = domainSigningAttributesOrigin
             self.domainSigningPrivateKey = domainSigningPrivateKey
             self.domainSigningSelector = domainSigningSelector
             self.nextSigningKeyLength = nextSigningKeyLength
@@ -2560,7 +2724,7 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes.DkimSigningAttributes: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DkimSigningAttributes(domainSigningSelector: \(Swift.String(describing: domainSigningSelector)), nextSigningKeyLength: \(Swift.String(describing: nextSigningKeyLength)), domainSigningPrivateKey: \"CONTENT_REDACTED\")"}
+        "DkimSigningAttributes(domainSigningAttributesOrigin: \(Swift.String(describing: domainSigningAttributesOrigin)), domainSigningSelector: \(Swift.String(describing: domainSigningSelector)), nextSigningKeyLength: \(Swift.String(describing: nextSigningKeyLength)), domainSigningPrivateKey: \"CONTENT_REDACTED\")"}
 }
 
 /// A request to begin the verification process for an email identity (an email address or domain).
@@ -2586,35 +2750,6 @@ public struct CreateEmailIdentityInput: Swift.Sendable {
         self.dkimSigningAttributes = dkimSigningAttributes
         self.emailIdentity = emailIdentity
         self.tags = tags
-    }
-}
-
-extension SESv2ClientTypes {
-
-    public enum DkimSigningAttributesOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case awsSes
-        case external
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DkimSigningAttributesOrigin] {
-            return [
-                .awsSes,
-                .external
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .awsSes: return "AWS_SES"
-            case .external: return "EXTERNAL"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -2682,6 +2817,50 @@ extension SESv2ClientTypes {
         /// * AWS_SES – Indicates that DKIM was configured for the identity by using [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
         ///
         /// * EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).
+        ///
+        /// * AWS_SES_AF_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_NORTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_ME_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_IL_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_SA_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_CA_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_EAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
         public var signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
         /// If the value is true, then the messages that you send from the identity are signed using DKIM. If the value is false, then the messages that you send from the identity aren't DKIM-signed.
         public var signingEnabled: Swift.Bool
@@ -5116,6 +5295,11 @@ extension SESv2ClientTypes {
         case dnsServerError
         case hostNotFound
         case invalidValue
+        case replicationAccessDenied
+        case replicationPrimaryByoDkimNotSupported
+        case replicationPrimaryInvalidRegion
+        case replicationPrimaryNotFound
+        case replicationReplicaAsPrimaryNotSupported
         case serviceError
         case typeNotFound
         case sdkUnknown(Swift.String)
@@ -5125,6 +5309,11 @@ extension SESv2ClientTypes {
                 .dnsServerError,
                 .hostNotFound,
                 .invalidValue,
+                .replicationAccessDenied,
+                .replicationPrimaryByoDkimNotSupported,
+                .replicationPrimaryInvalidRegion,
+                .replicationPrimaryNotFound,
+                .replicationReplicaAsPrimaryNotSupported,
                 .serviceError,
                 .typeNotFound
             ]
@@ -5140,6 +5329,11 @@ extension SESv2ClientTypes {
             case .dnsServerError: return "DNS_SERVER_ERROR"
             case .hostNotFound: return "HOST_NOT_FOUND"
             case .invalidValue: return "INVALID_VALUE"
+            case .replicationAccessDenied: return "REPLICATION_ACCESS_DENIED"
+            case .replicationPrimaryByoDkimNotSupported: return "REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED"
+            case .replicationPrimaryInvalidRegion: return "REPLICATION_PRIMARY_INVALID_REGION"
+            case .replicationPrimaryNotFound: return "REPLICATION_PRIMARY_NOT_FOUND"
+            case .replicationReplicaAsPrimaryNotSupported: return "REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED"
             case .serviceError: return "SERVICE_ERROR"
             case .typeNotFound: return "TYPE_NOT_FOUND"
             case let .sdkUnknown(s): return s
@@ -5187,6 +5381,16 @@ extension SESv2ClientTypes {
         /// * SERVICE_ERROR – A temporary issue is preventing Amazon SES from determining the verification status of the domain.
         ///
         /// * DNS_SERVER_ERROR – The DNS server encountered an issue and was unable to complete the request.
+        ///
+        /// * REPLICATION_ACCESS_DENIED – The verification failed because the user does not have the required permissions to replicate the DKIM key from the primary region. Ensure you have the necessary permissions in both primary and replica regions.
+        ///
+        /// * REPLICATION_PRIMARY_NOT_FOUND – The verification failed because no corresponding identity was found in the specified primary region. Ensure the identity exists in the primary region before attempting replication.
+        ///
+        /// * REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED – The verification failed because the identity in the primary region is configured with Bring Your Own DKIM (BYODKIM). DKIM key replication is only supported for identities using Easy DKIM.
+        ///
+        /// * REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED – The verification failed because the specified primary identity is a replica of another identity, and multi-level replication is not supported; the primary identity must be a non-replica identity.
+        ///
+        /// * REPLICATION_PRIMARY_INVALID_REGION – The verification failed due to an invalid primary region specified. Ensure you provide a valid AWS region where Amazon SES is available and different from the replica region.
         public var errorType: SESv2ClientTypes.VerificationError?
         /// The last time a verification attempt was made for this identity.
         public var lastCheckedTimestamp: Foundation.Date?
@@ -12945,6 +13149,7 @@ extension SESv2ClientTypes.DkimSigningAttributes {
 
     static func write(value: SESv2ClientTypes.DkimSigningAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DomainSigningAttributesOrigin"].write(value.domainSigningAttributesOrigin)
         try writer["DomainSigningPrivateKey"].write(value.domainSigningPrivateKey)
         try writer["DomainSigningSelector"].write(value.domainSigningSelector)
         try writer["NextSigningKeyLength"].write(value.nextSigningKeyLength)
