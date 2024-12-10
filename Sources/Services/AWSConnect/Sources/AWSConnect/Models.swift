@@ -5259,6 +5259,113 @@ public struct CreatePromptOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// The contact configuration for push notification registration.
+    public struct ContactConfiguration: Swift.Sendable {
+        /// The identifier of the contact within the Amazon Connect instance.
+        /// This member is required.
+        public var contactId: Swift.String?
+        /// Whether to include raw connect message in the push notification payload. Default is False.
+        public var includeRawMessage: Swift.Bool
+        /// The role of the participant in the chat conversation.
+        public var participantRole: ConnectClientTypes.ParticipantRole?
+
+        public init(
+            contactId: Swift.String? = nil,
+            includeRawMessage: Swift.Bool = false,
+            participantRole: ConnectClientTypes.ParticipantRole? = nil
+        )
+        {
+            self.contactId = contactId
+            self.includeRawMessage = includeRawMessage
+            self.participantRole = participantRole
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum DeviceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apns
+        case apnsSandbox
+        case gcm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeviceType] {
+            return [
+                .apns,
+                .apnsSandbox,
+                .gcm
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apns: return "APNS"
+            case .apnsSandbox: return "APNS_SANDBOX"
+            case .gcm: return "GCM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePushNotificationRegistrationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The contact configuration for push notification registration.
+    /// This member is required.
+    public var contactConfiguration: ConnectClientTypes.ContactConfiguration?
+    /// The push notification token issued by the Apple or Google gateways.
+    /// This member is required.
+    public var deviceToken: Swift.String?
+    /// The device type to use when sending the message.
+    /// This member is required.
+    public var deviceType: ConnectClientTypes.DeviceType?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Pinpoint application.
+    /// This member is required.
+    public var pinpointAppArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        contactConfiguration: ConnectClientTypes.ContactConfiguration? = nil,
+        deviceToken: Swift.String? = nil,
+        deviceType: ConnectClientTypes.DeviceType? = nil,
+        instanceId: Swift.String? = nil,
+        pinpointAppArn: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.contactConfiguration = contactConfiguration
+        self.deviceToken = deviceToken
+        self.deviceType = deviceType
+        self.instanceId = instanceId
+        self.pinpointAppArn = pinpointAppArn
+    }
+}
+
+public struct CreatePushNotificationRegistrationOutput: Swift.Sendable {
+    /// The identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        registrationId: Swift.String? = nil
+    )
+    {
+        self.registrationId = registrationId
+    }
+}
+
+extension ConnectClientTypes {
+
     /// The outbound caller ID name, number, and outbound whisper flow.
     public struct OutboundCallerConfig: Swift.Sendable {
         /// The caller ID name.
@@ -7763,6 +7870,34 @@ public struct DeletePromptInput: Swift.Sendable {
         self.instanceId = instanceId
         self.promptId = promptId
     }
+}
+
+public struct DeletePushNotificationRegistrationInput: Swift.Sendable {
+    /// The identifier of the contact within the Amazon Connect instance.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier for the registration.
+    /// This member is required.
+    public var registrationId: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        registrationId: Swift.String? = nil
+    )
+    {
+        self.contactId = contactId
+        self.instanceId = instanceId
+        self.registrationId = registrationId
+    }
+}
+
+public struct DeletePushNotificationRegistrationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteQueueInput: Swift.Sendable {
@@ -25621,6 +25756,16 @@ extension CreatePromptInput {
     }
 }
 
+extension CreatePushNotificationRegistrationInput {
+
+    static func urlPathProvider(_ value: CreatePushNotificationRegistrationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/push-notification/\(instanceId.urlPercentEncoding())/registrations"
+    }
+}
+
 extension CreateQueueInput {
 
     static func urlPathProvider(_ value: CreateQueueInput) -> Swift.String? {
@@ -25930,6 +26075,33 @@ extension DeletePromptInput {
             return nil
         }
         return "/prompts/\(instanceId.urlPercentEncoding())/\(promptId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePushNotificationRegistrationInput {
+
+    static func urlPathProvider(_ value: DeletePushNotificationRegistrationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let registrationId = value.registrationId else {
+            return nil
+        }
+        return "/push-notification/\(instanceId.urlPercentEncoding())/registrations/\(registrationId.urlPercentEncoding())"
+    }
+}
+
+extension DeletePushNotificationRegistrationInput {
+
+    static func queryItemProvider(_ value: DeletePushNotificationRegistrationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let contactId = value.contactId else {
+            let message = "Creating a URL Query Item failed. contactId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let contactIdQueryItem = Smithy.URIQueryItem(name: "contactId".urlPercentEncoding(), value: Swift.String(contactId).urlPercentEncoding())
+        items.append(contactIdQueryItem)
+        return items
     }
 }
 
@@ -29584,6 +29756,18 @@ extension CreatePromptInput {
     }
 }
 
+extension CreatePushNotificationRegistrationInput {
+
+    static func write(value: CreatePushNotificationRegistrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ContactConfiguration"].write(value.contactConfiguration, with: ConnectClientTypes.ContactConfiguration.write(value:to:))
+        try writer["DeviceToken"].write(value.deviceToken)
+        try writer["DeviceType"].write(value.deviceType)
+        try writer["PinpointAppArn"].write(value.pinpointAppArn)
+    }
+}
+
 extension CreateQueueInput {
 
     static func write(value: CreateQueueInput?, to writer: SmithyJSON.Writer) throws {
@@ -31316,6 +31500,18 @@ extension CreatePromptOutput {
     }
 }
 
+extension CreatePushNotificationRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePushNotificationRegistrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePushNotificationRegistrationOutput()
+        value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateQueueOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQueueOutput {
@@ -31572,6 +31768,13 @@ extension DeletePromptOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePromptOutput {
         return DeletePromptOutput()
+    }
+}
+
+extension DeletePushNotificationRegistrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePushNotificationRegistrationOutput {
+        return DeletePushNotificationRegistrationOutput()
     }
 }
 
@@ -34533,6 +34736,25 @@ enum CreatePromptOutputError {
     }
 }
 
+enum CreatePushNotificationRegistrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateQueueOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35005,6 +35227,24 @@ enum DeletePromptOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeletePushNotificationRegistrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -42991,6 +43231,16 @@ extension ConnectClientTypes.ParticipantDetailsToAdd {
     static func write(value: ConnectClientTypes.ParticipantDetailsToAdd?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DisplayName"].write(value.displayName)
+        try writer["ParticipantRole"].write(value.participantRole)
+    }
+}
+
+extension ConnectClientTypes.ContactConfiguration {
+
+    static func write(value: ConnectClientTypes.ContactConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactId"].write(value.contactId)
+        try writer["IncludeRawMessage"].write(value.includeRawMessage)
         try writer["ParticipantRole"].write(value.participantRole)
     }
 }
