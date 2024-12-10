@@ -34,7 +34,7 @@ public struct SigV4AAuthScheme: AuthScheme {
         updatedSigningProperties.set(key: SigningPropertyKeys.signingName, value: context.signingName)
         updatedSigningProperties.set(
             key: SigningPropertyKeys.signingRegion,
-            value: signingProperties.get(key: SigningPropertyKeys.signingRegion)
+            value: signingProperties.get(key: SigningPropertyKeys.signingRegion) ?? context.signingRegion
         )
 
         // Set expiration flag
