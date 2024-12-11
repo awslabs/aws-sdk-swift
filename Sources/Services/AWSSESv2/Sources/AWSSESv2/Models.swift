@@ -3528,6 +3528,132 @@ public struct CreateImportJobOutput: Swift.Sendable {
 
 extension SESv2ClientTypes {
 
+    /// An object that contains route configuration. Includes secondary region name.
+    public struct RouteDetails: Swift.Sendable {
+        /// The name of an AWS-Region to be a secondary region for the multi-region endpoint (global-endpoint).
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            region: Swift.String? = nil
+        )
+        {
+            self.region = region
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object that contains configuration details of multi-region endpoint (global-endpoint).
+    public struct Details: Swift.Sendable {
+        /// A list of route configuration details. Must contain exactly one route configuration.
+        /// This member is required.
+        public var routesDetails: [SESv2ClientTypes.RouteDetails]?
+
+        public init(
+            routesDetails: [SESv2ClientTypes.RouteDetails]? = nil
+        )
+        {
+            self.routesDetails = routesDetails
+        }
+    }
+}
+
+/// Represents a request to create a multi-region endpoint (global-endpoint).
+public struct CreateMultiRegionEndpointInput: Swift.Sendable {
+    /// Contains details of a multi-region endpoint (global-endpoint) being created.
+    /// This member is required.
+    public var details: SESv2ClientTypes.Details?
+    /// The name of the multi-region endpoint (global-endpoint).
+    /// This member is required.
+    public var endpointName: Swift.String?
+    /// An array of objects that define the tags (keys and values) to associate with the multi-region endpoint (global-endpoint).
+    public var tags: [SESv2ClientTypes.Tag]?
+
+    public init(
+        details: SESv2ClientTypes.Details? = nil,
+        endpointName: Swift.String? = nil,
+        tags: [SESv2ClientTypes.Tag]? = nil
+    )
+    {
+        self.details = details
+        self.endpointName = endpointName
+        self.tags = tags
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The status of the multi-region endpoint (global-endpoint).
+    ///
+    /// * CREATING – The resource is being provisioned.
+    ///
+    /// * READY – The resource is ready to use.
+    ///
+    /// * FAILED – The resource failed to be provisioned.
+    ///
+    /// * DELETING – The resource is being deleted as requested.
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleting
+        case failed
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .creating,
+                .deleting,
+                .failed,
+                .ready
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .ready: return "READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct CreateMultiRegionEndpointOutput: Swift.Sendable {
+    /// The ID of the multi-region endpoint (global-endpoint).
+    public var endpointId: Swift.String?
+    /// A status of the multi-region endpoint (global-endpoint) right after the create request.
+    ///
+    /// * CREATING – The resource is being provisioned.
+    ///
+    /// * READY – The resource is ready to use.
+    ///
+    /// * FAILED – The resource failed to be provisioned.
+    ///
+    /// * DELETING – The resource is being deleted as requested.
+    public var status: SESv2ClientTypes.Status?
+
+    public init(
+        endpointId: Swift.String? = nil,
+        status: SESv2ClientTypes.Status? = nil
+    )
+    {
+        self.endpointId = endpointId
+        self.status = status
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// Contains information about a custom verification email template.
     public struct CustomVerificationEmailTemplateMetadata: Swift.Sendable {
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
@@ -3942,6 +4068,41 @@ public struct DeleteEmailTemplateInput: Swift.Sendable {
 public struct DeleteEmailTemplateOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// Represents a request to delete a multi-region endpoint (global-endpoint).
+public struct DeleteMultiRegionEndpointInput: Swift.Sendable {
+    /// The name of the multi-region endpoint (global-endpoint) to be deleted.
+    /// This member is required.
+    public var endpointName: Swift.String?
+
+    public init(
+        endpointName: Swift.String? = nil
+    )
+    {
+        self.endpointName = endpointName
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct DeleteMultiRegionEndpointOutput: Swift.Sendable {
+    /// A status of the multi-region endpoint (global-endpoint) right after the delete request.
+    ///
+    /// * CREATING – The resource is being provisioned.
+    ///
+    /// * READY – The resource is ready to use.
+    ///
+    /// * FAILED – The resource failed to be provisioned.
+    ///
+    /// * DELETING – The resource is being deleted as requested.
+    public var status: SESv2ClientTypes.Status?
+
+    public init(
+        status: SESv2ClientTypes.Status? = nil
+    )
+    {
+        self.status = status
+    }
 }
 
 /// A request to remove an email address from the suppression list for your account.
@@ -5737,6 +5898,78 @@ extension GetMessageInsightsOutput: Swift.CustomDebugStringConvertible {
         "GetMessageInsightsOutput(emailTags: \(Swift.String(describing: emailTags)), insights: \(Swift.String(describing: insights)), messageId: \(Swift.String(describing: messageId)), fromEmailAddress: \"CONTENT_REDACTED\", subject: \"CONTENT_REDACTED\")"}
 }
 
+/// Represents a request to display the multi-region endpoint (global-endpoint).
+public struct GetMultiRegionEndpointInput: Swift.Sendable {
+    /// The name of the multi-region endpoint (global-endpoint).
+    /// This member is required.
+    public var endpointName: Swift.String?
+
+    public init(
+        endpointName: Swift.String? = nil
+    )
+    {
+        self.endpointName = endpointName
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object which contains an AWS-Region and routing status.
+    public struct Route: Swift.Sendable {
+        /// The name of an AWS-Region.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            region: Swift.String? = nil
+        )
+        {
+            self.region = region
+        }
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct GetMultiRegionEndpointOutput: Swift.Sendable {
+    /// The time stamp of when the multi-region endpoint (global-endpoint) was created.
+    public var createdTimestamp: Foundation.Date?
+    /// The ID of the multi-region endpoint (global-endpoint).
+    public var endpointId: Swift.String?
+    /// The name of the multi-region endpoint (global-endpoint).
+    public var endpointName: Swift.String?
+    /// The time stamp of when the multi-region endpoint (global-endpoint) was last updated.
+    public var lastUpdatedTimestamp: Foundation.Date?
+    /// Contains routes information for the multi-region endpoint (global-endpoint).
+    public var routes: [SESv2ClientTypes.Route]?
+    /// The status of the multi-region endpoint (global-endpoint).
+    ///
+    /// * CREATING – The resource is being provisioned.
+    ///
+    /// * READY – The resource is ready to use.
+    ///
+    /// * FAILED – The resource failed to be provisioned.
+    ///
+    /// * DELETING – The resource is being deleted as requested.
+    public var status: SESv2ClientTypes.Status?
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        endpointId: Swift.String? = nil,
+        endpointName: Swift.String? = nil,
+        lastUpdatedTimestamp: Foundation.Date? = nil,
+        routes: [SESv2ClientTypes.Route]? = nil,
+        status: SESv2ClientTypes.Status? = nil
+    )
+    {
+        self.createdTimestamp = createdTimestamp
+        self.endpointId = endpointId
+        self.endpointName = endpointName
+        self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        self.routes = routes
+        self.status = status
+    }
+}
+
 /// A request to retrieve information about an email address that's on the suppression list for your account.
 public struct GetSuppressedDestinationInput: Swift.Sendable {
     /// The email address that's on the account suppression list.
@@ -6418,6 +6651,84 @@ extension SESv2ClientTypes {
             self.contactListName = contactListName
             self.topicName = topicName
         }
+    }
+}
+
+/// Represents a request to list all the multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed.
+public struct ListMultiRegionEndpointsInput: Swift.Sendable {
+    /// A token returned from a previous call to ListMultiRegionEndpoints to indicate the position in the list of multi-region endpoints (global-endpoints).
+    public var nextToken: Swift.String?
+    /// The number of results to show in a single call to ListMultiRegionEndpoints. If the number of results is larger than the number you specified in this parameter, the response includes a NextToken element that you can use to retrieve the next page of results.
+    public var pageSize: Swift.Int?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object that contains multi-region endpoint (global-endpoint) properties.
+    public struct MultiRegionEndpoint: Swift.Sendable {
+        /// The time stamp of when the multi-region endpoint (global-endpoint) was created.
+        public var createdTimestamp: Foundation.Date?
+        /// The ID of the multi-region endpoint (global-endpoint).
+        public var endpointId: Swift.String?
+        /// The name of the multi-region endpoint (global-endpoint).
+        public var endpointName: Swift.String?
+        /// The time stamp of when the multi-region endpoint (global-endpoint) was last updated.
+        public var lastUpdatedTimestamp: Foundation.Date?
+        /// Primary and secondary regions between which multi-region endpoint splits sending traffic.
+        public var regions: [Swift.String]?
+        /// The status of the multi-region endpoint (global-endpoint).
+        ///
+        /// * CREATING – The resource is being provisioned.
+        ///
+        /// * READY – The resource is ready to use.
+        ///
+        /// * FAILED – The resource failed to be provisioned.
+        ///
+        /// * DELETING – The resource is being deleted as requested.
+        public var status: SESv2ClientTypes.Status?
+
+        public init(
+            createdTimestamp: Foundation.Date? = nil,
+            endpointId: Swift.String? = nil,
+            endpointName: Swift.String? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
+            regions: [Swift.String]? = nil,
+            status: SESv2ClientTypes.Status? = nil
+        )
+        {
+            self.createdTimestamp = createdTimestamp
+            self.endpointId = endpointId
+            self.endpointName = endpointName
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.regions = regions
+            self.status = status
+        }
+    }
+}
+
+/// The following elements are returned by the service.
+public struct ListMultiRegionEndpointsOutput: Swift.Sendable {
+    /// An array that contains key multi-region endpoint (global-endpoint) properties.
+    public var multiRegionEndpoints: [SESv2ClientTypes.MultiRegionEndpoint]?
+    /// A token indicating that there are additional multi-region endpoints (global-endpoints) available to be listed. Pass this token to a subsequent ListMultiRegionEndpoints call to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        multiRegionEndpoints: [SESv2ClientTypes.MultiRegionEndpoint]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.multiRegionEndpoints = multiRegionEndpoints
+        self.nextToken = nextToken
     }
 }
 
@@ -7318,6 +7629,8 @@ public struct SendBulkEmailInput: Swift.Sendable {
     public var defaultContent: SESv2ClientTypes.BulkEmailContent?
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
     public var defaultEmailTags: [SESv2ClientTypes.MessageTag]?
+    /// The ID of the multi-region endpoint (global-endpoint).
+    public var endpointId: Swift.String?
     /// The address that you want bounce and complaint notifications to be sent to.
     public var feedbackForwardingEmailAddress: Swift.String?
     /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
@@ -7334,6 +7647,7 @@ public struct SendBulkEmailInput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         defaultContent: SESv2ClientTypes.BulkEmailContent? = nil,
         defaultEmailTags: [SESv2ClientTypes.MessageTag]? = nil,
+        endpointId: Swift.String? = nil,
         feedbackForwardingEmailAddress: Swift.String? = nil,
         feedbackForwardingEmailAddressIdentityArn: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
@@ -7345,6 +7659,7 @@ public struct SendBulkEmailInput: Swift.Sendable {
         self.configurationSetName = configurationSetName
         self.defaultContent = defaultContent
         self.defaultEmailTags = defaultEmailTags
+        self.endpointId = endpointId
         self.feedbackForwardingEmailAddress = feedbackForwardingEmailAddress
         self.feedbackForwardingEmailAddressIdentityArn = feedbackForwardingEmailAddressIdentityArn
         self.fromEmailAddress = fromEmailAddress
@@ -7414,6 +7729,8 @@ public struct SendEmailInput: Swift.Sendable {
     public var destination: SESv2ClientTypes.Destination?
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
     public var emailTags: [SESv2ClientTypes.MessageTag]?
+    /// The ID of the multi-region endpoint (global-endpoint).
+    public var endpointId: Swift.String?
     /// The address that you want bounce and complaint notifications to be sent to.
     public var feedbackForwardingEmailAddress: Swift.String?
     /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
@@ -7432,6 +7749,7 @@ public struct SendEmailInput: Swift.Sendable {
         content: SESv2ClientTypes.EmailContent? = nil,
         destination: SESv2ClientTypes.Destination? = nil,
         emailTags: [SESv2ClientTypes.MessageTag]? = nil,
+        endpointId: Swift.String? = nil,
         feedbackForwardingEmailAddress: Swift.String? = nil,
         feedbackForwardingEmailAddressIdentityArn: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
@@ -7444,6 +7762,7 @@ public struct SendEmailInput: Swift.Sendable {
         self.content = content
         self.destination = destination
         self.emailTags = emailTags
+        self.endpointId = endpointId
         self.feedbackForwardingEmailAddress = feedbackForwardingEmailAddress
         self.feedbackForwardingEmailAddressIdentityArn = feedbackForwardingEmailAddressIdentityArn
         self.fromEmailAddress = fromEmailAddress
@@ -7849,6 +8168,13 @@ extension CreateImportJobInput {
     }
 }
 
+extension CreateMultiRegionEndpointInput {
+
+    static func urlPathProvider(_ value: CreateMultiRegionEndpointInput) -> Swift.String? {
+        return "/v2/email/multi-region-endpoints"
+    }
+}
+
 extension DeleteConfigurationSetInput {
 
     static func urlPathProvider(_ value: DeleteConfigurationSetInput) -> Swift.String? {
@@ -7945,6 +8271,16 @@ extension DeleteEmailTemplateInput {
             return nil
         }
         return "/v2/email/templates/\(templateName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteMultiRegionEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteMultiRegionEndpointInput) -> Swift.String? {
+        guard let endpointName = value.endpointName else {
+            return nil
+        }
+        return "/v2/email/multi-region-endpoints/\(endpointName.urlPercentEncoding())"
     }
 }
 
@@ -8205,6 +8541,16 @@ extension GetMessageInsightsInput {
     }
 }
 
+extension GetMultiRegionEndpointInput {
+
+    static func urlPathProvider(_ value: GetMultiRegionEndpointInput) -> Swift.String? {
+        guard let endpointName = value.endpointName else {
+            return nil
+        }
+        return "/v2/email/multi-region-endpoints/\(endpointName.urlPercentEncoding())"
+    }
+}
+
 extension GetSuppressedDestinationInput {
 
     static func urlPathProvider(_ value: GetSuppressedDestinationInput) -> Swift.String? {
@@ -8435,6 +8781,29 @@ extension ListImportJobsInput {
 
     static func urlPathProvider(_ value: ListImportJobsInput) -> Swift.String? {
         return "/v2/email/import-jobs/list"
+    }
+}
+
+extension ListMultiRegionEndpointsInput {
+
+    static func urlPathProvider(_ value: ListMultiRegionEndpointsInput) -> Swift.String? {
+        return "/v2/email/multi-region-endpoints"
+    }
+}
+
+extension ListMultiRegionEndpointsInput {
+
+    static func queryItemProvider(_ value: ListMultiRegionEndpointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = Smithy.URIQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
@@ -8962,6 +9331,16 @@ extension CreateImportJobInput {
     }
 }
 
+extension CreateMultiRegionEndpointInput {
+
+    static func write(value: CreateMultiRegionEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Details"].write(value.details, with: SESv2ClientTypes.Details.write(value:to:))
+        try writer["EndpointName"].write(value.endpointName)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SESv2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ListContactsInput {
 
     static func write(value: ListContactsInput?, to writer: SmithyJSON.Writer) throws {
@@ -9191,6 +9570,7 @@ extension SendBulkEmailInput {
         try writer["ConfigurationSetName"].write(value.configurationSetName)
         try writer["DefaultContent"].write(value.defaultContent, with: SESv2ClientTypes.BulkEmailContent.write(value:to:))
         try writer["DefaultEmailTags"].writeList(value.defaultEmailTags, memberWritingClosure: SESv2ClientTypes.MessageTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EndpointId"].write(value.endpointId)
         try writer["FeedbackForwardingEmailAddress"].write(value.feedbackForwardingEmailAddress)
         try writer["FeedbackForwardingEmailAddressIdentityArn"].write(value.feedbackForwardingEmailAddressIdentityArn)
         try writer["FromEmailAddress"].write(value.fromEmailAddress)
@@ -9217,6 +9597,7 @@ extension SendEmailInput {
         try writer["Content"].write(value.content, with: SESv2ClientTypes.EmailContent.write(value:to:))
         try writer["Destination"].write(value.destination, with: SESv2ClientTypes.Destination.write(value:to:))
         try writer["EmailTags"].writeList(value.emailTags, memberWritingClosure: SESv2ClientTypes.MessageTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EndpointId"].write(value.endpointId)
         try writer["FeedbackForwardingEmailAddress"].write(value.feedbackForwardingEmailAddress)
         try writer["FeedbackForwardingEmailAddressIdentityArn"].write(value.feedbackForwardingEmailAddressIdentityArn)
         try writer["FromEmailAddress"].write(value.fromEmailAddress)
@@ -9425,6 +9806,19 @@ extension CreateImportJobOutput {
     }
 }
 
+extension CreateMultiRegionEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMultiRegionEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMultiRegionEndpointOutput()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteConfigurationSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConfigurationSetOutput {
@@ -9485,6 +9879,18 @@ extension DeleteEmailTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEmailTemplateOutput {
         return DeleteEmailTemplateOutput()
+    }
+}
+
+extension DeleteMultiRegionEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMultiRegionEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteMultiRegionEndpointOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -9806,6 +10212,23 @@ extension GetMessageInsightsOutput {
     }
 }
 
+extension GetMultiRegionEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMultiRegionEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMultiRegionEndpointOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.endpointName = try reader["EndpointName"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.routes = try reader["Routes"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Route.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension GetSuppressedDestinationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSuppressedDestinationOutput {
@@ -9956,6 +10379,19 @@ extension ListImportJobsOutput {
         let reader = responseReader
         var value = ListImportJobsOutput()
         value.importJobs = try reader["ImportJobs"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.ImportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListMultiRegionEndpointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMultiRegionEndpointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMultiRegionEndpointsOutput()
+        value.multiRegionEndpoints = try reader["MultiRegionEndpoints"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.MultiRegionEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -10505,6 +10941,23 @@ enum CreateImportJobOutputError {
     }
 }
 
+enum CreateMultiRegionEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteConfigurationSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10646,6 +11099,23 @@ enum DeleteEmailTemplateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteMultiRegionEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10988,6 +11458,22 @@ enum GetMessageInsightsOutputError {
     }
 }
 
+enum GetMultiRegionEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetSuppressedDestinationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11158,6 +11644,21 @@ enum ListExportJobsOutputError {
 }
 
 enum ListImportJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListMultiRegionEndpointsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12895,6 +13396,16 @@ extension SESv2ClientTypes.Bounce {
     }
 }
 
+extension SESv2ClientTypes.Route {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Route {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.Route()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension SESv2ClientTypes.SuppressedDestination {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressedDestination {
@@ -13007,6 +13518,21 @@ extension SESv2ClientTypes.ImportJobSummary {
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.processedRecordsCount = try reader["ProcessedRecordsCount"].readIfPresent()
         value.failedRecordsCount = try reader["FailedRecordsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.MultiRegionEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MultiRegionEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.MultiRegionEndpoint()
+        value.endpointName = try reader["EndpointName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -13153,6 +13679,22 @@ extension SESv2ClientTypes.DkimSigningAttributes {
         try writer["DomainSigningPrivateKey"].write(value.domainSigningPrivateKey)
         try writer["DomainSigningSelector"].write(value.domainSigningSelector)
         try writer["NextSigningKeyLength"].write(value.nextSigningKeyLength)
+    }
+}
+
+extension SESv2ClientTypes.Details {
+
+    static func write(value: SESv2ClientTypes.Details?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoutesDetails"].writeList(value.routesDetails, memberWritingClosure: SESv2ClientTypes.RouteDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SESv2ClientTypes.RouteDetails {
+
+    static func write(value: SESv2ClientTypes.RouteDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Region"].write(value.region)
     }
 }
 
