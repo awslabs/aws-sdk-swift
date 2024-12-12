@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ACMPCAClient: ClientRuntime.Client {
     public static let clientName = "ACMPCAClient"
-    public static let version = "1.0.58"
+    public static let version = "1.0.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ACMPCAClient.ACMPCAClientConfiguration
     let serviceName = "ACM PCA"
