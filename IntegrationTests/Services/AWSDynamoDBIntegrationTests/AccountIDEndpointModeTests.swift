@@ -140,6 +140,7 @@ final class AccountIDEndpointModeTests: XCTestCase {
         let resolver = try StaticAWSCredentialIdentityResolver(credentials)
         let config = try await DynamoDBClient.Config(
             awsCredentialIdentityResolver: resolver,
+            region: "us-east-1",
             accountIdEndpointMode: accountIDEndpointMode,
             httpClientEngine: ProtocolTestClient()
         )
