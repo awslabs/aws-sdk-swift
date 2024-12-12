@@ -80,20 +80,6 @@ extension EndpointResolverMiddleware: ApplyEndpoint {
             builder.withProtocol(protocolType)
         }
 
-        if let signingName = signingName {
-            attributes.signingName = signingName
-            attributes.selectedAuthScheme = selectedAuthScheme?.getCopyWithUpdatedSigningProperty(
-                key: SigningPropertyKeys.signingName, value: signingName
-            )
-        }
-
-        if let signingRegion = signingRegion {
-            attributes.signingRegion = signingRegion
-            attributes.selectedAuthScheme = selectedAuthScheme?.getCopyWithUpdatedSigningProperty(
-                key: SigningPropertyKeys.signingRegion, value: signingRegion
-            )
-        }
-
         if let signingAlgorithm = signingAlgorithm {
             attributes.signingAlgorithm = SigningAlgorithm(rawValue: signingAlgorithm)
         }

@@ -1827,7 +1827,7 @@ extension ApplicationAutoScalingClientTypes {
 
 extension ApplicationAutoScalingClientTypes {
 
-    /// Represents a predictive scaling policy configuration.
+    /// Represents a predictive scaling policy configuration. Predictive scaling is supported on Amazon ECS services.
     public struct PredictiveScalingPolicyConfiguration: Swift.Sendable {
         /// Defines the behavior that should be applied if the forecast capacity approaches or exceeds the maximum capacity. Defaults to HonorMaxCapacity if not specified.
         public var maxCapacityBreachBehavior: ApplicationAutoScalingClientTypes.PredictiveScalingMaxCapacityBreachBehavior?
