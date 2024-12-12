@@ -359,7 +359,7 @@ extension ControlCatalogClientTypes {
     /// * SERVICE-PROVIDER::SERVICE-NAME::RESOURCE-NAME::RESOURCE-TYPE-DESCRIPTION
     ///
     ///
-    /// For example, AWS::Organizations::Policy::SERVICE_CONTROL_POLICY or AWS::CloudFormation::Type::HOOK have the format with four segments. Although the format is similar, the values for the Type field do not match any Amazon Web Services CloudFormation values, and we do not use CloudFormation to implement these controls.
+    /// For example, AWS::Organizations::Policy::SERVICE_CONTROL_POLICY or AWS::CloudFormation::Type::HOOK have the format with four segments. Although the format is similar, the values for the Type field do not match any Amazon Web Services CloudFormation values.
     public struct ImplementationDetails: Swift.Sendable {
         /// A string that describes a control's implementation type.
         /// This member is required.

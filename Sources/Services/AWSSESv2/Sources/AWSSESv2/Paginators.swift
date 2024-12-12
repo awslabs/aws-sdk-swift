@@ -273,6 +273,36 @@ extension ListImportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension SESv2Client {
+    /// Paginate over `[ListMultiRegionEndpointsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMultiRegionEndpointsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMultiRegionEndpointsOutput`
+    public func listMultiRegionEndpointsPaginated(input: ListMultiRegionEndpointsInput) -> ClientRuntime.PaginatorSequence<ListMultiRegionEndpointsInput, ListMultiRegionEndpointsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMultiRegionEndpointsInput, ListMultiRegionEndpointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMultiRegionEndpoints(input:))
+    }
+}
+
+extension ListMultiRegionEndpointsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMultiRegionEndpointsInput {
+        return ListMultiRegionEndpointsInput(
+            nextToken: token,
+            pageSize: self.pageSize
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMultiRegionEndpointsInput, OperationStackOutput == ListMultiRegionEndpointsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMultiRegionEndpointsPaginated`
+    /// to access the nested member `[SESv2ClientTypes.MultiRegionEndpoint]`
+    /// - Returns: `[SESv2ClientTypes.MultiRegionEndpoint]`
+    public func multiRegionEndpoints() async throws -> [SESv2ClientTypes.MultiRegionEndpoint] {
+        return try await self.asyncCompactMap { item in item.multiRegionEndpoints }
+    }
+}
+extension SESv2Client {
     /// Paginate over `[ListRecommendationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

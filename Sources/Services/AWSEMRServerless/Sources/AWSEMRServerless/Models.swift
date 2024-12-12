@@ -813,6 +813,8 @@ public struct CancelJobRunOutput: Swift.Sendable {
 }
 
 public struct GetDashboardForJobRunInput: Swift.Sendable {
+    /// Allows access to system profile logs for Lake Formation-enabled jobs. Default is false.
+    public var accessSystemProfileLogs: Swift.Bool?
     /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -823,11 +825,13 @@ public struct GetDashboardForJobRunInput: Swift.Sendable {
     public var jobRunId: Swift.String?
 
     public init(
+        accessSystemProfileLogs: Swift.Bool? = nil,
         applicationId: Swift.String? = nil,
         attempt: Swift.Int? = nil,
         jobRunId: Swift.String? = nil
     )
     {
+        self.accessSystemProfileLogs = accessSystemProfileLogs
         self.applicationId = applicationId
         self.attempt = attempt
         self.jobRunId = jobRunId
@@ -2031,6 +2035,10 @@ extension GetDashboardForJobRunInput {
 
     static func queryItemProvider(_ value: GetDashboardForJobRunInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let accessSystemProfileLogs = value.accessSystemProfileLogs {
+            let accessSystemProfileLogsQueryItem = Smithy.URIQueryItem(name: "accessSystemProfileLogs".urlPercentEncoding(), value: Swift.String(accessSystemProfileLogs).urlPercentEncoding())
+            items.append(accessSystemProfileLogsQueryItem)
+        }
         if let attempt = value.attempt {
             let attemptQueryItem = Smithy.URIQueryItem(name: "attempt".urlPercentEncoding(), value: Swift.String(attempt).urlPercentEncoding())
             items.append(attemptQueryItem)

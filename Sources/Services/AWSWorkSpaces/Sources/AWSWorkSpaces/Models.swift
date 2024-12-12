@@ -2806,7 +2806,7 @@ extension WorkSpacesClientTypes {
         public var rootVolumeEncryptionEnabled: Swift.Bool?
         /// The tags for the WorkSpace.
         public var tags: [WorkSpacesClientTypes.Tag]?
-        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace. The reserved keyword, [UNDEFINED], is used when creating user-decoupled WorkSpaces.
+        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace. The username is not case-sensitive, but we recommend matching the case in the Directory Service directory to avoid potential incompatibilities. The reserved keyword, [UNDEFINED], is used when creating user-decoupled WorkSpaces.
         /// This member is required.
         public var userName: Swift.String?
         /// Indicates whether the data stored on the user volume is encrypted.

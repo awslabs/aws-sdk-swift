@@ -137,6 +137,38 @@ extension PaginatorSequence where OperationStackInput == ListMigrationTasksInput
     }
 }
 extension MigrationHubClient {
+    /// Paginate over `[ListMigrationTaskUpdatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMigrationTaskUpdatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMigrationTaskUpdatesOutput`
+    public func listMigrationTaskUpdatesPaginated(input: ListMigrationTaskUpdatesInput) -> ClientRuntime.PaginatorSequence<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMigrationTaskUpdates(input:))
+    }
+}
+
+extension ListMigrationTaskUpdatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMigrationTaskUpdatesInput {
+        return ListMigrationTaskUpdatesInput(
+            maxResults: self.maxResults,
+            migrationTaskName: self.migrationTaskName,
+            nextToken: token,
+            progressUpdateStream: self.progressUpdateStream
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMigrationTaskUpdatesInput, OperationStackOutput == ListMigrationTaskUpdatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMigrationTaskUpdatesPaginated`
+    /// to access the nested member `[MigrationHubClientTypes.MigrationTaskUpdate]`
+    /// - Returns: `[MigrationHubClientTypes.MigrationTaskUpdate]`
+    public func migrationTaskUpdateList() async throws -> [MigrationHubClientTypes.MigrationTaskUpdate] {
+        return try await self.asyncCompactMap { item in item.migrationTaskUpdateList }
+    }
+}
+extension MigrationHubClient {
     /// Paginate over `[ListProgressUpdateStreamsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -164,5 +196,37 @@ extension PaginatorSequence where OperationStackInput == ListProgressUpdateStrea
     /// - Returns: `[MigrationHubClientTypes.ProgressUpdateStreamSummary]`
     public func progressUpdateStreamSummaryList() async throws -> [MigrationHubClientTypes.ProgressUpdateStreamSummary] {
         return try await self.asyncCompactMap { item in item.progressUpdateStreamSummaryList }
+    }
+}
+extension MigrationHubClient {
+    /// Paginate over `[ListSourceResourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSourceResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSourceResourcesOutput`
+    public func listSourceResourcesPaginated(input: ListSourceResourcesInput) -> ClientRuntime.PaginatorSequence<ListSourceResourcesInput, ListSourceResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSourceResourcesInput, ListSourceResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSourceResources(input:))
+    }
+}
+
+extension ListSourceResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSourceResourcesInput {
+        return ListSourceResourcesInput(
+            maxResults: self.maxResults,
+            migrationTaskName: self.migrationTaskName,
+            nextToken: token,
+            progressUpdateStream: self.progressUpdateStream
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSourceResourcesInput, OperationStackOutput == ListSourceResourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSourceResourcesPaginated`
+    /// to access the nested member `[MigrationHubClientTypes.SourceResource]`
+    /// - Returns: `[MigrationHubClientTypes.SourceResource]`
+    public func sourceResourceList() async throws -> [MigrationHubClientTypes.SourceResource] {
+        return try await self.asyncCompactMap { item in item.sourceResourceList }
     }
 }
