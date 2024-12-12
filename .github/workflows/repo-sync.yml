@@ -17,5 +17,4 @@ jobs:
           source_branch: "main"
           destination_repo: ${{ secrets.GIT_SYNC_DESTINATION_REPO }}
           destination_branch: "main"
-          source_ssh_private_key: ${{ secrets.GIT_SYNC_SOURCE_SSH_PRIVATE_KEY }}
           destination_ssh_private_key:  ${{ secrets.GIT_SYNC_DESTINATION_SSH_PRIVATE_KEY }}
