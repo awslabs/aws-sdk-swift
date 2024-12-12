@@ -137,7 +137,7 @@ public class AWSClientConfigDefaultsProvider {
     }
 
     public static func accountIDEndpointMode(
-        _ accountIDEndpointMode: AccountIDEndpointMode?
+        _ accountIDEndpointMode: AccountIDEndpointMode? = nil
     ) throws -> AccountIDEndpointMode {
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
         if let accountIDEndpointMode {

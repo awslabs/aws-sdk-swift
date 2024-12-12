@@ -146,6 +146,7 @@ func addIntegrationTestTarget(_ name: String) {
 
 let servicesWithIntegrationTests: [String] = [
     "AWSCloudFrontKeyValueStore",
+    "AWSDynamoDB",
     "AWSEC2",
     "AWSECS",
     "AWSEventBridge",

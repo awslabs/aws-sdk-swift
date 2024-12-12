@@ -166,7 +166,7 @@ class AWSHttpProtocolServiceClient(
                     AWSClientRuntimeTypes.Core.AccountIDEndpointMode.toOptional(),
                     { writer ->
                         writer.format(
-                            "\$N.accountIDEndpointMode(accountIdEndpointMode)",
+                            "\$N.accountIDEndpointMode()",
                             AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
                         )
                     },
