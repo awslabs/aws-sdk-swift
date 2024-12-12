@@ -528,6 +528,38 @@ extension PaginatorSequence where OperationStackInput == ListFlowAssociationsInp
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListHoursOfOperationOverridesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListHoursOfOperationOverridesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHoursOfOperationOverridesOutput`
+    public func listHoursOfOperationOverridesPaginated(input: ListHoursOfOperationOverridesInput) -> ClientRuntime.PaginatorSequence<ListHoursOfOperationOverridesInput, ListHoursOfOperationOverridesOutput> {
+        return ClientRuntime.PaginatorSequence<ListHoursOfOperationOverridesInput, ListHoursOfOperationOverridesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listHoursOfOperationOverrides(input:))
+    }
+}
+
+extension ListHoursOfOperationOverridesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListHoursOfOperationOverridesInput {
+        return ListHoursOfOperationOverridesInput(
+            hoursOfOperationId: self.hoursOfOperationId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListHoursOfOperationOverridesInput, OperationStackOutput == ListHoursOfOperationOverridesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listHoursOfOperationOverridesPaginated`
+    /// to access the nested member `[ConnectClientTypes.HoursOfOperationOverride]`
+    /// - Returns: `[ConnectClientTypes.HoursOfOperationOverride]`
+    public func hoursOfOperationOverrideList() async throws -> [ConnectClientTypes.HoursOfOperationOverride] {
+        return try await self.asyncCompactMap { item in item.hoursOfOperationOverrideList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListHoursOfOperationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1670,6 +1702,39 @@ extension PaginatorSequence where OperationStackInput == SearchContactsInput, Op
     /// - Returns: `[ConnectClientTypes.ContactSearchSummary]`
     public func contacts() async throws -> [ConnectClientTypes.ContactSearchSummary] {
         return try await self.asyncCompactMap { item in item.contacts }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[SearchHoursOfOperationOverridesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchHoursOfOperationOverridesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchHoursOfOperationOverridesOutput`
+    public func searchHoursOfOperationOverridesPaginated(input: SearchHoursOfOperationOverridesInput) -> ClientRuntime.PaginatorSequence<SearchHoursOfOperationOverridesInput, SearchHoursOfOperationOverridesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchHoursOfOperationOverridesInput, SearchHoursOfOperationOverridesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchHoursOfOperationOverrides(input:))
+    }
+}
+
+extension SearchHoursOfOperationOverridesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchHoursOfOperationOverridesInput {
+        return SearchHoursOfOperationOverridesInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchHoursOfOperationOverridesInput, OperationStackOutput == SearchHoursOfOperationOverridesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchHoursOfOperationOverridesPaginated`
+    /// to access the nested member `[ConnectClientTypes.HoursOfOperationOverride]`
+    /// - Returns: `[ConnectClientTypes.HoursOfOperationOverride]`
+    public func hoursOfOperationOverrides() async throws -> [ConnectClientTypes.HoursOfOperationOverride] {
+        return try await self.asyncCompactMap { item in item.hoursOfOperationOverrides }
     }
 }
 extension ConnectClient {

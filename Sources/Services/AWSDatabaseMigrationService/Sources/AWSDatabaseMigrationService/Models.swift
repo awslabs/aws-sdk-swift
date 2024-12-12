@@ -504,6 +504,8 @@ extension DatabaseMigrationClientTypes {
         /// * "running" – Individual assessments are being run.
         ///
         /// * "starting" – The assessment run is starting, but resources are not yet being provisioned for individual assessments.
+        ///
+        /// * "warning" – At least one individual assessment completed with a warning status.
         public var status: Swift.String?
 
         public init(
@@ -2006,6 +2008,8 @@ extension DatabaseMigrationClientTypes {
         public var sslEndpointIdentificationAlgorithm: DatabaseMigrationClientTypes.KafkaSslEndpointIdentificationAlgorithm?
         /// The topic to which you migrate the data. If you don't specify a topic, DMS specifies "kafka-default-topic" as the migration topic.
         public var topic: Swift.String?
+        /// Specifies using the large integer value with Kafka.
+        public var useLargeIntegerValue: Swift.Bool?
 
         public init(
             broker: Swift.String? = nil,
@@ -2027,7 +2031,8 @@ extension DatabaseMigrationClientTypes {
             sslClientKeyArn: Swift.String? = nil,
             sslClientKeyPassword: Swift.String? = nil,
             sslEndpointIdentificationAlgorithm: DatabaseMigrationClientTypes.KafkaSslEndpointIdentificationAlgorithm? = nil,
-            topic: Swift.String? = nil
+            topic: Swift.String? = nil,
+            useLargeIntegerValue: Swift.Bool? = nil
         )
         {
             self.broker = broker
@@ -2050,13 +2055,14 @@ extension DatabaseMigrationClientTypes {
             self.sslClientKeyPassword = sslClientKeyPassword
             self.sslEndpointIdentificationAlgorithm = sslEndpointIdentificationAlgorithm
             self.topic = topic
+            self.useLargeIntegerValue = useLargeIntegerValue
         }
     }
 }
 
 extension DatabaseMigrationClientTypes.KafkaSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "KafkaSettings(broker: \(Swift.String(describing: broker)), includeControlDetails: \(Swift.String(describing: includeControlDetails)), includeNullAndEmpty: \(Swift.String(describing: includeNullAndEmpty)), includePartitionValue: \(Swift.String(describing: includePartitionValue)), includeTableAlterOperations: \(Swift.String(describing: includeTableAlterOperations)), includeTransactionDetails: \(Swift.String(describing: includeTransactionDetails)), messageFormat: \(Swift.String(describing: messageFormat)), messageMaxBytes: \(Swift.String(describing: messageMaxBytes)), noHexPrefix: \(Swift.String(describing: noHexPrefix)), partitionIncludeSchemaTable: \(Swift.String(describing: partitionIncludeSchemaTable)), saslMechanism: \(Swift.String(describing: saslMechanism)), saslUsername: \(Swift.String(describing: saslUsername)), securityProtocol: \(Swift.String(describing: securityProtocol)), sslCaCertificateArn: \(Swift.String(describing: sslCaCertificateArn)), sslClientCertificateArn: \(Swift.String(describing: sslClientCertificateArn)), sslClientKeyArn: \(Swift.String(describing: sslClientKeyArn)), sslEndpointIdentificationAlgorithm: \(Swift.String(describing: sslEndpointIdentificationAlgorithm)), topic: \(Swift.String(describing: topic)), saslPassword: \"CONTENT_REDACTED\", sslClientKeyPassword: \"CONTENT_REDACTED\")"}
+        "KafkaSettings(broker: \(Swift.String(describing: broker)), includeControlDetails: \(Swift.String(describing: includeControlDetails)), includeNullAndEmpty: \(Swift.String(describing: includeNullAndEmpty)), includePartitionValue: \(Swift.String(describing: includePartitionValue)), includeTableAlterOperations: \(Swift.String(describing: includeTableAlterOperations)), includeTransactionDetails: \(Swift.String(describing: includeTransactionDetails)), messageFormat: \(Swift.String(describing: messageFormat)), messageMaxBytes: \(Swift.String(describing: messageMaxBytes)), noHexPrefix: \(Swift.String(describing: noHexPrefix)), partitionIncludeSchemaTable: \(Swift.String(describing: partitionIncludeSchemaTable)), saslMechanism: \(Swift.String(describing: saslMechanism)), saslUsername: \(Swift.String(describing: saslUsername)), securityProtocol: \(Swift.String(describing: securityProtocol)), sslCaCertificateArn: \(Swift.String(describing: sslCaCertificateArn)), sslClientCertificateArn: \(Swift.String(describing: sslClientCertificateArn)), sslClientKeyArn: \(Swift.String(describing: sslClientKeyArn)), sslEndpointIdentificationAlgorithm: \(Swift.String(describing: sslEndpointIdentificationAlgorithm)), topic: \(Swift.String(describing: topic)), useLargeIntegerValue: \(Swift.String(describing: useLargeIntegerValue)), saslPassword: \"CONTENT_REDACTED\", sslClientKeyPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -2083,6 +2089,8 @@ extension DatabaseMigrationClientTypes {
         public var serviceAccessRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) for the Amazon Kinesis Data Streams endpoint.
         public var streamArn: Swift.String?
+        /// Specifies using the large integer value with Kinesis.
+        public var useLargeIntegerValue: Swift.Bool?
 
         public init(
             includeControlDetails: Swift.Bool? = nil,
@@ -2094,7 +2102,8 @@ extension DatabaseMigrationClientTypes {
             noHexPrefix: Swift.Bool? = nil,
             partitionIncludeSchemaTable: Swift.Bool? = nil,
             serviceAccessRoleArn: Swift.String? = nil,
-            streamArn: Swift.String? = nil
+            streamArn: Swift.String? = nil,
+            useLargeIntegerValue: Swift.Bool? = nil
         )
         {
             self.includeControlDetails = includeControlDetails
@@ -2107,6 +2116,36 @@ extension DatabaseMigrationClientTypes {
             self.partitionIncludeSchemaTable = partitionIncludeSchemaTable
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.streamArn = streamArn
+            self.useLargeIntegerValue = useLargeIntegerValue
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    public enum SqlServerAuthenticationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kerberos
+        case password
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SqlServerAuthenticationMethod] {
+            return [
+                .kerberos,
+                .password
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kerberos: return "kerberos"
+            case .password: return "password"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2182,6 +2221,8 @@ extension DatabaseMigrationClientTypes {
 
     /// Provides information that defines a Microsoft SQL Server endpoint.
     public struct MicrosoftSQLServerSettings: Swift.Sendable {
+        /// Specifies using Kerberos authentication with Microsoft SQL Server.
+        public var authenticationMethod: DatabaseMigrationClientTypes.SqlServerAuthenticationMethod?
         /// The maximum size of the packets (in bytes) used to transfer data using BCP.
         public var bcpPacketSize: Swift.Int?
         /// Specifies a file group for the DMS internal tables. When the replication task starts, all the internal DMS control tables (awsdms_ apply_exception, awsdms_apply, awsdms_changes) are created for the specified file group.
@@ -2218,6 +2259,7 @@ extension DatabaseMigrationClientTypes {
         public var username: Swift.String?
 
         public init(
+            authenticationMethod: DatabaseMigrationClientTypes.SqlServerAuthenticationMethod? = nil,
             bcpPacketSize: Swift.Int? = nil,
             controlTablesFileGroup: Swift.String? = nil,
             databaseName: Swift.String? = nil,
@@ -2237,6 +2279,7 @@ extension DatabaseMigrationClientTypes {
             username: Swift.String? = nil
         )
         {
+            self.authenticationMethod = authenticationMethod
             self.bcpPacketSize = bcpPacketSize
             self.controlTablesFileGroup = controlTablesFileGroup
             self.databaseName = databaseName
@@ -2260,7 +2303,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MicrosoftSQLServerSettings(bcpPacketSize: \(Swift.String(describing: bcpPacketSize)), controlTablesFileGroup: \(Swift.String(describing: controlTablesFileGroup)), databaseName: \(Swift.String(describing: databaseName)), forceLobLookup: \(Swift.String(describing: forceLobLookup)), port: \(Swift.String(describing: port)), querySingleAlwaysOnNode: \(Swift.String(describing: querySingleAlwaysOnNode)), readBackupOnly: \(Swift.String(describing: readBackupOnly)), safeguardPolicy: \(Swift.String(describing: safeguardPolicy)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), tlogAccessMode: \(Swift.String(describing: tlogAccessMode)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), useBcpFullLoad: \(Swift.String(describing: useBcpFullLoad)), useThirdPartyBackupDevice: \(Swift.String(describing: useThirdPartyBackupDevice)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "MicrosoftSQLServerSettings(authenticationMethod: \(Swift.String(describing: authenticationMethod)), bcpPacketSize: \(Swift.String(describing: bcpPacketSize)), controlTablesFileGroup: \(Swift.String(describing: controlTablesFileGroup)), databaseName: \(Swift.String(describing: databaseName)), forceLobLookup: \(Swift.String(describing: forceLobLookup)), port: \(Swift.String(describing: port)), querySingleAlwaysOnNode: \(Swift.String(describing: querySingleAlwaysOnNode)), readBackupOnly: \(Swift.String(describing: readBackupOnly)), safeguardPolicy: \(Swift.String(describing: safeguardPolicy)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), tlogAccessMode: \(Swift.String(describing: tlogAccessMode)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), useBcpFullLoad: \(Swift.String(describing: useBcpFullLoad)), useThirdPartyBackupDevice: \(Swift.String(describing: useThirdPartyBackupDevice)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -2469,6 +2512,35 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
+    public enum OracleAuthenticationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kerberos
+        case password
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OracleAuthenticationMethod] {
+            return [
+                .kerberos,
+                .password
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kerberos: return "kerberos"
+            case .password: return "password"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
     public enum CharLengthSemantics: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case byte
         case char
@@ -2513,7 +2585,7 @@ extension DatabaseMigrationClientTypes {
         public var allowSelectNestedTables: Swift.Bool?
         /// Specifies the ID of the destination for the archived redo logs. This value should be the same as a number in the dest_id column of the v$archived_log view. If you work with an additional redo log destination, use the AdditionalArchivedLogDestId option to specify the additional destination ID. Doing this improves performance by ensuring that the correct logs are accessed from the outset.
         public var archivedLogDestId: Swift.Int?
-        /// When this field is set to Y, DMS only accesses the archived redo logs. If the archived redo logs are stored on Automatic Storage Management (ASM) only, the DMS user account needs to be granted ASM privileges.
+        /// When this field is set to True, DMS only accesses the archived redo logs. If the archived redo logs are stored on Automatic Storage Management (ASM) only, the DMS user account needs to be granted ASM privileges.
         public var archivedLogsOnly: Swift.Bool?
         /// For an Oracle source endpoint, your Oracle Automatic Storage Management (ASM) password. You can set this value from the  asm_user_password  value. You set this value as part of the comma-separated value that you set to the Password request parameter when you create the endpoint to access transaction logs using Binary Reader. For more information, see [Configuration for change data capture (CDC) on an Oracle source database](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration).
         public var asmPassword: Swift.String?
@@ -2521,6 +2593,8 @@ extension DatabaseMigrationClientTypes {
         public var asmServer: Swift.String?
         /// For an Oracle source endpoint, your ASM user name. You can set this value from the asm_user value. You set asm_user as part of the extra connection attribute string to access an Oracle server with Binary Reader that uses ASM. For more information, see [Configuration for change data capture (CDC) on an Oracle source database](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration).
         public var asmUser: Swift.String?
+        /// Specifies using Kerberos authentication with Oracle.
+        public var authenticationMethod: DatabaseMigrationClientTypes.OracleAuthenticationMethod?
         /// Specifies whether the length of a character column is in bytes or in characters. To indicate that the character column length is in characters, set this attribute to CHAR. Otherwise, the character column length is in bytes. Example: charLengthSemantics=CHAR;
         public var charLengthSemantics: DatabaseMigrationClientTypes.CharLengthSemantics?
         /// When true, converts timestamps with the timezone datatype to their UTC value.
@@ -2539,7 +2613,7 @@ extension DatabaseMigrationClientTypes {
         public var failTasksOnLobTruncation: Swift.Bool?
         /// Specifies the number scale. You can select a scale up to 38, or you can select FLOAT. By default, the NUMBER data type is converted to precision 38, scale 10. Example: numberDataTypeScale=12
         public var numberDatatypeScale: Swift.Int?
-        /// The timeframe in minutes to check for open transactions for a CDC-only task. You can specify an integer value between 0 (the default) and 240 (the maximum). This parameter is only valid in DMS version 3.5.0 and later. DMS supports a window of up to 9.5 hours including the value for OpenTransactionWindow.
+        /// The timeframe in minutes to check for open transactions for a CDC-only task. You can specify an integer value between 0 (the default) and 240 (the maximum). This parameter is only valid in DMS version 3.5.0 and later.
         public var openTransactionWindow: Swift.Int?
         /// Set this string attribute to the required value in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This value specifies the default Oracle root used to access the redo logs.
         public var oraclePathPrefix: Swift.String?
@@ -2579,11 +2653,11 @@ extension DatabaseMigrationClientTypes {
         public var trimSpaceInChar: Swift.Bool?
         /// Set this attribute to true in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This tells the DMS instance to use any specified prefix replacement to access all online redo logs.
         public var useAlternateFolderForOnline: Swift.Bool?
-        /// Set this attribute to Y to capture change data using the Binary Reader utility. Set UseLogminerReader to N to set this attribute to Y. To use Binary Reader with Amazon RDS for Oracle as the source, you set additional attributes. For more information about using this setting with Oracle Automatic Storage Management (ASM), see [ Using Oracle LogMiner or DMS Binary Reader for CDC](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC).
+        /// Set this attribute to True to capture change data using the Binary Reader utility. Set UseLogminerReader to False to set this attribute to True. To use Binary Reader with Amazon RDS for Oracle as the source, you set additional attributes. For more information about using this setting with Oracle Automatic Storage Management (ASM), see [ Using Oracle LogMiner or DMS Binary Reader for CDC](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC).
         public var useBFile: Swift.Bool?
-        /// Set this attribute to Y to have DMS use a direct path full load. Specify this value to use the direct path protocol in the Oracle Call Interface (OCI). By using this OCI protocol, you can bulk-load Oracle target tables during a full load.
+        /// Set this attribute to True to have DMS use a direct path full load. Specify this value to use the direct path protocol in the Oracle Call Interface (OCI). By using this OCI protocol, you can bulk-load Oracle target tables during a full load.
         public var useDirectPathFullLoad: Swift.Bool?
-        /// Set this attribute to Y to capture change data using the Oracle LogMiner utility (the default). Set this attribute to N if you want to access the redo logs as a binary file. When you set UseLogminerReader to N, also set UseBfile to Y. For more information on this setting and using Oracle ASM, see [ Using Oracle LogMiner or DMS Binary Reader for CDC](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC) in the DMS User Guide.
+        /// Set this attribute to True to capture change data using the Oracle LogMiner utility (the default). Set this attribute to False if you want to access the redo logs as a binary file. When you set UseLogminerReader to False, also set UseBfile to True. For more information on this setting and using Oracle ASM, see [ Using Oracle LogMiner or DMS Binary Reader for CDC](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC) in the DMS User Guide.
         public var useLogminerReader: Swift.Bool?
         /// Set this string attribute to the required value in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This value specifies the path prefix used to replace the default Oracle root to access the redo logs.
         public var usePathPrefix: Swift.String?
@@ -2600,6 +2674,7 @@ extension DatabaseMigrationClientTypes {
             asmPassword: Swift.String? = nil,
             asmServer: Swift.String? = nil,
             asmUser: Swift.String? = nil,
+            authenticationMethod: DatabaseMigrationClientTypes.OracleAuthenticationMethod? = nil,
             charLengthSemantics: DatabaseMigrationClientTypes.CharLengthSemantics? = nil,
             convertTimestampWithZoneToUTC: Swift.Bool? = nil,
             databaseName: Swift.String? = nil,
@@ -2645,6 +2720,7 @@ extension DatabaseMigrationClientTypes {
             self.asmPassword = asmPassword
             self.asmServer = asmServer
             self.asmUser = asmUser
+            self.authenticationMethod = authenticationMethod
             self.charLengthSemantics = charLengthSemantics
             self.convertTimestampWithZoneToUTC = convertTimestampWithZoneToUTC
             self.databaseName = databaseName
@@ -2685,7 +2761,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.OracleSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OracleSettings(accessAlternateDirectly: \(Swift.String(describing: accessAlternateDirectly)), addSupplementalLogging: \(Swift.String(describing: addSupplementalLogging)), additionalArchivedLogDestId: \(Swift.String(describing: additionalArchivedLogDestId)), allowSelectNestedTables: \(Swift.String(describing: allowSelectNestedTables)), archivedLogDestId: \(Swift.String(describing: archivedLogDestId)), archivedLogsOnly: \(Swift.String(describing: archivedLogsOnly)), asmServer: \(Swift.String(describing: asmServer)), asmUser: \(Swift.String(describing: asmUser)), charLengthSemantics: \(Swift.String(describing: charLengthSemantics)), convertTimestampWithZoneToUTC: \(Swift.String(describing: convertTimestampWithZoneToUTC)), databaseName: \(Swift.String(describing: databaseName)), directPathNoLog: \(Swift.String(describing: directPathNoLog)), directPathParallelLoad: \(Swift.String(describing: directPathParallelLoad)), enableHomogenousTablespace: \(Swift.String(describing: enableHomogenousTablespace)), extraArchivedLogDestIds: \(Swift.String(describing: extraArchivedLogDestIds)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), numberDatatypeScale: \(Swift.String(describing: numberDatatypeScale)), openTransactionWindow: \(Swift.String(describing: openTransactionWindow)), oraclePathPrefix: \(Swift.String(describing: oraclePathPrefix)), parallelAsmReadThreads: \(Swift.String(describing: parallelAsmReadThreads)), port: \(Swift.String(describing: port)), readAheadBlocks: \(Swift.String(describing: readAheadBlocks)), readTableSpaceName: \(Swift.String(describing: readTableSpaceName)), replacePathPrefix: \(Swift.String(describing: replacePathPrefix)), retryInterval: \(Swift.String(describing: retryInterval)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerOracleAsmAccessRoleArn: \(Swift.String(describing: secretsManagerOracleAsmAccessRoleArn)), secretsManagerOracleAsmSecretId: \(Swift.String(describing: secretsManagerOracleAsmSecretId)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), securityDbEncryptionName: \(Swift.String(describing: securityDbEncryptionName)), serverName: \(Swift.String(describing: serverName)), spatialDataOptionToGeoJsonFunctionName: \(Swift.String(describing: spatialDataOptionToGeoJsonFunctionName)), standbyDelayTime: \(Swift.String(describing: standbyDelayTime)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), useAlternateFolderForOnline: \(Swift.String(describing: useAlternateFolderForOnline)), useBFile: \(Swift.String(describing: useBFile)), useDirectPathFullLoad: \(Swift.String(describing: useDirectPathFullLoad)), useLogminerReader: \(Swift.String(describing: useLogminerReader)), usePathPrefix: \(Swift.String(describing: usePathPrefix)), username: \(Swift.String(describing: username)), asmPassword: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", securityDbEncryption: \"CONTENT_REDACTED\")"}
+        "OracleSettings(accessAlternateDirectly: \(Swift.String(describing: accessAlternateDirectly)), addSupplementalLogging: \(Swift.String(describing: addSupplementalLogging)), additionalArchivedLogDestId: \(Swift.String(describing: additionalArchivedLogDestId)), allowSelectNestedTables: \(Swift.String(describing: allowSelectNestedTables)), archivedLogDestId: \(Swift.String(describing: archivedLogDestId)), archivedLogsOnly: \(Swift.String(describing: archivedLogsOnly)), asmServer: \(Swift.String(describing: asmServer)), asmUser: \(Swift.String(describing: asmUser)), authenticationMethod: \(Swift.String(describing: authenticationMethod)), charLengthSemantics: \(Swift.String(describing: charLengthSemantics)), convertTimestampWithZoneToUTC: \(Swift.String(describing: convertTimestampWithZoneToUTC)), databaseName: \(Swift.String(describing: databaseName)), directPathNoLog: \(Swift.String(describing: directPathNoLog)), directPathParallelLoad: \(Swift.String(describing: directPathParallelLoad)), enableHomogenousTablespace: \(Swift.String(describing: enableHomogenousTablespace)), extraArchivedLogDestIds: \(Swift.String(describing: extraArchivedLogDestIds)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), numberDatatypeScale: \(Swift.String(describing: numberDatatypeScale)), openTransactionWindow: \(Swift.String(describing: openTransactionWindow)), oraclePathPrefix: \(Swift.String(describing: oraclePathPrefix)), parallelAsmReadThreads: \(Swift.String(describing: parallelAsmReadThreads)), port: \(Swift.String(describing: port)), readAheadBlocks: \(Swift.String(describing: readAheadBlocks)), readTableSpaceName: \(Swift.String(describing: readTableSpaceName)), replacePathPrefix: \(Swift.String(describing: replacePathPrefix)), retryInterval: \(Swift.String(describing: retryInterval)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerOracleAsmAccessRoleArn: \(Swift.String(describing: secretsManagerOracleAsmAccessRoleArn)), secretsManagerOracleAsmSecretId: \(Swift.String(describing: secretsManagerOracleAsmSecretId)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), securityDbEncryptionName: \(Swift.String(describing: securityDbEncryptionName)), serverName: \(Swift.String(describing: serverName)), spatialDataOptionToGeoJsonFunctionName: \(Swift.String(describing: spatialDataOptionToGeoJsonFunctionName)), standbyDelayTime: \(Swift.String(describing: standbyDelayTime)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), useAlternateFolderForOnline: \(Swift.String(describing: useAlternateFolderForOnline)), useBFile: \(Swift.String(describing: useBFile)), useDirectPathFullLoad: \(Swift.String(describing: useDirectPathFullLoad)), useLogminerReader: \(Swift.String(describing: useLogminerReader)), usePathPrefix: \(Swift.String(describing: usePathPrefix)), username: \(Swift.String(describing: username)), asmPassword: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", securityDbEncryption: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -2789,35 +2865,37 @@ extension DatabaseMigrationClientTypes {
         public var afterConnectScript: Swift.String?
         /// The Babelfish for Aurora PostgreSQL database name for the endpoint.
         public var babelfishDatabaseName: Swift.String?
-        /// To capture DDL events, DMS creates various artifacts in the PostgreSQL database when the task starts. You can later remove these artifacts. If this value is set to N, you don't have to create tables or triggers on the source database.
+        /// To capture DDL events, DMS creates various artifacts in the PostgreSQL database when the task starts. You can later remove these artifacts. The default value is true. If this value is set to N, you don't have to create tables or triggers on the source database.
         public var captureDdls: Swift.Bool?
         /// Specifies the default behavior of the replication's handling of PostgreSQL- compatible endpoints that require some additional configuration, such as Babelfish endpoints.
         public var databaseMode: DatabaseMigrationClientTypes.DatabaseMode?
         /// Database name for the endpoint.
         public var databaseName: Swift.String?
-        /// The schema in which the operational DDL database artifacts are created. Example: ddlArtifactsSchema=xyzddlschema;
+        /// The schema in which the operational DDL database artifacts are created. The default value is public. Example: ddlArtifactsSchema=xyzddlschema;
         public var ddlArtifactsSchema: Swift.String?
+        /// Disables the Unicode source filter with PostgreSQL, for values passed into the Selection rule filter on Source Endpoint column values. By default DMS performs source filter comparisons using a Unicode string which can cause look ups to ignore the indexes in the text columns and slow down migrations. Unicode support should only be disabled when using a selection rule filter is on a text column in the Source database that is indexed.
+        public var disableUnicodeSourceFilter: Swift.Bool?
         /// Sets the client statement timeout for the PostgreSQL instance, in seconds. The default value is 60 seconds. Example: executeTimeout=100;
         public var executeTimeout: Swift.Int?
-        /// When set to true, this value causes a task to fail if the actual size of a LOB column is greater than the specified LobMaxSize. If task is set to Limited LOB mode and this option is set to true, the task fails instead of truncating the LOB data.
+        /// When set to true, this value causes a task to fail if the actual size of a LOB column is greater than the specified LobMaxSize. The default value is false. If task is set to Limited LOB mode and this option is set to true, the task fails instead of truncating the LOB data.
         public var failTasksOnLobTruncation: Swift.Bool?
-        /// The write-ahead log (WAL) heartbeat feature mimics a dummy transaction. By doing this, it prevents idle logical replication slots from holding onto old WAL logs, which can result in storage full situations on the source. This heartbeat keeps restart_lsn moving and prevents storage full scenarios.
+        /// The write-ahead log (WAL) heartbeat feature mimics a dummy transaction. By doing this, it prevents idle logical replication slots from holding onto old WAL logs, which can result in storage full situations on the source. This heartbeat keeps restart_lsn moving and prevents storage full scenarios. The default value is false.
         public var heartbeatEnable: Swift.Bool?
-        /// Sets the WAL heartbeat frequency (in minutes).
+        /// Sets the WAL heartbeat frequency (in minutes). The default value is 5 minutes.
         public var heartbeatFrequency: Swift.Int?
-        /// Sets the schema in which the heartbeat artifacts are created.
+        /// Sets the schema in which the heartbeat artifacts are created. The default value is public.
         public var heartbeatSchema: Swift.String?
-        /// When true, lets PostgreSQL migrate the boolean type as boolean. By default, PostgreSQL migrates booleans as varchar(5). You must set this setting on both the source and target endpoints for it to take effect.
+        /// When true, lets PostgreSQL migrate the boolean type as boolean. By default, PostgreSQL migrates booleans as varchar(5). You must set this setting on both the source and target endpoints for it to take effect. The default value is false.
         public var mapBooleanAsBoolean: Swift.Bool?
-        /// When true, DMS migrates JSONB values as CLOB.
+        /// When true, DMS migrates JSONB values as CLOB. The default value is false.
         public var mapJsonbAsClob: Swift.Bool?
-        /// When true, DMS migrates LONG values as VARCHAR.
+        /// Sets what datatype to map LONG values as. The default value is wstring.
         public var mapLongVarcharAs: DatabaseMigrationClientTypes.LongVarcharMappingType?
-        /// Specifies the maximum size (in KB) of any .csv file used to transfer data to PostgreSQL. Example: maxFileSize=512
+        /// Specifies the maximum size (in KB) of any .csv file used to transfer data to PostgreSQL. The default value is 32,768 KB (32 MB). Example: maxFileSize=512
         public var maxFileSize: Swift.Int?
         /// Endpoint connection password.
         public var password: Swift.String?
-        /// Specifies the plugin to use to create a replication slot.
+        /// Specifies the plugin to use to create a replication slot. The default value is pglogical.
         public var pluginName: DatabaseMigrationClientTypes.PluginNameValue?
         /// Endpoint TCP port. The default is 5432.
         public var port: Swift.Int?
@@ -2841,6 +2919,7 @@ extension DatabaseMigrationClientTypes {
             databaseMode: DatabaseMigrationClientTypes.DatabaseMode? = nil,
             databaseName: Swift.String? = nil,
             ddlArtifactsSchema: Swift.String? = nil,
+            disableUnicodeSourceFilter: Swift.Bool? = nil,
             executeTimeout: Swift.Int? = nil,
             failTasksOnLobTruncation: Swift.Bool? = nil,
             heartbeatEnable: Swift.Bool? = nil,
@@ -2867,6 +2946,7 @@ extension DatabaseMigrationClientTypes {
             self.databaseMode = databaseMode
             self.databaseName = databaseName
             self.ddlArtifactsSchema = ddlArtifactsSchema
+            self.disableUnicodeSourceFilter = disableUnicodeSourceFilter
             self.executeTimeout = executeTimeout
             self.failTasksOnLobTruncation = failTasksOnLobTruncation
             self.heartbeatEnable = heartbeatEnable
@@ -2891,7 +2971,7 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PostgreSQLSettings(afterConnectScript: \(Swift.String(describing: afterConnectScript)), babelfishDatabaseName: \(Swift.String(describing: babelfishDatabaseName)), captureDdls: \(Swift.String(describing: captureDdls)), databaseMode: \(Swift.String(describing: databaseMode)), databaseName: \(Swift.String(describing: databaseName)), ddlArtifactsSchema: \(Swift.String(describing: ddlArtifactsSchema)), executeTimeout: \(Swift.String(describing: executeTimeout)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), heartbeatEnable: \(Swift.String(describing: heartbeatEnable)), heartbeatFrequency: \(Swift.String(describing: heartbeatFrequency)), heartbeatSchema: \(Swift.String(describing: heartbeatSchema)), mapBooleanAsBoolean: \(Swift.String(describing: mapBooleanAsBoolean)), mapJsonbAsClob: \(Swift.String(describing: mapJsonbAsClob)), mapLongVarcharAs: \(Swift.String(describing: mapLongVarcharAs)), maxFileSize: \(Swift.String(describing: maxFileSize)), pluginName: \(Swift.String(describing: pluginName)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), slotName: \(Swift.String(describing: slotName)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "PostgreSQLSettings(afterConnectScript: \(Swift.String(describing: afterConnectScript)), babelfishDatabaseName: \(Swift.String(describing: babelfishDatabaseName)), captureDdls: \(Swift.String(describing: captureDdls)), databaseMode: \(Swift.String(describing: databaseMode)), databaseName: \(Swift.String(describing: databaseName)), ddlArtifactsSchema: \(Swift.String(describing: ddlArtifactsSchema)), disableUnicodeSourceFilter: \(Swift.String(describing: disableUnicodeSourceFilter)), executeTimeout: \(Swift.String(describing: executeTimeout)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), heartbeatEnable: \(Swift.String(describing: heartbeatEnable)), heartbeatFrequency: \(Swift.String(describing: heartbeatFrequency)), heartbeatSchema: \(Swift.String(describing: heartbeatSchema)), mapBooleanAsBoolean: \(Swift.String(describing: mapBooleanAsBoolean)), mapJsonbAsClob: \(Swift.String(describing: mapJsonbAsClob)), mapLongVarcharAs: \(Swift.String(describing: mapLongVarcharAs)), maxFileSize: \(Swift.String(describing: maxFileSize)), pluginName: \(Swift.String(describing: pluginName)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), slotName: \(Swift.String(describing: slotName)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -4953,6 +5033,30 @@ public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension DatabaseMigrationClientTypes {
+
+    /// Specifies using Kerberos authentication settings for use with DMS.
+    public struct KerberosAuthenticationSettings: Swift.Sendable {
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that grants Amazon Web Services DMS access to the secret containing key cache file for the replication instance.
+        public var keyCacheSecretIamArn: Swift.String?
+        /// Specifies the secret ID of the key cache for the replication instance.
+        public var keyCacheSecretId: Swift.String?
+        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication of the replication instance.
+        public var krb5FileContents: Swift.String?
+
+        public init(
+            keyCacheSecretIamArn: Swift.String? = nil,
+            keyCacheSecretId: Swift.String? = nil,
+            krb5FileContents: Swift.String? = nil
+        )
+        {
+            self.keyCacheSecretIamArn = keyCacheSecretIamArn
+            self.keyCacheSecretId = keyCacheSecretId
+            self.krb5FileContents = krb5FileContents
+        }
+    }
+}
+
 ///
 public struct CreateReplicationInstanceInput: Swift.Sendable {
     /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
@@ -4965,6 +5069,8 @@ public struct CreateReplicationInstanceInput: Swift.Sendable {
     public var dnsNameServers: Swift.String?
     /// The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available.
     public var engineVersion: Swift.String?
+    /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when creating a replication instance.
+    public var kerberosAuthenticationSettings: DatabaseMigrationClientTypes.KerberosAuthenticationSettings?
     /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
     public var kmsKeyId: Swift.String?
     /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
@@ -5005,6 +5111,7 @@ public struct CreateReplicationInstanceInput: Swift.Sendable {
         availabilityZone: Swift.String? = nil,
         dnsNameServers: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
+        kerberosAuthenticationSettings: DatabaseMigrationClientTypes.KerberosAuthenticationSettings? = nil,
         kmsKeyId: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil,
         networkType: Swift.String? = nil,
@@ -5023,6 +5130,7 @@ public struct CreateReplicationInstanceInput: Swift.Sendable {
         self.availabilityZone = availabilityZone
         self.dnsNameServers = dnsNameServers
         self.engineVersion = engineVersion
+        self.kerberosAuthenticationSettings = kerberosAuthenticationSettings
         self.kmsKeyId = kmsKeyId
         self.multiAZ = multiAZ
         self.networkType = networkType
@@ -5183,6 +5291,8 @@ extension DatabaseMigrationClientTypes {
         public var freeUntil: Foundation.Date?
         /// The time the replication instance was created.
         public var instanceCreateTime: Foundation.Date?
+        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when replicating an instance.
+        public var kerberosAuthenticationSettings: DatabaseMigrationClientTypes.KerberosAuthenticationSettings?
         /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public var kmsKeyId: Swift.String?
         /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
@@ -5265,6 +5375,7 @@ extension DatabaseMigrationClientTypes {
             engineVersion: Swift.String? = nil,
             freeUntil: Foundation.Date? = nil,
             instanceCreateTime: Foundation.Date? = nil,
+            kerberosAuthenticationSettings: DatabaseMigrationClientTypes.KerberosAuthenticationSettings? = nil,
             kmsKeyId: Swift.String? = nil,
             multiAZ: Swift.Bool = false,
             networkType: Swift.String? = nil,
@@ -5292,6 +5403,7 @@ extension DatabaseMigrationClientTypes {
             self.engineVersion = engineVersion
             self.freeUntil = freeUntil
             self.instanceCreateTime = instanceCreateTime
+            self.kerberosAuthenticationSettings = kerberosAuthenticationSettings
             self.kmsKeyId = kmsKeyId
             self.multiAZ = multiAZ
             self.networkType = networkType
@@ -5561,13 +5673,13 @@ extension DatabaseMigrationClientTypes {
         public var status: Swift.String?
         /// The reason the replication task was stopped. This response parameter can return one of the following values:
         ///
-        /// * "Stop Reason NORMAL"
+        /// * "Stop Reason NORMAL" – The task completed successfully with no additional information returned.
         ///
         /// * "Stop Reason RECOVERABLE_ERROR"
         ///
         /// * "Stop Reason FATAL_ERROR"
         ///
-        /// * "Stop Reason FULL_LOAD_ONLY_FINISHED"
+        /// * "Stop Reason FULL_LOAD_ONLY_FINISHED" – The task completed the full load phase. DMS applied cached changes if you set StopTaskCachedChangesApplied to true.
         ///
         /// * "Stop Reason STOPPED_AFTER_FULL_LOAD" – Full load completed, with cached changes not applied
         ///
@@ -6400,7 +6512,7 @@ public struct DescribeDataMigrationsOutput: Swift.Sendable {
 }
 
 public struct DescribeDataProvidersInput: Swift.Sendable {
-    /// Filters applied to the data providers described in the form of key-value pairs. Valid filter names: data-provider-identifier
+    /// Filters applied to the data providers described in the form of key-value pairs. Valid filter names and values: data-provider-identifier, data provider arn or name
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -7789,7 +7901,7 @@ public struct DescribeFleetAdvisorSchemasOutput: Swift.Sendable {
 }
 
 public struct DescribeInstanceProfilesInput: Swift.Sendable {
-    /// Filters applied to the instance profiles described in the form of key-value pairs.
+    /// Filters applied to the instance profiles described in the form of key-value pairs. Valid filter names and values: instance-profile-identifier, instance profile arn or name
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -8030,7 +8142,13 @@ public struct DescribeMetadataModelImportsOutput: Swift.Sendable {
 }
 
 public struct DescribeMigrationProjectsInput: Swift.Sendable {
-    /// Filters applied to the migration projects described in the form of key-value pairs.
+    /// Filters applied to the migration projects described in the form of key-value pairs. Valid filter names and values:
+    ///
+    /// * instance-profile-identifier, instance profile arn or name
+    ///
+    /// * data-provider-identifier, data provider arn or name
+    ///
+    /// * migration-project-identifier, migration project arn or name
     public var filters: [DatabaseMigrationClientTypes.Filter]?
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -8840,7 +8958,7 @@ extension DatabaseMigrationClientTypes {
         public var replicationUpdateTime: Foundation.Date?
         /// The Amazon Resource Name for an existing Endpoint the serverless replication uses for its data source.
         public var sourceEndpointArn: Swift.String?
-        /// The replication type.
+        /// The type of replication to start.
         public var startReplicationType: Swift.String?
         /// The current status of the serverless replication.
         public var status: Swift.String?
@@ -9209,6 +9327,11 @@ extension DatabaseMigrationClientTypes {
             self.s3ObjectUrl = s3ObjectUrl
         }
     }
+}
+
+extension DatabaseMigrationClientTypes.ReplicationTaskAssessmentResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ReplicationTaskAssessmentResult(assessmentResults: \(Swift.String(describing: assessmentResults)), assessmentResultsFile: \(Swift.String(describing: assessmentResultsFile)), assessmentStatus: \(Swift.String(describing: assessmentStatus)), replicationTaskArn: \(Swift.String(describing: replicationTaskArn)), replicationTaskIdentifier: \(Swift.String(describing: replicationTaskIdentifier)), replicationTaskLastAssessmentDate: \(Swift.String(describing: replicationTaskLastAssessmentDate)), s3ObjectUrl: \"CONTENT_REDACTED\")"}
 }
 
 ///
@@ -10236,6 +10359,8 @@ public struct ModifyReplicationInstanceInput: Swift.Sendable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
     public var engineVersion: Swift.String?
+    /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when modifying a replication instance.
+    public var kerberosAuthenticationSettings: DatabaseMigrationClientTypes.KerberosAuthenticationSettings?
     /// Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
     public var multiAZ: Swift.Bool?
     /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
@@ -10258,6 +10383,7 @@ public struct ModifyReplicationInstanceInput: Swift.Sendable {
         applyImmediately: Swift.Bool? = false,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         engineVersion: Swift.String? = nil,
+        kerberosAuthenticationSettings: DatabaseMigrationClientTypes.KerberosAuthenticationSettings? = nil,
         multiAZ: Swift.Bool? = nil,
         networkType: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
@@ -10272,6 +10398,7 @@ public struct ModifyReplicationInstanceInput: Swift.Sendable {
         self.applyImmediately = applyImmediately
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.engineVersion = engineVersion
+        self.kerberosAuthenticationSettings = kerberosAuthenticationSettings
         self.multiAZ = multiAZ
         self.networkType = networkType
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
@@ -10997,7 +11124,7 @@ public struct StartReplicationInput: Swift.Sendable {
     /// The Amazon Resource Name of the replication for which to start replication.
     /// This member is required.
     public var replicationConfigArn: Swift.String?
-    /// The replication type.
+    /// The replication type. When the replication type is full-load or full-load-and-cdc, the only valid value for the first run of the replication is start-replication. This option will start the replication. You can also use [ReloadTables] to reload specific tables that failed during replication instead of restarting the replication. The resume-processing option isn't applicable for a full-load replication, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position.
     /// This member is required.
     public var startReplicationType: Swift.String?
 
@@ -12334,6 +12461,7 @@ extension CreateReplicationInstanceInput {
         try writer["AvailabilityZone"].write(value.availabilityZone)
         try writer["DnsNameServers"].write(value.dnsNameServers)
         try writer["EngineVersion"].write(value.engineVersion)
+        try writer["KerberosAuthenticationSettings"].write(value.kerberosAuthenticationSettings, with: DatabaseMigrationClientTypes.KerberosAuthenticationSettings.write(value:to:))
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MultiAZ"].write(value.multiAZ)
         try writer["NetworkType"].write(value.networkType)
@@ -13130,6 +13258,7 @@ extension ModifyReplicationInstanceInput {
         try writer["ApplyImmediately"].write(value.applyImmediately)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["EngineVersion"].write(value.engineVersion)
+        try writer["KerberosAuthenticationSettings"].write(value.kerberosAuthenticationSettings, with: DatabaseMigrationClientTypes.KerberosAuthenticationSettings.write(value:to:))
         try writer["MultiAZ"].write(value.multiAZ)
         try writer["NetworkType"].write(value.networkType)
         try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
@@ -15136,6 +15265,7 @@ enum DeleteEventSubscriptionOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15248,6 +15378,7 @@ enum DeleteReplicationSubnetGroupOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15904,6 +16035,7 @@ enum DescribeTableStatisticsOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
             case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16030,6 +16162,7 @@ enum ModifyEventSubscriptionOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
             case "KMSAccessDeniedFault": return try KMSAccessDeniedFault.makeError(baseError: baseError)
             case "KMSDisabledFault": return try KMSDisabledFault.makeError(baseError: baseError)
             case "KMSInvalidStateFault": return try KMSInvalidStateFault.makeError(baseError: baseError)
@@ -17560,6 +17693,7 @@ extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings {
 
     static func write(value: DatabaseMigrationClientTypes.MicrosoftSQLServerSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuthenticationMethod"].write(value.authenticationMethod)
         try writer["BcpPacketSize"].write(value.bcpPacketSize)
         try writer["ControlTablesFileGroup"].write(value.controlTablesFileGroup)
         try writer["DatabaseName"].write(value.databaseName)
@@ -17599,6 +17733,7 @@ extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings {
         value.trimSpaceInChar = try reader["TrimSpaceInChar"].readIfPresent()
         value.tlogAccessMode = try reader["TlogAccessMode"].readIfPresent()
         value.forceLobLookup = try reader["ForceLobLookup"].readIfPresent()
+        value.authenticationMethod = try reader["AuthenticationMethod"].readIfPresent()
         return value
     }
 }
@@ -17643,6 +17778,7 @@ extension DatabaseMigrationClientTypes.OracleSettings {
         try writer["AsmPassword"].write(value.asmPassword)
         try writer["AsmServer"].write(value.asmServer)
         try writer["AsmUser"].write(value.asmUser)
+        try writer["AuthenticationMethod"].write(value.authenticationMethod)
         try writer["CharLengthSemantics"].write(value.charLengthSemantics)
         try writer["ConvertTimestampWithZoneToUTC"].write(value.convertTimestampWithZoneToUTC)
         try writer["DatabaseName"].write(value.databaseName)
@@ -17725,6 +17861,7 @@ extension DatabaseMigrationClientTypes.OracleSettings {
         value.trimSpaceInChar = try reader["TrimSpaceInChar"].readIfPresent()
         value.convertTimestampWithZoneToUTC = try reader["ConvertTimestampWithZoneToUTC"].readIfPresent()
         value.openTransactionWindow = try reader["OpenTransactionWindow"].readIfPresent()
+        value.authenticationMethod = try reader["AuthenticationMethod"].readIfPresent()
         return value
     }
 }
@@ -17782,6 +17919,7 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings {
         try writer["DatabaseMode"].write(value.databaseMode)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["DdlArtifactsSchema"].write(value.ddlArtifactsSchema)
+        try writer["DisableUnicodeSourceFilter"].write(value.disableUnicodeSourceFilter)
         try writer["ExecuteTimeout"].write(value.executeTimeout)
         try writer["FailTasksOnLobTruncation"].write(value.failTasksOnLobTruncation)
         try writer["HeartbeatEnable"].write(value.heartbeatEnable)
@@ -17829,6 +17967,7 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings {
         value.mapLongVarcharAs = try reader["MapLongVarcharAs"].readIfPresent()
         value.databaseMode = try reader["DatabaseMode"].readIfPresent()
         value.babelfishDatabaseName = try reader["BabelfishDatabaseName"].readIfPresent()
+        value.disableUnicodeSourceFilter = try reader["DisableUnicodeSourceFilter"].readIfPresent()
         return value
     }
 }
@@ -17982,6 +18121,7 @@ extension DatabaseMigrationClientTypes.KafkaSettings {
         try writer["SslClientKeyPassword"].write(value.sslClientKeyPassword)
         try writer["SslEndpointIdentificationAlgorithm"].write(value.sslEndpointIdentificationAlgorithm)
         try writer["Topic"].write(value.topic)
+        try writer["UseLargeIntegerValue"].write(value.useLargeIntegerValue)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.KafkaSettings {
@@ -18007,6 +18147,7 @@ extension DatabaseMigrationClientTypes.KafkaSettings {
         value.noHexPrefix = try reader["NoHexPrefix"].readIfPresent()
         value.saslMechanism = try reader["SaslMechanism"].readIfPresent()
         value.sslEndpointIdentificationAlgorithm = try reader["SslEndpointIdentificationAlgorithm"].readIfPresent()
+        value.useLargeIntegerValue = try reader["UseLargeIntegerValue"].readIfPresent()
         return value
     }
 }
@@ -18025,6 +18166,7 @@ extension DatabaseMigrationClientTypes.KinesisSettings {
         try writer["PartitionIncludeSchemaTable"].write(value.partitionIncludeSchemaTable)
         try writer["ServiceAccessRoleArn"].write(value.serviceAccessRoleArn)
         try writer["StreamArn"].write(value.streamArn)
+        try writer["UseLargeIntegerValue"].write(value.useLargeIntegerValue)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.KinesisSettings {
@@ -18040,6 +18182,7 @@ extension DatabaseMigrationClientTypes.KinesisSettings {
         value.includeControlDetails = try reader["IncludeControlDetails"].readIfPresent()
         value.includeNullAndEmpty = try reader["IncludeNullAndEmpty"].readIfPresent()
         value.noHexPrefix = try reader["NoHexPrefix"].readIfPresent()
+        value.useLargeIntegerValue = try reader["UseLargeIntegerValue"].readIfPresent()
         return value
     }
 }
@@ -18383,6 +18526,26 @@ extension DatabaseMigrationClientTypes.ReplicationInstance {
         value.freeUntil = try reader["FreeUntil"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.dnsNameServers = try reader["DnsNameServers"].readIfPresent()
         value.networkType = try reader["NetworkType"].readIfPresent()
+        value.kerberosAuthenticationSettings = try reader["KerberosAuthenticationSettings"].readIfPresent(with: DatabaseMigrationClientTypes.KerberosAuthenticationSettings.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.KerberosAuthenticationSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.KerberosAuthenticationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyCacheSecretIamArn"].write(value.keyCacheSecretIamArn)
+        try writer["KeyCacheSecretId"].write(value.keyCacheSecretId)
+        try writer["Krb5FileContents"].write(value.krb5FileContents)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.KerberosAuthenticationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.KerberosAuthenticationSettings()
+        value.keyCacheSecretId = try reader["KeyCacheSecretId"].readIfPresent()
+        value.keyCacheSecretIamArn = try reader["KeyCacheSecretIamArn"].readIfPresent()
+        value.krb5FileContents = try reader["Krb5FileContents"].readIfPresent()
         return value
     }
 }
