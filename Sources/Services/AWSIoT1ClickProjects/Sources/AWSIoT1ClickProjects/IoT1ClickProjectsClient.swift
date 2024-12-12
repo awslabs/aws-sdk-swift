@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoT1ClickProjectsClient: ClientRuntime.Client {
     public static let clientName = "IoT1ClickProjectsClient"
-    public static let version = "1.0.57"
+    public static let version = "1.0.59"
     let client: ClientRuntime.SdkHttpClient
     let config: IoT1ClickProjectsClient.IoT1ClickProjectsClientConfiguration
     let serviceName = "IoT 1Click Projects"
