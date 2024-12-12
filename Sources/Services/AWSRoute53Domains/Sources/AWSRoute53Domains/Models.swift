@@ -324,6 +324,7 @@ extension Route53DomainsClientTypes {
         case releaseToGandi
         case removeDnssec
         case renewDomain
+        case restoreDomain
         case transferInDomain
         case transferOnRenew
         case transferOutDomain
@@ -348,6 +349,7 @@ extension Route53DomainsClientTypes {
                 .releaseToGandi,
                 .removeDnssec,
                 .renewDomain,
+                .restoreDomain,
                 .transferInDomain,
                 .transferOnRenew,
                 .transferOutDomain,
@@ -378,6 +380,7 @@ extension Route53DomainsClientTypes {
             case .releaseToGandi: return "RELEASE_TO_GANDI"
             case .removeDnssec: return "REMOVE_DNSSEC"
             case .renewDomain: return "RENEW_DOMAIN"
+            case .restoreDomain: return "RESTORE_DOMAIN"
             case .transferInDomain: return "TRANSFER_IN_DOMAIN"
             case .transferOnRenew: return "TRANSFER_ON_RENEW"
             case .transferOutDomain: return "TRANSFER_OUT_DOMAIN"

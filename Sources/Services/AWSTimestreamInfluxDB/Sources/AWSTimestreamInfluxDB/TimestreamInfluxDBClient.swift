@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamInfluxDBClient: ClientRuntime.Client {
     public static let clientName = "TimestreamInfluxDBClient"
-    public static let version = "1.0.57"
+    public static let version = "1.0.59"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfiguration
     let serviceName = "Timestream InfluxDB"
@@ -934,6 +934,7 @@ extension TimestreamInfluxDBClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The requested resource was not found or does not exist.
+    /// - `ServiceQuotaExceededException` : The request exceeds the service quota.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

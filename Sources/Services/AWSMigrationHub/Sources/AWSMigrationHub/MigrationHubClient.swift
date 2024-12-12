@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubClient"
-    public static let version = "1.0.57"
+    public static let version = "1.0.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubClient.MigrationHubClientConfiguration
     let serviceName = "Migration Hub"
@@ -481,6 +481,83 @@ extension MigrationHubClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateDiscoveredResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `AssociateSourceResource` operation on the `AWSMigrationHub` service.
+    ///
+    /// Associates a source resource with a migration task. For example, the source resource can be a source server, an application, or a migration wave.
+    ///
+    /// - Parameter AssociateSourceResourceInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateSourceResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    public func associateSourceResource(input: AssociateSourceResourceInput) async throws -> AssociateSourceResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateSourceResource")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "mgh")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateSourceResourceInput, AssociateSourceResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(AssociateSourceResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSourceResourceOutput>(AssociateSourceResourceOutput.httpOutput(from:), AssociateSourceResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSourceResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<AssociateSourceResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(xAmzTarget: "AWSMigrationHub.AssociateSourceResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateSourceResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSourceResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateSourceResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -973,6 +1050,83 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateSourceResource` operation on the `AWSMigrationHub` service.
+    ///
+    /// Removes the association between a source resource and a migration task.
+    ///
+    /// - Parameter DisassociateSourceResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateSourceResourceOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DryRunOperation` : Exception raised to indicate a successfully authorized action when the DryRun flag is set to "true".
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UnauthorizedOperation` : Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
+    public func disassociateSourceResource(input: DisassociateSourceResourceInput) async throws -> DisassociateSourceResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateSourceResource")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "mgh")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateSourceResourceInput, DisassociateSourceResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(DisassociateSourceResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSourceResourceOutput>(DisassociateSourceResourceOutput.httpOutput(from:), DisassociateSourceResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSourceResourceOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DisassociateSourceResourceOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(xAmzTarget: "AWSMigrationHub.DisassociateSourceResource"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateSourceResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSourceResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateSourceResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ImportMigrationTask` operation on the `AWSMigrationHub` service.
     ///
     /// Registers a new migration task which represents a server, database, etc., being migrated to AWS by a migration tool. This API is a prerequisite to calling the NotifyMigrationTaskState API as the migration tool must first register the migration task with Migration Hub.
@@ -1284,6 +1438,81 @@ extension MigrationHubClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListMigrationTaskUpdates` operation on the `AWSMigrationHub` service.
+    ///
+    /// This is a paginated API that returns all the migration-task states for the specified MigrationTaskName and ProgressUpdateStream.
+    ///
+    /// - Parameter ListMigrationTaskUpdatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListMigrationTaskUpdatesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func listMigrationTaskUpdates(input: ListMigrationTaskUpdatesInput) async throws -> ListMigrationTaskUpdatesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMigrationTaskUpdates")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "mgh")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(ListMigrationTaskUpdatesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMigrationTaskUpdatesOutput>(ListMigrationTaskUpdatesOutput.httpOutput(from:), ListMigrationTaskUpdatesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListMigrationTaskUpdatesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListMigrationTaskUpdatesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(xAmzTarget: "AWSMigrationHub.ListMigrationTaskUpdates"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMigrationTaskUpdatesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMigrationTaskUpdatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMigrationTaskUpdates")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListMigrationTasks` operation on the `AWSMigrationHub` service.
     ///
     /// Lists all, or filtered by resource name, migration tasks associated with the user account making this call. This API has the following traits:
@@ -1430,6 +1659,81 @@ extension MigrationHubClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProgressUpdateStreams")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSourceResources` operation on the `AWSMigrationHub` service.
+    ///
+    /// Lists all the source resource that are associated with the specified MigrationTaskName and ProgressUpdateStream.
+    ///
+    /// - Parameter ListSourceResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSourceResourcesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerError` : Exception raised when an internal, configuration, or dependency error is encountered.
+    /// - `InvalidInputException` : Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
+    /// - `ResourceNotFoundException` : Exception raised when the request references a resource (Application Discovery Service configuration, update stream, migration task, etc.) that does not exist in Application Discovery Service (Application Discovery Service) or in Migration Hub's repository.
+    /// - `ServiceUnavailableException` : Exception raised when there is an internal, configuration, or dependency error encountered.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    public func listSourceResources(input: ListSourceResourcesInput) async throws -> ListSourceResourcesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSourceResources")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "mgh")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSourceResourcesInput, ListSourceResourcesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(ListSourceResourcesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceResourcesOutput>(ListSourceResourcesOutput.httpOutput(from:), ListSourceResourcesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceResourcesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<ListSourceResourcesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(serviceID: serviceName, version: MigrationHubClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(xAmzTarget: "AWSMigrationHub.ListSourceResources"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSourceResourcesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSourceResourcesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MigrationHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSourceResources")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlueClient: ClientRuntime.Client {
     public static let clientName = "GlueClient"
-    public static let version = "1.0.57"
+    public static let version = "1.0.59"
     let client: ClientRuntime.SdkHttpClient
     let config: GlueClient.GlueClientConfiguration
     let serviceName = "Glue"
@@ -3836,7 +3836,7 @@ extension GlueClient {
 
     /// Performs the `CreateTrigger` operation on the `AWSGlue` service.
     ///
-    /// Creates a new trigger.
+    /// Creates a new trigger. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
     ///
     /// - Parameter CreateTriggerInput : [no documentation found]
     ///
@@ -9366,7 +9366,7 @@ extension GlueClient {
 
     /// Performs the `GetJobRun` operation on the `AWSGlue` service.
     ///
-    /// Retrieves the metadata for a given job run. Job run history is accessible for 90 days for your workflow and job run.
+    /// Retrieves the metadata for a given job run. Job run history is accessible for 365 days for your workflow and job run.
     ///
     /// - Parameter GetJobRunInput : [no documentation found]
     ///
@@ -9439,7 +9439,7 @@ extension GlueClient {
 
     /// Performs the `GetJobRuns` operation on the `AWSGlue` service.
     ///
-    /// Retrieves metadata for all runs of a given job definition.
+    /// Retrieves metadata for all runs of a given job definition. GetJobRuns returns the job runs in chronological order, with the newest jobs returned first.
     ///
     /// - Parameter GetJobRunsInput : [no documentation found]
     ///
@@ -18758,7 +18758,7 @@ extension GlueClient {
 
     /// Performs the `UpdateTrigger` operation on the `AWSGlue` service.
     ///
-    /// Updates a trigger definition.
+    /// Updates a trigger definition. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
     ///
     /// - Parameter UpdateTriggerInput : [no documentation found]
     ///
