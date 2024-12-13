@@ -1,0 +1,20 @@
+name: Sync Mirror
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  git-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: git-sync
+        uses: wei/git-sync@v3
+        with:
+          source_repo: ${{ secrets.GIT_SYNC_SOURCE_REPO }}
+          source_branch: "main"
+          destination_repo: ${{ secrets.GIT_SYNC_DESTINATION_REPO }}
+          destination_branch: "main"
+          destination_ssh_private_key:  ${{ secrets.GIT_SYNC_DESTINATION_SSH_PRIVATE_KEY }}

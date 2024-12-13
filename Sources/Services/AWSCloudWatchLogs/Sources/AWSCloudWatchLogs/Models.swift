@@ -1730,6 +1730,28 @@ public struct DeleteIndexPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteIntegrationInput: Swift.Sendable {
+    /// Specify true to force the deletion of the integration even if vended logs dashboards currently exist. The default is false.
+    public var force: Swift.Bool?
+    /// The name of the integration to delete. To find the name of your integration, use [ListIntegrations](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListIntegrations.html).
+    /// This member is required.
+    public var integrationName: Swift.String?
+
+    public init(
+        force: Swift.Bool? = false,
+        integrationName: Swift.String? = nil
+    )
+    {
+        self.force = force
+        self.integrationName = integrationName
+    }
+}
+
+public struct DeleteIntegrationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension CloudWatchLogsClientTypes {
 
     /// This processor deletes entries from a log event. These entries are key-value pairs. For more information about this processor including examples, see [ deleteKeys](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-deleteKeys) in the CloudWatch Logs User Guide.
@@ -3095,6 +3117,38 @@ public struct DescribeMetricFiltersOutput: Swift.Sendable {
 
 extension CloudWatchLogsClientTypes {
 
+    public enum QueryLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cwli
+        case ppl
+        case sql
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryLanguage] {
+            return [
+                .cwli,
+                .ppl,
+                .sql
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cwli: return "CWLI"
+            case .ppl: return "PPL"
+            case .sql: return "SQL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
     public enum QueryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case complete
@@ -3144,6 +3198,8 @@ public struct DescribeQueriesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
+    /// Limits the returned queries to only the queries that use the specified query language.
+    public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
     /// Limits the returned queries to only those that have the specified status. Valid values are Cancelled, Complete, Failed, Running, and Scheduled.
     public var status: CloudWatchLogsClientTypes.QueryStatus?
 
@@ -3151,12 +3207,14 @@ public struct DescribeQueriesInput: Swift.Sendable {
         logGroupName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
         status: CloudWatchLogsClientTypes.QueryStatus? = nil
     )
     {
         self.logGroupName = logGroupName
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.queryLanguage = queryLanguage
         self.status = status
     }
 }
@@ -3171,6 +3229,8 @@ extension CloudWatchLogsClientTypes {
         public var logGroupName: Swift.String?
         /// The unique ID number of this query.
         public var queryId: Swift.String?
+        /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
+        public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
         /// The query string used in this query.
         public var queryString: Swift.String?
         /// The status of this query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, and Unknown.
@@ -3180,6 +3240,7 @@ extension CloudWatchLogsClientTypes {
             createTime: Swift.Int? = nil,
             logGroupName: Swift.String? = nil,
             queryId: Swift.String? = nil,
+            queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
             queryString: Swift.String? = nil,
             status: CloudWatchLogsClientTypes.QueryStatus? = nil
         )
@@ -3187,6 +3248,7 @@ extension CloudWatchLogsClientTypes {
             self.createTime = createTime
             self.logGroupName = logGroupName
             self.queryId = queryId
+            self.queryLanguage = queryLanguage
             self.queryString = queryString
             self.status = status
         }
@@ -3216,16 +3278,20 @@ public struct DescribeQueryDefinitionsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// Use this parameter to filter your results to only the query definitions that have names that start with the prefix you specify.
     public var queryDefinitionNamePrefix: Swift.String?
+    /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
+    public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        queryDefinitionNamePrefix: Swift.String? = nil
+        queryDefinitionNamePrefix: Swift.String? = nil,
+        queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil
     )
     {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.queryDefinitionNamePrefix = queryDefinitionNamePrefix
+        self.queryLanguage = queryLanguage
     }
 }
 
@@ -3241,6 +3307,8 @@ extension CloudWatchLogsClientTypes {
         public var name: Swift.String?
         /// The unique ID of the query definition.
         public var queryDefinitionId: Swift.String?
+        /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
+        public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
         /// The query string to use for this definition. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html).
         public var queryString: Swift.String?
 
@@ -3249,6 +3317,7 @@ extension CloudWatchLogsClientTypes {
             logGroupNames: [Swift.String]? = nil,
             name: Swift.String? = nil,
             queryDefinitionId: Swift.String? = nil,
+            queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
             queryString: Swift.String? = nil
         )
         {
@@ -3256,6 +3325,7 @@ extension CloudWatchLogsClientTypes {
             self.logGroupNames = logGroupNames
             self.name = name
             self.queryDefinitionId = queryDefinitionId
+            self.queryLanguage = queryLanguage
             self.queryString = queryString
         }
     }
@@ -3838,6 +3908,379 @@ public struct GetDeliverySourceOutput: Swift.Sendable {
     }
 }
 
+public struct GetIntegrationInput: Swift.Sendable {
+    /// The name of the integration that you want to find information about. To find the name of your integration, use [ListIntegrations](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListIntegrations.html)
+    /// This member is required.
+    public var integrationName: Swift.String?
+
+    public init(
+        integrationName: Swift.String? = nil
+    )
+    {
+        self.integrationName = integrationName
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    public enum OpenSearchResourceStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case error
+        case notFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OpenSearchResourceStatusType] {
+            return [
+                .active,
+                .error,
+                .notFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .error: return "ERROR"
+            case .notFound: return "NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about the status of an OpenSearch Service resource.
+    public struct OpenSearchResourceStatus: Swift.Sendable {
+        /// The current status of this resource.
+        public var status: CloudWatchLogsClientTypes.OpenSearchResourceStatusType?
+        /// A message with additional information about the status of this resource.
+        public var statusMessage: Swift.String?
+
+        public init(
+            status: CloudWatchLogsClientTypes.OpenSearchResourceStatusType? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about the OpenSearch Service data access policy used for this integration. The access policy defines the access controls for the collection. This data access policy was automatically created as part of the integration setup. For more information about OpenSearch Service data access policies, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html) in the OpenSearch Service Developer Guide.
+    public struct OpenSearchDataAccessPolicy: Swift.Sendable {
+        /// The name of the data access policy.
+        public var policyName: Swift.String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public var status: CloudWatchLogsClientTypes.OpenSearchResourceStatus?
+
+        public init(
+            policyName: Swift.String? = nil,
+            status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
+        )
+        {
+            self.policyName = policyName
+            self.status = status
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about the OpenSearch Service application used for this integration. An OpenSearch Service application is the web application created by the integration with CloudWatch Logs. It hosts the vended logs dashboards.
+    public struct OpenSearchApplication: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the application.
+        public var applicationArn: Swift.String?
+        /// The endpoint of the application.
+        public var applicationEndpoint: Swift.String?
+        /// The ID of the application.
+        public var applicationId: Swift.String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public var status: CloudWatchLogsClientTypes.OpenSearchResourceStatus?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            applicationEndpoint: Swift.String? = nil,
+            applicationId: Swift.String? = nil,
+            status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
+        )
+        {
+            self.applicationArn = applicationArn
+            self.applicationEndpoint = applicationEndpoint
+            self.applicationId = applicationId
+            self.status = status
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about the OpenSearch Service collection used for this integration. An OpenSearch Service collection is a logical grouping of one or more indexes that represent an analytics workload. For more information, see [Creating and managing OpenSearch Service Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-collections.html).
+    public struct OpenSearchCollection: Swift.Sendable {
+        /// The ARN of the collection.
+        public var collectionArn: Swift.String?
+        /// The endpoint of the collection.
+        public var collectionEndpoint: Swift.String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public var status: CloudWatchLogsClientTypes.OpenSearchResourceStatus?
+
+        public init(
+            collectionArn: Swift.String? = nil,
+            collectionEndpoint: Swift.String? = nil,
+            status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
+        )
+        {
+            self.collectionArn = collectionArn
+            self.collectionEndpoint = collectionEndpoint
+            self.status = status
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about the OpenSearch Service data source used for this integration. This data source was created as part of the integration setup. An OpenSearch Service data source defines the source and destination for OpenSearch Service queries. It includes the role required to execute queries and write to collections. For more information about OpenSearch Service data sources , see [Creating OpenSearch Service data source integrations with Amazon S3.](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html)
+    public struct OpenSearchDataSource: Swift.Sendable {
+        /// The name of the OpenSearch Service data source.
+        public var dataSourceName: Swift.String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public var status: CloudWatchLogsClientTypes.OpenSearchResourceStatus?
+
+        public init(
+            dataSourceName: Swift.String? = nil,
+            status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
+        )
+        {
+            self.dataSourceName = dataSourceName
+            self.status = status
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about the OpenSearch Service encryption policy used for this integration. The encryption policy was created automatically when you created the integration. For more information, see [Encryption policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html#serverless-encryption-policies) in the OpenSearch Service Developer Guide.
+    public struct OpenSearchEncryptionPolicy: Swift.Sendable {
+        /// The name of the encryption policy.
+        public var policyName: Swift.String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public var status: CloudWatchLogsClientTypes.OpenSearchResourceStatus?
+
+        public init(
+            policyName: Swift.String? = nil,
+            status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
+        )
+        {
+            self.policyName = policyName
+            self.status = status
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about the OpenSearch Service data lifecycle policy used for this integration. The lifecycle policy determines the lifespan of the data in the collection. It was automatically created as part of the integration setup. For more information, see [Using data lifecycle policies with OpenSearch Service Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html) in the OpenSearch Service Developer Guide.
+    public struct OpenSearchLifecyclePolicy: Swift.Sendable {
+        /// The name of the lifecycle policy.
+        public var policyName: Swift.String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public var status: CloudWatchLogsClientTypes.OpenSearchResourceStatus?
+
+        public init(
+            policyName: Swift.String? = nil,
+            status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
+        )
+        {
+            self.policyName = policyName
+            self.status = status
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about the OpenSearch Service network policy used for this integration. The network policy assigns network access settings to collections. For more information, see [Network policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html#serverless-network-policies) in the OpenSearch Service Developer Guide.
+    public struct OpenSearchNetworkPolicy: Swift.Sendable {
+        /// The name of the network policy.
+        public var policyName: Swift.String?
+        /// This structure contains information about the status of this OpenSearch Service resource.
+        public var status: CloudWatchLogsClientTypes.OpenSearchResourceStatus?
+
+        public init(
+            policyName: Swift.String? = nil,
+            status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil
+        )
+        {
+            self.policyName = policyName
+            self.status = status
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about the OpenSearch Service workspace used for this integration. An OpenSearch Service workspace is the collection of dashboards along with other OpenSearch Service tools. This workspace was created automatically as part of the integration setup. For more information, see [Centralized OpenSearch user interface (Dashboards) with OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application.html).
+    public struct OpenSearchWorkspace: Swift.Sendable {
+        /// This structure contains information about the status of an OpenSearch Service resource.
+        public var status: CloudWatchLogsClientTypes.OpenSearchResourceStatus?
+        /// The ID of this workspace.
+        public var workspaceId: Swift.String?
+
+        public init(
+            status: CloudWatchLogsClientTypes.OpenSearchResourceStatus? = nil,
+            workspaceId: Swift.String? = nil
+        )
+        {
+            self.status = status
+            self.workspaceId = workspaceId
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains complete information about one CloudWatch Logs integration. This structure is returned by a [GetIntegration](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetIntegration.html) operation.
+    public struct OpenSearchIntegrationDetails: Swift.Sendable {
+        /// This structure contains information about the OpenSearch Service data access policy used for this integration. The access policy defines the access controls for the collection. This data access policy was automatically created as part of the integration setup. For more information about OpenSearch Service data access policies, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html) in the OpenSearch Service Developer Guide.
+        public var accessPolicy: CloudWatchLogsClientTypes.OpenSearchDataAccessPolicy?
+        /// This structure contains information about the OpenSearch Service application used for this integration. An OpenSearch Service application is the web application that was created by the integration with CloudWatch Logs. It hosts the vended logs dashboards.
+        public var application: CloudWatchLogsClientTypes.OpenSearchApplication?
+        /// This structure contains information about the OpenSearch Service collection used for this integration. This collection was created as part of the integration setup. An OpenSearch Service collection is a logical grouping of one or more indexes that represent an analytics workload. For more information, see [Creating and managing OpenSearch Service Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-collections.html).
+        public var collection: CloudWatchLogsClientTypes.OpenSearchCollection?
+        /// This structure contains information about the OpenSearch Service data source used for this integration. This data source was created as part of the integration setup. An OpenSearch Service data source defines the source and destination for OpenSearch Service queries. It includes the role required to execute queries and write to collections. For more information about OpenSearch Service data sources , see [Creating OpenSearch Service data source integrations with Amazon S3.](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html)
+        public var dataSource: CloudWatchLogsClientTypes.OpenSearchDataSource?
+        /// This structure contains information about the OpenSearch Service encryption policy used for this integration. The encryption policy was created automatically when you created the integration. For more information, see [Encryption policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html#serverless-encryption-policies) in the OpenSearch Service Developer Guide.
+        public var encryptionPolicy: CloudWatchLogsClientTypes.OpenSearchEncryptionPolicy?
+        /// This structure contains information about the OpenSearch Service data lifecycle policy used for this integration. The lifecycle policy determines the lifespan of the data in the collection. It was automatically created as part of the integration setup. For more information, see [Using data lifecycle policies with OpenSearch Service Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html) in the OpenSearch Service Developer Guide.
+        public var lifecyclePolicy: CloudWatchLogsClientTypes.OpenSearchLifecyclePolicy?
+        /// This structure contains information about the OpenSearch Service network policy used for this integration. The network policy assigns network access settings to collections. For more information, see [Network policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html#serverless-network-policies) in the OpenSearch Service Developer Guide.
+        public var networkPolicy: CloudWatchLogsClientTypes.OpenSearchNetworkPolicy?
+        /// This structure contains information about the OpenSearch Service workspace used for this integration. An OpenSearch Service workspace is the collection of dashboards along with other OpenSearch Service tools. This workspace was created automatically as part of the integration setup. For more information, see [Centralized OpenSearch user interface (Dashboards) with OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application.html).
+        public var workspace: CloudWatchLogsClientTypes.OpenSearchWorkspace?
+
+        public init(
+            accessPolicy: CloudWatchLogsClientTypes.OpenSearchDataAccessPolicy? = nil,
+            application: CloudWatchLogsClientTypes.OpenSearchApplication? = nil,
+            collection: CloudWatchLogsClientTypes.OpenSearchCollection? = nil,
+            dataSource: CloudWatchLogsClientTypes.OpenSearchDataSource? = nil,
+            encryptionPolicy: CloudWatchLogsClientTypes.OpenSearchEncryptionPolicy? = nil,
+            lifecyclePolicy: CloudWatchLogsClientTypes.OpenSearchLifecyclePolicy? = nil,
+            networkPolicy: CloudWatchLogsClientTypes.OpenSearchNetworkPolicy? = nil,
+            workspace: CloudWatchLogsClientTypes.OpenSearchWorkspace? = nil
+        )
+        {
+            self.accessPolicy = accessPolicy
+            self.application = application
+            self.collection = collection
+            self.dataSource = dataSource
+            self.encryptionPolicy = encryptionPolicy
+            self.lifecyclePolicy = lifecyclePolicy
+            self.networkPolicy = networkPolicy
+            self.workspace = workspace
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about the integration configuration. For an integration with OpenSearch Service, this includes information about OpenSearch Service resources such as the collection, the workspace, and policies. This structure is returned by a [GetIntegration](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetIntegration.html) operation.
+    public enum IntegrationDetails: Swift.Sendable {
+        /// This structure contains complete information about one integration between CloudWatch Logs and OpenSearch Service.
+        case opensearchintegrationdetails(CloudWatchLogsClientTypes.OpenSearchIntegrationDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    public enum IntegrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case failed
+        case provisioning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationStatus] {
+            return [
+                .active,
+                .failed,
+                .provisioning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .failed: return "FAILED"
+            case .provisioning: return "PROVISIONING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    public enum IntegrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case opensearch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationType] {
+            return [
+                .opensearch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .opensearch: return "OPENSEARCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetIntegrationOutput: Swift.Sendable {
+    /// A structure that contains information about the integration configuration. For an integration with OpenSearch Service, this includes information about OpenSearch Service resources such as the collection, the workspace, and policies.
+    public var integrationDetails: CloudWatchLogsClientTypes.IntegrationDetails?
+    /// The name of the integration.
+    public var integrationName: Swift.String?
+    /// The current status of this integration.
+    public var integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus?
+    /// The type of integration. Integrations with OpenSearch Service have the type OPENSEARCH.
+    public var integrationType: CloudWatchLogsClientTypes.IntegrationType?
+
+    public init(
+        integrationDetails: CloudWatchLogsClientTypes.IntegrationDetails? = nil,
+        integrationName: Swift.String? = nil,
+        integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus? = nil,
+        integrationType: CloudWatchLogsClientTypes.IntegrationType? = nil
+    )
+    {
+        self.integrationDetails = integrationDetails
+        self.integrationName = integrationName
+        self.integrationStatus = integrationStatus
+        self.integrationType = integrationType
+    }
+}
+
 public struct GetLogAnomalyDetectorInput: Swift.Sendable {
     /// The ARN of the anomaly detector to retrieve information about. You can find the ARNs of log anomaly detectors in your account by using the [ListLogAnomalyDetectors](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListLogAnomalyDetectors.html) operation.
     /// This member is required.
@@ -4137,6 +4580,8 @@ extension CloudWatchLogsClientTypes {
 public struct GetQueryResultsOutput: Swift.Sendable {
     /// If you associated an KMS key with the CloudWatch Logs Insights query results in this account, this field displays the ARN of the key that's used to encrypt the query results when [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html) stores them.
     public var encryptionKey: Swift.String?
+    /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
+    public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
     /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
     public var results: [[CloudWatchLogsClientTypes.ResultField]]?
     /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the scanned log events. These values reflect the full raw results of the query.
@@ -4146,12 +4591,14 @@ public struct GetQueryResultsOutput: Swift.Sendable {
 
     public init(
         encryptionKey: Swift.String? = nil,
+        queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
         results: [[CloudWatchLogsClientTypes.ResultField]]? = nil,
         statistics: CloudWatchLogsClientTypes.QueryStatistics? = nil,
         status: CloudWatchLogsClientTypes.QueryStatus? = nil
     )
     {
         self.encryptionKey = encryptionKey
+        self.queryLanguage = queryLanguage
         self.results = results
         self.statistics = statistics
         self.status = status
@@ -4810,6 +5257,30 @@ extension CloudWatchLogsClientTypes {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about one CloudWatch Logs integration. This structure is returned by a [ListIntegrations](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListIntegrations.html) operation.
+    public struct IntegrationSummary: Swift.Sendable {
+        /// The name of this integration.
+        public var integrationName: Swift.String?
+        /// The current status of this integration.
+        public var integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus?
+        /// The type of integration. Integrations with OpenSearch Service have the type OPENSEARCH.
+        public var integrationType: CloudWatchLogsClientTypes.IntegrationType?
+
+        public init(
+            integrationName: Swift.String? = nil,
+            integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus? = nil,
+            integrationType: CloudWatchLogsClientTypes.IntegrationType? = nil
+        )
+        {
+            self.integrationName = integrationName
+            self.integrationStatus = integrationStatus
+            self.integrationType = integrationType
+        }
+    }
+}
+
 /// The sequence token is not valid. You can get the correct sequence token in the expectedSequenceToken field in the InvalidSequenceTokenException message. PutLogEvents actions are now always accepted and never return InvalidSequenceTokenException regardless of receiving an invalid sequence token.
 public struct InvalidSequenceTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -4903,6 +5374,38 @@ public struct ListAnomaliesOutput: Swift.Sendable {
     {
         self.anomalies = anomalies
         self.nextToken = nextToken
+    }
+}
+
+public struct ListIntegrationsInput: Swift.Sendable {
+    /// To limit the results to integrations that start with a certain name prefix, specify that name prefix here.
+    public var integrationNamePrefix: Swift.String?
+    /// To limit the results to integrations with a certain status, specify that status here.
+    public var integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus?
+    /// To limit the results to integrations of a certain type, specify that type here.
+    public var integrationType: CloudWatchLogsClientTypes.IntegrationType?
+
+    public init(
+        integrationNamePrefix: Swift.String? = nil,
+        integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus? = nil,
+        integrationType: CloudWatchLogsClientTypes.IntegrationType? = nil
+    )
+    {
+        self.integrationNamePrefix = integrationNamePrefix
+        self.integrationStatus = integrationStatus
+        self.integrationType = integrationType
+    }
+}
+
+public struct ListIntegrationsOutput: Swift.Sendable {
+    /// An array, where each object in the array contains information about one CloudWatch Logs integration in this account.
+    public var integrationSummaries: [CloudWatchLogsClientTypes.IntegrationSummary]?
+
+    public init(
+        integrationSummaries: [CloudWatchLogsClientTypes.IntegrationSummary]? = nil
+    )
+    {
+        self.integrationSummaries = integrationSummaries
     }
 }
 
@@ -5463,6 +5966,90 @@ public struct PutIndexPolicyOutput: Swift.Sendable {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains configuration details about an integration between CloudWatch Logs and OpenSearch Service.
+    public struct OpenSearchResourceConfig: Swift.Sendable {
+        /// If you want to use an existing OpenSearch Service application for your integration with OpenSearch Service, specify it here. If you omit this, a new application will be created.
+        public var applicationArn: Swift.String?
+        /// Specify the ARNs of IAM roles and IAM users who you want to grant permission to for viewing the dashboards. In addition to specifying these users here, you must also grant them the CloudWatchOpenSearchDashboardsAccess IAM policy. For more information, see
+        /// This member is required.
+        public var dashboardViewerPrincipals: [Swift.String]?
+        /// Specify the ARN of an IAM role that CloudWatch Logs will use to create the integration. This role must have the permissions necessary to access the OpenSearch Service collection to be able to create the dashboards. For more information about the permissions needed, see [Create an IAM role to access the OpenSearch Service collection](https://docs.aws.amazon.com/OpenSearch-Dashboards-CreateRole) in the CloudWatch Logs User Guide.
+        /// This member is required.
+        public var dataSourceRoleArn: Swift.String?
+        /// To have the vended dashboard data encrypted with KMS instead of the CloudWatch Logs default encryption method, specify the ARN of the KMS key that you want to use.
+        public var kmsKeyArn: Swift.String?
+        /// Specify how many days that you want the data derived by OpenSearch Service to be retained in the index that the dashboard refers to. This also sets the maximum time period that you can choose when viewing data in the dashboard. Choosing a longer time frame will incur additional costs.
+        /// This member is required.
+        public var retentionDays: Swift.Int?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            dashboardViewerPrincipals: [Swift.String]? = nil,
+            dataSourceRoleArn: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            retentionDays: Swift.Int? = nil
+        )
+        {
+            self.applicationArn = applicationArn
+            self.dashboardViewerPrincipals = dashboardViewerPrincipals
+            self.dataSourceRoleArn = dataSourceRoleArn
+            self.kmsKeyArn = kmsKeyArn
+            self.retentionDays = retentionDays
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains configuration details about an integration between CloudWatch Logs and another entity.
+    public enum ResourceConfig: Swift.Sendable {
+        /// This structure contains configuration details about an integration between CloudWatch Logs and OpenSearch Service.
+        case opensearchresourceconfig(CloudWatchLogsClientTypes.OpenSearchResourceConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct PutIntegrationInput: Swift.Sendable {
+    /// A name for the integration.
+    /// This member is required.
+    public var integrationName: Swift.String?
+    /// The type of integration. Currently, the only supported type is OPENSEARCH.
+    /// This member is required.
+    public var integrationType: CloudWatchLogsClientTypes.IntegrationType?
+    /// A structure that contains configuration information for the integration that you are creating.
+    /// This member is required.
+    public var resourceConfig: CloudWatchLogsClientTypes.ResourceConfig?
+
+    public init(
+        integrationName: Swift.String? = nil,
+        integrationType: CloudWatchLogsClientTypes.IntegrationType? = nil,
+        resourceConfig: CloudWatchLogsClientTypes.ResourceConfig? = nil
+    )
+    {
+        self.integrationName = integrationName
+        self.integrationType = integrationType
+        self.resourceConfig = resourceConfig
+    }
+}
+
+public struct PutIntegrationOutput: Swift.Sendable {
+    /// The name of the integration that you just created.
+    public var integrationName: Swift.String?
+    /// The status of the integration that you just created. After you create an integration, it takes a few minutes to complete. During this time, you'll see the status as PROVISIONING.
+    public var integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus?
+
+    public init(
+        integrationName: Swift.String? = nil,
+        integrationStatus: CloudWatchLogsClientTypes.IntegrationStatus? = nil
+    )
+    {
+        self.integrationName = integrationName
+        self.integrationStatus = integrationStatus
+    }
+}
+
 /// The most likely cause is an Amazon Web Services access key ID or secret key that's not valid.
 public struct UnrecognizedClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -5614,13 +6201,15 @@ public struct PutMetricFilterInput: Swift.Sendable {
 public struct PutQueryDefinitionInput: Swift.Sendable {
     /// Used as an idempotency token, to avoid returning an exception if the service receives the same request twice because of a network error.
     public var clientToken: Swift.String?
-    /// Use this parameter to include specific log groups as part of your query definition. If you are updating a query definition and you omit this parameter, then the updated definition will contain no log groups.
+    /// Use this parameter to include specific log groups as part of your query definition. If your query uses the OpenSearch Service query language, you specify the log group names inside the querystring instead of here. If you are updating an existing query definition for the Logs Insights QL or OpenSearch Service PPL and you omit this parameter, then the updated definition will contain no log groups.
     public var logGroupNames: [Swift.String]?
     /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html).
     /// This member is required.
     public var name: Swift.String?
     /// If you are updating a query definition, use this parameter to specify the ID of the query definition that you want to update. You can use [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html) to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parameter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation.
     public var queryDefinitionId: Swift.String?
+    /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
+    public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
     /// The query string to use for this definition. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html).
     /// This member is required.
     public var queryString: Swift.String?
@@ -5630,6 +6219,7 @@ public struct PutQueryDefinitionInput: Swift.Sendable {
         logGroupNames: [Swift.String]? = nil,
         name: Swift.String? = nil,
         queryDefinitionId: Swift.String? = nil,
+        queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
         queryString: Swift.String? = nil
     )
     {
@@ -5637,6 +6227,7 @@ public struct PutQueryDefinitionInput: Swift.Sendable {
         self.logGroupNames = logGroupNames
         self.name = name
         self.queryDefinitionId = queryDefinitionId
+        self.queryLanguage = queryLanguage
         self.queryString = queryString
     }
 }
@@ -5936,12 +6527,14 @@ public struct StartQueryInput: Swift.Sendable {
     public var endTime: Swift.Int?
     /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 10,000.
     public var limit: Swift.Int?
-    /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, use the format arn:aws:logs:region:account-id:log-group:log_group_name Don't include an * at the end. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers.
+    /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, use the format arn:aws:logs:region:account-id:log-group:log_group_name Don't include an * at the end. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers. The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here.
     public var logGroupIdentifiers: [Swift.String]?
-    /// The log group on which to perform the query.
+    /// The log group on which to perform the query. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers. The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here.
     public var logGroupName: Swift.String?
-    /// The list of log groups to be queried. You can include up to 50 log groups.
+    /// The list of log groups to be queried. You can include up to 50 log groups. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers. The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here.
     public var logGroupNames: [Swift.String]?
+    /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
+    public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
     /// The query string to use. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html).
     /// This member is required.
     public var queryString: Swift.String?
@@ -5955,6 +6548,7 @@ public struct StartQueryInput: Swift.Sendable {
         logGroupIdentifiers: [Swift.String]? = nil,
         logGroupName: Swift.String? = nil,
         logGroupNames: [Swift.String]? = nil,
+        queryLanguage: CloudWatchLogsClientTypes.QueryLanguage? = nil,
         queryString: Swift.String? = nil,
         startTime: Swift.Int? = nil
     )
@@ -5964,6 +6558,7 @@ public struct StartQueryInput: Swift.Sendable {
         self.logGroupIdentifiers = logGroupIdentifiers
         self.logGroupName = logGroupName
         self.logGroupNames = logGroupNames
+        self.queryLanguage = queryLanguage
         self.queryString = queryString
         self.startTime = startTime
     }
@@ -6495,6 +7090,13 @@ extension DeleteIndexPolicyInput {
     }
 }
 
+extension DeleteIntegrationInput {
+
+    static func urlPathProvider(_ value: DeleteIntegrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteLogAnomalyDetectorInput {
 
     static func urlPathProvider(_ value: DeleteLogAnomalyDetectorInput) -> Swift.String? {
@@ -6719,6 +7321,13 @@ extension GetDeliverySourceInput {
     }
 }
 
+extension GetIntegrationInput {
+
+    static func urlPathProvider(_ value: GetIntegrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetLogAnomalyDetectorInput {
 
     static func urlPathProvider(_ value: GetLogAnomalyDetectorInput) -> Swift.String? {
@@ -6764,6 +7373,13 @@ extension GetTransformerInput {
 extension ListAnomaliesInput {
 
     static func urlPathProvider(_ value: ListAnomaliesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListIntegrationsInput {
+
+    static func urlPathProvider(_ value: ListIntegrationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6848,6 +7464,13 @@ extension PutDestinationPolicyInput {
 extension PutIndexPolicyInput {
 
     static func urlPathProvider(_ value: PutIndexPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutIntegrationInput {
+
+    static func urlPathProvider(_ value: PutIntegrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7129,6 +7752,15 @@ extension DeleteIndexPolicyInput {
     }
 }
 
+extension DeleteIntegrationInput {
+
+    static func write(value: DeleteIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["force"].write(value.force)
+        try writer["integrationName"].write(value.integrationName)
+    }
+}
+
 extension DeleteLogAnomalyDetectorInput {
 
     static func write(value: DeleteLogAnomalyDetectorInput?, to writer: SmithyJSON.Writer) throws {
@@ -7342,6 +7974,7 @@ extension DescribeQueriesInput {
         try writer["logGroupName"].write(value.logGroupName)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+        try writer["queryLanguage"].write(value.queryLanguage)
         try writer["status"].write(value.status)
     }
 }
@@ -7353,6 +7986,7 @@ extension DescribeQueryDefinitionsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["queryDefinitionNamePrefix"].write(value.queryDefinitionNamePrefix)
+        try writer["queryLanguage"].write(value.queryLanguage)
     }
 }
 
@@ -7443,6 +8077,14 @@ extension GetDeliverySourceInput {
     }
 }
 
+extension GetIntegrationInput {
+
+    static func write(value: GetIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["integrationName"].write(value.integrationName)
+    }
+}
+
 extension GetLogAnomalyDetectorInput {
 
     static func write(value: GetLogAnomalyDetectorInput?, to writer: SmithyJSON.Writer) throws {
@@ -7510,6 +8152,16 @@ extension ListAnomaliesInput {
         try writer["limit"].write(value.limit)
         try writer["nextToken"].write(value.nextToken)
         try writer["suppressionState"].write(value.suppressionState)
+    }
+}
+
+extension ListIntegrationsInput {
+
+    static func write(value: ListIntegrationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["integrationNamePrefix"].write(value.integrationNamePrefix)
+        try writer["integrationStatus"].write(value.integrationStatus)
+        try writer["integrationType"].write(value.integrationType)
     }
 }
 
@@ -7631,6 +8283,16 @@ extension PutIndexPolicyInput {
     }
 }
 
+extension PutIntegrationInput {
+
+    static func write(value: PutIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["integrationName"].write(value.integrationName)
+        try writer["integrationType"].write(value.integrationType)
+        try writer["resourceConfig"].write(value.resourceConfig, with: CloudWatchLogsClientTypes.ResourceConfig.write(value:to:))
+    }
+}
+
 extension PutLogEventsInput {
 
     static func write(value: PutLogEventsInput?, to writer: SmithyJSON.Writer) throws {
@@ -7663,6 +8325,7 @@ extension PutQueryDefinitionInput {
         try writer["logGroupNames"].writeList(value.logGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["queryDefinitionId"].write(value.queryDefinitionId)
+        try writer["queryLanguage"].write(value.queryLanguage)
         try writer["queryString"].write(value.queryString)
     }
 }
@@ -7728,6 +8391,7 @@ extension StartQueryInput {
         try writer["logGroupIdentifiers"].writeList(value.logGroupIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["logGroupName"].write(value.logGroupName)
         try writer["logGroupNames"].writeList(value.logGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["queryLanguage"].write(value.queryLanguage)
         try writer["queryString"].write(value.queryString)
         try writer["startTime"].write(value.startTime)
     }
@@ -7948,6 +8612,13 @@ extension DeleteIndexPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIndexPolicyOutput {
         return DeleteIndexPolicyOutput()
+    }
+}
+
+extension DeleteIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIntegrationOutput {
+        return DeleteIntegrationOutput()
     }
 }
 
@@ -8310,6 +8981,21 @@ extension GetDeliverySourceOutput {
     }
 }
 
+extension GetIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIntegrationOutput()
+        value.integrationDetails = try reader["integrationDetails"].readIfPresent(with: CloudWatchLogsClientTypes.IntegrationDetails.read(from:))
+        value.integrationName = try reader["integrationName"].readIfPresent()
+        value.integrationStatus = try reader["integrationStatus"].readIfPresent()
+        value.integrationType = try reader["integrationType"].readIfPresent()
+        return value
+    }
+}
+
 extension GetLogAnomalyDetectorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLogAnomalyDetectorOutput {
@@ -8376,6 +9062,7 @@ extension GetQueryResultsOutput {
         let reader = responseReader
         var value = GetQueryResultsOutput()
         value.encryptionKey = try reader["encryptionKey"].readIfPresent()
+        value.queryLanguage = try reader["queryLanguage"].readIfPresent()
         value.results = try reader["results"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CloudWatchLogsClientTypes.ResultField.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.statistics = try reader["statistics"].readIfPresent(with: CloudWatchLogsClientTypes.QueryStatistics.read(from:))
         value.status = try reader["status"].readIfPresent()
@@ -8407,6 +9094,18 @@ extension ListAnomaliesOutput {
         var value = ListAnomaliesOutput()
         value.anomalies = try reader["anomalies"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.Anomaly.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListIntegrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListIntegrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListIntegrationsOutput()
+        value.integrationSummaries = try reader["integrationSummaries"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.IntegrationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8550,6 +9249,19 @@ extension PutIndexPolicyOutput {
         let reader = responseReader
         var value = PutIndexPolicyOutput()
         value.indexPolicy = try reader["indexPolicy"].readIfPresent(with: CloudWatchLogsClientTypes.IndexPolicy.read(from:))
+        return value
+    }
+}
+
+extension PutIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutIntegrationOutput()
+        value.integrationName = try reader["integrationName"].readIfPresent()
+        value.integrationStatus = try reader["integrationStatus"].readIfPresent()
         return value
     }
 }
@@ -8994,6 +9706,23 @@ enum DeleteIndexPolicyOutputError {
             case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9531,6 +10260,22 @@ enum GetDeliverySourceOutputError {
     }
 }
 
+enum GetIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetLogAnomalyDetectorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9642,6 +10387,21 @@ enum ListAnomaliesOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListIntegrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -9848,6 +10608,23 @@ enum PutIndexPolicyOutputError {
             case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10746,6 +11523,7 @@ extension CloudWatchLogsClientTypes.QueryInfo {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.QueryInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.QueryInfo()
+        value.queryLanguage = try reader["queryLanguage"].readIfPresent()
         value.queryId = try reader["queryId"].readIfPresent()
         value.queryString = try reader["queryString"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -10760,6 +11538,7 @@ extension CloudWatchLogsClientTypes.QueryDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.QueryDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.QueryDefinition()
+        value.queryLanguage = try reader["queryLanguage"].readIfPresent()
         value.queryDefinitionId = try reader["queryDefinitionId"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.queryString = try reader["queryString"].readIfPresent()
@@ -10829,6 +11608,139 @@ extension CloudWatchLogsClientTypes.Policy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.Policy()
         value.deliveryDestinationPolicy = try reader["deliveryDestinationPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.IntegrationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.IntegrationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "openSearchIntegrationDetails":
+                return .opensearchintegrationdetails(try reader["openSearchIntegrationDetails"].read(with: CloudWatchLogsClientTypes.OpenSearchIntegrationDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchIntegrationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OpenSearchIntegrationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.OpenSearchIntegrationDetails()
+        value.dataSource = try reader["dataSource"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchDataSource.read(from:))
+        value.application = try reader["application"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchApplication.read(from:))
+        value.collection = try reader["collection"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchCollection.read(from:))
+        value.workspace = try reader["workspace"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchWorkspace.read(from:))
+        value.encryptionPolicy = try reader["encryptionPolicy"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchEncryptionPolicy.read(from:))
+        value.networkPolicy = try reader["networkPolicy"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchNetworkPolicy.read(from:))
+        value.accessPolicy = try reader["accessPolicy"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchDataAccessPolicy.read(from:))
+        value.lifecyclePolicy = try reader["lifecyclePolicy"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchLifecyclePolicy.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchLifecyclePolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OpenSearchLifecyclePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.OpenSearchLifecyclePolicy()
+        value.policyName = try reader["policyName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchResourceStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchResourceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OpenSearchResourceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.OpenSearchResourceStatus()
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchDataAccessPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OpenSearchDataAccessPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.OpenSearchDataAccessPolicy()
+        value.policyName = try reader["policyName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchResourceStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchNetworkPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OpenSearchNetworkPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.OpenSearchNetworkPolicy()
+        value.policyName = try reader["policyName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchResourceStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchEncryptionPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OpenSearchEncryptionPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.OpenSearchEncryptionPolicy()
+        value.policyName = try reader["policyName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchResourceStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchWorkspace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OpenSearchWorkspace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.OpenSearchWorkspace()
+        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchResourceStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchCollection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OpenSearchCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.OpenSearchCollection()
+        value.collectionEndpoint = try reader["collectionEndpoint"].readIfPresent()
+        value.collectionArn = try reader["collectionArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchResourceStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchApplication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OpenSearchApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.OpenSearchApplication()
+        value.applicationEndpoint = try reader["applicationEndpoint"].readIfPresent()
+        value.applicationArn = try reader["applicationArn"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchResourceStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchDataSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.OpenSearchDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.OpenSearchDataSource()
+        value.dataSourceName = try reader["dataSourceName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: CloudWatchLogsClientTypes.OpenSearchResourceStatus.read(from:))
         return value
     }
 }
@@ -11495,6 +12407,18 @@ extension CloudWatchLogsClientTypes.LogEvent {
     }
 }
 
+extension CloudWatchLogsClientTypes.IntegrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.IntegrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.IntegrationSummary()
+        value.integrationName = try reader["integrationName"].readIfPresent()
+        value.integrationType = try reader["integrationType"].readIfPresent()
+        value.integrationStatus = try reader["integrationStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudWatchLogsClientTypes.AnomalyDetector {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.AnomalyDetector {
@@ -11649,6 +12573,31 @@ extension CloudWatchLogsClientTypes.QueryCompileErrorLocation {
         value.startCharOffset = try reader["startCharOffset"].readIfPresent()
         value.endCharOffset = try reader["endCharOffset"].readIfPresent()
         return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.ResourceConfig {
+
+    static func write(value: CloudWatchLogsClientTypes.ResourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .opensearchresourceconfig(opensearchresourceconfig):
+                try writer["openSearchResourceConfig"].write(opensearchresourceconfig, with: CloudWatchLogsClientTypes.OpenSearchResourceConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes.OpenSearchResourceConfig {
+
+    static func write(value: CloudWatchLogsClientTypes.OpenSearchResourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationArn"].write(value.applicationArn)
+        try writer["dashboardViewerPrincipals"].writeList(value.dashboardViewerPrincipals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dataSourceRoleArn"].write(value.dataSourceRoleArn)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["retentionDays"].write(value.retentionDays)
     }
 }
 

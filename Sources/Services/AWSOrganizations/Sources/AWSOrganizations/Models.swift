@@ -2044,6 +2044,7 @@ extension OrganizationsClientTypes {
         case aiservicesOptOutPolicy
         case backupPolicy
         case chatbotPolicy
+        case declarativePolicyEc2
         case resourceControlPolicy
         case serviceControlPolicy
         case tagPolicy
@@ -2054,6 +2055,7 @@ extension OrganizationsClientTypes {
                 .aiservicesOptOutPolicy,
                 .backupPolicy,
                 .chatbotPolicy,
+                .declarativePolicyEc2,
                 .resourceControlPolicy,
                 .serviceControlPolicy,
                 .tagPolicy
@@ -2070,6 +2072,7 @@ extension OrganizationsClientTypes {
             case .aiservicesOptOutPolicy: return "AISERVICES_OPT_OUT_POLICY"
             case .backupPolicy: return "BACKUP_POLICY"
             case .chatbotPolicy: return "CHATBOT_POLICY"
+            case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
             case .resourceControlPolicy: return "RESOURCE_CONTROL_POLICY"
             case .serviceControlPolicy: return "SERVICE_CONTROL_POLICY"
             case .tagPolicy: return "TAG_POLICY"
@@ -2355,6 +2358,8 @@ public struct CreatePolicyInput: Swift.Sendable {
     /// * [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
     ///
     /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
     ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
@@ -2731,6 +2736,7 @@ extension OrganizationsClientTypes {
         case aiservicesOptOutPolicy
         case backupPolicy
         case chatbotPolicy
+        case declarativePolicyEc2
         case tagPolicy
         case sdkUnknown(Swift.String)
 
@@ -2739,6 +2745,7 @@ extension OrganizationsClientTypes {
                 .aiservicesOptOutPolicy,
                 .backupPolicy,
                 .chatbotPolicy,
+                .declarativePolicyEc2,
                 .tagPolicy
             ]
         }
@@ -2753,6 +2760,7 @@ extension OrganizationsClientTypes {
             case .aiservicesOptOutPolicy: return "AISERVICES_OPT_OUT_POLICY"
             case .backupPolicy: return "BACKUP_POLICY"
             case .chatbotPolicy: return "CHATBOT_POLICY"
+            case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
             case .tagPolicy: return "TAG_POLICY"
             case let .sdkUnknown(s): return s
             }
@@ -2762,6 +2770,8 @@ extension OrganizationsClientTypes {
 
 public struct DescribeEffectivePolicyInput: Swift.Sendable {
     /// The type of policy that you want information about. You can specify one of the following values:
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
     ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
@@ -3044,6 +3054,8 @@ public struct DisablePolicyTypeInput: Swift.Sendable {
     ///
     /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
     ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
     /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
@@ -3155,6 +3167,8 @@ public struct EnablePolicyTypeInput: Swift.Sendable {
     /// * [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
     ///
     /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
     ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
@@ -3889,6 +3903,8 @@ public struct ListPoliciesInput: Swift.Sendable {
     ///
     /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
     ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///
     /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
@@ -3937,6 +3953,8 @@ public struct ListPoliciesForTargetInput: Swift.Sendable {
     /// * [SERVICE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html)
     ///
     /// * [RESOURCE_CONTROL_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html)
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
     ///
     /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
     ///

@@ -22,6 +22,7 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyRetriesAPITypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 import software.amazon.smithy.swift.codegen.utils.AuthUtils
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
@@ -31,13 +32,13 @@ class AWSHttpProtocolServiceClient(
     private val serviceConfig: ServiceConfig
 ) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
     override fun renderConvenienceInitFunctions(serviceSymbol: Symbol) {
-        writer.openBlock("public convenience init(region: Swift.String) throws {", "}") {
-            writer.write("let config = try ${serviceConfig.typeName}(region: region)")
+        writer.openBlock("public convenience init(region: \$N) throws {", "}", SwiftTypes.String) {
+            writer.write("let config = try \$L(region: region)", serviceConfig.typeName)
             writer.write("self.init(config: config)")
         }
         writer.write("")
         writer.openBlock("public convenience required init() async throws {", "}") {
-            writer.write("let config = try await ${serviceConfig.typeName}()")
+            writer.write("let config = try await \$L()", serviceConfig.typeName)
             writer.write("self.init(config: config)")
         }
     }
@@ -112,10 +113,13 @@ class AWSHttpProtocolServiceClient(
      *  AWS Amplify requires a synchronous initializer with region parameter.
      */
     private fun renderRegionConfigInitializer(properties: List<ConfigProperty>) {
-        writer.openBlock("public convenience init(region: String) throws {", "}") {
-            writer.write(
-                "self.init(\$L)",
-                properties.joinToString(", ") {
+        writer.openBlock(
+            "public convenience init(region: \$N) throws {",
+            "}",
+            SwiftTypes.String,
+        ) {
+            writer.openBlock("self.init(", ")") {
+                renderProperties(properties, true) {
                     when (it.name) {
                         "region", "signingRegion" -> {
                             "region"
@@ -137,14 +141,7 @@ class AWSHttpProtocolServiceClient(
                         }
                     }
                 }
-            )
-        }
-        writer.write("")
-    }
-
-    private fun renderEmptyAsynchronousConfigInitializer(properties: List<ConfigProperty>) {
-        writer.openBlock("public convenience required init() async throws {", "}") {
-            writer.write("try await self.init(\$L)", properties.joinToString(", ") { "${it.name}: nil" })
+            }
         }
         writer.write("")
     }
@@ -153,6 +150,7 @@ class AWSHttpProtocolServiceClient(
         writer.openBlock("public var partitionID: String? {", "}") {
             writer.write("return \"\\(\$L.clientName) - \\(region ?? \"\")\"", serviceConfig.clientName.toUpperCamelCase())
         }
+        writer.write("")
     }
 
     private val authSchemeResolverDefaultProvider = DefaultProvider(

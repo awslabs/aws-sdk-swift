@@ -2507,6 +2507,101 @@ public struct CreateDeliverabilityTestReportOutput: Swift.Sendable {
 
 extension SESv2ClientTypes {
 
+    public enum DkimSigningAttributesOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsSes
+        case awsSesAfSouth1
+        case awsSesApNortheast1
+        case awsSesApNortheast2
+        case awsSesApNortheast3
+        case awsSesApSoutheast1
+        case awsSesApSoutheast2
+        case awsSesApSoutheast3
+        case awsSesApSouth1
+        case awsSesCaCentral1
+        case awsSesEuCentral1
+        case awsSesEuNorth1
+        case awsSesEuSouth1
+        case awsSesEuWest1
+        case awsSesEuWest2
+        case awsSesEuWest3
+        case awsSesIlCentral1
+        case awsSesMeSouth1
+        case awsSesSaEast1
+        case awsSesUsEast1
+        case awsSesUsEast2
+        case awsSesUsWest1
+        case awsSesUsWest2
+        case external
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DkimSigningAttributesOrigin] {
+            return [
+                .awsSes,
+                .awsSesAfSouth1,
+                .awsSesApNortheast1,
+                .awsSesApNortheast2,
+                .awsSesApNortheast3,
+                .awsSesApSoutheast1,
+                .awsSesApSoutheast2,
+                .awsSesApSoutheast3,
+                .awsSesApSouth1,
+                .awsSesCaCentral1,
+                .awsSesEuCentral1,
+                .awsSesEuNorth1,
+                .awsSesEuSouth1,
+                .awsSesEuWest1,
+                .awsSesEuWest2,
+                .awsSesEuWest3,
+                .awsSesIlCentral1,
+                .awsSesMeSouth1,
+                .awsSesSaEast1,
+                .awsSesUsEast1,
+                .awsSesUsEast2,
+                .awsSesUsWest1,
+                .awsSesUsWest2,
+                .external
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsSes: return "AWS_SES"
+            case .awsSesAfSouth1: return "AWS_SES_AF_SOUTH_1"
+            case .awsSesApNortheast1: return "AWS_SES_AP_NORTHEAST_1"
+            case .awsSesApNortheast2: return "AWS_SES_AP_NORTHEAST_2"
+            case .awsSesApNortheast3: return "AWS_SES_AP_NORTHEAST_3"
+            case .awsSesApSoutheast1: return "AWS_SES_AP_SOUTHEAST_1"
+            case .awsSesApSoutheast2: return "AWS_SES_AP_SOUTHEAST_2"
+            case .awsSesApSoutheast3: return "AWS_SES_AP_SOUTHEAST_3"
+            case .awsSesApSouth1: return "AWS_SES_AP_SOUTH_1"
+            case .awsSesCaCentral1: return "AWS_SES_CA_CENTRAL_1"
+            case .awsSesEuCentral1: return "AWS_SES_EU_CENTRAL_1"
+            case .awsSesEuNorth1: return "AWS_SES_EU_NORTH_1"
+            case .awsSesEuSouth1: return "AWS_SES_EU_SOUTH_1"
+            case .awsSesEuWest1: return "AWS_SES_EU_WEST_1"
+            case .awsSesEuWest2: return "AWS_SES_EU_WEST_2"
+            case .awsSesEuWest3: return "AWS_SES_EU_WEST_3"
+            case .awsSesIlCentral1: return "AWS_SES_IL_CENTRAL_1"
+            case .awsSesMeSouth1: return "AWS_SES_ME_SOUTH_1"
+            case .awsSesSaEast1: return "AWS_SES_SA_EAST_1"
+            case .awsSesUsEast1: return "AWS_SES_US_EAST_1"
+            case .awsSesUsEast2: return "AWS_SES_US_EAST_2"
+            case .awsSesUsWest1: return "AWS_SES_US_WEST_1"
+            case .awsSesUsWest2: return "AWS_SES_US_WEST_2"
+            case .external: return "EXTERNAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     public enum DkimSigningKeyLength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rsa1024Bit
         case rsa2048Bit
@@ -2538,6 +2633,73 @@ extension SESv2ClientTypes {
 
     /// An object that contains configuration for Bring Your Own DKIM (BYODKIM), or, for Easy DKIM
     public struct DkimSigningAttributes: Swift.Sendable {
+        /// The attribute to use for configuring DKIM for the identity depends on the operation:
+        ///
+        /// * For PutEmailIdentityDkimSigningAttributes:
+        ///
+        /// * None of the values are allowed - use the [SigningAttributesOrigin](https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_PutEmailIdentityDkimSigningAttributes.html#SES-PutEmailIdentityDkimSigningAttributes-request-SigningAttributesOrigin) parameter instead
+        ///
+        ///
+        ///
+        ///
+        /// * For CreateEmailIdentity when replicating a parent identity's DKIM configuration:
+        ///
+        /// * Allowed values: All values except AWS_SES and EXTERNAL
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// * AWS_SES – Configure DKIM for the identity by using Easy DKIM.
+        ///
+        /// * EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).
+        ///
+        /// * AWS_SES_AF_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_NORTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_3 – Configure DKIM for the identity by replicating from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_ME_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_IL_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_SA_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_CA_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_EAST_2 – Configure DKIM for the identity by replicating from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
+        public var domainSigningAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
         /// [Bring Your Own DKIM] A private key that's used to generate a DKIM signature. The private key must use 1024 or 2048-bit RSA encryption, and must be encoded using base64 encoding.
         public var domainSigningPrivateKey: Swift.String?
         /// [Bring Your Own DKIM] A string that's used to identify a public key in the DNS configuration for a domain.
@@ -2546,11 +2708,13 @@ extension SESv2ClientTypes {
         public var nextSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength?
 
         public init(
+            domainSigningAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin? = nil,
             domainSigningPrivateKey: Swift.String? = nil,
             domainSigningSelector: Swift.String? = nil,
             nextSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength? = nil
         )
         {
+            self.domainSigningAttributesOrigin = domainSigningAttributesOrigin
             self.domainSigningPrivateKey = domainSigningPrivateKey
             self.domainSigningSelector = domainSigningSelector
             self.nextSigningKeyLength = nextSigningKeyLength
@@ -2560,7 +2724,7 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes.DkimSigningAttributes: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DkimSigningAttributes(domainSigningSelector: \(Swift.String(describing: domainSigningSelector)), nextSigningKeyLength: \(Swift.String(describing: nextSigningKeyLength)), domainSigningPrivateKey: \"CONTENT_REDACTED\")"}
+        "DkimSigningAttributes(domainSigningAttributesOrigin: \(Swift.String(describing: domainSigningAttributesOrigin)), domainSigningSelector: \(Swift.String(describing: domainSigningSelector)), nextSigningKeyLength: \(Swift.String(describing: nextSigningKeyLength)), domainSigningPrivateKey: \"CONTENT_REDACTED\")"}
 }
 
 /// A request to begin the verification process for an email identity (an email address or domain).
@@ -2586,35 +2750,6 @@ public struct CreateEmailIdentityInput: Swift.Sendable {
         self.dkimSigningAttributes = dkimSigningAttributes
         self.emailIdentity = emailIdentity
         self.tags = tags
-    }
-}
-
-extension SESv2ClientTypes {
-
-    public enum DkimSigningAttributesOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case awsSes
-        case external
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DkimSigningAttributesOrigin] {
-            return [
-                .awsSes,
-                .external
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .awsSes: return "AWS_SES"
-            case .external: return "EXTERNAL"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -2682,6 +2817,50 @@ extension SESv2ClientTypes {
         /// * AWS_SES – Indicates that DKIM was configured for the identity by using [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html).
         ///
         /// * EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).
+        ///
+        /// * AWS_SES_AF_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_NORTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_ME_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_NORTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_IL_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_SA_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_CA_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_EAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_US_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).
         public var signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
         /// If the value is true, then the messages that you send from the identity are signed using DKIM. If the value is false, then the messages that you send from the identity aren't DKIM-signed.
         public var signingEnabled: Swift.Bool
@@ -3349,6 +3528,132 @@ public struct CreateImportJobOutput: Swift.Sendable {
 
 extension SESv2ClientTypes {
 
+    /// An object that contains route configuration. Includes secondary region name.
+    public struct RouteDetails: Swift.Sendable {
+        /// The name of an AWS-Region to be a secondary region for the multi-region endpoint (global-endpoint).
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            region: Swift.String? = nil
+        )
+        {
+            self.region = region
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object that contains configuration details of multi-region endpoint (global-endpoint).
+    public struct Details: Swift.Sendable {
+        /// A list of route configuration details. Must contain exactly one route configuration.
+        /// This member is required.
+        public var routesDetails: [SESv2ClientTypes.RouteDetails]?
+
+        public init(
+            routesDetails: [SESv2ClientTypes.RouteDetails]? = nil
+        )
+        {
+            self.routesDetails = routesDetails
+        }
+    }
+}
+
+/// Represents a request to create a multi-region endpoint (global-endpoint).
+public struct CreateMultiRegionEndpointInput: Swift.Sendable {
+    /// Contains details of a multi-region endpoint (global-endpoint) being created.
+    /// This member is required.
+    public var details: SESv2ClientTypes.Details?
+    /// The name of the multi-region endpoint (global-endpoint).
+    /// This member is required.
+    public var endpointName: Swift.String?
+    /// An array of objects that define the tags (keys and values) to associate with the multi-region endpoint (global-endpoint).
+    public var tags: [SESv2ClientTypes.Tag]?
+
+    public init(
+        details: SESv2ClientTypes.Details? = nil,
+        endpointName: Swift.String? = nil,
+        tags: [SESv2ClientTypes.Tag]? = nil
+    )
+    {
+        self.details = details
+        self.endpointName = endpointName
+        self.tags = tags
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The status of the multi-region endpoint (global-endpoint).
+    ///
+    /// * CREATING – The resource is being provisioned.
+    ///
+    /// * READY – The resource is ready to use.
+    ///
+    /// * FAILED – The resource failed to be provisioned.
+    ///
+    /// * DELETING – The resource is being deleted as requested.
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleting
+        case failed
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .creating,
+                .deleting,
+                .failed,
+                .ready
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .ready: return "READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct CreateMultiRegionEndpointOutput: Swift.Sendable {
+    /// The ID of the multi-region endpoint (global-endpoint).
+    public var endpointId: Swift.String?
+    /// A status of the multi-region endpoint (global-endpoint) right after the create request.
+    ///
+    /// * CREATING – The resource is being provisioned.
+    ///
+    /// * READY – The resource is ready to use.
+    ///
+    /// * FAILED – The resource failed to be provisioned.
+    ///
+    /// * DELETING – The resource is being deleted as requested.
+    public var status: SESv2ClientTypes.Status?
+
+    public init(
+        endpointId: Swift.String? = nil,
+        status: SESv2ClientTypes.Status? = nil
+    )
+    {
+        self.endpointId = endpointId
+        self.status = status
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// Contains information about a custom verification email template.
     public struct CustomVerificationEmailTemplateMetadata: Swift.Sendable {
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
@@ -3763,6 +4068,41 @@ public struct DeleteEmailTemplateInput: Swift.Sendable {
 public struct DeleteEmailTemplateOutput: Swift.Sendable {
 
     public init() { }
+}
+
+/// Represents a request to delete a multi-region endpoint (global-endpoint).
+public struct DeleteMultiRegionEndpointInput: Swift.Sendable {
+    /// The name of the multi-region endpoint (global-endpoint) to be deleted.
+    /// This member is required.
+    public var endpointName: Swift.String?
+
+    public init(
+        endpointName: Swift.String? = nil
+    )
+    {
+        self.endpointName = endpointName
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct DeleteMultiRegionEndpointOutput: Swift.Sendable {
+    /// A status of the multi-region endpoint (global-endpoint) right after the delete request.
+    ///
+    /// * CREATING – The resource is being provisioned.
+    ///
+    /// * READY – The resource is ready to use.
+    ///
+    /// * FAILED – The resource failed to be provisioned.
+    ///
+    /// * DELETING – The resource is being deleted as requested.
+    public var status: SESv2ClientTypes.Status?
+
+    public init(
+        status: SESv2ClientTypes.Status? = nil
+    )
+    {
+        self.status = status
+    }
 }
 
 /// A request to remove an email address from the suppression list for your account.
@@ -5116,6 +5456,11 @@ extension SESv2ClientTypes {
         case dnsServerError
         case hostNotFound
         case invalidValue
+        case replicationAccessDenied
+        case replicationPrimaryByoDkimNotSupported
+        case replicationPrimaryInvalidRegion
+        case replicationPrimaryNotFound
+        case replicationReplicaAsPrimaryNotSupported
         case serviceError
         case typeNotFound
         case sdkUnknown(Swift.String)
@@ -5125,6 +5470,11 @@ extension SESv2ClientTypes {
                 .dnsServerError,
                 .hostNotFound,
                 .invalidValue,
+                .replicationAccessDenied,
+                .replicationPrimaryByoDkimNotSupported,
+                .replicationPrimaryInvalidRegion,
+                .replicationPrimaryNotFound,
+                .replicationReplicaAsPrimaryNotSupported,
                 .serviceError,
                 .typeNotFound
             ]
@@ -5140,6 +5490,11 @@ extension SESv2ClientTypes {
             case .dnsServerError: return "DNS_SERVER_ERROR"
             case .hostNotFound: return "HOST_NOT_FOUND"
             case .invalidValue: return "INVALID_VALUE"
+            case .replicationAccessDenied: return "REPLICATION_ACCESS_DENIED"
+            case .replicationPrimaryByoDkimNotSupported: return "REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED"
+            case .replicationPrimaryInvalidRegion: return "REPLICATION_PRIMARY_INVALID_REGION"
+            case .replicationPrimaryNotFound: return "REPLICATION_PRIMARY_NOT_FOUND"
+            case .replicationReplicaAsPrimaryNotSupported: return "REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED"
             case .serviceError: return "SERVICE_ERROR"
             case .typeNotFound: return "TYPE_NOT_FOUND"
             case let .sdkUnknown(s): return s
@@ -5187,6 +5542,16 @@ extension SESv2ClientTypes {
         /// * SERVICE_ERROR – A temporary issue is preventing Amazon SES from determining the verification status of the domain.
         ///
         /// * DNS_SERVER_ERROR – The DNS server encountered an issue and was unable to complete the request.
+        ///
+        /// * REPLICATION_ACCESS_DENIED – The verification failed because the user does not have the required permissions to replicate the DKIM key from the primary region. Ensure you have the necessary permissions in both primary and replica regions.
+        ///
+        /// * REPLICATION_PRIMARY_NOT_FOUND – The verification failed because no corresponding identity was found in the specified primary region. Ensure the identity exists in the primary region before attempting replication.
+        ///
+        /// * REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED – The verification failed because the identity in the primary region is configured with Bring Your Own DKIM (BYODKIM). DKIM key replication is only supported for identities using Easy DKIM.
+        ///
+        /// * REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED – The verification failed because the specified primary identity is a replica of another identity, and multi-level replication is not supported; the primary identity must be a non-replica identity.
+        ///
+        /// * REPLICATION_PRIMARY_INVALID_REGION – The verification failed due to an invalid primary region specified. Ensure you provide a valid AWS region where Amazon SES is available and different from the replica region.
         public var errorType: SESv2ClientTypes.VerificationError?
         /// The last time a verification attempt was made for this identity.
         public var lastCheckedTimestamp: Foundation.Date?
@@ -5531,6 +5896,78 @@ public struct GetMessageInsightsOutput: Swift.Sendable {
 extension GetMessageInsightsOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetMessageInsightsOutput(emailTags: \(Swift.String(describing: emailTags)), insights: \(Swift.String(describing: insights)), messageId: \(Swift.String(describing: messageId)), fromEmailAddress: \"CONTENT_REDACTED\", subject: \"CONTENT_REDACTED\")"}
+}
+
+/// Represents a request to display the multi-region endpoint (global-endpoint).
+public struct GetMultiRegionEndpointInput: Swift.Sendable {
+    /// The name of the multi-region endpoint (global-endpoint).
+    /// This member is required.
+    public var endpointName: Swift.String?
+
+    public init(
+        endpointName: Swift.String? = nil
+    )
+    {
+        self.endpointName = endpointName
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object which contains an AWS-Region and routing status.
+    public struct Route: Swift.Sendable {
+        /// The name of an AWS-Region.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            region: Swift.String? = nil
+        )
+        {
+            self.region = region
+        }
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct GetMultiRegionEndpointOutput: Swift.Sendable {
+    /// The time stamp of when the multi-region endpoint (global-endpoint) was created.
+    public var createdTimestamp: Foundation.Date?
+    /// The ID of the multi-region endpoint (global-endpoint).
+    public var endpointId: Swift.String?
+    /// The name of the multi-region endpoint (global-endpoint).
+    public var endpointName: Swift.String?
+    /// The time stamp of when the multi-region endpoint (global-endpoint) was last updated.
+    public var lastUpdatedTimestamp: Foundation.Date?
+    /// Contains routes information for the multi-region endpoint (global-endpoint).
+    public var routes: [SESv2ClientTypes.Route]?
+    /// The status of the multi-region endpoint (global-endpoint).
+    ///
+    /// * CREATING – The resource is being provisioned.
+    ///
+    /// * READY – The resource is ready to use.
+    ///
+    /// * FAILED – The resource failed to be provisioned.
+    ///
+    /// * DELETING – The resource is being deleted as requested.
+    public var status: SESv2ClientTypes.Status?
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        endpointId: Swift.String? = nil,
+        endpointName: Swift.String? = nil,
+        lastUpdatedTimestamp: Foundation.Date? = nil,
+        routes: [SESv2ClientTypes.Route]? = nil,
+        status: SESv2ClientTypes.Status? = nil
+    )
+    {
+        self.createdTimestamp = createdTimestamp
+        self.endpointId = endpointId
+        self.endpointName = endpointName
+        self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        self.routes = routes
+        self.status = status
+    }
 }
 
 /// A request to retrieve information about an email address that's on the suppression list for your account.
@@ -6214,6 +6651,84 @@ extension SESv2ClientTypes {
             self.contactListName = contactListName
             self.topicName = topicName
         }
+    }
+}
+
+/// Represents a request to list all the multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed.
+public struct ListMultiRegionEndpointsInput: Swift.Sendable {
+    /// A token returned from a previous call to ListMultiRegionEndpoints to indicate the position in the list of multi-region endpoints (global-endpoints).
+    public var nextToken: Swift.String?
+    /// The number of results to show in a single call to ListMultiRegionEndpoints. If the number of results is larger than the number you specified in this parameter, the response includes a NextToken element that you can use to retrieve the next page of results.
+    public var pageSize: Swift.Int?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object that contains multi-region endpoint (global-endpoint) properties.
+    public struct MultiRegionEndpoint: Swift.Sendable {
+        /// The time stamp of when the multi-region endpoint (global-endpoint) was created.
+        public var createdTimestamp: Foundation.Date?
+        /// The ID of the multi-region endpoint (global-endpoint).
+        public var endpointId: Swift.String?
+        /// The name of the multi-region endpoint (global-endpoint).
+        public var endpointName: Swift.String?
+        /// The time stamp of when the multi-region endpoint (global-endpoint) was last updated.
+        public var lastUpdatedTimestamp: Foundation.Date?
+        /// Primary and secondary regions between which multi-region endpoint splits sending traffic.
+        public var regions: [Swift.String]?
+        /// The status of the multi-region endpoint (global-endpoint).
+        ///
+        /// * CREATING – The resource is being provisioned.
+        ///
+        /// * READY – The resource is ready to use.
+        ///
+        /// * FAILED – The resource failed to be provisioned.
+        ///
+        /// * DELETING – The resource is being deleted as requested.
+        public var status: SESv2ClientTypes.Status?
+
+        public init(
+            createdTimestamp: Foundation.Date? = nil,
+            endpointId: Swift.String? = nil,
+            endpointName: Swift.String? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
+            regions: [Swift.String]? = nil,
+            status: SESv2ClientTypes.Status? = nil
+        )
+        {
+            self.createdTimestamp = createdTimestamp
+            self.endpointId = endpointId
+            self.endpointName = endpointName
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.regions = regions
+            self.status = status
+        }
+    }
+}
+
+/// The following elements are returned by the service.
+public struct ListMultiRegionEndpointsOutput: Swift.Sendable {
+    /// An array that contains key multi-region endpoint (global-endpoint) properties.
+    public var multiRegionEndpoints: [SESv2ClientTypes.MultiRegionEndpoint]?
+    /// A token indicating that there are additional multi-region endpoints (global-endpoints) available to be listed. Pass this token to a subsequent ListMultiRegionEndpoints call to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        multiRegionEndpoints: [SESv2ClientTypes.MultiRegionEndpoint]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.multiRegionEndpoints = multiRegionEndpoints
+        self.nextToken = nextToken
     }
 }
 
@@ -7114,6 +7629,8 @@ public struct SendBulkEmailInput: Swift.Sendable {
     public var defaultContent: SESv2ClientTypes.BulkEmailContent?
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
     public var defaultEmailTags: [SESv2ClientTypes.MessageTag]?
+    /// The ID of the multi-region endpoint (global-endpoint).
+    public var endpointId: Swift.String?
     /// The address that you want bounce and complaint notifications to be sent to.
     public var feedbackForwardingEmailAddress: Swift.String?
     /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
@@ -7130,6 +7647,7 @@ public struct SendBulkEmailInput: Swift.Sendable {
         configurationSetName: Swift.String? = nil,
         defaultContent: SESv2ClientTypes.BulkEmailContent? = nil,
         defaultEmailTags: [SESv2ClientTypes.MessageTag]? = nil,
+        endpointId: Swift.String? = nil,
         feedbackForwardingEmailAddress: Swift.String? = nil,
         feedbackForwardingEmailAddressIdentityArn: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
@@ -7141,6 +7659,7 @@ public struct SendBulkEmailInput: Swift.Sendable {
         self.configurationSetName = configurationSetName
         self.defaultContent = defaultContent
         self.defaultEmailTags = defaultEmailTags
+        self.endpointId = endpointId
         self.feedbackForwardingEmailAddress = feedbackForwardingEmailAddress
         self.feedbackForwardingEmailAddressIdentityArn = feedbackForwardingEmailAddressIdentityArn
         self.fromEmailAddress = fromEmailAddress
@@ -7210,6 +7729,8 @@ public struct SendEmailInput: Swift.Sendable {
     public var destination: SESv2ClientTypes.Destination?
     /// A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
     public var emailTags: [SESv2ClientTypes.MessageTag]?
+    /// The ID of the multi-region endpoint (global-endpoint).
+    public var endpointId: Swift.String?
     /// The address that you want bounce and complaint notifications to be sent to.
     public var feedbackForwardingEmailAddress: Swift.String?
     /// This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html).
@@ -7228,6 +7749,7 @@ public struct SendEmailInput: Swift.Sendable {
         content: SESv2ClientTypes.EmailContent? = nil,
         destination: SESv2ClientTypes.Destination? = nil,
         emailTags: [SESv2ClientTypes.MessageTag]? = nil,
+        endpointId: Swift.String? = nil,
         feedbackForwardingEmailAddress: Swift.String? = nil,
         feedbackForwardingEmailAddressIdentityArn: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
@@ -7240,6 +7762,7 @@ public struct SendEmailInput: Swift.Sendable {
         self.content = content
         self.destination = destination
         self.emailTags = emailTags
+        self.endpointId = endpointId
         self.feedbackForwardingEmailAddress = feedbackForwardingEmailAddress
         self.feedbackForwardingEmailAddressIdentityArn = feedbackForwardingEmailAddressIdentityArn
         self.fromEmailAddress = fromEmailAddress
@@ -7645,6 +8168,13 @@ extension CreateImportJobInput {
     }
 }
 
+extension CreateMultiRegionEndpointInput {
+
+    static func urlPathProvider(_ value: CreateMultiRegionEndpointInput) -> Swift.String? {
+        return "/v2/email/multi-region-endpoints"
+    }
+}
+
 extension DeleteConfigurationSetInput {
 
     static func urlPathProvider(_ value: DeleteConfigurationSetInput) -> Swift.String? {
@@ -7741,6 +8271,16 @@ extension DeleteEmailTemplateInput {
             return nil
         }
         return "/v2/email/templates/\(templateName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteMultiRegionEndpointInput {
+
+    static func urlPathProvider(_ value: DeleteMultiRegionEndpointInput) -> Swift.String? {
+        guard let endpointName = value.endpointName else {
+            return nil
+        }
+        return "/v2/email/multi-region-endpoints/\(endpointName.urlPercentEncoding())"
     }
 }
 
@@ -8001,6 +8541,16 @@ extension GetMessageInsightsInput {
     }
 }
 
+extension GetMultiRegionEndpointInput {
+
+    static func urlPathProvider(_ value: GetMultiRegionEndpointInput) -> Swift.String? {
+        guard let endpointName = value.endpointName else {
+            return nil
+        }
+        return "/v2/email/multi-region-endpoints/\(endpointName.urlPercentEncoding())"
+    }
+}
+
 extension GetSuppressedDestinationInput {
 
     static func urlPathProvider(_ value: GetSuppressedDestinationInput) -> Swift.String? {
@@ -8231,6 +8781,29 @@ extension ListImportJobsInput {
 
     static func urlPathProvider(_ value: ListImportJobsInput) -> Swift.String? {
         return "/v2/email/import-jobs/list"
+    }
+}
+
+extension ListMultiRegionEndpointsInput {
+
+    static func urlPathProvider(_ value: ListMultiRegionEndpointsInput) -> Swift.String? {
+        return "/v2/email/multi-region-endpoints"
+    }
+}
+
+extension ListMultiRegionEndpointsInput {
+
+    static func queryItemProvider(_ value: ListMultiRegionEndpointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let pageSize = value.pageSize {
+            let pageSizeQueryItem = Smithy.URIQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
+            items.append(pageSizeQueryItem)
+        }
+        return items
     }
 }
 
@@ -8758,6 +9331,16 @@ extension CreateImportJobInput {
     }
 }
 
+extension CreateMultiRegionEndpointInput {
+
+    static func write(value: CreateMultiRegionEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Details"].write(value.details, with: SESv2ClientTypes.Details.write(value:to:))
+        try writer["EndpointName"].write(value.endpointName)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SESv2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ListContactsInput {
 
     static func write(value: ListContactsInput?, to writer: SmithyJSON.Writer) throws {
@@ -8987,6 +9570,7 @@ extension SendBulkEmailInput {
         try writer["ConfigurationSetName"].write(value.configurationSetName)
         try writer["DefaultContent"].write(value.defaultContent, with: SESv2ClientTypes.BulkEmailContent.write(value:to:))
         try writer["DefaultEmailTags"].writeList(value.defaultEmailTags, memberWritingClosure: SESv2ClientTypes.MessageTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EndpointId"].write(value.endpointId)
         try writer["FeedbackForwardingEmailAddress"].write(value.feedbackForwardingEmailAddress)
         try writer["FeedbackForwardingEmailAddressIdentityArn"].write(value.feedbackForwardingEmailAddressIdentityArn)
         try writer["FromEmailAddress"].write(value.fromEmailAddress)
@@ -9013,6 +9597,7 @@ extension SendEmailInput {
         try writer["Content"].write(value.content, with: SESv2ClientTypes.EmailContent.write(value:to:))
         try writer["Destination"].write(value.destination, with: SESv2ClientTypes.Destination.write(value:to:))
         try writer["EmailTags"].writeList(value.emailTags, memberWritingClosure: SESv2ClientTypes.MessageTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EndpointId"].write(value.endpointId)
         try writer["FeedbackForwardingEmailAddress"].write(value.feedbackForwardingEmailAddress)
         try writer["FeedbackForwardingEmailAddressIdentityArn"].write(value.feedbackForwardingEmailAddressIdentityArn)
         try writer["FromEmailAddress"].write(value.fromEmailAddress)
@@ -9221,6 +9806,19 @@ extension CreateImportJobOutput {
     }
 }
 
+extension CreateMultiRegionEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMultiRegionEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMultiRegionEndpointOutput()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteConfigurationSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConfigurationSetOutput {
@@ -9281,6 +9879,18 @@ extension DeleteEmailTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEmailTemplateOutput {
         return DeleteEmailTemplateOutput()
+    }
+}
+
+extension DeleteMultiRegionEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMultiRegionEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteMultiRegionEndpointOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -9602,6 +10212,23 @@ extension GetMessageInsightsOutput {
     }
 }
 
+extension GetMultiRegionEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMultiRegionEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMultiRegionEndpointOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.endpointName = try reader["EndpointName"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.routes = try reader["Routes"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Route.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension GetSuppressedDestinationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSuppressedDestinationOutput {
@@ -9752,6 +10379,19 @@ extension ListImportJobsOutput {
         let reader = responseReader
         var value = ListImportJobsOutput()
         value.importJobs = try reader["ImportJobs"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.ImportJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListMultiRegionEndpointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMultiRegionEndpointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMultiRegionEndpointsOutput()
+        value.multiRegionEndpoints = try reader["MultiRegionEndpoints"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.MultiRegionEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -10301,6 +10941,23 @@ enum CreateImportJobOutputError {
     }
 }
 
+enum CreateMultiRegionEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteConfigurationSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10442,6 +11099,23 @@ enum DeleteEmailTemplateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteMultiRegionEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10784,6 +11458,22 @@ enum GetMessageInsightsOutputError {
     }
 }
 
+enum GetMultiRegionEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetSuppressedDestinationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10954,6 +11644,21 @@ enum ListExportJobsOutputError {
 }
 
 enum ListImportJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListMultiRegionEndpointsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12691,6 +13396,16 @@ extension SESv2ClientTypes.Bounce {
     }
 }
 
+extension SESv2ClientTypes.Route {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Route {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.Route()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension SESv2ClientTypes.SuppressedDestination {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressedDestination {
@@ -12803,6 +13518,21 @@ extension SESv2ClientTypes.ImportJobSummary {
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.processedRecordsCount = try reader["ProcessedRecordsCount"].readIfPresent()
         value.failedRecordsCount = try reader["FailedRecordsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.MultiRegionEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MultiRegionEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.MultiRegionEndpoint()
+        value.endpointName = try reader["EndpointName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.endpointId = try reader["EndpointId"].readIfPresent()
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -12945,9 +13675,26 @@ extension SESv2ClientTypes.DkimSigningAttributes {
 
     static func write(value: SESv2ClientTypes.DkimSigningAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DomainSigningAttributesOrigin"].write(value.domainSigningAttributesOrigin)
         try writer["DomainSigningPrivateKey"].write(value.domainSigningPrivateKey)
         try writer["DomainSigningSelector"].write(value.domainSigningSelector)
         try writer["NextSigningKeyLength"].write(value.nextSigningKeyLength)
+    }
+}
+
+extension SESv2ClientTypes.Details {
+
+    static func write(value: SESv2ClientTypes.Details?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoutesDetails"].writeList(value.routesDetails, memberWritingClosure: SESv2ClientTypes.RouteDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SESv2ClientTypes.RouteDetails {
+
+    static func write(value: SESv2ClientTypes.RouteDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Region"].write(value.region)
     }
 }
 
