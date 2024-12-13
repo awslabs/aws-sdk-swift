@@ -9,6 +9,7 @@ import XCTest
 import ClientRuntime
 @testable import AWSClientRuntime
 import SmithyRetriesAPI
+import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
 import SmithyIdentity
 import SmithyRetriesAPI
@@ -16,27 +17,30 @@ import Smithy
 
 class BusinessMetricsTests: XCTestCase {
     var context: Context!
+    var config: UserAgentValuesFromConfig!
 
     override func setUp() async throws {
+        config = UserAgentValuesFromConfig(appID: nil, endpoint: nil, awsRetryMode: .standard)
         context = Context(attributes: Attributes())
     }
+
+    // MARK: - Truncation
 
     func test_business_metrics_section_truncation() {
         context.businessMetrics = ["SHORT_FILLER": "A"]
         let longMetricValue = String(repeating: "F", count: 1025)
         context.businessMetrics = ["LONG_FILLER": longMetricValue]
-        let userAgent = AWSUserAgentMetadata.fromConfigAndContext(
-            serviceID: "test",
-            version: "1.0",
-            config: UserAgentValuesFromConfig(appID: nil, endpoint: nil, awsRetryMode: .standard),
-            context: context
-        )
+
+        let userAgent = testUserAgent()
+
         // Assert values in context match with values assigned to user agent
         XCTAssertEqual(userAgent.businessMetrics?.features, context.businessMetrics)
         // Assert string gets truncated successfully
         let expectedTruncatedString = "m/A,E"
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedTruncatedString)
     }
+
+    // MARK: - Multiple flags
 
     func test_multiple_flags_in_context() {
         context.businessMetrics = ["FIRST": "A"]
@@ -47,14 +51,84 @@ class BusinessMetricsTests: XCTestCase {
             signingProperties: nil,
             signer: nil
         ))
-        let userAgent = AWSUserAgentMetadata.fromConfigAndContext(
-            serviceID: "test",
-            version: "1.0",
-            config: UserAgentValuesFromConfig(appID: nil, endpoint: "test-endpoint", awsRetryMode: .adaptive),
-            context: context
-        )
+
+        config = UserAgentValuesFromConfig(appID: nil, endpoint: "test-endpoint", awsRetryMode: .adaptive)
+        let userAgent = testUserAgent()
+
         // F comes from retry mode being adaptive & N comes from endpoint override
         let expectedString = "m/A,B,F,N,S"
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
+    }
+
+    // MARK: - Account ID in Endpoint
+
+    func test_accountIDInEndpoint_noAccountIDInEndpoint() {
+        configureContext(host: "dynamodb.us-east-1.amazonaws.com", accountID: "0123456789")
+
+        let userAgent = testUserAgent()
+
+        // E comes from retry mode & T comes from resolving account ID
+        let expectedString = "m/E,T"
+        XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
+    }
+
+    func test_accountIDInEndpoint_hasAccountIDInEndpoint() {
+        configureContext(host: "0123456789.dynamodb.us-east-1.amazonaws.com", accountID: "0123456789")
+
+        let userAgent = testUserAgent()
+
+        // E comes from retry mode, O comes from account ID in endpoint, & T comes from resolving account ID
+        let expectedString = "m/E,O,T"
+        XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
+    }
+
+    // MARK: - AccountIDEndpointMode
+
+    func test_accountIDEndpointMode_recordsPreferredCorrectly() {
+        context.accountIDEndpointMode = .preferred
+
+        let userAgent = testUserAgent()
+
+        // E comes from retry mode & P comes from preferred account ID endpoint mode
+        let expectedString = "m/E,P"
+        XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
+    }
+
+    func test_accountIDEndpointMode_recordsDisabledCorrectly() {
+        context.accountIDEndpointMode = .disabled
+
+        let userAgent = testUserAgent()
+
+        // E comes from retry mode & Q comes from disabled account ID endpoint mode
+        let expectedString = "m/E,Q"
+        XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
+    }
+
+    func test_accountIDEndpointMode_recordsRequiredCorrectly() {
+        context.accountIDEndpointMode = .required
+
+        let userAgent = testUserAgent()
+
+        // E comes from retry mode & R comes from required account ID endpoint mode
+        let expectedString = "m/E,R"
+        XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
+    }
+
+    // MARK: - Private methods
+
+    private func testUserAgent() -> AWSUserAgentMetadata {
+        AWSUserAgentMetadata.fromConfigAndContext(
+            serviceID: "test",
+            version: "1.0",
+            config: config,
+            context: context
+        )
+    }
+
+    private func configureContext(host: String, accountID: String) {
+        let selectedAuthScheme = SelectedAuthScheme(schemeID: "aws.auth#sigv4", identity: AWSCredentialIdentity(accessKey: "abc", secret: "def", accountID: accountID), signingProperties: Attributes(), signer: nil)
+        context.selectedAuthScheme = selectedAuthScheme
+        let uri = URIBuilder().withScheme(.https).withPath("/").withHost(host).build()
+        context.resolvedEndpoint = Endpoint(uri: uri)
     }
 }

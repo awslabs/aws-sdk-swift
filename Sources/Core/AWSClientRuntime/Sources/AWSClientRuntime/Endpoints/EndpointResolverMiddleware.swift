@@ -47,6 +47,9 @@ extension AWSEndpointResolverMiddleware: ApplyEndpoint {
 
         let endpoint = try resolverBlock(paramsBlock(attributes))
 
+        // Put endpoint into context for use in business metrics
+        attributes.resolvedEndpoint = endpoint
+
         var signingName: String?
         var signingAlgorithm: String?
         var signingRegion: String?

@@ -95,12 +95,36 @@ private func setFlagsIntoContext(
     case .adaptive:
         context.businessMetrics = ["RETRY_MODE_ADAPTIVE": "F"]
     }
+
     // Handle N
     if let endpoint = config.endpoint, !endpoint.isEmpty {
         context.businessMetrics = ["ENDPOINT_OVERRIDE": "N"]
     }
+
+    // Handle O
+    if let endpoint = context.resolvedEndpoint, let accountID = context.resolvedAWSAccountID, endpoint.host.contains(accountID) {
+        context.businessMetrics = ["ACCOUNT_ID_ENDPOINT": "O"]
+    }
+
+    // Handle P, Q, R
+    if let accountIDEndpointMode = context.accountIDEndpointMode {
+        switch accountIDEndpointMode {
+        case .preferred:
+            context.businessMetrics = ["ACCOUNT_ID_MODE_PREFERRED": "P"]
+        case .disabled:
+            context.businessMetrics = ["ACCOUNT_ID_MODE_DISABLED": "Q"]
+        case .required:
+            context.businessMetrics = ["ACCOUNT_ID_MODE_REQUIRED": "R"]
+        }
+    }
+
     // Handle S
     if context.selectedAuthScheme?.schemeID == "aws.auth#sigv4a" {
         context.businessMetrics = ["SIGV4A_SIGNING": "S"]
+    }
+
+    // Handle T
+    if context.resolvedAWSAccountID != nil {
+        context.businessMetrics = ["RESOLVED_ACCOUNT_ID": "T"]
     }
 }
