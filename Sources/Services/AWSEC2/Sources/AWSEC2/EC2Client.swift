@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.0.59"
+    public static let version = "1.0.60"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -41721,7 +41721,7 @@ extension EC2Client {
     ///
     /// * The StartDeclarativePoliciesReport API can only be called by the management account or delegated administrators for the organization.
     ///
-    /// * An S3 bucket must be available before generating the report (you can create a new one or use an existing one), and it must have an appropriate bucket policy. For a sample S3 policy, see Sample Amazon S3 policy under .
+    /// * An S3 bucket must be available before generating the report (you can create a new one or use an existing one), it must be in the same Region where the report generation request is made, and it must have an appropriate bucket policy. For a sample S3 policy, see Sample Amazon S3 policy under .
     ///
     /// * Trusted access must be enabled for the service for which the declarative policy will enforce a baseline configuration. If you use the Amazon Web Services Organizations console, this is done automatically when you enable declarative policies. The API uses the following service principal to identify the EC2 service: ec2.amazonaws.com. For more information on how to enable trusted access with the Amazon Web Services CLI and Amazon Web Services SDKs, see [Using Organizations with other Amazon Web Services services](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html) in the Amazon Web Services Organizations User Guide.
     ///

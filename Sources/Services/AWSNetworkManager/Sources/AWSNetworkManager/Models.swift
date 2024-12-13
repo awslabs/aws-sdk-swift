@@ -7066,7 +7066,7 @@ public struct UpdateDirectConnectGatewayAttachmentInput: Swift.Sendable {
     /// The ID of the Direct Connect gateway attachment for the updated edge locations.
     /// This member is required.
     public var attachmentId: Swift.String?
-    /// One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the previous array of locations. EdgeLocations is only used for Direct Connect gateway attachments. Do
+    /// One or more edge locations to update for the Direct Connect gateway attachment. The updated array of edge locations overwrites the previous array of locations. EdgeLocations is only used for Direct Connect gateway attachments.
     public var edgeLocations: [Swift.String]?
 
     public init(

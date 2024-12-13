@@ -587,9 +587,9 @@ extension ServiceDiscoveryClientTypes {
 
 extension ServiceDiscoveryClientTypes {
 
-    /// A complex type that contains information about the Amazon Route 53 DNS records that you want Cloud Map to create when you register an instance. The record types of a service can only be changed by deleting the service and recreating it with a new Dnsconfig.
+    /// A complex type that contains information about the Amazon Route 53 DNS records that you want Cloud Map to create when you register an instance.
     public struct DnsConfig: Swift.Sendable {
-        /// An array that contains one DnsRecord object for each Route 53 DNS record that you want Cloud Map to create when you register an instance.
+        /// An array that contains one DnsRecord object for each Route 53 DNS record that you want Cloud Map to create when you register an instance. The record type of a service specified in a DnsRecord object can't be updated. To change a record type, you need to delete the service and recreate it with a new DnsConfig.
         /// This member is required.
         public var dnsRecords: [ServiceDiscoveryClientTypes.DnsRecord]?
         /// Use NamespaceId in [Service](https://docs.aws.amazon.com/cloud-map/latest/api/API_Service.html) instead. The ID of the namespace to use for DNS configuration.
@@ -1044,6 +1044,29 @@ public struct DeleteServiceInput: Swift.Sendable {
 }
 
 public struct DeleteServiceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteServiceAttributesInput: Swift.Sendable {
+    /// A list of keys corresponding to each attribute that you want to delete.
+    /// This member is required.
+    public var attributes: [Swift.String]?
+    /// The ID of the service from which the attributes will be deleted.
+    /// This member is required.
+    public var serviceId: Swift.String?
+
+    public init(
+        attributes: [Swift.String]? = nil,
+        serviceId: Swift.String? = nil
+    )
+    {
+        self.attributes = attributes
+        self.serviceId = serviceId
+    }
+}
+
+public struct DeleteServiceAttributesOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1879,6 +1902,58 @@ public struct GetServiceOutput: Swift.Sendable {
     )
     {
         self.service = service
+    }
+}
+
+public struct GetServiceAttributesInput: Swift.Sendable {
+    /// The ID of the service that you want to get attributes for.
+    /// This member is required.
+    public var serviceId: Swift.String?
+
+    public init(
+        serviceId: Swift.String? = nil
+    )
+    {
+        self.serviceId = serviceId
+    }
+}
+
+extension ServiceDiscoveryClientTypes {
+
+    /// A complex type that contains information about attributes associated with a specific service.
+    public struct ServiceAttributes: Swift.Sendable {
+        /// A string map that contains the following information for the service that you specify in ServiceArn:
+        ///
+        /// * The attributes that apply to the service.
+        ///
+        /// * For each attribute, the applicable value.
+        ///
+        ///
+        /// You can specify a total of 30 attributes.
+        public var attributes: [Swift.String: Swift.String]?
+        /// The ARN of the service that the attributes are associated with.
+        public var serviceArn: Swift.String?
+
+        public init(
+            attributes: [Swift.String: Swift.String]? = nil,
+            serviceArn: Swift.String? = nil
+        )
+        {
+            self.attributes = attributes
+            self.serviceArn = serviceArn
+        }
+    }
+}
+
+public struct GetServiceAttributesOutput: Swift.Sendable {
+    /// A complex type that contains the service ARN and a list of attribute key-value pairs associated with the service.
+    public var serviceAttributes: ServiceDiscoveryClientTypes.ServiceAttributes?
+
+    public init(
+        serviceAttributes: ServiceDiscoveryClientTypes.ServiceAttributes? = nil
+    )
+    {
+        self.serviceAttributes = serviceAttributes
     }
 }
 
@@ -2865,7 +2940,7 @@ public struct UpdateServiceInput: Swift.Sendable {
     /// The ID of the service that you want to update.
     /// This member is required.
     public var id: Swift.String?
-    /// A complex type that contains the new settings for the service.
+    /// A complex type that contains the new settings for the service. You can specify a maximum of 30 attributes (key-value pairs).
     /// This member is required.
     public var service: ServiceDiscoveryClientTypes.ServiceChange?
 
@@ -2889,6 +2964,53 @@ public struct UpdateServiceOutput: Swift.Sendable {
     {
         self.operationId = operationId
     }
+}
+
+/// The attribute can't be added to the service because you've exceeded the quota for the number of attributes you can add to a service.
+public struct ServiceAttributesLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceAttributesLimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+public struct UpdateServiceAttributesInput: Swift.Sendable {
+    /// A string map that contains attribute key-value pairs.
+    /// This member is required.
+    public var attributes: [Swift.String: Swift.String]?
+    /// The ID of the service that you want to update.
+    /// This member is required.
+    public var serviceId: Swift.String?
+
+    public init(
+        attributes: [Swift.String: Swift.String]? = nil,
+        serviceId: Swift.String? = nil
+    )
+    {
+        self.attributes = attributes
+        self.serviceId = serviceId
+    }
+}
+
+public struct UpdateServiceAttributesOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension CreateHttpNamespaceInput {
@@ -2929,6 +3051,13 @@ extension DeleteNamespaceInput {
 extension DeleteServiceInput {
 
     static func urlPathProvider(_ value: DeleteServiceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteServiceAttributesInput {
+
+    static func urlPathProvider(_ value: DeleteServiceAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2985,6 +3114,13 @@ extension GetOperationInput {
 extension GetServiceInput {
 
     static func urlPathProvider(_ value: GetServiceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetServiceAttributesInput {
+
+    static func urlPathProvider(_ value: GetServiceAttributesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3080,6 +3216,13 @@ extension UpdateServiceInput {
     }
 }
 
+extension UpdateServiceAttributesInput {
+
+    static func urlPathProvider(_ value: UpdateServiceAttributesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateHttpNamespaceInput {
 
     static func write(value: CreateHttpNamespaceInput?, to writer: SmithyJSON.Writer) throws {
@@ -3145,6 +3288,15 @@ extension DeleteServiceInput {
     static func write(value: DeleteServiceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Id"].write(value.id)
+    }
+}
+
+extension DeleteServiceAttributesInput {
+
+    static func write(value: DeleteServiceAttributesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ServiceId"].write(value.serviceId)
     }
 }
 
@@ -3220,6 +3372,14 @@ extension GetServiceInput {
     static func write(value: GetServiceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Id"].write(value.id)
+    }
+}
+
+extension GetServiceAttributesInput {
+
+    static func write(value: GetServiceAttributesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ServiceId"].write(value.serviceId)
     }
 }
 
@@ -3349,6 +3509,15 @@ extension UpdateServiceInput {
     }
 }
 
+extension UpdateServiceAttributesInput {
+
+    static func write(value: UpdateServiceAttributesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ServiceId"].write(value.serviceId)
+    }
+}
+
 extension CreateHttpNamespaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateHttpNamespaceOutput {
@@ -3413,6 +3582,13 @@ extension DeleteServiceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServiceOutput {
         return DeleteServiceOutput()
+    }
+}
+
+extension DeleteServiceAttributesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServiceAttributesOutput {
+        return DeleteServiceAttributesOutput()
     }
 }
 
@@ -3510,6 +3686,18 @@ extension GetServiceOutput {
         let reader = responseReader
         var value = GetServiceOutput()
         value.service = try reader["Service"].readIfPresent(with: ServiceDiscoveryClientTypes.Service.read(from:))
+        return value
+    }
+}
+
+extension GetServiceAttributesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetServiceAttributesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetServiceAttributesOutput()
+        value.serviceAttributes = try reader["ServiceAttributes"].readIfPresent(with: ServiceDiscoveryClientTypes.ServiceAttributes.read(from:))
         return value
     }
 }
@@ -3659,6 +3847,13 @@ extension UpdateServiceOutput {
     }
 }
 
+extension UpdateServiceAttributesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateServiceAttributesOutput {
+        return UpdateServiceAttributesOutput()
+    }
+}
+
 enum CreateHttpNamespaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3758,6 +3953,21 @@ enum DeleteServiceOutputError {
         switch baseError.code {
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ServiceNotFound": return try ServiceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteServiceAttributesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "ServiceNotFound": return try ServiceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3879,6 +4089,21 @@ enum GetOperationOutputError {
 }
 
 enum GetServiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "ServiceNotFound": return try ServiceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetServiceAttributesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4098,6 +4323,22 @@ enum UpdateServiceOutputError {
     }
 }
 
+enum UpdateServiceAttributesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "ServiceAttributesLimitExceededException": return try ServiceAttributesLimitExceededException.makeError(baseError: baseError)
+            case "ServiceNotFound": return try ServiceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension TooManyTagsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
@@ -4278,6 +4519,19 @@ extension CustomHealthNotFound {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CustomHealthNotFound {
         let reader = baseError.errorBodyReader
         var value = CustomHealthNotFound()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceAttributesLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceAttributesLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceAttributesLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4481,6 +4735,17 @@ extension ServiceDiscoveryClientTypes.Operation {
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.targets = try reader["Targets"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ServiceDiscoveryClientTypes.ServiceAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceDiscoveryClientTypes.ServiceAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceDiscoveryClientTypes.ServiceAttributes()
+        value.serviceArn = try reader["ServiceArn"].readIfPresent()
+        value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
