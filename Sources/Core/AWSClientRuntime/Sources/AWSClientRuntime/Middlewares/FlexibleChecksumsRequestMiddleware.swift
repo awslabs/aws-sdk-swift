@@ -35,11 +35,19 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
     }
 
     private func addHeaders(builder: HTTPRequestBuilder, attributes: Context) async throws {
+        // Initialize logger
+        guard let logger = attributes.getLogger() else {
+            throw ClientError.unknownError("No logger found!")
+        }
+
         if case(.stream(let stream)) = builder.body {
             attributes.isChunkedEligibleStream = stream.isEligibleForChunkedStreaming
             if stream.isEligibleForChunkedStreaming {
                 try builder.setAwsChunkedHeaders() // x-amz-decoded-content-length
             }
+        } else if case(.noStream) = builder.body {
+            logger.info("Request body is empty. Skipping request checksum calculation...")
+            return
         }
 
         // E.g., prefix for x-amz-checksum-crc32
@@ -48,11 +56,6 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         if attributes.getFlowType() == .PRESIGN_URL {
             // Skip default request checksum calculation logic for PRESIGN_URL flow.
             return
-        }
-
-        // Initialize logger
-        guard let logger = attributes.getLogger() else {
-            throw ClientError.unknownError("No logger found!")
         }
 
         // Check if any checksum header is already provided by the user
@@ -79,10 +82,12 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 // If requestChecksumRequired == true OR RequestChecksumCalculation == when_supported, use CRC32 as default algorithm.
                 checksumHashFunction = ChecksumAlgorithm.from(string: "crc32")!
                 logger.info("No algorithm chosen by user. Defaulting to CRC32 checksum algorithm.")
-                // If the member specified by `requestAlgorithmMember` has `httpHeader` property set in model,
-                //   set the header specified in `httpHeader` with SDK's default algorithm: crc32
+                // If the input member tied to `requestAlgorithmMember` has `@httpHeader` trait in model,
+                //   manually set the header with the name from `@httpHeader` trait with SDK's default algorithm: CRC32.
+                // This needs to be manually added here because user didn't configure checksumAlgorithm but we're sending default checksum.
+                // If user did set checksumAlgorithm in input, it would've been automatically added to requset as a header in serialize step.
                 if let checksumAlgoHeaderName {
-                    builder.updateHeader(name: checksumAlgoHeaderName, value: "CRC32")
+                    builder.updateHeader(name: checksumAlgoHeaderName, value: "crc32")
                 }
             } else {
                 // If requestChecksumRequired == false AND RequestChecksumCalculation == when_required, skip calculation.
@@ -123,7 +128,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 try await calculateAndAddChecksumHeader(data: streamBytes)
             }
         case .noStream:
-            logger.info("Request body is empty. Skipping request checksum calculation...")
+            break // Unreachable block, but it's here for exhaustive switch case
         }
 
         func calculateAndAddChecksumHeader(data: Data?) async throws {
