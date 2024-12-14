@@ -6,6 +6,8 @@ import SmithyHTTPAPI
 import enum SmithyChecksumsAPI.ChecksumAlgorithm
 import enum SmithyChecksums.ChecksumMismatchException
 import ClientRuntime
+import struct Foundation.NSRange
+import class Foundation.NSRegularExpression
 
 public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, OperationStackOutput> {
 
@@ -39,8 +41,13 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
 
         let checksumHeaderIsPresent = priorityList.first {
             response.headers.value(for: "x-amz-checksum-\($0)") != nil  &&
-            // Checksum of checksums has "-#" at the end and should be ignored.
-            !(response.headers.value(for: "x-amz-checksum-\($0)")!.hasSuffix("-#"))
+            // When retrieving an object uploaded usingn mutipart upload (MPU) and flexible checksum,
+            //   S3 may return the checksum for the whole object (full object checksum)
+            //   or the checksum of checksums (composite checksum).
+            // Composite checksums end in "-#" where # is an integer between 1 and 10000, indicating number of parts the object
+            //   was original uploaded in.
+            // The composite checksum should be ignored.
+            !isCompositeChecksum(response.headers.value(for: "x-amz-checksum-\($0)")!)
         }
 
         guard let checksumHeader = checksumHeaderIsPresent else {
@@ -94,6 +101,14 @@ public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, Operation
             logger.info("Response body is empty. Skipping response checksum validation...")
             return
         }
+    }
+
+    // Returns true if input string ends in "-#" where "#" is an integer between 1 and 10000, inclusive.
+    private func isCompositeChecksum(_ input: String) -> Bool {
+        let regex = "-([1-9][0-9]{0,3}|10000)$"
+        let range = NSRange(input.startIndex..<input.endIndex, in: input)
+        let regexMatch = try? NSRegularExpression(pattern: regex)
+        return regexMatch?.firstMatch(in: input, options: [], range: range) != nil
     }
 }
 

@@ -42,30 +42,11 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             }
         }
 
+        // E.g., prefix for x-amz-checksum-crc32
         let checksumHeaderPrefix = "x-amz-checksum-"
 
-        // If it's a PRESIGN_URL flow, add checksum headers present in the request to the request's query items. If only the algo header was configured in input, it's up to user to add the checksum hash query item along with the matching body when they send request using the presigned URL. If the checksum hash header was configured in input, it's up to user to provide a body whose checksum matches the value of the checksum hash header when they send request using the presigned URL.
         if attributes.getFlowType() == .PRESIGN_URL {
-            let checksumAlgoHeader = builder.headers.headers.first(where: {
-                $0.name.lowercased() == checksumAlgoHeaderName?.lowercased()
-            })
-            if let checksumAlgoHeader {
-                builder.withQueryItem(URIQueryItem(
-                    name: checksumAlgoHeader.name,
-                    value: checksumAlgoHeader.value.first
-                ))
-            }
-            let checksumHeader = builder.headers.headers.first(where: {
-                $0.name.lowercased().starts(with: checksumHeaderPrefix) &&
-                $0.name.lowercased() != checksumAlgoHeaderName?.lowercased()
-            })
-            if let checksumHeader {
-                builder.withQueryItem(URIQueryItem(
-                    name: checksumHeader.name,
-                    value: checksumHeader.value.first
-                ))
-            }
-            // Skip default request checksum calculation logic.
+            // Skip default request checksum calculation logic for PRESIGN_URL flow.
             return
         }
 
@@ -84,26 +65,25 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         }
 
         var checksumHashFunction: ChecksumAlgorithm
-        if let checksumAlgorithm {
+        if let checksumAlgorithm { // If checksum algorithm to use was configured via checksum algorithm input member by the user
             if let hashFunction = ChecksumAlgorithm.from(string: checksumAlgorithm) {
-                // If user chose supported algorithm, continue
+                // If user chose a supported algorithm, continue
                 checksumHashFunction = hashFunction
             } else {
-                // If user chose unsupported algorithm, throw error
+                // If user chose an unsupported algorithm, throw error
                 throw ClientError.invalidValue("Error: Checksum algorithm \(checksumAlgorithm) is not supported!")
             }
         } else {
-            // If user didn't choose an algorithm, then:
+            // If user didn't choose an algorithm via checksum algorithm input member, then:
             if requestChecksumRequired || (attributes.requestChecksumCalculation == .whenSupported) {
                 // If requestChecksumRequired == true OR RequestChecksumCalculation == when_supported, use CRC32 as default algorithm.
                 checksumHashFunction = ChecksumAlgorithm.from(string: "crc32")!
                 logger.info("No algorithm chosen by user. Defaulting to CRC32 checksum algorithm.")
                 // If the member specified by `requestAlgorithmMember` has `httpHeader` property set in model,
                 //   set the header specified in `httpHeader` with SDK's default algorithm: crc32
-                // TODO: UNCOMMENT AFTER FEATURE RELEASE
-//                if let checksumAlgoHeaderName {
-//                    builder.updateHeader(name: checksumAlgoHeaderName, value: "crc32")
-//                }
+                if let checksumAlgoHeaderName {
+                    builder.updateHeader(name: checksumAlgoHeaderName, value: "CRC32")
+                }
             } else {
                 // If requestChecksumRequired == false AND RequestChecksumCalculation == when_required, skip calculation.
                 logger.info("Checksum not required for the operation.")
@@ -129,18 +109,16 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 // Handle calculating and adding checksum header in ChunkedStream
                 builder.updateHeader(name: "x-amz-trailer", value: [checksumHashHeaderName])
             } else {
-                // If not eligible for chunked streaming, calculate and add checksum to request header now
-                //   instead of in a trailing header.
+                // If not eligible for chunked streaming, calculate and add checksum to request header now instead of as a trailing header.
                 let streamBytes: Data?
-                let currentPosition = stream.position
                 if stream.isSeekable {
-                    // Explicit seek to beginning for correct behavior of FileHandle
-                    try stream.seek(toOffset: 0)
-                    streamBytes = try await stream.readToEnd()
-                    try stream.seek(toOffset: currentPosition)
+                    let currentPosition = stream.position // Need to save current position to reset stream position after reading
+                    try stream.seek(toOffset: 0) // Explicit seek to beginning for correct behavior of FileHandle
+                    streamBytes = try stream.readToEnd()
+                    try stream.seek(toOffset: currentPosition) // Reset stream position to where it was before reading it for checksum calculation
                 } else {
                     streamBytes = try await stream.readToEndAsync()
-                    builder.withBody(.data(streamBytes))
+                    builder.withBody(.data(streamBytes)) // Reset request body with streamBytes to "refill" it
                 }
                 try await calculateAndAddChecksumHeader(data: streamBytes)
             }
@@ -154,7 +132,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 return
             }
             if builder.headers.value(for: checksumHashHeaderName) == nil {
-                logger.debug("Calculating checksum")
+                logger.debug("Calculating request checksum")
             }
             // Create checksum instance
             let checksum = checksumHashFunction.createChecksum()
