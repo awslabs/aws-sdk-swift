@@ -15,6 +15,7 @@ env:
 
 jobs:
   codegen-build-with-release-configuration:
+    if: github.repository == 'awslabs/aws-sdk-swift'
     runs-on: macos-14
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
