@@ -4058,14 +4058,22 @@ extension MediaLiveClientTypes {
 
     /// MediaPackage Output Destination Settings
     public struct MediaPackageOutputDestinationSettings: Swift.Sendable {
+        /// Name of the channel group in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
+        public var channelGroup: Swift.String?
         /// ID of the channel in MediaPackage that is the destination for this output group. You do not need to specify the individual inputs in MediaPackage; MediaLive will handle the connection of the two MediaLive pipelines to the two MediaPackage inputs. The MediaPackage channel and MediaLive channel must be in the same region.
         public var channelId: Swift.String?
+        /// Name of the channel in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
+        public var channelName: Swift.String?
 
         public init(
-            channelId: Swift.String? = nil
+            channelGroup: Swift.String? = nil,
+            channelId: Swift.String? = nil,
+            channelName: Swift.String? = nil
         )
         {
+            self.channelGroup = channelGroup
             self.channelId = channelId
+            self.channelName = channelName
         }
     }
 }
@@ -9868,7 +9876,7 @@ extension MediaLiveClientTypes {
         public var audioRenditionSets: Swift.String?
         /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
         public var nielsenId3Behavior: MediaLiveClientTypes.Fmp4NielsenId3Behavior?
-        /// When set to passthrough, timed metadata is passed through from input to output.
+        /// Set to PASSTHROUGH to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group or individual outputs, or you add an ID3 action to the channel schedule.
         public var timedMetadataBehavior: MediaLiveClientTypes.Fmp4TimedMetadataBehavior?
 
         public init(
@@ -10077,7 +10085,7 @@ extension MediaLiveClientTypes {
         public var scte35Behavior: MediaLiveClientTypes.M3u8Scte35Behavior?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream. Can be entered as a decimal or hexadecimal value.
         public var scte35Pid: Swift.String?
-        /// When set to passthrough, timed metadata is passed through from input to output.
+        /// Set to PASSTHROUGH to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group or individual outputs, or you add an ID3 action to the channel schedule.
         public var timedMetadataBehavior: MediaLiveClientTypes.M3u8TimedMetadataBehavior?
         /// Packet Identifier (PID) of the timed metadata stream in the transport stream. Can be entered as a decimal or hexadecimal value. Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public var timedMetadataPid: Swift.String?
@@ -10795,6 +10803,36 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Cmaf KLVBehavior
+    public enum CmafKLVBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noPassthrough
+        case passthrough
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafKLVBehavior] {
+            return [
+                .noPassthrough,
+                .passthrough
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noPassthrough: return "NO_PASSTHROUGH"
+            case .passthrough: return "PASSTHROUGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Cmaf Nielsen Id3 Behavior
     public enum CmafNielsenId3Behavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case noPassthrough
@@ -10890,8 +10928,16 @@ extension MediaLiveClientTypes {
         /// A HTTP destination for the tracks
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
+        /// If set to passthrough, passes any KLV data from the input source to this output.
+        public var klvBehavior: MediaLiveClientTypes.CmafKLVBehavior?
+        /// Change the modifier that MediaLive automatically adds to the Streams() name that identifies a KLV track. The default is "klv", which means the default name will be Streams(klv.cmfm). Any string you enter here will replace the "klv" string.\nThe modifier can only contain: numbers, letters, plus (+), minus (-), underscore (_) and period (.) and has a maximum length of 100 characters.
+        public var klvNameModifier: Swift.String?
         /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
         public var nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior?
+        /// Change the modifier that MediaLive automatically adds to the Streams() name that identifies a Nielsen ID3 track. The default is "nid3", which means the default name will be Streams(nid3.cmfm). Any string you enter here will replace the "nid3" string.\nThe modifier can only contain: numbers, letters, plus (+), minus (-), underscore (_) and period (.) and has a maximum length of 100 characters.
+        public var nielsenId3NameModifier: Swift.String?
+        /// Change the modifier that MediaLive automatically adds to the Streams() name for a SCTE 35 track. The default is "scte", which means the default name will be Streams(scte.cmfm). Any string you enter here will replace the "scte" string.\nThe modifier can only contain: numbers, letters, plus (+), minus (-), underscore (_) and period (.) and has a maximum length of 100 characters.
+        public var scte35NameModifier: Swift.String?
         /// Type of scte35 track to add. none or scte35WithoutSegmentation
         public var scte35Type: MediaLiveClientTypes.Scte35Type?
         /// The nominal duration of segments. The units are specified in SegmentLengthUnits. The segments will end on the next keyframe after the specified duration, so the actual segment length might be longer, and it might be a fraction of the units.
@@ -10903,7 +10949,11 @@ extension MediaLiveClientTypes {
 
         public init(
             destination: MediaLiveClientTypes.OutputLocationRef? = nil,
+            klvBehavior: MediaLiveClientTypes.CmafKLVBehavior? = nil,
+            klvNameModifier: Swift.String? = nil,
             nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior? = nil,
+            nielsenId3NameModifier: Swift.String? = nil,
+            scte35NameModifier: Swift.String? = nil,
             scte35Type: MediaLiveClientTypes.Scte35Type? = nil,
             segmentLength: Swift.Int? = nil,
             segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits? = nil,
@@ -10911,7 +10961,11 @@ extension MediaLiveClientTypes {
         )
         {
             self.destination = destination
+            self.klvBehavior = klvBehavior
+            self.klvNameModifier = klvNameModifier
             self.nielsenId3Behavior = nielsenId3Behavior
+            self.nielsenId3NameModifier = nielsenId3NameModifier
+            self.scte35NameModifier = scte35NameModifier
             self.scte35Type = scte35Type
             self.segmentLength = segmentLength
             self.segmentLengthUnits = segmentLengthUnits
@@ -13281,11 +13335,11 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
-    /// Settings for the action to insert a user-defined ID3 tag in each HLS segment
+    /// Settings for the action to insert ID3 metadata in every segment, in HLS output groups.
     public struct HlsId3SegmentTaggingScheduleActionSettings: Swift.Sendable {
-        /// Base64 string formatted according to the ID3 specification: http://id3.org/id3v2.4.0-structure
+        /// Complete this parameter if you want to specify the entire ID3 metadata. Enter a base64 string that contains one or more fully formed ID3 tags, according to the ID3 specification: http://id3.org/id3v2.4.0-structure
         public var id3: Swift.String?
-        /// ID3 tag to insert into each segment. Supports special keyword identifiers to substitute in segment-related values.\nSupported keyword identifiers: https://docs.aws.amazon.com/medialive/latest/ug/variable-data-identifiers.html
+        /// Complete this parameter if you want to specify only the metadata, not the entire frame. MediaLive will insert the metadata in a TXXX frame. Enter the value as plain text. You can include standard MediaLive variable data such as the current segment number.
         public var tag: Swift.String?
 
         public init(
@@ -13301,9 +13355,9 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
-    /// Settings for the action to emit HLS metadata
+    /// Settings for the action to insert ID3 metadata (as a one-time action) in HLS output groups.
     public struct HlsTimedMetadataScheduleActionSettings: Swift.Sendable {
-        /// Base64 string formatted according to the ID3 specification: http://id3.org/id3v2.4.0-structure
+        /// Enter a base64 string that contains one or more fully formed ID3 tags.See the ID3 specification: http://id3.org/id3v2.4.0-structure
         /// This member is required.
         public var id3: Swift.String?
 
@@ -14085,9 +14139,9 @@ extension MediaLiveClientTypes {
 
     /// Holds the settings for a single schedule action.
     public struct ScheduleActionSettings: Swift.Sendable {
-        /// Action to insert HLS ID3 segment tagging
+        /// Action to insert ID3 metadata in every segment, in HLS output groups
         public var hlsId3SegmentTaggingSettings: MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings?
-        /// Action to insert HLS metadata
+        /// Action to insert ID3 metadata once, in HLS output groups
         public var hlsTimedMetadataSettings: MediaLiveClientTypes.HlsTimedMetadataScheduleActionSettings?
         /// Action to prepare an input for a future immediate input switch
         public var inputPrepareSettings: MediaLiveClientTypes.InputPrepareScheduleActionSettings?
@@ -35223,7 +35277,11 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
     static func write(value: MediaLiveClientTypes.CmafIngestGroupSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
+        try writer["klvBehavior"].write(value.klvBehavior)
+        try writer["klvNameModifier"].write(value.klvNameModifier)
         try writer["nielsenId3Behavior"].write(value.nielsenId3Behavior)
+        try writer["nielsenId3NameModifier"].write(value.nielsenId3NameModifier)
+        try writer["scte35NameModifier"].write(value.scte35NameModifier)
         try writer["scte35Type"].write(value.scte35Type)
         try writer["segmentLength"].write(value.segmentLength)
         try writer["segmentLengthUnits"].write(value.segmentLengthUnits)
@@ -35239,6 +35297,10 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
         value.segmentLength = try reader["segmentLength"].readIfPresent()
         value.segmentLengthUnits = try reader["segmentLengthUnits"].readIfPresent()
         value.sendDelayMs = try reader["sendDelayMs"].readIfPresent()
+        value.klvBehavior = try reader["klvBehavior"].readIfPresent()
+        value.klvNameModifier = try reader["klvNameModifier"].readIfPresent()
+        value.nielsenId3NameModifier = try reader["nielsenId3NameModifier"].readIfPresent()
+        value.scte35NameModifier = try reader["scte35NameModifier"].readIfPresent()
         return value
     }
 }
@@ -36875,13 +36937,17 @@ extension MediaLiveClientTypes.MediaPackageOutputDestinationSettings {
 
     static func write(value: MediaLiveClientTypes.MediaPackageOutputDestinationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["channelGroup"].write(value.channelGroup)
         try writer["channelId"].write(value.channelId)
+        try writer["channelName"].write(value.channelName)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageOutputDestinationSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.MediaPackageOutputDestinationSettings()
         value.channelId = try reader["channelId"].readIfPresent()
+        value.channelGroup = try reader["channelGroup"].readIfPresent()
+        value.channelName = try reader["channelName"].readIfPresent()
         return value
     }
 }

@@ -7605,6 +7605,7 @@ extension RDSClientTypes {
 extension RDSClientTypes {
 
     public enum ClientPasswordAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mysqlCachingSha2Password
         case mysqlNativePassword
         case postgresMd5
         case postgresScramSha256
@@ -7613,6 +7614,7 @@ extension RDSClientTypes {
 
         public static var allCases: [ClientPasswordAuthType] {
             return [
+                .mysqlCachingSha2Password,
                 .mysqlNativePassword,
                 .postgresMd5,
                 .postgresScramSha256,
@@ -7627,6 +7629,7 @@ extension RDSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .mysqlCachingSha2Password: return "MYSQL_CACHING_SHA2_PASSWORD"
             case .mysqlNativePassword: return "MYSQL_NATIVE_PASSWORD"
             case .postgresMd5: return "POSTGRES_MD5"
             case .postgresScramSha256: return "POSTGRES_SCRAM_SHA_256"
