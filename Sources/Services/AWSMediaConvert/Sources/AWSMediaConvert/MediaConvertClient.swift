@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaConvertClient: ClientRuntime.Client {
     public static let clientName = "MediaConvertClient"
-    public static let version = "1.0.59"
+    public static let version = "1.0.60"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaConvertClient.MediaConvertClientConfiguration
     let serviceName = "MediaConvert"
