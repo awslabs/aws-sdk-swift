@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GreengrassV2Client: ClientRuntime.Client {
     public static let clientName = "GreengrassV2Client"
-    public static let version = "1.0.60"
+    public static let version = "1.0.61"
     let client: ClientRuntime.SdkHttpClient
     let config: GreengrassV2Client.GreengrassV2ClientConfiguration
     let serviceName = "GreengrassV2"
@@ -1771,7 +1771,9 @@ extension GreengrassV2Client {
     ///
     /// * When the core device receives a deployment from the Amazon Web Services Cloud
     ///
-    /// * When the status of any component on the core device becomes BROKEN
+    /// * For Greengrass nucleus 2.12.2 and earlier, the core device sends status updates when the status of any component on the core device becomes ERRORED or BROKEN.
+    ///
+    /// * For Greengrass nucleus 2.12.3 and later, the core device sends status updates when the status of any component on the core device becomes ERRORED, BROKEN, RUNNING, or FINISHED.
     ///
     /// * At a [regular interval that you can configure](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss), which defaults to 24 hours
     ///
