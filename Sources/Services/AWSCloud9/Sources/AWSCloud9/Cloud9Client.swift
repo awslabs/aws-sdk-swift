@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Cloud9Client: ClientRuntime.Client {
     public static let clientName = "Cloud9Client"
-    public static let version = "1.0.59"
+    public static let version = "1.0.61"
     let client: ClientRuntime.SdkHttpClient
     let config: Cloud9Client.Cloud9ClientConfiguration
     let serviceName = "Cloud9"
@@ -331,7 +331,7 @@ extension Cloud9Client {
 extension Cloud9Client {
     /// Performs the `CreateEnvironmentEC2` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.
+    /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter CreateEnvironmentEC2Input : [no documentation found]
     ///
@@ -407,7 +407,7 @@ extension Cloud9Client {
 
     /// Performs the `CreateEnvironmentMembership` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Adds an environment member to an Cloud9 development environment.
+    /// Adds an environment member to an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter CreateEnvironmentMembershipInput : [no documentation found]
     ///
@@ -483,7 +483,7 @@ extension Cloud9Client {
 
     /// Performs the `DeleteEnvironment` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.
+    /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter DeleteEnvironmentInput : [no documentation found]
     ///
@@ -559,7 +559,7 @@ extension Cloud9Client {
 
     /// Performs the `DeleteEnvironmentMembership` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Deletes an environment member from a development environment.
+    /// Deletes an environment member from a development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter DeleteEnvironmentMembershipInput : [no documentation found]
     ///
@@ -635,7 +635,7 @@ extension Cloud9Client {
 
     /// Performs the `DescribeEnvironmentMemberships` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Gets information about environment members for an Cloud9 development environment.
+    /// Gets information about environment members for an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter DescribeEnvironmentMembershipsInput : [no documentation found]
     ///
@@ -711,7 +711,7 @@ extension Cloud9Client {
 
     /// Performs the `DescribeEnvironmentStatus` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Gets status information for an Cloud9 development environment.
+    /// Gets status information for an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter DescribeEnvironmentStatusInput : [no documentation found]
     ///
@@ -787,7 +787,7 @@ extension Cloud9Client {
 
     /// Performs the `DescribeEnvironments` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Gets information about Cloud9 development environments.
+    /// Gets information about Cloud9 development environments. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter DescribeEnvironmentsInput : [no documentation found]
     ///
@@ -863,7 +863,7 @@ extension Cloud9Client {
 
     /// Performs the `ListEnvironments` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Gets a list of Cloud9 development environment identifiers.
+    /// Gets a list of Cloud9 development environment identifiers. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/) Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter ListEnvironmentsInput : [no documentation found]
     ///
@@ -939,7 +939,7 @@ extension Cloud9Client {
 
     /// Performs the `ListTagsForResource` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Gets a list of the tags associated with an Cloud9 development environment.
+    /// Gets a list of the tags associated with an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -1011,7 +1011,7 @@ extension Cloud9Client {
 
     /// Performs the `TagResource` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Adds tags to an Cloud9 development environment. Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
+    /// Adds tags to an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/) Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -1084,7 +1084,7 @@ extension Cloud9Client {
 
     /// Performs the `UntagResource` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Removes tags from an Cloud9 development environment.
+    /// Removes tags from an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -1157,7 +1157,7 @@ extension Cloud9Client {
 
     /// Performs the `UpdateEnvironment` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Changes the settings of an existing Cloud9 development environment.
+    /// Changes the settings of an existing Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter UpdateEnvironmentInput : [no documentation found]
     ///
@@ -1233,7 +1233,7 @@ extension Cloud9Client {
 
     /// Performs the `UpdateEnvironmentMembership` operation on the `AWSCloud9WorkspaceManagementService` service.
     ///
-    /// Changes the settings of an existing environment member for an Cloud9 development environment.
+    /// Changes the settings of an existing environment member for an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
     /// - Parameter UpdateEnvironmentMembershipInput : [no documentation found]
     ///

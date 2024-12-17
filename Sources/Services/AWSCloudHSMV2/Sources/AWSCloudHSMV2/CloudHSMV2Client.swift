@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudHSMV2Client: ClientRuntime.Client {
     public static let clientName = "CloudHSMV2Client"
-    public static let version = "1.0.59"
+    public static let version = "1.0.61"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudHSMV2Client.CloudHSMV2ClientConfiguration
     let serviceName = "CloudHSM V2"
@@ -1537,6 +1537,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmAccessDeniedException` : The request was rejected because the requester does not have permission to perform the requested operation.
     /// - `CloudHsmInternalFailureException` : The request was rejected because of an CloudHSM internal failure. The request can be retried.
     /// - `CloudHsmInvalidRequestException` : The request was rejected because it is not a valid request.
+    /// - `CloudHsmResourceLimitExceededException` : The request was rejected because it exceeds an CloudHSM limit.
     /// - `CloudHsmResourceNotFoundException` : The request was rejected because it refers to a resource that cannot be found.
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.

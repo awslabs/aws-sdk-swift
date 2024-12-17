@@ -122,6 +122,7 @@ extension ListCoreDevicesInput: ClientRuntime.PaginateToken {
         return ListCoreDevicesInput(
             maxResults: self.maxResults,
             nextToken: token,
+            runtime: self.runtime,
             status: self.status,
             thingGroupArn: self.thingGroupArn
         )}
