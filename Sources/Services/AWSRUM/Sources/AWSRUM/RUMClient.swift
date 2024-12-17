@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RUMClient: ClientRuntime.Client {
     public static let clientName = "RUMClient"
-    public static let version = "1.0.59"
+    public static let version = "1.0.62"
     let client: ClientRuntime.SdkHttpClient
     let config: RUMClient.RUMClientConfiguration
     let serviceName = "RUM"

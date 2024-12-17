@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceDiscoveryClient: ClientRuntime.Client {
     public static let clientName = "ServiceDiscoveryClient"
-    public static let version = "1.0.59"
+    public static let version = "1.0.62"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceDiscoveryClient.ServiceDiscoveryClientConfiguration
     let serviceName = "ServiceDiscovery"
@@ -725,7 +725,7 @@ extension ServiceDiscoveryClient {
 
     /// Performs the `DeleteService` operation on the `Route53AutoNaming_v20170314` service.
     ///
-    /// Deletes a specified service. If the service still contains one or more registered instances, the request fails.
+    /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the request fails.
     ///
     /// - Parameter DeleteServiceInput : [no documentation found]
     ///
@@ -783,6 +783,77 @@ extension ServiceDiscoveryClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceDiscovery")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteService")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteServiceAttributes` operation on the `Route53AutoNaming_v20170314` service.
+    ///
+    /// Deletes specific attributes associated with a service.
+    ///
+    /// - Parameter DeleteServiceAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceAttributesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
+    /// - `ServiceNotFound` : No service exists with the specified ID.
+    public func deleteServiceAttributes(input: DeleteServiceAttributesInput) async throws -> DeleteServiceAttributesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteServiceAttributes")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "servicediscovery")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteServiceAttributesInput, DeleteServiceAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteServiceAttributesInput, DeleteServiceAttributesOutput>(DeleteServiceAttributesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceAttributesInput, DeleteServiceAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceAttributesInput, DeleteServiceAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceAttributesOutput>(DeleteServiceAttributesOutput.httpOutput(from:), DeleteServiceAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceAttributesInput, DeleteServiceAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceAttributesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<DeleteServiceAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteServiceAttributesInput, DeleteServiceAttributesOutput>(serviceID: serviceName, version: ServiceDiscoveryClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteServiceAttributesInput, DeleteServiceAttributesOutput>(xAmzTarget: "Route53AutoNaming_v20170314.DeleteServiceAttributes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteServiceAttributesInput, DeleteServiceAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteServiceAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteServiceAttributesInput, DeleteServiceAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteServiceAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteServiceAttributesInput, DeleteServiceAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteServiceAttributesInput, DeleteServiceAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceDiscovery")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteServiceAttributes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1360,6 +1431,77 @@ extension ServiceDiscoveryClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceDiscovery")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetService")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetServiceAttributes` operation on the `Route53AutoNaming_v20170314` service.
+    ///
+    /// Returns the attributes associated with a specified service.
+    ///
+    /// - Parameter GetServiceAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceAttributesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
+    /// - `ServiceNotFound` : No service exists with the specified ID.
+    public func getServiceAttributes(input: GetServiceAttributesInput) async throws -> GetServiceAttributesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getServiceAttributes")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "servicediscovery")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetServiceAttributesInput, GetServiceAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceAttributesInput, GetServiceAttributesOutput>(GetServiceAttributesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceAttributesInput, GetServiceAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceAttributesInput, GetServiceAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceAttributesOutput>(GetServiceAttributesOutput.httpOutput(from:), GetServiceAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceAttributesInput, GetServiceAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceAttributesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetServiceAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetServiceAttributesInput, GetServiceAttributesOutput>(serviceID: serviceName, version: ServiceDiscoveryClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetServiceAttributesInput, GetServiceAttributesOutput>(xAmzTarget: "Route53AutoNaming_v20170314.GetServiceAttributes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetServiceAttributesInput, GetServiceAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetServiceAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetServiceAttributesInput, GetServiceAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceAttributesInput, GetServiceAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetServiceAttributesInput, GetServiceAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceDiscovery")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetServiceAttributes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2329,6 +2471,78 @@ extension ServiceDiscoveryClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceDiscovery")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateService")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateServiceAttributes` operation on the `Route53AutoNaming_v20170314` service.
+    ///
+    /// Submits a request to update a specified service to add service-level attributes.
+    ///
+    /// - Parameter UpdateServiceAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceAttributesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
+    /// - `ServiceAttributesLimitExceededException` : The attribute can't be added to the service because you've exceeded the quota for the number of attributes you can add to a service.
+    /// - `ServiceNotFound` : No service exists with the specified ID.
+    public func updateServiceAttributes(input: UpdateServiceAttributesInput) async throws -> UpdateServiceAttributesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateServiceAttributes")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "servicediscovery")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateServiceAttributesInput, UpdateServiceAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateServiceAttributesInput, UpdateServiceAttributesOutput>(UpdateServiceAttributesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateServiceAttributesInput, UpdateServiceAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceAttributesInput, UpdateServiceAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceAttributesOutput>(UpdateServiceAttributesOutput.httpOutput(from:), UpdateServiceAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceAttributesInput, UpdateServiceAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceAttributesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateServiceAttributesOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateServiceAttributesInput, UpdateServiceAttributesOutput>(serviceID: serviceName, version: ServiceDiscoveryClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateServiceAttributesInput, UpdateServiceAttributesOutput>(xAmzTarget: "Route53AutoNaming_v20170314.UpdateServiceAttributes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateServiceAttributesInput, UpdateServiceAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateServiceAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateServiceAttributesInput, UpdateServiceAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateServiceAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateServiceAttributesInput, UpdateServiceAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateServiceAttributesInput, UpdateServiceAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceDiscovery")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateServiceAttributes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

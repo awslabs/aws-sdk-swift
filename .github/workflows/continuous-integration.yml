@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
   workflow_dispatch:
 
@@ -9,6 +11,7 @@ env:
 
 jobs:
   apple:
+    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -132,6 +135,7 @@ jobs:
           cd ..
 
   linux:
+    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:
