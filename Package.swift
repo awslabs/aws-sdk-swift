@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.102.0"
+let clientRuntimeVersion: Version = "0.103.0"
 let crtVersion: Version = "0.41.0"
 
 let excludeRuntimeUnitTests = false
@@ -58,6 +58,7 @@ let serviceTargets: [String] = [
     "AWSBCMPricingCalculator",
     "AWSBackup",
     "AWSBackupGateway",
+    "AWSBackupSearch",
     "AWSBatch",
     "AWSBedrock",
     "AWSBedrockAgent",

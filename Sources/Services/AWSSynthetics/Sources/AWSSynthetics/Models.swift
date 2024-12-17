@@ -575,6 +575,8 @@ extension SyntheticsClientTypes {
 
     /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
     public struct VpcConfigOutput: Swift.Sendable {
+        /// Indicates whether this canary allows outbound IPv6 traffic if it is connected to dual-stack subnets.
+        public var ipv6AllowedForDualStack: Swift.Bool?
         /// The IDs of the security groups for this canary.
         public var securityGroupIds: [Swift.String]?
         /// The IDs of the subnets where this canary is to run.
@@ -583,11 +585,13 @@ extension SyntheticsClientTypes {
         public var vpcId: Swift.String?
 
         public init(
+            ipv6AllowedForDualStack: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
         )
         {
+            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -976,16 +980,20 @@ extension SyntheticsClientTypes {
 
     /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
     public struct VpcConfigInput: Swift.Sendable {
+        /// Set this to true to allow outbound IPv6 traffic on VPC canaries that are connected to dual-stack subnets. The default is false
+        public var ipv6AllowedForDualStack: Swift.Bool?
         /// The IDs of the security groups for this canary.
         public var securityGroupIds: [Swift.String]?
         /// The IDs of the subnets where this canary is to run.
         public var subnetIds: [Swift.String]?
 
         public init(
+            ipv6AllowedForDualStack: Swift.Bool? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         )
         {
+            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1748,7 +1756,7 @@ extension SyntheticsClientTypes {
 
     /// An object that specifies what screenshots to use as a baseline for visual monitoring by this canary. It can optionally also specify parts of the screenshots to ignore during the visual monitoring comparison. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see [ Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [ Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
     public struct VisualReferenceInput: Swift.Sendable {
-        /// Specifies which canary run to use the screenshots from as the baseline for future visual monitoring with this canary. Valid values are nextrun to use the screenshots from the next run after this update is made, lastrun to use the screenshots from the most recent run before this update was made, or the value of Id in the [ CanaryRun](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRun.html) from any past run of this canary.
+        /// Specifies which canary run to use the screenshots from as the baseline for future visual monitoring with this canary. Valid values are nextrun to use the screenshots from the next run after this update is made, lastrun to use the screenshots from the most recent run before this update was made, or the value of Id in the [ CanaryRun](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRun.html) from a run of this a canary in the past 31 days. If you specify the Id of a canary run older than 31 days, the operation returns a 400 validation exception error..
         /// This member is required.
         public var baseCanaryRunId: Swift.String?
         /// An array of screenshots that will be used as the baseline for visual monitoring in future runs of this canary. If there is a screenshot that you don't want to be used for visual monitoring, remove it from this array.
@@ -2986,6 +2994,7 @@ extension SyntheticsClientTypes.VpcConfigOutput {
         value.vpcId = try reader["VpcId"].readIfPresent()
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipv6AllowedForDualStack = try reader["Ipv6AllowedForDualStack"].readIfPresent()
         return value
     }
 }
@@ -3173,6 +3182,7 @@ extension SyntheticsClientTypes.VpcConfigInput {
 
     static func write(value: SyntheticsClientTypes.VpcConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Ipv6AllowedForDualStack"].write(value.ipv6AllowedForDualStack)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

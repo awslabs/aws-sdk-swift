@@ -573,6 +573,26 @@ extension BackupClientTypes {
 
 extension BackupClientTypes {
 
+    /// This is an optional array within a BackupRule. IndexAction consists of one ResourceTypes.
+    public struct IndexAction: Swift.Sendable {
+        /// 0 or 1 index action will be accepted for each BackupRule. Valid values:
+        ///
+        /// * EBS for Amazon Elastic Block Store
+        ///
+        /// * S3 for Amazon Simple Storage Service (Amazon S3)
+        public var resourceTypes: [Swift.String]?
+
+        public init(
+            resourceTypes: [Swift.String]? = nil
+        )
+        {
+            self.resourceTypes = resourceTypes
+        }
+    }
+}
+
+extension BackupClientTypes {
+
     /// Specifies a scheduled task used to back up a selection of resources.
     public struct BackupRule: Swift.Sendable {
         /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by Backup. This value is optional.
@@ -581,6 +601,8 @@ extension BackupClientTypes {
         public var copyActions: [BackupClientTypes.CopyAction]?
         /// Specifies whether Backup creates continuous backups. True causes Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes Backup to create snapshot backups.
         public var enableContinuousBackup: Swift.Bool?
+        /// IndexActions is an array you use to specify how backup data should be indexed. eEach BackupRule can have 0 or 1 IndexAction, as each backup can have up to one index associated with it. Within the array is ResourceType. Only one will be accepted for each BackupRule.
+        public var indexActions: [BackupClientTypes.IndexAction]?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types.
         public var lifecycle: BackupClientTypes.Lifecycle?
         /// The tags that are assigned to resources that are associated with this rule when restored from backup.
@@ -604,6 +626,7 @@ extension BackupClientTypes {
             completionWindowMinutes: Swift.Int? = nil,
             copyActions: [BackupClientTypes.CopyAction]? = nil,
             enableContinuousBackup: Swift.Bool? = nil,
+            indexActions: [BackupClientTypes.IndexAction]? = nil,
             lifecycle: BackupClientTypes.Lifecycle? = nil,
             recoveryPointTags: [Swift.String: Swift.String]? = nil,
             ruleId: Swift.String? = nil,
@@ -617,6 +640,7 @@ extension BackupClientTypes {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
+            self.indexActions = indexActions
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleId = ruleId
@@ -631,7 +655,7 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.BackupRule: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BackupRule(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), lifecycle: \(Swift.String(describing: lifecycle)), ruleId: \(Swift.String(describing: ruleId)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "BackupRule(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), indexActions: \(Swift.String(describing: indexActions)), lifecycle: \(Swift.String(describing: lifecycle)), ruleId: \(Swift.String(describing: ruleId)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -670,6 +694,12 @@ extension BackupClientTypes {
         public var copyActions: [BackupClientTypes.CopyAction]?
         /// Specifies whether Backup creates continuous backups. True causes Backup to create continuous backups capable of point-in-time restore (PITR). False (or not specified) causes Backup to create snapshot backups.
         public var enableContinuousBackup: Swift.Bool?
+        /// There can up to one IndexAction in each BackupRule, as each backup can have 0 or 1 backup index associated with it. Within the array is ResourceTypes. Only 1 resource type will be accepted for each BackupRule. Valid values:
+        ///
+        /// * EBS for Amazon Elastic Block Store
+        ///
+        /// * S3 for Amazon Simple Storage Service (Amazon S3)
+        public var indexActions: [BackupClientTypes.IndexAction]?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold storage. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
         public var lifecycle: BackupClientTypes.Lifecycle?
         /// The tags to assign to the resources.
@@ -691,6 +721,7 @@ extension BackupClientTypes {
             completionWindowMinutes: Swift.Int? = nil,
             copyActions: [BackupClientTypes.CopyAction]? = nil,
             enableContinuousBackup: Swift.Bool? = nil,
+            indexActions: [BackupClientTypes.IndexAction]? = nil,
             lifecycle: BackupClientTypes.Lifecycle? = nil,
             recoveryPointTags: [Swift.String: Swift.String]? = nil,
             ruleName: Swift.String? = nil,
@@ -703,6 +734,7 @@ extension BackupClientTypes {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
+            self.indexActions = indexActions
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleName = ruleName
@@ -716,7 +748,7 @@ extension BackupClientTypes {
 
 extension BackupClientTypes.BackupRuleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BackupRuleInput(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), lifecycle: \(Swift.String(describing: lifecycle)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "BackupRuleInput(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), indexActions: \(Swift.String(describing: indexActions)), lifecycle: \(Swift.String(describing: lifecycle)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -3293,6 +3325,41 @@ public struct DescribeRecoveryPointInput: Swift.Sendable {
 
 extension BackupClientTypes {
 
+    public enum IndexStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleting
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IndexStatus] {
+            return [
+                .active,
+                .deleting,
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
     public enum RecoveryPointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case deleting
@@ -3379,6 +3446,10 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
     public var encryptionKeyArn: Swift.String?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     public var iamRoleArn: Swift.String?
+    /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING A recovery point with an index that has the status of ACTIVE can be included in a search.
+    public var indexStatus: BackupClientTypes.IndexStatus?
+    /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
+    public var indexStatusMessage: Swift.String?
     /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
     public var isEncrypted: Swift.Bool
     /// This returns the boolean value that a recovery point is a parent (composite) job.
@@ -3419,6 +3490,8 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         encryptionKeyArn: Swift.String? = nil,
         iamRoleArn: Swift.String? = nil,
+        indexStatus: BackupClientTypes.IndexStatus? = nil,
+        indexStatusMessage: Swift.String? = nil,
         isEncrypted: Swift.Bool = false,
         isParent: Swift.Bool = false,
         lastRestoreTime: Foundation.Date? = nil,
@@ -3445,6 +3518,8 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
         self.creationDate = creationDate
         self.encryptionKeyArn = encryptionKeyArn
         self.iamRoleArn = iamRoleArn
+        self.indexStatus = indexStatus
+        self.indexStatusMessage = indexStatusMessage
         self.isEncrypted = isEncrypted
         self.isParent = isParent
         self.lastRestoreTime = lastRestoreTime
@@ -4209,6 +4284,68 @@ public struct GetLegalHoldOutput: Swift.Sendable {
         self.retainRecordUntil = retainRecordUntil
         self.status = status
         self.title = title
+    }
+}
+
+public struct GetRecoveryPointIndexDetailsInput: Swift.Sendable {
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        recoveryPointArn: Swift.String? = nil
+    )
+    {
+        self.backupVaultName = backupVaultName
+        self.recoveryPointArn = recoveryPointArn
+    }
+}
+
+public struct GetRecoveryPointIndexDetailsOutput: Swift.Sendable {
+    /// An ARN that uniquely identifies the backup vault where the recovery point index is stored. For example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
+    public var backupVaultArn: Swift.String?
+    /// The date and time that a backup index finished creation, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    public var indexCompletionDate: Foundation.Date?
+    /// The date and time that a backup index was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    public var indexCreationDate: Foundation.Date?
+    /// The date and time that a backup index was deleted, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+    public var indexDeletionDate: Foundation.Date?
+    /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING A recovery point with an index that has the status of ACTIVE can be included in a search.
+    public var indexStatus: BackupClientTypes.IndexStatus?
+    /// A detailed message explaining the status of a backup index associated with the recovery point.
+    public var indexStatusMessage: Swift.String?
+    /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    public var recoveryPointArn: Swift.String?
+    /// A string of the Amazon Resource Name (ARN) that uniquely identifies the source resource.
+    public var sourceResourceArn: Swift.String?
+    /// Count of items within the backup index associated with the recovery point.
+    public var totalItemsIndexed: Swift.Int?
+
+    public init(
+        backupVaultArn: Swift.String? = nil,
+        indexCompletionDate: Foundation.Date? = nil,
+        indexCreationDate: Foundation.Date? = nil,
+        indexDeletionDate: Foundation.Date? = nil,
+        indexStatus: BackupClientTypes.IndexStatus? = nil,
+        indexStatusMessage: Swift.String? = nil,
+        recoveryPointArn: Swift.String? = nil,
+        sourceResourceArn: Swift.String? = nil,
+        totalItemsIndexed: Swift.Int? = nil
+    )
+    {
+        self.backupVaultArn = backupVaultArn
+        self.indexCompletionDate = indexCompletionDate
+        self.indexCreationDate = indexCreationDate
+        self.indexDeletionDate = indexDeletionDate
+        self.indexStatus = indexStatus
+        self.indexStatusMessage = indexStatusMessage
+        self.recoveryPointArn = recoveryPointArn
+        self.sourceResourceArn = sourceResourceArn
+        self.totalItemsIndexed = totalItemsIndexed
     }
 }
 
@@ -5154,6 +5291,114 @@ public struct ListFrameworksOutput: Swift.Sendable {
     }
 }
 
+public struct ListIndexedRecoveryPointsInput: Swift.Sendable {
+    /// Returns only indexed recovery points that were created after the specified date.
+    public var createdAfter: Foundation.Date?
+    /// Returns only indexed recovery points that were created before the specified date.
+    public var createdBefore: Foundation.Date?
+    /// Include this parameter to filter the returned list by the indicated statuses. Accepted values: PENDING | ACTIVE | FAILED | DELETING A recovery point with an index that has the status of ACTIVE can be included in a search.
+    public var indexStatus: BackupClientTypes.IndexStatus?
+    /// The maximum number of resource list items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned recovery points. For example, if a request is made to return MaxResults number of indexed recovery points, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// Returns a list of indexed recovery points for the specified resource type(s). Accepted values include:
+    ///
+    /// * EBS for Amazon Elastic Block Store
+    ///
+    /// * S3 for Amazon Simple Storage Service (Amazon S3)
+    public var resourceType: Swift.String?
+    /// A string of the Amazon Resource Name (ARN) that uniquely identifies the source resource.
+    public var sourceResourceArn: Swift.String?
+
+    public init(
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
+        indexStatus: BackupClientTypes.IndexStatus? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        sourceResourceArn: Swift.String? = nil
+    )
+    {
+        self.createdAfter = createdAfter
+        self.createdBefore = createdBefore
+        self.indexStatus = indexStatus
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceType = resourceType
+        self.sourceResourceArn = sourceResourceArn
+    }
+}
+
+extension BackupClientTypes {
+
+    /// This is a recovery point that has an associated backup index. Only recovery points with a backup index can be included in a search.
+    public struct IndexedRecoveryPoint: Swift.Sendable {
+        /// The date and time that a backup was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var backupCreationDate: Foundation.Date?
+        /// An ARN that uniquely identifies the backup vault where the recovery point index is stored. For example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
+        public var backupVaultArn: Swift.String?
+        /// This specifies the IAM role ARN used for this operation. For example, arn:aws:iam::123456789012:role/S3Access
+        public var iamRoleArn: Swift.String?
+        /// The date and time that a backup index was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public var indexCreationDate: Foundation.Date?
+        /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING A recovery point with an index that has the status of ACTIVE can be included in a search.
+        public var indexStatus: BackupClientTypes.IndexStatus?
+        /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
+        public var indexStatusMessage: Swift.String?
+        /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45
+        public var recoveryPointArn: Swift.String?
+        /// The resource type of the indexed recovery point.
+        ///
+        /// * EBS for Amazon Elastic Block Store
+        ///
+        /// * S3 for Amazon Simple Storage Service (Amazon S3)
+        public var resourceType: Swift.String?
+        /// A string of the Amazon Resource Name (ARN) that uniquely identifies the source resource.
+        public var sourceResourceArn: Swift.String?
+
+        public init(
+            backupCreationDate: Foundation.Date? = nil,
+            backupVaultArn: Swift.String? = nil,
+            iamRoleArn: Swift.String? = nil,
+            indexCreationDate: Foundation.Date? = nil,
+            indexStatus: BackupClientTypes.IndexStatus? = nil,
+            indexStatusMessage: Swift.String? = nil,
+            recoveryPointArn: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            sourceResourceArn: Swift.String? = nil
+        )
+        {
+            self.backupCreationDate = backupCreationDate
+            self.backupVaultArn = backupVaultArn
+            self.iamRoleArn = iamRoleArn
+            self.indexCreationDate = indexCreationDate
+            self.indexStatus = indexStatus
+            self.indexStatusMessage = indexStatusMessage
+            self.recoveryPointArn = recoveryPointArn
+            self.resourceType = resourceType
+            self.sourceResourceArn = sourceResourceArn
+        }
+    }
+}
+
+public struct ListIndexedRecoveryPointsOutput: Swift.Sendable {
+    /// This is a list of recovery points that have an associated index, belonging to the specified account.
+    public var indexedRecoveryPoints: [BackupClientTypes.IndexedRecoveryPoint]?
+    /// The next item following a partial list of returned recovery points. For example, if a request is made to return MaxResults number of indexed recovery points, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        indexedRecoveryPoints: [BackupClientTypes.IndexedRecoveryPoint]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.indexedRecoveryPoints = indexedRecoveryPoints
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListLegalHoldsInput: Swift.Sendable {
     /// The maximum number of resource list items to be returned.
     public var maxResults: Swift.Int?
@@ -5440,6 +5685,10 @@ extension BackupClientTypes {
         public var encryptionKeyArn: Swift.String?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public var iamRoleArn: Swift.String?
+        /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING A recovery point with an index that has the status of ACTIVE can be included in a search.
+        public var indexStatus: BackupClientTypes.IndexStatus?
+        /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
+        public var indexStatusMessage: Swift.String?
         /// A Boolean value that is returned as TRUE if the specified recovery point is encrypted, or FALSE if the recovery point is not encrypted.
         public var isEncrypted: Swift.Bool
         /// This is a boolean value indicating this is a parent (composite) recovery point.
@@ -5478,6 +5727,8 @@ extension BackupClientTypes {
             creationDate: Foundation.Date? = nil,
             encryptionKeyArn: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
+            indexStatus: BackupClientTypes.IndexStatus? = nil,
+            indexStatusMessage: Swift.String? = nil,
             isEncrypted: Swift.Bool = false,
             isParent: Swift.Bool = false,
             lastRestoreTime: Foundation.Date? = nil,
@@ -5503,6 +5754,8 @@ extension BackupClientTypes {
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
             self.iamRoleArn = iamRoleArn
+            self.indexStatus = indexStatus
+            self.indexStatusMessage = indexStatusMessage
             self.isEncrypted = isEncrypted
             self.isParent = isParent
             self.lastRestoreTime = lastRestoreTime
@@ -5638,6 +5891,10 @@ extension BackupClientTypes {
         public var creationDate: Foundation.Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public var encryptionKeyArn: Swift.String?
+        /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING A recovery point with an index that has the status of ACTIVE can be included in a search.
+        public var indexStatus: BackupClientTypes.IndexStatus?
+        /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
+        public var indexStatusMessage: Swift.String?
         /// This is a boolean value indicating this is a parent (composite) recovery point.
         public var isParent: Swift.Bool
         /// The Amazon Resource Name (ARN) of the parent (composite) recovery point.
@@ -5658,6 +5915,8 @@ extension BackupClientTypes {
             backupVaultName: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
             encryptionKeyArn: Swift.String? = nil,
+            indexStatus: BackupClientTypes.IndexStatus? = nil,
+            indexStatusMessage: Swift.String? = nil,
             isParent: Swift.Bool = false,
             parentRecoveryPointArn: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
@@ -5671,6 +5930,8 @@ extension BackupClientTypes {
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
+            self.indexStatus = indexStatus
+            self.indexStatusMessage = indexStatusMessage
             self.isParent = isParent
             self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
@@ -6462,6 +6723,35 @@ public struct PutRestoreValidationResultInput: Swift.Sendable {
     }
 }
 
+extension BackupClientTypes {
+
+    public enum Index: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Index] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct StartBackupJobInput: Swift.Sendable {
     /// The backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS""disabled" to create a regular backup. The WindowsVSS option is not enabled by default.
     public var backupOptions: [Swift.String: Swift.String]?
@@ -6475,6 +6765,15 @@ public struct StartBackupJobInput: Swift.Sendable {
     public var iamRoleArn: Swift.String?
     /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartBackupJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
     public var idempotencyToken: Swift.String?
+    /// Include this parameter to enable index creation if your backup job has a resource type that supports backup indexes. Resource types that support backup indexes include:
+    ///
+    /// * EBS for Amazon Elastic Block Store
+    ///
+    /// * S3 for Amazon Simple Storage Service (Amazon S3)
+    ///
+    ///
+    /// Index can have 1 of 2 possible values, either ENABLED or DISABLED. To create a backup index for an eligible ACTIVE recovery point that does not yet have a backup index, set value to ENABLED. To delete a backup index, set value to DISABLED.
+    public var index: BackupClientTypes.Index?
     /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
     public var lifecycle: BackupClientTypes.Lifecycle?
     /// The tags to assign to the resources.
@@ -6491,6 +6790,7 @@ public struct StartBackupJobInput: Swift.Sendable {
         completeWindowMinutes: Swift.Int? = nil,
         iamRoleArn: Swift.String? = nil,
         idempotencyToken: Swift.String? = nil,
+        index: BackupClientTypes.Index? = nil,
         lifecycle: BackupClientTypes.Lifecycle? = nil,
         recoveryPointTags: [Swift.String: Swift.String]? = nil,
         resourceArn: Swift.String? = nil,
@@ -6502,6 +6802,7 @@ public struct StartBackupJobInput: Swift.Sendable {
         self.completeWindowMinutes = completeWindowMinutes
         self.iamRoleArn = iamRoleArn
         self.idempotencyToken = idempotencyToken
+        self.index = index
         self.lifecycle = lifecycle
         self.recoveryPointTags = recoveryPointTags
         self.resourceArn = resourceArn
@@ -6511,7 +6812,7 @@ public struct StartBackupJobInput: Swift.Sendable {
 
 extension StartBackupJobInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartBackupJobInput(backupOptions: \(Swift.String(describing: backupOptions)), backupVaultName: \(Swift.String(describing: backupVaultName)), completeWindowMinutes: \(Swift.String(describing: completeWindowMinutes)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), idempotencyToken: \(Swift.String(describing: idempotencyToken)), lifecycle: \(Swift.String(describing: lifecycle)), resourceArn: \(Swift.String(describing: resourceArn)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "StartBackupJobInput(backupOptions: \(Swift.String(describing: backupOptions)), backupVaultName: \(Swift.String(describing: backupVaultName)), completeWindowMinutes: \(Swift.String(describing: completeWindowMinutes)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), idempotencyToken: \(Swift.String(describing: idempotencyToken)), index: \(Swift.String(describing: index)), lifecycle: \(Swift.String(describing: lifecycle)), resourceArn: \(Swift.String(describing: resourceArn)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartBackupJobOutput: Swift.Sendable {
@@ -6893,6 +7194,57 @@ public struct UpdateGlobalSettingsInput: Swift.Sendable {
     )
     {
         self.globalSettings = globalSettings
+    }
+}
+
+public struct UpdateRecoveryPointIndexSettingsInput: Swift.Sendable {
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens.
+    /// This member is required.
+    public var backupVaultName: Swift.String?
+    /// This specifies the IAM role ARN used for this operation. For example, arn:aws:iam::123456789012:role/S3Access
+    public var iamRoleArn: Swift.String?
+    /// Index can have 1 of 2 possible values, either ENABLED or DISABLED. To create a backup index for an eligible ACTIVE recovery point that does not yet have a backup index, set value to ENABLED. To delete a backup index, set value to DISABLED.
+    /// This member is required.
+    public var index: BackupClientTypes.Index?
+    /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    /// This member is required.
+    public var recoveryPointArn: Swift.String?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        iamRoleArn: Swift.String? = nil,
+        index: BackupClientTypes.Index? = nil,
+        recoveryPointArn: Swift.String? = nil
+    )
+    {
+        self.backupVaultName = backupVaultName
+        self.iamRoleArn = iamRoleArn
+        self.index = index
+        self.recoveryPointArn = recoveryPointArn
+    }
+}
+
+public struct UpdateRecoveryPointIndexSettingsOutput: Swift.Sendable {
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created.
+    public var backupVaultName: Swift.String?
+    /// Index can have 1 of 2 possible values, either ENABLED or DISABLED. A value of ENABLED means a backup index for an eligible ACTIVE recovery point has been created. A value of DISABLED means a backup index was deleted.
+    public var index: BackupClientTypes.Index?
+    /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING A recovery point with an index that has the status of ACTIVE can be included in a search.
+    public var indexStatus: BackupClientTypes.IndexStatus?
+    /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    public var recoveryPointArn: Swift.String?
+
+    public init(
+        backupVaultName: Swift.String? = nil,
+        index: BackupClientTypes.Index? = nil,
+        indexStatus: BackupClientTypes.IndexStatus? = nil,
+        recoveryPointArn: Swift.String? = nil
+    )
+    {
+        self.backupVaultName = backupVaultName
+        self.index = index
+        self.indexStatus = indexStatus
+        self.recoveryPointArn = recoveryPointArn
     }
 }
 
@@ -7645,6 +7997,19 @@ extension GetLegalHoldInput {
     }
 }
 
+extension GetRecoveryPointIndexDetailsInput {
+
+    static func urlPathProvider(_ value: GetRecoveryPointIndexDetailsInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
+            return nil
+        }
+        guard let recoveryPointArn = value.recoveryPointArn else {
+            return nil
+        }
+        return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/recovery-points/\(recoveryPointArn.urlPercentEncoding())/index"
+    }
+}
+
 extension GetRecoveryPointRestoreMetadataInput {
 
     static func urlPathProvider(_ value: GetRecoveryPointRestoreMetadataInput) -> Swift.String? {
@@ -8112,6 +8477,49 @@ extension ListFrameworksInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListIndexedRecoveryPointsInput {
+
+    static func urlPathProvider(_ value: ListIndexedRecoveryPointsInput) -> Swift.String? {
+        return "/indexes/recovery-point"
+    }
+}
+
+extension ListIndexedRecoveryPointsInput {
+
+    static func queryItemProvider(_ value: ListIndexedRecoveryPointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let indexStatus = value.indexStatus {
+            let indexStatusQueryItem = Smithy.URIQueryItem(name: "indexStatus".urlPercentEncoding(), value: Swift.String(indexStatus.rawValue).urlPercentEncoding())
+            items.append(indexStatusQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let createdAfter = value.createdAfter {
+            let createdAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            items.append(createdAfterQueryItem)
+        }
+        if let sourceResourceArn = value.sourceResourceArn {
+            let sourceResourceArnQueryItem = Smithy.URIQueryItem(name: "sourceResourceArn".urlPercentEncoding(), value: Swift.String(sourceResourceArn).urlPercentEncoding())
+            items.append(sourceResourceArnQueryItem)
+        }
+        if let resourceType = value.resourceType {
+            let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+            items.append(resourceTypeQueryItem)
+        }
+        if let createdBefore = value.createdBefore {
+            let createdBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            items.append(createdBeforeQueryItem)
         }
         return items
     }
@@ -8700,6 +9108,19 @@ extension UpdateGlobalSettingsInput {
     }
 }
 
+extension UpdateRecoveryPointIndexSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateRecoveryPointIndexSettingsInput) -> Swift.String? {
+        guard let backupVaultName = value.backupVaultName else {
+            return nil
+        }
+        guard let recoveryPointArn = value.recoveryPointArn else {
+            return nil
+        }
+        return "/backup-vaults/\(backupVaultName.urlPercentEncoding())/recovery-points/\(recoveryPointArn.urlPercentEncoding())/index"
+    }
+}
+
 extension UpdateRecoveryPointLifecycleInput {
 
     static func urlPathProvider(_ value: UpdateRecoveryPointLifecycleInput) -> Swift.String? {
@@ -8902,6 +9323,7 @@ extension StartBackupJobInput {
         try writer["CompleteWindowMinutes"].write(value.completeWindowMinutes)
         try writer["IamRoleArn"].write(value.iamRoleArn)
         try writer["IdempotencyToken"].write(value.idempotencyToken)
+        try writer["Index"].write(value.index)
         try writer["Lifecycle"].write(value.lifecycle, with: BackupClientTypes.Lifecycle.write(value:to:))
         try writer["RecoveryPointTags"].writeMap(value.recoveryPointTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ResourceArn"].write(value.resourceArn)
@@ -8982,6 +9404,15 @@ extension UpdateGlobalSettingsInput {
     static func write(value: UpdateGlobalSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["GlobalSettings"].writeMap(value.globalSettings, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateRecoveryPointIndexSettingsInput {
+
+    static func write(value: UpdateRecoveryPointIndexSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IamRoleArn"].write(value.iamRoleArn)
+        try writer["Index"].write(value.index)
     }
 }
 
@@ -9396,6 +9827,8 @@ extension DescribeRecoveryPointOutput {
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        value.indexStatus = try reader["IndexStatus"].readIfPresent()
+        value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
         value.isEncrypted = try reader["IsEncrypted"].readIfPresent() ?? false
         value.isParent = try reader["IsParent"].readIfPresent() ?? false
         value.lastRestoreTime = try reader["LastRestoreTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -9617,6 +10050,26 @@ extension GetLegalHoldOutput {
     }
 }
 
+extension GetRecoveryPointIndexDetailsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecoveryPointIndexDetailsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRecoveryPointIndexDetailsOutput()
+        value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent()
+        value.indexCompletionDate = try reader["IndexCompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.indexCreationDate = try reader["IndexCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.indexDeletionDate = try reader["IndexDeletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.indexStatus = try reader["IndexStatus"].readIfPresent()
+        value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
+        value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent()
+        value.sourceResourceArn = try reader["SourceResourceArn"].readIfPresent()
+        value.totalItemsIndexed = try reader["TotalItemsIndexed"].readIfPresent()
+        return value
+    }
+}
+
 extension GetRecoveryPointRestoreMetadataOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRecoveryPointRestoreMetadataOutput {
@@ -9820,6 +10273,19 @@ extension ListFrameworksOutput {
         let reader = responseReader
         var value = ListFrameworksOutput()
         value.frameworks = try reader["Frameworks"].readListIfPresent(memberReadingClosure: BackupClientTypes.Framework.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListIndexedRecoveryPointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListIndexedRecoveryPointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListIndexedRecoveryPointsOutput()
+        value.indexedRecoveryPoints = try reader["IndexedRecoveryPoints"].readListIfPresent(memberReadingClosure: BackupClientTypes.IndexedRecoveryPoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -10144,6 +10610,21 @@ extension UpdateGlobalSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateGlobalSettingsOutput {
         return UpdateGlobalSettingsOutput()
+    }
+}
+
+extension UpdateRecoveryPointIndexSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRecoveryPointIndexSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRecoveryPointIndexSettingsOutput()
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent()
+        value.index = try reader["Index"].readIfPresent()
+        value.indexStatus = try reader["IndexStatus"].readIfPresent()
+        value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent()
+        return value
     }
 }
 
@@ -10943,6 +11424,23 @@ enum GetLegalHoldOutputError {
     }
 }
 
+enum GetRecoveryPointIndexDetailsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetRecoveryPointRestoreMetadataOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11192,6 +11690,22 @@ enum ListFrameworksOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListIndexedRecoveryPointsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11666,6 +12180,24 @@ enum UpdateGlobalSettingsOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRecoveryPointIndexSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -12232,6 +12764,22 @@ extension BackupClientTypes.BackupRule {
         value.copyActions = try reader["CopyActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.CopyAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.enableContinuousBackup = try reader["EnableContinuousBackup"].readIfPresent()
         value.scheduleExpressionTimezone = try reader["ScheduleExpressionTimezone"].readIfPresent()
+        value.indexActions = try reader["IndexActions"].readListIfPresent(memberReadingClosure: BackupClientTypes.IndexAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupClientTypes.IndexAction {
+
+    static func write(value: BackupClientTypes.IndexAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.IndexAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.IndexAction()
+        value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12578,6 +13126,24 @@ extension BackupClientTypes.Framework {
     }
 }
 
+extension BackupClientTypes.IndexedRecoveryPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.IndexedRecoveryPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.IndexedRecoveryPoint()
+        value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent()
+        value.sourceResourceArn = try reader["SourceResourceArn"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        value.backupCreationDate = try reader["BackupCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.indexCreationDate = try reader["IndexCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.indexStatus = try reader["IndexStatus"].readIfPresent()
+        value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
+        value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent()
+        return value
+    }
+}
+
 extension BackupClientTypes.LegalHold {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.LegalHold {
@@ -12637,6 +13203,8 @@ extension BackupClientTypes.RecoveryPointByBackupVault {
         value.isParent = try reader["IsParent"].readIfPresent() ?? false
         value.resourceName = try reader["ResourceName"].readIfPresent()
         value.vaultType = try reader["VaultType"].readIfPresent()
+        value.indexStatus = try reader["IndexStatus"].readIfPresent()
+        value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
         return value
     }
 }
@@ -12670,6 +13238,8 @@ extension BackupClientTypes.RecoveryPointByResource {
         value.parentRecoveryPointArn = try reader["ParentRecoveryPointArn"].readIfPresent()
         value.resourceName = try reader["ResourceName"].readIfPresent()
         value.vaultType = try reader["VaultType"].readIfPresent()
+        value.indexStatus = try reader["IndexStatus"].readIfPresent()
+        value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
         return value
     }
 }
@@ -12767,6 +13337,7 @@ extension BackupClientTypes.BackupRuleInput {
         try writer["CompletionWindowMinutes"].write(value.completionWindowMinutes)
         try writer["CopyActions"].writeList(value.copyActions, memberWritingClosure: BackupClientTypes.CopyAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableContinuousBackup"].write(value.enableContinuousBackup)
+        try writer["IndexActions"].writeList(value.indexActions, memberWritingClosure: BackupClientTypes.IndexAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Lifecycle"].write(value.lifecycle, with: BackupClientTypes.Lifecycle.write(value:to:))
         try writer["RecoveryPointTags"].writeMap(value.recoveryPointTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RuleName"].write(value.ruleName)
