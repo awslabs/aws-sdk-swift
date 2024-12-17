@@ -13,8 +13,9 @@ class AWSMiddlewareExecutionGenerator(
     private val writer: SwiftWriter,
     httpBindingResolver: HttpBindingResolver,
     httpProtocolCustomizable: HTTPProtocolCustomizable,
-    operationMiddleware: OperationMiddleware, operationStackName: String
-): MiddlewareExecutionGenerator(
+    operationMiddleware: OperationMiddleware,
+    operationStackName: String
+) : MiddlewareExecutionGenerator(
     ctx, writer, httpBindingResolver, httpProtocolCustomizable, operationMiddleware, operationStackName
 ) {
 

@@ -17,7 +17,7 @@ class AWSHTTPProtocolClientGenerator(
     private val defaultContentType: String,
     private val httpProtocolCustomizable: HTTPProtocolCustomizable,
     private val operationMiddleware: OperationMiddleware
-): HttpProtocolClientGenerator(ctx, writer, serviceConfig, httpBindingResolver, defaultContentType, httpProtocolCustomizable, operationMiddleware) {
+) : HttpProtocolClientGenerator(ctx, writer, serviceConfig, httpBindingResolver, defaultContentType, httpProtocolCustomizable, operationMiddleware) {
 
     override fun makeMiddlewareExecutionGenerator(
         ctx: ProtocolGenerator.GenerationContext,

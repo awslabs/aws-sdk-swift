@@ -120,22 +120,24 @@ class AWSHttpProtocolServiceClient(
             SwiftTypes.String,
         ) {
             writer.openBlock("self.init(", ")") {
-                renderProperties(properties, true) {
-                    when (it.name) {
+                properties.forEach { property ->
+                    when (property.name) {
                         "region", "signingRegion" -> {
-                            "region"
+                            writer.write("region,")
                         }
                         "awsCredentialIdentityResolver" -> {
-                            "try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()"
+                            writer.write("try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),")
                         }
                         "retryStrategyOptions" -> {
-                            "try AWSClientConfigDefaultsProvider.retryStrategyOptions()"
+                            writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")
                         }
                         else -> {
-                            it.default?.render(writer) ?: "nil"
+                            writer.write("\$L,", property.default?.render(writer) ?: "nil")
                         }
                     }
                 }
+                writer.unwrite(",\n")
+                writer.write("")
             }
         }
         writer.write("")
