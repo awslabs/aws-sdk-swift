@@ -7,6 +7,7 @@ on:
 
 jobs:
   git-sync:
+    if: github.repository == 'awslabs/aws-sdk-swift'
     runs-on: ubuntu-latest
 
     steps:
