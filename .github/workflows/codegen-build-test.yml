@@ -19,20 +19,45 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_16.1.app/Contents/Developer
     steps:
       - name: Checkout aws-sdk-swift
-        uses: actions/checkout@v3
-      - name: Select smithy-swift branch
+        uses: actions/checkout@v4
+        with:
+          path: aws-sdk-swift
+      - name: Set up SSH key
+        if: ${{ github.repository != 'awslabs/aws-sdk-swift' }}
         run: |
-          ORIGINAL_REPO_HEAD_REF="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}" \
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: Select staging smithy-swift branch
+        if: ${{ github.repository != 'awslabs/aws-sdk-swift' }}
+        run: |
+          cd aws-sdk-swift
+          ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
+          DEPENDENCY_REPO_URL="git@github.com:${{ secrets.STAGING_PARTNER_REPO }}.git" \
+          ./scripts/ci_steps/select_dependency_branch.sh
+      - name: Checkout staging smithy-swift
+        if: ${{ github.repository != 'awslabs/aws-sdk-swift' }}
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.STAGING_PARTNER_REPO }}
+          ref: ${{ env.DEPENDENCY_REPO_SHA }}
+          path: smithy-swift
+          ssh-key: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+      - name: Select smithy-swift branch
+        if: ${{ github.repository == 'awslabs/aws-sdk-swift' }}
+        run: |
+          cd aws-sdk-swift
+          ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
           DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
           ./scripts/ci_steps/select_dependency_branch.sh
       - name: Checkout smithy-swift
-        uses: actions/checkout@v3
+        if: ${{ github.repository == 'awslabs/aws-sdk-swift' }}
+        uses: actions/checkout@v4
         with:
           repository: smithy-lang/smithy-swift
           ref: ${{ env.DEPENDENCY_REPO_SHA }}
           path: smithy-swift
-      - name: Move smithy-swift into place
-        run: mv smithy-swift ..
       - name: Cache Gradle
         uses: actions/cache@v3
         with:
@@ -59,10 +84,18 @@ jobs:
           distribution: corretto
           java-version: 17
       - name: Tools Versions
-        run: ./scripts/ci_steps/log_tool_versions.sh
+        run: |
+          cd aws-sdk-swift
+          ./scripts/ci_steps/log_tool_versions.sh
       - name: Code-Generate SDK
-        run: ./scripts/ci_steps/codegen_sdk.sh
+        run: |
+          cd aws-sdk-swift
+          ./scripts/ci_steps/codegen_sdk.sh
       - name: Build SDK with Unit Tests
-        run: swift build --build-tests
+        run: |
+          cd aws-sdk-swift
+          swift build --build-tests
       - name: Run Unit Tests
-        run: swift test --skip-build
+        run: |
+          cd aws-sdk-swift
+          swift test --skip-build
