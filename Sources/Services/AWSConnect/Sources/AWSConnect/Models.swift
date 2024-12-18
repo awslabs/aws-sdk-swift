@@ -4952,6 +4952,7 @@ extension ConnectClientTypes {
         case application
         case callTransferConnector
         case casesDomain
+        case cognitoUserPool
         case event
         case fileScanner
         case pinpointApp
@@ -4969,6 +4970,7 @@ extension ConnectClientTypes {
                 .application,
                 .callTransferConnector,
                 .casesDomain,
+                .cognitoUserPool,
                 .event,
                 .fileScanner,
                 .pinpointApp,
@@ -4992,6 +4994,7 @@ extension ConnectClientTypes {
             case .application: return "APPLICATION"
             case .callTransferConnector: return "CALL_TRANSFER_CONNECTOR"
             case .casesDomain: return "CASES_DOMAIN"
+            case .cognitoUserPool: return "COGNITO_USER_POOL"
             case .event: return "EVENT"
             case .fileScanner: return "FILE_SCANNER"
             case .pinpointApp: return "PINPOINT_APP"
@@ -9824,6 +9827,7 @@ extension ConnectClientTypes {
         case enhancedContactMonitoring
         case highVolumeOutbound
         case inboundCalls
+        case multiPartyChatConference
         case multiPartyConference
         case outboundCalls
         case useCustomTtsVoices
@@ -9839,6 +9843,7 @@ extension ConnectClientTypes {
                 .enhancedContactMonitoring,
                 .highVolumeOutbound,
                 .inboundCalls,
+                .multiPartyChatConference,
                 .multiPartyConference,
                 .outboundCalls,
                 .useCustomTtsVoices
@@ -9860,6 +9865,7 @@ extension ConnectClientTypes {
             case .enhancedContactMonitoring: return "ENHANCED_CONTACT_MONITORING"
             case .highVolumeOutbound: return "HIGH_VOLUME_OUTBOUND"
             case .inboundCalls: return "INBOUND_CALLS"
+            case .multiPartyChatConference: return "MULTI_PARTY_CHAT_CONFERENCE"
             case .multiPartyConference: return "MULTI_PARTY_CONFERENCE"
             case .outboundCalls: return "OUTBOUND_CALLS"
             case .useCustomTtsVoices: return "USE_CUSTOM_TTS_VOICES"
@@ -21265,7 +21271,7 @@ extension ConnectClientTypes {
 
     /// Contains information about the recording configuration settings.
     public struct VoiceRecordingConfiguration: Swift.Sendable {
-        /// Identifies which IVR track is being recorded.
+        /// Identifies which IVR track is being recorded. One and only one of the track configurations should be presented in the request.
         public var ivrRecordingTrack: ConnectClientTypes.IvrRecordingTrack?
         /// Identifies which track is being recorded.
         public var voiceRecordingTrack: ConnectClientTypes.VoiceRecordingTrack?
@@ -22995,6 +23001,46 @@ public struct UpdateInstanceStorageConfigInput: Swift.Sendable {
         self.resourceType = resourceType
         self.storageConfig = storageConfig
     }
+}
+
+public struct UpdateParticipantAuthenticationInput: Swift.Sendable {
+    /// The code query parameter provided by Cognito in the redirectUri.
+    public var code: Swift.String?
+    /// The error query parameter provided by Cognito in the redirectUri.
+    public var error: Swift.String?
+    /// The error_description parameter provided by Cognito in the redirectUri.
+    public var errorDescription: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The state query parameter that was provided by Cognito in the redirectUri. This will also match the state parameter provided in the AuthenticationUrl from the [GetAuthenticationUrl](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetAuthenticationUrl.html) response.
+    /// This member is required.
+    public var state: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        error: Swift.String? = nil,
+        errorDescription: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        state: Swift.String? = nil
+    )
+    {
+        self.code = code
+        self.error = error
+        self.errorDescription = errorDescription
+        self.instanceId = instanceId
+        self.state = state
+    }
+}
+
+extension UpdateParticipantAuthenticationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateParticipantAuthenticationInput(instanceId: \(Swift.String(describing: instanceId)), state: \(Swift.String(describing: state)), code: \"CONTENT_REDACTED\", error: \"CONTENT_REDACTED\", errorDescription: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateParticipantAuthenticationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension ConnectClientTypes {
@@ -24843,6 +24889,8 @@ public struct StartChatContactInput: Swift.Sendable {
     /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold: arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     /// This member is required.
     public var contactFlowId: Swift.String?
+    /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
+    public var customerId: Swift.String?
     /// The initial message to be sent to the newly created chat. If you have a Lex bot in your flow, the initial message is not delivered to the Lex bot.
     public var initialMessage: ConnectClientTypes.ChatMessage?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -24865,6 +24913,7 @@ public struct StartChatContactInput: Swift.Sendable {
         chatDurationInMinutes: Swift.Int? = nil,
         clientToken: Swift.String? = nil,
         contactFlowId: Swift.String? = nil,
+        customerId: Swift.String? = nil,
         initialMessage: ConnectClientTypes.ChatMessage? = nil,
         instanceId: Swift.String? = nil,
         participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
@@ -24878,6 +24927,7 @@ public struct StartChatContactInput: Swift.Sendable {
         self.chatDurationInMinutes = chatDurationInMinutes
         self.clientToken = clientToken
         self.contactFlowId = contactFlowId
+        self.customerId = customerId
         self.initialMessage = initialMessage
         self.instanceId = instanceId
         self.participantDetails = participantDetails
@@ -24886,6 +24936,11 @@ public struct StartChatContactInput: Swift.Sendable {
         self.segmentAttributes = segmentAttributes
         self.supportedMessagingContentTypes = supportedMessagingContentTypes
     }
+}
+
+extension StartChatContactInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartChatContactInput(attributes: \(Swift.String(describing: attributes)), chatDurationInMinutes: \(Swift.String(describing: chatDurationInMinutes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), initialMessage: \(Swift.String(describing: initialMessage)), instanceId: \(Swift.String(describing: instanceId)), participantDetails: \(Swift.String(describing: participantDetails)), persistentChat: \(Swift.String(describing: persistentChat)), relatedContactId: \(Swift.String(describing: relatedContactId)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), supportedMessagingContentTypes: \(Swift.String(describing: supportedMessagingContentTypes)), customerId: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartEmailContactInput: Swift.Sendable {
@@ -25787,6 +25842,8 @@ extension ConnectClientTypes {
         public var customer: ConnectClientTypes.Customer?
         /// The customer or external third party participant endpoint.
         public var customerEndpoint: ConnectClientTypes.EndpointInfo?
+        /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM. You can create a Lambda function to pull the unique customer ID of the caller from your CRM system. If you enable Amazon Connect Voice ID capability, this attribute is populated with the CustomerSpeakerId of the caller.
+        public var customerId: Swift.String?
         /// Information about customer’s voice activity.
         public var customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity?
         /// The description of the contact.
@@ -25851,6 +25908,7 @@ extension ConnectClientTypes {
             contactAssociationId: Swift.String? = nil,
             customer: ConnectClientTypes.Customer? = nil,
             customerEndpoint: ConnectClientTypes.EndpointInfo? = nil,
+            customerId: Swift.String? = nil,
             customerVoiceActivity: ConnectClientTypes.CustomerVoiceActivity? = nil,
             description: Swift.String? = nil,
             disconnectDetails: ConnectClientTypes.DisconnectDetails? = nil,
@@ -25889,6 +25947,7 @@ extension ConnectClientTypes {
             self.contactAssociationId = contactAssociationId
             self.customer = customer
             self.customerEndpoint = customerEndpoint
+            self.customerId = customerId
             self.customerVoiceActivity = customerVoiceActivity
             self.description = description
             self.disconnectDetails = disconnectDetails
@@ -25921,7 +25980,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeContactOutput: Swift.Sendable {
@@ -29706,6 +29765,13 @@ extension UpdateInstanceStorageConfigInput {
     }
 }
 
+extension UpdateParticipantAuthenticationInput {
+
+    static func urlPathProvider(_ value: UpdateParticipantAuthenticationInput) -> Swift.String? {
+        return "/contact/update-participant-authentication"
+    }
+}
+
 extension UpdateParticipantRoleConfigInput {
 
     static func urlPathProvider(_ value: UpdateParticipantRoleConfigInput) -> Swift.String? {
@@ -31141,6 +31207,7 @@ extension StartChatContactInput {
         try writer["ChatDurationInMinutes"].write(value.chatDurationInMinutes)
         try writer["ClientToken"].write(value.clientToken)
         try writer["ContactFlowId"].write(value.contactFlowId)
+        try writer["CustomerId"].write(value.customerId)
         try writer["InitialMessage"].write(value.initialMessage, with: ConnectClientTypes.ChatMessage.write(value:to:))
         try writer["InstanceId"].write(value.instanceId)
         try writer["ParticipantDetails"].write(value.participantDetails, with: ConnectClientTypes.ParticipantDetails.write(value:to:))
@@ -31569,6 +31636,18 @@ extension UpdateInstanceStorageConfigInput {
     static func write(value: UpdateInstanceStorageConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["StorageConfig"].write(value.storageConfig, with: ConnectClientTypes.InstanceStorageConfig.write(value:to:))
+    }
+}
+
+extension UpdateParticipantAuthenticationInput {
+
+    static func write(value: UpdateParticipantAuthenticationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Code"].write(value.code)
+        try writer["Error"].write(value.error)
+        try writer["ErrorDescription"].write(value.errorDescription)
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["State"].write(value.state)
     }
 }
 
@@ -34608,6 +34687,13 @@ extension UpdateInstanceStorageConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateInstanceStorageConfigOutput {
         return UpdateInstanceStorageConfigOutput()
+    }
+}
+
+extension UpdateParticipantAuthenticationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateParticipantAuthenticationOutput {
+        return UpdateParticipantAuthenticationOutput()
     }
 }
 
@@ -39437,6 +39523,25 @@ enum UpdateInstanceStorageConfigOutputError {
     }
 }
 
+enum UpdateParticipantAuthenticationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateParticipantRoleConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -40605,6 +40710,7 @@ extension ConnectClientTypes.Contact {
         value.scheduledTimestamp = try reader["ScheduledTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.relatedContactId = try reader["RelatedContactId"].readIfPresent()
         value.wisdomInfo = try reader["WisdomInfo"].readIfPresent(with: ConnectClientTypes.WisdomInfo.read(from:))
+        value.customerId = try reader["CustomerId"].readIfPresent()
         value.customerEndpoint = try reader["CustomerEndpoint"].readIfPresent(with: ConnectClientTypes.EndpointInfo.read(from:))
         value.systemEndpoint = try reader["SystemEndpoint"].readIfPresent(with: ConnectClientTypes.EndpointInfo.read(from:))
         value.queueTimeAdjustmentSeconds = try reader["QueueTimeAdjustmentSeconds"].readIfPresent()

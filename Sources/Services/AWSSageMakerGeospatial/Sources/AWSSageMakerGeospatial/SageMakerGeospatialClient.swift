@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerGeospatialClient: ClientRuntime.Client {
     public static let clientName = "SageMakerGeospatialClient"
-    public static let version = "1.0.62"
+    public static let version = "1.0.63"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerGeospatialClient.SageMakerGeospatialClientConfiguration
     let serviceName = "SageMaker Geospatial"

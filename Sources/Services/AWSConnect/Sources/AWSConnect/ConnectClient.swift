@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.0.62"
+    public static let version = "1.0.63"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -3086,7 +3086,7 @@ extension ConnectClient {
 
     /// Performs the `CreatePushNotificationRegistration` operation on the `AmazonConnectService` service.
     ///
-    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see [Set up push notifications in Amazon Connect for mobile chat](https://docs.aws.amazon.com/connect/latest/adminguide/set-up-push-notifications-for-mobile-chat.html) in the Amazon Connect Administrator Guide.
+    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see [Set up push notifications in Amazon Connect for mobile chat](https://docs.aws.amazon.com/connect/latest/adminguide/enable-push-notifications-for-mobile-chat.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter CreatePushNotificationRegistrationInput : [no documentation found]
     ///
@@ -10253,7 +10253,7 @@ extension ConnectClient {
 
     /// Performs the `ListBots` operation on the `AmazonConnectService` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to returns both Amazon Lex V1 and V2 bots.
+    /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to return both Amazon Lex V1 and V2 bots.
     ///
     /// - Parameter ListBotsInput : [no documentation found]
     ///
@@ -18321,6 +18321,87 @@ extension ConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateInstanceStorageConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateParticipantAuthentication` operation on the `AmazonConnectService` service.
+    ///
+    /// Instructs Amazon Connect to resume the authentication process. The subsequent actions depend on the request body contents:
+    ///
+    /// * If a code is provided: Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles.
+    ///
+    /// * If an error is provided: The error branch of the Authenticate Customer block is executed.
+    ///
+    ///
+    /// The API returns a success response to acknowledge the request. However, the interaction and exchange of identity information occur asynchronously after the response is returned.
+    ///
+    /// - Parameter UpdateParticipantAuthenticationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateParticipantAuthenticationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateParticipantAuthentication(input: UpdateParticipantAuthenticationInput) async throws -> UpdateParticipantAuthenticationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateParticipantAuthentication")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput>(UpdateParticipantAuthenticationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateParticipantAuthenticationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateParticipantAuthenticationOutput>(UpdateParticipantAuthenticationOutput.httpOutput(from:), UpdateParticipantAuthenticationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateParticipantAuthenticationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<UpdateParticipantAuthenticationOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateParticipantAuthenticationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateParticipantAuthentication")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

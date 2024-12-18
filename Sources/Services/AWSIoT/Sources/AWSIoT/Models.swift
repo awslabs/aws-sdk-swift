@@ -4714,7 +4714,7 @@ public struct CreateCommandInput: Swift.Sendable {
     public var namespace: IoTClientTypes.CommandNamespace?
     /// The payload object for the command. You must specify this information when using the AWS-IoT namespace. You can upload a static payload file from your local storage that contains the instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
     public var payload: IoTClientTypes.CommandPayload?
-    /// The IAM role that allows access to create the command.
+    /// The IAM role that you must provide when using the AWS-IoT-FleetWise namespace. The role grants IoT Device Management the permission to access IoT FleetWise resources for generating the payload for the command. This field is not required when you use the AWS-IoT namespace.
     public var roleArn: Swift.String?
     /// Name-value pairs that are used as metadata to manage a command.
     public var tags: [IoTClientTypes.Tag]?
@@ -12395,7 +12395,7 @@ public struct GetCommandOutput: Swift.Sendable {
     public var payload: IoTClientTypes.CommandPayload?
     /// Indicates whether the command is being deleted.
     public var pendingDeletion: Swift.Bool?
-    /// The IAM role that allows access to retrieve information about the command.
+    /// The IAM role that you provided when creating the command with AWS-IoT-FleetWise as the namespace.
     public var roleArn: Swift.String?
 
     public init(
@@ -12561,7 +12561,7 @@ public struct GetCommandExecutionOutput: Swift.Sendable {
     public var statusReason: IoTClientTypes.StatusReason?
     /// The Amazon Resource Number (ARN) of the device on which the command execution is being performed.
     public var targetArn: Swift.String?
-    /// The time to live (TTL) parameter for the GetCommandExecution API.
+    /// The time to live (TTL) parameter that indicates the duration for which executions will be retained in your account. The default value is six months.
     public var timeToLive: Foundation.Date?
 
     public init(
@@ -13653,6 +13653,118 @@ public struct GetStatisticsOutput: Swift.Sendable {
     {
         self.statistics = statistics
     }
+}
+
+public struct GetThingConnectivityDataInput: Swift.Sendable {
+    /// The name of your IoT thing.
+    /// This member is required.
+    public var thingName: Swift.String?
+
+    public init(
+        thingName: Swift.String? = nil
+    )
+    {
+        self.thingName = thingName
+    }
+}
+
+extension GetThingConnectivityDataInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetThingConnectivityDataInput(thingName: \"CONTENT_REDACTED\")"}
+}
+
+extension IoTClientTypes {
+
+    public enum DisconnectReasonValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authError
+        case clientError
+        case clientInitiatedDisconnect
+        case connectionLost
+        case customauthTtlExpiration
+        case duplicateClientid
+        case forbiddenAccess
+        case mqttKeepAliveTimeout
+        case `none`
+        case serverError
+        case serverInitiatedDisconnect
+        case throttled
+        case unknown
+        case websocketTtlExpiration
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DisconnectReasonValue] {
+            return [
+                .authError,
+                .clientError,
+                .clientInitiatedDisconnect,
+                .connectionLost,
+                .customauthTtlExpiration,
+                .duplicateClientid,
+                .forbiddenAccess,
+                .mqttKeepAliveTimeout,
+                .none,
+                .serverError,
+                .serverInitiatedDisconnect,
+                .throttled,
+                .unknown,
+                .websocketTtlExpiration
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .authError: return "AUTH_ERROR"
+            case .clientError: return "CLIENT_ERROR"
+            case .clientInitiatedDisconnect: return "CLIENT_INITIATED_DISCONNECT"
+            case .connectionLost: return "CONNECTION_LOST"
+            case .customauthTtlExpiration: return "CUSTOMAUTH_TTL_EXPIRATION"
+            case .duplicateClientid: return "DUPLICATE_CLIENTID"
+            case .forbiddenAccess: return "FORBIDDEN_ACCESS"
+            case .mqttKeepAliveTimeout: return "MQTT_KEEP_ALIVE_TIMEOUT"
+            case .none: return "NONE"
+            case .serverError: return "SERVER_ERROR"
+            case .serverInitiatedDisconnect: return "SERVER_INITIATED_DISCONNECT"
+            case .throttled: return "THROTTLED"
+            case .unknown: return "UNKNOWN"
+            case .websocketTtlExpiration: return "WEBSOCKET_TTL_EXPIRATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetThingConnectivityDataOutput: Swift.Sendable {
+    /// A Boolean that indicates the connectivity status.
+    public var connected: Swift.Bool?
+    /// The reason why the client is disconnecting.
+    public var disconnectReason: IoTClientTypes.DisconnectReasonValue?
+    /// The name of your IoT thing.
+    public var thingName: Swift.String?
+    /// The timestamp of when the event occurred.
+    public var timestamp: Foundation.Date?
+
+    public init(
+        connected: Swift.Bool? = nil,
+        disconnectReason: IoTClientTypes.DisconnectReasonValue? = nil,
+        thingName: Swift.String? = nil,
+        timestamp: Foundation.Date? = nil
+    )
+    {
+        self.connected = connected
+        self.disconnectReason = disconnectReason
+        self.thingName = thingName
+        self.timestamp = timestamp
+    }
+}
+
+extension GetThingConnectivityDataOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetThingConnectivityDataOutput(connected: \(Swift.String(describing: connected)), disconnectReason: \(Swift.String(describing: disconnectReason)), timestamp: \(Swift.String(describing: timestamp)), thingName: \"CONTENT_REDACTED\")"}
 }
 
 /// The input for the GetTopicRule operation.
@@ -22257,6 +22369,16 @@ extension GetStatisticsInput {
     }
 }
 
+extension GetThingConnectivityDataInput {
+
+    static func urlPathProvider(_ value: GetThingConnectivityDataInput) -> Swift.String? {
+        guard let thingName = value.thingName else {
+            return nil
+        }
+        return "/things/\(thingName.urlPercentEncoding())/connectivity-data"
+    }
+}
+
 extension GetTopicRuleInput {
 
     static func urlPathProvider(_ value: GetTopicRuleInput) -> Swift.String? {
@@ -27676,6 +27798,21 @@ extension GetStatisticsOutput {
     }
 }
 
+extension GetThingConnectivityDataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetThingConnectivityDataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetThingConnectivityDataOutput()
+        value.connected = try reader["connected"].readIfPresent()
+        value.disconnectReason = try reader["disconnectReason"].readIfPresent()
+        value.thingName = try reader["thingName"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GetTopicRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTopicRuleOutput {
@@ -31787,6 +31924,26 @@ enum GetStatisticsOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidAggregationException": return try InvalidAggregationException.makeError(baseError: baseError)
             case "InvalidQueryException": return try InvalidQueryException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetThingConnectivityDataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IndexNotReadyException": return try IndexNotReadyException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
