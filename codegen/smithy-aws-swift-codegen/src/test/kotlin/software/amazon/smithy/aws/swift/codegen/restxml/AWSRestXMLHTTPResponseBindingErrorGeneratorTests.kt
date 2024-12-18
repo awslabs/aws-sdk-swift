@@ -72,9 +72,9 @@ extension ComplexXMLError {
         val contents = getFileContents(context.manifest, "/Sources/Example/models/ComplexXMLError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var header: Swift.String? = nil
         public internal(set) var nested: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData? = nil
         public internal(set) var topLevel: Swift.String? = nil
