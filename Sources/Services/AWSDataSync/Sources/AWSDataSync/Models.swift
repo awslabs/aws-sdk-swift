@@ -669,7 +669,7 @@ public struct CreateLocationEfsInput: Swift.Sendable {
     public var fileSystemAccessRoleArn: Swift.String?
     /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
     public var inTransitEncryption: DataSyncClientTypes.EfsInTransitEncryption?
-    /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data (depending on if this is a source or destination location) on your file system. By default, DataSync uses the root directory (or [access point](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
+    /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or [access point](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
     public var subdirectory: Swift.String?
     /// Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
@@ -708,15 +708,15 @@ public struct CreateLocationEfsOutput: Swift.Sendable {
 }
 
 public struct CreateLocationFsxLustreInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) for the FSx for Lustre file system.
+    /// Specifies the Amazon Resource Name (ARN) of the FSx for Lustre file system.
     /// This member is required.
     public var fsxFilesystemArn: Swift.String?
-    /// The Amazon Resource Names (ARNs) of the security groups that are used to configure the FSx for Lustre file system.
+    /// Specifies the Amazon Resource Names (ARNs) of up to five security groups that provide access to your FSx for Lustre file system. The security groups must be able to access the file system's ports. The file system must also allow access from the security groups. For information about file system access, see the [ Amazon FSx for Lustre User Guide ](https://docs.aws.amazon.com/fsx/latest/LustreGuide/limit-access-security-groups.html).
     /// This member is required.
     public var securityGroupArns: [Swift.String]?
-    /// A subdirectory in the location's path. This subdirectory in the FSx for Lustre file system is used to read data from the FSx for Lustre source location or write data to the FSx for Lustre destination.
+    /// Specifies a mount path for your FSx for Lustre file system. The path can include subdirectories. When the location is used as a source, DataSync reads data from the mount path. When the location is used as a destination, DataSync writes data to the mount path. If you don't include this parameter, DataSync uses the file system's root directory (/).
     public var subdirectory: Swift.String?
-    /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
 
     public init(
@@ -734,7 +734,7 @@ public struct CreateLocationFsxLustreInput: Swift.Sendable {
 }
 
 public struct CreateLocationFsxLustreOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location that's created.
+    /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location that you created.
     public var locationArn: Swift.String?
 
     public init(
@@ -809,7 +809,7 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes {
 
-    /// Specifies the Network File System (NFS) protocol configuration that DataSync uses to access your Amazon FSx for OpenZFS or Amazon FSx for NetApp ONTAP file system.
+    /// Specifies the Network File System (NFS) protocol configuration that DataSync uses to access your FSx for OpenZFS file system or FSx for ONTAP file system's storage virtual machine (SVM).
     public struct FsxProtocolNfs: Swift.Sendable {
         /// Specifies how DataSync can access a location using the NFS protocol.
         public var mountOptions: DataSyncClientTypes.NfsMountOptions?
@@ -889,9 +889,9 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes {
 
-    /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your Amazon FSx for NetApp ONTAP file system. For more information, see [Accessing FSx for ONTAP file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
+    /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your Amazon FSx for NetApp ONTAP file system's storage virtual machine (SVM). For more information, see [Providing DataSync access to FSx for ONTAP file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
     public struct FsxProtocolSmb: Swift.Sendable {
-        /// Specifies the fully qualified domain name (FQDN) of the Microsoft Active Directory that your storage virtual machine (SVM) belongs to. If you have multiple domains in your environment, configuring this setting makes sure that DataSync connects to the right SVM.
+        /// Specifies the name of the Windows domain that your storage virtual machine (SVM) belongs to. If you have multiple domains in your environment, configuring this setting makes sure that DataSync connects to the right SVM. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right SVM.
         public var domain: Swift.String?
         /// Specifies the version of the Server Message Block (SMB) protocol that DataSync uses to access an SMB file server.
         public var mountOptions: DataSyncClientTypes.SmbMountOptions?
@@ -959,7 +959,7 @@ public struct CreateLocationFsxOntapInput: Swift.Sendable {
     /// Specifies the ARN of the storage virtual machine (SVM) in your file system where you want to copy data to or from.
     /// This member is required.
     public var storageVirtualMachineArn: Swift.String?
-    /// Specifies a path to the file share in the SVM where you'll copy your data. You can specify a junction path (also known as a mount point), qtree path (for NFS file shares), or share name (for SMB file shares). For example, your mount path might be /vol1, /vol1/tree1, or /share1. Don't specify a junction path in the SVM's root volume. For more information, see [Managing FSx for ONTAP storage virtual machines](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html) in the Amazon FSx for NetApp ONTAP User Guide.
+    /// Specifies a path to the file share in the SVM where you want to transfer data to or from. You can specify a junction path (also known as a mount point), qtree path (for NFS file shares), or share name (for SMB file shares). For example, your mount path might be /vol1, /vol1/tree1, or /share1. Don't specify a junction path in the SVM's root volume. For more information, see [Managing FSx for ONTAP storage virtual machines](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html) in the Amazon FSx for NetApp ONTAP User Guide.
     public var subdirectory: Swift.String?
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
     public var tags: [DataSyncClientTypes.TagListEntry]?
@@ -1036,7 +1036,7 @@ public struct CreateLocationFsxOpenZfsOutput: Swift.Sendable {
 }
 
 public struct CreateLocationFsxWindowsInput: Swift.Sendable {
-    /// Specifies the name of the Microsoft Active Directory domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
+    /// Specifies the name of the Windows domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
     public var domain: Swift.String?
     /// Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
     /// This member is required.
@@ -1484,7 +1484,7 @@ public struct CreateLocationObjectStorageOutput: Swift.Sendable {
 
 extension DataSyncClientTypes {
 
-    /// Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see [Accessing S3 buckets](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access).
+    /// Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see [Providing DataSync access to S3 buckets](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access).
     public struct S3Config: Swift.Sendable {
         /// Specifies the ARN of the IAM role that DataSync uses to access your S3 bucket.
         /// This member is required.
@@ -1553,7 +1553,7 @@ public struct CreateLocationS3Input: Swift.Sendable {
     /// Specifies the ARN of the S3 bucket that you want to use as a location. (When creating your DataSync task later, you specify whether this location is a transfer source or destination.) If your S3 bucket is located on an Outposts resource, you must specify an Amazon S3 access point. For more information, see [Managing data access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var s3BucketArn: Swift.String?
-    /// Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see [Accessing S3 buckets](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access).
+    /// Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see [Providing DataSync access to S3 buckets](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access).
     /// This member is required.
     public var s3Config: DataSyncClientTypes.S3Config?
     /// Specifies the storage class that you want your objects to use when Amazon S3 is a transfer destination. For buckets in Amazon Web Services Regions, the storage class defaults to STANDARD. For buckets on Outposts, the storage class defaults to OUTPOSTS. For more information, see [Storage class considerations with Amazon S3 transfers](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes).
@@ -3493,7 +3493,7 @@ public struct DescribeLocationS3Output: Swift.Sendable {
     public var locationArn: Swift.String?
     /// The URL of the Amazon S3 location that was described.
     public var locationUri: Swift.String?
-    /// Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see [Accessing S3 buckets](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access).
+    /// Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see [Providing DataSync access to S3 buckets](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access).
     public var s3Config: DataSyncClientTypes.S3Config?
     /// When Amazon S3 is a destination location, this is the storage class that you chose for your objects. Some storage classes have behaviors that can affect your Amazon S3 storage costs. For more information, see [Storage class considerations with Amazon S3 transfers](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes).
     public var s3StorageClass: DataSyncClientTypes.S3StorageClass?
@@ -5658,6 +5658,206 @@ public struct UpdateLocationAzureBlobOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateLocationEfsInput: Swift.Sendable {
+    /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to mount your Amazon EFS file system. For more information, see [Accessing restricted Amazon EFS file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam).
+    public var accessPointArn: Swift.String?
+    /// Specifies an Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For information on creating this role, see [Creating a DataSync IAM role for Amazon EFS file system access](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam-role).
+    public var fileSystemAccessRoleArn: Swift.String?
+    /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
+    public var inTransitEncryption: DataSyncClientTypes.EfsInTransitEncryption?
+    /// Specifies the Amazon Resource Name (ARN) of the Amazon EFS transfer location that you're updating.
+    /// This member is required.
+    public var locationArn: Swift.String?
+    /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or [access point](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html) if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
+    public var subdirectory: Swift.String?
+
+    public init(
+        accessPointArn: Swift.String? = nil,
+        fileSystemAccessRoleArn: Swift.String? = nil,
+        inTransitEncryption: DataSyncClientTypes.EfsInTransitEncryption? = nil,
+        locationArn: Swift.String? = nil,
+        subdirectory: Swift.String? = nil
+    )
+    {
+        self.accessPointArn = accessPointArn
+        self.fileSystemAccessRoleArn = fileSystemAccessRoleArn
+        self.inTransitEncryption = inTransitEncryption
+        self.locationArn = locationArn
+        self.subdirectory = subdirectory
+    }
+}
+
+public struct UpdateLocationEfsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateLocationFsxLustreInput: Swift.Sendable {
+    /// Specifies the Amazon Resource Name (ARN) of the FSx for Lustre transfer location that you're updating.
+    /// This member is required.
+    public var locationArn: Swift.String?
+    /// Specifies a mount path for your FSx for Lustre file system. The path can include subdirectories. When the location is used as a source, DataSync reads data from the mount path. When the location is used as a destination, DataSync writes data to the mount path. If you don't include this parameter, DataSync uses the file system's root directory (/).
+    public var subdirectory: Swift.String?
+
+    public init(
+        locationArn: Swift.String? = nil,
+        subdirectory: Swift.String? = nil
+    )
+    {
+        self.locationArn = locationArn
+        self.subdirectory = subdirectory
+    }
+}
+
+public struct UpdateLocationFsxLustreOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension DataSyncClientTypes {
+
+    /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your Amazon FSx for NetApp ONTAP file system's storage virtual machine (SVM). For more information, see [Providing DataSync access to FSx for ONTAP file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
+    public struct FsxUpdateProtocolSmb: Swift.Sendable {
+        /// Specifies the name of the Windows domain that your storage virtual machine (SVM) belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right SVM.
+        public var domain: Swift.String?
+        /// Specifies the version of the Server Message Block (SMB) protocol that DataSync uses to access an SMB file server.
+        public var mountOptions: DataSyncClientTypes.SmbMountOptions?
+        /// Specifies the password of a user who has permission to access your SVM.
+        public var password: Swift.String?
+        /// Specifies a user that can mount and access the files, folders, and metadata in your SVM. For information about choosing a user with the right level of access for your transfer, see [Using the SMB protocol](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-smb).
+        public var user: Swift.String?
+
+        public init(
+            domain: Swift.String? = nil,
+            mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
+            password: Swift.String? = nil,
+            user: Swift.String? = nil
+        )
+        {
+            self.domain = domain
+            self.mountOptions = mountOptions
+            self.password = password
+            self.user = user
+        }
+    }
+}
+
+extension DataSyncClientTypes.FsxUpdateProtocolSmb: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FsxUpdateProtocolSmb(domain: \(Swift.String(describing: domain)), mountOptions: \(Swift.String(describing: mountOptions)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+}
+
+extension DataSyncClientTypes {
+
+    /// Specifies the data transfer protocol that DataSync uses to access your Amazon FSx file system. You can't update the Network File System (NFS) protocol configuration for FSx for ONTAP locations. DataSync currently only supports NFS version 3 with this location type.
+    public struct FsxUpdateProtocol: Swift.Sendable {
+        /// Specifies the Network File System (NFS) protocol configuration that DataSync uses to access your FSx for OpenZFS file system or FSx for ONTAP file system's storage virtual machine (SVM).
+        public var nfs: DataSyncClientTypes.FsxProtocolNfs?
+        /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your FSx for ONTAP file system's storage virtual machine (SVM).
+        public var smb: DataSyncClientTypes.FsxUpdateProtocolSmb?
+
+        public init(
+            nfs: DataSyncClientTypes.FsxProtocolNfs? = nil,
+            smb: DataSyncClientTypes.FsxUpdateProtocolSmb? = nil
+        )
+        {
+            self.nfs = nfs
+            self.smb = smb
+        }
+    }
+}
+
+public struct UpdateLocationFsxOntapInput: Swift.Sendable {
+    /// Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP transfer location that you're updating.
+    /// This member is required.
+    public var locationArn: Swift.String?
+    /// Specifies the data transfer protocol that DataSync uses to access your Amazon FSx file system.
+    public var `protocol`: DataSyncClientTypes.FsxUpdateProtocol?
+    /// Specifies a path to the file share in the storage virtual machine (SVM) where you want to transfer data to or from. You can specify a junction path (also known as a mount point), qtree path (for NFS file shares), or share name (for SMB file shares). For example, your mount path might be /vol1, /vol1/tree1, or /share1. Don't specify a junction path in the SVM's root volume. For more information, see [Managing FSx for ONTAP storage virtual machines](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html) in the Amazon FSx for NetApp ONTAP User Guide.
+    public var subdirectory: Swift.String?
+
+    public init(
+        locationArn: Swift.String? = nil,
+        `protocol`: DataSyncClientTypes.FsxUpdateProtocol? = nil,
+        subdirectory: Swift.String? = nil
+    )
+    {
+        self.locationArn = locationArn
+        self.`protocol` = `protocol`
+        self.subdirectory = subdirectory
+    }
+}
+
+public struct UpdateLocationFsxOntapOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateLocationFsxOpenZfsInput: Swift.Sendable {
+    /// Specifies the Amazon Resource Name (ARN) of the FSx for OpenZFS transfer location that you're updating.
+    /// This member is required.
+    public var locationArn: Swift.String?
+    /// Specifies the data transfer protocol that DataSync uses to access your Amazon FSx file system.
+    public var `protocol`: DataSyncClientTypes.FsxProtocol?
+    /// Specifies a subdirectory in the location's path that must begin with /fsx. DataSync uses this subdirectory to read or write data (depending on whether the file system is a source or destination location).
+    public var subdirectory: Swift.String?
+
+    public init(
+        locationArn: Swift.String? = nil,
+        `protocol`: DataSyncClientTypes.FsxProtocol? = nil,
+        subdirectory: Swift.String? = nil
+    )
+    {
+        self.locationArn = locationArn
+        self.`protocol` = `protocol`
+        self.subdirectory = subdirectory
+    }
+}
+
+public struct UpdateLocationFsxOpenZfsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateLocationFsxWindowsInput: Swift.Sendable {
+    /// Specifies the name of the Windows domain that your FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
+    public var domain: Swift.String?
+    /// Specifies the ARN of the FSx for Windows File Server transfer location that you're updating.
+    /// This member is required.
+    public var locationArn: Swift.String?
+    /// Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system.
+    public var password: Swift.String?
+    /// Specifies a mount path for your file system using forward slashes. DataSync uses this subdirectory to read or write data (depending on whether the file system is a source or destination location).
+    public var subdirectory: Swift.String?
+    /// Specifies the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. For information about choosing a user with the right level of access for your transfer, see [required permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions) for FSx for Windows File Server locations.
+    public var user: Swift.String?
+
+    public init(
+        domain: Swift.String? = nil,
+        locationArn: Swift.String? = nil,
+        password: Swift.String? = nil,
+        subdirectory: Swift.String? = nil,
+        user: Swift.String? = nil
+    )
+    {
+        self.domain = domain
+        self.locationArn = locationArn
+        self.password = password
+        self.subdirectory = subdirectory
+        self.user = user
+    }
+}
+
+extension UpdateLocationFsxWindowsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateLocationFsxWindowsInput(domain: \(Swift.String(describing: domain)), locationArn: \(Swift.String(describing: locationArn)), subdirectory: \(Swift.String(describing: subdirectory)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateLocationFsxWindowsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateLocationHdfsInput: Swift.Sendable {
     /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
     public var agentArns: [Swift.String]?
@@ -5810,6 +6010,44 @@ extension UpdateLocationObjectStorageInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct UpdateLocationObjectStorageOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateLocationS3Input: Swift.Sendable {
+    /// Specifies the Amazon Resource Name (ARN) of the Amazon S3 transfer location that you're updating.
+    /// This member is required.
+    public var locationArn: Swift.String?
+    /// Specifies the Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that DataSync uses to access your S3 bucket. For more information, see [Providing DataSync access to S3 buckets](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access).
+    public var s3Config: DataSyncClientTypes.S3Config?
+    /// Specifies the storage class that you want your objects to use when Amazon S3 is a transfer destination. For buckets in Amazon Web Services Regions, the storage class defaults to STANDARD. For buckets on Outposts, the storage class defaults to OUTPOSTS. For more information, see [Storage class considerations with Amazon S3 transfers](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes).
+    public var s3StorageClass: DataSyncClientTypes.S3StorageClass?
+    /// Specifies a prefix in the S3 bucket that DataSync reads from or writes to (depending on whether the bucket is a source or destination location). DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:
+    ///
+    /// * /photos
+    ///
+    /// * photos//2006/January
+    ///
+    /// * photos/./2006/February
+    ///
+    /// * photos/../2006/March
+    public var subdirectory: Swift.String?
+
+    public init(
+        locationArn: Swift.String? = nil,
+        s3Config: DataSyncClientTypes.S3Config? = nil,
+        s3StorageClass: DataSyncClientTypes.S3StorageClass? = nil,
+        subdirectory: Swift.String? = nil
+    )
+    {
+        self.locationArn = locationArn
+        self.s3Config = s3Config
+        self.s3StorageClass = s3StorageClass
+        self.subdirectory = subdirectory
+    }
+}
+
+public struct UpdateLocationS3Output: Swift.Sendable {
 
     public init() { }
 }
@@ -6344,6 +6582,41 @@ extension UpdateLocationAzureBlobInput {
     }
 }
 
+extension UpdateLocationEfsInput {
+
+    static func urlPathProvider(_ value: UpdateLocationEfsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateLocationFsxLustreInput {
+
+    static func urlPathProvider(_ value: UpdateLocationFsxLustreInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateLocationFsxOntapInput {
+
+    static func urlPathProvider(_ value: UpdateLocationFsxOntapInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateLocationFsxOpenZfsInput {
+
+    static func urlPathProvider(_ value: UpdateLocationFsxOpenZfsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateLocationFsxWindowsInput {
+
+    static func urlPathProvider(_ value: UpdateLocationFsxWindowsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateLocationHdfsInput {
 
     static func urlPathProvider(_ value: UpdateLocationHdfsInput) -> Swift.String? {
@@ -6361,6 +6634,13 @@ extension UpdateLocationNfsInput {
 extension UpdateLocationObjectStorageInput {
 
     static func urlPathProvider(_ value: UpdateLocationObjectStorageInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateLocationS3Input {
+
+    static func urlPathProvider(_ value: UpdateLocationS3Input) -> Swift.String? {
         return "/"
     }
 }
@@ -6951,6 +7231,59 @@ extension UpdateLocationAzureBlobInput {
     }
 }
 
+extension UpdateLocationEfsInput {
+
+    static func write(value: UpdateLocationEfsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessPointArn"].write(value.accessPointArn)
+        try writer["FileSystemAccessRoleArn"].write(value.fileSystemAccessRoleArn)
+        try writer["InTransitEncryption"].write(value.inTransitEncryption)
+        try writer["LocationArn"].write(value.locationArn)
+        try writer["Subdirectory"].write(value.subdirectory)
+    }
+}
+
+extension UpdateLocationFsxLustreInput {
+
+    static func write(value: UpdateLocationFsxLustreInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocationArn"].write(value.locationArn)
+        try writer["Subdirectory"].write(value.subdirectory)
+    }
+}
+
+extension UpdateLocationFsxOntapInput {
+
+    static func write(value: UpdateLocationFsxOntapInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocationArn"].write(value.locationArn)
+        try writer["Protocol"].write(value.`protocol`, with: DataSyncClientTypes.FsxUpdateProtocol.write(value:to:))
+        try writer["Subdirectory"].write(value.subdirectory)
+    }
+}
+
+extension UpdateLocationFsxOpenZfsInput {
+
+    static func write(value: UpdateLocationFsxOpenZfsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocationArn"].write(value.locationArn)
+        try writer["Protocol"].write(value.`protocol`, with: DataSyncClientTypes.FsxProtocol.write(value:to:))
+        try writer["Subdirectory"].write(value.subdirectory)
+    }
+}
+
+extension UpdateLocationFsxWindowsInput {
+
+    static func write(value: UpdateLocationFsxWindowsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Domain"].write(value.domain)
+        try writer["LocationArn"].write(value.locationArn)
+        try writer["Password"].write(value.password)
+        try writer["Subdirectory"].write(value.subdirectory)
+        try writer["User"].write(value.user)
+    }
+}
+
 extension UpdateLocationHdfsInput {
 
     static func write(value: UpdateLocationHdfsInput?, to writer: SmithyJSON.Writer) throws {
@@ -6993,6 +7326,17 @@ extension UpdateLocationObjectStorageInput {
         try writer["ServerCertificate"].write(value.serverCertificate)
         try writer["ServerPort"].write(value.serverPort)
         try writer["ServerProtocol"].write(value.serverProtocol)
+        try writer["Subdirectory"].write(value.subdirectory)
+    }
+}
+
+extension UpdateLocationS3Input {
+
+    static func write(value: UpdateLocationS3Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocationArn"].write(value.locationArn)
+        try writer["S3Config"].write(value.s3Config, with: DataSyncClientTypes.S3Config.write(value:to:))
+        try writer["S3StorageClass"].write(value.s3StorageClass)
         try writer["Subdirectory"].write(value.subdirectory)
     }
 }
@@ -7760,6 +8104,41 @@ extension UpdateLocationAzureBlobOutput {
     }
 }
 
+extension UpdateLocationEfsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLocationEfsOutput {
+        return UpdateLocationEfsOutput()
+    }
+}
+
+extension UpdateLocationFsxLustreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLocationFsxLustreOutput {
+        return UpdateLocationFsxLustreOutput()
+    }
+}
+
+extension UpdateLocationFsxOntapOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLocationFsxOntapOutput {
+        return UpdateLocationFsxOntapOutput()
+    }
+}
+
+extension UpdateLocationFsxOpenZfsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLocationFsxOpenZfsOutput {
+        return UpdateLocationFsxOpenZfsOutput()
+    }
+}
+
+extension UpdateLocationFsxWindowsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLocationFsxWindowsOutput {
+        return UpdateLocationFsxWindowsOutput()
+    }
+}
+
 extension UpdateLocationHdfsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLocationHdfsOutput {
@@ -7778,6 +8157,13 @@ extension UpdateLocationObjectStorageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLocationObjectStorageOutput {
         return UpdateLocationObjectStorageOutput()
+    }
+}
+
+extension UpdateLocationS3Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLocationS3Output {
+        return UpdateLocationS3Output()
     }
 }
 
@@ -8604,6 +8990,81 @@ enum UpdateLocationAzureBlobOutputError {
     }
 }
 
+enum UpdateLocationEfsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLocationFsxLustreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLocationFsxOntapOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLocationFsxOpenZfsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLocationFsxWindowsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateLocationHdfsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8635,6 +9096,21 @@ enum UpdateLocationNfsOutputError {
 }
 
 enum UpdateLocationObjectStorageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateLocationS3OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9544,6 +10020,26 @@ extension DataSyncClientTypes.TaskFilter {
         try writer["Name"].write(value.name)
         try writer["Operator"].write(value.`operator`)
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataSyncClientTypes.FsxUpdateProtocol {
+
+    static func write(value: DataSyncClientTypes.FsxUpdateProtocol?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NFS"].write(value.nfs, with: DataSyncClientTypes.FsxProtocolNfs.write(value:to:))
+        try writer["SMB"].write(value.smb, with: DataSyncClientTypes.FsxUpdateProtocolSmb.write(value:to:))
+    }
+}
+
+extension DataSyncClientTypes.FsxUpdateProtocolSmb {
+
+    static func write(value: DataSyncClientTypes.FsxUpdateProtocolSmb?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Domain"].write(value.domain)
+        try writer["MountOptions"].write(value.mountOptions, with: DataSyncClientTypes.SmbMountOptions.write(value:to:))
+        try writer["Password"].write(value.password)
+        try writer["User"].write(value.user)
     }
 }
 
