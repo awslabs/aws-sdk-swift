@@ -58,9 +58,9 @@ extension CostandUsageReportClientTypes {
 }
 
 /// An error on the server occurred during the processing of your request. Try again later.
-public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message to show the detail of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -83,9 +83,9 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message to show the detail of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -559,9 +559,9 @@ public struct DescribeReportDefinitionsOutput: Swift.Sendable {
 }
 
 /// The specified report (ReportName) in the request doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message to show the detail of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -654,9 +654,9 @@ public struct ModifyReportDefinitionOutput: Swift.Sendable {
 }
 
 /// A report with the specified name already exists in the account. Specify a different report name.
-public struct DuplicateReportNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateReportNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message to show the detail of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -679,9 +679,9 @@ public struct DuplicateReportNameException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// This account already has five reports defined. To define a new report, you must delete an existing report.
-public struct ReportLimitReachedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReportLimitReachedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A message to show the detail of the exception.
         public internal(set) var message: Swift.String? = nil
     }

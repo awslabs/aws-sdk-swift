@@ -382,9 +382,9 @@ public struct UpdateUserSecurityProfilesOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient permissions to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -470,9 +470,9 @@ extension ConnectClientTypes {
 }
 
 /// Request processing failed because of an error or failure with the service.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -495,9 +495,9 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// One or more of the specified parameters are not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the parameters.
         public internal(set) var message: Swift.String? = nil
     }
@@ -520,9 +520,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// A resource already has that name.
-public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -544,9 +544,9 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the resource.
         public internal(set) var message: Swift.String? = nil
     }
@@ -569,9 +569,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The throttling limit has been exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1619,9 +1619,9 @@ extension ConnectClientTypes {
 }
 
 /// The request is not valid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the request.
         public internal(set) var message: Swift.String? = nil
         /// Reason why the request was invalid.
@@ -1733,9 +1733,9 @@ extension ConnectClientTypes {
 }
 
 /// The service quota has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The reason for the exception.
         public internal(set) var reason: ConnectClientTypes.ServiceQuotaExceededExceptionReason? = nil
@@ -1779,9 +1779,9 @@ public struct AssociateApprovedOriginInput: Swift.Sendable {
 }
 
 /// The allowed limit for the resource has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the limit.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3081,9 +3081,9 @@ public struct BatchGetFlowAssociationOutput: Swift.Sendable {
 }
 
 /// An entity with the same name already exists.
-public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotencyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3429,9 +3429,9 @@ public struct CompleteAttachedFileUploadOutput: Swift.Sendable {
 }
 
 /// A resource with the specified name already exists.
-public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3504,9 +3504,9 @@ public struct CreateAgentStatusOutput: Swift.Sendable {
 }
 
 /// Operation cannot be performed at this time as there is a conflict with another operation or contact state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3723,9 +3723,9 @@ extension ConnectClientTypes {
 }
 
 /// The flow is not valid.
-public struct InvalidContactFlowException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidContactFlowException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The problems with the flow. Please fix before trying again.
         public internal(set) var problems: [ConnectClientTypes.ProblemDetail]? = nil
     }
@@ -3887,9 +3887,9 @@ public struct CreateContactFlowOutput: Swift.Sendable {
 }
 
 /// The problems with the module. Please fix before trying again.
-public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidContactFlowModuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var problems: [ConnectClientTypes.ProblemDetail]? = nil
     }
 
@@ -6584,9 +6584,9 @@ extension ConnectClientTypes {
 }
 
 /// The property is not valid.
-public struct PropertyValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PropertyValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         public internal(set) var propertyList: [ConnectClientTypes.PropertyValidationExceptionProperty]? = nil
@@ -6928,9 +6928,9 @@ public struct CreateTaskTemplateOutput: Swift.Sendable {
 }
 
 /// The resource is not ready.
-public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7334,9 +7334,9 @@ extension ConnectClientTypes {
 }
 
 /// That resource is already in use. Please try another.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The identifier for the resource.
         public internal(set) var resourceId: Swift.String? = nil
@@ -7366,9 +7366,9 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Displayed when rate-related API limits are exceeded.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9032,9 +9032,9 @@ extension ConnectClientTypes {
 }
 
 /// The flow has not been published.
-public struct ContactFlowNotPublishedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ContactFlowNotPublishedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -13233,9 +13233,9 @@ public struct GetEffectiveHoursOfOperationsOutput: Swift.Sendable {
 }
 
 /// No user with the specified credentials was found in the Amazon Connect instance.
-public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -16520,9 +16520,9 @@ public struct ListQuickConnectsOutput: Swift.Sendable {
 }
 
 /// Thrown for analyzed content when requested OutputType was not enabled for a given contact. For example, if an OutputType.Raw was requested for a contact that had `RedactedOnly` Redaction policy set in the flow.
-public struct OutputTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OutputTypeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -19756,9 +19756,9 @@ public struct SearchQuickConnectsOutput: Swift.Sendable {
 }
 
 /// Maximum number (1000) of tags have been returned with current request. Consider changing request parameters to get more tags.
-public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaximumResultReturnedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21601,9 +21601,9 @@ public struct StartOutboundEmailContactOutput: Swift.Sendable {
 }
 
 /// Outbound calls to the destination number are not allowed.
-public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the outbound calls.
         public internal(set) var message: Swift.String? = nil
     }
@@ -21626,9 +21626,9 @@ public struct DestinationNotAllowedException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The contact is not permitted.
-public struct OutboundContactNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OutboundContactNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message about the contact.
         public internal(set) var message: Swift.String? = nil
     }
@@ -22036,9 +22036,9 @@ public struct StartWebRTCContactOutput: Swift.Sendable {
 }
 
 /// The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat or Task contacts.
-public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -22886,9 +22886,9 @@ public struct UpdateHoursOfOperationInput: Swift.Sendable {
 }
 
 /// Request processing failed because dependent condition failed.
-public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 

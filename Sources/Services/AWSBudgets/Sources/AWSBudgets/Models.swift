@@ -29,9 +29,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You are not authorized to use this operation with the given parameters.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }
@@ -679,9 +679,9 @@ extension BudgetsClientTypes {
 }
 
 /// You've exceeded the notification or subscriber limit.
-public struct CreationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CreationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }
@@ -704,9 +704,9 @@ public struct CreationLimitExceededException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The budget name already exists. Budget names must be unique within an account.
-public struct DuplicateRecordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateRecordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }
@@ -729,9 +729,9 @@ public struct DuplicateRecordException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// An error on the server occurred during the processing of your request. Try again later.
-public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }
@@ -754,9 +754,9 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// An error on the client occurred. Typically, the cause is an invalid input value.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }
@@ -779,9 +779,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// You've reached the limit on the number of tags you can associate with a resource.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }
@@ -804,9 +804,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1288,9 +1288,9 @@ public struct CreateBudgetOutput: Swift.Sendable {
 }
 
 /// We can’t locate the resource that you specified.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1488,9 +1488,9 @@ public struct DeleteBudgetOutput: Swift.Sendable {
 }
 
 /// The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
-public struct ResourceLockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1702,9 +1702,9 @@ public struct DescribeBudgetActionOutput: Swift.Sendable {
 }
 
 /// The pagination token is invalid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1860,9 +1860,9 @@ public struct DescribeBudgetActionsForBudgetOutput: Swift.Sendable {
 }
 
 /// The pagination token expired.
-public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message the exception carries.
         public internal(set) var message: Swift.String? = nil
     }

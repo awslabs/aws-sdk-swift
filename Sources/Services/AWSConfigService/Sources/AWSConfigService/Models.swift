@@ -2133,9 +2133,9 @@ extension ConfigClientTypes {
 /// * For service-linked configuration recorders, the configuration recorder is not in use by the service. No association or dissociation of resource types is permitted.
 ///
 /// * For service-linked configuration recorders, your requested change to the configuration recorder has been denied by its linked Amazon Web Services service.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -2158,9 +2158,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// You have specified a configuration recorder that does not exist.
-public struct NoSuchConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -2205,9 +2205,9 @@ public struct NoSuchConfigurationRecorderException: ClientRuntime.ModeledError, 
 /// * One or more of the specified resource types are already associated or disassociated with the configuration recorder.
 ///
 /// * For service-linked configuration recorders, the configuration recorder does not record one or more of the specified resource types.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -2708,9 +2708,9 @@ extension ConfigClientTypes {
 }
 
 /// You have specified a configuration aggregator that does not exist.
-public struct NoSuchConfigurationAggregatorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchConfigurationAggregatorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -2767,9 +2767,9 @@ public struct BatchGetAggregateResourceConfigOutput: Swift.Sendable {
 }
 
 /// There are no customer managed configuration recorders available to record your resources. Use the [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html) operation to create the customer managed configuration recorder.
-public struct NoAvailableConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoAvailableConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4309,9 +4309,9 @@ extension ConfigClientTypes {
 }
 
 /// You have specified a template that is not valid or supported.
-public struct ConformancePackTemplateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConformancePackTemplateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4334,9 +4334,9 @@ public struct ConformancePackTemplateValidationException: ClientRuntime.ModeledE
 }
 
 /// One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4377,9 +4377,9 @@ public struct DeleteAggregationAuthorizationInput: Swift.Sendable {
 }
 
 /// The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-public struct NoSuchConfigRuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchConfigRuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4416,9 +4416,9 @@ public struct NoSuchConfigRuleException: ClientRuntime.ModeledError, AWSClientRu
 /// * For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
 ///
 /// * For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4468,9 +4468,9 @@ public struct DeleteConfigurationAggregatorInput: Swift.Sendable {
 }
 
 /// The requested operation is not valid. For [PutConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConfigurationRecorder.html), you will see this exception because you cannot use this operation to create a service-linked configuration recorder. Use the [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html) operation to create a service-linked configuration recorder. For [DeleteConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteConfigurationRecorder.html), you will see this exception because you cannot use this operation to delete a service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder. For [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) and [StopConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StopConfigurationRecorder.html), you will see this exception because these operations do not affect service-linked configuration recorders. Service-linked configuration recorders are always recording. To stop recording, you must delete the service-linked configuration recorder. Use the [DeleteServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteServiceLinkedConfigurationRecorder.html) operation to delete a service-linked configuration recorder.
-public struct UnmodifiableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnmodifiableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4507,9 +4507,9 @@ public struct DeleteConfigurationRecorderInput: Swift.Sendable {
 }
 
 /// You specified one or more conformance packs that do not exist.
-public struct NoSuchConformancePackException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchConformancePackException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4545,9 +4545,9 @@ public struct DeleteConformancePackInput: Swift.Sendable {
 }
 
 /// You cannot delete the delivery channel you specified because the customer managed configuration recorder is running.
-public struct LastDeliveryChannelDeleteFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LastDeliveryChannelDeleteFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4570,9 +4570,9 @@ public struct LastDeliveryChannelDeleteFailedException: ClientRuntime.ModeledErr
 }
 
 /// You have specified a delivery channel that does not exist.
-public struct NoSuchDeliveryChannelException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchDeliveryChannelException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4629,9 +4629,9 @@ public struct DeleteEvaluationResultsOutput: Swift.Sendable {
 }
 
 /// The Config rule in the request is not valid. Verify that the rule is an organization Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
-public struct NoSuchOrganizationConfigRuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchOrganizationConfigRuleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4665,9 +4665,9 @@ public struct NoSuchOrganizationConfigRuleException: ClientRuntime.ModeledError,
 ///
 ///
 /// For all OrganizationConfigRule and OrganizationConformancePack APIs, Config throws an exception if APIs are called from member accounts. All APIs must be called from organization management account.
-public struct OrganizationAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4703,9 +4703,9 @@ public struct DeleteOrganizationConfigRuleInput: Swift.Sendable {
 }
 
 /// Config organization conformance pack that you passed in the filter does not exist. For DeleteOrganizationConformancePack, you tried to delete an organization conformance pack that does not exist.
-public struct NoSuchOrganizationConformancePackException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchOrganizationConformancePackException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4776,9 +4776,9 @@ public struct DeletePendingAggregationRequestInput: Swift.Sendable {
 ///
 ///
 /// * For [PutServiceLinkedConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_PutServiceLinkedConfigurationRecorder.html), a service-linked configuration recorder cannot be created because you do not have the following permissions: IAM CreateServiceLinkedRole.
-public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4801,9 +4801,9 @@ public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSC
 }
 
 /// You specified an Config rule without a remediation configuration.
-public struct NoSuchRemediationConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchRemediationConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4826,9 +4826,9 @@ public struct NoSuchRemediationConfigurationException: ClientRuntime.ModeledErro
 }
 
 /// Remediation action is in progress. You can either cancel execution in Amazon Web Services Systems Manager or wait and try again later.
-public struct RemediationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RemediationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4873,9 +4873,9 @@ public struct DeleteRemediationConfigurationOutput: Swift.Sendable {
 }
 
 /// You tried to delete a remediation exception that does not exist.
-public struct NoSuchRemediationExceptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchRemediationExceptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -4968,9 +4968,9 @@ public struct DeleteRemediationExceptionsOutput: Swift.Sendable {
 }
 
 /// There is no configuration recorder running.
-public struct NoRunningConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoRunningConfigurationRecorderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -5011,9 +5011,9 @@ public struct DeleteResourceConfigInput: Swift.Sendable {
 }
 
 /// You have specified a retention configuration that does not exist.
-public struct NoSuchRetentionConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchRetentionConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -5080,9 +5080,9 @@ public struct DeleteServiceLinkedConfigurationRecorderOutput: Swift.Sendable {
 }
 
 /// You have specified a resource that does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -5214,9 +5214,9 @@ extension ConfigClientTypes {
 }
 
 /// The specified limit is outside the allowable range.
-public struct InvalidLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -5239,9 +5239,9 @@ public struct InvalidLimitException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -5705,9 +5705,9 @@ public struct DescribeConfigurationRecorderStatusOutput: Swift.Sendable {
 }
 
 /// Config rule that you passed in the filter does not exist.
-public struct NoSuchConfigRuleInConformancePackException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchConfigRuleInConformancePackException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -7686,9 +7686,9 @@ public struct GetAggregateDiscoveredResourceCountsOutput: Swift.Sendable {
 }
 
 /// The configuration item size is outside the allowable range.
-public struct OversizedConfigurationItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OversizedConfigurationItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -7711,9 +7711,9 @@ public struct OversizedConfigurationItemException: ClientRuntime.ModeledError, A
 }
 
 /// You have specified a resource that is either unknown or has not been discovered.
-public struct ResourceNotDiscoveredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotDiscoveredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8464,9 +8464,9 @@ public struct GetOrganizationCustomRulePolicyOutput: Swift.Sendable {
 }
 
 /// The specified time range is not valid. The earlier time is not chronologically before the later time.
-public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8709,9 +8709,9 @@ public struct GetStoredQueryOutput: Swift.Sendable {
 }
 
 /// Using the same client token with one or more different parameters. Specify a new client token with the parameter changes and try again.
-public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -8733,9 +8733,9 @@ public struct IdempotentParameterMismatch: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Your Amazon S3 bucket policy does not allow Config to write to it.
-public struct InsufficientDeliveryPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientDeliveryPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8758,9 +8758,9 @@ public struct InsufficientDeliveryPolicyException: ClientRuntime.ModeledError, A
 }
 
 /// You have provided a name for the customer managed configuration recorder that is not valid.
-public struct InvalidConfigurationRecorderNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidConfigurationRecorderNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8783,9 +8783,9 @@ public struct InvalidConfigurationRecorderNameException: ClientRuntime.ModeledEr
 }
 
 /// The specified delivery channel name is not valid.
-public struct InvalidDeliveryChannelNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeliveryChannelNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8808,9 +8808,9 @@ public struct InvalidDeliveryChannelNameException: ClientRuntime.ModeledError, A
 }
 
 /// The syntax of the query is incorrect.
-public struct InvalidExpressionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidExpressionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8848,9 +8848,9 @@ public struct InvalidExpressionException: ClientRuntime.ModeledError, AWSClientR
 /// * You have reached the limit of the number of resource types you can provide for the recording group.
 ///
 /// * You have provided resource types or a recording strategy that are not valid.
-public struct InvalidRecordingGroupException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRecordingGroupException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8873,9 +8873,9 @@ public struct InvalidRecordingGroupException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The specified ResultToken is not valid.
-public struct InvalidResultTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResultTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8898,9 +8898,9 @@ public struct InvalidResultTokenException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// You have provided a null or empty Amazon Resource Name (ARN) for the IAM role assumed by Config and used by the customer managed configuration recorder.
-public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8923,9 +8923,9 @@ public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The specified Amazon S3 key prefix is not valid.
-public struct InvalidS3KeyPrefixException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3KeyPrefixException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8948,9 +8948,9 @@ public struct InvalidS3KeyPrefixException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The specified Amazon KMS Key ARN is not valid.
-public struct InvalidS3KmsKeyArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidS3KmsKeyArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8973,9 +8973,9 @@ public struct InvalidS3KmsKeyArnException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The specified Amazon SNS topic does not exist.
-public struct InvalidSNSTopicARNException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSNSTopicARNException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -8998,9 +8998,9 @@ public struct InvalidSNSTopicARNException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// For PutServiceLinkedConfigurationRecorder API, this exception is thrown if the number of service-linked roles in the account exceeds the limit. For StartConfigRulesEvaluation API, this exception is thrown if an evaluation is in progress or if you call the [StartConfigRulesEvaluation] API more than once per minute. For PutConfigurationAggregator API, this exception is thrown if the number of accounts and aggregators exceeds the limit.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9553,9 +9553,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 /// You have reached the limit of active custom resource types in your account. There is a limit of 100,000. Delete unused resources using [DeleteResourceConfig](https://docs.aws.amazon.com/config/latest/APIReference/API_DeleteResourceConfig.html).
-public struct MaxActiveResourcesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxActiveResourcesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9578,9 +9578,9 @@ public struct MaxActiveResourcesExceededException: ClientRuntime.ModeledError, A
 }
 
 /// Failed to add the Config rule because the account already contains the maximum number of 1000 rules. Consider deleting any deactivated rules before you add new rules.
-public struct MaxNumberOfConfigRulesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxNumberOfConfigRulesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9603,9 +9603,9 @@ public struct MaxNumberOfConfigRulesExceededException: ClientRuntime.ModeledErro
 }
 
 /// You have reached the limit of the number of configuration recorders you can create.
-public struct MaxNumberOfConfigurationRecordersExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxNumberOfConfigurationRecordersExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9628,9 +9628,9 @@ public struct MaxNumberOfConfigurationRecordersExceededException: ClientRuntime.
 }
 
 /// You have reached the limit of the number of conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct MaxNumberOfConformancePacksExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxNumberOfConformancePacksExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9653,9 +9653,9 @@ public struct MaxNumberOfConformancePacksExceededException: ClientRuntime.Modele
 }
 
 /// You have reached the limit of the number of delivery channels you can create.
-public struct MaxNumberOfDeliveryChannelsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxNumberOfDeliveryChannelsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9678,9 +9678,9 @@ public struct MaxNumberOfDeliveryChannelsExceededException: ClientRuntime.Modele
 }
 
 /// You have reached the limit of the number of organization Config rules you can create. For more information, see see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct MaxNumberOfOrganizationConfigRulesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxNumberOfOrganizationConfigRulesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9703,9 +9703,9 @@ public struct MaxNumberOfOrganizationConfigRulesExceededException: ClientRuntime
 }
 
 /// You have reached the limit of the number of organization conformance packs you can create in an account. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct MaxNumberOfOrganizationConformancePacksExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxNumberOfOrganizationConformancePacksExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9728,9 +9728,9 @@ public struct MaxNumberOfOrganizationConformancePacksExceededException: ClientRu
 }
 
 /// Failed to add the retention configuration because a retention configuration with that name already exists.
-public struct MaxNumberOfRetentionConfigurationsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MaxNumberOfRetentionConfigurationsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9753,9 +9753,9 @@ public struct MaxNumberOfRetentionConfigurationsExceededException: ClientRuntime
 }
 
 /// There is no delivery channel available to record configurations.
-public struct NoAvailableDeliveryChannelException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoAvailableDeliveryChannelException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9778,9 +9778,9 @@ public struct NoAvailableDeliveryChannelException: ClientRuntime.ModeledError, A
 }
 
 /// Organization is no longer available.
-public struct NoAvailableOrganizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoAvailableOrganizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9803,9 +9803,9 @@ public struct NoAvailableOrganizationException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The specified Amazon S3 bucket does not exist.
-public struct NoSuchBucketException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoSuchBucketException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9828,9 +9828,9 @@ public struct NoSuchBucketException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Config resource cannot be created because your organization does not have all features enabled.
-public struct OrganizationAllFeaturesNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationAllFeaturesNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -9853,9 +9853,9 @@ public struct OrganizationAllFeaturesNotEnabledException: ClientRuntime.ModeledE
 }
 
 /// You have specified a template that is not valid or supported.
-public struct OrganizationConformancePackTemplateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationConformancePackTemplateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }
@@ -10418,9 +10418,9 @@ public struct PutServiceLinkedConfigurationRecorderOutput: Swift.Sendable {
 }
 
 /// Two users are trying to modify the same query at the same time. Wait for a moment and try again.
-public struct ResourceConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10442,9 +10442,9 @@ public struct ResourceConcurrentModificationException: ClientRuntime.ModeledErro
 }
 
 /// You have reached the limit of the number of tags you can use. For more information, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error executing the command
         public internal(set) var message: Swift.String? = nil
     }

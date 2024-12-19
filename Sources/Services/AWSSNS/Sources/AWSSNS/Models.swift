@@ -83,9 +83,9 @@ public struct UnsubscribeOutput: Swift.Sendable {
 }
 
 /// Indicates that the user has been denied access to the requested resource.
-public struct AuthorizationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthorizationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -107,9 +107,9 @@ public struct AuthorizationErrorException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Indicates an internal service error.
-public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -131,9 +131,9 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Indicates that a request parameter does not comply with the associated constraints.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -155,9 +155,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Indicates that the requested resource does not exist.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -207,9 +207,9 @@ public struct AddPermissionInput: Swift.Sendable {
 }
 
 /// Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
-public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Throttled request.
         public internal(set) var message: Swift.String? = nil
     }
@@ -268,9 +268,9 @@ public struct CheckIfPhoneNumberIsOptedOutOutput: Swift.Sendable {
 }
 
 /// Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
-public struct FilterPolicyLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FilterPolicyLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -292,9 +292,9 @@ public struct FilterPolicyLimitExceededException: ClientRuntime.ModeledError, AW
 }
 
 /// Indicates that the request parameter has exceeded the maximum number of concurrent message replays.
-public struct ReplayLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ReplayLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -316,9 +316,9 @@ public struct ReplayLimitExceededException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Indicates that the customer already owns the maximum allowed number of subscriptions.
-public struct SubscriptionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SubscriptionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -453,9 +453,9 @@ public struct CreatePlatformEndpointOutput: Swift.Sendable {
 }
 
 /// Indicates that the specified phone number opted out of receiving SMS messages from your Amazon Web Services account. You can't send SMS messages to phone numbers that opt out.
-public struct OptedOutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OptedOutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -477,9 +477,9 @@ public struct OptedOutException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Indicates that a request parameter does not comply with the associated constraints.
-public struct UserErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -591,9 +591,9 @@ public struct CreateSMSSandboxPhoneNumberOutput: Swift.Sendable {
 }
 
 /// Can't perform multiple operations on a tag simultaneously. Perform the operations sequentially.
-public struct ConcurrentAccessException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentAccessException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -615,9 +615,9 @@ public struct ConcurrentAccessException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
-public struct InvalidSecurityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSecurityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -639,9 +639,9 @@ public struct InvalidSecurityException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
-public struct StaleTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct StaleTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -663,9 +663,9 @@ public struct StaleTagException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Can't add more than 50 tags to a topic.
-public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -687,9 +687,9 @@ public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
-public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -711,9 +711,9 @@ public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// Indicates that the customer already owns the maximum allowed number of topics.
-public struct TopicLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TopicLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -852,9 +852,9 @@ public struct DeletePlatformApplicationInput: Swift.Sendable {
 }
 
 /// Can’t perform the action on the specified resource. Make sure that the resource exists.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -899,9 +899,9 @@ public struct DeleteSMSSandboxPhoneNumberOutput: Swift.Sendable {
 }
 
 /// Indicates that the specified state is not a valid state for an event source.
-public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1290,9 +1290,9 @@ public struct ListEndpointsByPlatformApplicationOutput: Swift.Sendable {
 }
 
 /// Indicates that a parameter in the request is invalid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1819,9 +1819,9 @@ public struct OptInPhoneNumberOutput: Swift.Sendable {
 }
 
 /// Exception error indicating endpoint disabled.
-public struct EndpointDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EndpointDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message for endpoint disabled.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1844,9 +1844,9 @@ public struct EndpointDisabledException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Indicates that a request parameter does not comply with the associated constraints.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The parameter of an entry in a request doesn't abide by the specification.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1869,9 +1869,9 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The ciphertext references a key that doesn't exist or that you don't have access to.
-public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1893,9 +1893,9 @@ public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The request was rejected because the specified Amazon Web Services KMS key isn't enabled.
-public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1917,9 +1917,9 @@ public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [Key states of Amazon Web Services KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
-public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1941,9 +1941,9 @@ public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The request was rejected because the specified entity or resource can't be found.
-public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1965,9 +1965,9 @@ public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The Amazon Web Services access key ID needs a subscription for the service.
-public struct KMSOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1989,9 +1989,9 @@ public struct KMSOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Key Management Service Developer Guide.
-public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2013,9 +2013,9 @@ public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Exception error indicating platform application disabled.
-public struct PlatformApplicationDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PlatformApplicationDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message for platform application disabled.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2163,9 +2163,9 @@ public struct PublishOutput: Swift.Sendable {
 }
 
 /// Two or more batch entries in the request have the same Id.
-public struct BatchEntryIdsNotDistinctException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BatchEntryIdsNotDistinctException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2187,9 +2187,9 @@ public struct BatchEntryIdsNotDistinctException: ClientRuntime.ModeledError, AWS
 }
 
 /// The length of all the batch messages put together is more than the limit.
-public struct BatchRequestTooLongException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BatchRequestTooLongException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2211,9 +2211,9 @@ public struct BatchRequestTooLongException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The batch request doesn't contain any entries.
-public struct EmptyBatchRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EmptyBatchRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2235,9 +2235,9 @@ public struct EmptyBatchRequestException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The Id of a batch entry in a batch request doesn't abide by the specification.
-public struct InvalidBatchEntryIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidBatchEntryIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2259,9 +2259,9 @@ public struct InvalidBatchEntryIdException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The batch request contains more entries than permissible.
-public struct TooManyEntriesInBatchRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyEntriesInBatchRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2965,9 +2965,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// Indicates that the one-time password (OTP) used for verification is invalid.
-public struct VerificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct VerificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The status of the verification error.

@@ -82,9 +82,9 @@ extension EKSClientTypes {
 }
 
 /// You don't have permissions to perform the requested operation. The [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM User Guide.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// You do not have sufficient access to perform this action.
         public internal(set) var message: Swift.String? = nil
     }
@@ -665,9 +665,9 @@ extension EKSClientTypes {
 }
 
 /// The specified parameter is invalid. Review the available parameters for the API request.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The specified parameter for the add-on name is invalid. Review the available parameters for the API request
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -710,9 +710,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The request is invalid given the state of the add-on name. Check the state of the cluster and the associated operations.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -751,9 +751,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon EKS add-on name associated with the exception.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -796,9 +796,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// These errors are usually caused by a server-side issue.
-public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon EKS add-on name associated with the exception.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -913,9 +913,9 @@ public struct AssociateAccessPolicyOutput: Swift.Sendable {
 }
 
 /// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
-public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon EKS add-on name associated with the exception.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -954,9 +954,9 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// The specified resource is in use.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The specified add-on name is in use.
         public internal(set) var addonName: Swift.String? = nil
         /// The Amazon EKS cluster associated with the exception.
@@ -1556,9 +1556,9 @@ extension EKSClientTypes {
 }
 
 /// You have encountered a service limit on the specified resource.
-public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
         /// The Amazon EKS message associated with the exception.
@@ -1742,9 +1742,9 @@ public struct CreateAddonOutput: Swift.Sendable {
 }
 
 /// The service is unavailable. Back off and retry the operation.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The request has failed due to a temporary failure of the server.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1767,9 +1767,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
-public struct UnsupportedAvailabilityZoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedAvailabilityZoneException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The Amazon EKS cluster associated with the exception.
         public internal(set) var clusterName: Swift.String? = nil
         /// At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
@@ -5764,9 +5764,9 @@ public struct ListPodIdentityAssociationsOutput: Swift.Sendable {
 }
 
 /// This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This exception is thrown if the request contains a semantic error. The precise meaning will depend on the API, and will be documented in the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5789,9 +5789,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// A service resource associated with the request could not be found. Clients should not retry such requests.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A service resource associated with the request could not be found. Clients should not retry such requests.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5884,9 +5884,9 @@ public struct ListUpdatesOutput: Swift.Sendable {
 }
 
 /// Required resources (such as service-linked roles) were created and are still propagating. Retry later.
-public struct ResourcePropagationDelayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourcePropagationDelayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Required resources (such as service-linked roles) were created and are still propagating. Retry later.
         public internal(set) var message: Swift.String? = nil
     }

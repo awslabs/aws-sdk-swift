@@ -291,9 +291,9 @@ extension IoTClientTypes {
 }
 
 /// An unexpected error has occurred.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -316,9 +316,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The request is not valid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -341,9 +341,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -366,9 +366,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The service is temporarily unavailable.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -391,9 +391,9 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The rate exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -416,9 +416,9 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// You can't revert the certificate transfer because the transfer is already complete.
-public struct TransferAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransferAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -441,9 +441,9 @@ public struct TransferAlreadyCompletedException: ClientRuntime.ModeledError, AWS
 }
 
 /// You are not authorized to perform this operation.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2434,9 +2434,9 @@ extension IoTClientTypes {
 }
 
 /// The request conflicts with the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// A resource with the same name already exists.
         public internal(set) var resourceId: Swift.String? = nil
@@ -2462,9 +2462,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Internal error from the service that indicates an unexpected error or that the service is unavailable.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2486,9 +2486,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Service quota has been exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2510,9 +2510,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The request is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2657,9 +2657,9 @@ public struct AssociateSbomWithPackageVersionOutput: Swift.Sendable {
 }
 
 /// A limit has been exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2765,9 +2765,9 @@ public struct AttachPrincipalPolicyInput: Swift.Sendable {
 }
 
 /// An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
-public struct VersionConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct VersionConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4129,9 +4129,9 @@ public struct CancelJobOutput: Swift.Sendable {
 }
 
 /// An attempt was made to change to an invalid state, for example by deleting a job or a job execution which is "IN_PROGRESS" without setting the force parameter.
-public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4194,9 +4194,9 @@ public struct ClearDefaultAuthorizerOutput: Swift.Sendable {
 }
 
 /// A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
-public struct ConflictingResourceUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictingResourceUpdateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4219,9 +4219,9 @@ public struct ConflictingResourceUpdateException: ClientRuntime.ModeledError, AW
 }
 
 /// An unexpected error has occurred.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4262,9 +4262,9 @@ public struct ConfirmTopicRuleDestinationOutput: Swift.Sendable {
 }
 
 /// The resource already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The ARN of the resource that caused the exception.
@@ -4914,9 +4914,9 @@ public struct CreateDimensionOutput: Swift.Sendable {
 }
 
 /// The certificate is invalid.
-public struct CertificateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5139,9 +5139,9 @@ public struct CreateDomainConfigurationOutput: Swift.Sendable {
 }
 
 /// The query is invalid.
-public struct InvalidQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidQueryException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5250,9 +5250,9 @@ public struct CreateDynamicThingGroupOutput: Swift.Sendable {
 }
 
 /// The index is not ready.
-public struct IndexNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IndexNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5275,9 +5275,9 @@ public struct IndexNotReadyException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The aggregation is invalid.
-public struct InvalidAggregationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAggregationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -7091,9 +7091,9 @@ extension CreatePackageVersionOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// The policy documentation is not valid.
-public struct MalformedPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MalformedPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7164,9 +7164,9 @@ public struct CreatePolicyOutput: Swift.Sendable {
 }
 
 /// The number of policy versions exceeds the limit.
-public struct VersionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct VersionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7920,9 +7920,9 @@ public struct CreateThingTypeOutput: Swift.Sendable {
 }
 
 /// The Rule-SQL expression can't be parsed correctly.
-public struct SqlParseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SqlParseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8261,9 +8261,9 @@ public struct DeleteAuditSuppressionOutput: Swift.Sendable {
 }
 
 /// You can't delete the resource because it is attached to one or more resources.
-public struct DeleteConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeleteConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8326,9 +8326,9 @@ public struct DeleteBillingGroupOutput: Swift.Sendable {
 }
 
 /// The certificate operation is not allowed.
-public struct CertificateStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -13868,9 +13868,9 @@ public struct GetTopicRuleDestinationOutput: Swift.Sendable {
 }
 
 /// The resource is not configured.
-public struct NotConfiguredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotConfiguredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -18005,9 +18005,9 @@ public struct PutVerificationStateOnViolationOutput: Swift.Sendable {
 }
 
 /// The registration code is invalid.
-public struct RegistrationCodeValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RegistrationCodeValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -18085,9 +18085,9 @@ public struct RegisterCACertificateOutput: Swift.Sendable {
 }
 
 /// Unable to verify the CA certificate used to sign the device certificate you are attempting to register. This is happens when you have registered more than one CA certificate that has the same subject field and public key.
-public struct CertificateConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -18187,9 +18187,9 @@ public struct RegisterCertificateWithoutCAOutput: Swift.Sendable {
 }
 
 /// The resource registration failed.
-public struct ResourceRegistrationFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceRegistrationFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -18610,9 +18610,9 @@ public struct SetV2LoggingOptionsInput: Swift.Sendable {
 }
 
 /// This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
-public struct TaskAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TaskAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -18877,9 +18877,9 @@ public struct TestAuthorizationOutput: Swift.Sendable {
 }
 
 /// The response is invalid.
-public struct InvalidResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -19023,9 +19023,9 @@ public struct TestInvokeAuthorizerOutput: Swift.Sendable {
 }
 
 /// You can't transfer the certificate because authorization policies are still attached.
-public struct TransferConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TransferConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message for the exception.
         public internal(set) var message: Swift.String? = nil
     }

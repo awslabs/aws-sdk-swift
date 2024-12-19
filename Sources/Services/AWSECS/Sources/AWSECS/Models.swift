@@ -28,9 +28,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You don't have authorization to perform the requested action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -96,9 +96,9 @@ extension ECSClientTypes {
 /// These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid. The following list includes additional causes for the error:
 ///
 /// * The RunTask could not be processed because you use managed scaling and there is a capacity error because the quota of tasks in the PROVISIONING per cluster has been reached. For information about the service quotas, see [Amazon ECS service quotas](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-quotas.html).
-public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -121,9 +121,9 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// The specified parameter isn't valid. Review the available parameters for the API request.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -146,9 +146,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The limit for the resource was exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -171,9 +171,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// These errors are usually caused by a server issue.
-public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -196,9 +196,9 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// There's already a current Amazon ECS container agent update in progress on the container instance that's specified. If the container agent becomes disconnected while it's in a transitional stage, such as PENDING or STAGING, the update process can get stuck in that state. However, when the agent reconnects, it resumes where it stopped previously.
-public struct UpdateInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UpdateInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -575,9 +575,9 @@ public struct CreateCapacityProviderOutput: Swift.Sendable {
 }
 
 /// The specified namespace wasn't found.
-public struct NamespaceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NamespaceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1054,9 +1054,9 @@ public struct CreateClusterOutput: Swift.Sendable {
 }
 
 /// The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
-public struct ClusterNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1079,9 +1079,9 @@ public struct ClusterNotFoundException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The specified platform version doesn't satisfy the required capabilities of the task definition.
-public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1104,9 +1104,9 @@ public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.Mode
 }
 
 /// The specified platform version doesn't exist.
-public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1129,9 +1129,9 @@ public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The specified task isn't supported in this Region.
-public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2825,9 +2825,9 @@ public struct CreateServiceOutput: Swift.Sendable {
 }
 
 /// The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html).
-public struct ServiceNotActiveException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceNotActiveException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2850,9 +2850,9 @@ public struct ServiceNotActiveException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The specified service wasn't found. You can view your available services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html). Amazon ECS services are cluster specific and Region specific.
-public struct ServiceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3100,9 +3100,9 @@ public struct DeleteAccountSettingOutput: Swift.Sendable {
 }
 
 /// The specified target wasn't found. You can view your available container instances with [ListContainerInstances](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListContainerInstances.html). Amazon ECS container instances are cluster-specific and Region-specific.
-public struct TargetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TargetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3234,9 +3234,9 @@ public struct DeleteCapacityProviderOutput: Swift.Sendable {
 }
 
 /// You can't delete a cluster that has registered container instances. First, deregister the container instances before you can delete the cluster. For more information, see [DeregisterContainerInstance](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeregisterContainerInstance.html).
-public struct ClusterContainsContainerInstancesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterContainsContainerInstancesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3259,9 +3259,9 @@ public struct ClusterContainsContainerInstancesException: ClientRuntime.ModeledE
 }
 
 /// You can't delete a cluster that contains services. First, update the service to reduce its desired task count to 0, and then delete the service. For more information, see [UpdateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateService.html) and [DeleteService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteService.html).
-public struct ClusterContainsServicesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterContainsServicesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3284,9 +3284,9 @@ public struct ClusterContainsServicesException: ClientRuntime.ModeledError, AWSC
 }
 
 /// You can't delete a cluster that has active tasks.
-public struct ClusterContainsTasksException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClusterContainsTasksException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5346,9 +5346,9 @@ public struct DeleteTaskDefinitionsOutput: Swift.Sendable {
 }
 
 /// The specified task set wasn't found. You can view your available task sets with [DescribeTaskSets](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTaskSets.html). Task sets are specific to each cluster, service and Region.
-public struct TaskSetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TaskSetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7339,9 +7339,9 @@ public struct DiscoverPollEndpointOutput: Swift.Sendable {
 ///
 ///
 /// For information about how to troubleshoot the issues, see [Troubleshooting issues with ECS Exec](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-exec.html) in the Amazon Elastic Container Service Developer Guide.
-public struct TargetNotConnectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TargetNotConnectedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7456,9 +7456,9 @@ public struct ExecuteCommandOutput: Swift.Sendable {
 }
 
 /// The specified resource wasn't found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8347,9 +8347,9 @@ public struct PutAccountSettingDefaultOutput: Swift.Sendable {
 }
 
 /// You can apply up to 10 custom attributes for each resource. You can view the attributes of a resource with [ListAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListAttributes.html). You can remove existing attributes on a resource with [DeleteAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeleteAttributes.html).
-public struct AttributeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AttributeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8401,9 +8401,9 @@ public struct PutAttributesOutput: Swift.Sendable {
 }
 
 /// The specified resource is in-use and can't be removed.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8730,9 +8730,9 @@ public struct RegisterTaskDefinitionOutput: Swift.Sendable {
 }
 
 /// Your Amazon Web Services account was blocked. For more information, contact [ Amazon Web Services Support](http://aws.amazon.com/contact-us/).
-public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -8759,9 +8759,9 @@ public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 /// * Run RunTask with a unique clientToken.
 ///
 /// * Run RunTask with the clientToken and the original set of parameters
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
         /// The existing task ARNs which are already associated with the clientToken.
@@ -9565,9 +9565,9 @@ public struct UpdateClusterSettingsOutput: Swift.Sendable {
 }
 
 /// Amazon ECS can't determine the current version of the Amazon ECS container agent on the container instance and doesn't have enough information to proceed with an update. This could be because the agent running on the container instance is a previous or custom version that doesn't use our version information.
-public struct MissingVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MissingVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9590,9 +9590,9 @@ public struct MissingVersionException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// There's no update available for this Amazon ECS container agent. This might be because the agent is already running the latest version or because it's so old that there's no update path to the current version.
-public struct NoUpdateAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoUpdateAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Message that describes the cause of the exception.
         public internal(set) var message: Swift.String? = nil
     }

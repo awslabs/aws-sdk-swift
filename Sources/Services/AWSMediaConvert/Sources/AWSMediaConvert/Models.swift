@@ -3489,6 +3489,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Optionally remove any tts:rubyReserve attributes present in your input, that do not have a tts:ruby attribute in the same element, from your output. Use if your vertical Japanese output captions have alignment issues. To remove ruby reserve attributes when present: Choose Enabled. To not remove any ruby reserve attributes: Keep the default value, Disabled.
+    public enum RemoveRubyReserveAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemoveRubyReserveAttributes] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Specify the color of the shadow cast by the captions. Leave Shadow color blank and set Style passthrough to enabled to use the shadow color data from your input captions, if present.
     public enum BurninSubtitleShadowColor: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auto
@@ -3624,6 +3654,8 @@ extension MediaConvertClientTypes {
         public var outlineColor: MediaConvertClientTypes.BurninSubtitleOutlineColor?
         /// Specify the Outline size of the caption text, in pixels. Leave Outline size blank and set Style passthrough to enabled to use the outline size data from your input captions, if present.
         public var outlineSize: Swift.Int?
+        /// Optionally remove any tts:rubyReserve attributes present in your input, that do not have a tts:ruby attribute in the same element, from your output. Use if your vertical Japanese output captions have alignment issues. To remove ruby reserve attributes when present: Choose Enabled. To not remove any ruby reserve attributes: Keep the default value, Disabled.
+        public var removeRubyReserveAttributes: MediaConvertClientTypes.RemoveRubyReserveAttributes?
         /// Specify the color of the shadow cast by the captions. Leave Shadow color blank and set Style passthrough to enabled to use the shadow color data from your input captions, if present.
         public var shadowColor: MediaConvertClientTypes.BurninSubtitleShadowColor?
         /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough is set to Enabled, leave Shadow opacity blank to pass through the shadow style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all shadows from your output captions.
@@ -3659,6 +3691,7 @@ extension MediaConvertClientTypes {
             hexFontColor: Swift.String? = nil,
             outlineColor: MediaConvertClientTypes.BurninSubtitleOutlineColor? = nil,
             outlineSize: Swift.Int? = nil,
+            removeRubyReserveAttributes: MediaConvertClientTypes.RemoveRubyReserveAttributes? = nil,
             shadowColor: MediaConvertClientTypes.BurninSubtitleShadowColor? = nil,
             shadowOpacity: Swift.Int? = nil,
             shadowXOffset: Swift.Int? = nil,
@@ -3686,6 +3719,7 @@ extension MediaConvertClientTypes {
             self.hexFontColor = hexFontColor
             self.outlineColor = outlineColor
             self.outlineSize = outlineSize
+            self.removeRubyReserveAttributes = removeRubyReserveAttributes
             self.shadowColor = shadowColor
             self.shadowOpacity = shadowOpacity
             self.shadowXOffset = shadowXOffset
@@ -19496,7 +19530,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Applies only to 29.97 fps outputs. When this feature is enabled, the service will use drop-frame timecode on outputs. If it is not possible to use drop-frame timecode, the system will fall back to non-drop-frame. This setting is enabled by default when Timecode insertion is enabled.
+    /// Applies only to 29.97 fps outputs. When this feature is enabled, the service will use drop-frame timecode on outputs. If it is not possible to use drop-frame timecode, the system will fall back to non-drop-frame. This setting is enabled by default when Timecode insertion or Timecode track is enabled.
     public enum DropFrameTimecode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -19620,6 +19654,36 @@ extension MediaConvertClientTypes {
             switch self {
             case .disabled: return "DISABLED"
             case .picTimingSei: return "PIC_TIMING_SEI"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// To include a timecode track in your MP4 output: Choose Enabled. MediaConvert writes the timecode track in the Null Media Header box (NMHD), without any timecode text formatting information. You can also specify dropframe or non-dropframe timecode under the Drop Frame Timecode setting. To not include a timecode track: Keep the default value, Disabled.
+    public enum TimecodeTrack: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TimecodeTrack] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -20570,7 +20634,7 @@ extension MediaConvertClientTypes {
         public var colorMetadata: MediaConvertClientTypes.ColorMetadata?
         /// Use Cropping selection to specify the video area that the service will include in the output video frame.
         public var crop: MediaConvertClientTypes.Rectangle?
-        /// Applies only to 29.97 fps outputs. When this feature is enabled, the service will use drop-frame timecode on outputs. If it is not possible to use drop-frame timecode, the system will fall back to non-drop-frame. This setting is enabled by default when Timecode insertion is enabled.
+        /// Applies only to 29.97 fps outputs. When this feature is enabled, the service will use drop-frame timecode on outputs. If it is not possible to use drop-frame timecode, the system will fall back to non-drop-frame. This setting is enabled by default when Timecode insertion or Timecode track is enabled.
         public var dropFrameTimecode: MediaConvertClientTypes.DropFrameTimecode?
         /// Applies only if you set AFD Signaling to Fixed. Use Fixed to specify a four-bit AFD value which the service will write on all frames of this video output.
         public var fixedAfd: Swift.Int?
@@ -20586,6 +20650,8 @@ extension MediaConvertClientTypes {
         public var sharpness: Swift.Int?
         /// Applies only to H.264, H.265, MPEG2, and ProRes outputs. Only enable Timecode insertion when the input frame rate is identical to the output frame rate. To include timecodes in this output, set Timecode insertion to PIC_TIMING_SEI. To leave them out, set it to DISABLED. Default is DISABLED. When the service inserts timecodes in an output, by default, it uses any embedded timecodes from the input. If none are present, the service will set the timecode for the first output frame to zero. To change this default behavior, adjust the settings under Timecode configuration. In the console, these settings are located under Job > Job settings > Timecode configuration. Note - Timecode source under input settings does not affect the timecodes that are inserted in the output. Source under Job settings > Timecode configuration does.
         public var timecodeInsertion: MediaConvertClientTypes.VideoTimecodeInsertion?
+        /// To include a timecode track in your MP4 output: Choose Enabled. MediaConvert writes the timecode track in the Null Media Header box (NMHD), without any timecode text formatting information. You can also specify dropframe or non-dropframe timecode under the Drop Frame Timecode setting. To not include a timecode track: Keep the default value, Disabled.
+        public var timecodeTrack: MediaConvertClientTypes.TimecodeTrack?
         /// Find additional transcoding features under Preprocessors. Enable the features at each output individually. These features are disabled by default.
         public var videoPreprocessors: MediaConvertClientTypes.VideoPreprocessor?
         /// Use Width to define the video resolution width, in pixels, for this output. To use the same resolution as your input: Leave both Width and Height blank. To evenly scale from your input resolution: Leave Width blank and enter a value for Height. For example, if your input is 1920x1080 and you set Height to 720, your output will be 1280x720.
@@ -20605,6 +20671,7 @@ extension MediaConvertClientTypes {
             scalingBehavior: MediaConvertClientTypes.ScalingBehavior? = nil,
             sharpness: Swift.Int? = nil,
             timecodeInsertion: MediaConvertClientTypes.VideoTimecodeInsertion? = nil,
+            timecodeTrack: MediaConvertClientTypes.TimecodeTrack? = nil,
             videoPreprocessors: MediaConvertClientTypes.VideoPreprocessor? = nil,
             width: Swift.Int? = nil
         )
@@ -20622,6 +20689,7 @@ extension MediaConvertClientTypes {
             self.scalingBehavior = scalingBehavior
             self.sharpness = sharpness
             self.timecodeInsertion = timecodeInsertion
+            self.timecodeTrack = timecodeTrack
             self.videoPreprocessors = videoPreprocessors
             self.width = width
         }
@@ -21697,9 +21765,9 @@ extension MediaConvertClientTypes {
 }
 
 /// The service can't process your request because of a problem in the request. Please check your request form and syntax.
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21721,9 +21789,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The service couldn't complete your request because there is a conflict with the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21745,9 +21813,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// You don't have permissions for this action with the credentials you sent.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21769,9 +21837,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// The service encountered an unexpected condition and can't fulfill your request.
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21793,9 +21861,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The resource you requested doesn't exist.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -21817,9 +21885,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -24840,6 +24908,7 @@ extension MediaConvertClientTypes.VideoDescription {
         try writer["scalingBehavior"].write(value.scalingBehavior)
         try writer["sharpness"].write(value.sharpness)
         try writer["timecodeInsertion"].write(value.timecodeInsertion)
+        try writer["timecodeTrack"].write(value.timecodeTrack)
         try writer["videoPreprocessors"].write(value.videoPreprocessors, with: MediaConvertClientTypes.VideoPreprocessor.write(value:to:))
         try writer["width"].write(value.width)
     }
@@ -24860,6 +24929,7 @@ extension MediaConvertClientTypes.VideoDescription {
         value.scalingBehavior = try reader["scalingBehavior"].readIfPresent()
         value.sharpness = try reader["sharpness"].readIfPresent()
         value.timecodeInsertion = try reader["timecodeInsertion"].readIfPresent()
+        value.timecodeTrack = try reader["timecodeTrack"].readIfPresent()
         value.videoPreprocessors = try reader["videoPreprocessors"].readIfPresent(with: MediaConvertClientTypes.VideoPreprocessor.read(from:))
         value.width = try reader["width"].readIfPresent()
         return value
@@ -26832,6 +26902,7 @@ extension MediaConvertClientTypes.BurninDestinationSettings {
         try writer["hexFontColor"].write(value.hexFontColor)
         try writer["outlineColor"].write(value.outlineColor)
         try writer["outlineSize"].write(value.outlineSize)
+        try writer["removeRubyReserveAttributes"].write(value.removeRubyReserveAttributes)
         try writer["shadowColor"].write(value.shadowColor)
         try writer["shadowOpacity"].write(value.shadowOpacity)
         try writer["shadowXOffset"].write(value.shadowXOffset)
@@ -26862,6 +26933,7 @@ extension MediaConvertClientTypes.BurninDestinationSettings {
         value.hexFontColor = try reader["hexFontColor"].readIfPresent()
         value.outlineColor = try reader["outlineColor"].readIfPresent()
         value.outlineSize = try reader["outlineSize"].readIfPresent()
+        value.removeRubyReserveAttributes = try reader["removeRubyReserveAttributes"].readIfPresent()
         value.shadowColor = try reader["shadowColor"].readIfPresent()
         value.shadowOpacity = try reader["shadowOpacity"].readIfPresent()
         value.shadowXOffset = try reader["shadowXOffset"].readIfPresent()

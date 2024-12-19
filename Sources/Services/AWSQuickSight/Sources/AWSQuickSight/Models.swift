@@ -35,9 +35,9 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -22767,9 +22767,9 @@ extension QuickSightClientTypes {
 }
 
 /// An internal failure occurred.
-public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -22795,9 +22795,9 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// One or more parameters has a value that isn't valid.
-public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -22873,9 +22873,9 @@ extension QuickSightClientTypes {
 }
 
 /// One or more resources can't be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -22905,9 +22905,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Access is throttled.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -24063,9 +24063,9 @@ public struct BatchCreateTopicReviewedAnswerOutput: Swift.Sendable {
 }
 
 /// Updating or deleting a resource can cause an inconsistent state.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -24574,9 +24574,9 @@ extension QuickSightClientTypes.CalculatedColumn: Swift.CustomDebugStringConvert
 }
 
 /// The resource specified already exists.
-public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -25326,9 +25326,9 @@ extension QuickSightClientTypes {
 }
 
 /// A resource is already in a state that indicates an operation is happening that must complete before a new update can be applied.
-public struct ConcurrentUpdatingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentUpdatingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         public internal(set) var requestId: Swift.String? = nil
     }
@@ -25353,9 +25353,9 @@ public struct ConcurrentUpdatingException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// This resource is currently unavailable.
-public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -25443,9 +25443,9 @@ public struct CreateAccountCustomizationOutput: Swift.Sendable {
 }
 
 /// One or more preconditions aren't met.
-public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -25615,9 +25615,9 @@ public struct CreateAccountSubscriptionOutput: Swift.Sendable {
 }
 
 /// A limit is exceeded.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -25647,9 +25647,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
-public struct UnsupportedUserEditionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedUserEditionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -25968,9 +25968,9 @@ public struct CreateAnalysisOutput: Swift.Sendable {
 }
 
 /// An internal service exception.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -25993,9 +25993,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -27835,9 +27835,9 @@ public struct CreateDataSetOutput: Swift.Sendable {
 }
 
 /// The customer managed key that is registered to your Amazon QuickSight account is unavailable.
-public struct CustomerManagedKeyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomerManagedKeyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this operation.
         public internal(set) var requestId: Swift.String? = nil
@@ -35109,9 +35109,9 @@ public struct DescribeFolderOutput: Swift.Sendable {
 }
 
 /// The NextToken value isn't valid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -37583,9 +37583,9 @@ public struct DescribeVPCConnectionOutput: Swift.Sendable {
 }
 
 /// The domain specified isn't on the allow list. All domains for embedded dashboards must be added to the approved list by an Amazon QuickSight admin.
-public struct DomainNotWhitelistedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainNotWhitelistedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -37897,9 +37897,9 @@ extension QuickSightClientTypes.GeneratedAnswerResult: Swift.CustomDebugStringCo
 }
 
 /// The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
-public struct SessionLifetimeInMinutesInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SessionLifetimeInMinutesInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -37925,9 +37925,9 @@ public struct SessionLifetimeInMinutesInvalidException: ClientRuntime.ModeledErr
 }
 
 /// This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-public struct UnsupportedPricingPlanException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedPricingPlanException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -38053,9 +38053,9 @@ extension GenerateEmbedUrlForAnonymousUserOutput: Swift.CustomDebugStringConvert
 }
 
 /// The user with the provided name isn't found. This error can happen in any operation that requires finding a user based on a provided user name, such as DeleteUser, DescribeUser, and so on.
-public struct QuickSightUserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct QuickSightUserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil
@@ -38396,9 +38396,9 @@ extension GenerateEmbedUrlForRegisteredUserWithIdentityOutput: Swift.CustomDebug
 }
 
 /// The identity type specified isn't supported. Supported identity types include IAM and QUICKSIGHT.
-public struct IdentityTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IdentityTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request ID for this request.
         public internal(set) var requestId: Swift.String? = nil

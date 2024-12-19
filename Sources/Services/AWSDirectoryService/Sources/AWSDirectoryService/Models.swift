@@ -27,9 +27,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
 /// A client exception has occurred.
-public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -56,9 +56,9 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// The specified directory has already been shared with this Amazon Web Services account.
-public struct DirectoryAlreadySharedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryAlreadySharedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -85,9 +85,9 @@ public struct DirectoryAlreadySharedException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The specified entity could not be found.
-public struct EntityDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -114,9 +114,9 @@ public struct EntityDoesNotExistException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// One or more parameters are not valid.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -143,9 +143,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// An exception has occurred in Directory Service.
-public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -329,9 +329,9 @@ public struct AcceptSharedDirectoryOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -358,9 +358,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The specified directory is unavailable.
-public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -387,9 +387,9 @@ public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The specified entity already exists.
-public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -416,9 +416,9 @@ public struct EntityAlreadyExistsException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The maximum allowed number of IP addresses was exceeded. The default limit is 100 IP address blocks.
-public struct IpRouteLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IpRouteLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -534,9 +534,9 @@ public struct AddIpRoutesOutput: Swift.Sendable {
 }
 
 /// The Region you specified is the same Region where the Managed Microsoft AD directory was created. Specify a different Region and try again.
-public struct DirectoryAlreadyInRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryAlreadyInRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -563,9 +563,9 @@ public struct DirectoryAlreadyInRegionException: ClientRuntime.ModeledError, AWS
 }
 
 /// The specified directory does not exist in the system.
-public struct DirectoryDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -592,9 +592,9 @@ public struct DirectoryDoesNotExistException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// You have reached the limit for maximum number of simultaneous Region replications per directory.
-public struct RegionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RegionLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -621,9 +621,9 @@ public struct RegionLimitExceededException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The operation is not supported.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -700,9 +700,9 @@ public struct AddRegionOutput: Swift.Sendable {
 }
 
 /// The maximum allowed number of tags was exceeded.
-public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -794,9 +794,9 @@ extension DirectoryClientTypes {
 }
 
 /// An authentication error occurred.
-public struct AuthenticationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AuthenticationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The textual message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the request that caused the exception.
@@ -976,9 +976,9 @@ extension DirectoryClientTypes {
 }
 
 /// The certificate has already been registered into the system.
-public struct CertificateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1005,9 +1005,9 @@ public struct CertificateAlreadyExistsException: ClientRuntime.ModeledError, AWS
 }
 
 /// The certificate is not present in the system for describe or deregister activities.
-public struct CertificateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1066,9 +1066,9 @@ extension DirectoryClientTypes {
 }
 
 /// The certificate is being used for the LDAP security connection and cannot be removed without disabling LDAP security.
-public struct CertificateInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1095,9 +1095,9 @@ public struct CertificateInUseException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The certificate could not be added because the certificate limit has been reached.
-public struct CertificateLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CertificateLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1280,9 +1280,9 @@ extension DirectoryClientTypes {
 }
 
 /// The maximum number of directories in the region has been reached. You can use the [GetDirectoryLimits] operation to determine your directory limits in the region.
-public struct DirectoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1625,9 +1625,9 @@ public struct CreateDirectoryOutput: Swift.Sendable {
 }
 
 /// The account does not have sufficient permission to perform the operation.
-public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -1764,9 +1764,9 @@ public struct CreateMicrosoftADOutput: Swift.Sendable {
 }
 
 /// The maximum number of manual snapshots for the directory has been reached. You can use the [GetSnapshotLimits] operation to determine the snapshot limits for a directory.
-public struct SnapshotLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SnapshotLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -2289,9 +2289,9 @@ public struct DescribeConditionalForwardersOutput: Swift.Sendable {
 }
 
 /// The NextToken value is not valid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -3983,9 +3983,9 @@ public struct DescribeUpdateDirectoryOutput: Swift.Sendable {
 }
 
 /// The directory is already updated to desired update type settings.
-public struct DirectoryInDesiredStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryInDesiredStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4060,9 +4060,9 @@ extension DirectoryClientTypes {
 }
 
 /// The specified directory has not been shared with this Amazon Web Services account.
-public struct DirectoryNotSharedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DirectoryNotSharedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4089,9 +4089,9 @@ public struct DirectoryNotSharedException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Client authentication is already enabled.
-public struct InvalidClientAuthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidClientAuthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4159,9 +4159,9 @@ public struct DisableDirectoryDataAccessOutput: Swift.Sendable {
 }
 
 /// The LDAP activities could not be performed because they are limited by the LDAPS status.
-public struct InvalidLDAPSStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLDAPSStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4264,9 +4264,9 @@ public struct DisableSsoOutput: Swift.Sendable {
 }
 
 /// Client authentication setup could not be completed because at least one valid certificate must be registered in the system.
-public struct NoAvailableCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NoAvailableCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -4860,9 +4860,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 /// The certificate PEM that was provided has incorrect encoding.
-public struct InvalidCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidCertificateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5041,9 +5041,9 @@ public struct RemoveTagsFromResourceOutput: Swift.Sendable {
 }
 
 /// The new password provided by the user does not meet the password complexity requirements defined in your directory.
-public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5070,9 +5070,9 @@ public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The user provided a username that does not exist in your directory.
-public struct UserDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5152,9 +5152,9 @@ public struct RestoreFromSnapshotOutput: Swift.Sendable {
 }
 
 /// The specified shared target is not valid.
-public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5181,9 +5181,9 @@ public struct InvalidTargetException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Exception encountered while trying to access your Amazon Web Services organization.
-public struct OrganizationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OrganizationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5210,9 +5210,9 @@ public struct OrganizationsException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The maximum number of Amazon Web Services accounts that you can share with this directory has been reached.
-public struct ShareLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ShareLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5484,9 +5484,9 @@ public struct UpdateDirectorySetupOutput: Swift.Sendable {
 }
 
 /// The maximum allowed number of domain controllers per directory was exceeded. The default limit per directory is 20 domain controllers.
-public struct DomainControllerLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainControllerLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5561,9 +5561,9 @@ public struct UpdateRadiusOutput: Swift.Sendable {
 }
 
 /// The specified directory setting is not compatible with other settings.
-public struct IncompatibleSettingsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatibleSettingsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
@@ -5590,9 +5590,9 @@ public struct IncompatibleSettingsException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The specified directory setting is not supported.
-public struct UnsupportedSettingsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedSettingsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The descriptive message for the exception.
         public internal(set) var message: Swift.String? = nil
         /// The Amazon Web Services request identifier.
