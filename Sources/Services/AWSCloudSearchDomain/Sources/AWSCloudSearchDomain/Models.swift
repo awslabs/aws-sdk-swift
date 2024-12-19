@@ -29,9 +29,9 @@ import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 
 /// Information about any problems encountered while processing a search request.
-public struct SearchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SearchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error returned by the search service.
         public internal(set) var message: Swift.String? = nil
     }
@@ -486,9 +486,9 @@ public struct SuggestOutput: Swift.Sendable {
 }
 
 /// Information about any problems encountered while processing an upload request.
-public struct DocumentServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DocumentServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The description of the errors returned by the document service.
         public internal(set) var message: Swift.String? = nil
         /// The return status of a document upload request, error or success.

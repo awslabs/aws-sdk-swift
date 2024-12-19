@@ -24,9 +24,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// Indicates that an internal error occurred.
-public struct CloudHsmInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmInternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the error.
         public internal(set) var message: Swift.String? = nil
         /// Indicates if the action can be retried.
@@ -53,9 +53,9 @@ public struct CloudHsmInternalException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Indicates that an exception occurred in the AWS CloudHSM service.
-public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the error.
         public internal(set) var message: Swift.String? = nil
         /// Indicates if the action can be retried.
@@ -82,9 +82,9 @@ public struct CloudHsmServiceException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Indicates that one or more of the request parameters are not valid.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Additional information about the error.
         public internal(set) var message: Swift.String? = nil
         /// Indicates if the action can be retried.

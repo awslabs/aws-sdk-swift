@@ -716,6 +716,7 @@ extension AppStreamClientTypes {
     public enum PlatformType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonLinux2
         case rhel8
+        case rockyLinux8
         case windows
         case windowsServer2016
         case windowsServer2019
@@ -726,6 +727,7 @@ extension AppStreamClientTypes {
             return [
                 .amazonLinux2,
                 .rhel8,
+                .rockyLinux8,
                 .windows,
                 .windowsServer2016,
                 .windowsServer2019,
@@ -742,6 +744,7 @@ extension AppStreamClientTypes {
             switch self {
             case .amazonLinux2: return "AMAZON_LINUX2"
             case .rhel8: return "RHEL8"
+            case .rockyLinux8: return "ROCKY_LINUX8"
             case .windows: return "WINDOWS"
             case .windowsServer2016: return "WINDOWS_SERVER_2016"
             case .windowsServer2019: return "WINDOWS_SERVER_2019"
@@ -950,9 +953,9 @@ extension AppStreamClientTypes {
 }
 
 /// An API error occurred. Wait a few minutes and try again.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -975,9 +978,9 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// Indicates an incorrect combination of parameters, or a missing parameter.
-public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1000,9 +1003,9 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
 }
 
 /// The requested limit exceeds the permitted limit for an account.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1025,9 +1028,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The attempted operation is not permitted.
-public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1050,9 +1053,9 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1135,9 +1138,9 @@ public struct AssociateApplicationFleetOutput: Swift.Sendable {
 }
 
 /// The entitlement can't be found.
-public struct EntitlementNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntitlementNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1188,9 +1191,9 @@ public struct AssociateApplicationToEntitlementOutput: Swift.Sendable {
 }
 
 /// The image can't be updated because it's not compatible for updates.
-public struct IncompatibleImageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IncompatibleImageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1213,9 +1216,9 @@ public struct IncompatibleImageException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
-public struct InvalidAccountStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAccountStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1558,9 +1561,9 @@ extension AppStreamClientTypes {
 }
 
 /// The specified resource already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1583,9 +1586,9 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The specified resource exists and is not in use, but isn't available.
-public struct ResourceNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1701,9 +1704,9 @@ public struct CreateAppBlockOutput: Swift.Sendable {
 }
 
 /// The specified role is invalid.
-public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1726,9 +1729,9 @@ public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
-public struct RequestLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2026,9 +2029,9 @@ public struct CreateDirectoryConfigOutput: Swift.Sendable {
 }
 
 /// The entitlement already exists.
-public struct EntitlementAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EntitlementAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4241,9 +4244,9 @@ public struct CreateUserOutput: Swift.Sendable {
 }
 
 /// The specified resource is in use.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message in the exception.
         public internal(set) var message: Swift.String? = nil
     }

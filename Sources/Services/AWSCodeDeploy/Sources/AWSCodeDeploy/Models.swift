@@ -81,9 +81,9 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 }
 
 /// The maximum number of allowed on-premises instances in a single call was exceeded.
-public struct InstanceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -106,9 +106,9 @@ public struct InstanceLimitExceededException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// An on-premises instance name was not specified.
-public struct InstanceNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -131,9 +131,9 @@ public struct InstanceNameRequiredException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The specified on-premises instance is not registered.
-public struct InstanceNotRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceNotRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -156,9 +156,9 @@ public struct InstanceNotRegisteredException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The on-premises instance name was specified in an invalid format.
-public struct InvalidInstanceNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInstanceNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -181,9 +181,9 @@ public struct InvalidInstanceNameException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The tag was specified in an invalid format.
-public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -206,9 +206,9 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The maximum allowed number of tags was exceeded.
-public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -231,9 +231,9 @@ public struct TagLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// A tag was not specified.
-public struct TagRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -339,9 +339,9 @@ extension CodeDeployClientTypes {
 }
 
 /// The maximum number of alarms for a deployment group (10) was exceeded.
-public struct AlarmsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AlarmsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -364,9 +364,9 @@ public struct AlarmsLimitExceededException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// An application with the specified name with the user or Amazon Web Services account already exists.
-public struct ApplicationAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApplicationAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -389,9 +389,9 @@ public struct ApplicationAlreadyExistsException: ClientRuntime.ModeledError, AWS
 }
 
 /// The application does not exist with the user or Amazon Web Services account.
-public struct ApplicationDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApplicationDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -482,9 +482,9 @@ extension CodeDeployClientTypes {
 }
 
 /// More applications were attempted to be created than are allowed.
-public struct ApplicationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApplicationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -507,9 +507,9 @@ public struct ApplicationLimitExceededException: ClientRuntime.ModeledError, AWS
 }
 
 /// The minimum number of required application names was not specified.
-public struct ApplicationNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ApplicationNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -584,9 +584,9 @@ extension CodeDeployClientTypes {
 }
 
 /// The specified ARN is not supported. For example, it might be an ARN for a resource that is not expected.
-public struct ArnNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ArnNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -685,9 +685,9 @@ extension CodeDeployClientTypes {
 }
 
 /// The maximum number of names or IDs allowed for this request (100) was exceeded.
-public struct BatchLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BatchLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -710,9 +710,9 @@ public struct BatchLimitExceededException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The application name was specified in an invalid format.
-public struct InvalidApplicationNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidApplicationNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -735,9 +735,9 @@ public struct InvalidApplicationNameException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The revision was specified in an invalid format.
-public struct InvalidRevisionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRevisionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -760,9 +760,9 @@ public struct InvalidRevisionException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The revision ID was not specified.
-public struct RevisionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RevisionRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1101,9 +1101,9 @@ public struct BatchGetApplicationsOutput: Swift.Sendable {
 }
 
 /// The deployment configuration does not exist with the user or Amazon Web Services account.
-public struct DeploymentConfigDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentConfigDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1126,9 +1126,9 @@ public struct DeploymentConfigDoesNotExistException: ClientRuntime.ModeledError,
 }
 
 /// The deployment group name was not specified.
-public struct DeploymentGroupNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentGroupNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1151,9 +1151,9 @@ public struct DeploymentGroupNameRequiredException: ClientRuntime.ModeledError, 
 }
 
 /// The deployment group name was specified in an invalid format.
-public struct InvalidDeploymentGroupNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeploymentGroupNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2026,9 +2026,9 @@ public struct BatchGetDeploymentGroupsOutput: Swift.Sendable {
 }
 
 /// The deployment with the user or Amazon Web Services account does not exist.
-public struct DeploymentDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2051,9 +2051,9 @@ public struct DeploymentDoesNotExistException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// At least one deployment ID must be specified.
-public struct DeploymentIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2077,9 +2077,9 @@ public struct DeploymentIdRequiredException: ClientRuntime.ModeledError, AWSClie
 
 /// The instance ID was not specified.
 @available(*, deprecated, message: "This exception is deprecated, use DeploymentTargetIdRequiredException instead.")
-public struct InstanceIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2102,9 +2102,9 @@ public struct InstanceIdRequiredException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
-public struct InvalidComputePlatformException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidComputePlatformException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2127,9 +2127,9 @@ public struct InvalidComputePlatformException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// At least one of the deployment IDs was specified in an invalid format.
-public struct InvalidDeploymentIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeploymentIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3010,9 +3010,9 @@ public struct BatchGetDeploymentsOutput: Swift.Sendable {
 }
 
 /// The specified deployment has not started.
-public struct DeploymentNotStartedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentNotStartedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3035,9 +3035,9 @@ public struct DeploymentNotStartedException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The provided target ID does not belong to the attempted deployment.
-public struct DeploymentTargetDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentTargetDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3060,9 +3060,9 @@ public struct DeploymentTargetDoesNotExistException: ClientRuntime.ModeledError,
 }
 
 /// A deployment target ID was not provided.
-public struct DeploymentTargetIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentTargetIdRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3085,9 +3085,9 @@ public struct DeploymentTargetIdRequiredException: ClientRuntime.ModeledError, A
 }
 
 /// The maximum number of targets that can be associated with an Amazon ECS or Lambda deployment was exceeded. The target list of both types of deployments must have exactly one item. This exception does not apply to EC2/On-premises deployments.
-public struct DeploymentTargetListSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentTargetListSizeExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3111,9 +3111,9 @@ public struct DeploymentTargetListSizeExceededException: ClientRuntime.ModeledEr
 
 /// The specified instance does not exist in the deployment group.
 @available(*, deprecated, message: "This exception is deprecated, use DeploymentTargetDoesNotExistException instead.")
-public struct InstanceDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3136,9 +3136,9 @@ public struct InstanceDoesNotExistException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The target ID provided was not valid.
-public struct InvalidDeploymentTargetIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeploymentTargetIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3656,9 +3656,9 @@ public struct BatchGetOnPremisesInstancesOutput: Swift.Sendable {
 }
 
 /// A bucket name is required, but was not provided.
-public struct BucketNameFilterRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BucketNameFilterRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3681,9 +3681,9 @@ public struct BucketNameFilterRequiredException: ClientRuntime.ModeledError, AWS
 }
 
 /// The deployment is already complete.
-public struct DeploymentAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3706,9 +3706,9 @@ public struct DeploymentAlreadyCompletedException: ClientRuntime.ModeledError, A
 }
 
 /// The deployment does not have a status of Ready and can't continue yet.
-public struct DeploymentIsNotInReadyStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentIsNotInReadyStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3731,9 +3731,9 @@ public struct DeploymentIsNotInReadyStateException: ClientRuntime.ModeledError, 
 }
 
 /// The specified deployment status doesn't exist or cannot be determined.
-public struct InvalidDeploymentStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeploymentStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3756,9 +3756,9 @@ public struct InvalidDeploymentStatusException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The wait type is invalid.
-public struct InvalidDeploymentWaitTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeploymentWaitTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3781,9 +3781,9 @@ public struct InvalidDeploymentWaitTypeException: ClientRuntime.ModeledError, AW
 }
 
 /// A call was submitted that is not supported for the specified deployment type.
-public struct UnsupportedActionForDeploymentTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedActionForDeploymentTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3851,9 +3851,9 @@ public struct ContinueDeploymentInput: Swift.Sendable {
 }
 
 /// The specified tags are not valid.
-public struct InvalidTagsToAddException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagsToAddException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3911,9 +3911,9 @@ public struct CreateApplicationOutput: Swift.Sendable {
 }
 
 /// The named deployment group with the user or Amazon Web Services account does not exist.
-public struct DeploymentGroupDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentGroupDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3936,9 +3936,9 @@ public struct DeploymentGroupDoesNotExistException: ClientRuntime.ModeledError, 
 }
 
 /// The number of allowed deployments was exceeded.
-public struct DeploymentLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3961,9 +3961,9 @@ public struct DeploymentLimitExceededException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The description is too long.
-public struct DescriptionTooLongException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DescriptionTooLongException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3996,9 +3996,9 @@ public struct DescriptionTooLongException: ClientRuntime.ModeledError, AWSClient
 /// * Two alarms with the same name have been specified.
 ///
 /// * The alarm configuration is enabled, but the alarm list is empty.
-public struct InvalidAlarmConfigException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAlarmConfigException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4021,9 +4021,9 @@ public struct InvalidAlarmConfigException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The automatic rollback configuration was specified in an invalid format. For example, automatic rollback is enabled, but an invalid triggering event type or no event types were listed.
-public struct InvalidAutoRollbackConfigException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAutoRollbackConfigException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4046,9 +4046,9 @@ public struct InvalidAutoRollbackConfigException: ClientRuntime.ModeledError, AW
 }
 
 /// The Auto Scaling group was specified in an invalid format or does not exist.
-public struct InvalidAutoScalingGroupException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidAutoScalingGroupException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4071,9 +4071,9 @@ public struct InvalidAutoScalingGroupException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The deployment configuration name was specified in an invalid format.
-public struct InvalidDeploymentConfigNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeploymentConfigNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4096,9 +4096,9 @@ public struct InvalidDeploymentConfigNameException: ClientRuntime.ModeledError, 
 }
 
 /// An invalid fileExistsBehavior option was specified to determine how CodeDeploy handles files or directories that already exist in a deployment target location, but weren't part of the previous successful deployment. Valid values include "DISALLOW," "OVERWRITE," and "RETAIN."
-public struct InvalidFileExistsBehaviorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidFileExistsBehaviorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4121,9 +4121,9 @@ public struct InvalidFileExistsBehaviorException: ClientRuntime.ModeledError, AW
 }
 
 /// The GitHub token is not valid.
-public struct InvalidGitHubAccountTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGitHubAccountTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4146,9 +4146,9 @@ public struct InvalidGitHubAccountTokenException: ClientRuntime.ModeledError, AW
 }
 
 /// The IgnoreApplicationStopFailures value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
-public struct InvalidIgnoreApplicationStopFailuresValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidIgnoreApplicationStopFailuresValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4171,9 +4171,9 @@ public struct InvalidIgnoreApplicationStopFailuresValueException: ClientRuntime.
 }
 
 /// An invalid load balancer name, or no load balancer name, was specified.
-public struct InvalidLoadBalancerInfoException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLoadBalancerInfoException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4196,9 +4196,9 @@ public struct InvalidLoadBalancerInfoException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
-public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4229,9 +4229,9 @@ public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime
 /// * The combined length of the tag names exceeded the limit.
 ///
 /// * A specified tag is not currently applied to any instances.
-public struct InvalidTargetInstancesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTargetInstancesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4254,9 +4254,9 @@ public struct InvalidTargetInstancesException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The configuration that specifies how traffic is routed during a deployment is invalid.
-public struct InvalidTrafficRoutingConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTrafficRoutingConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4279,9 +4279,9 @@ public struct InvalidTrafficRoutingConfigurationException: ClientRuntime.Modeled
 }
 
 /// The UpdateOutdatedInstancesOnly value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
-public struct InvalidUpdateOutdatedInstancesOnlyValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidUpdateOutdatedInstancesOnlyValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4304,9 +4304,9 @@ public struct InvalidUpdateOutdatedInstancesOnlyValueException: ClientRuntime.Mo
 }
 
 /// The named revision does not exist with the user or Amazon Web Services account.
-public struct RevisionDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RevisionDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4329,9 +4329,9 @@ public struct RevisionDoesNotExistException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// An API function was called too frequently.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4427,9 +4427,9 @@ public struct CreateDeploymentOutput: Swift.Sendable {
 }
 
 /// A deployment configuration with the specified name with the user or Amazon Web Services account already exists.
-public struct DeploymentConfigAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentConfigAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4452,9 +4452,9 @@ public struct DeploymentConfigAlreadyExistsException: ClientRuntime.ModeledError
 }
 
 /// The deployment configurations limit was exceeded.
-public struct DeploymentConfigLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentConfigLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4477,9 +4477,9 @@ public struct DeploymentConfigLimitExceededException: ClientRuntime.ModeledError
 }
 
 /// The deployment configuration name was not specified.
-public struct DeploymentConfigNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentConfigNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4502,9 +4502,9 @@ public struct DeploymentConfigNameRequiredException: ClientRuntime.ModeledError,
 }
 
 /// The minimum healthy instance value was specified in an invalid format.
-public struct InvalidMinimumHealthyHostValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidMinimumHealthyHostValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4527,9 +4527,9 @@ public struct InvalidMinimumHealthyHostValueException: ClientRuntime.ModeledErro
 }
 
 /// The ZonalConfig object is not valid.
-public struct InvalidZonalDeploymentConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidZonalDeploymentConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4827,9 +4827,9 @@ public struct CreateDeploymentConfigOutput: Swift.Sendable {
 }
 
 /// A deployment group with the specified name with the user or Amazon Web Services account already exists.
-public struct DeploymentGroupAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentGroupAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4852,9 +4852,9 @@ public struct DeploymentGroupAlreadyExistsException: ClientRuntime.ModeledError,
 }
 
 /// The deployment groups limit was exceeded.
-public struct DeploymentGroupLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentGroupLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4877,9 +4877,9 @@ public struct DeploymentGroupLimitExceededException: ClientRuntime.ModeledError,
 }
 
 /// The Amazon ECS service is associated with more than one deployment groups. An Amazon ECS service can be associated with only one deployment group.
-public struct ECSServiceMappingLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ECSServiceMappingLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4902,9 +4902,9 @@ public struct ECSServiceMappingLimitExceededException: ClientRuntime.ModeledErro
 }
 
 /// The configuration for the blue/green deployment group was provided in an invalid format. For information about deployment configuration format, see [CreateDeploymentConfig].
-public struct InvalidBlueGreenDeploymentConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidBlueGreenDeploymentConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4927,9 +4927,9 @@ public struct InvalidBlueGreenDeploymentConfigurationException: ClientRuntime.Mo
 }
 
 /// An invalid deployment style was specified. Valid deployment types include "IN_PLACE" and "BLUE_GREEN." Valid deployment options include "WITH_TRAFFIC_CONTROL" and "WITHOUT_TRAFFIC_CONTROL."
-public struct InvalidDeploymentStyleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeploymentStyleException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4952,9 +4952,9 @@ public struct InvalidDeploymentStyleException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// A call was submitted that specified both Ec2TagFilters and Ec2TagSet, but only one of these data types can be used in a single call.
-public struct InvalidEC2TagCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEC2TagCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4977,9 +4977,9 @@ public struct InvalidEC2TagCombinationException: ClientRuntime.ModeledError, AWS
 }
 
 /// The tag was specified in an invalid format.
-public struct InvalidEC2TagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEC2TagException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5002,9 +5002,9 @@ public struct InvalidEC2TagException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The Amazon ECS service identifier is not valid.
-public struct InvalidECSServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidECSServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5027,9 +5027,9 @@ public struct InvalidECSServiceException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The input was specified in an invalid format.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5052,9 +5052,9 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// A call was submitted that specified both OnPremisesTagFilters and OnPremisesTagSet, but only one of these data types can be used in a single call.
-public struct InvalidOnPremisesTagCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOnPremisesTagCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5077,9 +5077,9 @@ public struct InvalidOnPremisesTagCombinationException: ClientRuntime.ModeledErr
 }
 
 /// A target group pair associated with this deployment is not valid.
-public struct InvalidTargetGroupPairException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTargetGroupPairException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5102,9 +5102,9 @@ public struct InvalidTargetGroupPairException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The trigger was specified in an invalid format.
-public struct InvalidTriggerConfigException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTriggerConfigException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5127,9 +5127,9 @@ public struct InvalidTriggerConfigException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The limit for lifecycle hooks was exceeded.
-public struct LifecycleHookLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LifecycleHookLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5152,9 +5152,9 @@ public struct LifecycleHookLimitExceededException: ClientRuntime.ModeledError, A
 }
 
 /// The role ID was not specified.
-public struct RoleRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RoleRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5177,9 +5177,9 @@ public struct RoleRequiredException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The number of tag groups included in the tag set list exceeded the maximum allowed limit of 3.
-public struct TagSetListLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TagSetListLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5202,9 +5202,9 @@ public struct TagSetListLimitExceededException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The maximum allowed number of triggers was exceeded.
-public struct TriggerTargetsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TriggerTargetsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5342,9 +5342,9 @@ public struct DeleteApplicationInput: Swift.Sendable {
 }
 
 /// The deployment configuration is still in use.
-public struct DeploymentConfigInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DeploymentConfigInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5367,9 +5367,9 @@ public struct DeploymentConfigInUseException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// An invalid operation was detected.
-public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5438,9 +5438,9 @@ public struct DeleteDeploymentGroupOutput: Swift.Sendable {
 }
 
 /// No GitHub account connection exists with the named specified in the call.
-public struct GitHubAccountTokenDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GitHubAccountTokenDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5463,9 +5463,9 @@ public struct GitHubAccountTokenDoesNotExistException: ClientRuntime.ModeledErro
 }
 
 /// The call is missing a required GitHub account connection name.
-public struct GitHubAccountTokenNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GitHubAccountTokenNameRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5488,9 +5488,9 @@ public struct GitHubAccountTokenNameRequiredException: ClientRuntime.ModeledErro
 }
 
 /// The format of the specified GitHub account connection name is invalid.
-public struct InvalidGitHubAccountTokenNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGitHubAccountTokenNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5513,9 +5513,9 @@ public struct InvalidGitHubAccountTokenNameException: ClientRuntime.ModeledError
 }
 
 /// The API used does not support the deployment.
-public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5538,9 +5538,9 @@ public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// The specified resource could not be validated.
-public struct ResourceValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5903,9 +5903,9 @@ public struct GetOnPremisesInstanceOutput: Swift.Sendable {
 }
 
 /// The bucket name either doesn't exist or was specified in an invalid format.
-public struct InvalidBucketNameFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidBucketNameFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5928,9 +5928,9 @@ public struct InvalidBucketNameFilterException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The deployed state filter was specified in an invalid format.
-public struct InvalidDeployedStateFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeployedStateFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5953,9 +5953,9 @@ public struct InvalidDeployedStateFilterException: ClientRuntime.ModeledError, A
 }
 
 /// The specified key prefix filter was specified in an invalid format.
-public struct InvalidKeyPrefixFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidKeyPrefixFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5978,9 +5978,9 @@ public struct InvalidKeyPrefixFilterException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// The next token was specified in an invalid format.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6003,9 +6003,9 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The column name to sort by is either not present or was specified in an invalid format.
-public struct InvalidSortByException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSortByException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6028,9 +6028,9 @@ public struct InvalidSortByException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The sort order was specified in an invalid format.
-public struct InvalidSortOrderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSortOrderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6290,9 +6290,9 @@ public struct ListDeploymentGroupsOutput: Swift.Sendable {
 }
 
 /// An instance type was specified for an in-place deployment. Instance types are supported for blue/green deployments only.
-public struct InvalidDeploymentInstanceTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidDeploymentInstanceTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6315,9 +6315,9 @@ public struct InvalidDeploymentInstanceTypeException: ClientRuntime.ModeledError
 }
 
 /// The specified instance status does not exist.
-public struct InvalidInstanceStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInstanceStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6340,9 +6340,9 @@ public struct InvalidInstanceStatusException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
-public struct InvalidInstanceTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInstanceTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6365,9 +6365,9 @@ public struct InvalidInstanceTypeException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// The target filter name is invalid.
-public struct InvalidTargetFilterNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTargetFilterNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6445,9 +6445,9 @@ public struct ListDeploymentInstancesOutput: Swift.Sendable {
 }
 
 /// The external ID was specified in an invalid format.
-public struct InvalidExternalIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidExternalIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6470,9 +6470,9 @@ public struct InvalidExternalIdException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// The specified time range was specified in an invalid format.
-public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTimeRangeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6677,9 +6677,9 @@ public struct ListGitHubAccountTokenNamesOutput: Swift.Sendable {
 }
 
 /// The registration status was specified in an invalid format.
-public struct InvalidRegistrationStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRegistrationStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6702,9 +6702,9 @@ public struct InvalidRegistrationStatusException: ClientRuntime.ModeledError, AW
 }
 
 /// The tag filter was specified in an invalid format.
-public struct InvalidTagFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTagFilterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6798,9 +6798,9 @@ public struct ListOnPremisesInstancesOutput: Swift.Sendable {
 }
 
 /// The specified ARN is not in a valid format.
-public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6823,9 +6823,9 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The ARN of a resource is required, but was not found.
-public struct ResourceArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6881,9 +6881,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 /// A lifecycle event hook is invalid. Review the hooks section in your AppSpec file to ensure the lifecycle events and hooks functions are valid.
-public struct InvalidLifecycleEventHookExecutionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLifecycleEventHookExecutionIdException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6906,9 +6906,9 @@ public struct InvalidLifecycleEventHookExecutionIdException: ClientRuntime.Model
 }
 
 /// The result of a Lambda validation function that verifies a lifecycle event is invalid. It should return Succeeded or Failed.
-public struct InvalidLifecycleEventHookExecutionStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLifecycleEventHookExecutionStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6931,9 +6931,9 @@ public struct InvalidLifecycleEventHookExecutionStatusException: ClientRuntime.M
 }
 
 /// An attempt to return the status of an already completed lifecycle event occurred.
-public struct LifecycleEventAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LifecycleEventAlreadyCompletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7011,9 +7011,9 @@ public struct RegisterApplicationRevisionInput: Swift.Sendable {
 }
 
 /// No IAM ARN was included in the request. You must use an IAM session ARN or user ARN in the request.
-public struct IamArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IamArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7036,9 +7036,9 @@ public struct IamArnRequiredException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The request included an IAM session ARN that has already been used to register a different instance.
-public struct IamSessionArnAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IamSessionArnAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7061,9 +7061,9 @@ public struct IamSessionArnAlreadyRegisteredException: ClientRuntime.ModeledErro
 }
 
 /// The specified user ARN is already registered with an on-premises instance.
-public struct IamUserArnAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IamUserArnAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7086,9 +7086,9 @@ public struct IamUserArnAlreadyRegisteredException: ClientRuntime.ModeledError, 
 }
 
 /// An user ARN was not specified.
-public struct IamUserArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct IamUserArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7111,9 +7111,9 @@ public struct IamUserArnRequiredException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The specified on-premises instance name is already registered.
-public struct InstanceNameAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceNameAlreadyRegisteredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7136,9 +7136,9 @@ public struct InstanceNameAlreadyRegisteredException: ClientRuntime.ModeledError
 }
 
 /// The IAM session ARN was specified in an invalid format.
-public struct InvalidIamSessionArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidIamSessionArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7161,9 +7161,9 @@ public struct InvalidIamSessionArnException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The user ARN was specified in an invalid format.
-public struct InvalidIamUserArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidIamUserArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
@@ -7186,9 +7186,9 @@ public struct InvalidIamUserArnException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Both an user ARN and an IAM session ARN were included in the request. Use only one ARN type.
-public struct MultipleIamArnsProvidedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MultipleIamArnsProvidedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that corresponds to the exception thrown by CodeDeploy.
         public internal(set) var message: Swift.String? = nil
     }
