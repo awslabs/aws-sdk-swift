@@ -8,6 +8,7 @@
 import protocol ClientRuntime.BaseError
 import enum ClientRuntime.BaseErrorDecodeError
 import class SmithyHTTPAPI.HTTPResponse
+@_spi(SmithyReadWrite) import class SmithyCBOR.Reader
 
 public struct RpcV2CborError: BaseError {
     public let code: String
@@ -20,11 +21,28 @@ public struct RpcV2CborError: BaseError {
 
     @_spi(SmithyReadWrite)
     public init(httpResponse: HTTPResponse, responseReader: Reader, noErrorWrapping: Bool, code: String? = nil) throws {
-        // TODO
+
+        // Improve this code
+        switch responseReader.cborValue {
+        case .map(let errorDetails):
+            if case let .text(errorCode) = errorDetails["__type"] {
+                self.code = sanitizeErrorType(errorCode)
+            } else {
+                self.code = "UnknownError"
+            }
+
+            if case let .text(errorMessage) = errorDetails["Message"] {
+                self.message  = errorMessage
+            } else {
+                self.message = nil
+            }
+        default:
+            self.code = "UnknownError"
+            self.message = nil
+        }
+
         self.httpResponse = httpResponse
         self.responseReader = responseReader
-        self.code = code ?? "UnknownError"
-        self.message = nil
         self.requestID = nil
     }
 }
@@ -36,7 +54,7 @@ extension RpcV2CborError {
         responseReader: Reader,
         noErrorWrapping: Bool,
         errorDetails: String?
-    ) throws -> AWSJSONError {
+    ) throws -> RpcV2CborError {
         let errorCode = try AwsQueryCompatibleErrorDetails.parse(errorDetails).code
         return try RpcV2CborError(
             httpResponse: httpResponse,
