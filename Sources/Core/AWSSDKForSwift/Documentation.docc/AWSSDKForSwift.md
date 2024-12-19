@@ -147,6 +147,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSBackupGateway](../../../../../swift/api/awsbackupgateway/latest)
 
+[AWSBackupSearch](../../../../../swift/api/awsbackupsearch/latest)
+
 [AWSBatch](../../../../../swift/api/awsbatch/latest)
 
 [AWSBedrock](../../../../../swift/api/awsbedrock/latest)

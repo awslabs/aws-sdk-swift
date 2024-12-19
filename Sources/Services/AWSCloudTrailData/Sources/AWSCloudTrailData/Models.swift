@@ -72,9 +72,9 @@ extension CloudTrailDataClientTypes {
 }
 
 /// The caller's account ID must be the same as the channel owner's account ID.
-public struct ChannelInsufficientPermission: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelInsufficientPermission: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -96,9 +96,9 @@ public struct ChannelInsufficientPermission: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The channel could not be found.
-public struct ChannelNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -120,9 +120,9 @@ public struct ChannelNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
 }
 
 /// The schema type of the event is not supported.
-public struct ChannelUnsupportedSchema: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ChannelUnsupportedSchema: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -144,9 +144,9 @@ public struct ChannelUnsupportedSchema: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Two or more entries in the request have the same event ID.
-public struct DuplicatedAuditEventId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicatedAuditEventId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -168,9 +168,9 @@ public struct DuplicatedAuditEventId: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The specified channel ARN is not a valid channel ARN.
-public struct InvalidChannelARN: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidChannelARN: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -192,9 +192,9 @@ public struct InvalidChannelARN: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The operation requested is not supported in this region or account.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 

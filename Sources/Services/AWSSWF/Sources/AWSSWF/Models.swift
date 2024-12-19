@@ -1271,9 +1271,9 @@ extension SWFClientTypes {
 }
 
 /// Returned when the caller doesn't have sufficient permissions to invoke the action.
-public struct OperationNotPermittedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotPermittedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1296,9 +1296,9 @@ public struct OperationNotPermittedFault: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
-public struct UnknownResourceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnknownResourceFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4341,9 +4341,9 @@ extension SWFClientTypes {
 }
 
 /// The StartWorkflowExecution API action was called without the required parameters set. Some workflow execution parameters, such as the decision taskList, must be set to start the execution. However, these parameters might have been set as defaults when the workflow type was registered. In this case, you can omit these parameters from the StartWorkflowExecution call and Amazon SWF uses the values defined in the workflow type. If these parameters aren't set and no default parameters were defined in the workflow type, this error is displayed.
-public struct DefaultUndefinedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DefaultUndefinedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4365,9 +4365,9 @@ public struct DefaultUndefinedFault: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Returned when the resource type has not been deprecated.
-public struct TypeNotDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TypeNotDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4425,9 +4425,9 @@ public struct DeleteWorkflowTypeInput: Swift.Sendable {
 }
 
 /// Returned when the specified activity or workflow type was already deprecated.
-public struct TypeDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TypeDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4468,9 +4468,9 @@ public struct DeprecateActivityTypeInput: Swift.Sendable {
 }
 
 /// Returned when the specified domain has been deprecated.
-public struct DomainDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainDeprecatedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4991,9 +4991,9 @@ public struct DescribeWorkflowTypeOutput: Swift.Sendable {
 }
 
 /// Returned if the domain already exists. You may get this fault if you are registering a domain that is either already registered or deprecated, or if you undeprecate a domain that is currently registered.
-public struct DomainAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DomainAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5064,9 +5064,9 @@ public struct GetWorkflowExecutionHistoryOutput: Swift.Sendable {
 }
 
 /// Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
-public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5580,9 +5580,9 @@ public struct RecordActivityTaskHeartbeatOutput: Swift.Sendable {
 }
 
 /// Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
-public struct TypeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TypeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }
@@ -5656,9 +5656,9 @@ public struct RegisterActivityTypeInput: Swift.Sendable {
 }
 
 /// You've exceeded the number of tags allowed for a domain.
-public struct TooManyTagsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5901,9 +5901,9 @@ public struct SignalWorkflowExecutionInput: Swift.Sendable {
 }
 
 /// Returned by [StartWorkflowExecution] when an open execution with the same workflowId is already running in the specified domain.
-public struct WorkflowExecutionAlreadyStartedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WorkflowExecutionAlreadyStartedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description that may help with diagnosing the cause of the fault.
         public internal(set) var message: Swift.String? = nil
     }

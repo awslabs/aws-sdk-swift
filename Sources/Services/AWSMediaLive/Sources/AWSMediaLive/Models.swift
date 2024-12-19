@@ -3924,6 +3924,26 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Placeholder documentation for ChannelEngineVersionResponse
+    public struct ChannelEngineVersionResponse: Swift.Sendable {
+        /// The UTC time when the version expires.
+        public var expirationDate: Foundation.Date?
+        /// The build identifier for this version of the channel version.
+        public var version: Swift.String?
+
+        public init(
+            expirationDate: Foundation.Date? = nil,
+            version: Swift.String? = nil
+        )
+        {
+            self.expirationDate = expirationDate
+            self.version = version
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Property of RestartChannelPipelinesRequest
     public enum ChannelPipelineIdToRestart: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pipeline0
@@ -5238,6 +5258,8 @@ extension MediaLiveClientTypes {
         public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
         /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
         public var channelClass: MediaLiveClientTypes.ChannelClass?
+        /// The engine version that you requested for this channel.
+        public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
         /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
         public var destinations: [MediaLiveClientTypes.OutputDestination]?
         /// The endpoints where outgoing connections initiate from
@@ -5262,6 +5284,8 @@ extension MediaLiveClientTypes {
         public var state: MediaLiveClientTypes.ChannelState?
         /// A collection of key-value pairs.
         public var tags: [Swift.String: Swift.String]?
+        /// The engine version that the running pipelines are using.
+        public var usedChannelEngineVersions: [MediaLiveClientTypes.ChannelEngineVersionResponse]?
         /// Settings for any VPC outputs.
         public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
 
@@ -5270,6 +5294,7 @@ extension MediaLiveClientTypes {
             arn: Swift.String? = nil,
             cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
             channelClass: MediaLiveClientTypes.ChannelClass? = nil,
+            channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
             destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
             egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
             id: Swift.String? = nil,
@@ -5282,6 +5307,7 @@ extension MediaLiveClientTypes {
             roleArn: Swift.String? = nil,
             state: MediaLiveClientTypes.ChannelState? = nil,
             tags: [Swift.String: Swift.String]? = nil,
+            usedChannelEngineVersions: [MediaLiveClientTypes.ChannelEngineVersionResponse]? = nil,
             vpc: MediaLiveClientTypes.VpcOutputSettingsDescription? = nil
         )
         {
@@ -5289,6 +5315,7 @@ extension MediaLiveClientTypes {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
+            self.channelEngineVersion = channelEngineVersion
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.id = id
@@ -5301,6 +5328,7 @@ extension MediaLiveClientTypes {
             self.roleArn = roleArn
             self.state = state
             self.tags = tags
+            self.usedChannelEngineVersions = usedChannelEngineVersions
             self.vpc = vpc
         }
     }
@@ -13049,6 +13077,8 @@ extension MediaLiveClientTypes {
         public var activeMotionGraphicsActionName: Swift.String?
         /// The current URI being used for HTML5 motion graphics for this pipeline.
         public var activeMotionGraphicsUri: Swift.String?
+        /// Current engine version of the encoder for this pipeline.
+        public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
         /// Pipeline ID
         public var pipelineId: Swift.String?
 
@@ -13057,6 +13087,7 @@ extension MediaLiveClientTypes {
             activeInputSwitchActionName: Swift.String? = nil,
             activeMotionGraphicsActionName: Swift.String? = nil,
             activeMotionGraphicsUri: Swift.String? = nil,
+            channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
             pipelineId: Swift.String? = nil
         )
         {
@@ -13064,6 +13095,7 @@ extension MediaLiveClientTypes {
             self.activeInputSwitchActionName = activeInputSwitchActionName
             self.activeMotionGraphicsActionName = activeMotionGraphicsActionName
             self.activeMotionGraphicsUri = activeMotionGraphicsUri
+            self.channelEngineVersion = channelEngineVersion
             self.pipelineId = pipelineId
         }
     }
@@ -17788,9 +17820,9 @@ extension MediaLiveClientTypes {
 }
 
 /// Placeholder documentation for BadGatewayException
-public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Placeholder documentation for __string
         public internal(set) var message: Swift.String? = nil
     }
@@ -17813,9 +17845,9 @@ public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Placeholder documentation for BadRequestException
-public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Placeholder documentation for __string
         public internal(set) var message: Swift.String? = nil
     }
@@ -17838,9 +17870,9 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// Placeholder documentation for ConflictException
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Placeholder documentation for __string
         public internal(set) var message: Swift.String? = nil
     }
@@ -17863,9 +17895,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Placeholder documentation for ForbiddenException
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Placeholder documentation for __string
         public internal(set) var message: Swift.String? = nil
     }
@@ -17888,9 +17920,9 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
 }
 
 /// Placeholder documentation for GatewayTimeoutException
-public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Placeholder documentation for __string
         public internal(set) var message: Swift.String? = nil
     }
@@ -17913,9 +17945,9 @@ public struct GatewayTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Placeholder documentation for InternalServerErrorException
-public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Placeholder documentation for __string
         public internal(set) var message: Swift.String? = nil
     }
@@ -17938,9 +17970,9 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// Placeholder documentation for NotFoundException
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Placeholder documentation for __string
         public internal(set) var message: Swift.String? = nil
     }
@@ -17963,9 +17995,9 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// Placeholder documentation for TooManyRequestsException
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Placeholder documentation for __string
         public internal(set) var message: Swift.String? = nil
     }
@@ -17988,9 +18020,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// Placeholder documentation for UnprocessableEntityException
-public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The error message.
         public internal(set) var message: Swift.String? = nil
         /// A collection of validation error responses.
@@ -19410,6 +19442,8 @@ extension MediaLiveClientTypes {
         public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
         /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
         public var channelClass: MediaLiveClientTypes.ChannelClass?
+        /// Requested engine version for this channel.
+        public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
         /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
         public var destinations: [MediaLiveClientTypes.OutputDestination]?
         /// The endpoints where outgoing connections initiate from
@@ -19446,6 +19480,7 @@ extension MediaLiveClientTypes {
             arn: Swift.String? = nil,
             cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
             channelClass: MediaLiveClientTypes.ChannelClass? = nil,
+            channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
             destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
             egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
             encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -19467,6 +19502,7 @@ extension MediaLiveClientTypes {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
+            self.channelEngineVersion = channelEngineVersion
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.encoderSettings = encoderSettings
@@ -19482,6 +19518,22 @@ extension MediaLiveClientTypes {
             self.state = state
             self.tags = tags
             self.vpc = vpc
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Placeholder documentation for ChannelEngineVersionRequest
+    public struct ChannelEngineVersionRequest: Swift.Sendable {
+        /// The build identifier of the engine version to use for this channel. Specify 'DEFAULT' to reset to the default version.
+        public var version: Swift.String?
+
+        public init(
+            version: Swift.String? = nil
+        )
+        {
+            self.version = version
         }
     }
 }
@@ -19625,8 +19677,12 @@ public struct CreateChannelInput: Swift.Sendable {
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
     public var channelClass: MediaLiveClientTypes.ChannelClass?
+    /// The desired engine version for this channel.
+    public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionRequest?
     /// Placeholder documentation for __listOfOutputDestination
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
+    /// Placeholder documentation for __boolean
+    public var dryRun: Swift.Bool?
     /// Encoder Settings
     public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
     /// List of input attachments for channel.
@@ -19655,7 +19711,9 @@ public struct CreateChannelInput: Swift.Sendable {
         anywhereSettings: MediaLiveClientTypes.AnywhereSettings? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
+        channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionRequest? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
+        dryRun: Swift.Bool? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
@@ -19672,7 +19730,9 @@ public struct CreateChannelInput: Swift.Sendable {
         self.anywhereSettings = anywhereSettings
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
+        self.channelEngineVersion = channelEngineVersion
         self.destinations = destinations
+        self.dryRun = dryRun
         self.encoderSettings = encoderSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
@@ -21223,6 +21283,8 @@ public struct DeleteChannelOutput: Swift.Sendable {
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
     public var channelClass: MediaLiveClientTypes.ChannelClass?
+    /// Requested engine version for this channel.
+    public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
     /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// The endpoints where outgoing connections initiate from
@@ -21259,6 +21321,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
+        channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -21280,6 +21343,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         self.arn = arn
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
+        self.channelEngineVersion = channelEngineVersion
         self.destinations = destinations
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
@@ -21930,6 +21994,8 @@ public struct DescribeChannelOutput: Swift.Sendable {
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
     public var channelClass: MediaLiveClientTypes.ChannelClass?
+    /// Requested engine version for this channel.
+    public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
     /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// The endpoints where outgoing connections initiate from
@@ -21966,6 +22032,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
+        channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -21987,6 +22054,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         self.arn = arn
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
+        self.channelEngineVersion = channelEngineVersion
         self.destinations = destinations
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
@@ -24055,6 +24123,25 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+/// Placeholder documentation for ListVersionsRequest
+public struct ListVersionsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Placeholder documentation for ListVersionsResponse
+public struct ListVersionsOutput: Swift.Sendable {
+    /// List of engine versions that are available for this AWS account.
+    public var versions: [MediaLiveClientTypes.ChannelEngineVersionResponse]?
+
+    public init(
+        versions: [MediaLiveClientTypes.ChannelEngineVersionResponse]? = nil
+    )
+    {
+        self.versions = versions
+    }
+}
+
 extension MediaLiveClientTypes {
 
     /// Placeholder documentation for MaintenanceUpdateSettings
@@ -24233,6 +24320,8 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
     public var channelClass: MediaLiveClientTypes.ChannelClass?
+    /// Requested engine version for this channel.
+    public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
     /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// The endpoints where outgoing connections initiate from
@@ -24271,6 +24360,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
+        channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -24293,6 +24383,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         self.arn = arn
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
+        self.channelEngineVersion = channelEngineVersion
         self.destinations = destinations
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
@@ -24336,6 +24427,8 @@ public struct StartChannelOutput: Swift.Sendable {
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
     public var channelClass: MediaLiveClientTypes.ChannelClass?
+    /// Requested engine version for this channel.
+    public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
     /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// The endpoints where outgoing connections initiate from
@@ -24372,6 +24465,7 @@ public struct StartChannelOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
+        channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -24393,6 +24487,7 @@ public struct StartChannelOutput: Swift.Sendable {
         self.arn = arn
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
+        self.channelEngineVersion = channelEngineVersion
         self.destinations = destinations
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
@@ -24851,6 +24946,8 @@ public struct StopChannelOutput: Swift.Sendable {
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
     /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
     public var channelClass: MediaLiveClientTypes.ChannelClass?
+    /// Requested engine version for this channel.
+    public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
     /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// The endpoints where outgoing connections initiate from
@@ -24887,6 +24984,7 @@ public struct StopChannelOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
+        channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -24908,6 +25006,7 @@ public struct StopChannelOutput: Swift.Sendable {
         self.arn = arn
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
+        self.channelEngineVersion = channelEngineVersion
         self.destinations = destinations
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
@@ -25071,11 +25170,15 @@ public struct UpdateAccountConfigurationOutput: Swift.Sendable {
 public struct UpdateChannelInput: Swift.Sendable {
     /// Specification of CDI inputs for this channel
     public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
+    /// Channel engine version for this channel
+    public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionRequest?
     /// channel ID
     /// This member is required.
     public var channelId: Swift.String?
     /// A list of output destinations for this channel.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
+    /// Placeholder documentation for __boolean
+    public var dryRun: Swift.Bool?
     /// The encoder settings for this channel.
     public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
     /// Placeholder documentation for __listOfInputAttachment
@@ -25093,8 +25196,10 @@ public struct UpdateChannelInput: Swift.Sendable {
 
     public init(
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
+        channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionRequest? = nil,
         channelId: Swift.String? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
+        dryRun: Swift.Bool? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
@@ -25105,8 +25210,10 @@ public struct UpdateChannelInput: Swift.Sendable {
     )
     {
         self.cdiInputSpecification = cdiInputSpecification
+        self.channelEngineVersion = channelEngineVersion
         self.channelId = channelId
         self.destinations = destinations
+        self.dryRun = dryRun
         self.encoderSettings = encoderSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
@@ -27394,6 +27501,13 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListVersionsInput {
+
+    static func urlPathProvider(_ value: ListVersionsInput) -> Swift.String? {
+        return "/prod/versions"
+    }
+}
+
 extension PurchaseOfferingInput {
 
     static func urlPathProvider(_ value: PurchaseOfferingInput) -> Swift.String? {
@@ -27786,7 +27900,9 @@ extension CreateChannelInput {
         try writer["anywhereSettings"].write(value.anywhereSettings, with: MediaLiveClientTypes.AnywhereSettings.write(value:to:))
         try writer["cdiInputSpecification"].write(value.cdiInputSpecification, with: MediaLiveClientTypes.CdiInputSpecification.write(value:to:))
         try writer["channelClass"].write(value.channelClass)
+        try writer["channelEngineVersion"].write(value.channelEngineVersion, with: MediaLiveClientTypes.ChannelEngineVersionRequest.write(value:to:))
         try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.OutputDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dryRun"].write(value.dryRun)
         try writer["encoderSettings"].write(value.encoderSettings, with: MediaLiveClientTypes.EncoderSettings.write(value:to:))
         try writer["inputAttachments"].writeList(value.inputAttachments, memberWritingClosure: MediaLiveClientTypes.InputAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSpecification"].write(value.inputSpecification, with: MediaLiveClientTypes.InputSpecification.write(value:to:))
@@ -28069,7 +28185,9 @@ extension UpdateChannelInput {
     static func write(value: UpdateChannelInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["cdiInputSpecification"].write(value.cdiInputSpecification, with: MediaLiveClientTypes.CdiInputSpecification.write(value:to:))
+        try writer["channelEngineVersion"].write(value.channelEngineVersion, with: MediaLiveClientTypes.ChannelEngineVersionRequest.write(value:to:))
         try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.OutputDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dryRun"].write(value.dryRun)
         try writer["encoderSettings"].write(value.encoderSettings, with: MediaLiveClientTypes.EncoderSettings.write(value:to:))
         try writer["inputAttachments"].writeList(value.inputAttachments, memberWritingClosure: MediaLiveClientTypes.InputAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSpecification"].write(value.inputSpecification, with: MediaLiveClientTypes.InputSpecification.write(value:to:))
@@ -28609,6 +28727,7 @@ extension DeleteChannelOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
+        value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
@@ -28857,6 +28976,7 @@ extension DescribeChannelOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
+        value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
@@ -29528,6 +29648,18 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListVersionsOutput()
+        value.versions = try reader["versions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension PurchaseOfferingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PurchaseOfferingOutput {
@@ -29565,6 +29697,7 @@ extension RestartChannelPipelinesOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
+        value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
@@ -29596,6 +29729,7 @@ extension StartChannelOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
+        value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
@@ -29748,6 +29882,7 @@ extension StopChannelOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
+        value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
@@ -31694,6 +31829,27 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PurchaseOfferingOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33140,6 +33296,18 @@ extension MediaLiveClientTypes.Channel {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vpc = try reader["vpc"].readIfPresent(with: MediaLiveClientTypes.VpcOutputSettingsDescription.read(from:))
         value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
+        value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.ChannelEngineVersionResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ChannelEngineVersionResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.ChannelEngineVersionResponse()
+        value.expirationDate = try reader["expirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }
@@ -33178,6 +33346,7 @@ extension MediaLiveClientTypes.PipelineDetail {
         value.activeMotionGraphicsActionName = try reader["activeMotionGraphicsActionName"].readIfPresent()
         value.activeMotionGraphicsUri = try reader["activeMotionGraphicsUri"].readIfPresent()
         value.pipelineId = try reader["pipelineId"].readIfPresent()
+        value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         return value
     }
 }
@@ -37667,6 +37836,8 @@ extension MediaLiveClientTypes.ChannelSummary {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.vpc = try reader["vpc"].readIfPresent(with: MediaLiveClientTypes.VpcOutputSettingsDescription.read(from:))
         value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
+        value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
+        value.usedChannelEngineVersions = try reader["usedChannelEngineVersions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -37998,6 +38169,14 @@ extension MediaLiveClientTypes.AnywhereSettings {
         guard let value else { return }
         try writer["channelPlacementGroupId"].write(value.channelPlacementGroupId)
         try writer["clusterId"].write(value.clusterId)
+    }
+}
+
+extension MediaLiveClientTypes.ChannelEngineVersionRequest {
+
+    static func write(value: MediaLiveClientTypes.ChannelEngineVersionRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["version"].write(value.version)
     }
 }
 

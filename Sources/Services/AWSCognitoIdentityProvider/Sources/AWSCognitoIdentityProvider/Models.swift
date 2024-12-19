@@ -334,9 +334,9 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 /// This exception is thrown when Amazon Cognito encounters an internal error.
-public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws an internal error exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -359,9 +359,9 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
-public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the Amazon Cognito service throws an invalid parameter exception.
         public internal(set) var message: Swift.String? = nil
         /// The reason code of the exception.
@@ -388,9 +388,9 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// This exception is thrown when a user isn't authorized.
-public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the Amazon Cognito service returns a not authorized exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -413,9 +413,9 @@ public struct NotAuthorizedException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// This exception is thrown when the Amazon Cognito service can't find the requested resource.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the Amazon Cognito service returns a resource not found exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -438,9 +438,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// This exception is thrown when the user has made too many requests for a given operation.
-public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the Amazon Cognito service returns a too many requests exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -463,9 +463,9 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// This exception is thrown when you're trying to modify a user pool while a user import job is in progress for that pool.
-public struct UserImportInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserImportInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the user pool has an import job running.
         public internal(set) var message: Swift.String? = nil
     }
@@ -628,9 +628,9 @@ public struct AddCustomAttributesOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a user isn't found.
-public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when a user isn't found.
         public internal(set) var message: Swift.String? = nil
     }
@@ -681,9 +681,9 @@ extension AdminAddUserToGroupInput: Swift.CustomDebugStringConvertible {
 }
 
 /// This exception is thrown when Amazon Cognito encounters an invalid Lambda response.
-public struct InvalidLambdaResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidLambdaResponseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws an invalid Lambda response exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -706,9 +706,9 @@ public struct InvalidLambdaResponseException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws a limit exceeded exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -731,9 +731,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// This exception is thrown when the user has made too many failed attempts for a given action, such as sign-in.
-public struct TooManyFailedAttemptsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyFailedAttemptsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito returns a TooManyFailedAttempts exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -756,9 +756,9 @@ public struct TooManyFailedAttemptsException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
-public struct UnexpectedLambdaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnexpectedLambdaException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito returns an unexpected Lambda exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -781,9 +781,9 @@ public struct UnexpectedLambdaException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// This exception is thrown when the Amazon Cognito service encounters a user validation exception with the Lambda service.
-public struct UserLambdaValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserLambdaValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the Amazon Cognito service returns a user validation exception with the Lambda service.
         public internal(set) var message: Swift.String? = nil
     }
@@ -846,9 +846,9 @@ public struct AdminConfirmSignUpOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a verification code fails to deliver successfully.
-public struct CodeDeliveryFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CodeDeliveryFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message sent when a verification code fails to deliver successfully.
         public internal(set) var message: Swift.String? = nil
     }
@@ -871,9 +871,9 @@ public struct CodeDeliveryFailureException: ClientRuntime.ModeledError, AWSClien
 }
 
 /// This exception is thrown when Amazon Cognito encounters an invalid password.
-public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws an invalid user password exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -896,9 +896,9 @@ public struct InvalidPasswordException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// This exception is returned when the role provided for SMS configuration doesn't have permission to publish using Amazon SNS.
-public struct InvalidSmsRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSmsRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the invalid SMS role access policy exception is thrown.
         public internal(set) var message: Swift.String? = nil
     }
@@ -921,9 +921,9 @@ public struct InvalidSmsRoleAccessPolicyException: ClientRuntime.ModeledError, A
 }
 
 /// This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
-public struct InvalidSmsRoleTrustRelationshipException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidSmsRoleTrustRelationshipException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the role trust relationship for the SMS message is not valid.
         public internal(set) var message: Swift.String? = nil
     }
@@ -946,9 +946,9 @@ public struct InvalidSmsRoleTrustRelationshipException: ClientRuntime.ModeledErr
 }
 
 /// This exception is thrown when a precondition is not met.
-public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when a precondition is not met.
         public internal(set) var message: Swift.String? = nil
     }
@@ -971,9 +971,9 @@ public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The request failed because the user is in an unsupported state.
-public struct UnsupportedUserStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedUserStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the user is in an unsupported state.
         public internal(set) var message: Swift.String? = nil
     }
@@ -996,9 +996,9 @@ public struct UnsupportedUserStateException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// This exception is thrown when Amazon Cognito encounters a user name that already exists in the user pool.
-public struct UsernameExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UsernameExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws a user name exists exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1417,9 +1417,9 @@ public struct AdminDeleteUserAttributesOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a user tries to confirm the account with an email address or phone number that has already been supplied as an alias for a different user profile. This exception indicates that an account with this email address or phone already exists in a user pool that you've configured to use email address or phone number as a sign-in alias.
-public struct AliasExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AliasExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message that Amazon Cognito sends to the user when the value of an alias attribute is already linked to another user profile.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1549,9 +1549,9 @@ public struct AdminEnableUserOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the user pool configuration is not valid.
-public struct InvalidUserPoolConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidUserPoolConfigurationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the user pool configuration is not valid.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1765,9 +1765,9 @@ extension AdminGetUserOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// This exception is thrown when Amazon Cognito isn't allowed to use your email identity. HTTP status code: 400.
-public struct InvalidEmailRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidEmailRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when you have an unverified email address or the identity policy isn't set on an email address that Amazon Cognito can access.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1790,9 +1790,9 @@ public struct InvalidEmailRoleAccessPolicyException: ClientRuntime.ModeledError,
 }
 
 /// This exception is thrown when Amazon Cognito can't find a multi-factor authentication (MFA) method.
-public struct MFAMethodNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct MFAMethodNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when Amazon Cognito throws an MFA method not found exception.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1815,9 +1815,9 @@ public struct MFAMethodNotFoundException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// This exception is thrown when a password reset is required.
-public struct PasswordResetRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PasswordResetRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when a password reset is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1840,9 +1840,9 @@ public struct PasswordResetRequiredException: ClientRuntime.ModeledError, AWSCli
 }
 
 /// This exception is thrown when a user isn't confirmed successfully.
-public struct UserNotConfirmedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserNotConfirmedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when a user isn't confirmed successfully.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2449,9 +2449,9 @@ public struct AdminListGroupsForUserOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when user pool add-ons aren't enabled.
-public struct UserPoolAddOnNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserPoolAddOnNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2971,9 +2971,9 @@ public struct AdminResetUserPasswordOutput: Swift.Sendable {
 }
 
 /// This exception is thrown if the provided code doesn't match what the server was expecting.
-public struct CodeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CodeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided when the code mismatch exception is thrown.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2996,9 +2996,9 @@ public struct CodeMismatchException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// This exception is thrown if a code has expired.
-public struct ExpiredCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExpiredCodeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when the expired code exception is thrown.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3021,9 +3021,9 @@ public struct ExpiredCodeException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
-public struct PasswordHistoryPolicyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PasswordHistoryPolicyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3045,9 +3045,9 @@ public struct PasswordHistoryPolicyViolationException: ClientRuntime.ModeledErro
 }
 
 /// This exception is thrown when the software token time-based one-time password (TOTP) multi-factor authentication (MFA) isn't activated for the user pool.
-public struct SoftwareTokenMFANotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SoftwareTokenMFANotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3891,9 +3891,9 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 /// This exception is thrown if two or more modifications are happening concurrently.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message provided when the concurrent exception is thrown.
         public internal(set) var message: Swift.String? = nil
     }
@@ -3916,9 +3916,9 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// This exception is thrown when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
-public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The message returned when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
         public internal(set) var message: Swift.String? = nil
     }
@@ -4046,9 +4046,9 @@ public struct ChangePasswordOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the challenge from StartWebAuthn registration has expired.
-public struct WebAuthnChallengeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnChallengeNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4070,9 +4070,9 @@ public struct WebAuthnChallengeNotFoundException: ClientRuntime.ModeledError, AW
 }
 
 /// This exception is thrown when the access token is for a different client than the one in the original StartWebAuthnRegistration request.
-public struct WebAuthnClientMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnClientMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4094,9 +4094,9 @@ public struct WebAuthnClientMismatchException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// This exception is thrown when a user presents passkey credentials from an unsupported device or provider.
-public struct WebAuthnCredentialNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnCredentialNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4118,9 +4118,9 @@ public struct WebAuthnCredentialNotSupportedException: ClientRuntime.ModeledErro
 }
 
 /// This exception is thrown when the passkey feature isn't enabled for the user pool.
-public struct WebAuthnNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4142,9 +4142,9 @@ public struct WebAuthnNotEnabledException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// This exception is thrown when the passkey credential's registration origin does not align with the user pool relying party id.
-public struct WebAuthnOriginNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnOriginNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4166,9 +4166,9 @@ public struct WebAuthnOriginNotAllowedException: ClientRuntime.ModeledError, AWS
 }
 
 /// This exception is thrown when the given passkey credential is associated with a different relying party ID than the user pool relying party ID.
-public struct WebAuthnRelyingPartyMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnRelyingPartyMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4448,9 +4448,9 @@ extension ConfirmSignUpOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// This exception is thrown when Amazon Cognito encounters a group that already exists in the user pool.
-public struct GroupExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct GroupExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4514,9 +4514,9 @@ public struct CreateGroupOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the provider is already supported by the user pool.
-public struct DuplicateProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -4672,9 +4672,9 @@ public struct CreateIdentityProviderOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when you attempt to apply a managed login branding style to an app client that already has an assigned style.
-public struct ManagedLoginBrandingExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ManagedLoginBrandingExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5037,9 +5037,9 @@ public struct CreateUserImportJobOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
-public struct FeatureUnavailableInTierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct FeatureUnavailableInTierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5061,9 +5061,9 @@ public struct FeatureUnavailableInTierException: ClientRuntime.ModeledError, AWS
 }
 
 /// This exception is thrown when you've attempted to change your feature plan but the operation isn't permitted.
-public struct TierChangeNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TierChangeNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -5085,9 +5085,9 @@ public struct TierChangeNotAllowedException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// This exception is thrown when a user pool tag can't be set or updated.
-public struct UserPoolTaggingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UserPoolTaggingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6057,9 +6057,9 @@ public struct CreateUserPoolOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when the specified OAuth flow is not valid.
-public struct InvalidOAuthFlowException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidOAuthFlowException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6081,9 +6081,9 @@ public struct InvalidOAuthFlowException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// This exception is thrown when the specified scope doesn't exist.
-public struct ScopeDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ScopeDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -6674,9 +6674,9 @@ public struct DeleteGroupInput: Swift.Sendable {
 }
 
 /// This exception is thrown when the specified identifier isn't supported.
-public struct UnsupportedIdentityProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedIdentityProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9206,9 +9206,9 @@ extension RespondToAuthChallengeOutput: Swift.CustomDebugStringConvertible {
 }
 
 /// Exception that is thrown when the request isn't authorized. This can happen due to an invalid access token in the request.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9230,9 +9230,9 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// Exception that is thrown when you attempt to perform an operation that isn't enabled for the user pool client.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9254,9 +9254,9 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// Exception that is thrown when an unsupported token is passed to an operation.
-public struct UnsupportedTokenTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct UnsupportedTokenTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -9690,9 +9690,9 @@ public struct StartUserImportJobOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when a user pool doesn't have a configured relying party id or a user pool domain.
-public struct WebAuthnConfigurationMissingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct WebAuthnConfigurationMissingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -10430,9 +10430,9 @@ public struct UpdateUserPoolDomainOutput: Swift.Sendable {
 }
 
 /// This exception is thrown when there is a code mismatch and the service fails to configure the software token TOTP multi-factor authentication (MFA).
-public struct EnableSoftwareTokenMFAException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct EnableSoftwareTokenMFAException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 

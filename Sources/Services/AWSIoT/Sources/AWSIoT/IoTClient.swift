@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTClient: ClientRuntime.Client {
     public static let clientName = "IoTClient"
-    public static let version = "1.0.61"
+    public static let version = "1.0.64"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTClient.IoTClientConfiguration
     let serviceName = "IoT"
@@ -10736,6 +10736,78 @@ extension IoTClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetThingConnectivityData` operation on the `AWSIotService` service.
+    ///
+    /// Retrieves the live connectivity status per device.
+    ///
+    /// - Parameter GetThingConnectivityDataInput : [no documentation found]
+    ///
+    /// - Returns: `GetThingConnectivityDataOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IndexNotReadyException` : The index is not ready.
+    /// - `InternalFailureException` : An unexpected error has occurred.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    public func getThingConnectivityData(input: GetThingConnectivityDataInput) async throws -> GetThingConnectivityDataOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getThingConnectivityData")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iot")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetThingConnectivityDataInput, GetThingConnectivityDataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>(GetThingConnectivityDataInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetThingConnectivityDataOutput>(GetThingConnectivityDataOutput.httpOutput(from:), GetThingConnectivityDataOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetThingConnectivityDataOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        builder.applyEndpoint(AWSClientRuntime.EndpointResolverMiddleware<GetThingConnectivityDataOutput, EndpointParams>(endpointResolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>(serviceID: serviceName, version: IoTClient.version, config: config))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetThingConnectivityDataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoT")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetThingConnectivityData")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTopicRule` operation on the `AWSIotService` service.
     ///
     /// Gets information about the rule. Requires permission to access the [GetTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
@@ -11861,7 +11933,14 @@ extension IoTClient {
 
     /// Performs the `ListCommandExecutions` operation on the `AWSIotService` service.
     ///
-    /// List all command executions. You must provide only the startedTimeFilter or the completedTimeFilter information. If you provide both time filters, the API will generate an error. You can use this information to find command executions that started within a specific timeframe.
+    /// List all command executions.
+    ///
+    /// * You must provide only the startedTimeFilter or the completedTimeFilter information. If you provide both time filters, the API will generate an error. You can use this information to retrieve a list of command executions within a specific timeframe.
+    ///
+    /// * You must provide only the commandArn or the thingArn information depending on whether you want to list executions for a specific command or an IoT thing. If you provide both fields, the API will generate an error.
+    ///
+    ///
+    /// For more information about considerations for using this API, see [List command executions in your account (CLI)](https://docs.aws.amazon.com/iot/latest/developerguide/iot-remote-command-execution-start-monitor.html#iot-remote-command-execution-list-cli).
     ///
     /// - Parameter ListCommandExecutionsInput : [no documentation found]
     ///

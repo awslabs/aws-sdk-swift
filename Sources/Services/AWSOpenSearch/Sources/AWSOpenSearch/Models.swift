@@ -45,9 +45,9 @@ public struct RemoveTagsOutput: Swift.Sendable {
 }
 
 /// An error occured because the client wanted to access an unsupported operation.
-public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -70,9 +70,9 @@ public struct DisabledOperationException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// An exception for trying to create more than the allowed number of resources or sub-resources.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -95,9 +95,9 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// An exception for accessing or deleting a resource that doesn't exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -337,9 +337,9 @@ public struct AcceptInboundConnectionOutput: Swift.Sendable {
 }
 
 /// An error occurred because you don't have permissions to access the resource.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -561,9 +561,9 @@ extension OpenSearchClientTypes {
 }
 
 /// An error occurred while processing the request.
-public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -586,9 +586,9 @@ public struct BaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
 }
 
 /// An exception for when a failure in one of the dependencies results in the service being unable to fetch details about the resource.
-public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -611,9 +611,9 @@ public struct DependencyFailureException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Request processing failed because of an unknown error, exception, or internal failure.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -636,9 +636,9 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An exception for accessing or deleting a resource that doesn't exist.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1352,9 +1352,9 @@ extension OpenSearchClientTypes {
 }
 
 /// An error occurred because the client attempts to remove a resource that is currently in use.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2131,9 +2131,9 @@ public struct CreateApplicationOutput: Swift.Sendable {
 }
 
 /// An exception for trying to create or access a sub-resource that's either invalid or not supported.
-public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2156,9 +2156,9 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// An exception for creating a resource that already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -6380,9 +6380,9 @@ public struct DescribeDryRunProgressOutput: Swift.Sendable {
 }
 
 /// Request processing failed because you provided an invalid pagination token.
-public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
     }
@@ -9274,9 +9274,9 @@ public struct UpdatePackageScopeOutput: Swift.Sendable {
 }
 
 /// An exception for attempting to schedule a domain action during an unavailable time slot.
-public struct SlotNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct SlotNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of the error.
         public internal(set) var message: Swift.String? = nil
         /// Alternate time slots during which OpenSearch Service has available capacity to schedule a domain action.

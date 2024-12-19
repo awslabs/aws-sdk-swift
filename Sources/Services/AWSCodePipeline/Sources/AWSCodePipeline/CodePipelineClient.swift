@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodePipelineClient: ClientRuntime.Client {
     public static let clientName = "CodePipelineClient"
-    public static let version = "1.0.61"
+    public static let version = "1.0.64"
     let client: ClientRuntime.SdkHttpClient
     let config: CodePipelineClient.CodePipelineClientConfiguration
     let serviceName = "CodePipeline"
@@ -1849,7 +1849,7 @@ extension CodePipelineClient {
 
     /// Performs the `ListRuleTypes` operation on the `CodePipeline_20150709` service.
     ///
-    /// Lists the rules for the condition.
+    /// Lists the rules for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     ///
     /// - Parameter ListRuleTypesInput : [no documentation found]
     ///

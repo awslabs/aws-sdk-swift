@@ -33,9 +33,9 @@ public struct UpdateInstanceCustomHealthStatusOutput: Swift.Sendable {
 }
 
 /// The operation is already in progress.
-public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The ID of the operation that's already in progress.
         public internal(set) var duplicateOperationId: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -61,9 +61,9 @@ public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
-public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -85,9 +85,9 @@ public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 }
 
 /// The namespace that you're trying to create already exists.
-public struct NamespaceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NamespaceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The CreatorRequestId that was used to create the namespace.
         public internal(set) var creatorRequestId: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -117,9 +117,9 @@ public struct NamespaceAlreadyExists: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The resource can't be created because you've reached the quota on the number of resources.
-public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -141,9 +141,9 @@ public struct ResourceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
-public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
         /// The name of the resource.
         public internal(set) var resourceName: Swift.String? = nil
@@ -400,9 +400,9 @@ public struct CreatePublicDnsNamespaceOutput: Swift.Sendable {
 }
 
 /// No namespace exists with the specified ID.
-public struct NamespaceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct NamespaceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -424,9 +424,9 @@ public struct NamespaceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The service can't be created because a service with the same name already exists.
-public struct ServiceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The CreatorRequestId that was used to create the service.
         public internal(set) var creatorRequestId: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -905,9 +905,9 @@ public struct CreateServiceOutput: Swift.Sendable {
 }
 
 /// The health check for the instance that's specified by ServiceId and InstanceId isn't a custom health check.
-public struct CustomHealthNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct CustomHealthNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -958,9 +958,9 @@ extension ServiceDiscoveryClientTypes {
 }
 
 /// The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
-public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1007,9 +1007,9 @@ public struct DeleteNamespaceOutput: Swift.Sendable {
 }
 
 /// No service exists with the specified ID.
-public struct ServiceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1072,9 +1072,9 @@ public struct DeleteServiceAttributesOutput: Swift.Sendable {
 }
 
 /// No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn't propagated yet.
-public struct InstanceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InstanceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1126,9 +1126,9 @@ public struct DeregisterInstanceOutput: Swift.Sendable {
 }
 
 /// The operation can't be completed because you've reached the quota for the number of requests. For more information, see [Cloud Map API request throttling quota](https://docs.aws.amazon.com/cloud-map/latest/dg/throttling.html) in the Cloud Map Developer Guide.
-public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -1666,9 +1666,9 @@ public struct GetNamespaceOutput: Swift.Sendable {
 }
 
 /// No operation exists with the specified ID.
-public struct OperationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct OperationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2496,9 +2496,9 @@ public struct ListServicesOutput: Swift.Sendable {
 }
 
 /// The operation can't be completed because the resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2967,9 +2967,9 @@ public struct UpdateServiceOutput: Swift.Sendable {
 }
 
 /// The attribute can't be added to the service because you've exceeded the quota for the number of attributes you can add to a service.
-public struct ServiceAttributesLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceAttributesLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 

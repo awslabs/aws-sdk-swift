@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EBSClient: ClientRuntime.Client {
     public static let clientName = "EBSClient"
-    public static let version = "1.0.61"
+    public static let version = "1.0.64"
     let client: ClientRuntime.SdkHttpClient
     let config: EBSClient.EBSClientConfiguration
     let serviceName = "EBS"

@@ -256,9 +256,9 @@ extension StorageGatewayClientTypes {
 }
 
 /// An internal server error has occurred during the request. For more information, see the error and message fields.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A [StorageGatewayError] that provides more information about the cause of the error.
         public internal(set) var error: StorageGatewayClientTypes.StorageGatewayError? = nil
         /// A human-readable message describing the error that occurred.
@@ -285,9 +285,9 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
-public struct InvalidGatewayRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidGatewayRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A [StorageGatewayError] that provides more detail about the cause of the error.
         public internal(set) var error: StorageGatewayClientTypes.StorageGatewayError? = nil
         /// A human-readable message describing the error that occurred.
@@ -1573,9 +1573,9 @@ public struct CreateSMBFileShareOutput: Swift.Sendable {
 }
 
 /// An internal server error has occurred because the service is unavailable. For more information, see the error and message fields.
-public struct ServiceUnavailableError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A [StorageGatewayError] that provides more information about the cause of the error.
         public internal(set) var error: StorageGatewayClientTypes.StorageGatewayError? = nil
         /// A human-readable message describing the error that occurred.

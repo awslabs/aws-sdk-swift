@@ -35,9 +35,9 @@ public struct GetSignedBluinsightsUrlInput: Swift.Sendable {
 }
 
 /// The account or role doesn't have the right permissions to make the request.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -90,9 +90,9 @@ extension M2ClientTypes {
 }
 
 /// The parameters provided in the request conflict with existing resources.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the conflicting resource.
@@ -123,9 +123,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// An unexpected error occurred during the processing of the request.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The number of seconds to wait before retrying the request.
@@ -152,9 +152,9 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified resource was not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the missing resource.
@@ -185,9 +185,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The number of requests made exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the throttled request.
@@ -285,9 +285,9 @@ extension M2ClientTypes {
 }
 
 /// One or more parameters provided in the request is not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// The list of fields that failed service validation.
         public internal(set) var fieldList: [M2ClientTypes.ValidationExceptionField]? = nil
         /// This member is required.
@@ -345,9 +345,9 @@ public struct CancelBatchJobExecutionOutput: Swift.Sendable {
 }
 
 /// One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the exceeded quota.
@@ -1531,9 +1531,9 @@ public struct GetBatchJobExecutionOutput: Swift.Sendable {
 }
 
 /// Failed to connect to server, or didn’t receive response within expected time period.
-public struct ExecutionTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ExecutionTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -1556,9 +1556,9 @@ public struct ExecutionTimeoutException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Server cannot process the request at the moment.
-public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -2759,6 +2759,35 @@ extension M2ClientTypes {
 
 extension M2ClientTypes {
 
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dual,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "dual"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension M2ClientTypes {
+
     /// Defines the storage configuration for an Amazon EFS file system.
     public struct EfsStorageConfiguration: Swift.Sendable {
         /// The file system identifier.
@@ -2833,6 +2862,8 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     /// The name of the runtime environment. Must be unique within the account.
     /// This member is required.
     public var name: Swift.String?
+    /// The network type required for the runtime environment.
+    public var networkType: M2ClientTypes.NetworkType?
     /// Configures the maintenance window that you want for the runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi and must be less than 24 hours. The following two examples are valid maintenance windows: sun:23:45-mon:00:15 or sat:01:00-sat:03:00. If you do not provide a value, a random system-generated value will be assigned.
     public var preferredMaintenanceWindow: Swift.String?
     /// Specifies whether the runtime environment is publicly accessible.
@@ -2855,6 +2886,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         instanceType: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
+        networkType: M2ClientTypes.NetworkType? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool = false,
         securityGroupIds: [Swift.String]? = nil,
@@ -2871,6 +2903,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
         self.instanceType = instanceType
         self.kmsKeyId = kmsKeyId
         self.name = name
+        self.networkType = networkType
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
         self.securityGroupIds = securityGroupIds
@@ -3037,6 +3070,8 @@ public struct GetEnvironmentOutput: Swift.Sendable {
     /// The name of the runtime environment. Must be unique within the account.
     /// This member is required.
     public var name: Swift.String?
+    /// The network type supported by the runtime environment.
+    public var networkType: M2ClientTypes.NetworkType?
     /// Indicates the pending maintenance scheduled on this environment.
     public var pendingMaintenance: M2ClientTypes.PendingMaintenance?
     /// The maintenance window for the runtime environment. If you don't provide a value for the maintenance window, the service assigns a random value.
@@ -3075,6 +3110,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         loadBalancerArn: Swift.String? = nil,
         name: Swift.String? = nil,
+        networkType: M2ClientTypes.NetworkType? = nil,
         pendingMaintenance: M2ClientTypes.PendingMaintenance? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool = false,
@@ -3099,6 +3135,7 @@ public struct GetEnvironmentOutput: Swift.Sendable {
         self.kmsKeyId = kmsKeyId
         self.loadBalancerArn = loadBalancerArn
         self.name = name
+        self.networkType = networkType
         self.pendingMaintenance = pendingMaintenance
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
@@ -3161,6 +3198,8 @@ extension M2ClientTypes {
         /// The name of the runtime environment.
         /// This member is required.
         public var name: Swift.String?
+        /// The network type supported by the runtime environment.
+        public var networkType: M2ClientTypes.NetworkType?
         /// The status of the runtime environment
         /// This member is required.
         public var status: M2ClientTypes.EnvironmentLifecycle?
@@ -3173,6 +3212,7 @@ extension M2ClientTypes {
             environmentId: Swift.String? = nil,
             instanceType: Swift.String? = nil,
             name: Swift.String? = nil,
+            networkType: M2ClientTypes.NetworkType? = nil,
             status: M2ClientTypes.EnvironmentLifecycle? = nil
         )
         {
@@ -3183,6 +3223,7 @@ extension M2ClientTypes {
             self.environmentId = environmentId
             self.instanceType = instanceType
             self.name = name
+            self.networkType = networkType
             self.status = status
         }
     }
@@ -4029,6 +4070,7 @@ extension CreateEnvironmentInput {
         try writer["instanceType"].write(value.instanceType)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
+        try writer["networkType"].write(value.networkType)
         try writer["preferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
         try writer["publiclyAccessible"].write(value.publiclyAccessible)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -4309,6 +4351,7 @@ extension GetEnvironmentOutput {
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         value.loadBalancerArn = try reader["loadBalancerArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.networkType = try reader["networkType"].readIfPresent()
         value.pendingMaintenance = try reader["pendingMaintenance"].readIfPresent(with: M2ClientTypes.PendingMaintenance.read(from:))
         value.preferredMaintenanceWindow = try reader["preferredMaintenanceWindow"].readIfPresent()
         value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent() ?? false
@@ -5877,6 +5920,7 @@ extension M2ClientTypes.EnvironmentSummary {
         value.engineType = try reader["engineType"].readIfPresent() ?? .sdkUnknown("")
         value.engineVersion = try reader["engineVersion"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.networkType = try reader["networkType"].readIfPresent()
         return value
     }
 }

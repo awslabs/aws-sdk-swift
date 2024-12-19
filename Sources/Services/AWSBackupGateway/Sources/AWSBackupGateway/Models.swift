@@ -26,9 +26,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 
 /// The operation cannot proceed because you have insufficient permissions.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of why you have insufficient permissions.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -55,9 +55,9 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The operation cannot proceed because it is not supported.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of why the operation is not supported.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -114,9 +114,9 @@ public struct AssociateGatewayToServerOutput: Swift.Sendable {
 }
 
 /// A resource that is required for the action wasn't found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of which resource wasn't found.
         public internal(set) var errorCode: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1136,9 +1136,9 @@ public struct UpdateHypervisorOutput: Swift.Sendable {
 }
 
 /// The operation did not succeed because an internal error occurred. Try again later.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of which internal error occured.
         public internal(set) var errorCode: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil
@@ -1223,9 +1223,9 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 /// TPS has been limited to protect against intentional or unintentional high request volumes.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error: TPS has been limited to protect against intentional or unintentional high request volumes.
         /// This member is required.
         public internal(set) var errorCode: Swift.String? = nil
@@ -1282,9 +1282,9 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// The operation did not succeed because a validation error occurred.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// A description of what caused the validation error.
         public internal(set) var errorCode: Swift.String? = nil
         public internal(set) var message: Swift.String? = nil

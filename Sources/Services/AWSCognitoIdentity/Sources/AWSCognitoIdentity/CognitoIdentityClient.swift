@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CognitoIdentityClient: ClientRuntime.Client {
     public static let clientName = "CognitoIdentityClient"
-    public static let version = "1.0.61"
+    public static let version = "1.0.64"
     let client: ClientRuntime.SdkHttpClient
     let config: CognitoIdentityClient.CognitoIdentityClientConfiguration
     let serviceName = "Cognito Identity"

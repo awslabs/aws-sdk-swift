@@ -54,9 +54,9 @@ extension OpsWorksCMClientTypes {
 }
 
 /// The resource is in a state that does not allow you to perform a specified action.
-public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message that provides more detail if a resource is in a state that is not valid for performing a specified action.
         public internal(set) var message: Swift.String? = nil
     }
@@ -79,9 +79,9 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 /// The requested resource does not exist, or access was denied.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message that can contain more detail about problems locating or accessing a resource.
         public internal(set) var message: Swift.String? = nil
     }
@@ -104,9 +104,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// One or more of the provided request parameters are not valid.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message that can contain more detail about a validation failure.
         public internal(set) var message: Swift.String? = nil
     }
@@ -372,9 +372,9 @@ extension OpsWorksCMClientTypes {
 }
 
 /// The limit of servers or backups has been reached.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message that the maximum allowed number of servers or backups has been exceeded.
         public internal(set) var message: Swift.String? = nil
     }
@@ -462,9 +462,9 @@ public struct CreateBackupOutput: Swift.Sendable {
 }
 
 /// The requested resource cannot be created because it already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message in response to a CreateServer request that a resource cannot be created because it already exists.
         public internal(set) var message: Swift.String? = nil
     }
@@ -904,9 +904,9 @@ public struct DescribeAccountAttributesOutput: Swift.Sendable {
 }
 
 /// This occurs when the provided nextToken is not valid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Error or informational message that can contain more detail about a nextToken failure.
         public internal(set) var message: Swift.String? = nil
     }

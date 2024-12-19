@@ -37,9 +37,9 @@ public struct SetStatusOutput: Swift.Sendable {
 }
 
 /// An internal service error occurred.
-public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -62,9 +62,9 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 /// The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -87,9 +87,9 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The specified pipeline has been deleted.
-public struct PipelineDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -112,9 +112,9 @@ public struct PipelineDeletedException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 /// The specified pipeline was not found. Verify that you used the correct user and account identifiers.
-public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct PipelineNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error message.
         public internal(set) var message: Swift.String? = nil
     }
@@ -477,9 +477,9 @@ public struct DescribePipelinesOutput: Swift.Sendable {
 }
 
 /// The specified task was not found.
-public struct TaskNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct TaskNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// Description of the error message.
         public internal(set) var message: Swift.String? = nil
     }

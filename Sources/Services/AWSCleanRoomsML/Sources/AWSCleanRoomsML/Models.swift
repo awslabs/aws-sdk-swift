@@ -107,9 +107,9 @@ public struct StartTrainedModelExportJobOutput: Swift.Sendable {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -166,9 +166,9 @@ extension CleanRoomsMLClientTypes {
 }
 
 /// The request parameters for this request are incorrect.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -388,9 +388,9 @@ public struct ListAudienceExportJobsOutput: Swift.Sendable {
 }
 
 /// You can't complete this action because another resource depends on this resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -413,9 +413,9 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// The resource you are requesting does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -438,9 +438,9 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// You have exceeded your service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public struct Properties {
+    public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -559,6 +559,65 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes {
 
+    public enum WorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cr1x
+        case cr4x
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkerComputeType] {
+            return [
+                .cr1x,
+                .cr4x
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cr1x: return "CR.1X"
+            case .cr4x: return "CR.4X"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Configuration information about the compute workers that perform the transform job.
+    public struct WorkerComputeConfiguration: Swift.Sendable {
+        /// The number of compute workers that are used.
+        public var number: Swift.Int?
+        /// The instance type of the compute workers that are used.
+        public var type: CleanRoomsMLClientTypes.WorkerComputeType?
+
+        public init(
+            number: Swift.Int? = 16,
+            type: CleanRoomsMLClientTypes.WorkerComputeType? = .cr1x
+        )
+        {
+            self.number = number
+            self.type = type
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Provides configuration information for the instances that will perform the compute work.
+    public enum ComputeConfiguration: Swift.Sendable {
+        /// The worker instances that will perform the compute work.
+        case worker(CleanRoomsMLClientTypes.WorkerComputeConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
     /// The parameters for the SQL type Protected Query.
     public struct ProtectedQuerySQLParameters: Swift.Sendable {
         /// The Amazon Resource Name (ARN) associated with the analysis template within a collaboration.
@@ -600,17 +659,21 @@ extension CleanRoomsMLClientTypes {
         /// The ARN of the IAM role that can read the Amazon S3 bucket where the seed audience is stored.
         /// This member is required.
         public var roleArn: Swift.String?
+        /// Provides configuration information for the instances that will perform the compute work.
+        public var sqlComputeConfiguration: CleanRoomsMLClientTypes.ComputeConfiguration?
         /// The protected SQL query parameters.
         public var sqlParameters: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters?
 
         public init(
             dataSource: CleanRoomsMLClientTypes.S3ConfigMap? = nil,
             roleArn: Swift.String? = nil,
+            sqlComputeConfiguration: CleanRoomsMLClientTypes.ComputeConfiguration? = nil,
             sqlParameters: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters? = nil
         )
         {
             self.dataSource = dataSource
             self.roleArn = roleArn
+            self.sqlComputeConfiguration = sqlComputeConfiguration
             self.sqlParameters = sqlParameters
         }
     }
@@ -618,7 +681,7 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes.AudienceGenerationJobDataSource: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AudienceGenerationJobDataSource(dataSource: \(Swift.String(describing: dataSource)), roleArn: \(Swift.String(describing: roleArn)), sqlParameters: \"CONTENT_REDACTED\")"}
+        "AudienceGenerationJobDataSource(dataSource: \(Swift.String(describing: dataSource)), roleArn: \(Swift.String(describing: roleArn)), sqlComputeConfiguration: \(Swift.String(describing: sqlComputeConfiguration)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsMLClientTypes {
@@ -3636,65 +3699,6 @@ public struct PutMLConfigurationInput: Swift.Sendable {
 
 extension CleanRoomsMLClientTypes {
 
-    public enum WorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cr1x
-        case cr4x
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [WorkerComputeType] {
-            return [
-                .cr1x,
-                .cr4x
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cr1x: return "CR.1X"
-            case .cr4x: return "CR.4X"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CleanRoomsMLClientTypes {
-
-    /// Configuration information about the compute workers that perform the transform job.
-    public struct WorkerComputeConfiguration: Swift.Sendable {
-        /// The number of compute workers that are used.
-        public var number: Swift.Int?
-        /// The instance type of the compute workers that are used.
-        public var type: CleanRoomsMLClientTypes.WorkerComputeType?
-
-        public init(
-            number: Swift.Int? = 16,
-            type: CleanRoomsMLClientTypes.WorkerComputeType? = .cr1x
-        )
-        {
-            self.number = number
-            self.type = type
-        }
-    }
-}
-
-extension CleanRoomsMLClientTypes {
-
-    /// Provides configuration information for the instances that will perform the compute work.
-    public enum ComputeConfiguration: Swift.Sendable {
-        /// The worker instances that will perform the compute work.
-        case worker(CleanRoomsMLClientTypes.WorkerComputeConfiguration)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension CleanRoomsMLClientTypes {
-
     /// Provides information necessary to perform the protected query.
     public struct ProtectedQueryInputParameters: Swift.Sendable {
         /// Provides configuration information for the workers that will perform the protected query.
@@ -5673,7 +5677,7 @@ public struct StartTrainedModelInferenceJobInput: Swift.Sendable {
     public var configuredModelAlgorithmAssociationArn: Swift.String?
     /// The execution parameters for the container.
     public var containerExecutionParameters: CleanRoomsMLClientTypes.InferenceContainerExecutionParameters?
-    /// Defines he data source that is used for the trained model inference job.
+    /// Defines the data source that is used for the trained model inference job.
     /// This member is required.
     public var dataSource: CleanRoomsMLClientTypes.ModelInferenceDataSource?
     /// The description of the trained model inference job.
@@ -9056,6 +9060,7 @@ extension CleanRoomsMLClientTypes.AudienceGenerationJobDataSource {
         guard let value else { return }
         try writer["dataSource"].write(value.dataSource, with: CleanRoomsMLClientTypes.S3ConfigMap.write(value:to:))
         try writer["roleArn"].write(value.roleArn)
+        try writer["sqlComputeConfiguration"].write(value.sqlComputeConfiguration, with: CleanRoomsMLClientTypes.ComputeConfiguration.write(value:to:))
         try writer["sqlParameters"].write(value.sqlParameters, with: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters.write(value:to:))
     }
 
@@ -9065,6 +9070,48 @@ extension CleanRoomsMLClientTypes.AudienceGenerationJobDataSource {
         value.dataSource = try reader["dataSource"].readIfPresent(with: CleanRoomsMLClientTypes.S3ConfigMap.read(from:))
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.sqlParameters = try reader["sqlParameters"].readIfPresent(with: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters.read(from:))
+        value.sqlComputeConfiguration = try reader["sqlComputeConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.ComputeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.ComputeConfiguration {
+
+    static func write(value: CleanRoomsMLClientTypes.ComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .worker(worker):
+                try writer["worker"].write(worker, with: CleanRoomsMLClientTypes.WorkerComputeConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.ComputeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "worker":
+                return .worker(try reader["worker"].read(with: CleanRoomsMLClientTypes.WorkerComputeConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes.WorkerComputeConfiguration {
+
+    static func write(value: CleanRoomsMLClientTypes.WorkerComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["number"].write(value.number)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.WorkerComputeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.WorkerComputeConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .cr1x
+        value.number = try reader["number"].readIfPresent() ?? 16
         return value
     }
 }
@@ -9515,47 +9562,6 @@ extension CleanRoomsMLClientTypes.ProtectedQueryInputParameters {
         var value = CleanRoomsMLClientTypes.ProtectedQueryInputParameters()
         value.sqlParameters = try reader["sqlParameters"].readIfPresent(with: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters.read(from:))
         value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.ComputeConfiguration.read(from:))
-        return value
-    }
-}
-
-extension CleanRoomsMLClientTypes.ComputeConfiguration {
-
-    static func write(value: CleanRoomsMLClientTypes.ComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .worker(worker):
-                try writer["worker"].write(worker, with: CleanRoomsMLClientTypes.WorkerComputeConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.ComputeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "worker":
-                return .worker(try reader["worker"].read(with: CleanRoomsMLClientTypes.WorkerComputeConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension CleanRoomsMLClientTypes.WorkerComputeConfiguration {
-
-    static func write(value: CleanRoomsMLClientTypes.WorkerComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["number"].write(value.number)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.WorkerComputeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CleanRoomsMLClientTypes.WorkerComputeConfiguration()
-        value.type = try reader["type"].readIfPresent() ?? .cr1x
-        value.number = try reader["number"].readIfPresent() ?? 16
         return value
     }
 }
