@@ -74,6 +74,16 @@ public struct DeleteUserOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteWebAppCustomizationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteWebAppOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteWorkflowOutput: Swift.Sendable {
 
     public init() { }
@@ -289,6 +299,64 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension TransferClientTypes {
 
+    public enum EnforceMessageSigningType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnforceMessageSigningType] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    public enum PreserveFilenameType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreserveFilenameType] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     public enum AgreementStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case inactive
@@ -347,12 +415,24 @@ public struct CreateAgreementInput: Swift.Sendable {
     public var baseDirectory: Swift.String?
     /// A name or short description to identify the agreement.
     public var description: Swift.String?
+    /// Determines whether or not unsigned messages from your trading partners will be accepted.
+    ///
+    /// * ENABLED: Transfer Family rejects unsigned messages from your trading partner.
+    ///
+    /// * DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
+    public var enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType?
     /// A unique identifier for the AS2 local profile.
     /// This member is required.
     public var localProfileId: Swift.String?
     /// A unique identifier for the partner profile used in the agreement.
     /// This member is required.
     public var partnerProfileId: Swift.String?
+    /// Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.
+    ///
+    /// * ENABLED: the filename provided by your trading parter is preserved when the file is saved.
+    ///
+    /// * DISABLED (default value): when Transfer Family saves the file, the filename is adjusted, as described in [File names and locations](https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2).
+    public var preserveFilename: TransferClientTypes.PreserveFilenameType?
     /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
     /// This member is required.
     public var serverId: Swift.String?
@@ -365,8 +445,10 @@ public struct CreateAgreementInput: Swift.Sendable {
         accessRole: Swift.String? = nil,
         baseDirectory: Swift.String? = nil,
         description: Swift.String? = nil,
+        enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
         localProfileId: Swift.String? = nil,
         partnerProfileId: Swift.String? = nil,
+        preserveFilename: TransferClientTypes.PreserveFilenameType? = nil,
         serverId: Swift.String? = nil,
         status: TransferClientTypes.AgreementStatusType? = nil,
         tags: [TransferClientTypes.Tag]? = nil
@@ -375,8 +457,10 @@ public struct CreateAgreementInput: Swift.Sendable {
         self.accessRole = accessRole
         self.baseDirectory = baseDirectory
         self.description = description
+        self.enforceMessageSigning = enforceMessageSigning
         self.localProfileId = localProfileId
         self.partnerProfileId = partnerProfileId
+        self.preserveFilename = preserveFilename
         self.serverId = serverId
         self.status = status
         self.tags = tags
@@ -447,10 +531,22 @@ extension TransferClientTypes {
         public var baseDirectory: Swift.String?
         /// The name or short description that's used to identify the agreement.
         public var description: Swift.String?
+        /// Determines whether or not unsigned messages from your trading partners will be accepted.
+        ///
+        /// * ENABLED: Transfer Family rejects unsigned messages from your trading partner.
+        ///
+        /// * DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
+        public var enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType?
         /// A unique identifier for the AS2 local profile.
         public var localProfileId: Swift.String?
         /// A unique identifier for the partner profile used in the agreement.
         public var partnerProfileId: Swift.String?
+        /// Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.
+        ///
+        /// * ENABLED: the filename provided by your trading parter is preserved when the file is saved.
+        ///
+        /// * DISABLED (default value): when Transfer Family saves the file, the filename is adjusted, as described in [File names and locations](https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2).
+        public var preserveFilename: TransferClientTypes.PreserveFilenameType?
         /// A system-assigned unique identifier for a server instance. This identifier indicates the specific server that the agreement uses.
         public var serverId: Swift.String?
         /// The current status of the agreement, either ACTIVE or INACTIVE.
@@ -464,8 +560,10 @@ extension TransferClientTypes {
             arn: Swift.String? = nil,
             baseDirectory: Swift.String? = nil,
             description: Swift.String? = nil,
+            enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
             localProfileId: Swift.String? = nil,
             partnerProfileId: Swift.String? = nil,
+            preserveFilename: TransferClientTypes.PreserveFilenameType? = nil,
             serverId: Swift.String? = nil,
             status: TransferClientTypes.AgreementStatusType? = nil,
             tags: [TransferClientTypes.Tag]? = nil
@@ -476,8 +574,10 @@ extension TransferClientTypes {
             self.arn = arn
             self.baseDirectory = baseDirectory
             self.description = description
+            self.enforceMessageSigning = enforceMessageSigning
             self.localProfileId = localProfileId
             self.partnerProfileId = partnerProfileId
+            self.preserveFilename = preserveFilename
             self.serverId = serverId
             self.status = status
             self.tags = tags
@@ -524,7 +624,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 public struct ListAgreementsInput: Swift.Sendable {
-    /// The maximum number of agreements to return.
+    /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// When you can get additional results from the ListAgreements call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional agreements.
     public var nextToken: Swift.String?
@@ -611,10 +711,22 @@ public struct UpdateAgreementInput: Swift.Sendable {
     public var baseDirectory: Swift.String?
     /// To replace the existing description, provide a short description for the agreement.
     public var description: Swift.String?
+    /// Determines whether or not unsigned messages from your trading partners will be accepted.
+    ///
+    /// * ENABLED: Transfer Family rejects unsigned messages from your trading partner.
+    ///
+    /// * DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
+    public var enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType?
     /// A unique identifier for the AS2 local profile. To change the local profile identifier, provide a new value here.
     public var localProfileId: Swift.String?
     /// A unique identifier for the partner profile. To change the partner profile identifier, provide a new value here.
     public var partnerProfileId: Swift.String?
+    /// Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.
+    ///
+    /// * ENABLED: the filename provided by your trading parter is preserved when the file is saved.
+    ///
+    /// * DISABLED (default value): when Transfer Family saves the file, the filename is adjusted, as described in [File names and locations](https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2).
+    public var preserveFilename: TransferClientTypes.PreserveFilenameType?
     /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
     /// This member is required.
     public var serverId: Swift.String?
@@ -626,8 +738,10 @@ public struct UpdateAgreementInput: Swift.Sendable {
         agreementId: Swift.String? = nil,
         baseDirectory: Swift.String? = nil,
         description: Swift.String? = nil,
+        enforceMessageSigning: TransferClientTypes.EnforceMessageSigningType? = nil,
         localProfileId: Swift.String? = nil,
         partnerProfileId: Swift.String? = nil,
+        preserveFilename: TransferClientTypes.PreserveFilenameType? = nil,
         serverId: Swift.String? = nil,
         status: TransferClientTypes.AgreementStatusType? = nil
     )
@@ -636,8 +750,10 @@ public struct UpdateAgreementInput: Swift.Sendable {
         self.agreementId = agreementId
         self.baseDirectory = baseDirectory
         self.description = description
+        self.enforceMessageSigning = enforceMessageSigning
         self.localProfileId = localProfileId
         self.partnerProfileId = partnerProfileId
+        self.preserveFilename = preserveFilename
         self.serverId = serverId
         self.status = status
     }
@@ -795,6 +911,35 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    public enum PreserveContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreserveContentType] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     public enum SigningAlg: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
         case sha1
@@ -866,6 +1011,8 @@ extension TransferClientTypes {
         public var messageSubject: Swift.String?
         /// A unique identifier for the partner profile for the connector.
         public var partnerProfileId: Swift.String?
+        /// Allows you to use the Amazon S3 Content-Type that is associated with objects in S3 instead of having the content type mapped based on the file extension. This parameter is enabled by default when you create an AS2 connector from the console, but disabled by default when you create an AS2 connector by calling the API directly.
+        public var preserveContentType: TransferClientTypes.PreserveContentType?
         /// The algorithm that is used to sign the AS2 messages sent with the connector.
         public var signingAlgorithm: TransferClientTypes.SigningAlg?
 
@@ -878,6 +1025,7 @@ extension TransferClientTypes {
             mdnSigningAlgorithm: TransferClientTypes.MdnSigningAlg? = nil,
             messageSubject: Swift.String? = nil,
             partnerProfileId: Swift.String? = nil,
+            preserveContentType: TransferClientTypes.PreserveContentType? = nil,
             signingAlgorithm: TransferClientTypes.SigningAlg? = nil
         )
         {
@@ -889,6 +1037,7 @@ extension TransferClientTypes {
             self.mdnSigningAlgorithm = mdnSigningAlgorithm
             self.messageSubject = messageSubject
             self.partnerProfileId = partnerProfileId
+            self.preserveContentType = preserveContentType
             self.signingAlgorithm = signingAlgorithm
         }
     }
@@ -1064,7 +1213,7 @@ extension TransferClientTypes {
         public var notBeforeDate: Foundation.Date?
         /// The serial number for the certificate.
         public var serial: Swift.String?
-        /// The certificate can be either ACTIVE, PENDING_ROTATION, or INACTIVE. PENDING_ROTATION means that this certificate will replace the current certificate when it expires.
+        /// Currently, the only available status is ACTIVE: all other values are reserved for future use.
         public var status: TransferClientTypes.CertificateStatusType?
         /// Key-value pairs that can be used to group and search for certificates.
         public var tags: [TransferClientTypes.Tag]?
@@ -1203,7 +1352,7 @@ public struct ImportCertificateOutput: Swift.Sendable {
 }
 
 public struct ListCertificatesInput: Swift.Sendable {
-    /// The maximum number of certificates to return.
+    /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// When you can get additional results from the ListCertificates call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional certificates.
     public var nextToken: Swift.String?
@@ -1584,7 +1733,7 @@ public struct DescribeConnectorOutput: Swift.Sendable {
 }
 
 public struct ListConnectorsInput: Swift.Sendable {
-    /// The maximum number of connectors to return.
+    /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// When you can get additional results from the ListConnectors call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional connectors.
     public var nextToken: Swift.String?
@@ -2520,7 +2669,7 @@ public struct CreateServerInput: Swift.Sendable {
     public var endpointType: TransferClientTypes.EndpointType?
     /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase: ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase: ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase: ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice. If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive. For more information, see [Manage host keys for your SFTP-enabled server](https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key) in the Transfer Family User Guide.
     public var hostKey: Swift.String?
-    /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
+    /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Cannot be specified when IdentityProviderType is set to SERVICE_MANAGED.
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
     /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
     public var identityProviderType: TransferClientTypes.IdentityProviderType?
@@ -2704,6 +2853,84 @@ public struct CreateUserOutput: Swift.Sendable {
     {
         self.serverId = serverId
         self.userName = userName
+    }
+}
+
+extension TransferClientTypes {
+
+    /// A structure that describes the values to use for the IAM Identity Center settings when you create or update a web app.
+    public struct IdentityCenterConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app.
+        public var instanceArn: Swift.String?
+        /// The IAM role in IAM Identity Center used for the web app.
+        public var role: Swift.String?
+
+        public init(
+            instanceArn: Swift.String? = nil,
+            role: Swift.String? = nil
+        )
+        {
+            self.instanceArn = instanceArn
+            self.role = role
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// A union that contains the IdentityCenterConfig object.
+    public enum WebAppIdentityProviderDetails: Swift.Sendable {
+        /// A structure that describes the values to use for the IAM Identity Center settings when you create a web app.
+        case identitycenterconfig(TransferClientTypes.IdentityCenterConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Contains an integer value that represents the value for number of concurrent connections or the user sessions on your web app.
+    public enum WebAppUnits: Swift.Sendable {
+        /// An integer that represents the number of units for your desired number of concurrent connections, or the number of user sessions on your web app at the same time. Each increment allows an additional 250 concurrent sessions: a value of 1 sets the number of concurrent sessions to 250; 2 sets a value of 500, and so on.
+        case provisioned(Swift.Int)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateWebAppInput: Swift.Sendable {
+    /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+    public var accessEndpoint: Swift.String?
+    /// You can provide a structure that contains the details for the identity provider to use with your web app.
+    /// This member is required.
+    public var identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails?
+    /// Key-value pairs that can be used to group and search for web apps.
+    public var tags: [TransferClientTypes.Tag]?
+    /// A union that contains the value for number of concurrent connections or the user sessions on your web app.
+    public var webAppUnits: TransferClientTypes.WebAppUnits?
+
+    public init(
+        accessEndpoint: Swift.String? = nil,
+        identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails? = nil,
+        tags: [TransferClientTypes.Tag]? = nil,
+        webAppUnits: TransferClientTypes.WebAppUnits? = nil
+    )
+    {
+        self.accessEndpoint = accessEndpoint
+        self.identityProviderDetails = identityProviderDetails
+        self.tags = tags
+        self.webAppUnits = webAppUnits
+    }
+}
+
+public struct CreateWebAppOutput: Swift.Sendable {
+    /// Returns a unique identifier for the web app.
+    /// This member is required.
+    public var webAppId: Swift.String?
+
+    public init(
+        webAppId: Swift.String? = nil
+    )
+    {
+        self.webAppId = webAppId
     }
 }
 
@@ -3165,6 +3392,32 @@ public struct DeleteUserInput: Swift.Sendable {
     {
         self.serverId = serverId
         self.userName = userName
+    }
+}
+
+public struct DeleteWebAppInput: Swift.Sendable {
+    /// Provide the unique identifier for the web app that you are deleting.
+    /// This member is required.
+    public var webAppId: Swift.String?
+
+    public init(
+        webAppId: Swift.String? = nil
+    )
+    {
+        self.webAppId = webAppId
+    }
+}
+
+public struct DeleteWebAppCustomizationInput: Swift.Sendable {
+    /// Provide the unique identifier for the web app that contains the customizations that you are deleting.
+    /// This member is required.
+    public var webAppId: Swift.String?
+
+    public init(
+        webAppId: Swift.String? = nil
+    )
+    {
+        self.webAppId = webAppId
     }
 }
 
@@ -3639,6 +3892,30 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    /// A structure that contains the details of the IAM Identity Center used for your web app. Returned during a call to DescribeWebApp.
+    public struct DescribedIdentityCenterConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center application: this value is set automatically when you create your web app.
+        public var applicationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app.
+        public var instanceArn: Swift.String?
+        /// The IAM role in IAM Identity Center used for the web app.
+        public var role: Swift.String?
+
+        public init(
+            applicationArn: Swift.String? = nil,
+            instanceArn: Swift.String? = nil,
+            role: Swift.String? = nil
+        )
+        {
+            self.applicationArn = applicationArn
+            self.instanceArn = instanceArn
+            self.role = role
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     /// The details for a local or partner AS2 profile.
     public struct DescribedProfile: Swift.Sendable {
         /// The unique Amazon Resource Name (ARN) for the profile.
@@ -4035,6 +4312,97 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    /// Returns a structure that contains the identity provider details for your web app.
+    public enum DescribedWebAppIdentityProviderDetails: Swift.Sendable {
+        /// Returns a structure for your identity provider details. This structure contains the instance ARN and role being used for the web app.
+        case identitycenterconfig(TransferClientTypes.DescribedIdentityCenterConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
+    /// A structure that describes the parameters for the web app, as identified by the WebAppId.
+    public struct DescribedWebApp: Swift.Sendable {
+        /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+        public var accessEndpoint: Swift.String?
+        /// The Amazon Resource Name (ARN) of the web app.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// A structure that contains the details for the identity provider used by the web app.
+        public var describedIdentityProviderDetails: TransferClientTypes.DescribedWebAppIdentityProviderDetails?
+        /// Key-value pairs that can be used to group and search for web apps. Tags are metadata attached to web apps for any purpose.
+        public var tags: [TransferClientTypes.Tag]?
+        /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
+        public var webAppEndpoint: Swift.String?
+        /// The unique identifier for the web app.
+        /// This member is required.
+        public var webAppId: Swift.String?
+        /// A union that contains the value for number of concurrent connections or the user sessions on your web app.
+        public var webAppUnits: TransferClientTypes.WebAppUnits?
+
+        public init(
+            accessEndpoint: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            describedIdentityProviderDetails: TransferClientTypes.DescribedWebAppIdentityProviderDetails? = nil,
+            tags: [TransferClientTypes.Tag]? = nil,
+            webAppEndpoint: Swift.String? = nil,
+            webAppId: Swift.String? = nil,
+            webAppUnits: TransferClientTypes.WebAppUnits? = nil
+        )
+        {
+            self.accessEndpoint = accessEndpoint
+            self.arn = arn
+            self.describedIdentityProviderDetails = describedIdentityProviderDetails
+            self.tags = tags
+            self.webAppEndpoint = webAppEndpoint
+            self.webAppId = webAppId
+            self.webAppUnits = webAppUnits
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// A structure that contains the customization fields for the web app. You can provide a title, logo, and icon to customize the appearance of your web app.
+    public struct DescribedWebAppCustomization: Swift.Sendable {
+        /// Returns the Amazon Resource Name (ARN) for the web app.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Returns a icon file data string (in base64 encoding).
+        public var faviconFile: Foundation.Data?
+        /// Returns a logo file data string (in base64 encoding).
+        public var logoFile: Foundation.Data?
+        /// Returns the page title that you defined for your web app.
+        public var title: Swift.String?
+        /// Returns the unique identifier for your web app.
+        /// This member is required.
+        public var webAppId: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            faviconFile: Foundation.Data? = nil,
+            logoFile: Foundation.Data? = nil,
+            title: Swift.String? = nil,
+            webAppId: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.faviconFile = faviconFile
+            self.logoFile = logoFile
+            self.title = title
+            self.webAppId = webAppId
+        }
+    }
+}
+
+extension TransferClientTypes.DescribedWebAppCustomization: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribedWebAppCustomization(arn: \(Swift.String(describing: arn)), title: \(Swift.String(describing: title)), webAppId: \(Swift.String(describing: webAppId)), faviconFile: \"CONTENT_REDACTED\", logoFile: \"CONTENT_REDACTED\")"}
+}
+
+extension TransferClientTypes {
+
     /// Describes the properties of the specified workflow
     public struct DescribedWorkflow: Swift.Sendable {
         /// Specifies the unique Amazon Resource Name (ARN) for the workflow.
@@ -4251,6 +4619,58 @@ public struct DescribeUserOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeWebAppInput: Swift.Sendable {
+    /// Provide the unique identifier for the web app.
+    /// This member is required.
+    public var webAppId: Swift.String?
+
+    public init(
+        webAppId: Swift.String? = nil
+    )
+    {
+        self.webAppId = webAppId
+    }
+}
+
+public struct DescribeWebAppOutput: Swift.Sendable {
+    /// Returns a structure that contains the details of the web app.
+    /// This member is required.
+    public var webApp: TransferClientTypes.DescribedWebApp?
+
+    public init(
+        webApp: TransferClientTypes.DescribedWebApp? = nil
+    )
+    {
+        self.webApp = webApp
+    }
+}
+
+public struct DescribeWebAppCustomizationInput: Swift.Sendable {
+    /// Provide the unique identifier for the web app.
+    /// This member is required.
+    public var webAppId: Swift.String?
+
+    public init(
+        webAppId: Swift.String? = nil
+    )
+    {
+        self.webAppId = webAppId
+    }
+}
+
+public struct DescribeWebAppCustomizationOutput: Swift.Sendable {
+    /// Returns a structure that contains the details of the web app customizations.
+    /// This member is required.
+    public var webAppCustomization: TransferClientTypes.DescribedWebAppCustomization?
+
+    public init(
+        webAppCustomization: TransferClientTypes.DescribedWebAppCustomization? = nil
+    )
+    {
+        self.webAppCustomization = webAppCustomization
+    }
+}
+
 public struct DescribeWorkflowInput: Swift.Sendable {
     /// A unique identifier for the workflow.
     /// This member is required.
@@ -4374,7 +4794,7 @@ public struct ImportSshPublicKeyOutput: Swift.Sendable {
 }
 
 public struct ListAccessesInput: Swift.Sendable {
-    /// Specifies the maximum number of access SIDs to return.
+    /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// When you can get additional results from the ListAccesses call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional accesses.
     public var nextToken: Swift.String?
@@ -4631,6 +5051,36 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    /// a structure that contains details for the web app.
+    public struct ListedWebApp: Swift.Sendable {
+        /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+        public var accessEndpoint: Swift.String?
+        /// The Amazon Resource Name (ARN) for the web app.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
+        public var webAppEndpoint: Swift.String?
+        /// The unique identifier for the web app.
+        /// This member is required.
+        public var webAppId: Swift.String?
+
+        public init(
+            accessEndpoint: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            webAppEndpoint: Swift.String? = nil,
+            webAppId: Swift.String? = nil
+        )
+        {
+            self.accessEndpoint = accessEndpoint
+            self.arn = arn
+            self.webAppEndpoint = webAppEndpoint
+            self.webAppId = webAppId
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     /// Contains the identifier, text description, and Amazon Resource Name (ARN) for the workflow.
     public struct ListedWorkflow: Swift.Sendable {
         /// Specifies the unique Amazon Resource Name (ARN) for the workflow.
@@ -4654,7 +5104,7 @@ extension TransferClientTypes {
 }
 
 public struct ListExecutionsInput: Swift.Sendable {
-    /// Specifies the maximum number of executions to return.
+    /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// ListExecutions returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional executions. This is useful for pagination, for instance. If you have 100 executions for a workflow, you might only want to list first 10. If so, call the API by specifying the max-results: aws transfer list-executions --max-results 10 This returns details for the first 10 executions, as well as the pointer (NextToken) to the eleventh execution. You can now call the API again, supplying the NextToken value you received: aws transfer list-executions --max-results 10 --next-token $somePointerReturnedFromPreviousListResult This call returns the next 10 executions, the 11th through the 20th. You can then repeat the call until the details for all 100 executions have been returned.
     public var nextToken: Swift.String?
@@ -4748,7 +5198,7 @@ public struct ListFileTransferResultsOutput: Swift.Sendable {
 }
 
 public struct ListHostKeysInput: Swift.Sendable {
-    /// The maximum number of host keys to return.
+    /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListHostKeys to continue listing results.
     public var nextToken: Swift.String?
@@ -4791,7 +5241,7 @@ public struct ListHostKeysOutput: Swift.Sendable {
 }
 
 public struct ListProfilesInput: Swift.Sendable {
-    /// The maximum number of profiles to return.
+    /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListProfiles to continue listing results.
     public var nextToken: Swift.String?
@@ -4977,8 +5427,41 @@ public struct ListUsersOutput: Swift.Sendable {
     }
 }
 
+public struct ListWebAppsInput: Swift.Sendable {
+    /// The maximum number of items to return.
+    public var maxResults: Swift.Int?
+    /// Returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional web apps.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListWebAppsOutput: Swift.Sendable {
+    /// Provide this value for the NextToken parameter in a subsequent command to continue listing additional web apps.
+    public var nextToken: Swift.String?
+    /// Returns, for each listed web app, a structure that contains details for the web app.
+    /// This member is required.
+    public var webApps: [TransferClientTypes.ListedWebApp]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        webApps: [TransferClientTypes.ListedWebApp]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.webApps = webApps
+    }
+}
+
 public struct ListWorkflowsInput: Swift.Sendable {
-    /// Specifies the maximum number of workflows to return.
+    /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// ListWorkflows returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional workflows.
     public var nextToken: Swift.String?
@@ -5623,6 +6106,113 @@ public struct UpdateUserOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateWebAppCustomizationInput: Swift.Sendable {
+    /// Specify icon file data string (in base64 encoding).
+    public var faviconFile: Foundation.Data?
+    /// Specify logo file data string (in base64 encoding).
+    public var logoFile: Foundation.Data?
+    /// Provide an updated title.
+    public var title: Swift.String?
+    /// Provide the identifier of the web app that you are updating.
+    /// This member is required.
+    public var webAppId: Swift.String?
+
+    public init(
+        faviconFile: Foundation.Data? = nil,
+        logoFile: Foundation.Data? = nil,
+        title: Swift.String? = nil,
+        webAppId: Swift.String? = nil
+    )
+    {
+        self.faviconFile = faviconFile
+        self.logoFile = logoFile
+        self.title = title
+        self.webAppId = webAppId
+    }
+}
+
+extension UpdateWebAppCustomizationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateWebAppCustomizationInput(title: \(Swift.String(describing: title)), webAppId: \(Swift.String(describing: webAppId)), faviconFile: \"CONTENT_REDACTED\", logoFile: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateWebAppCustomizationOutput: Swift.Sendable {
+    /// Returns the unique identifier for the web app being updated.
+    /// This member is required.
+    public var webAppId: Swift.String?
+
+    public init(
+        webAppId: Swift.String? = nil
+    )
+    {
+        self.webAppId = webAppId
+    }
+}
+
+extension TransferClientTypes {
+
+    /// A structure that describes the values to use for the IAM Identity Center settings when you update a web app.
+    public struct UpdateWebAppIdentityCenterConfig: Swift.Sendable {
+        /// The IAM role used to access IAM Identity Center.
+        public var role: Swift.String?
+
+        public init(
+            role: Swift.String? = nil
+        )
+        {
+            self.role = role
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// A union that contains the UpdateWebAppIdentityCenterConfig object.
+    public enum UpdateWebAppIdentityProviderDetails: Swift.Sendable {
+        /// A structure that describes the values to use for the IAM Identity Center settings when you update a web app.
+        case identitycenterconfig(TransferClientTypes.UpdateWebAppIdentityCenterConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct UpdateWebAppInput: Swift.Sendable {
+    /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+    public var accessEndpoint: Swift.String?
+    /// Provide updated identity provider values in a WebAppIdentityProviderDetails object.
+    public var identityProviderDetails: TransferClientTypes.UpdateWebAppIdentityProviderDetails?
+    /// Provide the identifier of the web app that you are updating.
+    /// This member is required.
+    public var webAppId: Swift.String?
+    /// A union that contains the value for number of concurrent connections or the user sessions on your web app.
+    public var webAppUnits: TransferClientTypes.WebAppUnits?
+
+    public init(
+        accessEndpoint: Swift.String? = nil,
+        identityProviderDetails: TransferClientTypes.UpdateWebAppIdentityProviderDetails? = nil,
+        webAppId: Swift.String? = nil,
+        webAppUnits: TransferClientTypes.WebAppUnits? = nil
+    )
+    {
+        self.accessEndpoint = accessEndpoint
+        self.identityProviderDetails = identityProviderDetails
+        self.webAppId = webAppId
+        self.webAppUnits = webAppUnits
+    }
+}
+
+public struct UpdateWebAppOutput: Swift.Sendable {
+    /// Returns the unique identifier for the web app being updated.
+    /// This member is required.
+    public var webAppId: Swift.String?
+
+    public init(
+        webAppId: Swift.String? = nil
+    )
+    {
+        self.webAppId = webAppId
+    }
+}
+
 extension CreateAccessInput {
 
     static func urlPathProvider(_ value: CreateAccessInput) -> Swift.String? {
@@ -5661,6 +6251,13 @@ extension CreateServerInput {
 extension CreateUserInput {
 
     static func urlPathProvider(_ value: CreateUserInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateWebAppInput {
+
+    static func urlPathProvider(_ value: CreateWebAppInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5731,6 +6328,20 @@ extension DeleteSshPublicKeyInput {
 extension DeleteUserInput {
 
     static func urlPathProvider(_ value: DeleteUserInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteWebAppInput {
+
+    static func urlPathProvider(_ value: DeleteWebAppInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteWebAppCustomizationInput {
+
+    static func urlPathProvider(_ value: DeleteWebAppCustomizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5808,6 +6419,20 @@ extension DescribeServerInput {
 extension DescribeUserInput {
 
     static func urlPathProvider(_ value: DescribeUserInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeWebAppInput {
+
+    static func urlPathProvider(_ value: DescribeWebAppInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeWebAppCustomizationInput {
+
+    static func urlPathProvider(_ value: DescribeWebAppCustomizationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5920,6 +6545,13 @@ extension ListTagsForResourceInput {
 extension ListUsersInput {
 
     static func urlPathProvider(_ value: ListUsersInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListWebAppsInput {
+
+    static func urlPathProvider(_ value: ListWebAppsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6050,6 +6682,20 @@ extension UpdateUserInput {
     }
 }
 
+extension UpdateWebAppInput {
+
+    static func urlPathProvider(_ value: UpdateWebAppInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateWebAppCustomizationInput {
+
+    static func urlPathProvider(_ value: UpdateWebAppCustomizationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateAccessInput {
 
     static func write(value: CreateAccessInput?, to writer: SmithyJSON.Writer) throws {
@@ -6072,8 +6718,10 @@ extension CreateAgreementInput {
         try writer["AccessRole"].write(value.accessRole)
         try writer["BaseDirectory"].write(value.baseDirectory)
         try writer["Description"].write(value.description)
+        try writer["EnforceMessageSigning"].write(value.enforceMessageSigning)
         try writer["LocalProfileId"].write(value.localProfileId)
         try writer["PartnerProfileId"].write(value.partnerProfileId)
+        try writer["PreserveFilename"].write(value.preserveFilename)
         try writer["ServerId"].write(value.serverId)
         try writer["Status"].write(value.status)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TransferClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6143,6 +6791,17 @@ extension CreateUserInput {
         try writer["SshPublicKeyBody"].write(value.sshPublicKeyBody)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TransferClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UserName"].write(value.userName)
+    }
+}
+
+extension CreateWebAppInput {
+
+    static func write(value: CreateWebAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessEndpoint"].write(value.accessEndpoint)
+        try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.WebAppIdentityProviderDetails.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: TransferClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WebAppUnits"].write(value.webAppUnits, with: TransferClientTypes.WebAppUnits.write(value:to:))
     }
 }
 
@@ -6232,6 +6891,22 @@ extension DeleteUserInput {
         guard let value else { return }
         try writer["ServerId"].write(value.serverId)
         try writer["UserName"].write(value.userName)
+    }
+}
+
+extension DeleteWebAppInput {
+
+    static func write(value: DeleteWebAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WebAppId"].write(value.webAppId)
+    }
+}
+
+extension DeleteWebAppCustomizationInput {
+
+    static func write(value: DeleteWebAppCustomizationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WebAppId"].write(value.webAppId)
     }
 }
 
@@ -6325,6 +7000,22 @@ extension DescribeUserInput {
         guard let value else { return }
         try writer["ServerId"].write(value.serverId)
         try writer["UserName"].write(value.userName)
+    }
+}
+
+extension DescribeWebAppInput {
+
+    static func write(value: DescribeWebAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WebAppId"].write(value.webAppId)
+    }
+}
+
+extension DescribeWebAppCustomizationInput {
+
+    static func write(value: DescribeWebAppCustomizationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WebAppId"].write(value.webAppId)
     }
 }
 
@@ -6489,6 +7180,15 @@ extension ListUsersInput {
     }
 }
 
+extension ListWebAppsInput {
+
+    static func write(value: ListWebAppsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListWorkflowsInput {
 
     static func write(value: ListWorkflowsInput?, to writer: SmithyJSON.Writer) throws {
@@ -6609,8 +7309,10 @@ extension UpdateAgreementInput {
         try writer["AgreementId"].write(value.agreementId)
         try writer["BaseDirectory"].write(value.baseDirectory)
         try writer["Description"].write(value.description)
+        try writer["EnforceMessageSigning"].write(value.enforceMessageSigning)
         try writer["LocalProfileId"].write(value.localProfileId)
         try writer["PartnerProfileId"].write(value.partnerProfileId)
+        try writer["PreserveFilename"].write(value.preserveFilename)
         try writer["ServerId"].write(value.serverId)
         try writer["Status"].write(value.status)
     }
@@ -6697,6 +7399,28 @@ extension UpdateUserInput {
     }
 }
 
+extension UpdateWebAppInput {
+
+    static func write(value: UpdateWebAppInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessEndpoint"].write(value.accessEndpoint)
+        try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.UpdateWebAppIdentityProviderDetails.write(value:to:))
+        try writer["WebAppId"].write(value.webAppId)
+        try writer["WebAppUnits"].write(value.webAppUnits, with: TransferClientTypes.WebAppUnits.write(value:to:))
+    }
+}
+
+extension UpdateWebAppCustomizationInput {
+
+    static func write(value: UpdateWebAppCustomizationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FaviconFile"].write(value.faviconFile)
+        try writer["LogoFile"].write(value.logoFile)
+        try writer["Title"].write(value.title)
+        try writer["WebAppId"].write(value.webAppId)
+    }
+}
+
 extension CreateAccessOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAccessOutput {
@@ -6767,6 +7491,18 @@ extension CreateUserOutput {
         var value = CreateUserOutput()
         value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         value.userName = try reader["UserName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateWebAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateWebAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateWebAppOutput()
+        value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6843,6 +7579,20 @@ extension DeleteUserOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteUserOutput {
         return DeleteUserOutput()
+    }
+}
+
+extension DeleteWebAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWebAppOutput {
+        return DeleteWebAppOutput()
+    }
+}
+
+extension DeleteWebAppCustomizationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWebAppCustomizationOutput {
+        return DeleteWebAppCustomizationOutput()
     }
 }
 
@@ -6972,6 +7722,30 @@ extension DescribeUserOutput {
         var value = DescribeUserOutput()
         value.serverId = try reader["ServerId"].readIfPresent() ?? ""
         value.user = try reader["User"].readIfPresent(with: TransferClientTypes.DescribedUser.read(from:))
+        return value
+    }
+}
+
+extension DescribeWebAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeWebAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeWebAppOutput()
+        value.webApp = try reader["WebApp"].readIfPresent(with: TransferClientTypes.DescribedWebApp.read(from:))
+        return value
+    }
+}
+
+extension DescribeWebAppCustomizationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeWebAppCustomizationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeWebAppCustomizationOutput()
+        value.webAppCustomization = try reader["WebAppCustomization"].readIfPresent(with: TransferClientTypes.DescribedWebAppCustomization.read(from:))
         return value
     }
 }
@@ -7188,6 +7962,19 @@ extension ListUsersOutput {
     }
 }
 
+extension ListWebAppsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWebAppsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListWebAppsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.webApps = try reader["WebApps"].readListIfPresent(memberReadingClosure: TransferClientTypes.ListedWebApp.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListWorkflowsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWorkflowsOutput {
@@ -7389,6 +8176,30 @@ extension UpdateUserOutput {
     }
 }
 
+extension UpdateWebAppOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWebAppOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateWebAppOutput()
+        value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateWebAppCustomizationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWebAppCustomizationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateWebAppCustomizationOutput()
+        value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 enum CreateAccessOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7496,6 +8307,24 @@ enum CreateUserOutputError {
             case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateWebAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7671,6 +8500,43 @@ enum DeleteUserOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteWebAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteWebAppCustomizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7859,6 +8725,42 @@ enum DescribeUserOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeWebAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeWebAppCustomizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8143,6 +9045,23 @@ enum ListUsersOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListWebAppsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8474,6 +9393,44 @@ enum UpdateUserOutputError {
     }
 }
 
+enum UpdateWebAppOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateWebAppCustomizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension ResourceExistsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceExistsException {
@@ -8571,11 +9528,11 @@ extension AccessDeniedException {
     }
 }
 
-extension InvalidNextTokenException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = InvalidNextTokenException()
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8584,11 +9541,11 @@ extension InvalidNextTokenException {
     }
 }
 
-extension ConflictException {
+extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8666,6 +9623,8 @@ extension TransferClientTypes.DescribedAgreement {
         value.baseDirectory = try reader["BaseDirectory"].readIfPresent()
         value.accessRole = try reader["AccessRole"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.preserveFilename = try reader["PreserveFilename"].readIfPresent()
+        value.enforceMessageSigning = try reader["EnforceMessageSigning"].readIfPresent()
         return value
     }
 }
@@ -8758,6 +9717,7 @@ extension TransferClientTypes.As2ConnectorConfig {
         try writer["MdnSigningAlgorithm"].write(value.mdnSigningAlgorithm)
         try writer["MessageSubject"].write(value.messageSubject)
         try writer["PartnerProfileId"].write(value.partnerProfileId)
+        try writer["PreserveContentType"].write(value.preserveContentType)
         try writer["SigningAlgorithm"].write(value.signingAlgorithm)
     }
 
@@ -8773,6 +9733,7 @@ extension TransferClientTypes.As2ConnectorConfig {
         value.mdnSigningAlgorithm = try reader["MdnSigningAlgorithm"].readIfPresent()
         value.mdnResponse = try reader["MdnResponse"].readIfPresent()
         value.basicAuthSecretId = try reader["BasicAuthSecretId"].readIfPresent()
+        value.preserveContentType = try reader["PreserveContentType"].readIfPresent()
         return value
     }
 }
@@ -9129,6 +10090,86 @@ extension TransferClientTypes.SshPublicKey {
     }
 }
 
+extension TransferClientTypes.DescribedWebApp {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebApp {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedWebApp()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
+        value.describedIdentityProviderDetails = try reader["DescribedIdentityProviderDetails"].readIfPresent(with: TransferClientTypes.DescribedWebAppIdentityProviderDetails.read(from:))
+        value.accessEndpoint = try reader["AccessEndpoint"].readIfPresent()
+        value.webAppEndpoint = try reader["WebAppEndpoint"].readIfPresent()
+        value.webAppUnits = try reader["WebAppUnits"].readIfPresent(with: TransferClientTypes.WebAppUnits.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TransferClientTypes.WebAppUnits {
+
+    static func write(value: TransferClientTypes.WebAppUnits?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .provisioned(provisioned):
+                try writer["Provisioned"].write(provisioned)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.WebAppUnits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Provisioned":
+                return .provisioned(try reader["Provisioned"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension TransferClientTypes.DescribedWebAppIdentityProviderDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppIdentityProviderDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "IdentityCenterConfig":
+                return .identitycenterconfig(try reader["IdentityCenterConfig"].read(with: TransferClientTypes.DescribedIdentityCenterConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension TransferClientTypes.DescribedIdentityCenterConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedIdentityCenterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedIdentityCenterConfig()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.instanceArn = try reader["InstanceArn"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.DescribedWebAppCustomization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppCustomization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedWebAppCustomization()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent()
+        value.logoFile = try reader["LogoFile"].readIfPresent()
+        value.faviconFile = try reader["FaviconFile"].readIfPresent()
+        return value
+    }
+}
+
 extension TransferClientTypes.DescribedWorkflow {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWorkflow {
@@ -9465,6 +10506,19 @@ extension TransferClientTypes.ListedUser {
     }
 }
 
+extension TransferClientTypes.ListedWebApp {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ListedWebApp {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.ListedWebApp()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
+        value.accessEndpoint = try reader["AccessEndpoint"].readIfPresent()
+        value.webAppEndpoint = try reader["WebAppEndpoint"].readIfPresent()
+        return value
+    }
+}
+
 extension TransferClientTypes.ListedWorkflow {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ListedWorkflow {
@@ -9474,6 +10528,49 @@ extension TransferClientTypes.ListedWorkflow {
         value.description = try reader["Description"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         return value
+    }
+}
+
+extension TransferClientTypes.WebAppIdentityProviderDetails {
+
+    static func write(value: TransferClientTypes.WebAppIdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .identitycenterconfig(identitycenterconfig):
+                try writer["IdentityCenterConfig"].write(identitycenterconfig, with: TransferClientTypes.IdentityCenterConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.IdentityCenterConfig {
+
+    static func write(value: TransferClientTypes.IdentityCenterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceArn"].write(value.instanceArn)
+        try writer["Role"].write(value.role)
+    }
+}
+
+extension TransferClientTypes.UpdateWebAppIdentityProviderDetails {
+
+    static func write(value: TransferClientTypes.UpdateWebAppIdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .identitycenterconfig(identitycenterconfig):
+                try writer["IdentityCenterConfig"].write(identitycenterconfig, with: TransferClientTypes.UpdateWebAppIdentityCenterConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.UpdateWebAppIdentityCenterConfig {
+
+    static func write(value: TransferClientTypes.UpdateWebAppIdentityCenterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Role"].write(value.role)
     }
 }
 

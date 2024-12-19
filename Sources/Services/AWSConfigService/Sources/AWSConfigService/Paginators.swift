@@ -990,6 +990,37 @@ extension PaginatorSequence where OperationStackInput == ListAggregateDiscovered
     }
 }
 extension ConfigClient {
+    /// Paginate over `[ListConfigurationRecordersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConfigurationRecordersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationRecordersOutput`
+    public func listConfigurationRecordersPaginated(input: ListConfigurationRecordersInput) -> ClientRuntime.PaginatorSequence<ListConfigurationRecordersInput, ListConfigurationRecordersOutput> {
+        return ClientRuntime.PaginatorSequence<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurationRecorders(input:))
+    }
+}
+
+extension ListConfigurationRecordersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConfigurationRecordersInput {
+        return ListConfigurationRecordersInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConfigurationRecordersInput, OperationStackOutput == ListConfigurationRecordersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConfigurationRecordersPaginated`
+    /// to access the nested member `[ConfigClientTypes.ConfigurationRecorderSummary]`
+    /// - Returns: `[ConfigClientTypes.ConfigurationRecorderSummary]`
+    public func configurationRecorderSummaries() async throws -> [ConfigClientTypes.ConfigurationRecorderSummary] {
+        return try await self.asyncCompactMap { item in item.configurationRecorderSummaries }
+    }
+}
+extension ConfigClient {
     /// Paginate over `[ListConformancePackComplianceScoresOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

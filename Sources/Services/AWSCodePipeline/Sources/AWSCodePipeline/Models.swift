@@ -497,6 +497,8 @@ extension CodePipelineClientTypes {
         /// * Invoke
         ///
         /// * Approval
+        ///
+        /// * Compute
         /// This member is required.
         public var category: CodePipelineClientTypes.ActionCategory?
         /// The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS, ThirdParty, and Custom. For more information, see [Valid Action Types and Providers in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers).
@@ -695,6 +697,8 @@ extension CodePipelineClientTypes {
         public var lastStatusChange: Foundation.Date?
         /// The ARN of the user who last changed the pipeline.
         public var lastUpdatedBy: Swift.String?
+        /// The Amazon Resource Name (ARN) of the log stream for the action compute.
+        public var logStreamARN: Swift.String?
         /// A percentage of completeness of the action as it runs.
         public var percentComplete: Swift.Int?
         /// The status of the action, or for a completed action, the last status of the action.
@@ -711,6 +715,7 @@ extension CodePipelineClientTypes {
             externalExecutionUrl: Swift.String? = nil,
             lastStatusChange: Foundation.Date? = nil,
             lastUpdatedBy: Swift.String? = nil,
+            logStreamARN: Swift.String? = nil,
             percentComplete: Swift.Int? = nil,
             status: CodePipelineClientTypes.ActionExecutionStatus? = nil,
             summary: Swift.String? = nil,
@@ -723,6 +728,7 @@ extension CodePipelineClientTypes {
             self.externalExecutionUrl = externalExecutionUrl
             self.lastStatusChange = lastStatusChange
             self.lastUpdatedBy = lastUpdatedBy
+            self.logStreamARN = logStreamARN
             self.percentComplete = percentComplete
             self.status = status
             self.summary = summary
@@ -823,18 +829,22 @@ extension CodePipelineClientTypes {
         public var externalExecutionSummary: Swift.String?
         /// The deepest external link to the external resource (for example, a repository URL or deployment endpoint) that is used when running the action.
         public var externalExecutionUrl: Swift.String?
+        /// The Amazon Resource Name (ARN) of the log stream for the action compute.
+        public var logStreamARN: Swift.String?
 
         public init(
             errorDetails: CodePipelineClientTypes.ErrorDetails? = nil,
             externalExecutionId: Swift.String? = nil,
             externalExecutionSummary: Swift.String? = nil,
-            externalExecutionUrl: Swift.String? = nil
+            externalExecutionUrl: Swift.String? = nil,
+            logStreamARN: Swift.String? = nil
         )
         {
             self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionSummary = externalExecutionSummary
             self.externalExecutionUrl = externalExecutionUrl
+            self.logStreamARN = logStreamARN
         }
     }
 }
@@ -1959,13 +1969,15 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// Represents information about the rule to be created for an associated condition. An example would be creating a new rule for an entry condition, such as a rule that checks for a test result before allowing the run to enter the deployment stage.
+    /// Represents information about the rule to be created for an associated condition. An example would be creating a new rule for an entry condition, such as a rule that checks for a test result before allowing the run to enter the deployment stage. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     public struct RuleDeclaration: Swift.Sendable {
+        /// The shell commands to run with your commands rule in CodePipeline. All commands are supported except multi-line formats. While CodeBuild logs and permissions are used, you do not need to create any resources in CodeBuild. Using compute time for this action will incur separate charges in CodeBuild.
+        public var commands: [Swift.String]?
         /// The action configuration fields for the rule.
         public var configuration: [Swift.String: Swift.String]?
         /// The input artifacts fields for the rule, such as specifying an input file for the rule.
         public var inputArtifacts: [CodePipelineClientTypes.InputArtifact]?
-        /// The name of the rule that is created for the condition, such as CheckAllResults.
+        /// The name of the rule that is created for the condition, such as VariableCheck.
         /// This member is required.
         public var name: Swift.String?
         /// The Region for the condition associated with the rule.
@@ -1979,6 +1991,7 @@ extension CodePipelineClientTypes {
         public var timeoutInMinutes: Swift.Int?
 
         public init(
+            commands: [Swift.String]? = nil,
             configuration: [Swift.String: Swift.String]? = nil,
             inputArtifacts: [CodePipelineClientTypes.InputArtifact]? = nil,
             name: Swift.String? = nil,
@@ -1988,6 +2001,7 @@ extension CodePipelineClientTypes {
             timeoutInMinutes: Swift.Int? = nil
         )
         {
+            self.commands = commands
             self.configuration = configuration
             self.inputArtifacts = inputArtifacts
             self.name = name
@@ -2001,7 +2015,7 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// The condition for the stage. A condition is made up of the rules and the result for the condition.
+    /// The condition for the stage. A condition is made up of the rules and the result for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     public struct Condition: Swift.Sendable {
         /// The action to be done when the condition is met. For example, rolling back an execution for a failure condition.
         public var result: CodePipelineClientTypes.Result?
@@ -3144,6 +3158,8 @@ public struct GetActionTypeInput: Swift.Sendable {
     /// * Approval
     ///
     /// * Invoke
+    ///
+    /// * Compute
     /// This member is required.
     public var category: CodePipelineClientTypes.ActionCategory?
     /// The creator of an action type that was created with any supported integration model. There are two valid values: AWS and ThirdParty.
@@ -5734,7 +5750,7 @@ public struct PutApprovalResultInput: Swift.Sendable {
     /// The name of the stage that contains the action.
     /// This member is required.
     public var stageName: Swift.String?
-    /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the [GetPipelineState] action. It is used to validate that the approval request corresponding to this token is still valid.
+    /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the [GetPipelineState] action. It is used to validate that the approval request corresponding to this token is still valid. For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject approval request as detailed above is not available. Instead, use the externalExecutionId from the GetPipelineState action as the token in the approval request.
     /// This member is required.
     public var token: Swift.String?
 
@@ -9383,6 +9399,7 @@ extension CodePipelineClientTypes.RuleDeclaration {
 
     static func write(value: CodePipelineClientTypes.RuleDeclaration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["commands"].writeList(value.commands, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["configuration"].writeMap(value.configuration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["inputArtifacts"].writeList(value.inputArtifacts, memberWritingClosure: CodePipelineClientTypes.InputArtifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -9398,6 +9415,7 @@ extension CodePipelineClientTypes.RuleDeclaration {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.ruleTypeId = try reader["ruleTypeId"].readIfPresent(with: CodePipelineClientTypes.RuleTypeId.read(from:))
         value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.commands = try reader["commands"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputArtifacts = try reader["inputArtifacts"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.InputArtifact.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.region = try reader["region"].readIfPresent()
@@ -10168,6 +10186,7 @@ extension CodePipelineClientTypes.ActionExecution {
         value.externalExecutionUrl = try reader["externalExecutionUrl"].readIfPresent()
         value.percentComplete = try reader["percentComplete"].readIfPresent()
         value.errorDetails = try reader["errorDetails"].readIfPresent(with: CodePipelineClientTypes.ErrorDetails.read(from:))
+        value.logStreamARN = try reader["logStreamARN"].readIfPresent()
         return value
     }
 }
@@ -10274,6 +10293,7 @@ extension CodePipelineClientTypes.ActionExecutionResult {
         value.externalExecutionSummary = try reader["externalExecutionSummary"].readIfPresent()
         value.externalExecutionUrl = try reader["externalExecutionUrl"].readIfPresent()
         value.errorDetails = try reader["errorDetails"].readIfPresent(with: CodePipelineClientTypes.ErrorDetails.read(from:))
+        value.logStreamARN = try reader["logStreamARN"].readIfPresent()
         return value
     }
 }

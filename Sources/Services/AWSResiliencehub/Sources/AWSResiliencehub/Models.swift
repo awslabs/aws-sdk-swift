@@ -185,7 +185,7 @@ public struct AcceptResourceGroupingRecommendationsInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// Indicates the list of resource grouping recommendations you want to include in your application.
+    /// List of resource grouping recommendations you want to include in your application.
     /// This member is required.
     public var entries: [ResiliencehubClientTypes.AcceptGroupingRecommendationEntry]?
 
@@ -225,7 +225,7 @@ public struct AcceptResourceGroupingRecommendationsOutput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// Indicates the list of resource grouping recommendations that could not be included in your application.
+    /// List of resource grouping recommendations that could not be included in your application.
     /// This member is required.
     public var failedEntries: [ResiliencehubClientTypes.FailedGroupingRecommendationEntry]?
 
@@ -535,6 +535,26 @@ public struct AddDraftAppVersionResourceMappingsOutput: Swift.Sendable {
 
 extension ResiliencehubClientTypes {
 
+    /// Indicates the Amazon CloudWatch alarm detected while running an assessment.
+    public struct Alarm: Swift.Sendable {
+        /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
+        public var alarmArn: Swift.String?
+        /// Indicates the source of the Amazon CloudWatch alarm. That is, it indicates if the alarm was created using Resilience Hub recommendation (AwsResilienceHub), or if you had created the alarm in Amazon CloudWatch (Customer).
+        public var source: Swift.String?
+
+        public init(
+            alarmArn: Swift.String? = nil,
+            source: Swift.String? = nil
+        )
+        {
+            self.alarmArn = alarmArn
+            self.source = source
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+
     public enum ExcludeRecommendationReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alreadyImplemented
         case complexityOfImplementation
@@ -567,14 +587,38 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes {
 
+    /// Indicates the FIS experiment detected while running an assessment.
+    public struct Experiment: Swift.Sendable {
+        /// Amazon Resource Name (ARN) of the FIS experiment.
+        public var experimentArn: Swift.String?
+        /// Identifier of the FIS experiment template.
+        public var experimentTemplateId: Swift.String?
+
+        public init(
+            experimentArn: Swift.String? = nil,
+            experimentTemplateId: Swift.String? = nil
+        )
+        {
+            self.experimentArn = experimentArn
+            self.experimentTemplateId = experimentTemplateId
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+
     /// Defines a recommendation.
     public struct RecommendationItem: Swift.Sendable {
         /// Specifies if the recommendation has already been implemented.
         public var alreadyImplemented: Swift.Bool?
+        /// Indicates the previously implemented Amazon CloudWatch alarm discovered by Resilience Hub.
+        public var discoveredAlarm: ResiliencehubClientTypes.Alarm?
         /// Indicates the reason for excluding an operational recommendation.
         public var excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason?
         /// Indicates if an operational recommendation item is excluded.
         public var excluded: Swift.Bool?
+        /// Indicates the experiment created in FIS that was discovered by Resilience Hub, which matches the recommendation.
+        public var latestDiscoveredExperiment: ResiliencehubClientTypes.Experiment?
         /// Identifier of the resource.
         public var resourceId: Swift.String?
         /// Identifier of the target account.
@@ -584,16 +628,20 @@ extension ResiliencehubClientTypes {
 
         public init(
             alreadyImplemented: Swift.Bool? = nil,
+            discoveredAlarm: ResiliencehubClientTypes.Alarm? = nil,
             excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
             excluded: Swift.Bool? = nil,
+            latestDiscoveredExperiment: ResiliencehubClientTypes.Experiment? = nil,
             resourceId: Swift.String? = nil,
             targetAccountId: Swift.String? = nil,
             targetRegion: Swift.String? = nil
         )
         {
             self.alreadyImplemented = alreadyImplemented
+            self.discoveredAlarm = discoveredAlarm
             self.excludeReason = excludeReason
             self.excluded = excluded
+            self.latestDiscoveredExperiment = latestDiscoveredExperiment
             self.resourceId = resourceId
             self.targetAccountId = targetAccountId
             self.targetRegion = targetRegion
@@ -927,7 +975,7 @@ extension ResiliencehubClientTypes {
         ///
         /// * These roles must have a trust policy with iam:AssumeRole permission to the invoker role in the primary account.
         public var crossAccountRoleArns: [Swift.String]?
-        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment.
+        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment. If your IAM role includes a path, you must include the path in the invokerRoleName parameter. For example, if your IAM role's ARN is arn:aws:iam:123456789012:role/my-path/role-name, you should pass my-path/role-name.
         ///
         /// * You must have iam:passRole permission for this role while creating or updating the application.
         ///
@@ -992,7 +1040,7 @@ extension ResiliencehubClientTypes {
         public var awsApplicationArn: Swift.String?
         /// Current status of compliance for the resiliency policy.
         public var complianceStatus: ResiliencehubClientTypes.AppComplianceStatusType?
-        /// Date and time when the app was created.
+        /// Date and time when the application was created.
         /// This member is required.
         public var creationTime: Foundation.Date?
         /// Optional description for an application.
@@ -1500,7 +1548,7 @@ extension ResiliencehubClientTypes {
         public var policy: [Swift.String: ResiliencehubClientTypes.FailurePolicy]?
         /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
         public var policyArn: Swift.String?
-        /// The description for the policy.
+        /// Description of the resiliency policy.
         public var policyDescription: Swift.String?
         /// The name of the policy
         public var policyName: Swift.String?
@@ -1676,7 +1724,7 @@ extension ResiliencehubClientTypes {
 
     /// Indicates a specific risk identified in the Resilience Hub assessment and the corresponding recommendation provided to address that risk. The assessment summary generated by large language models (LLMs) on Amazon Bedrock are only suggestions. The current level of generative AI technology is not perfect and LLMs are not infallible. Bias and incorrect answers, although rare, should be expected. Review each recommendation in the assessment summary before you use the output from an LLM. This property is available only in the US East (N. Virginia) Region.
     public struct AssessmentRiskRecommendation: Swift.Sendable {
-        /// Indicates the Application Components (AppComponents) that were assessed as part of the assessnent and are associated with the identified risk and recommendation. This property is available only in the US East (N. Virginia) Region.
+        /// Indicates the Application Components (AppComponents) that were assessed as part of the assessment and are associated with the identified risk and recommendation. This property is available only in the US East (N. Virginia) Region.
         public var appComponents: [Swift.String]?
         /// Indicates the recommendation provided by the Resilience Hub to address the identified risks in the application. This property is available only in the US East (N. Virginia) Region.
         public var recommendation: Swift.String?
@@ -2148,6 +2196,8 @@ extension ResiliencehubClientTypes {
 
     /// Defines the operational recommendation item that is to be included or excluded.
     public struct UpdateRecommendationStatusRequestEntry: Swift.Sendable {
+        /// Indicates the identifier of the AppComponent.
+        public var appComponentId: Swift.String?
         /// An identifier for an entry in this batch that is used to communicate the result. The entryIds of a batch request need to be unique within a request.
         /// This member is required.
         public var entryId: Swift.String?
@@ -2163,6 +2213,7 @@ extension ResiliencehubClientTypes {
         public var referenceId: Swift.String?
 
         public init(
+            appComponentId: Swift.String? = nil,
             entryId: Swift.String? = nil,
             excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
             excluded: Swift.Bool? = nil,
@@ -2170,6 +2221,7 @@ extension ResiliencehubClientTypes {
             referenceId: Swift.String? = nil
         )
         {
+            self.appComponentId = appComponentId
             self.entryId = entryId
             self.excludeReason = excludeReason
             self.excluded = excluded
@@ -2223,6 +2275,8 @@ extension ResiliencehubClientTypes {
 
     /// List of operational recommendations that were successfully included or excluded.
     public struct BatchUpdateRecommendationStatusSuccessfulEntry: Swift.Sendable {
+        /// Indicates the identifier of an AppComponent.
+        public var appComponentId: Swift.String?
         /// An identifier for an entry in this batch that is used to communicate the result. The entryIds of a batch request need to be unique within a request.
         /// This member is required.
         public var entryId: Swift.String?
@@ -2238,6 +2292,7 @@ extension ResiliencehubClientTypes {
         public var referenceId: Swift.String?
 
         public init(
+            appComponentId: Swift.String? = nil,
             entryId: Swift.String? = nil,
             excludeReason: ResiliencehubClientTypes.ExcludeRecommendationReason? = nil,
             excluded: Swift.Bool? = nil,
@@ -2245,6 +2300,7 @@ extension ResiliencehubClientTypes {
             referenceId: Swift.String? = nil
         )
         {
+            self.appComponentId = appComponentId
             self.entryId = entryId
             self.excludeReason = excludeReason
             self.excluded = excluded
@@ -2847,9 +2903,9 @@ public struct CreateResiliencyPolicyInput: Swift.Sendable {
     /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
     /// This member is required.
     public var policy: [Swift.String: ResiliencehubClientTypes.FailurePolicy]?
-    /// The description for the policy.
+    /// Description of the resiliency policy.
     public var policyDescription: Swift.String?
-    /// The name of the policy
+    /// Name of the resiliency policy.
     /// This member is required.
     public var policyName: Swift.String?
     /// Tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key/value pair.
@@ -3679,6 +3735,80 @@ public struct DescribeDraftAppVersionResourcesImportStatusOutput: Swift.Sendable
     }
 }
 
+public struct DescribeMetricsExportInput: Swift.Sendable {
+    /// Identifier of the metrics export task.
+    /// This member is required.
+    public var metricsExportId: Swift.String?
+
+    public init(
+        metricsExportId: Swift.String? = nil
+    )
+    {
+        self.metricsExportId = metricsExportId
+    }
+}
+
+extension ResiliencehubClientTypes {
+
+    public enum MetricsExportStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case pending
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricsExportStatusType] {
+            return [
+                .failed,
+                .inProgress,
+                .pending,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .pending: return "Pending"
+            case .success: return "Success"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeMetricsExportOutput: Swift.Sendable {
+    /// Explains the error that occurred while exporting the metrics.
+    public var errorMessage: Swift.String?
+    /// Specifies the name of the Amazon S3 bucket where the exported metrics is stored.
+    public var exportLocation: ResiliencehubClientTypes.S3Location?
+    /// Identifier for the metrics export task.
+    /// This member is required.
+    public var metricsExportId: Swift.String?
+    /// Indicates the status of the metrics export task.
+    /// This member is required.
+    public var status: ResiliencehubClientTypes.MetricsExportStatusType?
+
+    public init(
+        errorMessage: Swift.String? = nil,
+        exportLocation: ResiliencehubClientTypes.S3Location? = nil,
+        metricsExportId: Swift.String? = nil,
+        status: ResiliencehubClientTypes.MetricsExportStatusType? = nil
+    )
+    {
+        self.errorMessage = errorMessage
+        self.exportLocation = exportLocation
+        self.metricsExportId = metricsExportId
+        self.status = status
+    }
+}
+
 public struct DescribeResiliencyPolicyInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
@@ -3709,7 +3839,7 @@ public struct DescribeResourceGroupingRecommendationTaskInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// Indicates the identifier of the grouping recommendation task.
+    /// Identifier of the grouping recommendation task.
     public var groupingId: Swift.String?
 
     public init(
@@ -3758,9 +3888,9 @@ extension ResiliencehubClientTypes {
 }
 
 public struct DescribeResourceGroupingRecommendationTaskOutput: Swift.Sendable {
-    /// Indicates the error that occurred while generating a grouping recommendation.
+    /// Error that occurred while generating a grouping recommendation.
     public var errorMessage: Swift.String?
-    /// Indicates the identifier of the grouping recommendation task.
+    /// Identifier of the grouping recommendation task.
     /// This member is required.
     public var groupingId: Swift.String?
     /// Status of the action.
@@ -3936,7 +4066,7 @@ public struct ListAppAssessmentComplianceDriftsInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
-    /// Indicates the maximum number of compliance drifts requested.
+    /// Maximum number of compliance drifts requested.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -4087,7 +4217,7 @@ public struct ListAppAssessmentResourceDriftsInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var assessmentArn: Swift.String?
-    /// Indicates the maximum number of drift results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    /// Maximum number of drift results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -4583,7 +4713,7 @@ public struct ListAppsInput: Swift.Sendable {
     public var appArn: Swift.String?
     /// Amazon Resource Name (ARN) of Resource Groups group that is integrated with an AppRegistry application. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var awsApplicationArn: Swift.String?
-    /// Indicates the lower limit of the range that is used to filter applications based on their last assessment times.
+    /// Lower limit of the range that is used to filter applications based on their last assessment times.
     public var fromLastAssessmentTime: Foundation.Date?
     /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
@@ -4593,7 +4723,7 @@ public struct ListAppsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The application list is sorted based on the values of lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending order. To sort the application list in descending order, set this field to True.
     public var reverseOrder: Swift.Bool?
-    /// Indicates the upper limit of the range that is used to filter the applications based on their last assessment times.
+    /// Upper limit of the range that is used to filter the applications based on their last assessment times.
     public var toLastAssessmentTime: Foundation.Date?
 
     public init(
@@ -4828,6 +4958,202 @@ public struct ListAppVersionsOutput: Swift.Sendable {
     }
 }
 
+extension ResiliencehubClientTypes {
+
+    public enum ConditionOperatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case greaterOrEquals
+        case greaterThen
+        case lessOrEquals
+        case lessThen
+        case notEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConditionOperatorType] {
+            return [
+                .equals,
+                .greaterOrEquals,
+                .greaterThen,
+                .lessOrEquals,
+                .lessThen,
+                .notEquals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "Equals"
+            case .greaterOrEquals: return "GreaterOrEquals"
+            case .greaterThen: return "GreaterThen"
+            case .lessOrEquals: return "LessOrEquals"
+            case .lessThen: return "LessThen"
+            case .notEquals: return "NotEquals"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+
+    /// Indicates the condition based on which you want to filter the metrics.
+    public struct Condition: Swift.Sendable {
+        /// Indicates the field in the metric.
+        /// This member is required.
+        public var field: Swift.String?
+        /// Indicates the type of operator or comparison to be used when evaluating a condition against the specified field.
+        /// This member is required.
+        public var `operator`: ResiliencehubClientTypes.ConditionOperatorType?
+        /// Indicates the value or data against which a condition is evaluated.
+        public var value: Swift.String?
+
+        public init(
+            field: Swift.String? = nil,
+            `operator`: ResiliencehubClientTypes.ConditionOperatorType? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.field = field
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+
+    public enum FieldAggregationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case avg
+        case count
+        case max
+        case min
+        case sum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldAggregationType] {
+            return [
+                .avg,
+                .count,
+                .max,
+                .min,
+                .sum
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .avg: return "Avg"
+            case .count: return "Count"
+            case .max: return "Max"
+            case .min: return "Min"
+            case .sum: return "Sum"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+
+    /// Indicates the field or attribute of a resource or data structure on which a condition is being applied or evaluated.
+    public struct Field: Swift.Sendable {
+        /// (Optional) Indicates the type of aggregation or summary operation (such as Sum, Average, and so on) to be performed on a particular field or set of data.
+        public var aggregation: ResiliencehubClientTypes.FieldAggregationType?
+        /// Name of the field.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            aggregation: ResiliencehubClientTypes.FieldAggregationType? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.aggregation = aggregation
+            self.name = name
+        }
+    }
+}
+
+extension ResiliencehubClientTypes {
+
+    /// Indicates the sorting order of the fields in the metrics.
+    public struct Sort: Swift.Sendable {
+        /// Indicates the name or identifier of the field or attribute that should be used as the basis for sorting the metrics.
+        public var ascending: Swift.Bool?
+        /// Indicates the order in which you want to sort the metrics. By default, the list is sorted in ascending order. To sort the list in descending order, set this field to False.
+        /// This member is required.
+        public var field: Swift.String?
+
+        public init(
+            ascending: Swift.Bool? = nil,
+            field: Swift.String? = nil
+        )
+        {
+            self.ascending = ascending
+            self.field = field
+        }
+    }
+}
+
+public struct ListMetricsInput: Swift.Sendable {
+    /// Indicates the list of all the conditions that were applied on the metrics.
+    public var conditions: [ResiliencehubClientTypes.Condition]?
+    /// Indicates the data source of the metrics.
+    public var dataSource: Swift.String?
+    /// Indicates the list of fields in the data source.
+    public var fields: [ResiliencehubClientTypes.Field]?
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// Null, or the token from a previous call to get the next set of results.
+    public var nextToken: Swift.String?
+    /// (Optional) Indicates the order in which you want to sort the fields in the metrics. By default, the fields are sorted in the ascending order.
+    public var sorts: [ResiliencehubClientTypes.Sort]?
+
+    public init(
+        conditions: [ResiliencehubClientTypes.Condition]? = nil,
+        dataSource: Swift.String? = nil,
+        fields: [ResiliencehubClientTypes.Field]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sorts: [ResiliencehubClientTypes.Sort]? = nil
+    )
+    {
+        self.conditions = conditions
+        self.dataSource = dataSource
+        self.fields = fields
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sorts = sorts
+    }
+}
+
+public struct ListMetricsOutput: Swift.Sendable {
+    /// Token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// Specifies all the list of metric values for each row of metrics.
+    /// This member is required.
+    public var rows: [[Swift.String]]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        rows: [[Swift.String]]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.rows = rows
+    }
+}
+
 public struct ListRecommendationTemplatesInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the assessment. The format for this ARN is: arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     public var assessmentArn: Swift.String?
@@ -4885,7 +5211,7 @@ public struct ListResiliencyPoliciesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
-    /// The name of the policy
+    /// Name of the resiliency policy.
     public var policyName: Swift.String?
 
     public init(
@@ -5440,6 +5766,8 @@ extension ResiliencehubClientTypes {
 
     /// Defines a test recommendation.
     public struct TestRecommendation: Swift.Sendable {
+        /// Indicates the identifier of the AppComponent.
+        public var appComponentId: Swift.String?
         /// Name of the Application Component.
         public var appComponentName: Swift.String?
         /// A list of recommended alarms that are used in the test and must be exported before or with the test.
@@ -5467,6 +5795,7 @@ extension ResiliencehubClientTypes {
         public var type: ResiliencehubClientTypes.TestType?
 
         public init(
+            appComponentId: Swift.String? = nil,
             appComponentName: Swift.String? = nil,
             dependsOnAlarms: [Swift.String]? = nil,
             description: Swift.String? = nil,
@@ -5481,6 +5810,7 @@ extension ResiliencehubClientTypes {
             type: ResiliencehubClientTypes.TestType? = nil
         )
         {
+            self.appComponentId = appComponentId
             self.appComponentName = appComponentName
             self.dependsOnAlarms = dependsOnAlarms
             self.description = description
@@ -5772,7 +6102,7 @@ public struct RejectResourceGroupingRecommendationsInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// Indicates the list of resource grouping recommendations you have selected to exclude from your application.
+    /// List of resource grouping recommendations you have selected to exclude from your application.
     /// This member is required.
     public var entries: [ResiliencehubClientTypes.RejectGroupingRecommendationEntry]?
 
@@ -5790,7 +6120,7 @@ public struct RejectResourceGroupingRecommendationsOutput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// Indicates the list of resource grouping recommendations that failed to get excluded in your application.
+    /// List of resource grouping recommendations that failed to get excluded in your application.
     /// This member is required.
     public var failedEntries: [ResiliencehubClientTypes.FailedGroupingRecommendationEntry]?
 
@@ -5952,6 +6282,40 @@ public struct StartAppAssessmentOutput: Swift.Sendable {
     }
 }
 
+public struct StartMetricsExportInput: Swift.Sendable {
+    /// (Optional) Specifies the name of the Amazon Simple Storage Service bucket where the exported metrics will be stored.
+    public var bucketName: Swift.String?
+    /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
+    public var clientToken: Swift.String?
+
+    public init(
+        bucketName: Swift.String? = nil,
+        clientToken: Swift.String? = nil
+    )
+    {
+        self.bucketName = bucketName
+        self.clientToken = clientToken
+    }
+}
+
+public struct StartMetricsExportOutput: Swift.Sendable {
+    /// Identifier of the metrics export task.
+    /// This member is required.
+    public var metricsExportId: Swift.String?
+    /// Indicates the status of the metrics export task.
+    /// This member is required.
+    public var status: ResiliencehubClientTypes.MetricsExportStatusType?
+
+    public init(
+        metricsExportId: Swift.String? = nil,
+        status: ResiliencehubClientTypes.MetricsExportStatusType? = nil
+    )
+    {
+        self.metricsExportId = metricsExportId
+        self.status = status
+    }
+}
+
 public struct StartResourceGroupingRecommendationTaskInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
@@ -5969,9 +6333,9 @@ public struct StartResourceGroupingRecommendationTaskOutput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// Indicates the error that occurred while executing a grouping recommendation task.
+    /// Error that occurred while executing a grouping recommendation task.
     public var errorMessage: Swift.String?
-    /// Indicates the identifier of the grouping recommendation task.
+    /// Identifier of the grouping recommendation task.
     /// This member is required.
     public var groupingId: Swift.String?
     /// Status of the action.
@@ -6263,14 +6627,14 @@ public struct UpdateAppVersionResourceOutput: Swift.Sendable {
 public struct UpdateResiliencyPolicyInput: Swift.Sendable {
     /// Specifies a high-level geographical location constraint for where your resilience policy data can be stored.
     public var dataLocationConstraint: ResiliencehubClientTypes.DataLocationConstraint?
-    /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
+    /// Resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
     public var policy: [Swift.String: ResiliencehubClientTypes.FailurePolicy]?
     /// Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is: arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference guide.
     /// This member is required.
     public var policyArn: Swift.String?
-    /// The description for the policy.
+    /// Description of the resiliency policy.
     public var policyDescription: Swift.String?
-    /// The name of the policy
+    /// Name of the resiliency policy.
     public var policyName: Swift.String?
     /// The tier for this resiliency policy, ranging from the highest severity (MissionCritical) to lowest (NonCritical).
     public var tier: ResiliencehubClientTypes.ResiliencyPolicyTier?
@@ -6294,7 +6658,7 @@ public struct UpdateResiliencyPolicyInput: Swift.Sendable {
 }
 
 public struct UpdateResiliencyPolicyOutput: Swift.Sendable {
-    /// The type of resiliency policy that was updated, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
+    /// The resiliency policy that was updated, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
     /// This member is required.
     public var policy: ResiliencehubClientTypes.ResiliencyPolicy?
 
@@ -6464,6 +6828,13 @@ extension DescribeDraftAppVersionResourcesImportStatusInput {
 
     static func urlPathProvider(_ value: DescribeDraftAppVersionResourcesImportStatusInput) -> Swift.String? {
         return "/describe-draft-app-version-resources-import-status"
+    }
+}
+
+extension DescribeMetricsExportInput {
+
+    static func urlPathProvider(_ value: DescribeMetricsExportInput) -> Swift.String? {
+        return "/describe-metrics-export"
     }
 }
 
@@ -6651,6 +7022,13 @@ extension ListAppVersionsInput {
 
     static func urlPathProvider(_ value: ListAppVersionsInput) -> Swift.String? {
         return "/list-app-versions"
+    }
+}
+
+extension ListMetricsInput {
+
+    static func urlPathProvider(_ value: ListMetricsInput) -> Swift.String? {
+        return "/list-metrics"
     }
 }
 
@@ -6846,6 +7224,13 @@ extension StartAppAssessmentInput {
 
     static func urlPathProvider(_ value: StartAppAssessmentInput) -> Swift.String? {
         return "/start-app-assessment"
+    }
+}
+
+extension StartMetricsExportInput {
+
+    static func urlPathProvider(_ value: StartMetricsExportInput) -> Swift.String? {
+        return "/start-metrics-export"
     }
 }
 
@@ -7178,6 +7563,14 @@ extension DescribeDraftAppVersionResourcesImportStatusInput {
     }
 }
 
+extension DescribeMetricsExportInput {
+
+    static func write(value: DescribeMetricsExportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metricsExportId"].write(value.metricsExportId)
+    }
+}
+
 extension DescribeResiliencyPolicyInput {
 
     static func write(value: DescribeResiliencyPolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -7314,6 +7707,19 @@ extension ListAppVersionsInput {
     }
 }
 
+extension ListMetricsInput {
+
+    static func write(value: ListMetricsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ResiliencehubClientTypes.Condition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dataSource"].write(value.dataSource)
+        try writer["fields"].writeList(value.fields, memberWritingClosure: ResiliencehubClientTypes.Field.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["sorts"].writeList(value.sorts, memberWritingClosure: ResiliencehubClientTypes.Sort.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ListSopRecommendationsInput {
 
     static func write(value: ListSopRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
@@ -7405,6 +7811,15 @@ extension StartAppAssessmentInput {
         try writer["assessmentName"].write(value.assessmentName)
         try writer["clientToken"].write(value.clientToken)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension StartMetricsExportInput {
+
+    static func write(value: StartMetricsExportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["clientToken"].write(value.clientToken)
     }
 }
 
@@ -7798,6 +8213,21 @@ extension DescribeDraftAppVersionResourcesImportStatusOutput {
     }
 }
 
+extension DescribeMetricsExportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMetricsExportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMetricsExportOutput()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.exportLocation = try reader["exportLocation"].readIfPresent(with: ResiliencehubClientTypes.S3Location.read(from:))
+        value.metricsExportId = try reader["metricsExportId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DescribeResiliencyPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeResiliencyPolicyOutput {
@@ -8000,6 +8430,19 @@ extension ListAppVersionsOutput {
     }
 }
 
+extension ListMetricsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMetricsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMetricsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.rows = try reader["rows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListRecommendationTemplatesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRecommendationTemplatesOutput {
@@ -8181,6 +8624,19 @@ extension StartAppAssessmentOutput {
         let reader = responseReader
         var value = StartAppAssessmentOutput()
         value.assessment = try reader["assessment"].readIfPresent(with: ResiliencehubClientTypes.AppAssessment.read(from:))
+        return value
+    }
+}
+
+extension StartMetricsExportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartMetricsExportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartMetricsExportOutput()
+        value.metricsExportId = try reader["metricsExportId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -8712,6 +9168,24 @@ enum DescribeDraftAppVersionResourcesImportStatusOutputError {
     }
 }
 
+enum DescribeMetricsExportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeResiliencyPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8982,6 +9456,23 @@ enum ListAppVersionsOutputError {
     }
 }
 
+enum ListMetricsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListRecommendationTemplatesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9234,6 +9725,25 @@ enum StartAppAssessmentOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartMetricsExportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -9559,6 +10069,7 @@ extension ResiliencehubClientTypes.BatchUpdateRecommendationStatusSuccessfulEntr
         value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
         value.item = try reader["item"].readIfPresent(with: ResiliencehubClientTypes.UpdateRecommendationStatusItem.read(from:))
         value.excluded = try reader["excluded"].readIfPresent() ?? false
+        value.appComponentId = try reader["appComponentId"].readIfPresent()
         value.excludeReason = try reader["excludeReason"].readIfPresent()
         return value
     }
@@ -10017,6 +10528,30 @@ extension ResiliencehubClientTypes.RecommendationItem {
         value.alreadyImplemented = try reader["alreadyImplemented"].readIfPresent()
         value.excluded = try reader["excluded"].readIfPresent()
         value.excludeReason = try reader["excludeReason"].readIfPresent()
+        value.latestDiscoveredExperiment = try reader["latestDiscoveredExperiment"].readIfPresent(with: ResiliencehubClientTypes.Experiment.read(from:))
+        value.discoveredAlarm = try reader["discoveredAlarm"].readIfPresent(with: ResiliencehubClientTypes.Alarm.read(from:))
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.Alarm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.Alarm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.Alarm()
+        value.alarmArn = try reader["alarmArn"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension ResiliencehubClientTypes.Experiment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResiliencehubClientTypes.Experiment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResiliencehubClientTypes.Experiment()
+        value.experimentArn = try reader["experimentArn"].readIfPresent()
+        value.experimentTemplateId = try reader["experimentTemplateId"].readIfPresent()
         return value
     }
 }
@@ -10252,6 +10787,7 @@ extension ResiliencehubClientTypes.TestRecommendation {
         var value = ResiliencehubClientTypes.TestRecommendation()
         value.recommendationId = try reader["recommendationId"].readIfPresent()
         value.referenceId = try reader["referenceId"].readIfPresent() ?? ""
+        value.appComponentId = try reader["appComponentId"].readIfPresent()
         value.appComponentName = try reader["appComponentName"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.intent = try reader["intent"].readIfPresent()
@@ -10291,11 +10827,40 @@ extension ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry {
 
     static func write(value: ResiliencehubClientTypes.UpdateRecommendationStatusRequestEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["appComponentId"].write(value.appComponentId)
         try writer["entryId"].write(value.entryId)
         try writer["excludeReason"].write(value.excludeReason)
         try writer["excluded"].write(value.excluded)
         try writer["item"].write(value.item, with: ResiliencehubClientTypes.UpdateRecommendationStatusItem.write(value:to:))
         try writer["referenceId"].write(value.referenceId)
+    }
+}
+
+extension ResiliencehubClientTypes.Field {
+
+    static func write(value: ResiliencehubClientTypes.Field?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aggregation"].write(value.aggregation)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension ResiliencehubClientTypes.Condition {
+
+    static func write(value: ResiliencehubClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["field"].write(value.field)
+        try writer["operator"].write(value.`operator`)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension ResiliencehubClientTypes.Sort {
+
+    static func write(value: ResiliencehubClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ascending"].write(value.ascending)
+        try writer["field"].write(value.field)
     }
 }
 

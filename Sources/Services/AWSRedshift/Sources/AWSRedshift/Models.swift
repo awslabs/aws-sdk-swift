@@ -927,6 +927,32 @@ extension RedshiftClientTypes {
     }
 }
 
+extension RedshiftClientTypes {
+
+    public enum DataShareType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `internal`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataShareType] {
+            return [
+                .internal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internal: return "INTERNAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct AssociateDataShareConsumerOutput: Swift.Sendable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
@@ -934,6 +960,8 @@ public struct AssociateDataShareConsumerOutput: Swift.Sendable {
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+    /// The type of the datashare created by RegisterNamespace.
+    public var dataShareType: RedshiftClientTypes.DataShareType?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
     /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -943,6 +971,7 @@ public struct AssociateDataShareConsumerOutput: Swift.Sendable {
         allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+        dataShareType: RedshiftClientTypes.DataShareType? = nil,
         managedBy: Swift.String? = nil,
         producerArn: Swift.String? = nil
     )
@@ -950,6 +979,7 @@ public struct AssociateDataShareConsumerOutput: Swift.Sendable {
         self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
         self.dataShareArn = dataShareArn
         self.dataShareAssociations = dataShareAssociations
+        self.dataShareType = dataShareType
         self.managedBy = managedBy
         self.producerArn = producerArn
     }
@@ -1463,6 +1493,8 @@ public struct AuthorizeDataShareOutput: Swift.Sendable {
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+    /// The type of the datashare created by RegisterNamespace.
+    public var dataShareType: RedshiftClientTypes.DataShareType?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
     /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -1472,6 +1504,7 @@ public struct AuthorizeDataShareOutput: Swift.Sendable {
         allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+        dataShareType: RedshiftClientTypes.DataShareType? = nil,
         managedBy: Swift.String? = nil,
         producerArn: Swift.String? = nil
     )
@@ -1479,6 +1512,7 @@ public struct AuthorizeDataShareOutput: Swift.Sendable {
         self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
         self.dataShareArn = dataShareArn
         self.dataShareAssociations = dataShareAssociations
+        self.dataShareType = dataShareType
         self.managedBy = managedBy
         self.producerArn = producerArn
     }
@@ -7061,6 +7095,8 @@ extension RedshiftClientTypes {
         public var dataShareArn: Swift.String?
         /// A value that specifies when the datashare has an association between producer and data consumers.
         public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+        /// The type of the datashare created by RegisterNamespace.
+        public var dataShareType: RedshiftClientTypes.DataShareType?
         /// The identifier of a datashare to show its managing entity.
         public var managedBy: Swift.String?
         /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -7070,6 +7106,7 @@ extension RedshiftClientTypes {
             allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
             dataShareArn: Swift.String? = nil,
             dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+            dataShareType: RedshiftClientTypes.DataShareType? = nil,
             managedBy: Swift.String? = nil,
             producerArn: Swift.String? = nil
         )
@@ -7077,6 +7114,7 @@ extension RedshiftClientTypes {
             self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
             self.dataShareArn = dataShareArn
             self.dataShareAssociations = dataShareAssociations
+            self.dataShareType = dataShareType
             self.managedBy = managedBy
             self.producerArn = producerArn
         }
@@ -7175,6 +7213,8 @@ public struct DeauthorizeDataShareOutput: Swift.Sendable {
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+    /// The type of the datashare created by RegisterNamespace.
+    public var dataShareType: RedshiftClientTypes.DataShareType?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
     /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -7184,6 +7224,7 @@ public struct DeauthorizeDataShareOutput: Swift.Sendable {
         allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+        dataShareType: RedshiftClientTypes.DataShareType? = nil,
         managedBy: Swift.String? = nil,
         producerArn: Swift.String? = nil
     )
@@ -7191,6 +7232,7 @@ public struct DeauthorizeDataShareOutput: Swift.Sendable {
         self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
         self.dataShareArn = dataShareArn
         self.dataShareAssociations = dataShareAssociations
+        self.dataShareType = dataShareType
         self.managedBy = managedBy
         self.producerArn = producerArn
     }
@@ -8059,6 +8101,116 @@ public struct DeleteUsageLimitInput: Swift.Sendable {
     )
     {
         self.usageLimitId = usageLimitId
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// The identifier for a provisioned cluster.
+    public struct ProvisionedIdentifier: Swift.Sendable {
+        /// The unique identifier for the provisioned cluster.
+        /// This member is required.
+        public var clusterIdentifier: Swift.String?
+
+        public init(
+            clusterIdentifier: Swift.String? = nil
+        )
+        {
+            self.clusterIdentifier = clusterIdentifier
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// The identifier for a serverless namespace.
+    public struct ServerlessIdentifier: Swift.Sendable {
+        /// The unique identifier for the serverless namespace.
+        /// This member is required.
+        public var namespaceIdentifier: Swift.String?
+        /// The unique identifier for the workgroup associated with the serverless namespace.
+        /// This member is required.
+        public var workgroupIdentifier: Swift.String?
+
+        public init(
+            namespaceIdentifier: Swift.String? = nil,
+            workgroupIdentifier: Swift.String? = nil
+        )
+        {
+            self.namespaceIdentifier = namespaceIdentifier
+            self.workgroupIdentifier = workgroupIdentifier
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// Object to store union of values for a provisioned cluster or serverless namespace’s identifier.
+    public enum NamespaceIdentifierUnion: Swift.Sendable {
+        /// The identifier for a serverless namespace.
+        case serverlessidentifier(RedshiftClientTypes.ServerlessIdentifier)
+        /// The identifier for a provisioned cluster.
+        case provisionedidentifier(RedshiftClientTypes.ProvisionedIdentifier)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct DeregisterNamespaceInput: Swift.Sendable {
+    /// An array containing the ID of the consumer account that you want to deregister the cluster or serverless namespace from.
+    /// This member is required.
+    public var consumerIdentifiers: [Swift.String]?
+    /// The unique identifier of the cluster or serverless namespace that you want to deregister.
+    /// This member is required.
+    public var namespaceIdentifier: RedshiftClientTypes.NamespaceIdentifierUnion?
+
+    public init(
+        consumerIdentifiers: [Swift.String]? = nil,
+        namespaceIdentifier: RedshiftClientTypes.NamespaceIdentifierUnion? = nil
+    )
+    {
+        self.consumerIdentifiers = consumerIdentifiers
+        self.namespaceIdentifier = namespaceIdentifier
+    }
+}
+
+extension RedshiftClientTypes {
+
+    public enum NamespaceRegistrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deregistering
+        case registering
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NamespaceRegistrationStatus] {
+            return [
+                .deregistering,
+                .registering
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deregistering: return "Deregistering"
+            case .registering: return "Registering"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeregisterNamespaceOutput: Swift.Sendable {
+    /// The registration status of the cluster or serverless namespace.
+    public var status: RedshiftClientTypes.NamespaceRegistrationStatus?
+
+    public init(
+        status: RedshiftClientTypes.NamespaceRegistrationStatus? = nil
+    )
+    {
+        self.status = status
     }
 }
 
@@ -11318,6 +11470,8 @@ public struct DisassociateDataShareConsumerOutput: Swift.Sendable {
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+    /// The type of the datashare created by RegisterNamespace.
+    public var dataShareType: RedshiftClientTypes.DataShareType?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
     /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -11327,6 +11481,7 @@ public struct DisassociateDataShareConsumerOutput: Swift.Sendable {
         allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+        dataShareType: RedshiftClientTypes.DataShareType? = nil,
         managedBy: Swift.String? = nil,
         producerArn: Swift.String? = nil
     )
@@ -11334,6 +11489,7 @@ public struct DisassociateDataShareConsumerOutput: Swift.Sendable {
         self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
         self.dataShareArn = dataShareArn
         self.dataShareAssociations = dataShareAssociations
+        self.dataShareType = dataShareType
         self.managedBy = managedBy
         self.producerArn = producerArn
     }
@@ -13541,6 +13697,36 @@ public struct RebootClusterOutput: Swift.Sendable {
     }
 }
 
+public struct RegisterNamespaceInput: Swift.Sendable {
+    /// An array containing the ID of the consumer account that you want to register the namespace to.
+    /// This member is required.
+    public var consumerIdentifiers: [Swift.String]?
+    /// The unique identifier of the cluster or serverless namespace that you want to register.
+    /// This member is required.
+    public var namespaceIdentifier: RedshiftClientTypes.NamespaceIdentifierUnion?
+
+    public init(
+        consumerIdentifiers: [Swift.String]? = nil,
+        namespaceIdentifier: RedshiftClientTypes.NamespaceIdentifierUnion? = nil
+    )
+    {
+        self.consumerIdentifiers = consumerIdentifiers
+        self.namespaceIdentifier = namespaceIdentifier
+    }
+}
+
+public struct RegisterNamespaceOutput: Swift.Sendable {
+    /// The registration status of the cluster or serverless namespace.
+    public var status: RedshiftClientTypes.NamespaceRegistrationStatus?
+
+    public init(
+        status: RedshiftClientTypes.NamespaceRegistrationStatus? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
 public struct RejectDataShareInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the datashare to reject.
     /// This member is required.
@@ -13561,6 +13747,8 @@ public struct RejectDataShareOutput: Swift.Sendable {
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
+    /// The type of the datashare created by RegisterNamespace.
+    public var dataShareType: RedshiftClientTypes.DataShareType?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
     /// The Amazon Resource Name (ARN) of the producer namespace.
@@ -13570,6 +13758,7 @@ public struct RejectDataShareOutput: Swift.Sendable {
         allowPubliclyAccessibleConsumers: Swift.Bool? = nil,
         dataShareArn: Swift.String? = nil,
         dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]? = nil,
+        dataShareType: RedshiftClientTypes.DataShareType? = nil,
         managedBy: Swift.String? = nil,
         producerArn: Swift.String? = nil
     )
@@ -13577,6 +13766,7 @@ public struct RejectDataShareOutput: Swift.Sendable {
         self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
         self.dataShareArn = dataShareArn
         self.dataShareAssociations = dataShareAssociations
+        self.dataShareType = dataShareType
         self.managedBy = managedBy
         self.producerArn = producerArn
     }
@@ -14519,6 +14709,13 @@ extension DeleteUsageLimitInput {
     }
 }
 
+extension DeregisterNamespaceInput {
+
+    static func urlPathProvider(_ value: DeregisterNamespaceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeAccountAttributesInput {
 
     static func urlPathProvider(_ value: DescribeAccountAttributesInput) -> Swift.String? {
@@ -15047,6 +15244,13 @@ extension PutResourcePolicyInput {
 extension RebootClusterInput {
 
     static func urlPathProvider(_ value: RebootClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension RegisterNamespaceInput {
+
+    static func urlPathProvider(_ value: RegisterNamespaceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -15760,6 +15964,17 @@ extension DeleteUsageLimitInput {
         guard let value else { return }
         try writer["UsageLimitId"].write(value.usageLimitId)
         try writer["Action"].write("DeleteUsageLimit")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
+extension DeregisterNamespaceInput {
+
+    static func write(value: DeregisterNamespaceInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ConsumerIdentifiers"].writeList(value.consumerIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NamespaceIdentifier"].write(value.namespaceIdentifier, with: RedshiftClientTypes.NamespaceIdentifierUnion.write(value:to:))
+        try writer["Action"].write("DeregisterNamespace")
         try writer["Version"].write("2012-12-01")
     }
 }
@@ -16765,6 +16980,17 @@ extension RebootClusterInput {
     }
 }
 
+extension RegisterNamespaceInput {
+
+    static func write(value: RegisterNamespaceInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ConsumerIdentifiers"].writeList(value.consumerIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NamespaceIdentifier"].write(value.namespaceIdentifier, with: RedshiftClientTypes.NamespaceIdentifierUnion.write(value:to:))
+        try writer["Action"].write("RegisterNamespace")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
 extension RejectDataShareInput {
 
     static func write(value: RejectDataShareInput?, to writer: SmithyFormURL.Writer) throws {
@@ -16976,6 +17202,7 @@ extension AssociateDataShareConsumerOutput {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareArn = try reader["DataShareArn"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.producerArn = try reader["ProducerArn"].readIfPresent()
         return value
@@ -17004,6 +17231,7 @@ extension AuthorizeDataShareOutput {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareArn = try reader["DataShareArn"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.producerArn = try reader["ProducerArn"].readIfPresent()
         return value
@@ -17372,6 +17600,7 @@ extension DeauthorizeDataShareOutput {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareArn = try reader["DataShareArn"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.producerArn = try reader["ProducerArn"].readIfPresent()
         return value
@@ -17565,6 +17794,18 @@ extension DeleteUsageLimitOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteUsageLimitOutput {
         return DeleteUsageLimitOutput()
+    }
+}
+
+extension DeregisterNamespaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterNamespaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DeregisterNamespaceResult"]
+        var value = DeregisterNamespaceOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -18157,6 +18398,7 @@ extension DisassociateDataShareConsumerOutput {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareArn = try reader["DataShareArn"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.producerArn = try reader["ProducerArn"].readIfPresent()
         return value
@@ -18602,6 +18844,18 @@ extension RebootClusterOutput {
     }
 }
 
+extension RegisterNamespaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterNamespaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["RegisterNamespaceResult"]
+        var value = RegisterNamespaceOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension RejectDataShareOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectDataShareOutput {
@@ -18612,6 +18866,7 @@ extension RejectDataShareOutput {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareArn = try reader["DataShareArn"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.producerArn = try reader["ProducerArn"].readIfPresent()
         return value
@@ -19621,6 +19876,22 @@ enum DeleteUsageLimitOutputError {
         switch baseError.code {
             case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             case "UsageLimitNotFound": return try UsageLimitNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeregisterNamespaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "InvalidNamespaceFault": return try InvalidNamespaceFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -20848,6 +21119,22 @@ enum RebootClusterOutputError {
         switch baseError.code {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RegisterNamespaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "InvalidNamespaceFault": return try InvalidNamespaceFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -23953,6 +24240,7 @@ extension RedshiftClientTypes.DataShare {
         value.allowPubliclyAccessibleConsumers = try reader["AllowPubliclyAccessibleConsumers"].readIfPresent()
         value.dataShareAssociations = try reader["DataShareAssociations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.DataShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.managedBy = try reader["ManagedBy"].readIfPresent()
+        value.dataShareType = try reader["DataShareType"].readIfPresent()
         return value
     }
 }
@@ -24300,6 +24588,38 @@ extension RedshiftClientTypes.DeleteClusterSnapshotMessage {
         guard let value else { return }
         try writer["SnapshotClusterIdentifier"].write(value.snapshotClusterIdentifier)
         try writer["SnapshotIdentifier"].write(value.snapshotIdentifier)
+    }
+}
+
+extension RedshiftClientTypes.NamespaceIdentifierUnion {
+
+    static func write(value: RedshiftClientTypes.NamespaceIdentifierUnion?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .provisionedidentifier(provisionedidentifier):
+                try writer["ProvisionedIdentifier"].write(provisionedidentifier, with: RedshiftClientTypes.ProvisionedIdentifier.write(value:to:))
+            case let .serverlessidentifier(serverlessidentifier):
+                try writer["ServerlessIdentifier"].write(serverlessidentifier, with: RedshiftClientTypes.ServerlessIdentifier.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension RedshiftClientTypes.ProvisionedIdentifier {
+
+    static func write(value: RedshiftClientTypes.ProvisionedIdentifier?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
+    }
+}
+
+extension RedshiftClientTypes.ServerlessIdentifier {
+
+    static func write(value: RedshiftClientTypes.ServerlessIdentifier?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["NamespaceIdentifier"].write(value.namespaceIdentifier)
+        try writer["WorkgroupIdentifier"].write(value.workgroupIdentifier)
     }
 }
 

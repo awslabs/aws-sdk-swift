@@ -970,7 +970,7 @@ extension KendraClientTypes {
     /// * User ID, the groups the user belongs to, and any data sources the groups can access.
     ///
     ///
-    /// If you provide both, an exception is thrown.
+    /// If you provide both, an exception is thrown. If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can use UserId, Groups, and DataSourceGroups to filter content. If you set the UserId to a particular user ID, it also includes all public documents. Amazon Kendra Gen AI Enterprise Edition indices don't support token based document filtering. If you're using an Amazon Kendra Gen AI Enterprise Edition index, Amazon Kendra returns a ValidationException error if the Token field has a non-null value.
     public struct UserContext: Swift.Sendable {
         /// The list of data source groups you want to filter search results based on groups' access to documents in that data source.
         public var dataSourceGroups: [KendraClientTypes.DataSourceGroup]?
@@ -1020,7 +1020,7 @@ extension KendraClientTypes {
 
     /// Provides the configuration information to connect to websites that require basic user authentication.
     public struct BasicAuthenticationConfiguration: Swift.Sendable {
-        /// Your secret ARN, which you can create in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) You use a secret if basic authentication credentials are required to connect to a website. The secret stores your credentials of user name and password.
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret. You create a secret to store your credentials in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) You use a secret if basic authentication credentials are required to connect to a website. The secret stores your credentials of user name and password.
         /// This member is required.
         public var credentials: Swift.String?
         /// The name of the website host you want to connect to using authentication credentials. For example, the host name of https://a.example.com/page1.html is "a.example.com".
@@ -1159,6 +1159,8 @@ extension KendraClientTypes {
 
     /// Provides information about documents that could not be removed from an index by the BatchDeleteDocument API.
     public struct BatchDeleteDocumentResponseFailedDocument: Swift.Sendable {
+        /// The identifier of the data source connector that the document belongs to.
+        public var dataSourceId: Swift.String?
         /// The error code for why the document couldn't be removed from the index.
         public var errorCode: KendraClientTypes.ErrorCode?
         /// An explanation for why the document couldn't be removed from the index.
@@ -1167,11 +1169,13 @@ extension KendraClientTypes {
         public var id: Swift.String?
 
         public init(
+            dataSourceId: Swift.String? = nil,
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
         )
         {
+            self.dataSourceId = dataSourceId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -1376,6 +1380,8 @@ extension KendraClientTypes {
 
     /// Provides a response when the status of a document could not be retrieved.
     public struct BatchGetDocumentStatusResponseError: Swift.Sendable {
+        /// The identifier of the data source connector that the failed document belongs to.
+        public var dataSourceId: Swift.String?
         /// The identifier of the document whose status could not be retrieved.
         public var documentId: Swift.String?
         /// Indicates the source of the error.
@@ -1384,11 +1390,13 @@ extension KendraClientTypes {
         public var errorMessage: Swift.String?
 
         public init(
+            dataSourceId: Swift.String? = nil,
             documentId: Swift.String? = nil,
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil
         )
         {
+            self.dataSourceId = dataSourceId
             self.documentId = documentId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
@@ -1572,7 +1580,7 @@ extension KendraClientTypes {
     public struct HookConfiguration: Swift.Sendable {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Kendra should invoke a function that inserts the current date-time.
         public var invocationCondition: KendraClientTypes.DocumentAttributeCondition?
-        /// The Amazon Resource Name (ARN) of a role with permission to run a Lambda function during ingestion. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+        /// The Amazon Resource Name (ARN) of an IAM role with permission to run a Lambda function during ingestion. For more information, see [an IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
         /// This member is required.
         public var lambdaArn: Swift.String?
         /// Stores the original, raw documents or the structured, parsed documents before and after altering them. For more information, see [Data contracts for Lambda functions](https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html#cde-data-contracts-lambda).
@@ -1602,7 +1610,7 @@ extension KendraClientTypes {
         public var postExtractionHookConfiguration: KendraClientTypes.HookConfiguration?
         /// Configuration information for invoking a Lambda function in Lambda on the original or raw documents before extracting their metadata and text. You can use a Lambda function to apply advanced logic for creating, modifying, or deleting document metadata and content. For more information, see [Advanced data manipulation](https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html#advanced-data-manipulation).
         public var preExtractionHookConfiguration: KendraClientTypes.HookConfiguration?
-        /// The Amazon Resource Name (ARN) of a role with permission to run PreExtractionHookConfiguration and PostExtractionHookConfiguration for altering document metadata and content during the document ingestion process. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+        /// The Amazon Resource Name (ARN) of an IAM role with permission to run PreExtractionHookConfiguration and PostExtractionHookConfiguration for altering document metadata and content during the document ingestion process. For more information, see [an IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
         public var roleArn: Swift.String?
 
         public init(
@@ -1871,6 +1879,8 @@ extension KendraClientTypes {
 
     /// Provides information about a document that could not be indexed.
     public struct BatchPutDocumentResponseFailedDocument: Swift.Sendable {
+        /// The identifier of the data source connector that the failed document belongs to.
+        public var dataSourceId: Swift.String?
         /// The type of error that caused the document to fail to be indexed.
         public var errorCode: KendraClientTypes.ErrorCode?
         /// A description of the reason why the document could not be indexed.
@@ -1879,11 +1889,13 @@ extension KendraClientTypes {
         public var id: Swift.String?
 
         public init(
+            dataSourceId: Swift.String? = nil,
             errorCode: KendraClientTypes.ErrorCode? = nil,
             errorMessage: Swift.String? = nil,
             id: Swift.String? = nil
         )
         {
+            self.dataSourceId = dataSourceId
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.id = id
@@ -2364,7 +2376,7 @@ extension KendraClientTypes {
 
     /// Provides the configuration information for a web proxy to connect to website hosts.
     public struct ProxyConfiguration: Swift.Sendable {
-        /// Your secret ARN, which you can create in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) The credentials are optional. You use a secret if web proxy credentials are required to connect to a website host. Amazon Kendra currently support basic authentication to connect to a web proxy server. The secret stores your credentials.
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret. You create a secret to store your credentials in [Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) The credentials are optional. You use a secret if web proxy credentials are required to connect to a website host. Amazon Kendra currently support basic authentication to connect to a web proxy server. The secret stores your credentials.
         public var credentials: Swift.String?
         /// The name of the website host you want to connect to via a web proxy server. For example, the host name of https://a.example.com/page1.html is "a.example.com".
         /// This member is required.
@@ -2617,7 +2629,7 @@ extension KendraClientTypes {
         /// The port that the database uses for connections.
         /// This member is required.
         public var databasePort: Swift.Int?
-        /// The Amazon Resource Name (ARN) of credentials stored in Secrets Manager. The credentials should be a user/password pair. For more information, see [Using a Database Data Source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html). For more information about Secrets Manager, see [ What Is Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) in the Secrets Manager user guide.
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that stores the credentials. The credentials should be a user-password pair. For more information, see [Using a Database Data Source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html). For more information about Secrets Manager, see [ What Is Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html) in the Secrets Manager user guide.
         /// This member is required.
         public var secretArn: Swift.String?
         /// The name of the table that contains the document data.
@@ -3209,7 +3221,7 @@ extension KendraClientTypes {
 
     /// User accounts whose documents should be indexed.
     public struct OneDriveUsers: Swift.Sendable {
-        /// A list of users whose documents should be indexed. Specify the user names in email format, for example, username@tenantdomain. If you need to index the documents of more than 100 users, use the OneDriveUserS3Path field to specify the location of a file containing a list of users.
+        /// A list of users whose documents should be indexed. Specify the user names in email format, for example, username@tenantdomain. If you need to index the documents of more than 10 users, use the OneDriveUserS3Path field to specify the location of a file containing a list of users.
         public var oneDriveUserList: [Swift.String]?
         /// The S3 bucket location of a file containing a list of users whose documents should be indexed.
         public var oneDriveUserS3Path: KendraClientTypes.S3Path?
@@ -4486,9 +4498,9 @@ extension KendraClientTypes {
 
 extension KendraClientTypes {
 
-    /// A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
+    /// A key-value pair that identifies or categorizes an index, FAQ, data source, or other resource. TA tag key and value can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public struct Tag: Swift.Sendable {
-        /// The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, or data source.
+        /// The key for the tag. Keys are not case sensitive and must be unique for the index, FAQ, data source, or other resource.
         /// This member is required.
         public var key: Swift.String?
         /// The value associated with the tag. The value may be an empty string but it can't be null.
@@ -4812,7 +4824,7 @@ public struct CreateFaqInput: Swift.Sendable {
     /// A name for the FAQ.
     /// This member is required.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the S3 bucket that contains the FAQs. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the S3 bucket that contains the FAQ file. For more information, see [IAM access roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     /// This member is required.
     public var roleArn: Swift.String?
     /// The path to the FAQ file in S3.
@@ -5058,12 +5070,14 @@ extension KendraClientTypes {
     public enum IndexEdition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case developerEdition
         case enterpriseEdition
+        case genAiEnterpriseEdition
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IndexEdition] {
             return [
                 .developerEdition,
-                .enterpriseEdition
+                .enterpriseEdition,
+                .genAiEnterpriseEdition
             ]
         }
 
@@ -5076,6 +5090,7 @@ extension KendraClientTypes {
             switch self {
             case .developerEdition: return "DEVELOPER_EDITION"
             case .enterpriseEdition: return "ENTERPRISE_EDITION"
+            case .genAiEnterpriseEdition: return "GEN_AI_ENTERPRISE_EDITION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5163,7 +5178,7 @@ extension KendraClientTypes {
 
 extension KendraClientTypes {
 
-    /// Provides the configuration information to get users and groups from an IAM Identity Center identity source. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can also use the [PutPrincipalMapping](https://docs.aws.amazon.com/kendra/latest/dg/API_PutPrincipalMapping.html) API to map users to their groups so that you only need to provide the user ID when you issue the query. To set up an IAM Identity Center identity source in the console to use with Amazon Kendra, see [Getting started with an IAM Identity Center identity source](https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html). You must also grant the required permissions to use IAM Identity Center with Amazon Kendra. For more information, see [IAM roles for IAM Identity Center](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-aws-sso). Amazon Kendra currently does not support using UserGroupResolutionConfiguration with an Amazon Web Services organization member account for your IAM Identity Center identify source. You must create your index in the management account for the organization in order to use UserGroupResolutionConfiguration.
+    /// Provides the configuration information to get users and groups from an IAM Identity Center identity source. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can also use the [PutPrincipalMapping](https://docs.aws.amazon.com/kendra/latest/dg/API_PutPrincipalMapping.html) API to map users to their groups so that you only need to provide the user ID when you issue the query. To set up an IAM Identity Center identity source in the console to use with Amazon Kendra, see [Getting started with an IAM Identity Center identity source](https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html). You must also grant the required permissions to use IAM Identity Center with Amazon Kendra. For more information, see [IAM roles for IAM Identity Center](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-aws-sso). Amazon Kendra currently does not support using UserGroupResolutionConfiguration with an Amazon Web Services organization member account for your IAM Identity Center identify source. You must create your index in the management account for the organization in order to use UserGroupResolutionConfiguration. If you're using an Amazon Kendra Gen AI Enterprise Edition index, UserGroupResolutionConfiguration isn't supported.
     public struct UserGroupResolutionConfiguration: Swift.Sendable {
         /// The identity store provider (mode) you want to use to get users and groups. IAM Identity Center is currently the only available mode. Your users and groups must exist in an IAM Identity Center identity source in order to use this mode.
         /// This member is required.
@@ -5272,7 +5287,7 @@ extension KendraClientTypes {
 
 extension KendraClientTypes {
 
-    /// Provides the configuration information for a token.
+    /// Provides the configuration information for a token. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use UserTokenConfigurations to configure user context policy, Amazon Kendra returns a ValidationException error.
     public struct UserTokenConfiguration: Swift.Sendable {
         /// Information about the JSON token type configuration.
         public var jsonTokenTypeConfiguration: KendraClientTypes.JsonTokenTypeConfiguration?
@@ -5295,7 +5310,7 @@ public struct CreateIndexInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// A description for the index.
     public var description: Swift.String?
-    /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for production. Once you set the edition for an index, it can't be changed. The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For more information on quota limits for Enterprise and Developer editions, see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
+    /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for production. Use GEN_AI_ENTERPRISE_EDITION for creating generative AI applications. Once you set the edition for an index, it can't be changed. The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For more information on quota limits for Gen AI Enterprise Edition, Enterprise Edition, and Developer Edition indices, see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html).
     public var edition: KendraClientTypes.IndexEdition?
     /// A name for the index.
     /// This member is required.
@@ -5307,11 +5322,11 @@ public struct CreateIndexInput: Swift.Sendable {
     public var serverSideEncryptionConfiguration: KendraClientTypes.ServerSideEncryptionConfiguration?
     /// A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     public var tags: [KendraClientTypes.Tag]?
-    /// The user context policy. ATTRIBUTE_FILTER All indexed content is searchable and displayable for all users. If you want to filter search results on user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext. USER_TOKEN Enables token-based user access control to filter search results on user context. All documents with no access control and all documents accessible to the user will be searchable and displayable.
+    /// The user context policy. If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error. ATTRIBUTE_FILTER All indexed content is searchable and displayable for all users. If you want to filter search results on user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext. USER_TOKEN Enables token-based user access control to filter search results on user context. All documents with no access control and all documents accessible to the user will be searchable and displayable.
     public var userContextPolicy: KendraClientTypes.UserContextPolicy?
-    /// Gets users and groups from IAM Identity Center identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html). This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
+    /// Gets users and groups from IAM Identity Center identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html). This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. If you're using an Amazon Kendra Gen AI Enterprise Edition index, UserGroupResolutionConfiguration isn't supported.
     public var userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration?
-    /// The user token configuration.
+    /// The user token configuration. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use UserTokenConfigurations to configure user context policy, Amazon Kendra returns a ValidationException error.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
 
     public init(
@@ -5735,7 +5750,7 @@ public struct DescribeDataSourceOutput: Swift.Sendable {
     public var languageCode: Swift.String?
     /// The name for the data source connector.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of the role with permission to access the data source and required resources.
+    /// The Amazon Resource Name (ARN) of the IAM role with permission to access the data source and required resources.
     public var roleArn: Swift.String?
     /// The schedule for Amazon Kendra to update the index.
     public var schedule: Swift.String?
@@ -5900,7 +5915,7 @@ public struct DescribeExperienceOutput: Swift.Sendable {
     public var indexId: Swift.String?
     /// Shows the name of your Amazon Kendra experience.
     public var name: Swift.String?
-    /// Shows the Amazon Resource Name (ARN) of a role with permission to access Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your user and group information.
+    /// The Amazon Resource Name (ARN) of the IAM role with permission to access the Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your users and groups information.
     public var roleArn: Swift.String?
     /// The current processing status of your Amazon Kendra experience. When the status is ACTIVE, your Amazon Kendra experience is ready to use. When the status is FAILED, the ErrorMessage field contains the reason that this failed.
     public var status: KendraClientTypes.ExperienceStatus?
@@ -5998,7 +6013,7 @@ public struct DescribeFaqOutput: Swift.Sendable {
     public var description: Swift.String?
     /// If the Status field is FAILED, the ErrorMessage field contains the reason why the FAQ failed.
     public var errorMessage: Swift.String?
-    /// The file format used by the input files for the FAQ.
+    /// The file format used for the FAQ file.
     public var fileFormat: KendraClientTypes.FaqFileFormat?
     /// The identifier of the FAQ.
     public var id: Swift.String?
@@ -6008,7 +6023,7 @@ public struct DescribeFaqOutput: Swift.Sendable {
     public var languageCode: Swift.String?
     /// The name that you gave the FAQ when it was created.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of the role that provides access to the S3 bucket containing the input files for the FAQ.
+    /// The Amazon Resource Name (ARN) of the IAM role that provides access to the S3 bucket containing the FAQ file.
     public var roleArn: Swift.String?
     /// Information required to find a specific file in an Amazon S3 bucket.
     public var s3Path: KendraClientTypes.S3Path?
@@ -6340,9 +6355,9 @@ extension KendraClientTypes {
 
 extension KendraClientTypes {
 
-    /// Provides statistical information about the FAQ questions and answers contained in an index.
+    /// Provides statistical information about the FAQ questions and answers for an index.
     public struct FaqStatistics: Swift.Sendable {
-        /// The total number of FAQ questions and answers contained in the index.
+        /// The total number of FAQ questions and answers for an index.
         /// This member is required.
         public var indexedQuestionAnswersCount: Swift.Int
 
@@ -7927,7 +7942,7 @@ public struct ListExperiencesOutput: Swift.Sendable {
 }
 
 public struct ListFaqsInput: Swift.Sendable {
-    /// The index that contains the FAQ lists.
+    /// The index for the FAQs.
     /// This member is required.
     public var indexId: Swift.String?
     /// The maximum number of FAQs to return in the response. If there are fewer results in the list, this response contains only the actual results.
@@ -7988,7 +8003,7 @@ extension KendraClientTypes {
 }
 
 public struct ListFaqsOutput: Swift.Sendable {
-    /// information about the FAQs associated with the specified index.
+    /// Summary information about the FAQs for a specified index.
     public var faqSummaryItems: [KendraClientTypes.FaqSummary]?
     /// If the response is truncated, Amazon Kendra returns this token that you can use in the subsequent request to retrieve the next set of FAQs.
     public var nextToken: Swift.String?
@@ -8307,7 +8322,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to get a list of tags for.
+    /// The Amazon Resource Name (ARN) of the index, FAQ, data source, or other resource to get a list of tags for. For example, the ARN of an index is constructed as follows: arn:aws:kendra:your-region:your-account-id:index/index-id For information on how to construct an ARN for all types of Amazon Kendra resources, see [Resource types](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies).
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -8320,7 +8335,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceOutput: Swift.Sendable {
-    /// A list of tags associated with the index, FAQ, or data source.
+    /// A list of tags associated with the index, FAQ, data source, or other resource.
     public var tags: [KendraClientTypes.Tag]?
 
     public init(
@@ -8440,9 +8455,9 @@ extension KendraClientTypes {
 
 extension KendraClientTypes {
 
-    /// A list of users or sub groups that belong to a group. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
+    /// A list of users that belong to a group. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     public struct GroupMembers: Swift.Sendable {
-        /// A list of sub groups that belong to a group. For example, the sub groups "Research", "Engineering", and "Sales and Marketing" all belong to the group "Company".
+        /// A list of users that belong to a group. This can also include sub groups. For example, the sub groups "Research", "Engineering", and "Sales and Marketing" all belong to the group "Company A".
         public var memberGroups: [KendraClientTypes.MemberGroup]?
         /// A list of users that belong to a group. For example, a list of interns all belong to the "Interns" group.
         public var memberUsers: [KendraClientTypes.MemberUser]?
@@ -8468,15 +8483,15 @@ public struct PutPrincipalMappingInput: Swift.Sendable {
     /// The identifier of the group you want to map its users to.
     /// This member is required.
     public var groupId: Swift.String?
-    /// The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000.
+    /// The list that contains your users that belong the same group. This can include sub groups that belong to a group. For example, the group "Company A" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing". If you have more than 1000 users and/or sub groups for a single group, you need to provide the path to the S3 file that lists your users and sub groups for a group. Your sub groups can contain more than 1000 users, but the list of sub groups that belong to a group (and/or users) must be no more than 1000.
     /// This member is required.
     public var groupMembers: KendraClientTypes.GroupMembers?
     /// The identifier of the index you want to map users to their groups.
     /// This member is required.
     public var indexId: Swift.String?
-    /// The timestamp identifier you specify to ensure Amazon Kendra does not override the latest PUT action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the Unix time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your PUT action for that updated group with the latest members list doesn't get overwritten by earlier PUT actions for the same group which are yet to be processed. The default ordering ID is the current Unix time in milliseconds that the action was received by Amazon Kendra.
+    /// The timestamp identifier you specify to ensure Amazon Kendra doesn't override the latest PUT action with previous actions. The highest number ID, which is the ordering ID, is the latest action you want to process and apply on top of other actions with lower number IDs. This prevents previous actions with lower number IDs from possibly overriding the latest action. The ordering ID can be the Unix time of the last update you made to a group members list. You would then provide this list when calling PutPrincipalMapping. This ensures your PUT action for that updated group with the latest members list doesn't get overwritten by earlier PUT actions for the same group which are yet to be processed. The default ordering ID is the current Unix time in milliseconds that the action was received by Amazon Kendra.
     public var orderingId: Swift.Int?
-    /// The Amazon Resource Name (ARN) of a role that has access to the S3 file that contains your list of users or sub groups that belong to a group. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-ds).
+    /// The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file that contains your list of users that belong to a group. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-ds).
     public var roleArn: Swift.String?
 
     public init(
@@ -9370,10 +9385,10 @@ public struct SubmitFeedbackInput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to tag.
+    /// The Amazon Resource Name (ARN) of the index, FAQ, data source, or other resource to add a tag. For example, the ARN of an index is constructed as follows: arn:aws:kendra:your-region:your-account-id:index/index-id For information on how to construct an ARN for all types of Amazon Kendra resources, see [Resource types](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies).
     /// This member is required.
     public var resourceARN: Swift.String?
-    /// A list of tag keys to add to the index, FAQ, or data source. If a tag already exists, the existing value is replaced with the new value.
+    /// A list of tag keys to add to the index, FAQ, data source, or other resource. If a tag already exists, the existing value is replaced with the new value.
     /// This member is required.
     public var tags: [KendraClientTypes.Tag]?
 
@@ -9393,10 +9408,10 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to remove the tag from.
+    /// The Amazon Resource Name (ARN) of the index, FAQ, data source, or other resource to remove a tag. For example, the ARN of an index is constructed as follows: arn:aws:kendra:your-region:your-account-id:index/index-id For information on how to construct an ARN for all types of Amazon Kendra resources, see [Resource types](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies).
     /// This member is required.
     public var resourceARN: Swift.String?
-    /// A list of tag keys to remove from the index, FAQ, or data source. If a tag key does not exist on the resource, it is ignored.
+    /// A list of tag keys to remove from the index, FAQ, data source, or other resource. If a tag key doesn't exist for the resource, it is ignored.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -9471,7 +9486,7 @@ public struct UpdateDataSourceInput: Swift.Sendable {
     public var languageCode: Swift.String?
     /// A new name for the data source connector.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of a role with permission to access the data source and required resources. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     public var roleArn: Swift.String?
     /// The sync schedule you want to update for the data source connector.
     public var schedule: Swift.String?
@@ -9517,7 +9532,7 @@ public struct UpdateExperienceInput: Swift.Sendable {
     public var indexId: Swift.String?
     /// A new name for your Amazon Kendra experience.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of a role with permission to access Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your user and group information. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your users and groups information. For more information, see [IAM roles for Amazon Kendra](https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html).
     public var roleArn: Swift.String?
 
     public init(
@@ -9602,11 +9617,11 @@ public struct UpdateIndexInput: Swift.Sendable {
     public var name: Swift.String?
     /// An Identity and Access Management (IAM) role that gives Amazon Kendra permission to access Amazon CloudWatch logs and metrics.
     public var roleArn: Swift.String?
-    /// The user context policy.
+    /// The user context policy. If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can only use ATTRIBUTE_FILTER to filter search results by user context. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use USER_TOKEN to configure user context policy, Amazon Kendra returns a ValidationException error.
     public var userContextPolicy: KendraClientTypes.UserContextPolicy?
-    /// Gets users and groups from IAM Identity Center identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html). This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
+    /// Gets users and groups from IAM Identity Center identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html). This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. If you're using an Amazon Kendra Gen AI Enterprise Edition index, UserGroupResolutionConfiguration isn't supported.
     public var userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration?
-    /// The user token configuration.
+    /// The user token configuration. If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try to use UserTokenConfigurations to configure user context policy, Amazon Kendra returns a ValidationException error.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
 
     public init(
@@ -9812,11 +9827,11 @@ extension KendraClientTypes {
 
 extension KendraClientTypes {
 
-    /// Filters the search results based on document attributes or fields. You can filter results using attributes for your particular documents. The attributes must exist in your index. For example, if your documents include the custom attribute "Department", you can filter documents that belong to the "HR" department. You would use the EqualsTo operation to filter results or documents with "Department" equals to "HR". You can use AndAllFilters and AndOrFilters in combination with each other or with other operations such as EqualsTo. For example: AndAllFilters
+    /// Filters the search results based on document attributes or fields. You can filter results using attributes for your particular documents. The attributes must exist in your index. For example, if your documents include the custom attribute "Department", you can filter documents that belong to the "HR" department. You would use the EqualsTo operation to filter results or documents with "Department" equals to "HR". You can use AndAllFilters and OrAllFilters in combination with each other or with other operations such as EqualsTo. For example: AndAllFilters
     ///
     /// * EqualsTo: "Department", "HR"
     ///
-    /// * AndOrFilters
+    /// * OrAllFilters
     ///
     /// * ContainsAny: "Project Name", ["new hires", "new hiring"]
     ///
@@ -9824,7 +9839,7 @@ extension KendraClientTypes {
     ///
     ///
     ///
-    /// This example filters results or documents that belong to the HR department and belong to projects that contain "new hires" or "new hiring" in the project name (must use ContainAny with StringListValue). This example is filtering with a depth of 2. You cannot filter more than a depth of 2, otherwise you receive a ValidationException exception with the message "AttributeFilter cannot have a depth of more than 2." Also, if you use more than 10 attribute filters in a given list for AndAllFilters or OrAllFilters, you receive a ValidationException with the message "AttributeFilter cannot have a length of more than 10". For examples of using AttributeFilter, see [Using document attributes to filter search results](https://docs.aws.amazon.com/kendra/latest/dg/filtering.html#search-filtering).
+    /// This example filters results or documents that belong to the HR department AND belong to projects that contain "new hires" OR "new hiring" in the project name (must use ContainAny with StringListValue). This example is filtering with a depth of 2. You cannot filter more than a depth of 2, otherwise you receive a ValidationException exception with the message "AttributeFilter cannot have a depth of more than 2." Also, if you use more than 10 attribute filters in a given list for AndAllFilters or OrAllFilters, you receive a ValidationException with the message "AttributeFilter cannot have a length of more than 10". For examples of using AttributeFilter, see [Using document attributes to filter search results](https://docs.aws.amazon.com/kendra/latest/dg/filtering.html#search-filtering).
     public struct AttributeFilter: Swift.Sendable {
         /// Performs a logical AND operation on all filters that you specify.
         public var andAllFilters: [KendraClientTypes.AttributeFilter]?
@@ -9939,7 +9954,7 @@ extension KendraClientTypes {
 }
 
 public struct RetrieveInput: Swift.Sendable {
-    /// Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.
+    /// Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results. For Amazon Kendra Gen AI Enterprise Edition indices use AttributeFilter to enable document filtering for end users using _email_id or include public documents (_email_id=null).
     public var attributeFilter: KendraClientTypes.AttributeFilter?
     /// Overrides relevance tuning configurations of fields/attributes set at the index level. If you use this API to override the relevance tuning configured at the index level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured for fields at the index level, and you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
     public var documentRelevanceOverrideConfigurations: [KendraClientTypes.DocumentRelevanceConfiguration]?
@@ -10011,7 +10026,7 @@ public struct GetQuerySuggestionsInput: Swift.Sendable {
 }
 
 public struct QueryInput: Swift.Sendable {
-    /// Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results.
+    /// Filters search results by document fields/attributes. You can only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters parameters contain a list of other filters. The AttributeFilter parameter means you can create a set of filtering rules that a document must satisfy to be included in the query results. For Amazon Kendra Gen AI Enterprise Edition indices use AttributeFilter to enable document filtering for end users using _email_id or include public documents (_email_id=null).
     public var attributeFilter: KendraClientTypes.AttributeFilter?
     /// Provides configuration to determine how to group results by document attribute value, and how to display them (collapsed or expanded) under a designated primary document for each group.
     public var collapseConfiguration: KendraClientTypes.CollapseConfiguration?
@@ -13501,6 +13516,7 @@ extension KendraClientTypes.BatchDeleteDocumentResponseFailedDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KendraClientTypes.BatchDeleteDocumentResponseFailedDocument()
         value.id = try reader["Id"].readIfPresent()
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
@@ -13525,6 +13541,7 @@ extension KendraClientTypes.BatchGetDocumentStatusResponseError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KendraClientTypes.BatchGetDocumentStatusResponseError()
         value.documentId = try reader["DocumentId"].readIfPresent()
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
@@ -13550,6 +13567,7 @@ extension KendraClientTypes.BatchPutDocumentResponseFailedDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KendraClientTypes.BatchPutDocumentResponseFailedDocument()
         value.id = try reader["Id"].readIfPresent()
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value

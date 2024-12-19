@@ -3854,6 +3854,35 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    public enum DatabaseInsightsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advanced
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseInsightsMode] {
+            return [
+                .advanced,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advanced: return "advanced"
+            case .standard: return "standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     public enum ReplicaMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mounted
         case openReadOnly
@@ -3991,6 +4020,8 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var clusterScalabilityType: RDSClientTypes.ClusterScalabilityType?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
+    /// Specifies the mode of Database Insights to enable for the cluster.
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The name for your database of up to 64 alphanumeric characters. A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseName: Swift.String?
     /// The identifier for this DB cluster. This parameter is stored as a lowercase string. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
@@ -4251,6 +4282,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         characterSetName: Swift.String? = nil,
         clusterScalabilityType: RDSClientTypes.ClusterScalabilityType? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         databaseName: Swift.String? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterInstanceClass: Swift.String? = nil,
@@ -4308,6 +4340,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.characterSetName = characterSetName
         self.clusterScalabilityType = clusterScalabilityType
         self.copyTagsToSnapshot = copyTagsToSnapshot
+        self.databaseInsightsMode = databaseInsightsMode
         self.databaseName = databaseName
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterInstanceClass = dbClusterInstanceClass
@@ -4882,6 +4915,8 @@ extension RDSClientTypes {
         public var crossAccountClone: Swift.Bool?
         /// The custom endpoints associated with the DB cluster.
         public var customEndpoints: [Swift.String]?
+        /// The mode of Database Insights that is enabled for the cluster.
+        public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
         /// The name of the initial database that was specified for the DB cluster when it was created, if one was provided. This same name is returned for the life of the DB cluster.
         public var databaseName: Swift.String?
         /// The Amazon Resource Name (ARN) for the DB cluster.
@@ -5033,6 +5068,7 @@ extension RDSClientTypes {
             copyTagsToSnapshot: Swift.Bool? = nil,
             crossAccountClone: Swift.Bool? = nil,
             customEndpoints: [Swift.String]? = nil,
+            databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
             databaseName: Swift.String? = nil,
             dbClusterArn: Swift.String? = nil,
             dbClusterIdentifier: Swift.String? = nil,
@@ -5116,6 +5152,7 @@ extension RDSClientTypes {
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.crossAccountClone = crossAccountClone
             self.customEndpoints = customEndpoints
+            self.databaseInsightsMode = databaseInsightsMode
             self.databaseName = databaseName
             self.dbClusterArn = dbClusterArn
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -5755,6 +5792,8 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide.
     public var customIamInstanceProfile: Swift.String?
+    /// Specifies the mode of Database Insights to enable for the instance.
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
     public var dbClusterIdentifier: Swift.String?
     /// The compute and memory capacity of the DB instance, for example db.m5.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide.
@@ -6169,6 +6208,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         characterSetName: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
@@ -6234,6 +6274,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         self.characterSetName = characterSetName
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
+        self.databaseInsightsMode = databaseInsightsMode
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -6751,6 +6792,8 @@ extension RDSClientTypes {
         public var customIamInstanceProfile: Swift.String?
         /// Indicates whether a customer-owned IP address (CoIP) is enabled for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide. For more information about CoIPs, see [Customer-owned IP addresses](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) in the Amazon Web Services Outposts User Guide.
         public var customerOwnedIpEnabled: Swift.Bool?
+        /// The mode of Database Insights that is enabled for the instance.
+        public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
         /// If the DB instance is a member of a DB cluster, indicates the name of the DB cluster that the DB instance is a member of.
         public var dbClusterIdentifier: Swift.String?
         /// The Amazon Resource Name (ARN) for the DB instance.
@@ -6913,6 +6956,7 @@ extension RDSClientTypes {
             copyTagsToSnapshot: Swift.Bool? = nil,
             customIamInstanceProfile: Swift.String? = nil,
             customerOwnedIpEnabled: Swift.Bool? = nil,
+            databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
             dbInstanceAutomatedBackupsReplications: [RDSClientTypes.DBInstanceAutomatedBackupsReplication]? = nil,
@@ -7001,6 +7045,7 @@ extension RDSClientTypes {
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.customIamInstanceProfile = customIamInstanceProfile
             self.customerOwnedIpEnabled = customerOwnedIpEnabled
+            self.databaseInsightsMode = databaseInsightsMode
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
             self.dbInstanceAutomatedBackupsReplications = dbInstanceAutomatedBackupsReplications
@@ -7128,6 +7173,8 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom DB instances.
     public var customIamInstanceProfile: Swift.String?
+    /// Specifies the mode of Database Insights.
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
     public var dbInstanceClass: Swift.String?
     /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
@@ -7301,6 +7348,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         dbParameterGroupName: Swift.String? = nil,
@@ -7348,6 +7396,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
+        self.databaseInsightsMode = databaseInsightsMode
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbParameterGroupName = dbParameterGroupName
@@ -7556,6 +7605,7 @@ extension RDSClientTypes {
 extension RDSClientTypes {
 
     public enum ClientPasswordAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mysqlCachingSha2Password
         case mysqlNativePassword
         case postgresMd5
         case postgresScramSha256
@@ -7564,6 +7614,7 @@ extension RDSClientTypes {
 
         public static var allCases: [ClientPasswordAuthType] {
             return [
+                .mysqlCachingSha2Password,
                 .mysqlNativePassword,
                 .postgresMd5,
                 .postgresScramSha256,
@@ -7578,6 +7629,7 @@ extension RDSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .mysqlCachingSha2Password: return "MYSQL_CACHING_SHA2_PASSWORD"
             case .mysqlNativePassword: return "MYSQL_NATIVE_PASSWORD"
             case .postgresMd5: return "POSTGRES_MD5"
             case .postgresScramSha256: return "POSTGRES_SCRAM_SHA_256"
@@ -17069,6 +17121,8 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
+    /// Specifies the mode of Database Insights to enable for the cluster.
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
     /// * Must match the identifier of an existing DB cluster.
@@ -17092,7 +17146,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var domainIAMRoleName: Swift.String?
     /// Specifies whether to enable this DB cluster to forward write operations to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a secondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
     public var enableGlobalWriteForwarding: Swift.Bool?
-    /// Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora PostgreSQL Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations. Valid for Cluster Type: Aurora DB clusters only
+    /// Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see [Using RDS Data API](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html) in the Amazon Aurora User Guide. This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations. Valid for Cluster Type: Aurora DB clusters only
     public var enableHttpEndpoint: Swift.Bool?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide or [IAM database authentication for MariaDB, MySQL, and PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var enableIAMDatabaseAuthentication: Swift.Bool?
@@ -17219,6 +17273,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         caCertificateIdentifier: Swift.String? = nil,
         cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterInstanceClass: Swift.String? = nil,
         dbClusterParameterGroupName: Swift.String? = nil,
@@ -17266,6 +17321,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.caCertificateIdentifier = caCertificateIdentifier
         self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
         self.copyTagsToSnapshot = copyTagsToSnapshot
+        self.databaseInsightsMode = databaseInsightsMode
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterInstanceClass = dbClusterInstanceClass
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
@@ -17578,6 +17634,8 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags aren't copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
     public var copyTagsToSnapshot: Swift.Bool?
+    /// Specifies the mode of Database Insights to enable for the instance.
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide. For RDS Custom, see [DB instance class support for RDS Custom for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.instances) and [ DB instance class support for RDS Custom for SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html#custom-reqs-limits.instancesMS). If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request. Default: Uses existing setting Constraints:
     ///
     /// * If you are modifying the DB instance class and upgrading the engine version at the same time, the currently running engine version must be supported on the specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version, and then run it again to modify the DB instance class.
@@ -17861,6 +17919,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         certificateRotationRestart: Swift.Bool? = nil,
         cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         dbParameterGroupName: Swift.String? = nil,
@@ -17923,6 +17982,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         self.certificateRotationRestart = certificateRotationRestart
         self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
         self.copyTagsToSnapshot = copyTagsToSnapshot
+        self.databaseInsightsMode = databaseInsightsMode
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbParameterGroupName = dbParameterGroupName
@@ -20538,6 +20598,8 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
+    /// Specifies the mode of Database Insights to enable for the instance.
+    public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
     /// This member is required.
     public var dbInstanceClass: Swift.String?
@@ -20724,6 +20786,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         backupRetentionPeriod: Swift.Int? = nil,
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
+        databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         dbName: Swift.String? = nil,
@@ -20777,6 +20840,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         self.backupRetentionPeriod = backupRetentionPeriod
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
+        self.databaseInsightsMode = databaseInsightsMode
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbName = dbName
@@ -23263,6 +23327,7 @@ extension CreateDBClusterInput {
         try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
         try writer["DBSystemId"].write(value.dbSystemId)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["Domain"].write(value.domain)
@@ -23370,6 +23435,7 @@ extension CreateDBInstanceInput {
         try writer["DBSecurityGroups"].writeList(value.dbSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
         try writer["DBSystemId"].write(value.dbSystemId)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["Domain"].write(value.domain)
@@ -23435,6 +23501,7 @@ extension CreateDBInstanceReadReplicaInput {
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
         try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["Domain"].write(value.domain)
@@ -24660,6 +24727,7 @@ extension ModifyDBClusterInput {
         try writer["DBClusterInstanceClass"].write(value.dbClusterInstanceClass)
         try writer["DBClusterParameterGroupName"].write(value.dbClusterParameterGroupName)
         try writer["DBInstanceParameterGroupName"].write(value.dbInstanceParameterGroupName)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["Domain"].write(value.domain)
         try writer["DomainIAMRoleName"].write(value.domainIAMRoleName)
@@ -24753,6 +24821,7 @@ extension ModifyDBInstanceInput {
         try writer["DBPortNumber"].write(value.dbPortNumber)
         try writer["DBSecurityGroups"].writeList(value.dbSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["DisableDomain"].write(value.disableDomain)
@@ -25345,6 +25414,7 @@ extension RestoreDBInstanceFromS3Input {
         try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
         try writer["DBSecurityGroups"].writeList(value.dbSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "DBSecurityGroupName", isFlattened: false)
         try writer["DBSubnetGroupName"].write(value.dbSubnetGroupName)
+        try writer["DatabaseInsightsMode"].write(value.databaseInsightsMode)
         try writer["DedicatedLogVolume"].write(value.dedicatedLogVolume)
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -32916,6 +32986,7 @@ extension RDSClientTypes.DBCluster {
         value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent()
         value.monitoringInterval = try reader["MonitoringInterval"].readIfPresent()
         value.monitoringRoleArn = try reader["MonitoringRoleArn"].readIfPresent()
+        value.databaseInsightsMode = try reader["DatabaseInsightsMode"].readIfPresent()
         value.performanceInsightsEnabled = try reader["PerformanceInsightsEnabled"].readIfPresent()
         value.performanceInsightsKMSKeyId = try reader["PerformanceInsightsKMSKeyId"].readIfPresent()
         value.performanceInsightsRetentionPeriod = try reader["PerformanceInsightsRetentionPeriod"].readIfPresent()
@@ -33168,6 +33239,7 @@ extension RDSClientTypes.DBInstance {
         value.dbInstanceArn = try reader["DBInstanceArn"].readIfPresent()
         value.timezone = try reader["Timezone"].readIfPresent()
         value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.databaseInsightsMode = try reader["DatabaseInsightsMode"].readIfPresent()
         value.performanceInsightsEnabled = try reader["PerformanceInsightsEnabled"].readIfPresent()
         value.performanceInsightsKMSKeyId = try reader["PerformanceInsightsKMSKeyId"].readIfPresent()
         value.performanceInsightsRetentionPeriod = try reader["PerformanceInsightsRetentionPeriod"].readIfPresent()

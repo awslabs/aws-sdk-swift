@@ -2059,6 +2059,7 @@ extension AppSyncClientTypes {
 extension AppSyncClientTypes {
 
     public enum DataSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonBedrockRuntime
         case amazonDynamodb
         case amazonElasticsearch
         case amazonEventbridge
@@ -2071,6 +2072,7 @@ extension AppSyncClientTypes {
 
         public static var allCases: [DataSourceType] {
             return [
+                .amazonBedrockRuntime,
                 .amazonDynamodb,
                 .amazonElasticsearch,
                 .amazonEventbridge,
@@ -2089,6 +2091,7 @@ extension AppSyncClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .amazonBedrockRuntime: return "AMAZON_BEDROCK_RUNTIME"
             case .amazonDynamodb: return "AMAZON_DYNAMODB"
             case .amazonElasticsearch: return "AMAZON_ELASTICSEARCH"
             case .amazonEventbridge: return "AMAZON_EVENTBRIDGE"
@@ -2205,6 +2208,8 @@ extension AppSyncClientTypes {
         /// * AMAZON_OPENSEARCH_SERVICE: The data source is an Amazon OpenSearch Service domain.
         ///
         /// * AMAZON_EVENTBRIDGE: The data source is an Amazon EventBridge configuration.
+        ///
+        /// * AMAZON_BEDROCK_RUNTIME: The data source is the Amazon Bedrock runtime.
         ///
         /// * NONE: There is no data source. Use this type when you want to invoke a GraphQL operation without connecting to a data source, such as when you're performing data transformation with resolvers or invoking a subscription from a mutation.
         ///

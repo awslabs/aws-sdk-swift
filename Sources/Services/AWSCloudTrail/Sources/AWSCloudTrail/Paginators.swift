@@ -29,6 +29,7 @@ extension GetQueryResultsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetQueryResultsInput {
         return GetQueryResultsInput(
             eventDataStore: self.eventDataStore,
+            eventDataStoreOwnerAccountId: self.eventDataStoreOwnerAccountId,
             maxQueryResults: self.maxQueryResults,
             nextToken: token,
             queryId: self.queryId

@@ -431,3 +431,34 @@ extension PaginatorSequence where OperationStackInput == ListLogAnomalyDetectors
         return try await self.asyncCompactMap { item in item.anomalyDetectors }
     }
 }
+extension CloudWatchLogsClient {
+    /// Paginate over `[ListLogGroupsForQueryOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLogGroupsForQueryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLogGroupsForQueryOutput`
+    public func listLogGroupsForQueryPaginated(input: ListLogGroupsForQueryInput) -> ClientRuntime.PaginatorSequence<ListLogGroupsForQueryInput, ListLogGroupsForQueryOutput> {
+        return ClientRuntime.PaginatorSequence<ListLogGroupsForQueryInput, ListLogGroupsForQueryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listLogGroupsForQuery(input:))
+    }
+}
+
+extension ListLogGroupsForQueryInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListLogGroupsForQueryInput {
+        return ListLogGroupsForQueryInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            queryId: self.queryId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListLogGroupsForQueryInput, OperationStackOutput == ListLogGroupsForQueryOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listLogGroupsForQueryPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func logGroupIdentifiers() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.logGroupIdentifiers }
+    }
+}

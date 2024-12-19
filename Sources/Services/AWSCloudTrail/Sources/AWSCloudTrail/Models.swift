@@ -203,7 +203,7 @@ public struct ChannelNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+/// This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
 public struct CloudTrailARNInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -513,7 +513,7 @@ public struct ResourceTypeNotSupportedException: ClientRuntime.ModeledError, AWS
     }
 }
 
-/// The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
+/// The number of tags per trail, event data store, dashboard, or channel has exceeded the permitted amount. Currently, the limit is 50.
 public struct TagsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -565,7 +565,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
 extension CloudTrailClientTypes {
 
-    /// A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, or channel.
+    /// A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, dashboard, or channel.
     public struct Tag: Swift.Sendable {
         /// The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
         /// This member is required.
@@ -584,9 +584,9 @@ extension CloudTrailClientTypes {
     }
 }
 
-/// Specifies the tags to add to a trail, event data store, or channel.
+/// Specifies the tags to add to a trail, event data store, dashboard, or channel.
 public struct AddTagsInput: Swift.Sendable {
-    /// Specifies the ARN of the trail, event data store, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// Specifies the ARN of the trail, event data store, dashboard, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The format of a dashboard ARN is: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceId: Swift.String?
     /// Contains a list of tags, up to a limit of 50
@@ -617,60 +617,7 @@ extension CloudTrailClientTypes {
         public var endsWith: [Swift.String]?
         /// An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public var equals: [Swift.String]?
-        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For CloudTrail management events, supported fields include eventCategory (required), eventSource, and readOnly. The following additional fields are available for event data stores: eventName, eventType, sessionCredentialFromConsole, and userIdentity.arn. For CloudTrail data events, supported fields include eventCategory (required), resources.type (required), eventName, readOnly, and resources.ARN. The following additional fields are available for event data stores: eventSource, eventType, sessionCredentialFromConsole, and userIdentity.arn. For CloudTrail network activity events, supported fields include eventCategory (required), eventSource (required), eventName, errorCode, and vpcEndpointId. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.
-        ///
-        /// * readOnly - This is an optional field that is only used for management events and data events. This field can be set to Equals with a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.
-        ///
-        /// * eventSource - This field is only used for management events, data events (for event data stores only), and network activity events. For management events for trails, this is an optional field that can be set to NotEqualskms.amazonaws.com to exclude KMS management events, or NotEqualsrdsdata.amazonaws.com to exclude RDS management events. For management and data events for event data stores, you can use it to include or exclude any event source and can use any operator. For network activity events, this is a required field that only uses the Equals operator. Set this field to the event source for which you want to log network activity events. If you want to log network activity events for multiple event sources, you must create a separate field selector for each event source. The following are valid values for network activity events:
-        ///
-        /// * cloudtrail.amazonaws.com
-        ///
-        /// * ec2.amazonaws.com
-        ///
-        /// * kms.amazonaws.com
-        ///
-        /// * secretsmanager.amazonaws.com
-        ///
-        ///
-        ///
-        ///
-        /// * eventName - This is an optional field that is only used for data events, management events (for event data stores only), and network activity events. You can use any operator with eventName. You can use it to ﬁlter in or ﬁlter out specific events. You can have multiple values for this ﬁeld, separated by commas.
-        ///
-        /// * eventCategory - This field is required and must be set to Equals.
-        ///
-        /// * For CloudTrail management events, the value must be Management.
-        ///
-        /// * For CloudTrail data events, the value must be Data.
-        ///
-        /// * For CloudTrail network activity events, the value must be NetworkActivity.
-        ///
-        ///
-        /// The following are used only for event data stores:
-        ///
-        /// * For CloudTrail Insights events, the value must be Insight.
-        ///
-        /// * For Config configuration items, the value must be ConfigurationItem.
-        ///
-        /// * For Audit Manager evidence, the value must be Evidence.
-        ///
-        /// * For events outside of Amazon Web Services, the value must be ActivityAuditLog.
-        ///
-        ///
-        ///
-        ///
-        /// * eventType - This is an optional field available only for event data stores, which is used to filter management and data events on the event type. For information about available event types, see [CloudTrail record contents](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-record-contents.html#ct-event-type) in the CloudTrail user guide.
-        ///
-        /// * errorCode - This ﬁeld is only used to filter CloudTrail network activity events and is optional. This is the error code to filter on. Currently, the only valid errorCode is VpceAccessDenied. errorCode can only use the Equals operator.
-        ///
-        /// * sessionCredentialFromConsole - This is an optional field available only for event data stores, which is used to filter management and data events based on whether the events originated from an Amazon Web Services Management Console session. sessionCredentialFromConsole can only use the Equals and NotEquals operators.
-        ///
-        /// * resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator. For a list of available resource types for data events, see [Data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#logging-data-events) in the CloudTrail User Guide. You can have only one resources.type ﬁeld per selector. To log events on more than one resource type, add another selector.
-        ///
-        /// * resources.ARN - The resources.ARN is an optional field for data events. You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. For information about filtering data events on the resources.ARN field, see [Filtering data events by resources.ARN](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/filtering-data-events.html#filtering-data-events-resourcearn) in the CloudTrail User Guide. You can't use the resources.ARN field to filter resource types that do not have ARNs.
-        ///
-        /// * userIdentity.arn - This is an optional field available only for event data stores, which is used to filter management and data events on the userIdentity ARN. You can use any operator with userIdentity.arn. For more information on the userIdentity element, see [CloudTrail userIdentity element](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference-user-identity.html) in the CloudTrail User Guide.
-        ///
-        /// * vpcEndpointId - This ﬁeld is only used to filter CloudTrail network activity events and is optional. This field identifies the VPC endpoint that the request passed through. You can use any operator with vpcEndpointId.
+        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For more information, see [AdvancedFieldSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html) in the CloudTrailUser Guide.
         /// This member is required.
         public var field: Swift.String?
         /// An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
@@ -705,64 +652,7 @@ extension CloudTrailClientTypes {
 
 extension CloudTrailClientTypes {
 
-    /// Advanced event selectors let you create fine-grained selectors for CloudTrail management, data, and network activity events. They help you control costs by logging only those events that are important to you. For more information about configuring advanced event selectors, see the [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html), [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html), and [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html) topics in the CloudTrail User Guide. You cannot apply both event selectors and advanced event selectors to a trail. Supported CloudTrail event record fields for management events
-    ///
-    /// * eventCategory (required)
-    ///
-    /// * eventSource
-    ///
-    /// * readOnly
-    ///
-    ///
-    /// The following additional fields are available for event data stores:
-    ///
-    /// * eventName
-    ///
-    /// * eventType
-    ///
-    /// * sessionCredentialFromConsole
-    ///
-    /// * userIdentity.arn
-    ///
-    ///
-    /// Supported CloudTrail event record fields for data events
-    ///
-    /// * eventCategory (required)
-    ///
-    /// * resources.type (required)
-    ///
-    /// * readOnly
-    ///
-    /// * eventName
-    ///
-    /// * resources.ARN
-    ///
-    ///
-    /// The following additional fields are available for event data stores:
-    ///
-    /// * eventSource
-    ///
-    /// * eventType
-    ///
-    /// * sessionCredentialFromConsole
-    ///
-    /// * userIdentity.arn
-    ///
-    ///
-    /// Supported CloudTrail event record fields for network activity events Network activity events is in preview release for CloudTrail and is subject to change.
-    ///
-    /// * eventCategory (required)
-    ///
-    /// * eventSource (required)
-    ///
-    /// * eventName
-    ///
-    /// * errorCode - The only valid value for errorCode is VpceAccessDenied.
-    ///
-    /// * vpcEndpointId
-    ///
-    ///
-    /// For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.
+    /// Advanced event selectors let you create fine-grained selectors for CloudTrail management, data, and network activity events. They help you control costs by logging only those events that are important to you. For more information about configuring advanced event selectors, see the [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html), [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html), and [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html) topics in the CloudTrail User Guide. You cannot apply both event selectors and advanced event selectors to a trail. For information about configurable advanced event selector fields, see [AdvancedEventSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedEventSelector.html) in the CloudTrailUser Guide.
     public struct AdvancedEventSelector: Swift.Sendable {
         /// Contains all selector statements in an advanced event selector.
         /// This member is required.
@@ -889,16 +779,20 @@ public struct CancelQueryInput: Swift.Sendable {
     /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query is running.
     @available(*, deprecated, message: "EventDataStore is no longer required by CancelQueryRequest")
     public var eventDataStore: Swift.String?
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery operation.
     /// This member is required.
     public var queryId: Swift.String?
 
     public init(
         eventDataStore: Swift.String? = nil,
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryId: Swift.String? = nil
     )
     {
         self.eventDataStore = eventDataStore
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryId = queryId
     }
 }
@@ -945,6 +839,8 @@ extension CloudTrailClientTypes {
 }
 
 public struct CancelQueryOutput: Swift.Sendable {
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The ID of the canceled query.
     /// This member is required.
     public var queryId: Swift.String?
@@ -953,10 +849,12 @@ public struct CancelQueryOutput: Swift.Sendable {
     public var queryStatus: CloudTrailClientTypes.QueryStatus?
 
     public init(
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryId: Swift.String? = nil,
         queryStatus: CloudTrailClientTypes.QueryStatus? = nil
     )
     {
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryId = queryId
         self.queryStatus = queryStatus
     }
@@ -1238,6 +1136,331 @@ public struct CreateChannelOutput: Swift.Sendable {
     }
 }
 
+/// For the CreateTrailPutInsightSelectors, UpdateTrail, StartQuery, and StartImport operations, this exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation. For all other operations, this exception is thrown when the policy for the KMS key does not have sufficient permissions for the operation.
+public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientEncryptionPolicy" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// The query that was submitted has validation errors, or uses incorrect syntax or unsupported keywords. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
+public struct InvalidQueryStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidQueryStatement" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+/// This exception is thrown when the quota is exceeded. For information about CloudTrail quotas, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/ct.html#limits_cloudtrail) in the Amazon Web Services General Reference.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum RefreshScheduleFrequencyUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days
+        case hours
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RefreshScheduleFrequencyUnit] {
+            return [
+                .days,
+                .hours
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case .hours: return "HOURS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// Specifies the frequency for a dashboard refresh schedule. For a custom dashboard, you can schedule a refresh for every 1, 6, 12, or 24 hours, or every day.
+    public struct RefreshScheduleFrequency: Swift.Sendable {
+        /// The unit to use for the refresh. For custom dashboards, the unit can be HOURS or DAYS. For the Highlights dashboard, the Unit must be HOURS.
+        public var unit: CloudTrailClientTypes.RefreshScheduleFrequencyUnit?
+        /// The value for the refresh schedule. For custom dashboards, the following values are valid when the unit is HOURS: 1, 6, 12, 24 For custom dashboards, the only valid value when the unit is DAYS is 1. For the Highlights dashboard, the Value must be 6.
+        public var value: Swift.Int?
+
+        public init(
+            unit: CloudTrailClientTypes.RefreshScheduleFrequencyUnit? = nil,
+            value: Swift.Int? = nil
+        )
+        {
+            self.unit = unit
+            self.value = value
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum RefreshScheduleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RefreshScheduleStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// The schedule for a dashboard refresh.
+    public struct RefreshSchedule: Swift.Sendable {
+        /// The frequency at which you want the dashboard refreshed.
+        public var frequency: CloudTrailClientTypes.RefreshScheduleFrequency?
+        /// Specifies whether the refresh schedule is enabled. Set the value to ENABLED to enable the refresh schedule, or to DISABLED to turn off the refresh schedule.
+        public var status: CloudTrailClientTypes.RefreshScheduleStatus?
+        /// The time of day in UTC to run the schedule; for hourly only refer to minutes; default is 00:00.
+        public var timeOfDay: Swift.String?
+
+        public init(
+            frequency: CloudTrailClientTypes.RefreshScheduleFrequency? = nil,
+            status: CloudTrailClientTypes.RefreshScheduleStatus? = nil,
+            timeOfDay: Swift.String? = nil
+        )
+        {
+            self.frequency = frequency
+            self.status = status
+            self.timeOfDay = timeOfDay
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// Contains information about a widget on a CloudTrail Lake dashboard.
+    public struct RequestWidget: Swift.Sendable {
+        /// The optional query parameters. The following query parameters are valid: $StartTime$, $EndTime$, and $Period$.
+        public var queryParameters: [Swift.String]?
+        /// The query statement for the widget. For custom dashboard widgets, you can query across multiple event data stores as long as all event data stores exist in your account. When a query uses ? with eventTime, ? must be surrounded by single quotes as follows: '?'.
+        /// This member is required.
+        public var queryStatement: Swift.String?
+        /// The view properties for the widget. For more information about view properties, see [ View properties for widgets ](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-widget-properties.html) in the CloudTrail User Guide.
+        /// This member is required.
+        public var viewProperties: [Swift.String: Swift.String]?
+
+        public init(
+            queryParameters: [Swift.String]? = nil,
+            queryStatement: Swift.String? = nil,
+            viewProperties: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.queryParameters = queryParameters
+            self.queryStatement = queryStatement
+            self.viewProperties = viewProperties
+        }
+    }
+}
+
+public struct CreateDashboardInput: Swift.Sendable {
+    /// The name of the dashboard. The name must be unique to your account. To create the Highlights dashboard, the name must be AWSCloudTrail-Highlights.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The refresh schedule configuration for the dashboard. To create the Highlights dashboard, you must set a refresh schedule and set the Status to ENABLED. The Unit for the refresh schedule must be HOURS and the Value must be 6.
+    public var refreshSchedule: CloudTrailClientTypes.RefreshSchedule?
+    /// A list of tags.
+    public var tagsList: [CloudTrailClientTypes.Tag]?
+    /// Specifies whether termination protection is enabled for the dashboard. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+    public var terminationProtectionEnabled: Swift.Bool?
+    /// An array of widgets for a custom dashboard. A custom dashboard can have a maximum of ten widgets. You do not need to specify widgets for the Highlights dashboard.
+    public var widgets: [CloudTrailClientTypes.RequestWidget]?
+
+    public init(
+        name: Swift.String? = nil,
+        refreshSchedule: CloudTrailClientTypes.RefreshSchedule? = nil,
+        tagsList: [CloudTrailClientTypes.Tag]? = nil,
+        terminationProtectionEnabled: Swift.Bool? = nil,
+        widgets: [CloudTrailClientTypes.RequestWidget]? = nil
+    )
+    {
+        self.name = name
+        self.refreshSchedule = refreshSchedule
+        self.tagsList = tagsList
+        self.terminationProtectionEnabled = terminationProtectionEnabled
+        self.widgets = widgets
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum DashboardType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case managed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashboardType] {
+            return [
+                .custom,
+                .managed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .managed: return "MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// A widget on a CloudTrail Lake dashboard.
+    public struct Widget: Swift.Sendable {
+        /// The query alias used to identify the query for the widget.
+        public var queryAlias: Swift.String?
+        /// The query parameters for the widget.
+        public var queryParameters: [Swift.String]?
+        /// The SQL query statement for the widget.
+        public var queryStatement: Swift.String?
+        /// The view properties for the widget. For more information about view properties, see [ View properties for widgets ](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-widget-properties.html) in the CloudTrail User Guide..
+        public var viewProperties: [Swift.String: Swift.String]?
+
+        public init(
+            queryAlias: Swift.String? = nil,
+            queryParameters: [Swift.String]? = nil,
+            queryStatement: Swift.String? = nil,
+            viewProperties: [Swift.String: Swift.String]? = nil
+        )
+        {
+            self.queryAlias = queryAlias
+            self.queryParameters = queryParameters
+            self.queryStatement = queryStatement
+            self.viewProperties = viewProperties
+        }
+    }
+}
+
+public struct CreateDashboardOutput: Swift.Sendable {
+    /// The ARN for the dashboard.
+    public var dashboardArn: Swift.String?
+    /// The name of the dashboard.
+    public var name: Swift.String?
+    /// The refresh schedule for the dashboard, if configured.
+    public var refreshSchedule: CloudTrailClientTypes.RefreshSchedule?
+    /// A list of tags.
+    public var tagsList: [CloudTrailClientTypes.Tag]?
+    /// Indicates whether termination protection is enabled for the dashboard.
+    public var terminationProtectionEnabled: Swift.Bool?
+    /// The dashboard type.
+    public var type: CloudTrailClientTypes.DashboardType?
+    /// An array of widgets for the dashboard.
+    public var widgets: [CloudTrailClientTypes.Widget]?
+
+    public init(
+        dashboardArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        refreshSchedule: CloudTrailClientTypes.RefreshSchedule? = nil,
+        tagsList: [CloudTrailClientTypes.Tag]? = nil,
+        terminationProtectionEnabled: Swift.Bool? = nil,
+        type: CloudTrailClientTypes.DashboardType? = nil,
+        widgets: [CloudTrailClientTypes.Widget]? = nil
+    )
+    {
+        self.dashboardArn = dashboardArn
+        self.name = name
+        self.refreshSchedule = refreshSchedule
+        self.tagsList = tagsList
+        self.terminationProtectionEnabled = terminationProtectionEnabled
+        self.type = type
+        self.widgets = widgets
+    }
+}
+
 /// This exception is thrown when trusted access has not been enabled between CloudTrail and Organizations. For more information, see [How to enable or disable trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_how-to-enable-disable-trusted-access) in the Organizations User Guide and [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) in the CloudTrail User Guide.
 public struct CloudTrailAccessNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -1323,31 +1546,6 @@ public struct InsufficientDependencyServiceAccessPermissionException: ClientRunt
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InsufficientDependencyServiceAccessPermission" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
-/// This exception is thrown when the policy on the S3 bucket or KMS key does not have sufficient permissions for the operation.
-public struct InsufficientEncryptionPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// Brief description of the exception returned by the request.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InsufficientEncryptionPolicy" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -2244,6 +2442,24 @@ public struct DeleteChannelOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteDashboardInput: Swift.Sendable {
+    /// The name or ARN for the dashboard.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+
+    public init(
+        dashboardId: Swift.String? = nil
+    )
+    {
+        self.dashboardId = dashboardId
+    }
+}
+
+public struct DeleteDashboardOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// You cannot delete the event data store because Lake query federation is enabled. To delete the event data store, run the DisableFederation operation to disable Lake query federation on the event data store.
 public struct EventDataStoreFederationEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -2337,7 +2553,7 @@ public struct DeleteEventDataStoreOutput: Swift.Sendable {
     public init() { }
 }
 
-/// This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the valid format for a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+/// This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a dashboard ARN: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
 public struct ResourceARNNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2388,7 +2604,7 @@ public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct DeleteResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the CloudTrail channel you're deleting the resource-based policy from. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel you're deleting the resource-based policy from. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -2524,20 +2740,28 @@ public struct DescribeQueryInput: Swift.Sendable {
     /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run.
     @available(*, deprecated, message: "EventDataStore is no longer required by DescribeQueryRequest")
     public var eventDataStore: Swift.String?
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The alias that identifies a query template.
     public var queryAlias: Swift.String?
     /// The query ID.
     public var queryId: Swift.String?
+    /// The ID of the dashboard refresh.
+    public var refreshId: Swift.String?
 
     public init(
         eventDataStore: Swift.String? = nil,
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryAlias: Swift.String? = nil,
-        queryId: Swift.String? = nil
+        queryId: Swift.String? = nil,
+        refreshId: Swift.String? = nil
     )
     {
         self.eventDataStore = eventDataStore
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryAlias = queryAlias
         self.queryId = queryId
+        self.refreshId = refreshId
     }
 }
 
@@ -2630,6 +2854,8 @@ public struct DescribeQueryOutput: Swift.Sendable {
     public var deliveryStatus: CloudTrailClientTypes.DeliveryStatus?
     /// The error message returned if a query failed.
     public var errorMessage: Swift.String?
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The prompt used for a generated query. For information about generated queries, see [Create CloudTrail Lake queries from natural language prompts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/lake-query-generator.html) in the CloudTrail user guide.
     public var prompt: Swift.String?
     /// The ID of the query.
@@ -2645,6 +2871,7 @@ public struct DescribeQueryOutput: Swift.Sendable {
         deliveryS3Uri: Swift.String? = nil,
         deliveryStatus: CloudTrailClientTypes.DeliveryStatus? = nil,
         errorMessage: Swift.String? = nil,
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         prompt: Swift.String? = nil,
         queryId: Swift.String? = nil,
         queryStatistics: CloudTrailClientTypes.QueryStatisticsForDescribeQuery? = nil,
@@ -2655,6 +2882,7 @@ public struct DescribeQueryOutput: Swift.Sendable {
         self.deliveryS3Uri = deliveryS3Uri
         self.deliveryStatus = deliveryStatus
         self.errorMessage = errorMessage
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.prompt = prompt
         self.queryId = queryId
         self.queryStatistics = queryStatistics
@@ -2948,16 +3176,20 @@ public struct GenerateQueryInput: Swift.Sendable {
 }
 
 public struct GenerateQueryOutput: Swift.Sendable {
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// An alias that identifies the prompt. When you run the StartQuery operation, you can pass in either the QueryAlias or QueryStatement parameter.
     public var queryAlias: Swift.String?
     /// The SQL query statement generated from the prompt.
     public var queryStatement: Swift.String?
 
     public init(
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryAlias: Swift.String? = nil,
         queryStatement: Swift.String? = nil
     )
     {
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryAlias = queryAlias
         self.queryStatement = queryStatement
     }
@@ -3057,6 +3289,105 @@ public struct GetChannelOutput: Swift.Sendable {
         self.name = name
         self.source = source
         self.sourceConfig = sourceConfig
+    }
+}
+
+public struct GetDashboardInput: Swift.Sendable {
+    /// The name or ARN for the dashboard.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+
+    public init(
+        dashboardId: Swift.String? = nil
+    )
+    {
+        self.dashboardId = dashboardId
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum DashboardStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case creating
+        case deleting
+        case updated
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashboardStatus] {
+            return [
+                .created,
+                .creating,
+                .deleting,
+                .updated,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .updated: return "UPDATED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDashboardOutput: Swift.Sendable {
+    /// The timestamp that shows when the dashboard was created.
+    public var createdTimestamp: Foundation.Date?
+    /// The ARN for the dashboard.
+    public var dashboardArn: Swift.String?
+    /// Provides information about failures for the last scheduled refresh.
+    public var lastRefreshFailureReason: Swift.String?
+    /// The ID of the last dashboard refresh.
+    public var lastRefreshId: Swift.String?
+    /// The refresh schedule for the dashboard, if configured.
+    public var refreshSchedule: CloudTrailClientTypes.RefreshSchedule?
+    /// The status of the dashboard.
+    public var status: CloudTrailClientTypes.DashboardStatus?
+    /// Indicates whether termination protection is enabled for the dashboard.
+    public var terminationProtectionEnabled: Swift.Bool?
+    /// The type of dashboard.
+    public var type: CloudTrailClientTypes.DashboardType?
+    /// The timestamp that shows when the dashboard was last updated.
+    public var updatedTimestamp: Foundation.Date?
+    /// An array of widgets for the dashboard.
+    public var widgets: [CloudTrailClientTypes.Widget]?
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        dashboardArn: Swift.String? = nil,
+        lastRefreshFailureReason: Swift.String? = nil,
+        lastRefreshId: Swift.String? = nil,
+        refreshSchedule: CloudTrailClientTypes.RefreshSchedule? = nil,
+        status: CloudTrailClientTypes.DashboardStatus? = nil,
+        terminationProtectionEnabled: Swift.Bool? = nil,
+        type: CloudTrailClientTypes.DashboardType? = nil,
+        updatedTimestamp: Foundation.Date? = nil,
+        widgets: [CloudTrailClientTypes.Widget]? = nil
+    )
+    {
+        self.createdTimestamp = createdTimestamp
+        self.dashboardArn = dashboardArn
+        self.lastRefreshFailureReason = lastRefreshFailureReason
+        self.lastRefreshId = lastRefreshId
+        self.refreshSchedule = refreshSchedule
+        self.status = status
+        self.terminationProtectionEnabled = terminationProtectionEnabled
+        self.type = type
+        self.updatedTimestamp = updatedTimestamp
+        self.widgets = widgets
     }
 }
 
@@ -3709,6 +4040,8 @@ public struct GetQueryResultsInput: Swift.Sendable {
     /// The ARN (or ID suffix of the ARN) of the event data store against which the query was run.
     @available(*, deprecated, message: "EventDataStore is no longer required by GetQueryResultsRequest")
     public var eventDataStore: Swift.String?
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The maximum number of query results to display on a single page.
     public var maxQueryResults: Swift.Int?
     /// A token you can use to get the next page of query results.
@@ -3719,12 +4052,14 @@ public struct GetQueryResultsInput: Swift.Sendable {
 
     public init(
         eventDataStore: Swift.String? = nil,
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         maxQueryResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queryId: Swift.String? = nil
     )
     {
         self.eventDataStore = eventDataStore
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.maxQueryResults = maxQueryResults
         self.nextToken = nextToken
         self.queryId = queryId
@@ -3784,7 +4119,7 @@ public struct GetQueryResultsOutput: Swift.Sendable {
 }
 
 public struct GetResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -3797,16 +4132,20 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 }
 
 public struct GetResourcePolicyOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to resource-based policy.
+    /// The default resource-based policy that is automatically generated for the delegated administrator of an Organizations organization. This policy will be evaluated in tandem with any policy you submit for the resource. For more information about this policy, see [Default resource policy for delegated administrators](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-organizations.html#cloudtrail-lake-organizations-eds-rbp).
+    public var delegatedAdminResourcePolicy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     public var resourceArn: Swift.String?
-    /// A JSON-formatted string that contains the resource-based policy attached to the CloudTrail channel.
+    /// A JSON-formatted string that contains the resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
     public var resourcePolicy: Swift.String?
 
     public init(
+        delegatedAdminResourcePolicy: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
     )
     {
+        self.delegatedAdminResourcePolicy = delegatedAdminResourcePolicy
         self.resourceArn = resourceArn
         self.resourcePolicy = resourcePolicy
     }
@@ -3839,7 +4178,7 @@ public struct GetTrailOutput: Swift.Sendable {
 
 /// The name of a trail about which you want the current status.
 public struct GetTrailStatusInput: Swift.Sendable {
-    /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+    /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail If the trail is an organization trail and you are a member account in the organization in Organizations, you must provide the full ARN of that trail, and not just the name.
     /// This member is required.
     public var name: Swift.String?
 
@@ -3956,6 +4295,66 @@ public struct ListChannelsOutput: Swift.Sendable {
     )
     {
         self.channels = channels
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDashboardsInput: Swift.Sendable {
+    /// The maximum number of dashboards to display on a single page.
+    public var maxResults: Swift.Int?
+    /// Specify a name prefix to filter on.
+    public var namePrefix: Swift.String?
+    /// A token you can use to get the next page of dashboard results.
+    public var nextToken: Swift.String?
+    /// Specify a dashboard type to filter on: CUSTOM or MANAGED.
+    public var type: CloudTrailClientTypes.DashboardType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        namePrefix: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        type: CloudTrailClientTypes.DashboardType? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.namePrefix = namePrefix
+        self.nextToken = nextToken
+        self.type = type
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// Provides information about a CloudTrail Lake dashboard.
+    public struct DashboardDetail: Swift.Sendable {
+        /// The ARN for the dashboard.
+        public var dashboardArn: Swift.String?
+        /// The type of dashboard.
+        public var type: CloudTrailClientTypes.DashboardType?
+
+        public init(
+            dashboardArn: Swift.String? = nil,
+            type: CloudTrailClientTypes.DashboardType? = nil
+        )
+        {
+            self.dashboardArn = dashboardArn
+            self.type = type
+        }
+    }
+}
+
+public struct ListDashboardsOutput: Swift.Sendable {
+    /// Contains information about dashboards in the account, in the current Region that match the applied filters.
+    public var dashboards: [CloudTrailClientTypes.DashboardDetail]?
+    /// A token you can use to get the next page of dashboard results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dashboards: [CloudTrailClientTypes.DashboardDetail]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.dashboards = dashboards
         self.nextToken = nextToken
     }
 }
@@ -4255,7 +4654,7 @@ extension CloudTrailClientTypes {
 }
 
 public struct ListInsightsMetricDataInput: Swift.Sendable {
-    /// Type of datapoints to return. Valid values are NonZeroData and FillWithZeros. The default is NonZeroData.
+    /// Type of data points to return. Valid values are NonZeroData and FillWithZeros. The default is NonZeroData.
     public var dataType: CloudTrailClientTypes.InsightsMetricDataType?
     /// Specifies, in UTC, the end time for time-series data. The value specified is exclusive; results include data points up to the specified time stamp. The default is the time of request.
     public var endTime: Foundation.Date?
@@ -4270,7 +4669,7 @@ public struct ListInsightsMetricDataInput: Swift.Sendable {
     /// The type of CloudTrail Insights event, which is either ApiCallRateInsight or ApiErrorRateInsight. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes.
     /// This member is required.
     public var insightType: CloudTrailClientTypes.InsightType?
-    /// The maximum number of datapoints to return. Valid values are integers from 1 to 21600. The default value is 21600.
+    /// The maximum number of data points to return. Valid values are integers from 1 to 21600. The default value is 21600.
     public var maxResults: Swift.Int?
     /// Returned if all datapoints can't be returned in a single call. For example, due to reaching MaxResults. Add this parameter to the request to continue retrieving results starting from the last evaluated point.
     public var nextToken: Swift.String?
@@ -4584,7 +4983,7 @@ public struct ListQueriesOutput: Swift.Sendable {
 public struct ListTagsInput: Swift.Sendable {
     /// Reserved for future use.
     public var nextToken: Swift.String?
-    /// Specifies a list of trail, event data store, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// Specifies a list of trail, event data store, dashboard, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceIdList: [Swift.String]?
 
@@ -5087,13 +5486,7 @@ public struct PutInsightSelectorsOutput: Swift.Sendable {
     }
 }
 
-/// This exception is thrown when the resouce-based policy has syntax errors, or contains a principal that is not valid. The following are requirements for the resource policy:
-///
-/// * Contains only one action: cloudtrail-data:PutAuditEvents
-///
-/// * Contains at least one statement. The policy can have a maximum of 20 statements.
-///
-/// * Each statement contains at least one principal. A statement can have a maximum of 50 principals.
+/// This exception is thrown when the resouce-based policy has syntax errors, or contains a principal that is not valid.
 public struct ResourcePolicyNotValidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -5119,16 +5512,10 @@ public struct ResourcePolicyNotValidException: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct PutResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A JSON-formatted string for an Amazon Web Services resource-based policy. The following are requirements for the resource policy:
-    ///
-    /// * Contains only one action: cloudtrail-data:PutAuditEvents
-    ///
-    /// * Contains at least one statement. The policy can have a maximum of 20 statements.
-    ///
-    /// * Each statement contains at least one principal. A statement can have a maximum of 50 principals.
+    /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example resource-based policies, see [CloudTrail resource-based policy examples](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/security_iam_resource-based-policy-examples.html) in the CloudTrail User Guide.
     /// This member is required.
     public var resourcePolicy: Swift.String?
 
@@ -5143,16 +5530,20 @@ public struct PutResourcePolicyInput: Swift.Sendable {
 }
 
 public struct PutResourcePolicyOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.
+    /// The default resource-based policy that is automatically generated for the delegated administrator of an Organizations organization. This policy will be evaluated in tandem with any policy you submit for the resource. For more information about this policy, see [Default resource policy for delegated administrators](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-lake-organizations.html#cloudtrail-lake-organizations-eds-rbp).
+    public var delegatedAdminResourcePolicy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the CloudTrail event data store, dashboard, or channel attached to the resource-based policy. Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     public var resourceArn: Swift.String?
-    /// The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail channel.
+    /// The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail event data store, dashboard, or channel.
     public var resourcePolicy: Swift.String?
 
     public init(
+        delegatedAdminResourcePolicy: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
     )
     {
+        self.delegatedAdminResourcePolicy = delegatedAdminResourcePolicy
         self.resourceArn = resourceArn
         self.resourcePolicy = resourcePolicy
     }
@@ -5203,9 +5594,9 @@ public struct RegisterOrganizationDelegatedAdminOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Specifies the tags to remove from a trail, event data store, or channel.
+/// Specifies the tags to remove from a trail, event data store, dashboard, or channel.
 public struct RemoveTagsInput: Swift.Sendable {
-    /// Specifies the ARN of the trail, event data store, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+    /// Specifies the ARN of the trail, event data store, dashboard, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example dashboard ARN format: arn:aws:cloudtrail:us-east-1:123456789012:dashboard/exampleDash Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceId: Swift.String?
     /// Specifies a list of tags to be removed.
@@ -5319,6 +5710,35 @@ public struct RestoreEventDataStoreOutput: Swift.Sendable {
         self.status = status
         self.terminationProtectionEnabled = terminationProtectionEnabled
         self.updatedTimestamp = updatedTimestamp
+    }
+}
+
+public struct StartDashboardRefreshInput: Swift.Sendable {
+    /// The name or ARN of the dashboard.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// The query parameter values for the dashboard For custom dashboards, the following query parameters are valid: $StartTime$, $EndTime$, and $Period$. For managed dashboards, the following query parameters are valid: $StartTime$, $EndTime$, $Period$, and $EventDataStoreId$. The $EventDataStoreId$ query parameter is required.
+    public var queryParameterValues: [Swift.String: Swift.String]?
+
+    public init(
+        dashboardId: Swift.String? = nil,
+        queryParameterValues: [Swift.String: Swift.String]? = nil
+    )
+    {
+        self.dashboardId = dashboardId
+        self.queryParameterValues = queryParameterValues
+    }
+}
+
+public struct StartDashboardRefreshOutput: Swift.Sendable {
+    /// The refresh ID for the dashboard.
+    public var refreshId: Swift.String?
+
+    public init(
+        refreshId: Swift.String? = nil
+    )
+    {
+        self.refreshId = refreshId
     }
 }
 
@@ -5453,31 +5873,6 @@ public struct StartLoggingOutput: Swift.Sendable {
     public init() { }
 }
 
-/// The query that was submitted has validation errors, or uses incorrect syntax or unsupported keywords. For more information about writing a query, see [Create or edit a query](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-create-edit-query.html) in the CloudTrail User Guide.
-public struct InvalidQueryStatementException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        /// Brief description of the exception returned by the request.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidQueryStatement" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    )
-    {
-        self.properties.message = message
-    }
-}
-
 /// You are already running the maximum number of concurrent queries. The maximum number of concurrent queries is 10. Wait a minute for some queries to finish, and then run the query again.
 public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -5506,6 +5901,8 @@ public struct MaxConcurrentQueriesException: ClientRuntime.ModeledError, AWSClie
 public struct StartQueryInput: Swift.Sendable {
     /// The URI for the S3 bucket where CloudTrail delivers the query results.
     public var deliveryS3Uri: Swift.String?
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The alias that identifies a query template.
     public var queryAlias: Swift.String?
     /// The query parameters for the specified QueryAlias.
@@ -5515,12 +5912,14 @@ public struct StartQueryInput: Swift.Sendable {
 
     public init(
         deliveryS3Uri: Swift.String? = nil,
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryAlias: Swift.String? = nil,
         queryParameters: [Swift.String]? = nil,
         queryStatement: Swift.String? = nil
     )
     {
         self.deliveryS3Uri = deliveryS3Uri
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryAlias = queryAlias
         self.queryParameters = queryParameters
         self.queryStatement = queryStatement
@@ -5528,13 +5927,17 @@ public struct StartQueryInput: Swift.Sendable {
 }
 
 public struct StartQueryOutput: Swift.Sendable {
+    /// The account ID of the event data store owner.
+    public var eventDataStoreOwnerAccountId: Swift.String?
     /// The ID of the started query.
     public var queryId: Swift.String?
 
     public init(
+        eventDataStoreOwnerAccountId: Swift.String? = nil,
         queryId: Swift.String? = nil
     )
     {
+        self.eventDataStoreOwnerAccountId = eventDataStoreOwnerAccountId
         self.queryId = queryId
     }
 }
@@ -5676,6 +6079,71 @@ public struct UpdateChannelOutput: Swift.Sendable {
         self.destinations = destinations
         self.name = name
         self.source = source
+    }
+}
+
+public struct UpdateDashboardInput: Swift.Sendable {
+    /// The name or ARN of the dashboard.
+    /// This member is required.
+    public var dashboardId: Swift.String?
+    /// The refresh schedule configuration for the dashboard.
+    public var refreshSchedule: CloudTrailClientTypes.RefreshSchedule?
+    /// Specifies whether termination protection is enabled for the dashboard. If termination protection is enabled, you cannot delete the dashboard until termination protection is disabled.
+    public var terminationProtectionEnabled: Swift.Bool?
+    /// An array of widgets for the dashboard. A custom dashboard can have a maximum of 10 widgets. To add new widgets, pass in an array that includes the existing widgets along with any new widgets. Run the GetDashboard operation to get the list of widgets for the dashboard. To remove widgets, pass in an array that includes the existing widgets minus the widgets you want removed.
+    public var widgets: [CloudTrailClientTypes.RequestWidget]?
+
+    public init(
+        dashboardId: Swift.String? = nil,
+        refreshSchedule: CloudTrailClientTypes.RefreshSchedule? = nil,
+        terminationProtectionEnabled: Swift.Bool? = nil,
+        widgets: [CloudTrailClientTypes.RequestWidget]? = nil
+    )
+    {
+        self.dashboardId = dashboardId
+        self.refreshSchedule = refreshSchedule
+        self.terminationProtectionEnabled = terminationProtectionEnabled
+        self.widgets = widgets
+    }
+}
+
+public struct UpdateDashboardOutput: Swift.Sendable {
+    /// The timestamp that shows when the dashboard was created.
+    public var createdTimestamp: Foundation.Date?
+    /// The ARN for the dashboard.
+    public var dashboardArn: Swift.String?
+    /// The name for the dashboard.
+    public var name: Swift.String?
+    /// The refresh schedule for the dashboard, if configured.
+    public var refreshSchedule: CloudTrailClientTypes.RefreshSchedule?
+    /// Indicates whether termination protection is enabled for the dashboard.
+    public var terminationProtectionEnabled: Swift.Bool?
+    /// The type of dashboard.
+    public var type: CloudTrailClientTypes.DashboardType?
+    /// The timestamp that shows when the dashboard was updated.
+    public var updatedTimestamp: Foundation.Date?
+    /// An array of widgets for the dashboard.
+    public var widgets: [CloudTrailClientTypes.Widget]?
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        dashboardArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        refreshSchedule: CloudTrailClientTypes.RefreshSchedule? = nil,
+        terminationProtectionEnabled: Swift.Bool? = nil,
+        type: CloudTrailClientTypes.DashboardType? = nil,
+        updatedTimestamp: Foundation.Date? = nil,
+        widgets: [CloudTrailClientTypes.Widget]? = nil
+    )
+    {
+        self.createdTimestamp = createdTimestamp
+        self.dashboardArn = dashboardArn
+        self.name = name
+        self.refreshSchedule = refreshSchedule
+        self.terminationProtectionEnabled = terminationProtectionEnabled
+        self.type = type
+        self.updatedTimestamp = updatedTimestamp
+        self.widgets = widgets
     }
 }
 
@@ -5961,6 +6429,13 @@ extension CreateChannelInput {
     }
 }
 
+extension CreateDashboardInput {
+
+    static func urlPathProvider(_ value: CreateDashboardInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateEventDataStoreInput {
 
     static func urlPathProvider(_ value: CreateEventDataStoreInput) -> Swift.String? {
@@ -5978,6 +6453,13 @@ extension CreateTrailInput {
 extension DeleteChannelInput {
 
     static func urlPathProvider(_ value: DeleteChannelInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteDashboardInput {
+
+    static func urlPathProvider(_ value: DeleteDashboardInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6052,6 +6534,13 @@ extension GetChannelInput {
     }
 }
 
+extension GetDashboardInput {
+
+    static func urlPathProvider(_ value: GetDashboardInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetEventDataStoreInput {
 
     static func urlPathProvider(_ value: GetEventDataStoreInput) -> Swift.String? {
@@ -6111,6 +6600,13 @@ extension GetTrailStatusInput {
 extension ListChannelsInput {
 
     static func urlPathProvider(_ value: ListChannelsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListDashboardsInput {
+
+    static func urlPathProvider(_ value: ListDashboardsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6220,6 +6716,13 @@ extension RestoreEventDataStoreInput {
     }
 }
 
+extension StartDashboardRefreshInput {
+
+    static func urlPathProvider(_ value: StartDashboardRefreshInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartEventDataStoreIngestionInput {
 
     static func urlPathProvider(_ value: StartEventDataStoreIngestionInput) -> Swift.String? {
@@ -6276,6 +6779,13 @@ extension UpdateChannelInput {
     }
 }
 
+extension UpdateDashboardInput {
+
+    static func urlPathProvider(_ value: UpdateDashboardInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateEventDataStoreInput {
 
     static func urlPathProvider(_ value: UpdateEventDataStoreInput) -> Swift.String? {
@@ -6304,6 +6814,7 @@ extension CancelQueryInput {
     static func write(value: CancelQueryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EventDataStore"].write(value.eventDataStore)
+        try writer["EventDataStoreOwnerAccountId"].write(value.eventDataStoreOwnerAccountId)
         try writer["QueryId"].write(value.queryId)
     }
 }
@@ -6316,6 +6827,18 @@ extension CreateChannelInput {
         try writer["Name"].write(value.name)
         try writer["Source"].write(value.source)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: CloudTrailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateDashboardInput {
+
+    static func write(value: CreateDashboardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["RefreshSchedule"].write(value.refreshSchedule, with: CloudTrailClientTypes.RefreshSchedule.write(value:to:))
+        try writer["TagsList"].writeList(value.tagsList, memberWritingClosure: CloudTrailClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TerminationProtectionEnabled"].write(value.terminationProtectionEnabled)
+        try writer["Widgets"].writeList(value.widgets, memberWritingClosure: CloudTrailClientTypes.RequestWidget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6363,6 +6886,14 @@ extension DeleteChannelInput {
     }
 }
 
+extension DeleteDashboardInput {
+
+    static func write(value: DeleteDashboardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardId"].write(value.dashboardId)
+    }
+}
+
 extension DeleteEventDataStoreInput {
 
     static func write(value: DeleteEventDataStoreInput?, to writer: SmithyJSON.Writer) throws {
@@ -6400,8 +6931,10 @@ extension DescribeQueryInput {
     static func write(value: DescribeQueryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EventDataStore"].write(value.eventDataStore)
+        try writer["EventDataStoreOwnerAccountId"].write(value.eventDataStoreOwnerAccountId)
         try writer["QueryAlias"].write(value.queryAlias)
         try writer["QueryId"].write(value.queryId)
+        try writer["RefreshId"].write(value.refreshId)
     }
 }
 
@@ -6448,6 +6981,14 @@ extension GetChannelInput {
     }
 }
 
+extension GetDashboardInput {
+
+    static func write(value: GetDashboardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardId"].write(value.dashboardId)
+    }
+}
+
 extension GetEventDataStoreInput {
 
     static func write(value: GetEventDataStoreInput?, to writer: SmithyJSON.Writer) throws {
@@ -6486,6 +7027,7 @@ extension GetQueryResultsInput {
     static func write(value: GetQueryResultsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EventDataStore"].write(value.eventDataStore)
+        try writer["EventDataStoreOwnerAccountId"].write(value.eventDataStoreOwnerAccountId)
         try writer["MaxQueryResults"].write(value.maxQueryResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["QueryId"].write(value.queryId)
@@ -6522,6 +7064,17 @@ extension ListChannelsInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListDashboardsInput {
+
+    static func write(value: ListDashboardsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NamePrefix"].write(value.namePrefix)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -6680,6 +7233,15 @@ extension RestoreEventDataStoreInput {
     }
 }
 
+extension StartDashboardRefreshInput {
+
+    static func write(value: StartDashboardRefreshInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardId"].write(value.dashboardId)
+        try writer["QueryParameterValues"].writeMap(value.queryParameterValues, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension StartEventDataStoreIngestionInput {
 
     static func write(value: StartEventDataStoreIngestionInput?, to writer: SmithyJSON.Writer) throws {
@@ -6713,6 +7275,7 @@ extension StartQueryInput {
     static func write(value: StartQueryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeliveryS3Uri"].write(value.deliveryS3Uri)
+        try writer["EventDataStoreOwnerAccountId"].write(value.eventDataStoreOwnerAccountId)
         try writer["QueryAlias"].write(value.queryAlias)
         try writer["QueryParameters"].writeList(value.queryParameters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["QueryStatement"].write(value.queryStatement)
@@ -6750,6 +7313,17 @@ extension UpdateChannelInput {
         try writer["Channel"].write(value.channel)
         try writer["Destinations"].writeList(value.destinations, memberWritingClosure: CloudTrailClientTypes.Destination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension UpdateDashboardInput {
+
+    static func write(value: UpdateDashboardInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardId"].write(value.dashboardId)
+        try writer["RefreshSchedule"].write(value.refreshSchedule, with: CloudTrailClientTypes.RefreshSchedule.write(value:to:))
+        try writer["TerminationProtectionEnabled"].write(value.terminationProtectionEnabled)
+        try writer["Widgets"].writeList(value.widgets, memberWritingClosure: CloudTrailClientTypes.RequestWidget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6801,6 +7375,7 @@ extension CancelQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CancelQueryOutput()
+        value.eventDataStoreOwnerAccountId = try reader["EventDataStoreOwnerAccountId"].readIfPresent()
         value.queryId = try reader["QueryId"].readIfPresent() ?? ""
         value.queryStatus = try reader["QueryStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
@@ -6819,6 +7394,24 @@ extension CreateChannelOutput {
         value.name = try reader["Name"].readIfPresent()
         value.source = try reader["Source"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDashboardOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDashboardOutput()
+        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.refreshSchedule = try reader["RefreshSchedule"].readIfPresent(with: CloudTrailClientTypes.RefreshSchedule.read(from:))
+        value.tagsList = try reader["TagsList"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.terminationProtectionEnabled = try reader["TerminationProtectionEnabled"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.widgets = try reader["Widgets"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Widget.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6878,6 +7471,13 @@ extension DeleteChannelOutput {
     }
 }
 
+extension DeleteDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDashboardOutput {
+        return DeleteDashboardOutput()
+    }
+}
+
 extension DeleteEventDataStoreOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEventDataStoreOutput {
@@ -6916,6 +7516,7 @@ extension DescribeQueryOutput {
         value.deliveryS3Uri = try reader["DeliveryS3Uri"].readIfPresent()
         value.deliveryStatus = try reader["DeliveryStatus"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.eventDataStoreOwnerAccountId = try reader["EventDataStoreOwnerAccountId"].readIfPresent()
         value.prompt = try reader["Prompt"].readIfPresent()
         value.queryId = try reader["QueryId"].readIfPresent()
         value.queryStatistics = try reader["QueryStatistics"].readIfPresent(with: CloudTrailClientTypes.QueryStatisticsForDescribeQuery.read(from:))
@@ -6971,6 +7572,7 @@ extension GenerateQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GenerateQueryOutput()
+        value.eventDataStoreOwnerAccountId = try reader["EventDataStoreOwnerAccountId"].readIfPresent()
         value.queryAlias = try reader["QueryAlias"].readIfPresent()
         value.queryStatement = try reader["QueryStatement"].readIfPresent()
         return value
@@ -6990,6 +7592,27 @@ extension GetChannelOutput {
         value.name = try reader["Name"].readIfPresent()
         value.source = try reader["Source"].readIfPresent()
         value.sourceConfig = try reader["SourceConfig"].readIfPresent(with: CloudTrailClientTypes.SourceConfig.read(from:))
+        return value
+    }
+}
+
+extension GetDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDashboardOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDashboardOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
+        value.lastRefreshFailureReason = try reader["LastRefreshFailureReason"].readIfPresent()
+        value.lastRefreshId = try reader["LastRefreshId"].readIfPresent()
+        value.refreshSchedule = try reader["RefreshSchedule"].readIfPresent(with: CloudTrailClientTypes.RefreshSchedule.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.terminationProtectionEnabled = try reader["TerminationProtectionEnabled"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.widgets = try reader["Widgets"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Widget.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7092,6 +7715,7 @@ extension GetResourcePolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetResourcePolicyOutput()
+        value.delegatedAdminResourcePolicy = try reader["DelegatedAdminResourcePolicy"].readIfPresent()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.resourcePolicy = try reader["ResourcePolicy"].readIfPresent()
         return value
@@ -7146,6 +7770,19 @@ extension ListChannelsOutput {
         let reader = responseReader
         var value = ListChannelsOutput()
         value.channels = try reader["Channels"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Channel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDashboardsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDashboardsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDashboardsOutput()
+        value.dashboards = try reader["Dashboards"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.DashboardDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -7309,6 +7946,7 @@ extension PutResourcePolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutResourcePolicyOutput()
+        value.delegatedAdminResourcePolicy = try reader["DelegatedAdminResourcePolicy"].readIfPresent()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.resourcePolicy = try reader["ResourcePolicy"].readIfPresent()
         return value
@@ -7348,6 +7986,18 @@ extension RestoreEventDataStoreOutput {
         value.status = try reader["Status"].readIfPresent()
         value.terminationProtectionEnabled = try reader["TerminationProtectionEnabled"].readIfPresent()
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension StartDashboardRefreshOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDashboardRefreshOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartDashboardRefreshOutput()
+        value.refreshId = try reader["RefreshId"].readIfPresent()
         return value
     }
 }
@@ -7392,6 +8042,7 @@ extension StartQueryOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartQueryOutput()
+        value.eventDataStoreOwnerAccountId = try reader["EventDataStoreOwnerAccountId"].readIfPresent()
         value.queryId = try reader["QueryId"].readIfPresent()
         return value
     }
@@ -7442,6 +8093,25 @@ extension UpdateChannelOutput {
         value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Destination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.source = try reader["Source"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateDashboardOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDashboardOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDashboardOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.refreshSchedule = try reader["RefreshSchedule"].readIfPresent(with: CloudTrailClientTypes.RefreshSchedule.read(from:))
+        value.terminationProtectionEnabled = try reader["TerminationProtectionEnabled"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.widgets = try reader["Widgets"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Widget.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7572,6 +8242,27 @@ enum CreateChannelOutputError {
     }
 }
 
+enum CreateDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "InactiveEventDataStore": return try InactiveEventDataStoreException.makeError(baseError: baseError)
+            case "InsufficientEncryptionPolicy": return try InsufficientEncryptionPolicyException.makeError(baseError: baseError)
+            case "InvalidQueryStatement": return try InvalidQueryStatementException.makeError(baseError: baseError)
+            case "InvalidTagParameter": return try InvalidTagParameterException.makeError(baseError: baseError)
+            case "ServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateEventDataStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7666,6 +8357,22 @@ enum DeleteChannelOutputError {
     }
 }
 
+enum DeleteDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteEventDataStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7701,6 +8408,7 @@ enum DeleteResourcePolicyOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceARNNotValid": return try ResourceARNNotValidException.makeError(baseError: baseError)
             case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -7892,6 +8600,21 @@ enum GetChannelOutputError {
     }
 }
 
+enum GetDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetEventDataStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8059,6 +8782,20 @@ enum ListChannelsOutputError {
         switch baseError.code {
             case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDashboardsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8297,6 +9034,7 @@ enum PutResourcePolicyOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceARNNotValid": return try ResourceARNNotValidException.makeError(baseError: baseError)
             case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -8382,6 +9120,24 @@ enum RestoreEventDataStoreOutputError {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "OrganizationNotInAllFeaturesMode": return try OrganizationNotInAllFeaturesModeException.makeError(baseError: baseError)
             case "OrganizationsNotInUse": return try OrganizationsNotInUseException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartDashboardRefreshOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "InactiveEventDataStore": return try InactiveEventDataStoreException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8568,6 +9324,27 @@ enum UpdateChannelOutputError {
             case "InvalidEventDataStoreCategory": return try InvalidEventDataStoreCategoryException.makeError(baseError: baseError)
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDashboardOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "InactiveEventDataStore": return try InactiveEventDataStoreException.makeError(baseError: baseError)
+            case "InsufficientEncryptionPolicy": return try InsufficientEncryptionPolicyException.makeError(baseError: baseError)
+            case "InvalidQueryStatement": return try InvalidQueryStatementException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8952,6 +9729,45 @@ extension ChannelAlreadyExistsException {
     }
 }
 
+extension InsufficientEncryptionPolicyException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientEncryptionPolicyException {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientEncryptionPolicyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidQueryStatementException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidQueryStatementException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidQueryStatementException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension EventDataStoreAlreadyExistsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreAlreadyExistsException {
@@ -8996,19 +9812,6 @@ extension InvalidEventSelectorsException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventSelectorsException {
         let reader = baseError.errorBodyReader
         var value = InvalidEventSelectorsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InsufficientEncryptionPolicyException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientEncryptionPolicyException {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientEncryptionPolicyException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9719,19 +10522,6 @@ extension InvalidImportSourceException {
     }
 }
 
-extension InvalidQueryStatementException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidQueryStatementException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidQueryStatementException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension MaxConcurrentQueriesException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxConcurrentQueriesException {
@@ -9774,6 +10564,55 @@ extension CloudTrailClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudTrailClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.Widget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.Widget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.Widget()
+        value.queryAlias = try reader["QueryAlias"].readIfPresent()
+        value.queryStatement = try reader["QueryStatement"].readIfPresent()
+        value.queryParameters = try reader["QueryParameters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.viewProperties = try reader["ViewProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.RefreshSchedule {
+
+    static func write(value: CloudTrailClientTypes.RefreshSchedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Frequency"].write(value.frequency, with: CloudTrailClientTypes.RefreshScheduleFrequency.write(value:to:))
+        try writer["Status"].write(value.status)
+        try writer["TimeOfDay"].write(value.timeOfDay)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.RefreshSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.RefreshSchedule()
+        value.frequency = try reader["Frequency"].readIfPresent(with: CloudTrailClientTypes.RefreshScheduleFrequency.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.timeOfDay = try reader["TimeOfDay"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.RefreshScheduleFrequency {
+
+    static func write(value: CloudTrailClientTypes.RefreshScheduleFrequency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Unit"].write(value.unit)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.RefreshScheduleFrequency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.RefreshScheduleFrequency()
+        value.unit = try reader["Unit"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         return value
     }
@@ -10022,6 +10861,17 @@ extension CloudTrailClientTypes.Channel {
     }
 }
 
+extension CloudTrailClientTypes.DashboardDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.DashboardDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.DashboardDetail()
+        value.dashboardArn = try reader["DashboardArn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudTrailClientTypes.EventDataStore {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.EventDataStore {
@@ -10143,6 +10993,16 @@ extension CloudTrailClientTypes.Resource {
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.resourceName = try reader["ResourceName"].readIfPresent()
         return value
+    }
+}
+
+extension CloudTrailClientTypes.RequestWidget {
+
+    static func write(value: CloudTrailClientTypes.RequestWidget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QueryParameters"].writeList(value.queryParameters, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["QueryStatement"].write(value.queryStatement)
+        try writer["ViewProperties"].writeMap(value.viewProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 

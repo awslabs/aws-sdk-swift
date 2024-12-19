@@ -974,18 +974,619 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The navigation configuration for CustomActionNavigationOperation.
+    public struct LocalNavigationConfiguration: Swift.Sendable {
+        /// The sheet that is targeted for navigation in the same analysis.
+        /// This member is required.
+        public var targetSheetId: Swift.String?
+
+        public init(
+            targetSheetId: Swift.String? = nil
+        )
+        {
+            self.targetSheetId = targetSheetId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The navigation operation that navigates between different sheets in the same analysis. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public struct CustomActionNavigationOperation: Swift.Sendable {
+        /// The configuration that chooses the navigation target.
+        public var localNavigationConfiguration: QuickSightClientTypes.LocalNavigationConfiguration?
+
+        public init(
+            localNavigationConfiguration: QuickSightClientTypes.LocalNavigationConfiguration? = nil
+        )
+        {
+            self.localNavigationConfiguration = localNavigationConfiguration
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The customized parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public struct CustomParameterValues: Swift.Sendable {
+        /// A list of datetime-type parameter values.
+        public var dateTimeValues: [Foundation.Date]?
+        /// A list of decimal-type parameter values.
+        public var decimalValues: [Swift.Double]?
+        /// A list of integer-type parameter values.
+        public var integerValues: [Swift.Int]?
+        /// A list of string-type parameter values.
+        public var stringValues: [Swift.String]?
+
+        public init(
+            dateTimeValues: [Foundation.Date]? = nil,
+            decimalValues: [Swift.Double]? = nil,
+            integerValues: [Swift.Int]? = nil,
+            stringValues: [Swift.String]? = nil
+        )
+        {
+            self.dateTimeValues = dateTimeValues
+            self.decimalValues = decimalValues
+            self.integerValues = integerValues
+            self.stringValues = stringValues
+        }
+    }
+}
+
+extension QuickSightClientTypes.CustomParameterValues: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CustomParameterValues(dateTimeValues: \"CONTENT_REDACTED\", decimalValues: \"CONTENT_REDACTED\", integerValues: \"CONTENT_REDACTED\", stringValues: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration of custom values for the destination parameter in DestinationParameterValueConfiguration.
+    public struct CustomValuesConfiguration: Swift.Sendable {
+        /// The customized parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        /// This member is required.
+        public var customValues: QuickSightClientTypes.CustomParameterValues?
+        /// Includes the null value in custom action parameter values.
+        public var includeNullValue: Swift.Bool?
+
+        public init(
+            customValues: QuickSightClientTypes.CustomParameterValues? = nil,
+            includeNullValue: Swift.Bool? = nil
+        )
+        {
+            self.customValues = customValues
+            self.includeNullValue = includeNullValue
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SelectAllValueOptions: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allValues
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SelectAllValueOptions] {
+            return [
+                .allValues
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allValues: return "ALL_VALUES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration of destination parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public struct DestinationParameterValueConfiguration: Swift.Sendable {
+        /// The configuration of custom values for destination parameter in DestinationParameterValueConfiguration.
+        public var customValuesConfiguration: QuickSightClientTypes.CustomValuesConfiguration?
+        /// The configuration that selects all options.
+        public var selectAllValueOptions: QuickSightClientTypes.SelectAllValueOptions?
+        /// A column of a data set.
+        public var sourceColumn: QuickSightClientTypes.ColumnIdentifier?
+        /// The source field ID of the destination parameter.
+        public var sourceField: Swift.String?
+        /// The source parameter name of the destination parameter.
+        public var sourceParameterName: Swift.String?
+
+        public init(
+            customValuesConfiguration: QuickSightClientTypes.CustomValuesConfiguration? = nil,
+            selectAllValueOptions: QuickSightClientTypes.SelectAllValueOptions? = nil,
+            sourceColumn: QuickSightClientTypes.ColumnIdentifier? = nil,
+            sourceField: Swift.String? = nil,
+            sourceParameterName: Swift.String? = nil
+        )
+        {
+            self.customValuesConfiguration = customValuesConfiguration
+            self.selectAllValueOptions = selectAllValueOptions
+            self.sourceColumn = sourceColumn
+            self.sourceField = sourceField
+            self.sourceParameterName = sourceParameterName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration of adding parameters in action.
+    public struct SetParameterValueConfiguration: Swift.Sendable {
+        /// The destination parameter name of the SetParameterValueConfiguration.
+        /// This member is required.
+        public var destinationParameterName: Swift.String?
+        /// The configuration of destination parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        /// This member is required.
+        public var value: QuickSightClientTypes.DestinationParameterValueConfiguration?
+
+        public init(
+            destinationParameterName: Swift.String? = nil,
+            value: QuickSightClientTypes.DestinationParameterValueConfiguration? = nil
+        )
+        {
+            self.destinationParameterName = destinationParameterName
+            self.value = value
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The set parameter operation that sets parameters in custom action.
+    public struct CustomActionSetParametersOperation: Swift.Sendable {
+        /// The parameter that determines the value configuration.
+        /// This member is required.
+        public var parameterValueConfigurations: [QuickSightClientTypes.SetParameterValueConfiguration]?
+
+        public init(
+            parameterValueConfigurations: [QuickSightClientTypes.SetParameterValueConfiguration]? = nil
+        )
+        {
+            self.parameterValueConfigurations = parameterValueConfigurations
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum URLTargetConfiguration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case newTab
+        case newWindow
+        case sameTab
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [URLTargetConfiguration] {
+            return [
+                .newTab,
+                .newWindow,
+                .sameTab
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .newTab: return "NEW_TAB"
+            case .newWindow: return "NEW_WINDOW"
+            case .sameTab: return "SAME_TAB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The URL operation that opens a link to another webpage.
+    public struct CustomActionURLOperation: Swift.Sendable {
+        /// The target of the CustomActionURLOperation. Valid values are defined as follows:
+        ///
+        /// * NEW_TAB: Opens the target URL in a new browser tab.
+        ///
+        /// * NEW_WINDOW: Opens the target URL in a new browser window.
+        ///
+        /// * SAME_TAB: Opens the target URL in the same browser tab.
+        /// This member is required.
+        public var urlTarget: QuickSightClientTypes.URLTargetConfiguration?
+        /// THe URL link of the CustomActionURLOperation.
+        /// This member is required.
+        public var urlTemplate: Swift.String?
+
+        public init(
+            urlTarget: QuickSightClientTypes.URLTargetConfiguration? = nil,
+            urlTemplate: Swift.String? = nil
+        )
+        {
+            self.urlTarget = urlTarget
+            self.urlTemplate = urlTemplate
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The operation that is defined by the custom action. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public struct ImageCustomActionOperation: Swift.Sendable {
+        /// The navigation operation that navigates between different sheets in the same analysis. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        public var navigationOperation: QuickSightClientTypes.CustomActionNavigationOperation?
+        /// The set parameter operation that sets parameters in custom action.
+        public var setParametersOperation: QuickSightClientTypes.CustomActionSetParametersOperation?
+        /// The URL operation that opens a link to another webpage.
+        public var urlOperation: QuickSightClientTypes.CustomActionURLOperation?
+
+        public init(
+            navigationOperation: QuickSightClientTypes.CustomActionNavigationOperation? = nil,
+            setParametersOperation: QuickSightClientTypes.CustomActionSetParametersOperation? = nil,
+            urlOperation: QuickSightClientTypes.CustomActionURLOperation? = nil
+        )
+        {
+            self.navigationOperation = navigationOperation
+            self.setParametersOperation = setParametersOperation
+            self.urlOperation = urlOperation
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum WidgetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WidgetStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum ImageCustomActionTrigger: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case click
+        case menu
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageCustomActionTrigger] {
+            return [
+                .click,
+                .menu
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .click: return "CLICK"
+            case .menu: return "MENU"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A custom action defined on an image.
+    public struct ImageCustomAction: Swift.Sendable {
+        /// A list of ImageCustomActionOperations. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        /// This member is required.
+        public var actionOperations: [QuickSightClientTypes.ImageCustomActionOperation]?
+        /// The ID of the custom action.
+        /// This member is required.
+        public var customActionId: Swift.String?
+        /// The name of the custom action.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the custom action.
+        public var status: QuickSightClientTypes.WidgetStatus?
+        /// The trigger of the VisualCustomAction. Valid values are defined as follows:
+        ///
+        /// * CLICK: Initiates a custom action by a left pointer click on a data point.
+        ///
+        /// * MENU: Initiates a custom action by right pointer click from the menu.
+        /// This member is required.
+        public var trigger: QuickSightClientTypes.ImageCustomActionTrigger?
+
+        public init(
+            actionOperations: [QuickSightClientTypes.ImageCustomActionOperation]? = nil,
+            customActionId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: QuickSightClientTypes.WidgetStatus? = nil,
+            trigger: QuickSightClientTypes.ImageCustomActionTrigger? = nil
+        )
+        {
+            self.actionOperations = actionOperations
+            self.customActionId = customActionId
+            self.name = name
+            self.status = status
+            self.trigger = trigger
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The menu options for the interactions of an image.
+    public struct ImageMenuOption: Swift.Sendable {
+        /// The availability status of the image menu. If the value of this property is set to ENABLED, dashboard readers can interact with the image menu.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init(
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        )
+        {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The general image interactions setup for image publish options.
+    public struct ImageInteractionOptions: Swift.Sendable {
+        /// The menu options for the image.
+        public var imageMenuOption: QuickSightClientTypes.ImageMenuOption?
+
+        public init(
+            imageMenuOption: QuickSightClientTypes.ImageMenuOption? = nil
+        )
+        {
+            self.imageMenuOption = imageMenuOption
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SheetImageScalingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case scaleNone
+        case scaleToContainer
+        case scaleToHeight
+        case scaleToWidth
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SheetImageScalingType] {
+            return [
+                .scaleNone,
+                .scaleToContainer,
+                .scaleToHeight,
+                .scaleToWidth
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .scaleNone: return "SCALE_NONE"
+            case .scaleToContainer: return "SCALE_TO_CONTAINER"
+            case .scaleToHeight: return "SCALE_TO_HEIGHT"
+            case .scaleToWidth: return "SCALE_TO_WIDTH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Determines how the image is scaled
+    public struct SheetImageScalingConfiguration: Swift.Sendable {
+        /// The scaling option to use when fitting the image inside the container. Valid values are defined as follows:
+        ///
+        /// * SCALE_TO_WIDTH: The image takes up the entire width of the container. The image aspect ratio is preserved.
+        ///
+        /// * SCALE_TO_HEIGHT: The image takes up the entire height of the container. The image aspect ratio is preserved.
+        ///
+        /// * SCALE_TO_CONTAINER: The image takes up the entire width and height of the container. The image aspect ratio is not preserved.
+        ///
+        /// * SCALE_NONE: The image is displayed in its original size and is not scaled to the container.
+        public var scalingType: QuickSightClientTypes.SheetImageScalingType?
+
+        public init(
+            scalingType: QuickSightClientTypes.SheetImageScalingType? = nil
+        )
+        {
+            self.scalingType = scalingType
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The source of the static file that contains the image.
+    public struct SheetImageStaticFileSource: Swift.Sendable {
+        /// The ID of the static file that contains the image.
+        /// This member is required.
+        public var staticFileId: Swift.String?
+
+        public init(
+            staticFileId: Swift.String? = nil
+        )
+        {
+            self.staticFileId = staticFileId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The source of the image.
+    public struct SheetImageSource: Swift.Sendable {
+        /// The source of the static file that contains the image.
+        public var sheetImageStaticFileSource: QuickSightClientTypes.SheetImageStaticFileSource?
+
+        public init(
+            sheetImageStaticFileSource: QuickSightClientTypes.SheetImageStaticFileSource? = nil
+        )
+        {
+            self.sheetImageStaticFileSource = sheetImageStaticFileSource
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The text that appears in the sheet image tooltip.
+    public struct SheetImageTooltipText: Swift.Sendable {
+        /// The plain text format.
+        public var plainText: Swift.String?
+
+        public init(
+            plainText: Swift.String? = nil
+        )
+        {
+            self.plainText = plainText
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum Visibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hidden
+        case visible
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Visibility] {
+            return [
+                .hidden,
+                .visible
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hidden: return "HIDDEN"
+            case .visible: return "VISIBLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The tooltip configuration for a sheet image.
+    public struct SheetImageTooltipConfiguration: Swift.Sendable {
+        /// The text that appears in the tooltip.
+        public var tooltipText: QuickSightClientTypes.SheetImageTooltipText?
+        /// The visibility of the tooltip.
+        public var visibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            tooltipText: QuickSightClientTypes.SheetImageTooltipText? = nil,
+            visibility: QuickSightClientTypes.Visibility? = nil
+        )
+        {
+            self.tooltipText = tooltipText
+            self.visibility = visibility
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An image that is located on a sheet.
+    public struct SheetImage: Swift.Sendable {
+        /// A list of custom actions that are configured for an image.
+        public var actions: [QuickSightClientTypes.ImageCustomAction]?
+        /// The alt text for the image.
+        public var imageContentAltText: Swift.String?
+        /// The general image interactions setup for an image.
+        public var interactions: QuickSightClientTypes.ImageInteractionOptions?
+        /// Determines how the image is scaled.
+        public var scaling: QuickSightClientTypes.SheetImageScalingConfiguration?
+        /// The ID of the sheet image.
+        /// This member is required.
+        public var sheetImageId: Swift.String?
+        /// The source of the image.
+        /// This member is required.
+        public var source: QuickSightClientTypes.SheetImageSource?
+        /// The tooltip to be shown when hovering over the image.
+        public var tooltip: QuickSightClientTypes.SheetImageTooltipConfiguration?
+
+        public init(
+            actions: [QuickSightClientTypes.ImageCustomAction]? = nil,
+            imageContentAltText: Swift.String? = nil,
+            interactions: QuickSightClientTypes.ImageInteractionOptions? = nil,
+            scaling: QuickSightClientTypes.SheetImageScalingConfiguration? = nil,
+            sheetImageId: Swift.String? = nil,
+            source: QuickSightClientTypes.SheetImageSource? = nil,
+            tooltip: QuickSightClientTypes.SheetImageTooltipConfiguration? = nil
+        )
+        {
+            self.actions = actions
+            self.imageContentAltText = imageContentAltText
+            self.interactions = interactions
+            self.scaling = scaling
+            self.sheetImageId = sheetImageId
+            self.source = source
+            self.tooltip = tooltip
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A sheet, which is an object that contains a set of visuals that are viewed together on one page in Amazon QuickSight. Every analysis and dashboard contains at least one sheet. Each sheet contains at least one visualization widget, for example a chart, pivot table, or narrative insight. Sheets can be associated with other components, such as controls, filters, and so on.
     public struct Sheet: Swift.Sendable {
+        /// A list of images on a sheet.
+        public var images: [QuickSightClientTypes.SheetImage]?
         /// The name of a sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
         public var name: Swift.String?
         /// The unique identifier associated with a sheet.
         public var sheetId: Swift.String?
 
         public init(
+            images: [QuickSightClientTypes.SheetImage]? = nil,
             name: Swift.String? = nil,
             sheetId: Swift.String? = nil
         )
         {
+            self.images = images
             self.name = name
             self.sheetId = sheetId
         }
@@ -1775,35 +2376,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    public enum Visibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case hidden
-        case visible
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Visibility] {
-            return [
-                .hidden,
-                .visible
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .hidden: return "HIDDEN"
-            case .visible: return "VISIBLE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     /// The options that determine the thousands separator configuration.
     public struct ThousandSeparatorOptions: Swift.Sendable {
         /// Determines the thousands separator symbol.
@@ -2554,13 +3126,17 @@ extension QuickSightClientTypes {
 
     /// The option that determines the text display size.
     public struct FontSize: Swift.Sendable {
+        /// The font size that you want to use in px.
+        public var absolute: Swift.String?
         /// The lexical name for the text size, proportional to its surrounding context.
         public var relative: QuickSightClientTypes.RelativeFontSize?
 
         public init(
+            absolute: Swift.String? = nil,
             relative: QuickSightClientTypes.RelativeFontSize? = nil
         )
         {
+            self.absolute = absolute
             self.relative = relative
         }
     }
@@ -2648,6 +3224,8 @@ extension QuickSightClientTypes {
         public var fontColor: Swift.String?
         /// Determines the appearance of decorative lines on the text.
         public var fontDecoration: QuickSightClientTypes.FontDecoration?
+        /// The font family that you want to use.
+        public var fontFamily: Swift.String?
         /// The option that determines the text display size.
         public var fontSize: QuickSightClientTypes.FontSize?
         /// Determines the text display face that is inherited by the given font family.
@@ -2658,6 +3236,7 @@ extension QuickSightClientTypes {
         public init(
             fontColor: Swift.String? = nil,
             fontDecoration: QuickSightClientTypes.FontDecoration? = nil,
+            fontFamily: Swift.String? = nil,
             fontSize: QuickSightClientTypes.FontSize? = nil,
             fontStyle: QuickSightClientTypes.FontStyle? = nil,
             fontWeight: QuickSightClientTypes.FontWeight? = nil
@@ -2665,6 +3244,7 @@ extension QuickSightClientTypes {
         {
             self.fontColor = fontColor
             self.fontDecoration = fontDecoration
+            self.fontFamily = fontFamily
             self.fontSize = fontSize
             self.fontStyle = fontStyle
             self.fontWeight = fontWeight
@@ -3615,35 +4195,6 @@ extension QuickSightClientTypes {
         {
             self.anchorOption = anchorOption
             self.parameterName = parameterName
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum WidgetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [WidgetStatus] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -5212,6 +5763,7 @@ extension QuickSightClientTypes {
 
     public enum LayoutElementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case filterControl
+        case image
         case parameterControl
         case textBox
         case visual
@@ -5220,6 +5772,7 @@ extension QuickSightClientTypes {
         public static var allCases: [LayoutElementType] {
             return [
                 .filterControl,
+                .image,
                 .parameterControl,
                 .textBox,
                 .visual
@@ -5234,6 +5787,7 @@ extension QuickSightClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .filterControl: return "FILTER_CONTROL"
+            case .image: return "IMAGE"
             case .parameterControl: return "PARAMETER_CONTROL"
             case .textBox: return "TEXT_BOX"
             case .visual: return "VISUAL"
@@ -6331,250 +6885,6 @@ extension QuickSightClientTypes {
         {
             self.selectedFieldsConfiguration = selectedFieldsConfiguration
             self.targetVisualsConfiguration = targetVisualsConfiguration
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The navigation configuration for CustomActionNavigationOperation.
-    public struct LocalNavigationConfiguration: Swift.Sendable {
-        /// The sheet that is targeted for navigation in the same analysis.
-        /// This member is required.
-        public var targetSheetId: Swift.String?
-
-        public init(
-            targetSheetId: Swift.String? = nil
-        )
-        {
-            self.targetSheetId = targetSheetId
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The navigation operation that navigates between different sheets in the same analysis. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct CustomActionNavigationOperation: Swift.Sendable {
-        /// The configuration that chooses the navigation target.
-        public var localNavigationConfiguration: QuickSightClientTypes.LocalNavigationConfiguration?
-
-        public init(
-            localNavigationConfiguration: QuickSightClientTypes.LocalNavigationConfiguration? = nil
-        )
-        {
-            self.localNavigationConfiguration = localNavigationConfiguration
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The customized parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct CustomParameterValues: Swift.Sendable {
-        /// A list of datetime-type parameter values.
-        public var dateTimeValues: [Foundation.Date]?
-        /// A list of decimal-type parameter values.
-        public var decimalValues: [Swift.Double]?
-        /// A list of integer-type parameter values.
-        public var integerValues: [Swift.Int]?
-        /// A list of string-type parameter values.
-        public var stringValues: [Swift.String]?
-
-        public init(
-            dateTimeValues: [Foundation.Date]? = nil,
-            decimalValues: [Swift.Double]? = nil,
-            integerValues: [Swift.Int]? = nil,
-            stringValues: [Swift.String]? = nil
-        )
-        {
-            self.dateTimeValues = dateTimeValues
-            self.decimalValues = decimalValues
-            self.integerValues = integerValues
-            self.stringValues = stringValues
-        }
-    }
-}
-
-extension QuickSightClientTypes.CustomParameterValues: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CustomParameterValues(dateTimeValues: \"CONTENT_REDACTED\", decimalValues: \"CONTENT_REDACTED\", integerValues: \"CONTENT_REDACTED\", stringValues: \"CONTENT_REDACTED\")"}
-}
-
-extension QuickSightClientTypes {
-
-    /// The configuration of custom values for the destination parameter in DestinationParameterValueConfiguration.
-    public struct CustomValuesConfiguration: Swift.Sendable {
-        /// The customized parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-        /// This member is required.
-        public var customValues: QuickSightClientTypes.CustomParameterValues?
-        /// Includes the null value in custom action parameter values.
-        public var includeNullValue: Swift.Bool?
-
-        public init(
-            customValues: QuickSightClientTypes.CustomParameterValues? = nil,
-            includeNullValue: Swift.Bool? = nil
-        )
-        {
-            self.customValues = customValues
-            self.includeNullValue = includeNullValue
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum SelectAllValueOptions: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case allValues
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SelectAllValueOptions] {
-            return [
-                .allValues
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .allValues: return "ALL_VALUES"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The configuration of destination parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-    public struct DestinationParameterValueConfiguration: Swift.Sendable {
-        /// The configuration of custom values for destination parameter in DestinationParameterValueConfiguration.
-        public var customValuesConfiguration: QuickSightClientTypes.CustomValuesConfiguration?
-        /// The configuration that selects all options.
-        public var selectAllValueOptions: QuickSightClientTypes.SelectAllValueOptions?
-        /// A column of a data set.
-        public var sourceColumn: QuickSightClientTypes.ColumnIdentifier?
-        /// The source field ID of the destination parameter.
-        public var sourceField: Swift.String?
-        /// The source parameter name of the destination parameter.
-        public var sourceParameterName: Swift.String?
-
-        public init(
-            customValuesConfiguration: QuickSightClientTypes.CustomValuesConfiguration? = nil,
-            selectAllValueOptions: QuickSightClientTypes.SelectAllValueOptions? = nil,
-            sourceColumn: QuickSightClientTypes.ColumnIdentifier? = nil,
-            sourceField: Swift.String? = nil,
-            sourceParameterName: Swift.String? = nil
-        )
-        {
-            self.customValuesConfiguration = customValuesConfiguration
-            self.selectAllValueOptions = selectAllValueOptions
-            self.sourceColumn = sourceColumn
-            self.sourceField = sourceField
-            self.sourceParameterName = sourceParameterName
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The configuration of adding parameters in action.
-    public struct SetParameterValueConfiguration: Swift.Sendable {
-        /// The destination parameter name of the SetParameterValueConfiguration.
-        /// This member is required.
-        public var destinationParameterName: Swift.String?
-        /// The configuration of destination parameter values. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
-        /// This member is required.
-        public var value: QuickSightClientTypes.DestinationParameterValueConfiguration?
-
-        public init(
-            destinationParameterName: Swift.String? = nil,
-            value: QuickSightClientTypes.DestinationParameterValueConfiguration? = nil
-        )
-        {
-            self.destinationParameterName = destinationParameterName
-            self.value = value
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The set parameter operation that sets parameters in custom action.
-    public struct CustomActionSetParametersOperation: Swift.Sendable {
-        /// The parameter that determines the value configuration.
-        /// This member is required.
-        public var parameterValueConfigurations: [QuickSightClientTypes.SetParameterValueConfiguration]?
-
-        public init(
-            parameterValueConfigurations: [QuickSightClientTypes.SetParameterValueConfiguration]? = nil
-        )
-        {
-            self.parameterValueConfigurations = parameterValueConfigurations
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum URLTargetConfiguration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case newTab
-        case newWindow
-        case sameTab
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [URLTargetConfiguration] {
-            return [
-                .newTab,
-                .newWindow,
-                .sameTab
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .newTab: return "NEW_TAB"
-            case .newWindow: return "NEW_WINDOW"
-            case .sameTab: return "SAME_TAB"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The URL operation that opens a link to another webpage.
-    public struct CustomActionURLOperation: Swift.Sendable {
-        /// The target of the CustomActionURLOperation. Valid values are defined as follows:
-        ///
-        /// * NEW_TAB: Opens the target URL in a new browser tab.
-        ///
-        /// * NEW_WINDOW: Opens the target URL in a new browser window.
-        ///
-        /// * SAME_TAB: Opens the target URL in the same browser tab.
-        /// This member is required.
-        public var urlTarget: QuickSightClientTypes.URLTargetConfiguration?
-        /// THe URL link of the CustomActionURLOperation.
-        /// This member is required.
-        public var urlTemplate: Swift.String?
-
-        public init(
-            urlTarget: QuickSightClientTypes.URLTargetConfiguration? = nil,
-            urlTemplate: Swift.String? = nil
-        )
-        {
-            self.urlTarget = urlTarget
-            self.urlTemplate = urlTemplate
         }
     }
 }
@@ -7790,6 +8100,8 @@ extension QuickSightClientTypes {
         public var position: QuickSightClientTypes.LegendPosition?
         /// The custom title for the legend.
         public var title: QuickSightClientTypes.LabelOptions?
+        /// Configures the display properties of the given text.
+        public var valueFontConfiguration: QuickSightClientTypes.FontConfiguration?
         /// Determines whether or not the legend is visible.
         public var visibility: QuickSightClientTypes.Visibility?
         /// The width of the legend. If this value is omitted, a default width is used when rendering.
@@ -7799,6 +8111,7 @@ extension QuickSightClientTypes {
             height: Swift.String? = nil,
             position: QuickSightClientTypes.LegendPosition? = nil,
             title: QuickSightClientTypes.LabelOptions? = nil,
+            valueFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil,
             width: Swift.String? = nil
         )
@@ -7806,6 +8119,7 @@ extension QuickSightClientTypes {
             self.height = height
             self.position = position
             self.title = title
+            self.valueFontConfiguration = valueFontConfiguration
             self.visibility = visibility
             self.width = width
         }
@@ -9387,6 +9701,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -9397,6 +9713,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -9405,6 +9722,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -9631,6 +9949,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         /// This member is required.
         public var visualId: Swift.String?
@@ -9641,6 +9961,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -9649,6 +9970,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -9889,6 +10211,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -9899,6 +10223,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -9907,6 +10232,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -10019,6 +10345,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -10029,6 +10357,7 @@ extension QuickSightClientTypes {
             dataSetIdentifier: Swift.String? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -10037,6 +10366,7 @@ extension QuickSightClientTypes {
             self.dataSetIdentifier = dataSetIdentifier
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -10494,6 +10824,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         /// This member is required.
         public var visualId: Swift.String?
@@ -10505,6 +10837,7 @@ extension QuickSightClientTypes {
             conditionalFormatting: QuickSightClientTypes.FilledMapConditionalFormatting? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -10514,6 +10847,7 @@ extension QuickSightClientTypes {
             self.conditionalFormatting = conditionalFormatting
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -10711,6 +11045,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         /// This member is required.
         public var visualId: Swift.String?
@@ -10721,6 +11057,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -10729,6 +11066,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -11434,6 +11772,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -11444,6 +11784,7 @@ extension QuickSightClientTypes {
             conditionalFormatting: QuickSightClientTypes.GaugeChartConditionalFormatting? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -11452,6 +11793,7 @@ extension QuickSightClientTypes {
             self.conditionalFormatting = conditionalFormatting
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -11708,6 +12050,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         /// This member is required.
         public var visualId: Swift.String?
@@ -11718,6 +12062,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -11726,6 +12071,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -11936,6 +12282,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -11946,6 +12294,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -11954,6 +12303,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -12144,6 +12494,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -12153,6 +12505,7 @@ extension QuickSightClientTypes {
             chartConfiguration: QuickSightClientTypes.HistogramConfiguration? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -12160,6 +12513,7 @@ extension QuickSightClientTypes {
             self.chartConfiguration = chartConfiguration
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -12762,6 +13116,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -12772,6 +13128,7 @@ extension QuickSightClientTypes {
             insightConfiguration: QuickSightClientTypes.InsightConfiguration? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -12780,6 +13137,7 @@ extension QuickSightClientTypes {
             self.insightConfiguration = insightConfiguration
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -13205,6 +13563,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -13216,6 +13576,7 @@ extension QuickSightClientTypes {
             conditionalFormatting: QuickSightClientTypes.KPIConditionalFormatting? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -13225,6 +13586,875 @@ extension QuickSightClientTypes {
             self.conditionalFormatting = conditionalFormatting
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
+            self.visualId = visualId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The operation that is defined by the custom action. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public struct LayerCustomActionOperation: Swift.Sendable {
+        /// The filter operation that filters data included in a visual or in an entire sheet.
+        public var filterOperation: QuickSightClientTypes.CustomActionFilterOperation?
+        /// The navigation operation that navigates between different sheets in the same analysis. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        public var navigationOperation: QuickSightClientTypes.CustomActionNavigationOperation?
+        /// The set parameter operation that sets parameters in custom action.
+        public var setParametersOperation: QuickSightClientTypes.CustomActionSetParametersOperation?
+        /// The URL operation that opens a link to another webpage.
+        public var urlOperation: QuickSightClientTypes.CustomActionURLOperation?
+
+        public init(
+            filterOperation: QuickSightClientTypes.CustomActionFilterOperation? = nil,
+            navigationOperation: QuickSightClientTypes.CustomActionNavigationOperation? = nil,
+            setParametersOperation: QuickSightClientTypes.CustomActionSetParametersOperation? = nil,
+            urlOperation: QuickSightClientTypes.CustomActionURLOperation? = nil
+        )
+        {
+            self.filterOperation = filterOperation
+            self.navigationOperation = navigationOperation
+            self.setParametersOperation = setParametersOperation
+            self.urlOperation = urlOperation
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum LayerCustomActionTrigger: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dataPointClick
+        case dataPointMenu
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LayerCustomActionTrigger] {
+            return [
+                .dataPointClick,
+                .dataPointMenu
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataPointClick: return "DATA_POINT_CLICK"
+            case .dataPointMenu: return "DATA_POINT_MENU"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A layer custom action.
+    public struct LayerCustomAction: Swift.Sendable {
+        /// A list of LayerCustomActionOperations. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+        /// This member is required.
+        public var actionOperations: [QuickSightClientTypes.LayerCustomActionOperation]?
+        /// The ID of the custom action.
+        /// This member is required.
+        public var customActionId: Swift.String?
+        /// The name of the custom action.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the LayerCustomAction.
+        public var status: QuickSightClientTypes.WidgetStatus?
+        /// The trigger of the LayerCustomAction. Valid values are defined as follows:
+        ///
+        /// * DATA_POINT_CLICK: Initiates a custom action by a left pointer click on a data point.
+        ///
+        /// * DATA_POINT_MENU: Initiates a custom action by right pointer click from the menu.
+        /// This member is required.
+        public var trigger: QuickSightClientTypes.LayerCustomActionTrigger?
+
+        public init(
+            actionOperations: [QuickSightClientTypes.LayerCustomActionOperation]? = nil,
+            customActionId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: QuickSightClientTypes.WidgetStatus? = nil,
+            trigger: QuickSightClientTypes.LayerCustomActionTrigger? = nil
+        )
+        {
+            self.actionOperations = actionOperations
+            self.customActionId = customActionId
+            self.name = name
+            self.status = status
+            self.trigger = trigger
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The source properties for a geospatial static file.
+    public struct GeospatialStaticFileSource: Swift.Sendable {
+        /// The ID of the static file.
+        /// This member is required.
+        public var staticFileId: Swift.String?
+
+        public init(
+            staticFileId: Swift.String? = nil
+        )
+        {
+            self.staticFileId = staticFileId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The data source properties for the geospatial data.
+    public struct GeospatialDataSourceItem: Swift.Sendable {
+        /// The static file data source properties for the geospatial data.
+        public var staticFileDataSource: QuickSightClientTypes.GeospatialStaticFileSource?
+
+        public init(
+            staticFileDataSource: QuickSightClientTypes.GeospatialStaticFileSource? = nil
+        )
+        {
+            self.staticFileDataSource = staticFileDataSource
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The color field that defines a gradient or categorical style.
+    public struct GeospatialLayerColorField: Swift.Sendable {
+        /// A list of color dimension fields.
+        public var colorDimensionsFields: [QuickSightClientTypes.DimensionField]?
+        /// A list of color measure fields.
+        public var colorValuesFields: [QuickSightClientTypes.MeasureField]?
+
+        public init(
+            colorDimensionsFields: [QuickSightClientTypes.DimensionField]? = nil,
+            colorValuesFields: [QuickSightClientTypes.MeasureField]? = nil
+        )
+        {
+            self.colorDimensionsFields = colorDimensionsFields
+            self.colorValuesFields = colorValuesFields
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The unaggregated field for a table.
+    public struct UnaggregatedField: Swift.Sendable {
+        /// The column that is used in the UnaggregatedField.
+        /// This member is required.
+        public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// The custom field ID.
+        /// This member is required.
+        public var fieldId: Swift.String?
+        /// The format configuration of the field.
+        public var formatConfiguration: QuickSightClientTypes.FormatConfiguration?
+
+        public init(
+            column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            fieldId: Swift.String? = nil,
+            formatConfiguration: QuickSightClientTypes.FormatConfiguration? = nil
+        )
+        {
+            self.column = column
+            self.fieldId = fieldId
+            self.formatConfiguration = formatConfiguration
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The custom actions for a layer.
+    public struct GeospatialLayerJoinDefinition: Swift.Sendable {
+        /// The geospatial color field for the join definition.
+        public var colorField: QuickSightClientTypes.GeospatialLayerColorField?
+        /// The unaggregated field for a table.
+        public var datasetKeyField: QuickSightClientTypes.UnaggregatedField?
+        /// The name of the field or property in the geospatial data source.
+        public var shapeKeyField: Swift.String?
+
+        public init(
+            colorField: QuickSightClientTypes.GeospatialLayerColorField? = nil,
+            datasetKeyField: QuickSightClientTypes.UnaggregatedField? = nil,
+            shapeKeyField: Swift.String? = nil
+        )
+        {
+            self.colorField = colorField
+            self.datasetKeyField = datasetKeyField
+            self.shapeKeyField = shapeKeyField
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The categorical data color for a single category.
+    public struct GeospatialCategoricalDataColor: Swift.Sendable {
+        /// The color and opacity values for the category data color.
+        /// This member is required.
+        public var color: Swift.String?
+        /// The data value for the category data color.
+        /// This member is required.
+        public var dataValue: Swift.String?
+
+        public init(
+            color: Swift.String? = nil,
+            dataValue: Swift.String? = nil
+        )
+        {
+            self.color = color
+            self.dataValue = dataValue
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The symbol style for null data.
+    public struct GeospatialNullSymbolStyle: Swift.Sendable {
+        /// The color and opacity values for the fill color.
+        public var fillColor: Swift.String?
+        /// The color and opacity values for the stroke color.
+        public var strokeColor: Swift.String?
+        /// The width of the border stroke.
+        public var strokeWidth: Swift.Double?
+
+        public init(
+            fillColor: Swift.String? = nil,
+            strokeColor: Swift.String? = nil,
+            strokeWidth: Swift.Double? = nil
+        )
+        {
+            self.fillColor = fillColor
+            self.strokeColor = strokeColor
+            self.strokeWidth = strokeWidth
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The properties for the visualization of null data.
+    public struct GeospatialNullDataSettings: Swift.Sendable {
+        /// The symbol style for null data.
+        /// This member is required.
+        public var symbolStyle: QuickSightClientTypes.GeospatialNullSymbolStyle?
+
+        public init(
+            symbolStyle: QuickSightClientTypes.GeospatialNullSymbolStyle? = nil
+        )
+        {
+            self.symbolStyle = symbolStyle
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The definition for a categorical color.
+    public struct GeospatialCategoricalColor: Swift.Sendable {
+        /// A list of categorical data colors for each category.
+        /// This member is required.
+        public var categoryDataColors: [QuickSightClientTypes.GeospatialCategoricalDataColor]?
+        /// The default opacity of a categorical color.
+        public var defaultOpacity: Swift.Double?
+        /// The null data visualization settings.
+        public var nullDataSettings: QuickSightClientTypes.GeospatialNullDataSettings?
+        /// The state of visibility for null data.
+        public var nullDataVisibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            categoryDataColors: [QuickSightClientTypes.GeospatialCategoricalDataColor]? = nil,
+            defaultOpacity: Swift.Double? = nil,
+            nullDataSettings: QuickSightClientTypes.GeospatialNullDataSettings? = nil,
+            nullDataVisibility: QuickSightClientTypes.Visibility? = nil
+        )
+        {
+            self.categoryDataColors = categoryDataColors
+            self.defaultOpacity = defaultOpacity
+            self.nullDataSettings = nullDataSettings
+            self.nullDataVisibility = nullDataVisibility
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The gradient step color for a single step.
+    public struct GeospatialGradientStepColor: Swift.Sendable {
+        /// The color and opacity values for the gradient step color.
+        /// This member is required.
+        public var color: Swift.String?
+        /// The data value for the gradient step color.
+        /// This member is required.
+        public var dataValue: Swift.Double
+
+        public init(
+            color: Swift.String? = nil,
+            dataValue: Swift.Double = 0.0
+        )
+        {
+            self.color = color
+            self.dataValue = dataValue
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The definition for a gradient color.
+    public struct GeospatialGradientColor: Swift.Sendable {
+        /// The default opacity for the gradient color.
+        public var defaultOpacity: Swift.Double?
+        /// The null data visualization settings.
+        public var nullDataSettings: QuickSightClientTypes.GeospatialNullDataSettings?
+        /// The state of visibility for null data.
+        public var nullDataVisibility: QuickSightClientTypes.Visibility?
+        /// A list of gradient step colors for the gradient.
+        /// This member is required.
+        public var stepColors: [QuickSightClientTypes.GeospatialGradientStepColor]?
+
+        public init(
+            defaultOpacity: Swift.Double? = nil,
+            nullDataSettings: QuickSightClientTypes.GeospatialNullDataSettings? = nil,
+            nullDataVisibility: QuickSightClientTypes.Visibility? = nil,
+            stepColors: [QuickSightClientTypes.GeospatialGradientStepColor]? = nil
+        )
+        {
+            self.defaultOpacity = defaultOpacity
+            self.nullDataSettings = nullDataSettings
+            self.nullDataVisibility = nullDataVisibility
+            self.stepColors = stepColors
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum GeospatialColorState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GeospatialColorState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The definition for a solid color.
+    public struct GeospatialSolidColor: Swift.Sendable {
+        /// The color and opacity values for the color.
+        /// This member is required.
+        public var color: Swift.String?
+        /// Enables and disables the view state of the color.
+        public var state: QuickSightClientTypes.GeospatialColorState?
+
+        public init(
+            color: Swift.String? = nil,
+            state: QuickSightClientTypes.GeospatialColorState? = nil
+        )
+        {
+            self.color = color
+            self.state = state
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The visualization properties for solid, gradient, and categorical colors.
+    public struct GeospatialColor: Swift.Sendable {
+        /// The visualization properties for the categorical color.
+        public var categorical: QuickSightClientTypes.GeospatialCategoricalColor?
+        /// The visualization properties for the gradient color.
+        public var gradient: QuickSightClientTypes.GeospatialGradientColor?
+        /// The visualization properties for the solid color.
+        public var solid: QuickSightClientTypes.GeospatialSolidColor?
+
+        public init(
+            categorical: QuickSightClientTypes.GeospatialCategoricalColor? = nil,
+            gradient: QuickSightClientTypes.GeospatialGradientColor? = nil,
+            solid: QuickSightClientTypes.GeospatialSolidColor? = nil
+        )
+        {
+            self.categorical = categorical
+            self.gradient = gradient
+            self.solid = solid
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The width properties for a line.
+    public struct GeospatialLineWidth: Swift.Sendable {
+        /// The positive value for the width of a line.
+        public var lineWidth: Swift.Double?
+
+        public init(
+            lineWidth: Swift.Double? = nil
+        )
+        {
+            self.lineWidth = lineWidth
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The symbol style for a line layer.
+    public struct GeospatialLineSymbolStyle: Swift.Sendable {
+        /// The color and opacity values for the fill color.
+        public var fillColor: QuickSightClientTypes.GeospatialColor?
+        /// The width value for a line.
+        public var lineWidth: QuickSightClientTypes.GeospatialLineWidth?
+
+        public init(
+            fillColor: QuickSightClientTypes.GeospatialColor? = nil,
+            lineWidth: QuickSightClientTypes.GeospatialLineWidth? = nil
+        )
+        {
+            self.fillColor = fillColor
+            self.lineWidth = lineWidth
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The visualization style for a line layer.
+    public struct GeospatialLineStyle: Swift.Sendable {
+        /// The symbol style for a line style.
+        public var lineSymbolStyle: QuickSightClientTypes.GeospatialLineSymbolStyle?
+
+        public init(
+            lineSymbolStyle: QuickSightClientTypes.GeospatialLineSymbolStyle? = nil
+        )
+        {
+            self.lineSymbolStyle = lineSymbolStyle
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The geospatial Line layer.
+    public struct GeospatialLineLayer: Swift.Sendable {
+        /// The visualization style for a line layer.
+        /// This member is required.
+        public var style: QuickSightClientTypes.GeospatialLineStyle?
+
+        public init(
+            style: QuickSightClientTypes.GeospatialLineStyle? = nil
+        )
+        {
+            self.style = style
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The geospatial radius for a circle.
+    public struct GeospatialCircleRadius: Swift.Sendable {
+        /// The positive value for the radius of a circle.
+        public var radius: Swift.Double?
+
+        public init(
+            radius: Swift.Double? = nil
+        )
+        {
+            self.radius = radius
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The properties for a circle symbol style.
+    public struct GeospatialCircleSymbolStyle: Swift.Sendable {
+        /// The radius of the circle.
+        public var circleRadius: QuickSightClientTypes.GeospatialCircleRadius?
+        /// The color and opacity values for the fill color.
+        public var fillColor: QuickSightClientTypes.GeospatialColor?
+        /// The color and opacity values for the stroke color.
+        public var strokeColor: QuickSightClientTypes.GeospatialColor?
+        /// The width of the stroke (border).
+        public var strokeWidth: QuickSightClientTypes.GeospatialLineWidth?
+
+        public init(
+            circleRadius: QuickSightClientTypes.GeospatialCircleRadius? = nil,
+            fillColor: QuickSightClientTypes.GeospatialColor? = nil,
+            strokeColor: QuickSightClientTypes.GeospatialColor? = nil,
+            strokeWidth: QuickSightClientTypes.GeospatialLineWidth? = nil
+        )
+        {
+            self.circleRadius = circleRadius
+            self.fillColor = fillColor
+            self.strokeColor = strokeColor
+            self.strokeWidth = strokeWidth
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The point style for a point layer.
+    public struct GeospatialPointStyle: Swift.Sendable {
+        /// The circle symbol style for a point layer.
+        public var circleSymbolStyle: QuickSightClientTypes.GeospatialCircleSymbolStyle?
+
+        public init(
+            circleSymbolStyle: QuickSightClientTypes.GeospatialCircleSymbolStyle? = nil
+        )
+        {
+            self.circleSymbolStyle = circleSymbolStyle
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The geospatial Point layer.
+    public struct GeospatialPointLayer: Swift.Sendable {
+        /// The visualization style for a point layer.
+        /// This member is required.
+        public var style: QuickSightClientTypes.GeospatialPointStyle?
+
+        public init(
+            style: QuickSightClientTypes.GeospatialPointStyle? = nil
+        )
+        {
+            self.style = style
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The polygon symbol style for a polygon layer.
+    public struct GeospatialPolygonSymbolStyle: Swift.Sendable {
+        /// The color and opacity values for the fill color.
+        public var fillColor: QuickSightClientTypes.GeospatialColor?
+        /// The color and opacity values for the stroke color.
+        public var strokeColor: QuickSightClientTypes.GeospatialColor?
+        /// The width of the border stroke.
+        public var strokeWidth: QuickSightClientTypes.GeospatialLineWidth?
+
+        public init(
+            fillColor: QuickSightClientTypes.GeospatialColor? = nil,
+            strokeColor: QuickSightClientTypes.GeospatialColor? = nil,
+            strokeWidth: QuickSightClientTypes.GeospatialLineWidth? = nil
+        )
+        {
+            self.fillColor = fillColor
+            self.strokeColor = strokeColor
+            self.strokeWidth = strokeWidth
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The polygon style for a polygon layer.
+    public struct GeospatialPolygonStyle: Swift.Sendable {
+        /// The polygon symbol style for a polygon layer.
+        public var polygonSymbolStyle: QuickSightClientTypes.GeospatialPolygonSymbolStyle?
+
+        public init(
+            polygonSymbolStyle: QuickSightClientTypes.GeospatialPolygonSymbolStyle? = nil
+        )
+        {
+            self.polygonSymbolStyle = polygonSymbolStyle
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The geospatial polygon layer.
+    public struct GeospatialPolygonLayer: Swift.Sendable {
+        /// The visualization style for a polygon layer.
+        /// This member is required.
+        public var style: QuickSightClientTypes.GeospatialPolygonStyle?
+
+        public init(
+            style: QuickSightClientTypes.GeospatialPolygonStyle? = nil
+        )
+        {
+            self.style = style
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The definition properties for a geospatial layer.
+    public struct GeospatialLayerDefinition: Swift.Sendable {
+        /// The definition for a line layer.
+        public var lineLayer: QuickSightClientTypes.GeospatialLineLayer?
+        /// The definition for a point layer.
+        public var pointLayer: QuickSightClientTypes.GeospatialPointLayer?
+        /// The definition for a polygon layer.
+        public var polygonLayer: QuickSightClientTypes.GeospatialPolygonLayer?
+
+        public init(
+            lineLayer: QuickSightClientTypes.GeospatialLineLayer? = nil,
+            pointLayer: QuickSightClientTypes.GeospatialPointLayer? = nil,
+            polygonLayer: QuickSightClientTypes.GeospatialPolygonLayer? = nil
+        )
+        {
+            self.lineLayer = lineLayer
+            self.pointLayer = pointLayer
+            self.polygonLayer = polygonLayer
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum GeospatialLayerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case line
+        case point
+        case polygon
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GeospatialLayerType] {
+            return [
+                .line,
+                .point,
+                .polygon
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .line: return "LINE"
+            case .point: return "POINT"
+            case .polygon: return "POLYGON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The properties for a single geospatial layer.
+    public struct GeospatialLayerItem: Swift.Sendable {
+        /// A list of custom actions for a layer.
+        public var actions: [QuickSightClientTypes.LayerCustomAction]?
+        /// The data source for the layer.
+        public var dataSource: QuickSightClientTypes.GeospatialDataSourceItem?
+        /// The join definition properties for a layer.
+        public var joinDefinition: QuickSightClientTypes.GeospatialLayerJoinDefinition?
+        /// The label that is displayed for the layer.
+        public var label: Swift.String?
+        /// The definition properties for a layer.
+        public var layerDefinition: QuickSightClientTypes.GeospatialLayerDefinition?
+        /// The ID of the layer.
+        /// This member is required.
+        public var layerId: Swift.String?
+        /// The layer type.
+        public var layerType: QuickSightClientTypes.GeospatialLayerType?
+        /// The display options for the visual tooltip.
+        public var tooltip: QuickSightClientTypes.TooltipOptions?
+        /// The state of visibility for the layer.
+        public var visibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            actions: [QuickSightClientTypes.LayerCustomAction]? = nil,
+            dataSource: QuickSightClientTypes.GeospatialDataSourceItem? = nil,
+            joinDefinition: QuickSightClientTypes.GeospatialLayerJoinDefinition? = nil,
+            label: Swift.String? = nil,
+            layerDefinition: QuickSightClientTypes.GeospatialLayerDefinition? = nil,
+            layerId: Swift.String? = nil,
+            layerType: QuickSightClientTypes.GeospatialLayerType? = nil,
+            tooltip: QuickSightClientTypes.TooltipOptions? = nil,
+            visibility: QuickSightClientTypes.Visibility? = nil
+        )
+        {
+            self.actions = actions
+            self.dataSource = dataSource
+            self.joinDefinition = joinDefinition
+            self.label = label
+            self.layerDefinition = layerDefinition
+            self.layerId = layerId
+            self.layerType = layerType
+            self.tooltip = tooltip
+            self.visibility = visibility
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum GeospatialMapNavigation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GeospatialMapNavigation] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The map state properties for a map.
+    public struct GeospatialMapState: Swift.Sendable {
+        /// The bound options (north, south, west, east) of the geospatial window options.
+        public var bounds: QuickSightClientTypes.GeospatialCoordinateBounds?
+        /// Enables or disables map navigation for a map.
+        public var mapNavigation: QuickSightClientTypes.GeospatialMapNavigation?
+
+        public init(
+            bounds: QuickSightClientTypes.GeospatialCoordinateBounds? = nil,
+            mapNavigation: QuickSightClientTypes.GeospatialMapNavigation? = nil
+        )
+        {
+            self.bounds = bounds
+            self.mapNavigation = mapNavigation
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The map style properties for a map.
+    public struct GeospatialMapStyle: Swift.Sendable {
+        /// The background color and opacity values for a map.
+        public var backgroundColor: Swift.String?
+        /// The selected base map style.
+        public var baseMapStyle: QuickSightClientTypes.BaseMapStyleType?
+        /// The state of visibility for the base map.
+        public var baseMapVisibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            backgroundColor: Swift.String? = nil,
+            baseMapStyle: QuickSightClientTypes.BaseMapStyleType? = nil,
+            baseMapVisibility: QuickSightClientTypes.Visibility? = nil
+        )
+        {
+            self.backgroundColor = backgroundColor
+            self.baseMapStyle = baseMapStyle
+            self.baseMapVisibility = baseMapVisibility
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The map definition that defines map state, map style, and geospatial layers.
+    public struct GeospatialLayerMapConfiguration: Swift.Sendable {
+        /// The general visual interactions setup for visual publish options
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
+        /// The options for the legend setup of a visual.
+        public var legend: QuickSightClientTypes.LegendOptions?
+        /// The geospatial layers to visualize on the map.
+        public var mapLayers: [QuickSightClientTypes.GeospatialLayerItem]?
+        /// The map state properties for the map.
+        public var mapState: QuickSightClientTypes.GeospatialMapState?
+        /// The map style properties for the map.
+        public var mapStyle: QuickSightClientTypes.GeospatialMapStyle?
+
+        public init(
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
+            legend: QuickSightClientTypes.LegendOptions? = nil,
+            mapLayers: [QuickSightClientTypes.GeospatialLayerItem]? = nil,
+            mapState: QuickSightClientTypes.GeospatialMapState? = nil,
+            mapStyle: QuickSightClientTypes.GeospatialMapStyle? = nil
+        )
+        {
+            self.interactions = interactions
+            self.legend = legend
+            self.mapLayers = mapLayers
+            self.mapState = mapState
+            self.mapStyle = mapStyle
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A layer map visual.
+    public struct LayerMapVisual: Swift.Sendable {
+        /// The configuration settings of the visual.
+        public var chartConfiguration: QuickSightClientTypes.GeospatialLayerMapConfiguration?
+        /// The dataset that is used to create the layer map visual. You can't create a visual without a dataset.
+        /// This member is required.
+        public var dataSetIdentifier: Swift.String?
+        /// The subtitle label options for a visual.
+        public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
+        /// The title label options for a visual.
+        public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
+        /// The ID of the visual.
+        /// This member is required.
+        public var visualId: Swift.String?
+
+        public init(
+            chartConfiguration: QuickSightClientTypes.GeospatialLayerMapConfiguration? = nil,
+            dataSetIdentifier: Swift.String? = nil,
+            subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
+            title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
+            visualId: Swift.String? = nil
+        )
+        {
+            self.chartConfiguration = chartConfiguration
+            self.dataSetIdentifier = dataSetIdentifier
+            self.subtitle = subtitle
+            self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -13956,6 +15186,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -13966,6 +15198,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -13974,6 +15207,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -14223,6 +15457,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -14233,6 +15469,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -14241,6 +15478,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -15461,6 +16699,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         /// This member is required.
         public var visualId: Swift.String?
@@ -15471,6 +16711,7 @@ extension QuickSightClientTypes {
             conditionalFormatting: QuickSightClientTypes.PivotTableConditionalFormatting? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -15479,6 +16720,214 @@ extension QuickSightClientTypes {
             self.conditionalFormatting = conditionalFormatting
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
+            self.visualId = visualId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum PluginVisualAxisName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case groupBy
+        case value
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PluginVisualAxisName] {
+            return [
+                .groupBy,
+                .value
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .groupBy: return "GROUP_BY"
+            case .value: return "VALUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A collection of field wells for a plugin visual.
+    public struct PluginVisualFieldWell: Swift.Sendable {
+        /// The semantic axis name for the field well.
+        public var axisName: QuickSightClientTypes.PluginVisualAxisName?
+        /// A list of dimensions for the field well.
+        public var dimensions: [QuickSightClientTypes.DimensionField]?
+        /// A list of measures that exist in the field well.
+        public var measures: [QuickSightClientTypes.MeasureField]?
+        /// A list of unaggregated fields that exist in the field well.
+        public var unaggregated: [QuickSightClientTypes.UnaggregatedField]?
+
+        public init(
+            axisName: QuickSightClientTypes.PluginVisualAxisName? = nil,
+            dimensions: [QuickSightClientTypes.DimensionField]? = nil,
+            measures: [QuickSightClientTypes.MeasureField]? = nil,
+            unaggregated: [QuickSightClientTypes.UnaggregatedField]? = nil
+        )
+        {
+            self.axisName = axisName
+            self.dimensions = dimensions
+            self.measures = measures
+            self.unaggregated = unaggregated
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A query limits configuration.
+    public struct PluginVisualItemsLimitConfiguration: Swift.Sendable {
+        /// Determines how many values are be fetched at once.
+        public var itemsLimit: Swift.Int?
+
+        public init(
+            itemsLimit: Swift.Int? = 0
+        )
+        {
+            self.itemsLimit = itemsLimit
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The table query sorting options for the plugin visual.
+    public struct PluginVisualTableQuerySort: Swift.Sendable {
+        /// The maximum amount of data to be returned by a query.
+        public var itemsLimitConfiguration: QuickSightClientTypes.PluginVisualItemsLimitConfiguration?
+        /// Determines how data is sorted in the response.
+        public var rowSort: [QuickSightClientTypes.FieldSortOptions]?
+
+        public init(
+            itemsLimitConfiguration: QuickSightClientTypes.PluginVisualItemsLimitConfiguration? = nil,
+            rowSort: [QuickSightClientTypes.FieldSortOptions]? = nil
+        )
+        {
+            self.itemsLimitConfiguration = itemsLimitConfiguration
+            self.rowSort = rowSort
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Determines how the plugin visual sorts the data during query.
+    public struct PluginVisualSortConfiguration: Swift.Sendable {
+        /// The table query sorting options for the plugin visual.
+        public var pluginVisualTableQuerySort: QuickSightClientTypes.PluginVisualTableQuerySort?
+
+        public init(
+            pluginVisualTableQuerySort: QuickSightClientTypes.PluginVisualTableQuerySort? = nil
+        )
+        {
+            self.pluginVisualTableQuerySort = pluginVisualTableQuerySort
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The key value pair of the persisted property.
+    public struct PluginVisualProperty: Swift.Sendable {
+        /// The name of the plugin visual property.
+        public var name: Swift.String?
+        /// The value of the plugin visual property.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The options and persisted properties for the plugin visual.
+    public struct PluginVisualOptions: Swift.Sendable {
+        /// The persisted properties and their values.
+        public var visualProperties: [QuickSightClientTypes.PluginVisualProperty]?
+
+        public init(
+            visualProperties: [QuickSightClientTypes.PluginVisualProperty]? = nil
+        )
+        {
+            self.visualProperties = visualProperties
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The plugin visual configuration. This includes the field wells, sorting options, and persisted options of the plugin visual.
+    public struct PluginVisualConfiguration: Swift.Sendable {
+        /// The field wells configuration of the plugin visual.
+        public var fieldWells: [QuickSightClientTypes.PluginVisualFieldWell]?
+        /// The sort configuration of the plugin visual.
+        public var sortConfiguration: QuickSightClientTypes.PluginVisualSortConfiguration?
+        /// The persisted properties of the plugin visual.
+        public var visualOptions: QuickSightClientTypes.PluginVisualOptions?
+
+        public init(
+            fieldWells: [QuickSightClientTypes.PluginVisualFieldWell]? = nil,
+            sortConfiguration: QuickSightClientTypes.PluginVisualSortConfiguration? = nil,
+            visualOptions: QuickSightClientTypes.PluginVisualOptions? = nil
+        )
+        {
+            self.fieldWells = fieldWells
+            self.sortConfiguration = sortConfiguration
+            self.visualOptions = visualOptions
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A flexible visualization type that allows engineers to create new custom charts in Amazon QuickSight.
+    public struct PluginVisual: Swift.Sendable {
+        /// A description of the plugin field wells and their persisted properties.
+        public var chartConfiguration: QuickSightClientTypes.PluginVisualConfiguration?
+        /// The Amazon Resource Name (ARN) that reflects the plugin and version.
+        /// This member is required.
+        public var pluginArn: Swift.String?
+        /// The subtitle label options for a visual.
+        public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
+        /// The title label options for a visual.
+        public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
+        /// The ID of the visual that you want to use.
+        /// This member is required.
+        public var visualId: Swift.String?
+
+        public init(
+            chartConfiguration: QuickSightClientTypes.PluginVisualConfiguration? = nil,
+            pluginArn: Swift.String? = nil,
+            subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
+            title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
+            visualId: Swift.String? = nil
+        )
+        {
+            self.chartConfiguration = chartConfiguration
+            self.pluginArn = pluginArn
+            self.subtitle = subtitle
+            self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -15735,6 +17184,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -15745,6 +17196,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -15753,6 +17205,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -15862,6 +17315,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -15871,6 +17326,7 @@ extension QuickSightClientTypes {
             chartConfiguration: QuickSightClientTypes.SankeyDiagramChartConfiguration? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -15878,6 +17334,7 @@ extension QuickSightClientTypes {
             self.chartConfiguration = chartConfiguration
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -16053,6 +17510,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -16063,6 +17522,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -16071,6 +17531,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -16354,32 +17815,6 @@ extension QuickSightClientTypes {
         {
             self.groupBy = groupBy
             self.values = values
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// The unaggregated field for a table.
-    public struct UnaggregatedField: Swift.Sendable {
-        /// The column that is used in the UnaggregatedField.
-        /// This member is required.
-        public var column: QuickSightClientTypes.ColumnIdentifier?
-        /// The custom field ID.
-        /// This member is required.
-        public var fieldId: Swift.String?
-        /// The format configuration of the field.
-        public var formatConfiguration: QuickSightClientTypes.FormatConfiguration?
-
-        public init(
-            column: QuickSightClientTypes.ColumnIdentifier? = nil,
-            fieldId: Swift.String? = nil,
-            formatConfiguration: QuickSightClientTypes.FormatConfiguration? = nil
-        )
-        {
-            self.column = column
-            self.fieldId = fieldId
-            self.formatConfiguration = formatConfiguration
         }
     }
 }
@@ -16729,6 +18164,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         /// This member is required.
         public var visualId: Swift.String?
@@ -16739,6 +18176,7 @@ extension QuickSightClientTypes {
             conditionalFormatting: QuickSightClientTypes.TableConditionalFormatting? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -16747,6 +18185,7 @@ extension QuickSightClientTypes {
             self.conditionalFormatting = conditionalFormatting
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -16878,6 +18317,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         /// This member is required.
         public var visualId: Swift.String?
@@ -16888,6 +18329,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -16896,6 +18338,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -17091,6 +18534,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
         /// This member is required.
         public var visualId: Swift.String?
@@ -17101,6 +18546,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -17109,6 +18555,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -17403,6 +18850,8 @@ extension QuickSightClientTypes {
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
         public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The alt text for the visual.
+        public var visualContentAltText: Swift.String?
         /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers..
         /// This member is required.
         public var visualId: Swift.String?
@@ -17413,6 +18862,7 @@ extension QuickSightClientTypes {
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualContentAltText: Swift.String? = nil,
             visualId: Swift.String? = nil
         )
         {
@@ -17421,6 +18871,7 @@ extension QuickSightClientTypes {
             self.columnHierarchies = columnHierarchies
             self.subtitle = subtitle
             self.title = title
+            self.visualContentAltText = visualContentAltText
             self.visualId = visualId
         }
     }
@@ -17456,12 +18907,16 @@ extension QuickSightClientTypes {
         public var insightVisual: QuickSightClientTypes.InsightVisual?
         /// A key performance indicator (KPI). For more information, see [Using KPIs](https://docs.aws.amazon.com/quicksight/latest/user/kpi.html) in the Amazon QuickSight User Guide.
         public var kpiVisual: QuickSightClientTypes.KPIVisual?
+        /// The properties for a layer map visual
+        public var layerMapVisual: QuickSightClientTypes.LayerMapVisual?
         /// A line chart. For more information, see [Using line charts](https://docs.aws.amazon.com/quicksight/latest/user/line-charts.html) in the Amazon QuickSight User Guide.
         public var lineChartVisual: QuickSightClientTypes.LineChartVisual?
         /// A pie or donut chart. For more information, see [Using pie charts](https://docs.aws.amazon.com/quicksight/latest/user/pie-chart.html) in the Amazon QuickSight User Guide.
         public var pieChartVisual: QuickSightClientTypes.PieChartVisual?
         /// A pivot table. For more information, see [Using pivot tables](https://docs.aws.amazon.com/quicksight/latest/user/pivot-table.html) in the Amazon QuickSight User Guide.
         public var pivotTableVisual: QuickSightClientTypes.PivotTableVisual?
+        /// The custom plugin visual type.
+        public var pluginVisual: QuickSightClientTypes.PluginVisual?
         /// A radar chart visual. For more information, see [Using radar charts](https://docs.aws.amazon.com/quicksight/latest/user/radar-chart.html) in the Amazon QuickSight User Guide.
         public var radarChartVisual: QuickSightClientTypes.RadarChartVisual?
         /// A sankey diagram. For more information, see [Using Sankey diagrams](https://docs.aws.amazon.com/quicksight/latest/user/sankey-diagram.html) in the Amazon QuickSight User Guide.
@@ -17491,9 +18946,11 @@ extension QuickSightClientTypes {
             histogramVisual: QuickSightClientTypes.HistogramVisual? = nil,
             insightVisual: QuickSightClientTypes.InsightVisual? = nil,
             kpiVisual: QuickSightClientTypes.KPIVisual? = nil,
+            layerMapVisual: QuickSightClientTypes.LayerMapVisual? = nil,
             lineChartVisual: QuickSightClientTypes.LineChartVisual? = nil,
             pieChartVisual: QuickSightClientTypes.PieChartVisual? = nil,
             pivotTableVisual: QuickSightClientTypes.PivotTableVisual? = nil,
+            pluginVisual: QuickSightClientTypes.PluginVisual? = nil,
             radarChartVisual: QuickSightClientTypes.RadarChartVisual? = nil,
             sankeyDiagramVisual: QuickSightClientTypes.SankeyDiagramVisual? = nil,
             scatterPlotVisual: QuickSightClientTypes.ScatterPlotVisual? = nil,
@@ -17516,9 +18973,11 @@ extension QuickSightClientTypes {
             self.histogramVisual = histogramVisual
             self.insightVisual = insightVisual
             self.kpiVisual = kpiVisual
+            self.layerMapVisual = layerMapVisual
             self.lineChartVisual = lineChartVisual
             self.pieChartVisual = pieChartVisual
             self.pivotTableVisual = pivotTableVisual
+            self.pluginVisual = pluginVisual
             self.radarChartVisual = radarChartVisual
             self.sankeyDiagramVisual = sankeyDiagramVisual
             self.scatterPlotVisual = scatterPlotVisual
@@ -17544,6 +19003,8 @@ extension QuickSightClientTypes {
         public var description: Swift.String?
         /// The list of filter controls that are on a sheet. For more information, see [Adding filter controls to analysis sheets](https://docs.aws.amazon.com/quicksight/latest/user/filter-controls.html) in the Amazon QuickSight User Guide.
         public var filterControls: [QuickSightClientTypes.FilterControl]?
+        /// A list of images on a sheet.
+        public var images: [QuickSightClientTypes.SheetImage]?
         /// Layouts define how the components of a sheet are arranged. For more information, see [Types of layout](https://docs.aws.amazon.com/quicksight/latest/user/types-of-layout.html) in the Amazon QuickSight User Guide.
         public var layouts: [QuickSightClientTypes.Layout]?
         /// The name of the sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
@@ -17566,6 +19027,7 @@ extension QuickSightClientTypes {
             contentType: QuickSightClientTypes.SheetContentType? = nil,
             description: Swift.String? = nil,
             filterControls: [QuickSightClientTypes.FilterControl]? = nil,
+            images: [QuickSightClientTypes.SheetImage]? = nil,
             layouts: [QuickSightClientTypes.Layout]? = nil,
             name: Swift.String? = nil,
             parameterControls: [QuickSightClientTypes.ParameterControl]? = nil,
@@ -17579,6 +19041,7 @@ extension QuickSightClientTypes {
             self.contentType = contentType
             self.description = description
             self.filterControls = filterControls
+            self.images = images
             self.layouts = layouts
             self.name = name
             self.parameterControls = parameterControls
@@ -17587,6 +19050,132 @@ extension QuickSightClientTypes {
             self.textBoxes = textBoxes
             self.title = title
             self.visuals = visuals
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The structure that contains the Amazon S3 location to download the static file from.
+    public struct StaticFileS3SourceOptions: Swift.Sendable {
+        /// The name of the Amazon S3 bucket.
+        /// This member is required.
+        public var bucketName: Swift.String?
+        /// The identifier of the static file in the Amazon S3 bucket.
+        /// This member is required.
+        public var objectKey: Swift.String?
+        /// The Region of the Amazon S3 account that contains the bucket.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            bucketName: Swift.String? = nil,
+            objectKey: Swift.String? = nil,
+            region: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.objectKey = objectKey
+            self.region = region
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The structure that contains the URL to download the static file from.
+    public struct StaticFileUrlSourceOptions: Swift.Sendable {
+        /// The URL to download the static file from.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            url: Swift.String? = nil
+        )
+        {
+            self.url = url
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The source of the static file.
+    public struct StaticFileSource: Swift.Sendable {
+        /// The structure that contains the Amazon S3 location to download the static file from.
+        public var s3Options: QuickSightClientTypes.StaticFileS3SourceOptions?
+        /// The structure that contains the URL to download the static file from.
+        public var urlOptions: QuickSightClientTypes.StaticFileUrlSourceOptions?
+
+        public init(
+            s3Options: QuickSightClientTypes.StaticFileS3SourceOptions? = nil,
+            urlOptions: QuickSightClientTypes.StaticFileUrlSourceOptions? = nil
+        )
+        {
+            self.s3Options = s3Options
+            self.urlOptions = urlOptions
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A static file that contains an image.
+    public struct ImageStaticFile: Swift.Sendable {
+        /// The source of the image static file.
+        public var source: QuickSightClientTypes.StaticFileSource?
+        /// The ID of the static file that contains an image.
+        /// This member is required.
+        public var staticFileId: Swift.String?
+
+        public init(
+            source: QuickSightClientTypes.StaticFileSource? = nil,
+            staticFileId: Swift.String? = nil
+        )
+        {
+            self.source = source
+            self.staticFileId = staticFileId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A static file that contains the geospatial data.
+    public struct SpatialStaticFile: Swift.Sendable {
+        /// The source of the spatial static file.
+        public var source: QuickSightClientTypes.StaticFileSource?
+        /// The ID of the spatial static file.
+        /// This member is required.
+        public var staticFileId: Swift.String?
+
+        public init(
+            source: QuickSightClientTypes.StaticFileSource? = nil,
+            staticFileId: Swift.String? = nil
+        )
+        {
+            self.source = source
+            self.staticFileId = staticFileId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The static file.
+    public struct StaticFile: Swift.Sendable {
+        /// The image static file.
+        public var imageStaticFile: QuickSightClientTypes.ImageStaticFile?
+        /// The spacial static file.
+        public var spatialStaticFile: QuickSightClientTypes.SpatialStaticFile?
+
+        public init(
+            imageStaticFile: QuickSightClientTypes.ImageStaticFile? = nil,
+            spatialStaticFile: QuickSightClientTypes.SpatialStaticFile? = nil
+        )
+        {
+            self.imageStaticFile = imageStaticFile
+            self.spatialStaticFile = spatialStaticFile
         }
     }
 }
@@ -17614,6 +19203,8 @@ extension QuickSightClientTypes {
         public var queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions?
         /// An array of sheet definitions for an analysis. Each SheetDefinition provides detailed information about a sheet within this analysis.
         public var sheets: [QuickSightClientTypes.SheetDefinition]?
+        /// The static files for the definition.
+        public var staticFiles: [QuickSightClientTypes.StaticFile]?
 
         public init(
             analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
@@ -17624,7 +19215,8 @@ extension QuickSightClientTypes {
             options: QuickSightClientTypes.AssetOptions? = nil,
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
             queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
-            sheets: [QuickSightClientTypes.SheetDefinition]? = nil
+            sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
+            staticFiles: [QuickSightClientTypes.StaticFile]? = nil
         )
         {
             self.analysisDefaults = analysisDefaults
@@ -17636,6 +19228,7 @@ extension QuickSightClientTypes {
             self.parameterDeclarations = parameterDeclarations
             self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
+            self.staticFiles = staticFiles
         }
     }
 }
@@ -20952,9 +22545,9 @@ extension QuickSightClientTypes {
 
     /// The source of the asset bundle zip file that contains the data that you want to import. The file must be in QUICKSIGHT_JSON format.
     public struct AssetBundleImportSource: Swift.Sendable {
-        /// The bytes of the base64 encoded asset bundle import zip file. This file can't exceed 20 MB. If you are calling the API operations from the Amazon Web Services SDK for Java, JavaScript, Python, or PHP, the SDK encodes base64 automatically to allow the direct setting of the zip file's bytes. If you are using an SDK for a different language or receiving related errors, try to base64 encode your data.
+        /// The bytes of the base64 encoded asset bundle import zip file. This file can't exceed 20 MB. If the size of the file that you want to upload is more than 20 MB, add the file to your Amazon S3 bucket and use S3Uri of the file for this operation. If you are calling the API operations from the Amazon Web Services SDK for Java, JavaScript, Python, or PHP, the SDK encodes base64 automatically to allow the direct setting of the zip file's bytes. If you are using an SDK for a different language or receiving related errors, try to base64 encode your data.
         public var body: Foundation.Data?
-        /// The Amazon S3 URI for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 20 MB.
+        /// The Amazon S3 URI for an asset bundle import file that exists in an Amazon S3 bucket that the caller has read access to. The file must be a zip format file and can't exceed 1 GB.
         public var s3Uri: Swift.String?
 
         public init(
@@ -21068,11 +22661,13 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
 
     public enum ServiceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case qbusiness
         case redshift
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServiceType] {
             return [
+                .qbusiness,
                 .redshift
             ]
         }
@@ -21084,6 +22679,7 @@ extension QuickSightClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .qbusiness: return "QBUSINESS"
             case .redshift: return "REDSHIFT"
             case let .sdkUnknown(s): return s
             }
@@ -24800,6 +26396,8 @@ extension QuickSightClientTypes {
         public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
         /// An array of sheet definitions for a dashboard.
         public var sheets: [QuickSightClientTypes.SheetDefinition]?
+        /// The static files for the definition.
+        public var staticFiles: [QuickSightClientTypes.StaticFile]?
 
         public init(
             analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
@@ -24809,7 +26407,8 @@ extension QuickSightClientTypes {
             filterGroups: [QuickSightClientTypes.FilterGroup]? = nil,
             options: QuickSightClientTypes.AssetOptions? = nil,
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
-            sheets: [QuickSightClientTypes.SheetDefinition]? = nil
+            sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
+            staticFiles: [QuickSightClientTypes.StaticFile]? = nil
         )
         {
             self.analysisDefaults = analysisDefaults
@@ -24820,6 +26419,7 @@ extension QuickSightClientTypes {
             self.options = options
             self.parameterDeclarations = parameterDeclarations
             self.sheets = sheets
+            self.staticFiles = staticFiles
         }
     }
 }
@@ -25631,6 +27231,39 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// A UniqueKey configuration that references a dataset column.
+    public struct UniqueKey: Swift.Sendable {
+        /// The name of the column that is referenced in the UniqueKey configuration.
+        /// This member is required.
+        public var columnNames: [Swift.String]?
+
+        public init(
+            columnNames: [Swift.String]? = nil
+        )
+        {
+            self.columnNames = columnNames
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
+    public struct PerformanceConfiguration: Swift.Sendable {
+        /// A UniqueKey configuration.
+        public var uniqueKeys: [QuickSightClientTypes.UniqueKey]?
+
+        public init(
+            uniqueKeys: [QuickSightClientTypes.UniqueKey]? = nil
+        )
+        {
+            self.uniqueKeys = uniqueKeys
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum InputColumnDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bit
         case boolean
@@ -26115,6 +27748,8 @@ public struct CreateDataSetInput: Swift.Sendable {
     /// The display name for the dataset.
     /// This member is required.
     public var name: Swift.String?
+    /// The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
+    public var performanceConfiguration: QuickSightClientTypes.PerformanceConfiguration?
     /// A list of resource permissions on the dataset.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
     /// Declares the physical tables that are available in the underlying data sources.
@@ -26139,6 +27774,7 @@ public struct CreateDataSetInput: Swift.Sendable {
         importMode: QuickSightClientTypes.DataSetImportMode? = nil,
         logicalTableMap: [Swift.String: QuickSightClientTypes.LogicalTable]? = nil,
         name: Swift.String? = nil,
+        performanceConfiguration: QuickSightClientTypes.PerformanceConfiguration? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]? = nil,
         rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
@@ -26157,6 +27793,7 @@ public struct CreateDataSetInput: Swift.Sendable {
         self.importMode = importMode
         self.logicalTableMap = logicalTableMap
         self.name = name
+        self.performanceConfiguration = performanceConfiguration
         self.permissions = permissions
         self.physicalTableMap = physicalTableMap
         self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
@@ -27575,6 +29212,8 @@ extension QuickSightClientTypes {
         public var queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions?
         /// An array of sheet definitions for a template.
         public var sheets: [QuickSightClientTypes.SheetDefinition]?
+        /// The static files for the definition.
+        public var staticFiles: [QuickSightClientTypes.StaticFile]?
 
         public init(
             analysisDefaults: QuickSightClientTypes.AnalysisDefaults? = nil,
@@ -27585,7 +29224,8 @@ extension QuickSightClientTypes {
             options: QuickSightClientTypes.AssetOptions? = nil,
             parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]? = nil,
             queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions? = nil,
-            sheets: [QuickSightClientTypes.SheetDefinition]? = nil
+            sheets: [QuickSightClientTypes.SheetDefinition]? = nil,
+            staticFiles: [QuickSightClientTypes.StaticFile]? = nil
         )
         {
             self.analysisDefaults = analysisDefaults
@@ -27597,6 +29237,7 @@ extension QuickSightClientTypes {
             self.parameterDeclarations = parameterDeclarations
             self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
+            self.staticFiles = staticFiles
         }
     }
 }
@@ -29310,6 +30951,8 @@ public struct CreateTopicInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that you want to create a topic in.
     /// This member is required.
     public var awsAccountId: Swift.String?
+    /// The Folder ARN of the folder that you want the topic to reside in.
+    public var folderArns: [Swift.String]?
     /// Contains a map of the key-value pairs for the resource tag or tags that are assigned to the dataset.
     public var tags: [QuickSightClientTypes.Tag]?
     /// The definition of a topic to create.
@@ -29321,12 +30964,14 @@ public struct CreateTopicInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil,
+        folderArns: [Swift.String]? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil,
         topic: QuickSightClientTypes.TopicDetails? = nil,
         topicId: Swift.String? = nil
     )
     {
         self.awsAccountId = awsAccountId
+        self.folderArns = folderArns
         self.tags = tags
         self.topic = topic
         self.topicId = topicId
@@ -29934,6 +31579,35 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum DashboardsQAStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashboardsQAStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// Dashboard summary.
     public struct DashboardSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the resource.
@@ -30010,6 +31684,50 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The QA result that is made from dashboard visual.
+    public struct DashboardVisualResult: Swift.Sendable {
+        /// The ID of the dashboard.
+        public var dashboardId: Swift.String?
+        /// The name of the dashboard.
+        public var dashboardName: Swift.String?
+        /// The URL of the dashboard.
+        public var dashboardUrl: Swift.String?
+        /// The ID of the sheet.
+        public var sheetId: Swift.String?
+        /// The name of the sheet.
+        public var sheetName: Swift.String?
+        /// The ID of the visual.
+        public var visualId: Swift.String?
+        /// The subtitle of the visual.
+        public var visualSubtitle: Swift.String?
+        /// The title of the visual.
+        public var visualTitle: Swift.String?
+
+        public init(
+            dashboardId: Swift.String? = nil,
+            dashboardName: Swift.String? = nil,
+            dashboardUrl: Swift.String? = nil,
+            sheetId: Swift.String? = nil,
+            sheetName: Swift.String? = nil,
+            visualId: Swift.String? = nil,
+            visualSubtitle: Swift.String? = nil,
+            visualTitle: Swift.String? = nil
+        )
+        {
+            self.dashboardId = dashboardId
+            self.dashboardName = dashboardName
+            self.dashboardUrl = dashboardUrl
+            self.sheetId = sheetId
+            self.sheetName = sheetName
+            self.visualId = visualId
+            self.visualSubtitle = visualSubtitle
+            self.visualTitle = visualTitle
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// Output column.
     public struct OutputColumn: Swift.Sendable {
         /// A description for a column.
@@ -30073,6 +31791,8 @@ extension QuickSightClientTypes {
         public var name: Swift.String?
         /// The list of columns after all transforms. These columns are available in templates, analyses, and dashboards.
         public var outputColumns: [QuickSightClientTypes.OutputColumn]?
+        /// The performance optimization configuration of a dataset.
+        public var performanceConfiguration: QuickSightClientTypes.PerformanceConfiguration?
         /// Declares the physical tables that are available in the underlying data sources.
         public var physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]?
         /// The row-level security configuration for the dataset.
@@ -30095,6 +31815,7 @@ extension QuickSightClientTypes {
             logicalTableMap: [Swift.String: QuickSightClientTypes.LogicalTable]? = nil,
             name: Swift.String? = nil,
             outputColumns: [QuickSightClientTypes.OutputColumn]? = nil,
+            performanceConfiguration: QuickSightClientTypes.PerformanceConfiguration? = nil,
             physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]? = nil,
             rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
             rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration? = nil
@@ -30114,6 +31835,7 @@ extension QuickSightClientTypes {
             self.logicalTableMap = logicalTableMap
             self.name = name
             self.outputColumns = outputColumns
+            self.performanceConfiguration = performanceConfiguration
             self.physicalTableMap = physicalTableMap
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
             self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
@@ -30964,6 +32686,39 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
     {
         self.arn = arn
         self.dataSourceId = dataSourceId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct DeleteDefaultQBusinessApplicationInput: Swift.Sendable {
+    /// The ID of the Amazon QuickSight account that you want to disconnect from a Amazon Q Business application.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Amazon QuickSight namespace that you want to delete a linked Amazon Q Business application from. If this field is left blank, the Amazon Q Business application is deleted from the default namespace. Currently, the default namespace is the only valid value for this parameter.
+    public var namespace: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+    }
+}
+
+public struct DeleteDefaultQBusinessApplicationOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
         self.requestId = requestId
         self.status = status
     }
@@ -32995,6 +34750,39 @@ public struct DescribeDashboardSnapshotJobResultOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeDashboardsQAConfigurationInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the dashboard QA configuration that you want described.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DescribeDashboardsQAConfigurationOutput: Swift.Sendable {
+    /// The status of dashboards QA configuration that you want described.
+    public var dashboardsQAStatus: QuickSightClientTypes.DashboardsQAStatus?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        dashboardsQAStatus: QuickSightClientTypes.DashboardsQAStatus? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.dashboardsQAStatus = dashboardsQAStatus
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct DescribeDataSetInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
@@ -33196,6 +34984,43 @@ public struct DescribeDataSourcePermissionsOutput: Swift.Sendable {
         self.dataSourceArn = dataSourceArn
         self.dataSourceId = dataSourceId
         self.permissions = permissions
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct DescribeDefaultQBusinessApplicationInput: Swift.Sendable {
+    /// The ID of the Amazon QuickSight account that is linked to the Amazon Q Business application that you want described.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+    public var namespace: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+    }
+}
+
+public struct DescribeDefaultQBusinessApplicationOutput: Swift.Sendable {
+    /// The ID of the Amazon Q Business application that is linked to the Amazon QuickSight account.
+    public var applicationId: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        applicationId: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.applicationId = applicationId
         self.requestId = requestId
         self.status = status
     }
@@ -34187,6 +36012,10 @@ extension QuickSightClientTypes {
         public var capacityRegion: Swift.String?
         /// The creation status of a namespace that is not yet completely created.
         public var creationStatus: QuickSightClientTypes.NamespaceStatus?
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center application.
+        public var iamIdentityCenterApplicationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center instance.
+        public var iamIdentityCenterInstanceArn: Swift.String?
         /// The identity store used for the namespace.
         public var identityStore: QuickSightClientTypes.IdentityStore?
         /// The name of the error.
@@ -34198,6 +36027,8 @@ extension QuickSightClientTypes {
             arn: Swift.String? = nil,
             capacityRegion: Swift.String? = nil,
             creationStatus: QuickSightClientTypes.NamespaceStatus? = nil,
+            iamIdentityCenterApplicationArn: Swift.String? = nil,
+            iamIdentityCenterInstanceArn: Swift.String? = nil,
             identityStore: QuickSightClientTypes.IdentityStore? = nil,
             name: Swift.String? = nil,
             namespaceError: QuickSightClientTypes.NamespaceError? = nil
@@ -34206,6 +36037,8 @@ extension QuickSightClientTypes {
             self.arn = arn
             self.capacityRegion = capacityRegion
             self.creationStatus = creationStatus
+            self.iamIdentityCenterApplicationArn = iamIdentityCenterApplicationArn
+            self.iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArn
             self.identityStore = identityStore
             self.name = name
             self.namespaceError = namespaceError
@@ -34290,6 +36123,68 @@ public struct DescribeQPersonalizationConfigurationOutput: Swift.Sendable {
     )
     {
         self.personalizationMode = personalizationMode
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct DescribeQuickSightQSearchConfigurationInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that the user wants described.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum QSearchStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QSearchStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeQuickSightQSearchConfigurationOutput: Swift.Sendable {
+    /// The status of Amazon QuickSight Q Search configuration.
+    public var qSearchStatus: QuickSightClientTypes.QSearchStatus?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        qSearchStatus: QuickSightClientTypes.QSearchStatus? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.qSearchStatus = qSearchStatus
         self.requestId = requestId
         self.status = status
     }
@@ -35920,6 +37815,87 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes {
+
+    public enum GeneratedAnswerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case answerDowngrade
+        case answerGenerated
+        case answerRetrieved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GeneratedAnswerStatus] {
+            return [
+                .answerDowngrade,
+                .answerGenerated,
+                .answerRetrieved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .answerDowngrade: return "ANSWER_DOWNGRADE"
+            case .answerGenerated: return "ANSWER_GENERATED"
+            case .answerRetrieved: return "ANSWER_RETRIEVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The QA result that is made from generated answer.
+    public struct GeneratedAnswerResult: Swift.Sendable {
+        /// The ID of the answer.
+        public var answerId: Swift.String?
+        /// The answer status of the generated answer.
+        public var answerStatus: QuickSightClientTypes.GeneratedAnswerStatus?
+        /// The ID of the question.
+        public var questionId: Swift.String?
+        /// The question text.
+        public var questionText: Swift.String?
+        /// The URL of the question.
+        public var questionUrl: Swift.String?
+        /// The restatement for the answer.
+        public var restatement: Swift.String?
+        /// The ID of the topic.
+        public var topicId: Swift.String?
+        /// The name of the topic.
+        public var topicName: Swift.String?
+
+        public init(
+            answerId: Swift.String? = nil,
+            answerStatus: QuickSightClientTypes.GeneratedAnswerStatus? = nil,
+            questionId: Swift.String? = nil,
+            questionText: Swift.String? = nil,
+            questionUrl: Swift.String? = nil,
+            restatement: Swift.String? = nil,
+            topicId: Swift.String? = nil,
+            topicName: Swift.String? = nil
+        )
+        {
+            self.answerId = answerId
+            self.answerStatus = answerStatus
+            self.questionId = questionId
+            self.questionText = questionText
+            self.questionUrl = questionUrl
+            self.restatement = restatement
+            self.topicId = topicId
+            self.topicName = topicName
+        }
+    }
+}
+
+extension QuickSightClientTypes.GeneratedAnswerResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GeneratedAnswerResult(answerId: \(Swift.String(describing: answerId)), answerStatus: \(Swift.String(describing: answerStatus)), questionId: \(Swift.String(describing: questionId)), questionUrl: \(Swift.String(describing: questionUrl)), topicId: \(Swift.String(describing: topicId)), topicName: \(Swift.String(describing: topicName)), questionText: \"CONTENT_REDACTED\", restatement: \"CONTENT_REDACTED\")"}
+}
+
 /// The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
 public struct SessionLifetimeInMinutesInvalidException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -36365,6 +38341,60 @@ extension GenerateEmbedUrlForRegisteredUserOutput: Swift.CustomDebugStringConver
         "GenerateEmbedUrlForRegisteredUserOutput(requestId: \(Swift.String(describing: requestId)), status: \(Swift.String(describing: status)), embedUrl: \"CONTENT_REDACTED\")"}
 }
 
+public struct GenerateEmbedUrlForRegisteredUserWithIdentityInput: Swift.Sendable {
+    /// A list of domains to be allowed to generate the embed URL.
+    public var allowedDomains: [Swift.String]?
+    /// The ID of the Amazon Web Services registered user.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The type of experience you want to embed. For registered users, you can embed Amazon QuickSight dashboards or the Amazon QuickSight console. Exactly one of the experience configurations is required. You can choose Dashboard or QuickSightConsole. You cannot choose more than one experience configuration.
+    /// This member is required.
+    public var experienceConfiguration: QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration?
+    /// The validity of the session in minutes.
+    public var sessionLifetimeInMinutes: Swift.Int?
+
+    public init(
+        allowedDomains: [Swift.String]? = nil,
+        awsAccountId: Swift.String? = nil,
+        experienceConfiguration: QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration? = nil,
+        sessionLifetimeInMinutes: Swift.Int? = nil
+    )
+    {
+        self.allowedDomains = allowedDomains
+        self.awsAccountId = awsAccountId
+        self.experienceConfiguration = experienceConfiguration
+        self.sessionLifetimeInMinutes = sessionLifetimeInMinutes
+    }
+}
+
+public struct GenerateEmbedUrlForRegisteredUserWithIdentityOutput: Swift.Sendable {
+    /// The generated embed URL for the registered user.
+    /// This member is required.
+    public var embedUrl: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    /// This member is required.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    /// This member is required.
+    public var status: Swift.Int
+
+    public init(
+        embedUrl: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.embedUrl = embedUrl
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+extension GenerateEmbedUrlForRegisteredUserWithIdentityOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateEmbedUrlForRegisteredUserWithIdentityOutput(requestId: \(Swift.String(describing: requestId)), status: \(Swift.String(describing: status)), embedUrl: \"CONTENT_REDACTED\")"}
+}
+
 /// The identity type specified isn't supported. Supported identity types include IAM and QUICKSIGHT.
 public struct IdentityTypeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -36645,6 +38675,64 @@ extension QuickSightClientTypes {
         {
             self.assignmentName = assignmentName
             self.assignmentStatus = assignmentStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum IncludeGeneratedAnswer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludeGeneratedAnswer] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum IncludeQuickSightQIndex: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludeQuickSightQIndex] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -38487,6 +40575,121 @@ public struct ListVPCConnectionsOutput: Swift.Sendable {
     }
 }
 
+public struct PredictQAResultsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that the user wants to execute Predict QA results in.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// Indicates whether generated answers are included or excluded.
+    public var includeGeneratedAnswer: QuickSightClientTypes.IncludeGeneratedAnswer?
+    /// Indicates whether Q indicies are included or excluded.
+    public var includeQuickSightQIndex: QuickSightClientTypes.IncludeQuickSightQIndex?
+    /// The number of maximum topics to be considered to predict QA results.
+    public var maxTopicsToConsider: Swift.Int?
+    /// The query text to be used to predict QA results.
+    /// This member is required.
+    public var queryText: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        includeGeneratedAnswer: QuickSightClientTypes.IncludeGeneratedAnswer? = nil,
+        includeQuickSightQIndex: QuickSightClientTypes.IncludeQuickSightQIndex? = nil,
+        maxTopicsToConsider: Swift.Int? = nil,
+        queryText: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.includeGeneratedAnswer = includeGeneratedAnswer
+        self.includeQuickSightQIndex = includeQuickSightQIndex
+        self.maxTopicsToConsider = maxTopicsToConsider
+        self.queryText = queryText
+    }
+}
+
+extension PredictQAResultsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PredictQAResultsInput(awsAccountId: \(Swift.String(describing: awsAccountId)), includeGeneratedAnswer: \(Swift.String(describing: includeGeneratedAnswer)), includeQuickSightQIndex: \(Swift.String(describing: includeQuickSightQIndex)), maxTopicsToConsider: \(Swift.String(describing: maxTopicsToConsider)), queryText: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    public enum QAResultType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dashboardVisual
+        case generatedAnswer
+        case noAnswer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QAResultType] {
+            return [
+                .dashboardVisual,
+                .generatedAnswer,
+                .noAnswer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dashboardVisual: return "DASHBOARD_VISUAL"
+            case .generatedAnswer: return "GENERATED_ANSWER"
+            case .noAnswer: return "NO_ANSWER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The QA result that is made from the DashboardVisual or GeneratedAnswer.
+    public struct QAResult: Swift.Sendable {
+        /// The representation of a dashboard visual result.
+        public var dashboardVisual: QuickSightClientTypes.DashboardVisualResult?
+        /// The representation of a generated answer result.
+        public var generatedAnswer: QuickSightClientTypes.GeneratedAnswerResult?
+        /// The type of QA result.
+        public var resultType: QuickSightClientTypes.QAResultType?
+
+        public init(
+            dashboardVisual: QuickSightClientTypes.DashboardVisualResult? = nil,
+            generatedAnswer: QuickSightClientTypes.GeneratedAnswerResult? = nil,
+            resultType: QuickSightClientTypes.QAResultType? = nil
+        )
+        {
+            self.dashboardVisual = dashboardVisual
+            self.generatedAnswer = generatedAnswer
+            self.resultType = resultType
+        }
+    }
+}
+
+public struct PredictQAResultsOutput: Swift.Sendable {
+    /// Additional visual responses.
+    public var additionalResults: [QuickSightClientTypes.QAResult]?
+    /// The primary visual response.
+    public var primaryResult: QuickSightClientTypes.QAResult?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        additionalResults: [QuickSightClientTypes.QAResult]? = nil,
+        primaryResult: QuickSightClientTypes.QAResult? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.additionalResults = additionalResults
+        self.primaryResult = primaryResult
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 extension QuickSightClientTypes {
 
     public enum PurchaseMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -39027,6 +41230,156 @@ public struct SearchGroupsOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.requestId = requestId
         self.status = status
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum TopicFilterAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case directQuicksightOwner
+        case directQuicksightSoleOwner
+        case directQuicksightViewerOrOwner
+        case quicksightOwner
+        case quicksightUser
+        case quicksightViewerOrOwner
+        case topicName
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicFilterAttribute] {
+            return [
+                .directQuicksightOwner,
+                .directQuicksightSoleOwner,
+                .directQuicksightViewerOrOwner,
+                .quicksightOwner,
+                .quicksightUser,
+                .quicksightViewerOrOwner,
+                .topicName
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .directQuicksightOwner: return "DIRECT_QUICKSIGHT_OWNER"
+            case .directQuicksightSoleOwner: return "DIRECT_QUICKSIGHT_SOLE_OWNER"
+            case .directQuicksightViewerOrOwner: return "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+            case .quicksightOwner: return "QUICKSIGHT_OWNER"
+            case .quicksightUser: return "QUICKSIGHT_USER"
+            case .quicksightViewerOrOwner: return "QUICKSIGHT_VIEWER_OR_OWNER"
+            case .topicName: return "TOPIC_NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum TopicFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case stringequals
+        case stringlike
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicFilterOperator] {
+            return [
+                .stringequals,
+                .stringlike
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .stringequals: return "StringEquals"
+            case .stringlike: return "StringLike"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The filter that is used to search for a topic.
+    public struct TopicSearchFilter: Swift.Sendable {
+        /// The name of the topic search filter.
+        /// This member is required.
+        public var name: QuickSightClientTypes.TopicFilterAttribute?
+        /// The operator like equals or like.
+        /// This member is required.
+        public var `operator`: QuickSightClientTypes.TopicFilterOperator?
+        /// The value of the topic search filter.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: QuickSightClientTypes.TopicFilterAttribute? = nil,
+            `operator`: QuickSightClientTypes.TopicFilterOperator? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+public struct SearchTopicsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the topic that you want to find.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The filters that you want to use to search for the topic.
+    /// This member is required.
+    public var filters: [QuickSightClientTypes.TopicSearchFilter]?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        filters: [QuickSightClientTypes.TopicSearchFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct SearchTopicsOutput: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// A list of topic summaries that is returned by the search topic request.
+    public var topicSummaryList: [QuickSightClientTypes.TopicSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        topicSummaryList: [QuickSightClientTypes.TopicSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+        self.topicSummaryList = topicSummaryList
     }
 }
 
@@ -39611,6 +41964,40 @@ public struct UpdateAnalysisPermissionsOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateApplicationWithTokenExchangeGrantInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account to be updated with a token exchange grant.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The namespace of the Amazon QuickSight application.
+    /// This member is required.
+    public var namespace: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+    }
+}
+
+public struct UpdateApplicationWithTokenExchangeGrantOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct UpdateBrandInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that owns the brand.
     /// This member is required.
@@ -40017,6 +42404,44 @@ public struct UpdateDashboardPublishedVersionOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateDashboardsQAConfigurationInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the dashboard QA configuration that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The status of dashboards QA configuration that you want to update.
+    /// This member is required.
+    public var dashboardsQAStatus: QuickSightClientTypes.DashboardsQAStatus?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        dashboardsQAStatus: QuickSightClientTypes.DashboardsQAStatus? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.dashboardsQAStatus = dashboardsQAStatus
+    }
+}
+
+public struct UpdateDashboardsQAConfigurationOutput: Swift.Sendable {
+    /// A value that indicates whether the dashboard QA configuration is enabled or not.
+    public var dashboardsQAStatus: QuickSightClientTypes.DashboardsQAStatus?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        dashboardsQAStatus: QuickSightClientTypes.DashboardsQAStatus? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.dashboardsQAStatus = dashboardsQAStatus
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct UpdateDataSetInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
@@ -40042,6 +42467,8 @@ public struct UpdateDataSetInput: Swift.Sendable {
     /// The display name for the dataset.
     /// This member is required.
     public var name: Swift.String?
+    /// The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
+    public var performanceConfiguration: QuickSightClientTypes.PerformanceConfiguration?
     /// Declares the physical tables that are available in the underlying data sources.
     /// This member is required.
     public var physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]?
@@ -40061,6 +42488,7 @@ public struct UpdateDataSetInput: Swift.Sendable {
         importMode: QuickSightClientTypes.DataSetImportMode? = nil,
         logicalTableMap: [Swift.String: QuickSightClientTypes.LogicalTable]? = nil,
         name: Swift.String? = nil,
+        performanceConfiguration: QuickSightClientTypes.PerformanceConfiguration? = nil,
         physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]? = nil,
         rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
         rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration? = nil
@@ -40076,6 +42504,7 @@ public struct UpdateDataSetInput: Swift.Sendable {
         self.importMode = importMode
         self.logicalTableMap = logicalTableMap
         self.name = name
+        self.performanceConfiguration = performanceConfiguration
         self.physicalTableMap = physicalTableMap
         self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
         self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
@@ -40281,6 +42710,44 @@ public struct UpdateDataSourcePermissionsOutput: Swift.Sendable {
     {
         self.dataSourceArn = dataSourceArn
         self.dataSourceId = dataSourceId
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct UpdateDefaultQBusinessApplicationInput: Swift.Sendable {
+    /// The ID of the Amazon Q Business application that you want to update.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The ID of the Amazon QuickSight account that is connected to the Amazon Q Business application that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+    public var namespace: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+    }
+}
+
+public struct UpdateDefaultQBusinessApplicationOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
         self.requestId = requestId
         self.status = status
     }
@@ -40730,6 +43197,44 @@ public struct UpdateQPersonalizationConfigurationOutput: Swift.Sendable {
     )
     {
         self.personalizationMode = personalizationMode
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct UpdateQuickSightQSearchConfigurationInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The status of the Amazon QuickSight Q Search configuration that the user wants to update.
+    /// This member is required.
+    public var qSearchStatus: QuickSightClientTypes.QSearchStatus?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        qSearchStatus: QuickSightClientTypes.QSearchStatus? = nil
+    )
+    {
+        self.awsAccountId = awsAccountId
+        self.qSearchStatus = qSearchStatus
+    }
+}
+
+public struct UpdateQuickSightQSearchConfigurationOutput: Swift.Sendable {
+    /// The status of the Amazon QuickSight Q Search configuration.
+    public var qSearchStatus: QuickSightClientTypes.QSearchStatus?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        qSearchStatus: QuickSightClientTypes.QSearchStatus? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    )
+    {
+        self.qSearchStatus = qSearchStatus
         self.requestId = requestId
         self.status = status
     }
@@ -42280,6 +44785,28 @@ extension DeleteDataSourceInput {
     }
 }
 
+extension DeleteDefaultQBusinessApplicationInput {
+
+    static func urlPathProvider(_ value: DeleteDefaultQBusinessApplicationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/default-qbusiness-application"
+    }
+}
+
+extension DeleteDefaultQBusinessApplicationInput {
+
+    static func queryItemProvider(_ value: DeleteDefaultQBusinessApplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteFolderInput {
 
     static func urlPathProvider(_ value: DeleteFolderInput) -> Swift.String? {
@@ -42887,6 +45414,16 @@ extension DescribeDashboardSnapshotJobResultInput {
     }
 }
 
+extension DescribeDashboardsQAConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeDashboardsQAConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards-qa-configuration"
+    }
+}
+
 extension DescribeDataSetInput {
 
     static func urlPathProvider(_ value: DescribeDataSetInput) -> Swift.String? {
@@ -42949,6 +45486,28 @@ extension DescribeDataSourcePermissionsInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources/\(dataSourceId.urlPercentEncoding())/permissions"
+    }
+}
+
+extension DescribeDefaultQBusinessApplicationInput {
+
+    static func urlPathProvider(_ value: DescribeDefaultQBusinessApplicationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/default-qbusiness-application"
+    }
+}
+
+extension DescribeDefaultQBusinessApplicationInput {
+
+    static func queryItemProvider(_ value: DescribeDefaultQBusinessApplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
     }
 }
 
@@ -43150,6 +45709,16 @@ extension DescribeQPersonalizationConfigurationInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/q-personalization-configuration"
+    }
+}
+
+extension DescribeQuickSightQSearchConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeQuickSightQSearchConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/quicksight-q-search-configuration"
     }
 }
 
@@ -43434,6 +46003,16 @@ extension GenerateEmbedUrlForRegisteredUserInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/embed-url/registered-user"
+    }
+}
+
+extension GenerateEmbedUrlForRegisteredUserWithIdentityInput {
+
+    static func urlPathProvider(_ value: GenerateEmbedUrlForRegisteredUserWithIdentityInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/embed-url/registered-user-with-identity"
     }
 }
 
@@ -44418,6 +46997,16 @@ extension ListVPCConnectionsInput {
     }
 }
 
+extension PredictQAResultsInput {
+
+    static func urlPathProvider(_ value: PredictQAResultsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/qa/predict"
+    }
+}
+
 extension PutDataSetRefreshPropertiesInput {
 
     static func urlPathProvider(_ value: PutDataSetRefreshPropertiesInput) -> Swift.String? {
@@ -44545,6 +47134,16 @@ extension SearchGroupsInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension SearchTopicsInput {
+
+    static func urlPathProvider(_ value: SearchTopicsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/search/topics"
     }
 }
 
@@ -44691,6 +47290,30 @@ extension UpdateAnalysisPermissionsInput {
     }
 }
 
+extension UpdateApplicationWithTokenExchangeGrantInput {
+
+    static func urlPathProvider(_ value: UpdateApplicationWithTokenExchangeGrantInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/application-with-token-exchange-grant"
+    }
+}
+
+extension UpdateApplicationWithTokenExchangeGrantInput {
+
+    static func queryItemProvider(_ value: UpdateApplicationWithTokenExchangeGrantInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let namespace = value.namespace else {
+            let message = "Creating a URL Query Item failed. namespace is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+        items.append(namespaceQueryItem)
+        return items
+    }
+}
+
 extension UpdateBrandInput {
 
     static func urlPathProvider(_ value: UpdateBrandInput) -> Swift.String? {
@@ -44795,6 +47418,16 @@ extension UpdateDashboardPublishedVersionInput {
     }
 }
 
+extension UpdateDashboardsQAConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateDashboardsQAConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/dashboards-qa-configuration"
+    }
+}
+
 extension UpdateDataSetInput {
 
     static func urlPathProvider(_ value: UpdateDataSetInput) -> Swift.String? {
@@ -44844,6 +47477,28 @@ extension UpdateDataSourcePermissionsInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/data-sources/\(dataSourceId.urlPercentEncoding())/permissions"
+    }
+}
+
+extension UpdateDefaultQBusinessApplicationInput {
+
+    static func urlPathProvider(_ value: UpdateDefaultQBusinessApplicationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/default-qbusiness-application"
+    }
+}
+
+extension UpdateDefaultQBusinessApplicationInput {
+
+    static func queryItemProvider(_ value: UpdateDefaultQBusinessApplicationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
     }
 }
 
@@ -44955,6 +47610,16 @@ extension UpdateQPersonalizationConfigurationInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/q-personalization-configuration"
+    }
+}
+
+extension UpdateQuickSightQSearchConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateQuickSightQSearchConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/quicksight-q-search-configuration"
     }
 }
 
@@ -45287,6 +47952,7 @@ extension CreateDataSetInput {
         try writer["ImportMode"].write(value.importMode)
         try writer["LogicalTableMap"].writeMap(value.logicalTableMap, valueWritingClosure: QuickSightClientTypes.LogicalTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Name"].write(value.name)
+        try writer["PerformanceConfiguration"].write(value.performanceConfiguration, with: QuickSightClientTypes.PerformanceConfiguration.write(value:to:))
         try writer["Permissions"].writeList(value.permissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PhysicalTableMap"].writeMap(value.physicalTableMap, valueWritingClosure: QuickSightClientTypes.PhysicalTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RowLevelPermissionDataSet"].write(value.rowLevelPermissionDataSet, with: QuickSightClientTypes.RowLevelPermissionDataSet.write(value:to:))
@@ -45418,6 +48084,7 @@ extension CreateTopicInput {
 
     static func write(value: CreateTopicInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["FolderArns"].writeList(value.folderArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Topic"].write(value.topic, with: QuickSightClientTypes.TopicDetails.write(value:to:))
         try writer["TopicId"].write(value.topicId)
@@ -45469,6 +48136,27 @@ extension GenerateEmbedUrlForRegisteredUserInput {
         try writer["ExperienceConfiguration"].write(value.experienceConfiguration, with: QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration.write(value:to:))
         try writer["SessionLifetimeInMinutes"].write(value.sessionLifetimeInMinutes)
         try writer["UserArn"].write(value.userArn)
+    }
+}
+
+extension GenerateEmbedUrlForRegisteredUserWithIdentityInput {
+
+    static func write(value: GenerateEmbedUrlForRegisteredUserWithIdentityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedDomains"].writeList(value.allowedDomains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExperienceConfiguration"].write(value.experienceConfiguration, with: QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration.write(value:to:))
+        try writer["SessionLifetimeInMinutes"].write(value.sessionLifetimeInMinutes)
+    }
+}
+
+extension PredictQAResultsInput {
+
+    static func write(value: PredictQAResultsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeGeneratedAnswer"].write(value.includeGeneratedAnswer)
+        try writer["IncludeQuickSightQIndex"].write(value.includeQuickSightQIndex)
+        try writer["MaxTopicsToConsider"].write(value.maxTopicsToConsider)
+        try writer["QueryText"].write(value.queryText)
     }
 }
 
@@ -45553,6 +48241,16 @@ extension SearchGroupsInput {
     static func write(value: SearchGroupsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.GroupSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SearchTopicsInput {
+
+    static func write(value: SearchTopicsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.TopicSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -45711,6 +48409,14 @@ extension UpdateDashboardPermissionsInput {
     }
 }
 
+extension UpdateDashboardsQAConfigurationInput {
+
+    static func write(value: UpdateDashboardsQAConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashboardsQAStatus"].write(value.dashboardsQAStatus)
+    }
+}
+
 extension UpdateDataSetInput {
 
     static func write(value: UpdateDataSetInput?, to writer: SmithyJSON.Writer) throws {
@@ -45723,6 +48429,7 @@ extension UpdateDataSetInput {
         try writer["ImportMode"].write(value.importMode)
         try writer["LogicalTableMap"].writeMap(value.logicalTableMap, valueWritingClosure: QuickSightClientTypes.LogicalTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Name"].write(value.name)
+        try writer["PerformanceConfiguration"].write(value.performanceConfiguration, with: QuickSightClientTypes.PerformanceConfiguration.write(value:to:))
         try writer["PhysicalTableMap"].writeMap(value.physicalTableMap, valueWritingClosure: QuickSightClientTypes.PhysicalTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RowLevelPermissionDataSet"].write(value.rowLevelPermissionDataSet, with: QuickSightClientTypes.RowLevelPermissionDataSet.write(value:to:))
         try writer["RowLevelPermissionTagConfiguration"].write(value.rowLevelPermissionTagConfiguration, with: QuickSightClientTypes.RowLevelPermissionTagConfiguration.write(value:to:))
@@ -45756,6 +48463,14 @@ extension UpdateDataSourcePermissionsInput {
         guard let value else { return }
         try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateDefaultQBusinessApplicationInput {
+
+    static func write(value: UpdateDefaultQBusinessApplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationId"].write(value.applicationId)
     }
 }
 
@@ -45834,6 +48549,14 @@ extension UpdateQPersonalizationConfigurationInput {
     static func write(value: UpdateQPersonalizationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["PersonalizationMode"].write(value.personalizationMode)
+    }
+}
+
+extension UpdateQuickSightQSearchConfigurationInput {
+
+    static func write(value: UpdateQuickSightQSearchConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QSearchStatus"].write(value.qSearchStatus)
     }
 }
 
@@ -46537,6 +49260,19 @@ extension DeleteDataSourceOutput {
     }
 }
 
+extension DeleteDefaultQBusinessApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDefaultQBusinessApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDefaultQBusinessApplicationOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DeleteFolderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFolderOutput {
@@ -47119,6 +49855,20 @@ extension DescribeDashboardSnapshotJobResultOutput {
     }
 }
 
+extension DescribeDashboardsQAConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDashboardsQAConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDashboardsQAConfigurationOutput()
+        value.dashboardsQAStatus = try reader["DashboardsQAStatus"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DescribeDataSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDataSetOutput {
@@ -47187,6 +49937,20 @@ extension DescribeDataSourcePermissionsOutput {
         value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
         value.dataSourceId = try reader["DataSourceId"].readIfPresent()
         value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeDefaultQBusinessApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDefaultQBusinessApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDefaultQBusinessApplicationOutput()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -47352,6 +50116,20 @@ extension DescribeQPersonalizationConfigurationOutput {
         let reader = responseReader
         var value = DescribeQPersonalizationConfigurationOutput()
         value.personalizationMode = try reader["PersonalizationMode"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeQuickSightQSearchConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeQuickSightQSearchConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeQuickSightQSearchConfigurationOutput()
+        value.qSearchStatus = try reader["QSearchStatus"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -47607,6 +50385,20 @@ extension GenerateEmbedUrlForRegisteredUserOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GenerateEmbedUrlForRegisteredUserOutput()
+        value.embedUrl = try reader["EmbedUrl"].readIfPresent() ?? ""
+        value.requestId = try reader["RequestId"].readIfPresent() ?? ""
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension GenerateEmbedUrlForRegisteredUserWithIdentityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateEmbedUrlForRegisteredUserWithIdentityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GenerateEmbedUrlForRegisteredUserWithIdentityOutput()
         value.embedUrl = try reader["EmbedUrl"].readIfPresent() ?? ""
         value.requestId = try reader["RequestId"].readIfPresent() ?? ""
         value.status = httpResponse.statusCode.rawValue
@@ -48150,6 +50942,21 @@ extension ListVPCConnectionsOutput {
     }
 }
 
+extension PredictQAResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PredictQAResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PredictQAResultsOutput()
+        value.additionalResults = try reader["AdditionalResults"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.QAResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.primaryResult = try reader["PrimaryResult"].readIfPresent(with: QuickSightClientTypes.QAResult.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension PutDataSetRefreshPropertiesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutDataSetRefreshPropertiesOutput {
@@ -48279,6 +51086,21 @@ extension SearchGroupsOutput {
         value.groupList = try reader["GroupList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Group.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension SearchTopicsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchTopicsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchTopicsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.topicSummaryList = try reader["TopicSummaryList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TopicSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -48430,6 +51252,19 @@ extension UpdateAnalysisPermissionsOutput {
     }
 }
 
+extension UpdateApplicationWithTokenExchangeGrantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApplicationWithTokenExchangeGrantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateApplicationWithTokenExchangeGrantOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension UpdateBrandOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateBrandOutput {
@@ -48548,6 +51383,20 @@ extension UpdateDashboardPublishedVersionOutput {
     }
 }
 
+extension UpdateDashboardsQAConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDashboardsQAConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDashboardsQAConfigurationOutput()
+        value.dashboardsQAStatus = try reader["DashboardsQAStatus"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension UpdateDataSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataSetOutput {
@@ -48605,6 +51454,19 @@ extension UpdateDataSourcePermissionsOutput {
         var value = UpdateDataSourcePermissionsOutput()
         value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
         value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateDefaultQBusinessApplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDefaultQBusinessApplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDefaultQBusinessApplicationOutput()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -48736,6 +51598,20 @@ extension UpdateQPersonalizationConfigurationOutput {
         let reader = responseReader
         var value = UpdateQPersonalizationConfigurationOutput()
         value.personalizationMode = try reader["PersonalizationMode"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateQuickSightQSearchConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQuickSightQSearchConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateQuickSightQSearchConfigurationOutput()
+        value.qSearchStatus = try reader["QSearchStatus"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -49728,6 +52604,24 @@ enum DeleteDataSourceOutputError {
     }
 }
 
+enum DeleteDefaultQBusinessApplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteFolderOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -50443,6 +53337,25 @@ enum DescribeDashboardSnapshotJobResultOutputError {
     }
 }
 
+enum DescribeDashboardsQAConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDataSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -50518,6 +53431,24 @@ enum DescribeDataSourceOutputError {
 }
 
 enum DescribeDataSourcePermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeDefaultQBusinessApplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -50727,6 +53658,25 @@ enum DescribeNamespaceOutputError {
 }
 
 enum DescribeQPersonalizationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeQuickSightQSearchConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -51056,6 +54006,28 @@ enum GenerateEmbedUrlForAnonymousUserOutputError {
 }
 
 enum GenerateEmbedUrlForRegisteredUserOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "QuickSightUserNotFoundException": return try QuickSightUserNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "SessionLifetimeInMinutesInvalidException": return try SessionLifetimeInMinutesInvalidException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedPricingPlanException": return try UnsupportedPricingPlanException.makeError(baseError: baseError)
+            case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GenerateEmbedUrlForRegisteredUserWithIdentityOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -51778,6 +54750,23 @@ enum ListVPCConnectionsOutputError {
     }
 }
 
+enum PredictQAResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutDataSetRefreshPropertiesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -51955,6 +54944,25 @@ enum SearchGroupsOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchTopicsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -52158,6 +55166,26 @@ enum UpdateAnalysisPermissionsOutputError {
     }
 }
 
+enum UpdateApplicationWithTokenExchangeGrantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateBrandOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -52315,6 +55343,25 @@ enum UpdateDashboardPublishedVersionOutputError {
     }
 }
 
+enum UpdateDashboardsQAConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateDataSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -52376,6 +55423,25 @@ enum UpdateDataSourceOutputError {
 }
 
 enum UpdateDataSourcePermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDefaultQBusinessApplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -52562,6 +55628,25 @@ enum UpdateQPersonalizationConfigurationOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateQuickSightQSearchConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -53607,6 +56692,340 @@ extension QuickSightClientTypes.Sheet {
         var value = QuickSightClientTypes.Sheet()
         value.sheetId = try reader["SheetId"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        value.images = try reader["Images"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetImage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SheetImage {
+
+    static func write(value: QuickSightClientTypes.SheetImage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: QuickSightClientTypes.ImageCustomAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ImageContentAltText"].write(value.imageContentAltText)
+        try writer["Interactions"].write(value.interactions, with: QuickSightClientTypes.ImageInteractionOptions.write(value:to:))
+        try writer["Scaling"].write(value.scaling, with: QuickSightClientTypes.SheetImageScalingConfiguration.write(value:to:))
+        try writer["SheetImageId"].write(value.sheetImageId)
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.SheetImageSource.write(value:to:))
+        try writer["Tooltip"].write(value.tooltip, with: QuickSightClientTypes.SheetImageTooltipConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetImage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetImage()
+        value.sheetImageId = try reader["SheetImageId"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.SheetImageSource.read(from:))
+        value.scaling = try reader["Scaling"].readIfPresent(with: QuickSightClientTypes.SheetImageScalingConfiguration.read(from:))
+        value.tooltip = try reader["Tooltip"].readIfPresent(with: QuickSightClientTypes.SheetImageTooltipConfiguration.read(from:))
+        value.imageContentAltText = try reader["ImageContentAltText"].readIfPresent()
+        value.interactions = try reader["Interactions"].readIfPresent(with: QuickSightClientTypes.ImageInteractionOptions.read(from:))
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ImageCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImageCustomAction {
+
+    static func write(value: QuickSightClientTypes.ImageCustomAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionOperations"].writeList(value.actionOperations, memberWritingClosure: QuickSightClientTypes.ImageCustomActionOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomActionId"].write(value.customActionId)
+        try writer["Name"].write(value.name)
+        try writer["Status"].write(value.status)
+        try writer["Trigger"].write(value.trigger)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageCustomAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImageCustomAction()
+        value.customActionId = try reader["CustomActionId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent()
+        value.trigger = try reader["Trigger"].readIfPresent() ?? .sdkUnknown("")
+        value.actionOperations = try reader["ActionOperations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ImageCustomActionOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImageCustomActionOperation {
+
+    static func write(value: QuickSightClientTypes.ImageCustomActionOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NavigationOperation"].write(value.navigationOperation, with: QuickSightClientTypes.CustomActionNavigationOperation.write(value:to:))
+        try writer["SetParametersOperation"].write(value.setParametersOperation, with: QuickSightClientTypes.CustomActionSetParametersOperation.write(value:to:))
+        try writer["URLOperation"].write(value.urlOperation, with: QuickSightClientTypes.CustomActionURLOperation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageCustomActionOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImageCustomActionOperation()
+        value.navigationOperation = try reader["NavigationOperation"].readIfPresent(with: QuickSightClientTypes.CustomActionNavigationOperation.read(from:))
+        value.urlOperation = try reader["URLOperation"].readIfPresent(with: QuickSightClientTypes.CustomActionURLOperation.read(from:))
+        value.setParametersOperation = try reader["SetParametersOperation"].readIfPresent(with: QuickSightClientTypes.CustomActionSetParametersOperation.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomActionSetParametersOperation {
+
+    static func write(value: QuickSightClientTypes.CustomActionSetParametersOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ParameterValueConfigurations"].writeList(value.parameterValueConfigurations, memberWritingClosure: QuickSightClientTypes.SetParameterValueConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomActionSetParametersOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomActionSetParametersOperation()
+        value.parameterValueConfigurations = try reader["ParameterValueConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SetParameterValueConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SetParameterValueConfiguration {
+
+    static func write(value: QuickSightClientTypes.SetParameterValueConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationParameterName"].write(value.destinationParameterName)
+        try writer["Value"].write(value.value, with: QuickSightClientTypes.DestinationParameterValueConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SetParameterValueConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SetParameterValueConfiguration()
+        value.destinationParameterName = try reader["DestinationParameterName"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.DestinationParameterValueConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DestinationParameterValueConfiguration {
+
+    static func write(value: QuickSightClientTypes.DestinationParameterValueConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomValuesConfiguration"].write(value.customValuesConfiguration, with: QuickSightClientTypes.CustomValuesConfiguration.write(value:to:))
+        try writer["SelectAllValueOptions"].write(value.selectAllValueOptions)
+        try writer["SourceColumn"].write(value.sourceColumn, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["SourceField"].write(value.sourceField)
+        try writer["SourceParameterName"].write(value.sourceParameterName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DestinationParameterValueConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DestinationParameterValueConfiguration()
+        value.customValuesConfiguration = try reader["CustomValuesConfiguration"].readIfPresent(with: QuickSightClientTypes.CustomValuesConfiguration.read(from:))
+        value.selectAllValueOptions = try reader["SelectAllValueOptions"].readIfPresent()
+        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent()
+        value.sourceField = try reader["SourceField"].readIfPresent()
+        value.sourceColumn = try reader["SourceColumn"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ColumnIdentifier {
+
+    static func write(value: QuickSightClientTypes.ColumnIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnName"].write(value.columnName)
+        try writer["DataSetIdentifier"].write(value.dataSetIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ColumnIdentifier()
+        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomValuesConfiguration {
+
+    static func write(value: QuickSightClientTypes.CustomValuesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomValues"].write(value.customValues, with: QuickSightClientTypes.CustomParameterValues.write(value:to:))
+        try writer["IncludeNullValue"].write(value.includeNullValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomValuesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomValuesConfiguration()
+        value.includeNullValue = try reader["IncludeNullValue"].readIfPresent()
+        value.customValues = try reader["CustomValues"].readIfPresent(with: QuickSightClientTypes.CustomParameterValues.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomParameterValues {
+
+    static func write(value: QuickSightClientTypes.CustomParameterValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateTimeValues"].writeList(value.dateTimeValues, memberWritingClosure: SmithyReadWrite.timestampWritingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        try writer["DecimalValues"].writeList(value.decimalValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IntegerValues"].writeList(value.integerValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringValues"].writeList(value.stringValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomParameterValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomParameterValues()
+        value.stringValues = try reader["StringValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.integerValues = try reader["IntegerValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.decimalValues = try reader["DecimalValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dateTimeValues = try reader["DateTimeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomActionURLOperation {
+
+    static func write(value: QuickSightClientTypes.CustomActionURLOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["URLTarget"].write(value.urlTarget)
+        try writer["URLTemplate"].write(value.urlTemplate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomActionURLOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomActionURLOperation()
+        value.urlTemplate = try reader["URLTemplate"].readIfPresent() ?? ""
+        value.urlTarget = try reader["URLTarget"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomActionNavigationOperation {
+
+    static func write(value: QuickSightClientTypes.CustomActionNavigationOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocalNavigationConfiguration"].write(value.localNavigationConfiguration, with: QuickSightClientTypes.LocalNavigationConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomActionNavigationOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomActionNavigationOperation()
+        value.localNavigationConfiguration = try reader["LocalNavigationConfiguration"].readIfPresent(with: QuickSightClientTypes.LocalNavigationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LocalNavigationConfiguration {
+
+    static func write(value: QuickSightClientTypes.LocalNavigationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TargetSheetId"].write(value.targetSheetId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LocalNavigationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LocalNavigationConfiguration()
+        value.targetSheetId = try reader["TargetSheetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImageInteractionOptions {
+
+    static func write(value: QuickSightClientTypes.ImageInteractionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageMenuOption"].write(value.imageMenuOption, with: QuickSightClientTypes.ImageMenuOption.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageInteractionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImageInteractionOptions()
+        value.imageMenuOption = try reader["ImageMenuOption"].readIfPresent(with: QuickSightClientTypes.ImageMenuOption.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImageMenuOption {
+
+    static func write(value: QuickSightClientTypes.ImageMenuOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityStatus"].write(value.availabilityStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageMenuOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImageMenuOption()
+        value.availabilityStatus = try reader["AvailabilityStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SheetImageTooltipConfiguration {
+
+    static func write(value: QuickSightClientTypes.SheetImageTooltipConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TooltipText"].write(value.tooltipText, with: QuickSightClientTypes.SheetImageTooltipText.write(value:to:))
+        try writer["Visibility"].write(value.visibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetImageTooltipConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetImageTooltipConfiguration()
+        value.tooltipText = try reader["TooltipText"].readIfPresent(with: QuickSightClientTypes.SheetImageTooltipText.read(from:))
+        value.visibility = try reader["Visibility"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SheetImageTooltipText {
+
+    static func write(value: QuickSightClientTypes.SheetImageTooltipText?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PlainText"].write(value.plainText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetImageTooltipText {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetImageTooltipText()
+        value.plainText = try reader["PlainText"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SheetImageScalingConfiguration {
+
+    static func write(value: QuickSightClientTypes.SheetImageScalingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ScalingType"].write(value.scalingType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetImageScalingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetImageScalingConfiguration()
+        value.scalingType = try reader["ScalingType"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SheetImageSource {
+
+    static func write(value: QuickSightClientTypes.SheetImageSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SheetImageStaticFileSource"].write(value.sheetImageStaticFileSource, with: QuickSightClientTypes.SheetImageStaticFileSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetImageSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetImageSource()
+        value.sheetImageStaticFileSource = try reader["SheetImageStaticFileSource"].readIfPresent(with: QuickSightClientTypes.SheetImageStaticFileSource.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SheetImageStaticFileSource {
+
+    static func write(value: QuickSightClientTypes.SheetImageStaticFileSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StaticFileId"].write(value.staticFileId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetImageStaticFileSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetImageStaticFileSource()
+        value.staticFileId = try reader["StaticFileId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -53646,6 +57065,7 @@ extension QuickSightClientTypes.AnalysisDefinition {
         try writer["ParameterDeclarations"].writeList(value.parameterDeclarations, memberWritingClosure: QuickSightClientTypes.ParameterDeclaration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["QueryExecutionOptions"].write(value.queryExecutionOptions, with: QuickSightClientTypes.QueryExecutionOptions.write(value:to:))
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StaticFiles"].writeList(value.staticFiles, memberWritingClosure: QuickSightClientTypes.StaticFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnalysisDefinition {
@@ -53660,6 +57080,109 @@ extension QuickSightClientTypes.AnalysisDefinition {
         value.analysisDefaults = try reader["AnalysisDefaults"].readIfPresent(with: QuickSightClientTypes.AnalysisDefaults.read(from:))
         value.options = try reader["Options"].readIfPresent(with: QuickSightClientTypes.AssetOptions.read(from:))
         value.queryExecutionOptions = try reader["QueryExecutionOptions"].readIfPresent(with: QuickSightClientTypes.QueryExecutionOptions.read(from:))
+        value.staticFiles = try reader["StaticFiles"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.StaticFile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.StaticFile {
+
+    static func write(value: QuickSightClientTypes.StaticFile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageStaticFile"].write(value.imageStaticFile, with: QuickSightClientTypes.ImageStaticFile.write(value:to:))
+        try writer["SpatialStaticFile"].write(value.spatialStaticFile, with: QuickSightClientTypes.SpatialStaticFile.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.StaticFile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.StaticFile()
+        value.imageStaticFile = try reader["ImageStaticFile"].readIfPresent(with: QuickSightClientTypes.ImageStaticFile.read(from:))
+        value.spatialStaticFile = try reader["SpatialStaticFile"].readIfPresent(with: QuickSightClientTypes.SpatialStaticFile.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SpatialStaticFile {
+
+    static func write(value: QuickSightClientTypes.SpatialStaticFile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.StaticFileSource.write(value:to:))
+        try writer["StaticFileId"].write(value.staticFileId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SpatialStaticFile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SpatialStaticFile()
+        value.staticFileId = try reader["StaticFileId"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.StaticFileSource.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.StaticFileSource {
+
+    static func write(value: QuickSightClientTypes.StaticFileSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Options"].write(value.s3Options, with: QuickSightClientTypes.StaticFileS3SourceOptions.write(value:to:))
+        try writer["UrlOptions"].write(value.urlOptions, with: QuickSightClientTypes.StaticFileUrlSourceOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.StaticFileSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.StaticFileSource()
+        value.urlOptions = try reader["UrlOptions"].readIfPresent(with: QuickSightClientTypes.StaticFileUrlSourceOptions.read(from:))
+        value.s3Options = try reader["S3Options"].readIfPresent(with: QuickSightClientTypes.StaticFileS3SourceOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.StaticFileS3SourceOptions {
+
+    static func write(value: QuickSightClientTypes.StaticFileS3SourceOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketName"].write(value.bucketName)
+        try writer["ObjectKey"].write(value.objectKey)
+        try writer["Region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.StaticFileS3SourceOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.StaticFileS3SourceOptions()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
+        value.objectKey = try reader["ObjectKey"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.StaticFileUrlSourceOptions {
+
+    static func write(value: QuickSightClientTypes.StaticFileUrlSourceOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.StaticFileUrlSourceOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.StaticFileUrlSourceOptions()
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImageStaticFile {
+
+    static func write(value: QuickSightClientTypes.ImageStaticFile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.StaticFileSource.write(value:to:))
+        try writer["StaticFileId"].write(value.staticFileId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImageStaticFile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImageStaticFile()
+        value.staticFileId = try reader["StaticFileId"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.StaticFileSource.read(from:))
         return value
     }
 }
@@ -54228,23 +57751,6 @@ extension QuickSightClientTypes.StringFormatConfiguration {
     }
 }
 
-extension QuickSightClientTypes.ColumnIdentifier {
-
-    static func write(value: QuickSightClientTypes.ColumnIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnName"].write(value.columnName)
-        try writer["DataSetIdentifier"].write(value.dataSetIdentifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.ColumnIdentifier()
-        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
-        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension QuickSightClientTypes.FilterGroup {
 
     static func write(value: QuickSightClientTypes.FilterGroup?, to writer: SmithyJSON.Writer) throws {
@@ -54538,6 +58044,7 @@ extension QuickSightClientTypes.FontConfiguration {
         guard let value else { return }
         try writer["FontColor"].write(value.fontColor)
         try writer["FontDecoration"].write(value.fontDecoration)
+        try writer["FontFamily"].write(value.fontFamily)
         try writer["FontSize"].write(value.fontSize, with: QuickSightClientTypes.FontSize.write(value:to:))
         try writer["FontStyle"].write(value.fontStyle)
         try writer["FontWeight"].write(value.fontWeight, with: QuickSightClientTypes.FontWeight.write(value:to:))
@@ -54551,6 +58058,7 @@ extension QuickSightClientTypes.FontConfiguration {
         value.fontColor = try reader["FontColor"].readIfPresent()
         value.fontWeight = try reader["FontWeight"].readIfPresent(with: QuickSightClientTypes.FontWeight.read(from:))
         value.fontStyle = try reader["FontStyle"].readIfPresent()
+        value.fontFamily = try reader["FontFamily"].readIfPresent()
         return value
     }
 }
@@ -54574,6 +58082,7 @@ extension QuickSightClientTypes.FontSize {
 
     static func write(value: QuickSightClientTypes.FontSize?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Absolute"].write(value.absolute)
         try writer["Relative"].write(value.relative)
     }
 
@@ -54581,6 +58090,7 @@ extension QuickSightClientTypes.FontSize {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.FontSize()
         value.relative = try reader["Relative"].readIfPresent()
+        value.absolute = try reader["Absolute"].readIfPresent()
         return value
     }
 }
@@ -55659,6 +59169,7 @@ extension QuickSightClientTypes.SheetDefinition {
         try writer["ContentType"].write(value.contentType)
         try writer["Description"].write(value.description)
         try writer["FilterControls"].writeList(value.filterControls, memberWritingClosure: QuickSightClientTypes.FilterControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Images"].writeList(value.images, memberWritingClosure: QuickSightClientTypes.SheetImage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Layouts"].writeList(value.layouts, memberWritingClosure: QuickSightClientTypes.Layout.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["ParameterControls"].writeList(value.parameterControls, memberWritingClosure: QuickSightClientTypes.ParameterControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -55680,6 +59191,7 @@ extension QuickSightClientTypes.SheetDefinition {
         value.filterControls = try reader["FilterControls"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FilterControl.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.visuals = try reader["Visuals"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Visual.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.textBoxes = try reader["TextBoxes"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetTextBox.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.images = try reader["Images"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetImage.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.layouts = try reader["Layouts"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Layout.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sheetControlLayouts = try reader["SheetControlLayouts"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetControlLayout.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.contentType = try reader["ContentType"].readIfPresent()
@@ -56225,9 +59737,11 @@ extension QuickSightClientTypes.Visual {
         try writer["HistogramVisual"].write(value.histogramVisual, with: QuickSightClientTypes.HistogramVisual.write(value:to:))
         try writer["InsightVisual"].write(value.insightVisual, with: QuickSightClientTypes.InsightVisual.write(value:to:))
         try writer["KPIVisual"].write(value.kpiVisual, with: QuickSightClientTypes.KPIVisual.write(value:to:))
+        try writer["LayerMapVisual"].write(value.layerMapVisual, with: QuickSightClientTypes.LayerMapVisual.write(value:to:))
         try writer["LineChartVisual"].write(value.lineChartVisual, with: QuickSightClientTypes.LineChartVisual.write(value:to:))
         try writer["PieChartVisual"].write(value.pieChartVisual, with: QuickSightClientTypes.PieChartVisual.write(value:to:))
         try writer["PivotTableVisual"].write(value.pivotTableVisual, with: QuickSightClientTypes.PivotTableVisual.write(value:to:))
+        try writer["PluginVisual"].write(value.pluginVisual, with: QuickSightClientTypes.PluginVisual.write(value:to:))
         try writer["RadarChartVisual"].write(value.radarChartVisual, with: QuickSightClientTypes.RadarChartVisual.write(value:to:))
         try writer["SankeyDiagramVisual"].write(value.sankeyDiagramVisual, with: QuickSightClientTypes.SankeyDiagramVisual.write(value:to:))
         try writer["ScatterPlotVisual"].write(value.scatterPlotVisual, with: QuickSightClientTypes.ScatterPlotVisual.write(value:to:))
@@ -56251,6 +59765,7 @@ extension QuickSightClientTypes.Visual {
         value.treeMapVisual = try reader["TreeMapVisual"].readIfPresent(with: QuickSightClientTypes.TreeMapVisual.read(from:))
         value.geospatialMapVisual = try reader["GeospatialMapVisual"].readIfPresent(with: QuickSightClientTypes.GeospatialMapVisual.read(from:))
         value.filledMapVisual = try reader["FilledMapVisual"].readIfPresent(with: QuickSightClientTypes.FilledMapVisual.read(from:))
+        value.layerMapVisual = try reader["LayerMapVisual"].readIfPresent(with: QuickSightClientTypes.LayerMapVisual.read(from:))
         value.funnelChartVisual = try reader["FunnelChartVisual"].readIfPresent(with: QuickSightClientTypes.FunnelChartVisual.read(from:))
         value.scatterPlotVisual = try reader["ScatterPlotVisual"].readIfPresent(with: QuickSightClientTypes.ScatterPlotVisual.read(from:))
         value.comboChartVisual = try reader["ComboChartVisual"].readIfPresent(with: QuickSightClientTypes.ComboChartVisual.read(from:))
@@ -56263,6 +59778,457 @@ extension QuickSightClientTypes.Visual {
         value.customContentVisual = try reader["CustomContentVisual"].readIfPresent(with: QuickSightClientTypes.CustomContentVisual.read(from:))
         value.emptyVisual = try reader["EmptyVisual"].readIfPresent(with: QuickSightClientTypes.EmptyVisual.read(from:))
         value.radarChartVisual = try reader["RadarChartVisual"].readIfPresent(with: QuickSightClientTypes.RadarChartVisual.read(from:))
+        value.pluginVisual = try reader["PluginVisual"].readIfPresent(with: QuickSightClientTypes.PluginVisual.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PluginVisual {
+
+    static func write(value: QuickSightClientTypes.PluginVisual?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChartConfiguration"].write(value.chartConfiguration, with: QuickSightClientTypes.PluginVisualConfiguration.write(value:to:))
+        try writer["PluginArn"].write(value.pluginArn)
+        try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
+        try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
+        try writer["VisualId"].write(value.visualId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PluginVisual {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PluginVisual()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
+        value.pluginArn = try reader["PluginArn"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
+        value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
+        value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.PluginVisualConfiguration.read(from:))
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PluginVisualConfiguration {
+
+    static func write(value: QuickSightClientTypes.PluginVisualConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldWells"].writeList(value.fieldWells, memberWritingClosure: QuickSightClientTypes.PluginVisualFieldWell.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SortConfiguration"].write(value.sortConfiguration, with: QuickSightClientTypes.PluginVisualSortConfiguration.write(value:to:))
+        try writer["VisualOptions"].write(value.visualOptions, with: QuickSightClientTypes.PluginVisualOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PluginVisualConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PluginVisualConfiguration()
+        value.fieldWells = try reader["FieldWells"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.PluginVisualFieldWell.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualOptions = try reader["VisualOptions"].readIfPresent(with: QuickSightClientTypes.PluginVisualOptions.read(from:))
+        value.sortConfiguration = try reader["SortConfiguration"].readIfPresent(with: QuickSightClientTypes.PluginVisualSortConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PluginVisualSortConfiguration {
+
+    static func write(value: QuickSightClientTypes.PluginVisualSortConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PluginVisualTableQuerySort"].write(value.pluginVisualTableQuerySort, with: QuickSightClientTypes.PluginVisualTableQuerySort.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PluginVisualSortConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PluginVisualSortConfiguration()
+        value.pluginVisualTableQuerySort = try reader["PluginVisualTableQuerySort"].readIfPresent(with: QuickSightClientTypes.PluginVisualTableQuerySort.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PluginVisualTableQuerySort {
+
+    static func write(value: QuickSightClientTypes.PluginVisualTableQuerySort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ItemsLimitConfiguration"].write(value.itemsLimitConfiguration, with: QuickSightClientTypes.PluginVisualItemsLimitConfiguration.write(value:to:))
+        try writer["RowSort"].writeList(value.rowSort, memberWritingClosure: QuickSightClientTypes.FieldSortOptions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PluginVisualTableQuerySort {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PluginVisualTableQuerySort()
+        value.rowSort = try reader["RowSort"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FieldSortOptions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.itemsLimitConfiguration = try reader["ItemsLimitConfiguration"].readIfPresent(with: QuickSightClientTypes.PluginVisualItemsLimitConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PluginVisualItemsLimitConfiguration {
+
+    static func write(value: QuickSightClientTypes.PluginVisualItemsLimitConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ItemsLimit"].write(value.itemsLimit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PluginVisualItemsLimitConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PluginVisualItemsLimitConfiguration()
+        value.itemsLimit = try reader["ItemsLimit"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FieldSortOptions {
+
+    static func write(value: QuickSightClientTypes.FieldSortOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnSort"].write(value.columnSort, with: QuickSightClientTypes.ColumnSort.write(value:to:))
+        try writer["FieldSort"].write(value.fieldSort, with: QuickSightClientTypes.FieldSort.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FieldSortOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FieldSortOptions()
+        value.fieldSort = try reader["FieldSort"].readIfPresent(with: QuickSightClientTypes.FieldSort.read(from:))
+        value.columnSort = try reader["ColumnSort"].readIfPresent(with: QuickSightClientTypes.ColumnSort.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FieldSort {
+
+    static func write(value: QuickSightClientTypes.FieldSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Direction"].write(value.direction)
+        try writer["FieldId"].write(value.fieldId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FieldSort {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FieldSort()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.direction = try reader["Direction"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PluginVisualOptions {
+
+    static func write(value: QuickSightClientTypes.PluginVisualOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VisualProperties"].writeList(value.visualProperties, memberWritingClosure: QuickSightClientTypes.PluginVisualProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PluginVisualOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PluginVisualOptions()
+        value.visualProperties = try reader["VisualProperties"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.PluginVisualProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PluginVisualProperty {
+
+    static func write(value: QuickSightClientTypes.PluginVisualProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PluginVisualProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PluginVisualProperty()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PluginVisualFieldWell {
+
+    static func write(value: QuickSightClientTypes.PluginVisualFieldWell?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AxisName"].write(value.axisName)
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: QuickSightClientTypes.DimensionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Measures"].writeList(value.measures, memberWritingClosure: QuickSightClientTypes.MeasureField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Unaggregated"].writeList(value.unaggregated, memberWritingClosure: QuickSightClientTypes.UnaggregatedField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PluginVisualFieldWell {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PluginVisualFieldWell()
+        value.axisName = try reader["AxisName"].readIfPresent()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DimensionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.measures = try reader["Measures"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.MeasureField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unaggregated = try reader["Unaggregated"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.UnaggregatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.UnaggregatedField {
+
+    static func write(value: QuickSightClientTypes.UnaggregatedField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["FieldId"].write(value.fieldId)
+        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.FormatConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UnaggregatedField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.UnaggregatedField()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.FormatConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.MeasureField {
+
+    static func write(value: QuickSightClientTypes.MeasureField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CalculatedMeasureField"].write(value.calculatedMeasureField, with: QuickSightClientTypes.CalculatedMeasureField.write(value:to:))
+        try writer["CategoricalMeasureField"].write(value.categoricalMeasureField, with: QuickSightClientTypes.CategoricalMeasureField.write(value:to:))
+        try writer["DateMeasureField"].write(value.dateMeasureField, with: QuickSightClientTypes.DateMeasureField.write(value:to:))
+        try writer["NumericalMeasureField"].write(value.numericalMeasureField, with: QuickSightClientTypes.NumericalMeasureField.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MeasureField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.MeasureField()
+        value.numericalMeasureField = try reader["NumericalMeasureField"].readIfPresent(with: QuickSightClientTypes.NumericalMeasureField.read(from:))
+        value.categoricalMeasureField = try reader["CategoricalMeasureField"].readIfPresent(with: QuickSightClientTypes.CategoricalMeasureField.read(from:))
+        value.dateMeasureField = try reader["DateMeasureField"].readIfPresent(with: QuickSightClientTypes.DateMeasureField.read(from:))
+        value.calculatedMeasureField = try reader["CalculatedMeasureField"].readIfPresent(with: QuickSightClientTypes.CalculatedMeasureField.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CalculatedMeasureField {
+
+    static func write(value: QuickSightClientTypes.CalculatedMeasureField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Expression"].write(value.expression)
+        try writer["FieldId"].write(value.fieldId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CalculatedMeasureField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CalculatedMeasureField()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DateMeasureField {
+
+    static func write(value: QuickSightClientTypes.DateMeasureField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggregationFunction"].write(value.aggregationFunction)
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["FieldId"].write(value.fieldId)
+        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.DateTimeFormatConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DateMeasureField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DateMeasureField()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent()
+        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.DateTimeFormatConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CategoricalMeasureField {
+
+    static func write(value: QuickSightClientTypes.CategoricalMeasureField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggregationFunction"].write(value.aggregationFunction)
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["FieldId"].write(value.fieldId)
+        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.StringFormatConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CategoricalMeasureField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CategoricalMeasureField()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent()
+        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.StringFormatConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.NumericalMeasureField {
+
+    static func write(value: QuickSightClientTypes.NumericalMeasureField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggregationFunction"].write(value.aggregationFunction, with: QuickSightClientTypes.NumericalAggregationFunction.write(value:to:))
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["FieldId"].write(value.fieldId)
+        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.NumberFormatConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NumericalMeasureField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.NumericalMeasureField()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.NumericalAggregationFunction.read(from:))
+        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.NumberFormatConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DimensionField {
+
+    static func write(value: QuickSightClientTypes.DimensionField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CategoricalDimensionField"].write(value.categoricalDimensionField, with: QuickSightClientTypes.CategoricalDimensionField.write(value:to:))
+        try writer["DateDimensionField"].write(value.dateDimensionField, with: QuickSightClientTypes.DateDimensionField.write(value:to:))
+        try writer["NumericalDimensionField"].write(value.numericalDimensionField, with: QuickSightClientTypes.NumericalDimensionField.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DimensionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DimensionField()
+        value.numericalDimensionField = try reader["NumericalDimensionField"].readIfPresent(with: QuickSightClientTypes.NumericalDimensionField.read(from:))
+        value.categoricalDimensionField = try reader["CategoricalDimensionField"].readIfPresent(with: QuickSightClientTypes.CategoricalDimensionField.read(from:))
+        value.dateDimensionField = try reader["DateDimensionField"].readIfPresent(with: QuickSightClientTypes.DateDimensionField.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DateDimensionField {
+
+    static func write(value: QuickSightClientTypes.DateDimensionField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["DateGranularity"].write(value.dateGranularity)
+        try writer["FieldId"].write(value.fieldId)
+        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.DateTimeFormatConfiguration.write(value:to:))
+        try writer["HierarchyId"].write(value.hierarchyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DateDimensionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DateDimensionField()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.dateGranularity = try reader["DateGranularity"].readIfPresent()
+        value.hierarchyId = try reader["HierarchyId"].readIfPresent()
+        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.DateTimeFormatConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CategoricalDimensionField {
+
+    static func write(value: QuickSightClientTypes.CategoricalDimensionField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["FieldId"].write(value.fieldId)
+        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.StringFormatConfiguration.write(value:to:))
+        try writer["HierarchyId"].write(value.hierarchyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CategoricalDimensionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CategoricalDimensionField()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.hierarchyId = try reader["HierarchyId"].readIfPresent()
+        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.StringFormatConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.NumericalDimensionField {
+
+    static func write(value: QuickSightClientTypes.NumericalDimensionField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["FieldId"].write(value.fieldId)
+        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.NumberFormatConfiguration.write(value:to:))
+        try writer["HierarchyId"].write(value.hierarchyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NumericalDimensionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.NumericalDimensionField()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
+        value.hierarchyId = try reader["HierarchyId"].readIfPresent()
+        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.NumberFormatConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualSubtitleLabelOptions {
+
+    static func write(value: QuickSightClientTypes.VisualSubtitleLabelOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FormatText"].write(value.formatText, with: QuickSightClientTypes.LongFormatText.write(value:to:))
+        try writer["Visibility"].write(value.visibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualSubtitleLabelOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualSubtitleLabelOptions()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.formatText = try reader["FormatText"].readIfPresent(with: QuickSightClientTypes.LongFormatText.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LongFormatText {
+
+    static func write(value: QuickSightClientTypes.LongFormatText?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PlainText"].write(value.plainText)
+        try writer["RichText"].write(value.richText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LongFormatText {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LongFormatText()
+        value.plainText = try reader["PlainText"].readIfPresent()
+        value.richText = try reader["RichText"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualTitleLabelOptions {
+
+    static func write(value: QuickSightClientTypes.VisualTitleLabelOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FormatText"].write(value.formatText, with: QuickSightClientTypes.ShortFormatText.write(value:to:))
+        try writer["Visibility"].write(value.visibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualTitleLabelOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualTitleLabelOptions()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.formatText = try reader["FormatText"].readIfPresent(with: QuickSightClientTypes.ShortFormatText.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ShortFormatText {
+
+    static func write(value: QuickSightClientTypes.ShortFormatText?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PlainText"].write(value.plainText)
+        try writer["RichText"].write(value.richText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ShortFormatText {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ShortFormatText()
+        value.plainText = try reader["PlainText"].readIfPresent()
+        value.richText = try reader["RichText"].readIfPresent()
         return value
     }
 }
@@ -56276,6 +60242,7 @@ extension QuickSightClientTypes.RadarChartVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -56288,6 +60255,7 @@ extension QuickSightClientTypes.RadarChartVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.RadarChartConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -56484,146 +60452,6 @@ extension QuickSightClientTypes.VisualCustomActionOperation {
     }
 }
 
-extension QuickSightClientTypes.CustomActionSetParametersOperation {
-
-    static func write(value: QuickSightClientTypes.CustomActionSetParametersOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ParameterValueConfigurations"].writeList(value.parameterValueConfigurations, memberWritingClosure: QuickSightClientTypes.SetParameterValueConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomActionSetParametersOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CustomActionSetParametersOperation()
-        value.parameterValueConfigurations = try reader["ParameterValueConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SetParameterValueConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension QuickSightClientTypes.SetParameterValueConfiguration {
-
-    static func write(value: QuickSightClientTypes.SetParameterValueConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationParameterName"].write(value.destinationParameterName)
-        try writer["Value"].write(value.value, with: QuickSightClientTypes.DestinationParameterValueConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SetParameterValueConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.SetParameterValueConfiguration()
-        value.destinationParameterName = try reader["DestinationParameterName"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.DestinationParameterValueConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.DestinationParameterValueConfiguration {
-
-    static func write(value: QuickSightClientTypes.DestinationParameterValueConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomValuesConfiguration"].write(value.customValuesConfiguration, with: QuickSightClientTypes.CustomValuesConfiguration.write(value:to:))
-        try writer["SelectAllValueOptions"].write(value.selectAllValueOptions)
-        try writer["SourceColumn"].write(value.sourceColumn, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
-        try writer["SourceField"].write(value.sourceField)
-        try writer["SourceParameterName"].write(value.sourceParameterName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DestinationParameterValueConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DestinationParameterValueConfiguration()
-        value.customValuesConfiguration = try reader["CustomValuesConfiguration"].readIfPresent(with: QuickSightClientTypes.CustomValuesConfiguration.read(from:))
-        value.selectAllValueOptions = try reader["SelectAllValueOptions"].readIfPresent()
-        value.sourceParameterName = try reader["SourceParameterName"].readIfPresent()
-        value.sourceField = try reader["SourceField"].readIfPresent()
-        value.sourceColumn = try reader["SourceColumn"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CustomValuesConfiguration {
-
-    static func write(value: QuickSightClientTypes.CustomValuesConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomValues"].write(value.customValues, with: QuickSightClientTypes.CustomParameterValues.write(value:to:))
-        try writer["IncludeNullValue"].write(value.includeNullValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomValuesConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CustomValuesConfiguration()
-        value.includeNullValue = try reader["IncludeNullValue"].readIfPresent()
-        value.customValues = try reader["CustomValues"].readIfPresent(with: QuickSightClientTypes.CustomParameterValues.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CustomParameterValues {
-
-    static func write(value: QuickSightClientTypes.CustomParameterValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateTimeValues"].writeList(value.dateTimeValues, memberWritingClosure: SmithyReadWrite.timestampWritingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
-        try writer["DecimalValues"].writeList(value.decimalValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IntegerValues"].writeList(value.integerValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StringValues"].writeList(value.stringValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomParameterValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CustomParameterValues()
-        value.stringValues = try reader["StringValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.integerValues = try reader["IntegerValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.decimalValues = try reader["DecimalValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dateTimeValues = try reader["DateTimeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CustomActionURLOperation {
-
-    static func write(value: QuickSightClientTypes.CustomActionURLOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["URLTarget"].write(value.urlTarget)
-        try writer["URLTemplate"].write(value.urlTemplate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomActionURLOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CustomActionURLOperation()
-        value.urlTemplate = try reader["URLTemplate"].readIfPresent() ?? ""
-        value.urlTarget = try reader["URLTarget"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CustomActionNavigationOperation {
-
-    static func write(value: QuickSightClientTypes.CustomActionNavigationOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LocalNavigationConfiguration"].write(value.localNavigationConfiguration, with: QuickSightClientTypes.LocalNavigationConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomActionNavigationOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CustomActionNavigationOperation()
-        value.localNavigationConfiguration = try reader["LocalNavigationConfiguration"].readIfPresent(with: QuickSightClientTypes.LocalNavigationConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.LocalNavigationConfiguration {
-
-    static func write(value: QuickSightClientTypes.LocalNavigationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TargetSheetId"].write(value.targetSheetId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LocalNavigationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.LocalNavigationConfiguration()
-        value.targetSheetId = try reader["TargetSheetId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension QuickSightClientTypes.CustomActionFilterOperation {
 
     static func write(value: QuickSightClientTypes.CustomActionFilterOperation?, to writer: SmithyJSON.Writer) throws {
@@ -56791,6 +60619,7 @@ extension QuickSightClientTypes.LegendOptions {
         try writer["Height"].write(value.height)
         try writer["Position"].write(value.position)
         try writer["Title"].write(value.title, with: QuickSightClientTypes.LabelOptions.write(value:to:))
+        try writer["ValueFontConfiguration"].write(value.valueFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
         try writer["Visibility"].write(value.visibility)
         try writer["Width"].write(value.width)
     }
@@ -56803,6 +60632,7 @@ extension QuickSightClientTypes.LegendOptions {
         value.position = try reader["Position"].readIfPresent()
         value.width = try reader["Width"].readIfPresent()
         value.height = try reader["Height"].readIfPresent()
+        value.valueFontConfiguration = try reader["ValueFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
         return value
     }
 }
@@ -57236,40 +61066,6 @@ extension QuickSightClientTypes.ItemsLimitConfiguration {
     }
 }
 
-extension QuickSightClientTypes.FieldSortOptions {
-
-    static func write(value: QuickSightClientTypes.FieldSortOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnSort"].write(value.columnSort, with: QuickSightClientTypes.ColumnSort.write(value:to:))
-        try writer["FieldSort"].write(value.fieldSort, with: QuickSightClientTypes.FieldSort.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FieldSortOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.FieldSortOptions()
-        value.fieldSort = try reader["FieldSort"].readIfPresent(with: QuickSightClientTypes.FieldSort.read(from:))
-        value.columnSort = try reader["ColumnSort"].readIfPresent(with: QuickSightClientTypes.ColumnSort.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.FieldSort {
-
-    static func write(value: QuickSightClientTypes.FieldSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Direction"].write(value.direction)
-        try writer["FieldId"].write(value.fieldId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FieldSort {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.FieldSort()
-        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
-        value.direction = try reader["Direction"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension QuickSightClientTypes.RadarChartFieldWells {
 
     static func write(value: QuickSightClientTypes.RadarChartFieldWells?, to writer: SmithyJSON.Writer) throws {
@@ -57304,259 +61100,6 @@ extension QuickSightClientTypes.RadarChartAggregatedFieldWells {
     }
 }
 
-extension QuickSightClientTypes.MeasureField {
-
-    static func write(value: QuickSightClientTypes.MeasureField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CalculatedMeasureField"].write(value.calculatedMeasureField, with: QuickSightClientTypes.CalculatedMeasureField.write(value:to:))
-        try writer["CategoricalMeasureField"].write(value.categoricalMeasureField, with: QuickSightClientTypes.CategoricalMeasureField.write(value:to:))
-        try writer["DateMeasureField"].write(value.dateMeasureField, with: QuickSightClientTypes.DateMeasureField.write(value:to:))
-        try writer["NumericalMeasureField"].write(value.numericalMeasureField, with: QuickSightClientTypes.NumericalMeasureField.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.MeasureField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.MeasureField()
-        value.numericalMeasureField = try reader["NumericalMeasureField"].readIfPresent(with: QuickSightClientTypes.NumericalMeasureField.read(from:))
-        value.categoricalMeasureField = try reader["CategoricalMeasureField"].readIfPresent(with: QuickSightClientTypes.CategoricalMeasureField.read(from:))
-        value.dateMeasureField = try reader["DateMeasureField"].readIfPresent(with: QuickSightClientTypes.DateMeasureField.read(from:))
-        value.calculatedMeasureField = try reader["CalculatedMeasureField"].readIfPresent(with: QuickSightClientTypes.CalculatedMeasureField.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CalculatedMeasureField {
-
-    static func write(value: QuickSightClientTypes.CalculatedMeasureField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Expression"].write(value.expression)
-        try writer["FieldId"].write(value.fieldId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CalculatedMeasureField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CalculatedMeasureField()
-        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
-        value.expression = try reader["Expression"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QuickSightClientTypes.DateMeasureField {
-
-    static func write(value: QuickSightClientTypes.DateMeasureField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AggregationFunction"].write(value.aggregationFunction)
-        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
-        try writer["FieldId"].write(value.fieldId)
-        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.DateTimeFormatConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DateMeasureField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DateMeasureField()
-        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
-        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent()
-        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.DateTimeFormatConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CategoricalMeasureField {
-
-    static func write(value: QuickSightClientTypes.CategoricalMeasureField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AggregationFunction"].write(value.aggregationFunction)
-        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
-        try writer["FieldId"].write(value.fieldId)
-        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.StringFormatConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CategoricalMeasureField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CategoricalMeasureField()
-        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
-        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent()
-        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.StringFormatConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.NumericalMeasureField {
-
-    static func write(value: QuickSightClientTypes.NumericalMeasureField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AggregationFunction"].write(value.aggregationFunction, with: QuickSightClientTypes.NumericalAggregationFunction.write(value:to:))
-        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
-        try writer["FieldId"].write(value.fieldId)
-        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.NumberFormatConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NumericalMeasureField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.NumericalMeasureField()
-        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
-        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.NumericalAggregationFunction.read(from:))
-        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.NumberFormatConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.DimensionField {
-
-    static func write(value: QuickSightClientTypes.DimensionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CategoricalDimensionField"].write(value.categoricalDimensionField, with: QuickSightClientTypes.CategoricalDimensionField.write(value:to:))
-        try writer["DateDimensionField"].write(value.dateDimensionField, with: QuickSightClientTypes.DateDimensionField.write(value:to:))
-        try writer["NumericalDimensionField"].write(value.numericalDimensionField, with: QuickSightClientTypes.NumericalDimensionField.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DimensionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DimensionField()
-        value.numericalDimensionField = try reader["NumericalDimensionField"].readIfPresent(with: QuickSightClientTypes.NumericalDimensionField.read(from:))
-        value.categoricalDimensionField = try reader["CategoricalDimensionField"].readIfPresent(with: QuickSightClientTypes.CategoricalDimensionField.read(from:))
-        value.dateDimensionField = try reader["DateDimensionField"].readIfPresent(with: QuickSightClientTypes.DateDimensionField.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.DateDimensionField {
-
-    static func write(value: QuickSightClientTypes.DateDimensionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
-        try writer["DateGranularity"].write(value.dateGranularity)
-        try writer["FieldId"].write(value.fieldId)
-        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.DateTimeFormatConfiguration.write(value:to:))
-        try writer["HierarchyId"].write(value.hierarchyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DateDimensionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.DateDimensionField()
-        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
-        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.dateGranularity = try reader["DateGranularity"].readIfPresent()
-        value.hierarchyId = try reader["HierarchyId"].readIfPresent()
-        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.DateTimeFormatConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CategoricalDimensionField {
-
-    static func write(value: QuickSightClientTypes.CategoricalDimensionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
-        try writer["FieldId"].write(value.fieldId)
-        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.StringFormatConfiguration.write(value:to:))
-        try writer["HierarchyId"].write(value.hierarchyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CategoricalDimensionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CategoricalDimensionField()
-        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
-        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.hierarchyId = try reader["HierarchyId"].readIfPresent()
-        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.StringFormatConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.NumericalDimensionField {
-
-    static func write(value: QuickSightClientTypes.NumericalDimensionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
-        try writer["FieldId"].write(value.fieldId)
-        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.NumberFormatConfiguration.write(value:to:))
-        try writer["HierarchyId"].write(value.hierarchyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NumericalDimensionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.NumericalDimensionField()
-        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
-        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.hierarchyId = try reader["HierarchyId"].readIfPresent()
-        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.NumberFormatConfiguration.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.VisualSubtitleLabelOptions {
-
-    static func write(value: QuickSightClientTypes.VisualSubtitleLabelOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FormatText"].write(value.formatText, with: QuickSightClientTypes.LongFormatText.write(value:to:))
-        try writer["Visibility"].write(value.visibility)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualSubtitleLabelOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.VisualSubtitleLabelOptions()
-        value.visibility = try reader["Visibility"].readIfPresent()
-        value.formatText = try reader["FormatText"].readIfPresent(with: QuickSightClientTypes.LongFormatText.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.LongFormatText {
-
-    static func write(value: QuickSightClientTypes.LongFormatText?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PlainText"].write(value.plainText)
-        try writer["RichText"].write(value.richText)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LongFormatText {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.LongFormatText()
-        value.plainText = try reader["PlainText"].readIfPresent()
-        value.richText = try reader["RichText"].readIfPresent()
-        return value
-    }
-}
-
-extension QuickSightClientTypes.VisualTitleLabelOptions {
-
-    static func write(value: QuickSightClientTypes.VisualTitleLabelOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FormatText"].write(value.formatText, with: QuickSightClientTypes.ShortFormatText.write(value:to:))
-        try writer["Visibility"].write(value.visibility)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualTitleLabelOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.VisualTitleLabelOptions()
-        value.visibility = try reader["Visibility"].readIfPresent()
-        value.formatText = try reader["FormatText"].readIfPresent(with: QuickSightClientTypes.ShortFormatText.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.ShortFormatText {
-
-    static func write(value: QuickSightClientTypes.ShortFormatText?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PlainText"].write(value.plainText)
-        try writer["RichText"].write(value.richText)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ShortFormatText {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.ShortFormatText()
-        value.plainText = try reader["PlainText"].readIfPresent()
-        value.richText = try reader["RichText"].readIfPresent()
-        return value
-    }
-}
-
 extension QuickSightClientTypes.EmptyVisual {
 
     static func write(value: QuickSightClientTypes.EmptyVisual?, to writer: SmithyJSON.Writer) throws {
@@ -57585,6 +61128,7 @@ extension QuickSightClientTypes.CustomContentVisual {
         try writer["DataSetIdentifier"].write(value.dataSetIdentifier)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -57597,6 +61141,7 @@ extension QuickSightClientTypes.CustomContentVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.CustomContentConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -57630,6 +61175,7 @@ extension QuickSightClientTypes.SankeyDiagramVisual {
         try writer["ChartConfiguration"].write(value.chartConfiguration, with: QuickSightClientTypes.SankeyDiagramChartConfiguration.write(value:to:))
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -57641,6 +61187,7 @@ extension QuickSightClientTypes.SankeyDiagramVisual {
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.SankeyDiagramChartConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -57865,6 +61412,7 @@ extension QuickSightClientTypes.InsightVisual {
         try writer["InsightConfiguration"].write(value.insightConfiguration, with: QuickSightClientTypes.InsightConfiguration.write(value:to:))
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -57877,6 +61425,7 @@ extension QuickSightClientTypes.InsightVisual {
         value.insightConfiguration = try reader["InsightConfiguration"].readIfPresent(with: QuickSightClientTypes.InsightConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -58197,6 +61746,7 @@ extension QuickSightClientTypes.WordCloudVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -58209,6 +61759,7 @@ extension QuickSightClientTypes.WordCloudVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.WordCloudChartConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -58318,6 +61869,7 @@ extension QuickSightClientTypes.HistogramVisual {
         try writer["ChartConfiguration"].write(value.chartConfiguration, with: QuickSightClientTypes.HistogramConfiguration.write(value:to:))
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -58329,6 +61881,7 @@ extension QuickSightClientTypes.HistogramVisual {
         value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.HistogramConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -58555,6 +62108,7 @@ extension QuickSightClientTypes.WaterfallVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -58567,6 +62121,7 @@ extension QuickSightClientTypes.WaterfallVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.WaterfallChartConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -58717,6 +62272,7 @@ extension QuickSightClientTypes.BoxPlotVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -58729,6 +62285,7 @@ extension QuickSightClientTypes.BoxPlotVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.BoxPlotChartConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -59029,6 +62586,7 @@ extension QuickSightClientTypes.ComboChartVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -59041,6 +62599,7 @@ extension QuickSightClientTypes.ComboChartVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.ComboChartConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -59190,6 +62749,7 @@ extension QuickSightClientTypes.ScatterPlotVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -59202,6 +62762,7 @@ extension QuickSightClientTypes.ScatterPlotVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.ScatterPlotConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -59328,6 +62889,7 @@ extension QuickSightClientTypes.FunnelChartVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -59340,6 +62902,7 @@ extension QuickSightClientTypes.FunnelChartVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.FunnelChartConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -59449,6 +63012,594 @@ extension QuickSightClientTypes.FunnelChartAggregatedFieldWells {
     }
 }
 
+extension QuickSightClientTypes.LayerMapVisual {
+
+    static func write(value: QuickSightClientTypes.LayerMapVisual?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChartConfiguration"].write(value.chartConfiguration, with: QuickSightClientTypes.GeospatialLayerMapConfiguration.write(value:to:))
+        try writer["DataSetIdentifier"].write(value.dataSetIdentifier)
+        try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
+        try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
+        try writer["VisualId"].write(value.visualId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LayerMapVisual {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LayerMapVisual()
+        value.visualId = try reader["VisualId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent(with: QuickSightClientTypes.VisualTitleLabelOptions.read(from:))
+        value.subtitle = try reader["Subtitle"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleLabelOptions.read(from:))
+        value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.GeospatialLayerMapConfiguration.read(from:))
+        value.dataSetIdentifier = try reader["DataSetIdentifier"].readIfPresent() ?? ""
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialLayerMapConfiguration {
+
+    static func write(value: QuickSightClientTypes.GeospatialLayerMapConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Interactions"].write(value.interactions, with: QuickSightClientTypes.VisualInteractionOptions.write(value:to:))
+        try writer["Legend"].write(value.legend, with: QuickSightClientTypes.LegendOptions.write(value:to:))
+        try writer["MapLayers"].writeList(value.mapLayers, memberWritingClosure: QuickSightClientTypes.GeospatialLayerItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MapState"].write(value.mapState, with: QuickSightClientTypes.GeospatialMapState.write(value:to:))
+        try writer["MapStyle"].write(value.mapStyle, with: QuickSightClientTypes.GeospatialMapStyle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialLayerMapConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialLayerMapConfiguration()
+        value.legend = try reader["Legend"].readIfPresent(with: QuickSightClientTypes.LegendOptions.read(from:))
+        value.mapLayers = try reader["MapLayers"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.GeospatialLayerItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mapState = try reader["MapState"].readIfPresent(with: QuickSightClientTypes.GeospatialMapState.read(from:))
+        value.mapStyle = try reader["MapStyle"].readIfPresent(with: QuickSightClientTypes.GeospatialMapStyle.read(from:))
+        value.interactions = try reader["Interactions"].readIfPresent(with: QuickSightClientTypes.VisualInteractionOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialMapStyle {
+
+    static func write(value: QuickSightClientTypes.GeospatialMapStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackgroundColor"].write(value.backgroundColor)
+        try writer["BaseMapStyle"].write(value.baseMapStyle)
+        try writer["BaseMapVisibility"].write(value.baseMapVisibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialMapStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialMapStyle()
+        value.baseMapStyle = try reader["BaseMapStyle"].readIfPresent()
+        value.backgroundColor = try reader["BackgroundColor"].readIfPresent()
+        value.baseMapVisibility = try reader["BaseMapVisibility"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialMapState {
+
+    static func write(value: QuickSightClientTypes.GeospatialMapState?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bounds"].write(value.bounds, with: QuickSightClientTypes.GeospatialCoordinateBounds.write(value:to:))
+        try writer["MapNavigation"].write(value.mapNavigation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialMapState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialMapState()
+        value.bounds = try reader["Bounds"].readIfPresent(with: QuickSightClientTypes.GeospatialCoordinateBounds.read(from:))
+        value.mapNavigation = try reader["MapNavigation"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialCoordinateBounds {
+
+    static func write(value: QuickSightClientTypes.GeospatialCoordinateBounds?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["East"].write(value.east)
+        try writer["North"].write(value.north)
+        try writer["South"].write(value.south)
+        try writer["West"].write(value.west)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialCoordinateBounds {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialCoordinateBounds()
+        value.north = try reader["North"].readIfPresent() ?? 0.0
+        value.south = try reader["South"].readIfPresent() ?? 0.0
+        value.west = try reader["West"].readIfPresent() ?? 0.0
+        value.east = try reader["East"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialLayerItem {
+
+    static func write(value: QuickSightClientTypes.GeospatialLayerItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: QuickSightClientTypes.LayerCustomAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DataSource"].write(value.dataSource, with: QuickSightClientTypes.GeospatialDataSourceItem.write(value:to:))
+        try writer["JoinDefinition"].write(value.joinDefinition, with: QuickSightClientTypes.GeospatialLayerJoinDefinition.write(value:to:))
+        try writer["Label"].write(value.label)
+        try writer["LayerDefinition"].write(value.layerDefinition, with: QuickSightClientTypes.GeospatialLayerDefinition.write(value:to:))
+        try writer["LayerId"].write(value.layerId)
+        try writer["LayerType"].write(value.layerType)
+        try writer["Tooltip"].write(value.tooltip, with: QuickSightClientTypes.TooltipOptions.write(value:to:))
+        try writer["Visibility"].write(value.visibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialLayerItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialLayerItem()
+        value.layerId = try reader["LayerId"].readIfPresent() ?? ""
+        value.layerType = try reader["LayerType"].readIfPresent()
+        value.dataSource = try reader["DataSource"].readIfPresent(with: QuickSightClientTypes.GeospatialDataSourceItem.read(from:))
+        value.label = try reader["Label"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.layerDefinition = try reader["LayerDefinition"].readIfPresent(with: QuickSightClientTypes.GeospatialLayerDefinition.read(from:))
+        value.tooltip = try reader["Tooltip"].readIfPresent(with: QuickSightClientTypes.TooltipOptions.read(from:))
+        value.joinDefinition = try reader["JoinDefinition"].readIfPresent(with: QuickSightClientTypes.GeospatialLayerJoinDefinition.read(from:))
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.LayerCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LayerCustomAction {
+
+    static func write(value: QuickSightClientTypes.LayerCustomAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionOperations"].writeList(value.actionOperations, memberWritingClosure: QuickSightClientTypes.LayerCustomActionOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomActionId"].write(value.customActionId)
+        try writer["Name"].write(value.name)
+        try writer["Status"].write(value.status)
+        try writer["Trigger"].write(value.trigger)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LayerCustomAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LayerCustomAction()
+        value.customActionId = try reader["CustomActionId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent()
+        value.trigger = try reader["Trigger"].readIfPresent() ?? .sdkUnknown("")
+        value.actionOperations = try reader["ActionOperations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.LayerCustomActionOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LayerCustomActionOperation {
+
+    static func write(value: QuickSightClientTypes.LayerCustomActionOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilterOperation"].write(value.filterOperation, with: QuickSightClientTypes.CustomActionFilterOperation.write(value:to:))
+        try writer["NavigationOperation"].write(value.navigationOperation, with: QuickSightClientTypes.CustomActionNavigationOperation.write(value:to:))
+        try writer["SetParametersOperation"].write(value.setParametersOperation, with: QuickSightClientTypes.CustomActionSetParametersOperation.write(value:to:))
+        try writer["URLOperation"].write(value.urlOperation, with: QuickSightClientTypes.CustomActionURLOperation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LayerCustomActionOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LayerCustomActionOperation()
+        value.filterOperation = try reader["FilterOperation"].readIfPresent(with: QuickSightClientTypes.CustomActionFilterOperation.read(from:))
+        value.navigationOperation = try reader["NavigationOperation"].readIfPresent(with: QuickSightClientTypes.CustomActionNavigationOperation.read(from:))
+        value.urlOperation = try reader["URLOperation"].readIfPresent(with: QuickSightClientTypes.CustomActionURLOperation.read(from:))
+        value.setParametersOperation = try reader["SetParametersOperation"].readIfPresent(with: QuickSightClientTypes.CustomActionSetParametersOperation.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialLayerJoinDefinition {
+
+    static func write(value: QuickSightClientTypes.GeospatialLayerJoinDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColorField"].write(value.colorField, with: QuickSightClientTypes.GeospatialLayerColorField.write(value:to:))
+        try writer["DatasetKeyField"].write(value.datasetKeyField, with: QuickSightClientTypes.UnaggregatedField.write(value:to:))
+        try writer["ShapeKeyField"].write(value.shapeKeyField)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialLayerJoinDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialLayerJoinDefinition()
+        value.shapeKeyField = try reader["ShapeKeyField"].readIfPresent()
+        value.datasetKeyField = try reader["DatasetKeyField"].readIfPresent(with: QuickSightClientTypes.UnaggregatedField.read(from:))
+        value.colorField = try reader["ColorField"].readIfPresent(with: QuickSightClientTypes.GeospatialLayerColorField.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialLayerColorField {
+
+    static func write(value: QuickSightClientTypes.GeospatialLayerColorField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColorDimensionsFields"].writeList(value.colorDimensionsFields, memberWritingClosure: QuickSightClientTypes.DimensionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ColorValuesFields"].writeList(value.colorValuesFields, memberWritingClosure: QuickSightClientTypes.MeasureField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialLayerColorField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialLayerColorField()
+        value.colorDimensionsFields = try reader["ColorDimensionsFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DimensionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.colorValuesFields = try reader["ColorValuesFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.MeasureField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialLayerDefinition {
+
+    static func write(value: QuickSightClientTypes.GeospatialLayerDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LineLayer"].write(value.lineLayer, with: QuickSightClientTypes.GeospatialLineLayer.write(value:to:))
+        try writer["PointLayer"].write(value.pointLayer, with: QuickSightClientTypes.GeospatialPointLayer.write(value:to:))
+        try writer["PolygonLayer"].write(value.polygonLayer, with: QuickSightClientTypes.GeospatialPolygonLayer.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialLayerDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialLayerDefinition()
+        value.pointLayer = try reader["PointLayer"].readIfPresent(with: QuickSightClientTypes.GeospatialPointLayer.read(from:))
+        value.lineLayer = try reader["LineLayer"].readIfPresent(with: QuickSightClientTypes.GeospatialLineLayer.read(from:))
+        value.polygonLayer = try reader["PolygonLayer"].readIfPresent(with: QuickSightClientTypes.GeospatialPolygonLayer.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialPolygonLayer {
+
+    static func write(value: QuickSightClientTypes.GeospatialPolygonLayer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Style"].write(value.style, with: QuickSightClientTypes.GeospatialPolygonStyle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialPolygonLayer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialPolygonLayer()
+        value.style = try reader["Style"].readIfPresent(with: QuickSightClientTypes.GeospatialPolygonStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialPolygonStyle {
+
+    static func write(value: QuickSightClientTypes.GeospatialPolygonStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PolygonSymbolStyle"].write(value.polygonSymbolStyle, with: QuickSightClientTypes.GeospatialPolygonSymbolStyle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialPolygonStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialPolygonStyle()
+        value.polygonSymbolStyle = try reader["PolygonSymbolStyle"].readIfPresent(with: QuickSightClientTypes.GeospatialPolygonSymbolStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialPolygonSymbolStyle {
+
+    static func write(value: QuickSightClientTypes.GeospatialPolygonSymbolStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FillColor"].write(value.fillColor, with: QuickSightClientTypes.GeospatialColor.write(value:to:))
+        try writer["StrokeColor"].write(value.strokeColor, with: QuickSightClientTypes.GeospatialColor.write(value:to:))
+        try writer["StrokeWidth"].write(value.strokeWidth, with: QuickSightClientTypes.GeospatialLineWidth.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialPolygonSymbolStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialPolygonSymbolStyle()
+        value.fillColor = try reader["FillColor"].readIfPresent(with: QuickSightClientTypes.GeospatialColor.read(from:))
+        value.strokeColor = try reader["StrokeColor"].readIfPresent(with: QuickSightClientTypes.GeospatialColor.read(from:))
+        value.strokeWidth = try reader["StrokeWidth"].readIfPresent(with: QuickSightClientTypes.GeospatialLineWidth.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialLineWidth {
+
+    static func write(value: QuickSightClientTypes.GeospatialLineWidth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LineWidth"].write(value.lineWidth)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialLineWidth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialLineWidth()
+        value.lineWidth = try reader["LineWidth"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialColor {
+
+    static func write(value: QuickSightClientTypes.GeospatialColor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Categorical"].write(value.categorical, with: QuickSightClientTypes.GeospatialCategoricalColor.write(value:to:))
+        try writer["Gradient"].write(value.gradient, with: QuickSightClientTypes.GeospatialGradientColor.write(value:to:))
+        try writer["Solid"].write(value.solid, with: QuickSightClientTypes.GeospatialSolidColor.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialColor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialColor()
+        value.solid = try reader["Solid"].readIfPresent(with: QuickSightClientTypes.GeospatialSolidColor.read(from:))
+        value.gradient = try reader["Gradient"].readIfPresent(with: QuickSightClientTypes.GeospatialGradientColor.read(from:))
+        value.categorical = try reader["Categorical"].readIfPresent(with: QuickSightClientTypes.GeospatialCategoricalColor.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialCategoricalColor {
+
+    static func write(value: QuickSightClientTypes.GeospatialCategoricalColor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CategoryDataColors"].writeList(value.categoryDataColors, memberWritingClosure: QuickSightClientTypes.GeospatialCategoricalDataColor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DefaultOpacity"].write(value.defaultOpacity)
+        try writer["NullDataSettings"].write(value.nullDataSettings, with: QuickSightClientTypes.GeospatialNullDataSettings.write(value:to:))
+        try writer["NullDataVisibility"].write(value.nullDataVisibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialCategoricalColor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialCategoricalColor()
+        value.categoryDataColors = try reader["CategoryDataColors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.GeospatialCategoricalDataColor.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nullDataVisibility = try reader["NullDataVisibility"].readIfPresent()
+        value.nullDataSettings = try reader["NullDataSettings"].readIfPresent(with: QuickSightClientTypes.GeospatialNullDataSettings.read(from:))
+        value.defaultOpacity = try reader["DefaultOpacity"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialNullDataSettings {
+
+    static func write(value: QuickSightClientTypes.GeospatialNullDataSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SymbolStyle"].write(value.symbolStyle, with: QuickSightClientTypes.GeospatialNullSymbolStyle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialNullDataSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialNullDataSettings()
+        value.symbolStyle = try reader["SymbolStyle"].readIfPresent(with: QuickSightClientTypes.GeospatialNullSymbolStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialNullSymbolStyle {
+
+    static func write(value: QuickSightClientTypes.GeospatialNullSymbolStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FillColor"].write(value.fillColor)
+        try writer["StrokeColor"].write(value.strokeColor)
+        try writer["StrokeWidth"].write(value.strokeWidth)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialNullSymbolStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialNullSymbolStyle()
+        value.fillColor = try reader["FillColor"].readIfPresent()
+        value.strokeColor = try reader["StrokeColor"].readIfPresent()
+        value.strokeWidth = try reader["StrokeWidth"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialCategoricalDataColor {
+
+    static func write(value: QuickSightClientTypes.GeospatialCategoricalDataColor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Color"].write(value.color)
+        try writer["DataValue"].write(value.dataValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialCategoricalDataColor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialCategoricalDataColor()
+        value.color = try reader["Color"].readIfPresent() ?? ""
+        value.dataValue = try reader["DataValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialGradientColor {
+
+    static func write(value: QuickSightClientTypes.GeospatialGradientColor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultOpacity"].write(value.defaultOpacity)
+        try writer["NullDataSettings"].write(value.nullDataSettings, with: QuickSightClientTypes.GeospatialNullDataSettings.write(value:to:))
+        try writer["NullDataVisibility"].write(value.nullDataVisibility)
+        try writer["StepColors"].writeList(value.stepColors, memberWritingClosure: QuickSightClientTypes.GeospatialGradientStepColor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialGradientColor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialGradientColor()
+        value.stepColors = try reader["StepColors"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.GeospatialGradientStepColor.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nullDataVisibility = try reader["NullDataVisibility"].readIfPresent()
+        value.nullDataSettings = try reader["NullDataSettings"].readIfPresent(with: QuickSightClientTypes.GeospatialNullDataSettings.read(from:))
+        value.defaultOpacity = try reader["DefaultOpacity"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialGradientStepColor {
+
+    static func write(value: QuickSightClientTypes.GeospatialGradientStepColor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Color"].write(value.color)
+        try writer["DataValue"].write(value.dataValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialGradientStepColor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialGradientStepColor()
+        value.color = try reader["Color"].readIfPresent() ?? ""
+        value.dataValue = try reader["DataValue"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialSolidColor {
+
+    static func write(value: QuickSightClientTypes.GeospatialSolidColor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Color"].write(value.color)
+        try writer["State"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialSolidColor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialSolidColor()
+        value.color = try reader["Color"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialLineLayer {
+
+    static func write(value: QuickSightClientTypes.GeospatialLineLayer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Style"].write(value.style, with: QuickSightClientTypes.GeospatialLineStyle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialLineLayer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialLineLayer()
+        value.style = try reader["Style"].readIfPresent(with: QuickSightClientTypes.GeospatialLineStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialLineStyle {
+
+    static func write(value: QuickSightClientTypes.GeospatialLineStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LineSymbolStyle"].write(value.lineSymbolStyle, with: QuickSightClientTypes.GeospatialLineSymbolStyle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialLineStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialLineStyle()
+        value.lineSymbolStyle = try reader["LineSymbolStyle"].readIfPresent(with: QuickSightClientTypes.GeospatialLineSymbolStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialLineSymbolStyle {
+
+    static func write(value: QuickSightClientTypes.GeospatialLineSymbolStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FillColor"].write(value.fillColor, with: QuickSightClientTypes.GeospatialColor.write(value:to:))
+        try writer["LineWidth"].write(value.lineWidth, with: QuickSightClientTypes.GeospatialLineWidth.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialLineSymbolStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialLineSymbolStyle()
+        value.fillColor = try reader["FillColor"].readIfPresent(with: QuickSightClientTypes.GeospatialColor.read(from:))
+        value.lineWidth = try reader["LineWidth"].readIfPresent(with: QuickSightClientTypes.GeospatialLineWidth.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialPointLayer {
+
+    static func write(value: QuickSightClientTypes.GeospatialPointLayer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Style"].write(value.style, with: QuickSightClientTypes.GeospatialPointStyle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialPointLayer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialPointLayer()
+        value.style = try reader["Style"].readIfPresent(with: QuickSightClientTypes.GeospatialPointStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialPointStyle {
+
+    static func write(value: QuickSightClientTypes.GeospatialPointStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CircleSymbolStyle"].write(value.circleSymbolStyle, with: QuickSightClientTypes.GeospatialCircleSymbolStyle.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialPointStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialPointStyle()
+        value.circleSymbolStyle = try reader["CircleSymbolStyle"].readIfPresent(with: QuickSightClientTypes.GeospatialCircleSymbolStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialCircleSymbolStyle {
+
+    static func write(value: QuickSightClientTypes.GeospatialCircleSymbolStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CircleRadius"].write(value.circleRadius, with: QuickSightClientTypes.GeospatialCircleRadius.write(value:to:))
+        try writer["FillColor"].write(value.fillColor, with: QuickSightClientTypes.GeospatialColor.write(value:to:))
+        try writer["StrokeColor"].write(value.strokeColor, with: QuickSightClientTypes.GeospatialColor.write(value:to:))
+        try writer["StrokeWidth"].write(value.strokeWidth, with: QuickSightClientTypes.GeospatialLineWidth.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialCircleSymbolStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialCircleSymbolStyle()
+        value.fillColor = try reader["FillColor"].readIfPresent(with: QuickSightClientTypes.GeospatialColor.read(from:))
+        value.strokeColor = try reader["StrokeColor"].readIfPresent(with: QuickSightClientTypes.GeospatialColor.read(from:))
+        value.strokeWidth = try reader["StrokeWidth"].readIfPresent(with: QuickSightClientTypes.GeospatialLineWidth.read(from:))
+        value.circleRadius = try reader["CircleRadius"].readIfPresent(with: QuickSightClientTypes.GeospatialCircleRadius.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialCircleRadius {
+
+    static func write(value: QuickSightClientTypes.GeospatialCircleRadius?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Radius"].write(value.radius)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialCircleRadius {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialCircleRadius()
+        value.radius = try reader["Radius"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialDataSourceItem {
+
+    static func write(value: QuickSightClientTypes.GeospatialDataSourceItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StaticFileDataSource"].write(value.staticFileDataSource, with: QuickSightClientTypes.GeospatialStaticFileSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialDataSourceItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialDataSourceItem()
+        value.staticFileDataSource = try reader["StaticFileDataSource"].readIfPresent(with: QuickSightClientTypes.GeospatialStaticFileSource.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeospatialStaticFileSource {
+
+    static func write(value: QuickSightClientTypes.GeospatialStaticFileSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StaticFileId"].write(value.staticFileId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialStaticFileSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeospatialStaticFileSource()
+        value.staticFileId = try reader["StaticFileId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension QuickSightClientTypes.FilledMapVisual {
 
     static func write(value: QuickSightClientTypes.FilledMapVisual?, to writer: SmithyJSON.Writer) throws {
@@ -59459,6 +63610,7 @@ extension QuickSightClientTypes.FilledMapVisual {
         try writer["ConditionalFormatting"].write(value.conditionalFormatting, with: QuickSightClientTypes.FilledMapConditionalFormatting.write(value:to:))
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -59472,6 +63624,7 @@ extension QuickSightClientTypes.FilledMapVisual {
         value.conditionalFormatting = try reader["ConditionalFormatting"].readIfPresent(with: QuickSightClientTypes.FilledMapConditionalFormatting.read(from:))
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -59682,27 +63835,6 @@ extension QuickSightClientTypes.GeospatialWindowOptions {
     }
 }
 
-extension QuickSightClientTypes.GeospatialCoordinateBounds {
-
-    static func write(value: QuickSightClientTypes.GeospatialCoordinateBounds?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["East"].write(value.east)
-        try writer["North"].write(value.north)
-        try writer["South"].write(value.south)
-        try writer["West"].write(value.west)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeospatialCoordinateBounds {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.GeospatialCoordinateBounds()
-        value.north = try reader["North"].readIfPresent() ?? 0.0
-        value.south = try reader["South"].readIfPresent() ?? 0.0
-        value.west = try reader["West"].readIfPresent() ?? 0.0
-        value.east = try reader["East"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
 extension QuickSightClientTypes.FilledMapSortConfiguration {
 
     static func write(value: QuickSightClientTypes.FilledMapSortConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -59759,6 +63891,7 @@ extension QuickSightClientTypes.GeospatialMapVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -59771,6 +63904,7 @@ extension QuickSightClientTypes.GeospatialMapVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.GeospatialMapConfiguration.read(from:))
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -59956,6 +64090,7 @@ extension QuickSightClientTypes.TreeMapVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -59968,6 +64103,7 @@ extension QuickSightClientTypes.TreeMapVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.TreeMapConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -60101,6 +64237,7 @@ extension QuickSightClientTypes.HeatMapVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -60113,6 +64250,7 @@ extension QuickSightClientTypes.HeatMapVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.HeatMapConfiguration.read(from:))
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -60212,6 +64350,7 @@ extension QuickSightClientTypes.LineChartVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -60224,6 +64363,7 @@ extension QuickSightClientTypes.LineChartVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.LineChartConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -60720,6 +64860,7 @@ extension QuickSightClientTypes.GaugeChartVisual {
         try writer["ConditionalFormatting"].write(value.conditionalFormatting, with: QuickSightClientTypes.GaugeChartConditionalFormatting.write(value:to:))
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -60732,6 +64873,7 @@ extension QuickSightClientTypes.GaugeChartVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.GaugeChartConfiguration.read(from:))
         value.conditionalFormatting = try reader["ConditionalFormatting"].readIfPresent(with: QuickSightClientTypes.GaugeChartConditionalFormatting.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -61065,6 +65207,7 @@ extension QuickSightClientTypes.PieChartVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -61077,6 +65220,7 @@ extension QuickSightClientTypes.PieChartVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.PieChartConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -61230,6 +65374,7 @@ extension QuickSightClientTypes.KPIVisual {
         try writer["ConditionalFormatting"].write(value.conditionalFormatting, with: QuickSightClientTypes.KPIConditionalFormatting.write(value:to:))
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -61243,6 +65388,7 @@ extension QuickSightClientTypes.KPIVisual {
         value.conditionalFormatting = try reader["ConditionalFormatting"].readIfPresent(with: QuickSightClientTypes.KPIConditionalFormatting.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -61540,6 +65686,7 @@ extension QuickSightClientTypes.BarChartVisual {
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -61552,6 +65699,7 @@ extension QuickSightClientTypes.BarChartVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.BarChartConfiguration.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -61673,6 +65821,7 @@ extension QuickSightClientTypes.PivotTableVisual {
         try writer["ConditionalFormatting"].write(value.conditionalFormatting, with: QuickSightClientTypes.PivotTableConditionalFormatting.write(value:to:))
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -61685,6 +65834,7 @@ extension QuickSightClientTypes.PivotTableVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.PivotTableConfiguration.read(from:))
         value.conditionalFormatting = try reader["ConditionalFormatting"].readIfPresent(with: QuickSightClientTypes.PivotTableConditionalFormatting.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -62324,6 +66474,7 @@ extension QuickSightClientTypes.TableVisual {
         try writer["ConditionalFormatting"].write(value.conditionalFormatting, with: QuickSightClientTypes.TableConditionalFormatting.write(value:to:))
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
+        try writer["VisualContentAltText"].write(value.visualContentAltText)
         try writer["VisualId"].write(value.visualId)
     }
 
@@ -62336,6 +66487,7 @@ extension QuickSightClientTypes.TableVisual {
         value.chartConfiguration = try reader["ChartConfiguration"].readIfPresent(with: QuickSightClientTypes.TableConfiguration.read(from:))
         value.conditionalFormatting = try reader["ConditionalFormatting"].readIfPresent(with: QuickSightClientTypes.TableConditionalFormatting.read(from:))
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
         return value
     }
 }
@@ -62747,25 +66899,6 @@ extension QuickSightClientTypes.TableUnaggregatedFieldWells {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TableUnaggregatedFieldWells()
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.UnaggregatedField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QuickSightClientTypes.UnaggregatedField {
-
-    static func write(value: QuickSightClientTypes.UnaggregatedField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
-        try writer["FieldId"].write(value.fieldId)
-        try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.FormatConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UnaggregatedField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.UnaggregatedField()
-        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
-        value.column = try reader["Column"].readIfPresent(with: QuickSightClientTypes.ColumnIdentifier.read(from:))
-        value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.FormatConfiguration.read(from:))
         return value
     }
 }
@@ -64924,6 +69057,7 @@ extension QuickSightClientTypes.DashboardVersionDefinition {
         try writer["Options"].write(value.options, with: QuickSightClientTypes.AssetOptions.write(value:to:))
         try writer["ParameterDeclarations"].writeList(value.parameterDeclarations, memberWritingClosure: QuickSightClientTypes.ParameterDeclaration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StaticFiles"].writeList(value.staticFiles, memberWritingClosure: QuickSightClientTypes.StaticFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardVersionDefinition {
@@ -64937,6 +69071,7 @@ extension QuickSightClientTypes.DashboardVersionDefinition {
         value.columnConfigurations = try reader["ColumnConfigurations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.analysisDefaults = try reader["AnalysisDefaults"].readIfPresent(with: QuickSightClientTypes.AnalysisDefaults.read(from:))
         value.options = try reader["Options"].readIfPresent(with: QuickSightClientTypes.AssetOptions.read(from:))
+        value.staticFiles = try reader["StaticFiles"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.StaticFile.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -65471,6 +69606,37 @@ extension QuickSightClientTypes.DataSet {
         value.columnLevelPermissionRules = try reader["ColumnLevelPermissionRules"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnLevelPermissionRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataSetUsageConfiguration = try reader["DataSetUsageConfiguration"].readIfPresent(with: QuickSightClientTypes.DataSetUsageConfiguration.read(from:))
         value.datasetParameters = try reader["DatasetParameters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DatasetParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.performanceConfiguration = try reader["PerformanceConfiguration"].readIfPresent(with: QuickSightClientTypes.PerformanceConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PerformanceConfiguration {
+
+    static func write(value: QuickSightClientTypes.PerformanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UniqueKeys"].writeList(value.uniqueKeys, memberWritingClosure: QuickSightClientTypes.UniqueKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PerformanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PerformanceConfiguration()
+        value.uniqueKeys = try reader["UniqueKeys"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.UniqueKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.UniqueKey {
+
+    static func write(value: QuickSightClientTypes.UniqueKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnNames"].writeList(value.columnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UniqueKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.UniqueKey()
+        value.columnNames = try reader["ColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -66489,6 +70655,8 @@ extension QuickSightClientTypes.NamespaceInfoV2 {
         value.creationStatus = try reader["CreationStatus"].readIfPresent()
         value.identityStore = try reader["IdentityStore"].readIfPresent()
         value.namespaceError = try reader["NamespaceError"].readIfPresent(with: QuickSightClientTypes.NamespaceError.read(from:))
+        value.iamIdentityCenterApplicationArn = try reader["IamIdentityCenterApplicationArn"].readIfPresent()
+        value.iamIdentityCenterInstanceArn = try reader["IamIdentityCenterInstanceArn"].readIfPresent()
         return value
     }
 }
@@ -66708,6 +70876,7 @@ extension QuickSightClientTypes.TemplateVersionDefinition {
         try writer["ParameterDeclarations"].writeList(value.parameterDeclarations, memberWritingClosure: QuickSightClientTypes.ParameterDeclaration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["QueryExecutionOptions"].write(value.queryExecutionOptions, with: QuickSightClientTypes.QueryExecutionOptions.write(value:to:))
         try writer["Sheets"].writeList(value.sheets, memberWritingClosure: QuickSightClientTypes.SheetDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StaticFiles"].writeList(value.staticFiles, memberWritingClosure: QuickSightClientTypes.StaticFile.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TemplateVersionDefinition {
@@ -66722,6 +70891,7 @@ extension QuickSightClientTypes.TemplateVersionDefinition {
         value.analysisDefaults = try reader["AnalysisDefaults"].readIfPresent(with: QuickSightClientTypes.AnalysisDefaults.read(from:))
         value.options = try reader["Options"].readIfPresent(with: QuickSightClientTypes.AssetOptions.read(from:))
         value.queryExecutionOptions = try reader["QueryExecutionOptions"].readIfPresent(with: QuickSightClientTypes.QueryExecutionOptions.read(from:))
+        value.staticFiles = try reader["StaticFiles"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.StaticFile.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -68405,6 +72575,52 @@ extension QuickSightClientTypes.VPCConnectionSummary {
     }
 }
 
+extension QuickSightClientTypes.QAResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.QAResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.QAResult()
+        value.resultType = try reader["ResultType"].readIfPresent()
+        value.dashboardVisual = try reader["DashboardVisual"].readIfPresent(with: QuickSightClientTypes.DashboardVisualResult.read(from:))
+        value.generatedAnswer = try reader["GeneratedAnswer"].readIfPresent(with: QuickSightClientTypes.GeneratedAnswerResult.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeneratedAnswerResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeneratedAnswerResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeneratedAnswerResult()
+        value.questionText = try reader["QuestionText"].readIfPresent()
+        value.answerStatus = try reader["AnswerStatus"].readIfPresent()
+        value.topicId = try reader["TopicId"].readIfPresent()
+        value.topicName = try reader["TopicName"].readIfPresent()
+        value.restatement = try reader["Restatement"].readIfPresent()
+        value.questionId = try reader["QuestionId"].readIfPresent()
+        value.answerId = try reader["AnswerId"].readIfPresent()
+        value.questionUrl = try reader["QuestionUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DashboardVisualResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardVisualResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DashboardVisualResult()
+        value.dashboardId = try reader["DashboardId"].readIfPresent()
+        value.dashboardName = try reader["DashboardName"].readIfPresent()
+        value.sheetId = try reader["SheetId"].readIfPresent()
+        value.sheetName = try reader["SheetName"].readIfPresent()
+        value.visualId = try reader["VisualId"].readIfPresent()
+        value.visualTitle = try reader["VisualTitle"].readIfPresent()
+        value.visualSubtitle = try reader["VisualSubtitle"].readIfPresent()
+        value.dashboardUrl = try reader["DashboardUrl"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.DataSourceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSourceSummary {
@@ -68777,6 +72993,16 @@ extension QuickSightClientTypes.FolderSearchFilter {
 extension QuickSightClientTypes.GroupSearchFilter {
 
     static func write(value: QuickSightClientTypes.GroupSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension QuickSightClientTypes.TopicSearchFilter {
+
+    static func write(value: QuickSightClientTypes.TopicSearchFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Operator"].write(value.`operator`)

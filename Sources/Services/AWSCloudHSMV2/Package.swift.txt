@@ -37,15 +37,15 @@ let package = Package(
                     package: "aws-sdk-swift.AWSSDKHTTPAuth"
                 ),
                 .product(
+                    name: "ClientRuntime",
+                    package: "smithy-swift"
+                ),
+                .product(
                     name: "SmithyHTTPAuthAPI",
                     package: "smithy-swift"
                 ),
                 .product(
                     name: "Smithy",
-                    package: "smithy-swift"
-                ),
-                .product(
-                    name: "ClientRuntime",
                     package: "smithy-swift"
                 ),
                 .product(

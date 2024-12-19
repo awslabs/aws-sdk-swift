@@ -2806,7 +2806,7 @@ extension WorkSpacesClientTypes {
         public var rootVolumeEncryptionEnabled: Swift.Bool?
         /// The tags for the WorkSpace.
         public var tags: [WorkSpacesClientTypes.Tag]?
-        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace. The reserved keyword, [UNDEFINED], is used when creating user-decoupled WorkSpaces.
+        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace. The username is not case-sensitive, but we recommend matching the case in the Directory Service directory to avoid potential incompatibilities. The reserved keyword, [UNDEFINED], is used when creating user-decoupled WorkSpaces.
         /// This member is required.
         public var userName: Swift.String?
         /// Indicates whether the data stored on the user volume is encrypted.
@@ -6686,7 +6686,7 @@ public struct ImportWorkspaceImageInput: Swift.Sendable {
     /// The name of the WorkSpace image.
     /// This member is required.
     public var imageName: Swift.String?
-    /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, DCV, or bring your own protocol (BYOP). To use WSP, specify a value that ends in _DCV. To use PCoIP, specify a value that does not end in _DCV. To use BYOP, specify a value that ends in _BYOP. For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify BYOL_REGULAR, BYOL_REGULAR_DCV, or BYOL_REGULAR_BYOP, depending on the protocol. The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
+    /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP, WSP, or bring your own protocol (BYOP). To use DCV, specify a value that ends in _WSP. To use PCoIP, specify a value that does not end in _WSP. To use BYOP, specify a value that ends in _BYOP. For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify BYOL_REGULAR, BYOL_REGULAR_WSP, or BYOL_REGULAR_BYOP, depending on the protocol. The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
     /// This member is required.
     public var ingestionProcess: WorkSpacesClientTypes.WorkspaceImageIngestionProcess?
     /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.

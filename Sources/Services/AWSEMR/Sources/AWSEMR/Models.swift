@@ -4049,16 +4049,53 @@ public struct GetManagedScalingPolicyInput: Swift.Sendable {
 
 extension EMRClientTypes {
 
+    public enum ScalingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advanced
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScalingStrategy] {
+            return [
+                .advanced,
+                .default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advanced: return "ADVANCED"
+            case .default: return "DEFAULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EMRClientTypes {
+
     /// Managed scaling policy for an Amazon EMR cluster. The policy specifies the limits for resources that can be added or terminated from a cluster. The policy only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
     public struct ManagedScalingPolicy: Swift.Sendable {
         /// The Amazon EC2 unit limits for a managed scaling policy. The managed scaling activity of a cluster is not allowed to go above or below these limits. The limit only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
         public var computeLimits: EMRClientTypes.ComputeLimits?
+        /// Determines whether a custom scaling utilization performance index can be set. Possible values include ADVANCED or DEFAULT.
+        public var scalingStrategy: EMRClientTypes.ScalingStrategy?
+        /// An integer value that represents an advanced scaling strategy. Setting a higher value optimizes for performance. Setting a lower value optimizes for resource conservation. Setting the value to 50 balances performance and resource conservation. Possible values are 1, 25, 50, 75, and 100.
+        public var utilizationPerformanceIndex: Swift.Int?
 
         public init(
-            computeLimits: EMRClientTypes.ComputeLimits? = nil
+            computeLimits: EMRClientTypes.ComputeLimits? = nil,
+            scalingStrategy: EMRClientTypes.ScalingStrategy? = nil,
+            utilizationPerformanceIndex: Swift.Int? = nil
         )
         {
             self.computeLimits = computeLimits
+            self.scalingStrategy = scalingStrategy
+            self.utilizationPerformanceIndex = utilizationPerformanceIndex
         }
     }
 }
@@ -10112,12 +10149,16 @@ extension EMRClientTypes.ManagedScalingPolicy {
     static func write(value: EMRClientTypes.ManagedScalingPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ComputeLimits"].write(value.computeLimits, with: EMRClientTypes.ComputeLimits.write(value:to:))
+        try writer["ScalingStrategy"].write(value.scalingStrategy)
+        try writer["UtilizationPerformanceIndex"].write(value.utilizationPerformanceIndex)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.ManagedScalingPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRClientTypes.ManagedScalingPolicy()
         value.computeLimits = try reader["ComputeLimits"].readIfPresent(with: EMRClientTypes.ComputeLimits.read(from:))
+        value.utilizationPerformanceIndex = try reader["UtilizationPerformanceIndex"].readIfPresent()
+        value.scalingStrategy = try reader["ScalingStrategy"].readIfPresent()
         return value
     }
 }

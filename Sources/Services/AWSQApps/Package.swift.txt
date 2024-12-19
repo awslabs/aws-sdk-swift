@@ -53,11 +53,11 @@ let package = Package(
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyJSON",
+                    name: "SmithyReadWrite",
                     package: "smithy-swift"
                 ),
                 .product(
-                    name: "SmithyReadWrite",
+                    name: "SmithyJSON",
                     package: "smithy-swift"
                 ),
                 .product(
