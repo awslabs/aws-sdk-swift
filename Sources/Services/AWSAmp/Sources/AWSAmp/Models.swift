@@ -2778,7 +2778,7 @@ extension GetDefaultScraperConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDefaultScraperConfigurationOutput()
-        value.configuration = try reader["configuration"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.configuration = try reader["configuration"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         return value
     }
 }
@@ -3578,7 +3578,7 @@ extension AmpClientTypes.AlertManagerDefinitionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.AlertManagerDefinitionDescription()
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AlertManagerDefinitionStatus.read(from:))
-        value.data = try reader["data"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.data = try reader["data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -3607,7 +3607,7 @@ extension AmpClientTypes.RuleGroupsNamespaceDescription {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.RuleGroupsNamespaceStatus.read(from:))
-        value.data = try reader["data"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.data = try reader["data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

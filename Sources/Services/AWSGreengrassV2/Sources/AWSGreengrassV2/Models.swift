@@ -3887,7 +3887,7 @@ extension GetComponentOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetComponentOutput()
-        value.recipe = try reader["recipe"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.recipe = try reader["recipe"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.recipeOutputFormat = try reader["recipeOutputFormat"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value

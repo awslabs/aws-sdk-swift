@@ -641,7 +641,7 @@ public struct GetSnapshotBlockOutput: Swift.Sendable {
     public var dataLength: Swift.Int?
 
     public init(
-        blockData: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        blockData: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         checksum: Swift.String? = nil,
         checksumAlgorithm: EBSClientTypes.ChecksumAlgorithm? = nil,
         dataLength: Swift.Int? = nil

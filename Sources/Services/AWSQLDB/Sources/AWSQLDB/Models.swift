@@ -2058,7 +2058,7 @@ extension GetDigestOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDigestOutput()
-        value.digest = try reader["Digest"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.digest = try reader["Digest"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.digestTipAddress = try reader["DigestTipAddress"].readIfPresent(with: QLDBClientTypes.ValueHolder.read(from:))
         return value
     }

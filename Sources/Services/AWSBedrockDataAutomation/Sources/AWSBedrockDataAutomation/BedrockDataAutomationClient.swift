@@ -64,7 +64,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockDataAutomationClient: ClientRuntime.Client {
     public static let clientName = "BedrockDataAutomationClient"
-    public static let version = "1.0.64"
+    public static let version = "1.0.65"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockDataAutomationClient.BedrockDataAutomationClientConfiguration
     let serviceName = "Bedrock Data Automation"
@@ -332,7 +332,7 @@ extension BedrockDataAutomationClient {
 extension BedrockDataAutomationClient {
     /// Performs the `CreateBlueprint` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Creates an Amazon Bedrock Keystone Blueprint
+    /// Creates an Amazon Bedrock Data Automation Blueprint
     ///
     /// - Parameter CreateBlueprintInput : Create Blueprint Request
     ///
@@ -407,7 +407,7 @@ extension BedrockDataAutomationClient {
 
     /// Performs the `CreateBlueprintVersion` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Creates a new version of an existing Amazon Bedrock Keystone Blueprint
+    /// Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
     ///
     /// - Parameter CreateBlueprintVersionInput : Create Blueprint Version Request
     ///
@@ -482,7 +482,7 @@ extension BedrockDataAutomationClient {
 
     /// Performs the `CreateDataAutomationProject` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Creates an Amazon Bedrock Keystone DataAutomationProject
+    /// Creates an Amazon Bedrock Data Automation Project
     ///
     /// - Parameter CreateDataAutomationProjectInput : Create DataAutomationProject Request
     ///
@@ -557,7 +557,7 @@ extension BedrockDataAutomationClient {
 
     /// Performs the `DeleteBlueprint` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Deletes an existing Amazon Bedrock Keystone Blueprint
+    /// Deletes an existing Amazon Bedrock Data Automation Blueprint
     ///
     /// - Parameter DeleteBlueprintInput : Delete Blueprint Request
     ///
@@ -628,7 +628,7 @@ extension BedrockDataAutomationClient {
 
     /// Performs the `DeleteDataAutomationProject` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Deletes an existing Amazon Bedrock Keystone DataAutomationProject
+    /// Deletes an existing Amazon Bedrock Data Automation Project
     ///
     /// - Parameter DeleteDataAutomationProjectInput : Delete DataAutomationProject Request
     ///
@@ -698,7 +698,7 @@ extension BedrockDataAutomationClient {
 
     /// Performs the `GetBlueprint` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Gets an existing Amazon Bedrock Keystone Blueprint
+    /// Gets an existing Amazon Bedrock Data Automation Blueprint
     ///
     /// - Parameter GetBlueprintInput : Get Blueprint Request
     ///
@@ -771,7 +771,7 @@ extension BedrockDataAutomationClient {
 
     /// Performs the `GetDataAutomationProject` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Gets an existing Amazon Bedrock Keystone DataAutomationProject
+    /// Gets an existing Amazon Bedrock Data Automation Project
     ///
     /// - Parameter GetDataAutomationProjectInput : Get DataAutomationProject Request
     ///
@@ -844,7 +844,7 @@ extension BedrockDataAutomationClient {
 
     /// Performs the `ListBlueprints` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Lists all existing Amazon Bedrock Keystone Blueprints
+    /// Lists all existing Amazon Bedrock Data Automation Blueprints
     ///
     /// - Parameter ListBlueprintsInput : List Blueprint Request
     ///
@@ -917,7 +917,7 @@ extension BedrockDataAutomationClient {
 
     /// Performs the `ListDataAutomationProjects` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Lists all existing Amazon Bedrock Keystone DataAutomationProjects
+    /// Lists all existing Amazon Bedrock Data Automation Projects
     ///
     /// - Parameter ListDataAutomationProjectsInput : List DataAutomationProject Request
     ///
@@ -990,7 +990,7 @@ extension BedrockDataAutomationClient {
 
     /// Performs the `UpdateBlueprint` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Updates an existing Amazon Bedrock Blueprint
+    /// Updates an existing Amazon Bedrock Data Automation Blueprint
     ///
     /// - Parameter UpdateBlueprintInput : Update Blueprint Request
     ///
@@ -1064,7 +1064,7 @@ extension BedrockDataAutomationClient {
 
     /// Performs the `UpdateDataAutomationProject` operation on the `AmazonBedrockKeystoneBuildTimeService` service.
     ///
-    /// Updates an existing Amazon Bedrock DataAutomationProject
+    /// Updates an existing Amazon Bedrock Data Automation Project
     ///
     /// - Parameter UpdateDataAutomationProjectInput : Update DataAutomationProject Request
     ///

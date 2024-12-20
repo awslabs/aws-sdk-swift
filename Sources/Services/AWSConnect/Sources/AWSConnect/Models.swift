@@ -8739,6 +8739,26 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// An Object to define the minimum and maximum proficiency levels.
+    public struct Range: Swift.Sendable {
+        /// The maximum proficiency level of the range.
+        public var maxProficiencyLevel: Swift.Float?
+        /// The minimum proficiency level of the range.
+        public var minProficiencyLevel: Swift.Float?
+
+        public init(
+            maxProficiencyLevel: Swift.Float? = nil,
+            minProficiencyLevel: Swift.Float? = nil
+        )
+        {
+            self.maxProficiencyLevel = maxProficiencyLevel
+            self.minProficiencyLevel = minProficiencyLevel
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// An object to specify the predefined attribute condition.
     public struct AttributeCondition: Swift.Sendable {
         /// The operator of the condition.
@@ -8749,6 +8769,8 @@ extension ConnectClientTypes {
         public var name: Swift.String?
         /// The proficiency level of the condition.
         public var proficiencyLevel: Swift.Float?
+        /// An Object to define the minimum and maximum proficiency levels.
+        public var range: ConnectClientTypes.Range?
         /// The value of predefined attribute.
         public var value: Swift.String?
 
@@ -8757,6 +8779,7 @@ extension ConnectClientTypes {
             matchCriteria: ConnectClientTypes.MatchCriteria? = nil,
             name: Swift.String? = nil,
             proficiencyLevel: Swift.Float? = nil,
+            range: ConnectClientTypes.Range? = nil,
             value: Swift.String? = nil
         )
         {
@@ -8764,6 +8787,7 @@ extension ConnectClientTypes {
             self.matchCriteria = matchCriteria
             self.name = name
             self.proficiencyLevel = proficiencyLevel
+            self.range = range
             self.value = value
         }
     }
@@ -21064,7 +21088,7 @@ public struct StartAttachedFileUploadOutput: Swift.Sendable {
     public var fileId: Swift.String?
     /// The current status of the attached file.
     public var fileStatus: ConnectClientTypes.FileStatusType?
-    /// Information to be used while uploading the attached file.
+    /// The headers to be provided while uploading the file to the URL.
     public var uploadUrlMetadata: ConnectClientTypes.UploadUrlMetadata?
 
     public init(
@@ -24504,17 +24528,21 @@ extension ConnectClientTypes {
         public var andExpression: [ConnectClientTypes.Expression]?
         /// An object to specify the predefined attribute condition.
         public var attributeCondition: ConnectClientTypes.AttributeCondition?
+        /// An object to specify the predefined attribute condition.
+        public var notAttributeCondition: ConnectClientTypes.AttributeCondition?
         /// List of routing expressions which will be OR-ed together.
         public var orExpression: [ConnectClientTypes.Expression]?
 
         public init(
             andExpression: [ConnectClientTypes.Expression]? = nil,
             attributeCondition: ConnectClientTypes.AttributeCondition? = nil,
+            notAttributeCondition: ConnectClientTypes.AttributeCondition? = nil,
             orExpression: [ConnectClientTypes.Expression]? = nil
         )
         {
             self.andExpression = andExpression
             self.attributeCondition = attributeCondition
+            self.notAttributeCondition = notAttributeCondition
             self.orExpression = orExpression
         }
     }
@@ -40919,6 +40947,7 @@ extension ConnectClientTypes.Expression {
         guard let value else { return }
         try writer["AndExpression"].writeList(value.andExpression, memberWritingClosure: ConnectClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AttributeCondition"].write(value.attributeCondition, with: ConnectClientTypes.AttributeCondition.write(value:to:))
+        try writer["NotAttributeCondition"].write(value.notAttributeCondition, with: ConnectClientTypes.AttributeCondition.write(value:to:))
         try writer["OrExpression"].writeList(value.orExpression, memberWritingClosure: ConnectClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -40928,6 +40957,7 @@ extension ConnectClientTypes.Expression {
         value.attributeCondition = try reader["AttributeCondition"].readIfPresent(with: ConnectClientTypes.AttributeCondition.read(from:))
         value.andExpression = try reader["AndExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.orExpression = try reader["OrExpression"].readListIfPresent(memberReadingClosure: ConnectClientTypes.Expression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notAttributeCondition = try reader["NotAttributeCondition"].readIfPresent(with: ConnectClientTypes.AttributeCondition.read(from:))
         return value
     }
 }
@@ -40940,6 +40970,7 @@ extension ConnectClientTypes.AttributeCondition {
         try writer["MatchCriteria"].write(value.matchCriteria, with: ConnectClientTypes.MatchCriteria.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["ProficiencyLevel"].write(value.proficiencyLevel)
+        try writer["Range"].write(value.range, with: ConnectClientTypes.Range.write(value:to:))
         try writer["Value"].write(value.value)
     }
 
@@ -40949,6 +40980,7 @@ extension ConnectClientTypes.AttributeCondition {
         value.name = try reader["Name"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         value.proficiencyLevel = try reader["ProficiencyLevel"].readIfPresent()
+        value.range = try reader["Range"].readIfPresent(with: ConnectClientTypes.Range.read(from:))
         value.matchCriteria = try reader["MatchCriteria"].readIfPresent(with: ConnectClientTypes.MatchCriteria.read(from:))
         value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
         return value
@@ -40981,6 +41013,23 @@ extension ConnectClientTypes.AgentsCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.AgentsCriteria()
         value.agentIds = try reader["AgentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.Range {
+
+    static func write(value: ConnectClientTypes.Range?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxProficiencyLevel"].write(value.maxProficiencyLevel)
+        try writer["MinProficiencyLevel"].write(value.minProficiencyLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.Range {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.Range()
+        value.minProficiencyLevel = try reader["MinProficiencyLevel"].readIfPresent()
+        value.maxProficiencyLevel = try reader["MaxProficiencyLevel"].readIfPresent()
         return value
     }
 }

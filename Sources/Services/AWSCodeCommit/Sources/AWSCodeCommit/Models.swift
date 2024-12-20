@@ -11939,7 +11939,7 @@ extension GetBlobOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetBlobOutput()
-        value.content = try reader["content"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.content = try reader["content"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         return value
     }
 }
@@ -12041,7 +12041,7 @@ extension GetFileOutput {
         var value = GetFileOutput()
         value.blobId = try reader["blobId"].readIfPresent() ?? ""
         value.commitId = try reader["commitId"].readIfPresent() ?? ""
-        value.fileContent = try reader["fileContent"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.fileContent = try reader["fileContent"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.fileMode = try reader["fileMode"].readIfPresent() ?? .sdkUnknown("")
         value.filePath = try reader["filePath"].readIfPresent() ?? ""
         value.fileSize = try reader["fileSize"].readIfPresent() ?? 0

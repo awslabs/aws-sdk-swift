@@ -905,7 +905,7 @@ public struct PutSessionOutput: Swift.Sendable {
     public var sessionState: Swift.String?
 
     public init(
-        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         contentType: Swift.String? = nil,
         messages: Swift.String? = nil,
         requestAttributes: Swift.String? = nil,
@@ -1060,7 +1060,7 @@ public struct RecognizeUtteranceOutput: Swift.Sendable {
     public var sessionState: Swift.String?
 
     public init(
-        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         contentType: Swift.String? = nil,
         inputMode: Swift.String? = nil,
         inputTranscript: Swift.String? = nil,

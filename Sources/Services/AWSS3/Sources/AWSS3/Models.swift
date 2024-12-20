@@ -7732,7 +7732,7 @@ public struct GetObjectOutput: Swift.Sendable {
 
     public init(
         acceptRanges: Swift.String? = nil,
-        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
         checksumCRC32: Swift.String? = nil,
@@ -8457,7 +8457,7 @@ public struct GetObjectTorrentOutput: Swift.Sendable {
     public var requestCharged: S3ClientTypes.RequestCharged?
 
     public init(
-        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        body: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         requestCharged: S3ClientTypes.RequestCharged? = nil
     )
     {

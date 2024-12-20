@@ -937,7 +937,7 @@ public struct PostContentOutput: Swift.Sendable {
     public init(
         activeContexts: Swift.String? = nil,
         alternativeIntents: Swift.String? = nil,
-        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         botVersion: Swift.String? = nil,
         contentType: Swift.String? = nil,
         dialogState: LexRuntimeClientTypes.DialogState? = nil,
@@ -1414,7 +1414,7 @@ public struct PutSessionOutput: Swift.Sendable {
 
     public init(
         activeContexts: Swift.String? = nil,
-        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data("".utf8)),
+        audioStream: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         contentType: Swift.String? = nil,
         dialogState: LexRuntimeClientTypes.DialogState? = nil,
         encodedMessage: Swift.String? = nil,

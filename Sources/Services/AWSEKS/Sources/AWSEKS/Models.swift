@@ -457,6 +457,26 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// The summary information about the Amazon EKS add-on compatibility for the next Kubernetes version for an insight check in the UPGRADE_READINESS category.
+    public struct AddonCompatibilityDetail: Swift.Sendable {
+        /// The list of compatible Amazon EKS add-on versions for the next Kubernetes version.
+        public var compatibleVersions: [Swift.String]?
+        /// The name of the Amazon EKS add-on.
+        public var name: Swift.String?
+
+        public init(
+            compatibleVersions: [Swift.String]? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.compatibleVersions = compatibleVersions
+            self.name = name
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// Compatibility information.
     public struct Compatibility: Swift.Sendable {
         /// The supported Kubernetes version of the cluster.
@@ -4849,13 +4869,17 @@ extension EKSClientTypes {
 
     /// Summary information that relates to the category of the insight. Currently only returned with certain insights having category UPGRADE_READINESS.
     public struct InsightCategorySpecificSummary: Swift.Sendable {
+        /// A list of AddonCompatibilityDetail objects for Amazon EKS add-ons.
+        public var addonCompatibilityDetails: [EKSClientTypes.AddonCompatibilityDetail]?
         /// The summary information about deprecated resource usage for an insight check in the UPGRADE_READINESS category.
         public var deprecationDetails: [EKSClientTypes.DeprecationDetail]?
 
         public init(
+            addonCompatibilityDetails: [EKSClientTypes.AddonCompatibilityDetail]? = nil,
             deprecationDetails: [EKSClientTypes.DeprecationDetail]? = nil
         )
         {
+            self.addonCompatibilityDetails = addonCompatibilityDetails
             self.deprecationDetails = deprecationDetails
         }
     }
@@ -10436,6 +10460,18 @@ extension EKSClientTypes.InsightCategorySpecificSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.InsightCategorySpecificSummary()
         value.deprecationDetails = try reader["deprecationDetails"].readListIfPresent(memberReadingClosure: EKSClientTypes.DeprecationDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.addonCompatibilityDetails = try reader["addonCompatibilityDetails"].readListIfPresent(memberReadingClosure: EKSClientTypes.AddonCompatibilityDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.AddonCompatibilityDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonCompatibilityDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.AddonCompatibilityDetail()
+        value.name = try reader["name"].readIfPresent()
+        value.compatibleVersions = try reader["compatibleVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

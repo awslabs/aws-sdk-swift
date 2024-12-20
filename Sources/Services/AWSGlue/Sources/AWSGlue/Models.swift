@@ -46026,7 +46026,7 @@ extension GlueClientTypes.DecimalNumber {
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DecimalNumber {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.DecimalNumber()
-        value.unscaledValue = try reader["UnscaledValue"].readIfPresent() ?? Foundation.Data("".utf8)
+        value.unscaledValue = try reader["UnscaledValue"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
         value.scale = try reader["Scale"].readIfPresent() ?? 0
         return value
     }
