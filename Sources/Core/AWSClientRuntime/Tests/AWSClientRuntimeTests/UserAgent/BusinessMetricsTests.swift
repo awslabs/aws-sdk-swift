@@ -10,15 +10,18 @@ import ClientRuntime
 @testable import AWSClientRuntime
 import SmithyRetriesAPI
 import SmithyHTTPAuthAPI
+import SmithyHTTPAPI
 import SmithyIdentity
 import SmithyRetriesAPI
 import Smithy
 
 class BusinessMetricsTests: XCTestCase {
     var context: Context!
+    var headers: Headers!
 
     override func setUp() async throws {
         context = Context(attributes: Attributes())
+        headers = Headers()
     }
 
     func test_business_metrics_section_truncation() {
@@ -29,7 +32,8 @@ class BusinessMetricsTests: XCTestCase {
             serviceID: "test",
             version: "1.0",
             config: UserAgentValuesFromConfig(appID: nil, endpoint: nil, awsRetryMode: .standard),
-            context: context
+            context: context,
+            headers: headers
         )
         // Assert values in context match with values assigned to user agent
         XCTAssertEqual(userAgent.businessMetrics?.features, context.businessMetrics)
@@ -51,7 +55,8 @@ class BusinessMetricsTests: XCTestCase {
             serviceID: "test",
             version: "1.0",
             config: UserAgentValuesFromConfig(appID: nil, endpoint: "test-endpoint", awsRetryMode: .adaptive),
-            context: context
+            context: context,
+            headers: headers
         )
         // F comes from retry mode being adaptive & N comes from endpoint override
         let expectedString = "m/A,B,F,N,S"
